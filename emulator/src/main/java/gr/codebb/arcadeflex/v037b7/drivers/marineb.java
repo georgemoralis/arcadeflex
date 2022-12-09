@@ -15,7 +15,7 @@ import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.vidhrdw.marineb.*;
-import static gr.codebb.arcadeflex.v036.machine.espial.*;
+import static arcadeflex.v036.machine.espial.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.espial.*;
 

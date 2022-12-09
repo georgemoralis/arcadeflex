@@ -1,37 +1,29 @@
-/**
- * *************************************************************************
- *
- * Snow Brothers
- *
- * driver by Mike Coates
- *
- **************************************************************************
- */
-
 /*
  * ported to v0.36
  * using automatic conversion tool v0.08
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package arcadeflex.v036.drivers;
 
+//mame imports
+import static arcadeflex.v036.mame.sndintrfH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.snowbros.*;
+//TODO
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
-import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static arcadeflex.v036.vidhrdw.snowbros.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 
 public class snowbros {
 
@@ -39,7 +31,8 @@ public class snowbros {
 
     public static InterruptPtr snowbros_interrupt = new InterruptPtr() {
         public int handler() {
-            return cpu_getiloops() + 2;	/* IRQs 4, 3, and 2 */
+            return cpu_getiloops() + 2;
+            /* IRQs 4, 3, and 2 */
 
         }
     };
@@ -138,7 +131,8 @@ public class snowbros {
 
     static InputPortPtr input_ports_snowbros = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* 500001 */
+            PORT_START();
+            /* 500001 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
@@ -148,9 +142,10 @@ public class snowbros {
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON2);
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON3);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);/* Must be low or game stops! */
-            /* probably VBlank */
+ /* probably VBlank */
 
-            PORT_START(); 	/* 500003 */
+            PORT_START();
+            /* 500003 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER2);
@@ -161,7 +156,8 @@ public class snowbros {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON3 | IPF_PLAYER2);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START(); 	/* 500005 */
+            PORT_START();
+            /* 500005 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -172,7 +168,8 @@ public class snowbros {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();  /* DSW 1 */
+            PORT_START();
+            /* DSW 1 */
 
             PORT_DIPNAME(0x01, 0x01, "Country (Affects Coinage)");
             PORT_DIPSETTING(0x01, "America");
@@ -196,7 +193,8 @@ public class snowbros {
             PORT_DIPSETTING(0x00, "2C/3C 1C/6C");
             PORT_DIPSETTING(0x80, "1C/2C 1C/3C");
 
-            PORT_START();  /* DSW 2 */
+            PORT_START();
+            /* DSW 2 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Difficulty"));
             PORT_DIPSETTING(0x02, "Easy");

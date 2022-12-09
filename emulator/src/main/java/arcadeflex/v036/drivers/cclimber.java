@@ -1,20 +1,29 @@
-package gr.codebb.arcadeflex.v036.drivers;
+/*
+ * ported to v0.36
+ * 
+ */
+package arcadeflex.v036.drivers;
 
+//mame imports
+import static arcadeflex.v036.mame.sndintrfH.*;
+//sndhrdw imports
+import static arcadeflex.v036.sndhrdw.cclimber.*;
+//sound imports
+import static arcadeflex.v036.sound.ay8910.*;
+import static arcadeflex.v036.sound.ay8910H.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.cclimber.*;
+//TODO
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
-import static arcadeflex.v036.vidhrdw.cclimber.*;
-import static arcadeflex.v036.sound.ay8910.*;
-import static arcadeflex.v036.sound.ay8910H.*;
-import static arcadeflex.v036.sndhrdw.cclimber.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
@@ -81,7 +90,8 @@ public class cclimber {
 
     static InputPortPtr input_ports_cclimber = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICKLEFT_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICKLEFT_DOWN | IPF_8WAY);
@@ -92,7 +102,8 @@ public class cclimber {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_JOYSTICKRIGHT_LEFT | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_JOYSTICKRIGHT_RIGHT | IPF_8WAY);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICKLEFT_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICKLEFT_DOWN | IPF_8WAY | IPF_COCKTAIL);
@@ -103,7 +114,8 @@ public class cclimber {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_JOYSTICKRIGHT_LEFT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_JOYSTICKRIGHT_RIGHT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();       /* DSW */
+            PORT_START();
+            /* DSW */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "3");
@@ -127,7 +139,8 @@ public class cclimber {
             PORT_DIPSETTING(0x80, DEF_STR("1C_3C"));
             PORT_DIPSETTING(0xc0, DEF_STR("Free_Play"));
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_COIN2);
@@ -142,10 +155,11 @@ public class cclimber {
     };
 
     /* several differences with cclimber: note that IN2 bits are ACTIVE_LOW, while in */
-    /* cclimber they are ACTIVE_HIGH. */
+ /* cclimber they are ACTIVE_HIGH. */
     static InputPortPtr input_ports_ckong = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x07, IP_ACTIVE_HIGH, IPT_UNUSED);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_BUTTON1);
@@ -154,7 +168,8 @@ public class cclimber {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_4WAY);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_4WAY);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x07, IP_ACTIVE_HIGH, IPT_UNUSED);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_BUTTON1 | IPF_COCKTAIL);
@@ -163,7 +178,8 @@ public class cclimber {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_4WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL);
 
-            PORT_START();       /* DSW */
+            PORT_START();
+            /* DSW */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "3");
@@ -188,7 +204,8 @@ public class cclimber {
             PORT_DIPSETTING(0x80, DEF_STR("Upright"));
             PORT_DIPSETTING(0x00, DEF_STR("Cocktail"));
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -201,21 +218,24 @@ public class cclimber {
 
     static InputPortPtr input_ports_rpatrolb = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_BUTTON1 | IPF_COCKTAIL);
             PORT_BIT(0x3e, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_2WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_2WAY | IPF_COCKTAIL);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_BUTTON1);
             PORT_BIT(0x3e, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_2WAY);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_2WAY);
 
-            PORT_START();       /* DSW */
+            PORT_START();
+            /* DSW */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Coinage"));
             PORT_DIPSETTING(0x02, DEF_STR("2C_1C"));
@@ -230,11 +250,13 @@ public class cclimber {
             PORT_DIPNAME(0x10, 0x10, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x10, DEF_STR("Upright"));
             PORT_DIPSETTING(0x00, DEF_STR("Cocktail"));
-            PORT_DIPNAME(0x0020, 0x00, "Unknown 1"); /* Probably unused */
+            PORT_DIPNAME(0x0020, 0x00, "Unknown 1");
+            /* Probably unused */
 
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x0020, DEF_STR("On"));
-            PORT_DIPNAME(0x40, 0x00, "Unknown 2"); /* Probably unused */
+            PORT_DIPNAME(0x40, 0x00, "Unknown 2");
+            /* Probably unused */
 
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x40, DEF_STR("On"));
@@ -242,7 +264,8 @@ public class cclimber {
             PORT_DIPSETTING(0x00, "Retry on Error");
             PORT_DIPSETTING(0x80, "Stop on Error");
 
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -650,7 +673,8 @@ public class cclimber {
 
     static RomLoadPtr rom_ckong = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("d05-07.bin", 0x0000, 0x1000, 0xb27df032);
             ROM_LOAD("f05-08.bin", 0x1000, 0x1000, 0x5dc1aaba);
@@ -684,7 +708,8 @@ public class cclimber {
 
     static RomLoadPtr rom_ckonga = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("d05-07.bin", 0x0000, 0x1000, 0xb27df032);
             ROM_LOAD("f05-08.bin", 0x1000, 0x1000, 0x5dc1aaba);
@@ -718,7 +743,8 @@ public class cclimber {
 
     static RomLoadPtr rom_ckongjeu = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("d05-07.bin", 0x0000, 0x1000, 0xb27df032);
             ROM_LOAD("f05-08.bin", 0x1000, 0x1000, 0x5dc1aaba);
@@ -752,7 +778,8 @@ public class cclimber {
 
     static RomLoadPtr rom_ckongo = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("o55a-1", 0x0000, 0x1000, 0x8bfb4623);
             ROM_LOAD("o55a-2", 0x1000, 0x1000, 0x9ae8089b);
@@ -791,7 +818,8 @@ public class cclimber {
 
     static RomLoadPtr rom_ckongalc = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("ck7.bin", 0x0000, 0x1000, 0x2171cac3);
             ROM_LOAD("ck8.bin", 0x1000, 0x1000, 0x88b83ff7);
@@ -825,7 +853,8 @@ public class cclimber {
 
     static RomLoadPtr rom_monkeyd = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("ck7.bin", 0x0000, 0x1000, 0x2171cac3);
             ROM_LOAD("ck8.bin", 0x1000, 0x1000, 0x88b83ff7);
@@ -859,7 +888,8 @@ public class cclimber {
 
     static RomLoadPtr rom_rpatrolb = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("rp1.4l", 0x0000, 0x1000, 0xbfd7ae7a);
             ROM_LOAD("rp2.4j", 0x1000, 0x1000, 0x03f53340);
@@ -894,7 +924,8 @@ public class cclimber {
 
     static RomLoadPtr rom_silvland = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("7.2r", 0x0000, 0x1000, 0x57e6be62);
             ROM_LOAD("8.1n", 0x1000, 0x1000, 0xbbb2b287);
@@ -1003,33 +1034,42 @@ public class cclimber {
 
     static InputPortPtr input_ports_swimmer = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x10, IP_ACTIVE_HIGH, IPT_BUTTON1 | IPF_COCKTAIL);
-            PORT_BIT(0x0020, IP_ACTIVE_HIGH, IPT_UNKNOWN);  /* probably unused */
+            PORT_BIT(0x0020, IP_ACTIVE_HIGH, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN);  /* probably unused */
+            PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);  /* probably unused */
+            PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_8WAY);
             PORT_BIT(0x10, IP_ACTIVE_HIGH, IPT_BUTTON1);
-            PORT_BIT(0x0020, IP_ACTIVE_HIGH, IPT_UNKNOWN);  /* probably unused */
+            PORT_BIT(0x0020, IP_ACTIVE_HIGH, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN);  /* probably unused */
+            PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);  /* probably unused */
+            PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "3");
@@ -1052,7 +1092,8 @@ public class cclimber {
             PORT_DIPSETTING(0x80, DEF_STR("1C_3C"));
             PORT_DIPSETTING(0xc0, DEF_STR("1C_6C"));
 
-            PORT_START();       /* IN3/DSW2 */
+            PORT_START();
+            /* IN3/DSW2 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_UNKNOWN);
@@ -1070,7 +1111,8 @@ public class cclimber {
             PORT_DIPSETTING(0x80, "Normal");
             PORT_DIPSETTING(0xc0, "Hard");
 
-            PORT_START();       /* IN4 */
+            PORT_START();
+            /* IN4 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_COIN2);
@@ -1081,33 +1123,42 @@ public class cclimber {
 
     static InputPortPtr input_ports_guzzler = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_4WAY | IPF_COCKTAIL);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_4WAY | IPF_COCKTAIL);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_4WAY | IPF_COCKTAIL);
             PORT_BIT(0x10, IP_ACTIVE_HIGH, IPT_BUTTON1 | IPF_COCKTAIL);
-            PORT_BIT(0x0020, IP_ACTIVE_HIGH, IPT_UNKNOWN);  /* probably unused */
+            PORT_BIT(0x0020, IP_ACTIVE_HIGH, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN);  /* probably unused */
+            PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);  /* probably unused */
+            PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_4WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_4WAY);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_4WAY);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_4WAY);
             PORT_BIT(0x10, IP_ACTIVE_HIGH, IPT_BUTTON1);
-            PORT_BIT(0x0020, IP_ACTIVE_HIGH, IPT_UNKNOWN);  /* probably unused */
+            PORT_BIT(0x0020, IP_ACTIVE_HIGH, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN);  /* probably unused */
+            PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);  /* probably unused */
+            PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "3");
@@ -1130,9 +1181,11 @@ public class cclimber {
             PORT_DIPSETTING(0x80, DEF_STR("1C_3C"));
             PORT_DIPSETTING(0xc0, DEF_STR("1C_6C"));
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
-            PORT_BIT(0x0f, IP_ACTIVE_HIGH, IPT_UNKNOWN);    /* probably unused */
+            PORT_BIT(0x0f, IP_ACTIVE_HIGH, IPT_UNKNOWN);
+            /* probably unused */
 
             PORT_DIPNAME(0x10, 0x10, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x10, DEF_STR("Upright"));
@@ -1146,13 +1199,15 @@ public class cclimber {
             PORT_DIPSETTING(0x80, "Hard");
             PORT_DIPSETTING(0xc0, "Hardest");
 
-            PORT_START();       /* coin */
+            PORT_START();
+            /* coin */
 
             PORT_BIT_IMPULSE(0x01, IP_ACTIVE_HIGH, IPT_COIN1, 2);
             PORT_BIT_IMPULSE(0x02, IP_ACTIVE_HIGH, IPT_COIN2, 2);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_START1);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_START2);
-            PORT_BIT(0xf0, IP_ACTIVE_LOW, IPT_UNKNOWN);    /* probably unused */
+            PORT_BIT(0xf0, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
             INPUT_PORTS_END();
         }
@@ -1237,7 +1292,8 @@ public class cclimber {
 
     static RomLoadPtr rom_swimmer = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("sw1", 0x0000, 0x1000, 0xf12481e7);
             ROM_LOAD("sw2", 0x1000, 0x1000, 0xa0b6fdd2);
@@ -1248,18 +1304,21 @@ public class cclimber {
             ROM_LOAD("sw7", 0x6000, 0x1000, 0x37efb64e);
             ROM_LOAD("sw8", 0x7000, 0x1000, 0x33d6001e);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for sound board */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for sound board */
 
             ROM_LOAD("sw12", 0x0000, 0x1000, 0x2eee9bcb);
 
             ROM_REGION(0x3000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("sw15", 0x0000, 0x1000, 0x4f3608cb); /* chars */
+            ROM_LOAD("sw15", 0x0000, 0x1000, 0x4f3608cb);
+            /* chars */
 
             ROM_LOAD("sw14", 0x1000, 0x1000, 0x7181c8b4);
             ROM_LOAD("sw13", 0x2000, 0x1000, 0x2eb1af5c);
 
             ROM_REGION(0x3000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("sw23", 0x0000, 0x0800, 0x9ca67e24); /* bigsprite data */
+            ROM_LOAD("sw23", 0x0000, 0x0800, 0x9ca67e24);
+            /* bigsprite data */
 
             ROM_RELOAD(0x0800, 0x0800);/* Guzzler has larger ROMs */
 
@@ -1279,7 +1338,8 @@ public class cclimber {
 
     static RomLoadPtr rom_swimmera = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("swa1", 0x0000, 0x1000, 0x42c2b6c5);
             ROM_LOAD("swa2", 0x1000, 0x1000, 0x49bac195);
@@ -1290,18 +1350,21 @@ public class cclimber {
             ROM_LOAD("swa7", 0x6000, 0x1000, 0x7090e5ee);
             ROM_LOAD("swa8", 0x7000, 0x1000, 0xab86efa9);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for sound board */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for sound board */
 
             ROM_LOAD("sw12", 0x0000, 0x1000, 0x2eee9bcb);
 
             ROM_REGION(0x3000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("sw15", 0x0000, 0x1000, 0x4f3608cb); /* chars */
+            ROM_LOAD("sw15", 0x0000, 0x1000, 0x4f3608cb);
+            /* chars */
 
             ROM_LOAD("sw14", 0x1000, 0x1000, 0x7181c8b4);
             ROM_LOAD("sw13", 0x2000, 0x1000, 0x2eb1af5c);
 
             ROM_REGION(0x3000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("sw23", 0x0000, 0x0800, 0x9ca67e24); /* bigsprite data */
+            ROM_LOAD("sw23", 0x0000, 0x0800, 0x9ca67e24);
+            /* bigsprite data */
 
             ROM_RELOAD(0x0800, 0x0800);/* Guzzler has larger ROMs */
 
@@ -1321,7 +1384,8 @@ public class cclimber {
 
     static RomLoadPtr rom_guzzler = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("guzz-01.bin", 0x0000, 0x2000, 0x58aaa1e9);
             ROM_LOAD("guzz-02.bin", 0x2000, 0x2000, 0xf80ceb17);
@@ -1329,18 +1393,21 @@ public class cclimber {
             ROM_LOAD("guzz-04.bin", 0x6000, 0x2000, 0x45be42f5);
             ROM_LOAD("guzz-16.bin", 0xe000, 0x2000, 0x61ee00b7);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for sound board */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for sound board */
 
             ROM_LOAD("guzz-12.bin", 0x0000, 0x1000, 0xf3754d9e);
 
             ROM_REGION(0x3000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("guzz-13.bin", 0x0000, 0x1000, 0xafc464e2);  /* chars */
+            ROM_LOAD("guzz-13.bin", 0x0000, 0x1000, 0xafc464e2);
+            /* chars */
 
             ROM_LOAD("guzz-14.bin", 0x1000, 0x1000, 0xacbdfe1f);
             ROM_LOAD("guzz-15.bin", 0x2000, 0x1000, 0x66978c05);
 
             ROM_REGION(0x3000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("guzz-11.bin", 0x0000, 0x1000, 0xec2e9d86);  /* big sprite */
+            ROM_LOAD("guzz-11.bin", 0x0000, 0x1000, 0xec2e9d86);
+            /* big sprite */
 
             ROM_LOAD("guzz-10.bin", 0x1000, 0x1000, 0xbd3f0bf7);
             ROM_LOAD("guzz-09.bin", 0x2000, 0x1000, 0x18927579);

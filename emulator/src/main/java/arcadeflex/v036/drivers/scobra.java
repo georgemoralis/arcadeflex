@@ -3,27 +3,33 @@
  * ported to v0.36
  * using automatic conversion tool v0.08
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package arcadeflex.v036.drivers;
 
+//mame imports
+import static arcadeflex.v036.mame.sndintrfH.*;
+//sndhrdw imports
+import static arcadeflex.v036.sndhrdw.frogger.*;
+import static arcadeflex.v036.sndhrdw.scramble.*;
+//sound imports
+import static arcadeflex.v036.sound.ay8910.*;
+import static arcadeflex.v036.sound.ay8910H.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.galaxian.*;
+//common imports
+import static common.libc.expressions.*;
+//TODO
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
-import static arcadeflex.v036.sndhrdw.scramble.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static arcadeflex.v036.sndhrdw.frogger.*;
-import static arcadeflex.v036.vidhrdw.galaxian.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static common.libc.expressions.NOT;
-import static arcadeflex.v036.mame.sndintrfH.*;
-import static arcadeflex.v036.sound.ay8910.*;
-import static arcadeflex.v036.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
 
 public class scobra {
@@ -31,7 +37,7 @@ public class scobra {
     public static InitMachinePtr scobra_init_machine = new InitMachinePtr() {
         public void handler() {
             /* we must start with NMI interrupts disabled, otherwise some games */
-            /* (e.g. Lost Tomb, Rescue) will not pass the startup test. */
+ /* (e.g. Lost Tomb, Rescue) will not pass the startup test. */
             interrupt_enable_w.handler(0, 0);
         }
     };
@@ -234,7 +240,8 @@ public class scobra {
 
     static InputPortPtr input_ports_scobra = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -245,7 +252,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x01, 0x00, "Allow Continue");
             PORT_DIPSETTING(0x00, DEF_STR("No"));
@@ -260,7 +268,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START1);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
             PORT_DIPNAME(0x06, 0x02, DEF_STR("Coinage"));
@@ -282,7 +291,8 @@ public class scobra {
     /* identical to scobra apart from the number of lives */
     static InputPortPtr input_ports_scobrak = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -293,7 +303,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x01, 0x00, "Allow Continue");
             PORT_DIPSETTING(0x00, DEF_STR("No"));
@@ -308,7 +319,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START1);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
             PORT_DIPNAME(0x06, 0x02, DEF_STR("Coinage"));
@@ -329,7 +341,8 @@ public class scobra {
 
     static InputPortPtr input_ports_stratgyx = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x81, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -340,7 +353,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "3");
@@ -360,7 +374,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START1);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Unknown"));
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
@@ -385,7 +400,8 @@ public class scobra {
 
     static InputPortPtr input_ports_armorcar = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_4WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -398,7 +414,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Lives"));
             PORT_DIPSETTING(0x01, "3");
@@ -413,7 +430,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START1);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_4WAY | IPF_COCKTAIL);
             PORT_DIPNAME(0x06, 0x02, DEF_STR("Coinage"));
@@ -438,7 +456,8 @@ public class scobra {
 
     static InputPortPtr input_ports_moonwar2 = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x1f, IP_ACTIVE_LOW, IPT_UNKNOWN);/* the spinner */
 
@@ -446,7 +465,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "3");
@@ -460,7 +480,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Unknown"));
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
@@ -478,7 +499,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* IN3 - dummy port for the dial */
+            PORT_START();
+            /* IN3 - dummy port for the dial */
 
             PORT_ANALOG(0xff, 0x00, IPT_DIAL | IPF_CENTER, 25, 10, 0, 0);
             INPUT_PORTS_END();
@@ -487,7 +509,8 @@ public class scobra {
 
     static InputPortPtr input_ports_monwar2a = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x1f, IP_ACTIVE_LOW, IPT_UNKNOWN);/* the spinner */
 
@@ -495,7 +518,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "3");
@@ -509,7 +533,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Unknown"));
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
@@ -527,7 +552,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* IN3 - dummy port for the dial */
+            PORT_START();
+            /* IN3 - dummy port for the dial */
 
             PORT_ANALOG(0xff, 0x00, IPT_DIAL | IPF_CENTER, 25, 10, 0, 0);
             INPUT_PORTS_END();
@@ -536,7 +562,8 @@ public class scobra {
 
     static InputPortPtr input_ports_spdcoin = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNUSED);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START1);
@@ -547,13 +574,16 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
-            PORT_DIPNAME(0x01, 0x00, "Freeze");  /* Dip Sw #2 */
+            PORT_DIPNAME(0x01, 0x00, "Freeze");
+            /* Dip Sw #2 */
 
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x01, DEF_STR("On"));
-            PORT_DIPNAME(0x02, 0x02, DEF_STR("Unknown")); /* Dip Sw #1 */
+            PORT_DIPNAME(0x02, 0x02, DEF_STR("Unknown"));
+            /* Dip Sw #1 */
 
             PORT_DIPSETTING(0x02, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
@@ -564,18 +594,22 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNUSED);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNUSED);
-            PORT_DIPNAME(0x02, 0x00, DEF_STR("Unknown"));    /* Dip Sw #5 */
+            PORT_DIPNAME(0x02, 0x00, DEF_STR("Unknown"));
+            /* Dip Sw #5 */
 
             PORT_DIPSETTING(0x02, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x04, 0x00, DEF_STR("Unknown"));    /* Dip Sw #4 */
+            PORT_DIPNAME(0x04, 0x00, DEF_STR("Unknown"));
+            /* Dip Sw #4 */
 
             PORT_DIPSETTING(0x04, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x08, 0x00, DEF_STR("Lives"));    /* Dip Sw #3 */
+            PORT_DIPNAME(0x08, 0x00, DEF_STR("Lives"));
+            /* Dip Sw #3 */
 
             PORT_DIPSETTING(0x08, "3");
             PORT_DIPSETTING(0x00, "5");
@@ -584,7 +618,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNUSED);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START();       /* IN3 - dummy port for the dial */
+            PORT_START();
+            /* IN3 - dummy port for the dial */
 
             PORT_ANALOG(0xff, 0x00, IPT_DIAL | IPF_CENTER, 25, 10, 0, 0);
             INPUT_PORTS_END();
@@ -593,7 +628,8 @@ public class scobra {
 
     static InputPortPtr input_ports_darkplnt = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START1);
@@ -604,7 +640,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Lives"));
             PORT_DIPSETTING(0x01, "3");
@@ -619,7 +656,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON3);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_DIPNAME(0x06, 0x02, DEF_STR("Coinage"));
@@ -640,7 +678,8 @@ public class scobra {
 
     static InputPortPtr input_ports_tazmania = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON1);
@@ -651,7 +690,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Lives"));
             PORT_DIPSETTING(0x01, "3");
@@ -666,7 +706,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_DIPNAME(0x06, 0x02, DEF_STR("Coinage"));
@@ -694,7 +735,8 @@ public class scobra {
     /* Cocktail mode is N/A */
     static InputPortPtr input_ports_calipso = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -705,7 +747,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Lives"));
             PORT_DIPSETTING(0x01, "3");
@@ -720,7 +763,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_DIPNAME(0x06, 0x02, DEF_STR("Coinage"));
@@ -742,7 +786,8 @@ public class scobra {
     /* Cocktail mode not working due to bug */
     static InputPortPtr input_ports_anteater = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -753,7 +798,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Lives"));
             PORT_DIPSETTING(0x01, "3");
@@ -768,7 +814,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_DIPNAME(0x06, 0x02, DEF_STR("Coinage"));
@@ -795,7 +842,8 @@ public class scobra {
 
     static InputPortPtr input_ports_rescue = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_DIPNAME(0x02, 0x02, "Starting Level");
@@ -808,7 +856,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Lives"));
             PORT_DIPSETTING(0x01, "3");
@@ -827,7 +876,8 @@ public class scobra {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_DIPNAME(0x06, 0x02, DEF_STR("Coinage"));
@@ -854,7 +904,8 @@ public class scobra {
 
     static InputPortPtr input_ports_minefld = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_DIPNAME(0x02, 0x02, "Starting Level");
@@ -867,7 +918,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Lives"));
             PORT_DIPSETTING(0x01, "3");
@@ -886,7 +938,8 @@ public class scobra {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_DIPNAME(0x02, 0x02, DEF_STR("Coinage"));
@@ -914,7 +967,8 @@ public class scobra {
     /* Cocktail mode is N/A */
     static InputPortPtr input_ports_losttomb = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START1);
@@ -925,7 +979,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x03, 0x01, DEF_STR("Lives"));
             PORT_DIPSETTING(0x01, "3");
@@ -941,7 +996,8 @@ public class scobra {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Unknown"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -973,7 +1029,8 @@ public class scobra {
     /* Cocktail mode is N/A */
     static InputPortPtr input_ports_superbon = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START1);
@@ -984,7 +1041,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x03, 0x01, DEF_STR("Lives"));
             PORT_DIPSETTING(0x01, "3");
@@ -1006,7 +1064,8 @@ public class scobra {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	/* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Unknown"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -1037,7 +1096,8 @@ public class scobra {
 
     static InputPortPtr input_ports_hustler = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -1048,7 +1108,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "1");
@@ -1063,7 +1124,8 @@ public class scobra {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START1);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
             PORT_DIPNAME(0x06, 0x00, DEF_STR("Coinage"));
@@ -1281,7 +1343,7 @@ public class scobra {
     );
 
     /* Rescue, Minefield and Strategy X have extra colours, and custom video initialise */
-    /* routines to set up the graduated colour backgound they use */
+ /* routines to set up the graduated colour backgound they use */
     static MachineDriver machine_driver_rescue = new MachineDriver(
             /* basic machine hardware */
             new MachineCPU[]{
@@ -2174,7 +2236,7 @@ public class scobra {
             UBytePtr RAM;
 
             /* The gfx ROMs are scrambled. Decode them. They have been loaded at 0x1000, */
-            /* we write them at 0x0000. */
+ /* we write them at 0x0000. */
             RAM = memory_region(REGION_GFX1);
 
             for (i = 0; i < 0x1000; i++) {
@@ -2197,7 +2259,7 @@ public class scobra {
             UBytePtr RAM;
 
             /* The gfx ROMs are scrambled. Decode them. They have been loaded at 0x1000, */
-            /* we write them at 0x0000. */
+ /* we write them at 0x0000. */
             RAM = memory_region(REGION_GFX1);
 
             for (i = 0; i < 0x1000; i++) {
@@ -2219,7 +2281,7 @@ public class scobra {
             UBytePtr RAM;
 
             /* The gfx ROMs are scrambled. Decode them. They have been loaded at 0x1000, */
-            /* we write them at 0x0000. */
+ /* we write them at 0x0000. */
             RAM = memory_region(REGION_GFX1);
 
             for (i = 0; i < 0x1000; i++) {
@@ -2243,7 +2305,7 @@ public class scobra {
             UBytePtr RAM;
 
             /* The gfx ROMs are scrambled. Decode them. They have been loaded at 0x1000, */
-            /* we write them at 0x0000. */
+ /* we write them at 0x0000. */
             RAM = memory_region(REGION_GFX1);
 
             for (i = 0; i < 0x1000; i++) {

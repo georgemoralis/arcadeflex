@@ -4,6 +4,11 @@
  */
 package arcadeflex.v036.drivers;
 
+//mame imports
+import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
+import static arcadeflex.v036.sound.dacH.*;
+import static arcadeflex.v036.sound.dac.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.galivan.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
@@ -18,11 +23,8 @@ import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3526intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
-import static arcadeflex.v036.sound.dacH.*;
-import static arcadeflex.v036.sound.dac.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
 
 public class galivan {

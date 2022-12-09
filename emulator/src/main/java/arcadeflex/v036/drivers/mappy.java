@@ -2,20 +2,23 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package arcadeflex.v036.drivers;
 
+//mame imports
+import static arcadeflex.v036.mame.sndintrfH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.mappy.*;
+//TODO
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static arcadeflex.v036.vidhrdw.mappy.*;
-import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.namcoH.*;
 import static gr.codebb.arcadeflex.v036.sound.namco.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.machine.mappy.*;
+import static arcadeflex.v036.machine.mappy.*;
 
 public class mappy {
 
@@ -120,8 +123,9 @@ public class mappy {
     /* input from the outside world */
     static InputPortPtr input_ports_mappy = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* DSW0 */
-            /* According to the manual, 0x04, 0x08 and 0x10 should always be off,
+            PORT_START();
+            /* DSW0 */
+ /* According to the manual, 0x04, 0x08 and 0x10 should always be off,
              but... */
 
             PORT_DIPNAME(0x07, 0x00, "Rank");
@@ -148,7 +152,8 @@ public class mappy {
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x80, DEF_STR("On"));
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x07, 0x00, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x06, DEF_STR("3C_1C"));
@@ -185,7 +190,8 @@ public class mappy {
             PORT_DIPSETTING(0x00, "3");
             PORT_DIPSETTING(0x40, "5");
 
-            PORT_START();       /* DSW2 */
+            PORT_START();
+            /* DSW2 */
 
             PORT_BIT(0x03, IP_ACTIVE_HIGH, IPT_UNUSED);
             PORT_DIPNAME(0x04, 0x00, DEF_STR("Cabinet"));
@@ -194,9 +200,10 @@ public class mappy {
             PORT_SERVICE(0x08, IP_ACTIVE_HIGH);
             PORT_BIT(0xf0, IP_ACTIVE_HIGH, IPT_UNUSED);
 
-            PORT_START();       /* FAKE */
-            /* The player inputs are not memory mapped, they are handled by an I/O chip. */
-            /* These fake input ports are read by mappy_customio_data_r() */
+            PORT_START();
+            /* FAKE */
+ /* The player inputs are not memory mapped, they are handled by an I/O chip. */
+ /* These fake input ports are read by mappy_customio_data_r() */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_UNUSED);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_2WAY);
@@ -206,7 +213,8 @@ public class mappy {
             PORT_BITX(0x20, IP_ACTIVE_HIGH, IPT_BUTTON1, null, IP_KEY_PREVIOUS, IP_JOY_PREVIOUS);
             PORT_BIT(0xc0, IP_ACTIVE_HIGH, IPT_UNUSED);
 
-            PORT_START();       /* FAKE */
+            PORT_START();
+            /* FAKE */
 
             PORT_BIT_IMPULSE(0x01, IP_ACTIVE_HIGH, IPT_COIN1, 1);
             /* Coin 2 is not working */
@@ -216,7 +224,8 @@ public class mappy {
             PORT_BIT_IMPULSE(0x20, IP_ACTIVE_HIGH, IPT_START2, 1);
             PORT_BIT(0xc0, IP_ACTIVE_HIGH, IPT_UNUSED);
 
-            PORT_START(); 	    /* FAKE */
+            PORT_START();
+            /* FAKE */
 
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_2WAY | IPF_COCKTAIL);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_2WAY | IPF_COCKTAIL);
@@ -229,7 +238,8 @@ public class mappy {
 
     static InputPortPtr input_ports_digdug2 = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Unknown"));
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
@@ -255,7 +265,8 @@ public class mappy {
             PORT_DIPSETTING(0x00, DEF_STR("1C_1C"));
             PORT_DIPSETTING(0x80, DEF_STR("1C_2C"));
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Bonus_Life"));
             PORT_DIPSETTING(0x00, "30k 80k and ...");
@@ -278,15 +289,17 @@ public class mappy {
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
             PORT_DIPSETTING(0x80, DEF_STR("Cocktail"));
 
-            PORT_START();       /* DSW2 */
+            PORT_START();
+            /* DSW2 */
 
             PORT_BIT(0x07, IP_ACTIVE_HIGH, IPT_UNUSED);
             PORT_SERVICE(0x08, IP_ACTIVE_HIGH);
             PORT_BIT(0xf0, IP_ACTIVE_HIGH, IPT_UNUSED);
 
-            PORT_START();       /* FAKE */
-            /* The player inputs are not memory mapped, they are handled by an I/O chip. */
-            /* These fake input ports are read by mappy_customio_data_r() */
+            PORT_START();
+            /* FAKE */
+ /* The player inputs are not memory mapped, they are handled by an I/O chip. */
+ /* These fake input ports are read by mappy_customio_data_r() */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_4WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_4WAY);
@@ -296,7 +309,8 @@ public class mappy {
             PORT_BITX(0x20, IP_ACTIVE_HIGH, IPT_BUTTON1, null, IP_KEY_PREVIOUS, IP_JOY_PREVIOUS);
             PORT_BIT(0xc0, IP_ACTIVE_HIGH, IPT_UNUSED);
 
-            PORT_START();       /* FAKE */
+            PORT_START();
+            /* FAKE */
 
             PORT_BIT_IMPULSE(0x01, IP_ACTIVE_HIGH, IPT_COIN1, 1);
             /* Coin 2 is not working */
@@ -306,9 +320,10 @@ public class mappy {
             PORT_BIT_IMPULSE(0x20, IP_ACTIVE_HIGH, IPT_START2, 1);
             PORT_BIT(0xc0, IP_ACTIVE_HIGH, IPT_UNUSED);
 
-            PORT_START();       /* FAKE */
-            /* The player inputs are not memory mapped, they are handled by an I/O chip. */
-            /* These fake input ports are read by mappy_customio_data_r() */
+            PORT_START();
+            /* FAKE */
+ /* The player inputs are not memory mapped, they are handled by an I/O chip. */
+ /* These fake input ports are read by mappy_customio_data_r() */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_4WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL);
@@ -324,7 +339,8 @@ public class mappy {
 
     static InputPortPtr input_ports_motos = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, "Reset");
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
@@ -349,7 +365,8 @@ public class mappy {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_BIT(0x3f, IP_ACTIVE_HIGH, IPT_UNUSED);
             PORT_DIPNAME(0x40, 0x00, DEF_STR("Cabinet"));
@@ -357,9 +374,10 @@ public class mappy {
             PORT_DIPSETTING(0x40, DEF_STR("Cocktail"));
             PORT_SERVICE(0x80, IP_ACTIVE_HIGH);
 
-            PORT_START();       /* FAKE */
-            /* The player inputs are not memory mapped, they are handled by an I/O chip. */
-            /* These fake input ports are read by mappy_customio_data_r() */
+            PORT_START();
+            /* FAKE */
+ /* The player inputs are not memory mapped, they are handled by an I/O chip. */
+ /* These fake input ports are read by mappy_customio_data_r() */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY);
@@ -369,7 +387,8 @@ public class mappy {
             PORT_BITX(0x20, IP_ACTIVE_HIGH, IPT_BUTTON1, null, IP_KEY_PREVIOUS, IP_JOY_PREVIOUS);
             PORT_BIT(0xc0, IP_ACTIVE_HIGH, IPT_UNUSED);
 
-            PORT_START();       /* FAKE */
+            PORT_START();
+            /* FAKE */
 
             PORT_BIT_IMPULSE(0x01, IP_ACTIVE_HIGH, IPT_COIN1, 2);
             PORT_BIT_IMPULSE(0x02, IP_ACTIVE_HIGH, IPT_COIN2, 2);
@@ -378,9 +397,10 @@ public class mappy {
             PORT_BIT_IMPULSE(0x80, IP_ACTIVE_HIGH, IPT_START2, 2);
             PORT_BIT(0x30, IP_ACTIVE_HIGH, IPT_UNUSED);
 
-            PORT_START();       /* FAKE */
-            /* The player inputs are not memory mapped, they are handled by an I/O chip. */
-            /* These fake input ports are read by mappy_customio_data_r() */
+            PORT_START();
+            /* FAKE */
+ /* The player inputs are not memory mapped, they are handled by an I/O chip. */
+ /* These fake input ports are read by mappy_customio_data_r() */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
@@ -396,7 +416,8 @@ public class mappy {
 
     static InputPortPtr input_ports_todruaga = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_BIT(0x0f, IP_ACTIVE_HIGH, IPT_UNUSED);
             PORT_DIPNAME(0x30, 0x00, DEF_STR("Lives"));
@@ -410,7 +431,8 @@ public class mappy {
             PORT_DIPSETTING(0x00, DEF_STR("1C_1C"));
             PORT_DIPSETTING(0x80, DEF_STR("1C_2C"));
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x01, 0x00, "Freeze");
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
@@ -428,15 +450,17 @@ public class mappy {
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
             PORT_DIPSETTING(0x80, DEF_STR("Cocktail"));
 
-            PORT_START();       /* DSW2 */
+            PORT_START();
+            /* DSW2 */
 
             PORT_BIT(0x07, IP_ACTIVE_HIGH, IPT_UNUSED);
             PORT_SERVICE(0x08, IP_ACTIVE_HIGH);
             PORT_BIT(0xf0, IP_ACTIVE_HIGH, IPT_UNUSED);
 
-            PORT_START();       /* FAKE */
-            /* The player inputs are not memory mapped, they are handled by an I/O chip. */
-            /* These fake input ports are read by mappy_customio_data_r() */
+            PORT_START();
+            /* FAKE */
+ /* The player inputs are not memory mapped, they are handled by an I/O chip. */
+ /* These fake input ports are read by mappy_customio_data_r() */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_4WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_4WAY);
@@ -447,7 +471,8 @@ public class mappy {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_UNUSED);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_START1);/* used on level 31 */
 
-            PORT_START();       /* FAKE */
+            PORT_START();
+            /* FAKE */
 
             PORT_BIT(0x0f, IP_ACTIVE_HIGH, IPT_UNUSED);
             /* this is just a guess */
@@ -455,7 +480,8 @@ public class mappy {
             PORT_BITX(0x20, IP_ACTIVE_HIGH, IPT_BUTTON2, null, IP_KEY_PREVIOUS, IP_JOY_PREVIOUS);
             PORT_BIT(0xc0, IP_ACTIVE_HIGH, IPT_UNUSED);
 
-            PORT_START();       /* FAKE */
+            PORT_START();
+            /* FAKE */
 
             PORT_BIT_IMPULSE(0x01, IP_ACTIVE_HIGH, IPT_COIN1, 1);
             /* Coin 2 is not working */
@@ -468,9 +494,10 @@ public class mappy {
             PORT_BIT_IMPULSE(0x20, IP_ACTIVE_HIGH, IPT_START2, 1);
             PORT_BIT(0xc0, IP_ACTIVE_HIGH, IPT_UNUSED);
 
-            PORT_START();       /* FAKE */
-            /* The player inputs are not memory mapped, they are handled by an I/O chip. */
-            /* These fake input ports are read by mappy_customio_data_r() */
+            PORT_START();
+            /* FAKE */
+ /* The player inputs are not memory mapped, they are handled by an I/O chip. */
+ /* These fake input ports are read by mappy_customio_data_r() */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_4WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL);
@@ -709,13 +736,15 @@ public class mappy {
 
     static RomLoadPtr rom_mappy = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code for the first CPU  */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code for the first CPU  */
 
             ROM_LOAD("mappy1d.64", 0xa000, 0x2000, 0x52e6c708);
             ROM_LOAD("mappy1c.64", 0xc000, 0x2000, 0xa958a61c);
             ROM_LOAD("mappy1b.64", 0xe000, 0x2000, 0x203766d4);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the second CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the second CPU */
 
             ROM_LOAD("mappy1k.64", 0xe000, 0x2000, 0x8182dd5b);
 
@@ -742,13 +771,15 @@ public class mappy {
 
     static RomLoadPtr rom_mappyjp = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code for the first CPU  */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code for the first CPU  */
 
             ROM_LOAD("mappy3.bin", 0xa000, 0x2000, 0xdb9d5ab5);
             ROM_LOAD("mappy1c.64", 0xc000, 0x2000, 0xa958a61c);
             ROM_LOAD("mappy1.bin", 0xe000, 0x2000, 0x77c0b492);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the second CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the second CPU */
 
             ROM_LOAD("mappy1k.64", 0xe000, 0x2000, 0x8182dd5b);
 
@@ -775,12 +806,14 @@ public class mappy {
 
     static RomLoadPtr rom_digdug2 = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code for the first CPU  */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code for the first CPU  */
 
             ROM_LOAD("ddug2-3.bin", 0x8000, 0x4000, 0xbe7ec80b);
             ROM_LOAD("ddug2-1.bin", 0xc000, 0x4000, 0x5c77c0d4);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the second CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the second CPU */
 
             ROM_LOAD("ddug2-4.bin", 0xe000, 0x2000, 0x737443b1);
 
@@ -807,12 +840,14 @@ public class mappy {
 
     static RomLoadPtr rom_digdug2a = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code for the first CPU  */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code for the first CPU  */
 
             ROM_LOAD("ddug2a_3.bin", 0x8000, 0x4000, 0xcc155338);
             ROM_LOAD("ddug2a_1.bin", 0xc000, 0x4000, 0x40e46af8);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the second CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the second CPU */
 
             ROM_LOAD("ddug2-4.bin", 0xe000, 0x2000, 0x737443b1);
 
@@ -829,7 +864,7 @@ public class mappy {
             ROM_LOAD("ddclr-4c.bin", 0x0020, 0x0100, 0x55a88695);/* characters */
 
             ROM_LOAD("ddclr_5k.bin", 0x0120, 0x0100, 0x9c55feda);/* sprites */
-            /* Can't see the difference on screen, but CRC differs. */
+ /* Can't see the difference on screen, but CRC differs. */
 
             ROM_REGION(0x0100, REGION_SOUND1);/* sound prom */
 
@@ -840,12 +875,14 @@ public class mappy {
 
     static RomLoadPtr rom_motos = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code for the first CPU  */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code for the first CPU  */
 
             ROM_LOAD("mts_1d.bin", 0x8000, 0x4000, 0x1104abb2);
             ROM_LOAD("mts_1b.bin", 0xc000, 0x4000, 0x57b157e2);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the second CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the second CPU */
 
             ROM_LOAD("mts_1k.bin", 0xe000, 0x2000, 0x55e45d21);
 
@@ -872,12 +909,14 @@ public class mappy {
 
     static RomLoadPtr rom_todruaga = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code for the first CPU  */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code for the first CPU  */
 
             ROM_LOAD("druaga3.bin", 0x8000, 0x4000, 0x7ab4f5b2);
             ROM_LOAD("druaga1.bin", 0xc000, 0x4000, 0x8c20ef10);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the second CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the second CPU */
 
             ROM_LOAD("druaga4.bin", 0xe000, 0x2000, 0xae9d06d9);
 
@@ -910,12 +949,14 @@ public class mappy {
 
     static RomLoadPtr rom_todruagb = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code for the first CPU  */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code for the first CPU  */
 
             ROM_LOAD("druaga3a.bin", 0x8000, 0x4000, 0xfbf16299);
             ROM_LOAD("druaga1a.bin", 0xc000, 0x4000, 0xb238d723);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the second CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the second CPU */
 
             ROM_LOAD("druaga4.bin", 0xe000, 0x2000, 0xae9d06d9);
 

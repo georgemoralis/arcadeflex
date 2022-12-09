@@ -1,10 +1,8 @@
 /*
  * ported to v0.36
  *
- *  THIS FILE IS 100% PORTED!!!
- *
  */
-package gr.codebb.arcadeflex.v036.machine;
+package arcadeflex.v036.machine;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
@@ -15,9 +13,10 @@ import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class pacman {
 
-    public static int speedcheat = 0;	/* a well known hack allows to make Pac Man run at four times */
-    /* his usual speed. When we start the emulation, we check if the */
-    /* hack can be applied, and set this flag accordingly. */
+    public static int speedcheat = 0;
+    /* a well known hack allows to make Pac Man run at four times */
+ /* his usual speed. When we start the emulation, we check if the */
+ /* hack can be applied, and set this flag accordingly. */
 
     public static InitMachinePtr pacman_init_machine = new InitMachinePtr() {
         public void handler() {

@@ -3,22 +3,26 @@
  * ported to v0.36
  * using automatic conversion tool v0.08
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package arcadeflex.v036.drivers;
 
+//mame imports
+import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
+import static arcadeflex.v036.sound.ay8910.*;
+import static arcadeflex.v036.sound.ay8910H.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.sonson.*;
+import static arcadeflex.v036.vidhrdw.generic.*;
+//TODO
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
-import static arcadeflex.v036.vidhrdw.sonson.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
-import static arcadeflex.v036.sound.ay8910.*;
-import static arcadeflex.v036.sound.ay8910H.*;
-import static arcadeflex.v036.mame.sndintrfH.*;
 
 public class sonson {
 
@@ -79,7 +83,8 @@ public class sonson {
 
     static InputPortPtr input_ports_sonson = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably unused */
@@ -92,7 +97,8 @@ public class sonson {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably unused */
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably unused */
@@ -105,7 +111,8 @@ public class sonson {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably unused */
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -119,7 +126,8 @@ public class sonson {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably unused */
 
-            PORT_START(); 	/* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coinage"));
             PORT_DIPSETTING(0x02, DEF_STR("4C_1C"));
@@ -150,7 +158,8 @@ public class sonson {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Lives"));
             PORT_DIPSETTING(0x03, "3");
@@ -206,8 +215,8 @@ public class sonson {
     /*static struct AY8910interface ay8910_interface =
      {
      2,	/* 2 chips */
-    /*	1500000,	/* 1.5 MHz ? */
-    /*	{ 30, 30 },
+ /*	1500000,	/* 1.5 MHz ? */
+ /*	{ 30, 30 },
      { 0 },
      { 0 },
      { 0 },

@@ -2,19 +2,23 @@
  * ported to v0.36
  * using automatic conversion tool v0.08 + manual fixes 
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package arcadeflex.v036.drivers;
 
+//mame imports
+import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
+import static arcadeflex.v036.sound.sn76496H.*;
+import static arcadeflex.v036.sound.sn76496.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.mrdo.*;
+//TODO
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static arcadeflex.v036.vidhrdw.mrdo.*;
-import static arcadeflex.v036.mame.sndintrfH.*;
-import static arcadeflex.v036.sound.sn76496H.*;
-import static arcadeflex.v036.sound.sn76496.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v036.mame.inputH.*;
@@ -24,7 +28,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 public class mrdo {
 
     /* this looks like some kind of protection. The game doesn't clear the screen */
-    /* if a read from this address doesn't return the value it expects. */
+ /* if a read from this address doesn't return the value it expects. */
     public static ReadHandlerPtr mrdo_SECRE_r = new ReadHandlerPtr() {
         public int handler(int offset) {
 
@@ -61,7 +65,8 @@ public class mrdo {
 
     static InputPortPtr input_ports_mrdo = new InputPortPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_4WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_4WAY);
@@ -72,7 +77,8 @@ public class mrdo {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_TILT);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_4WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_4WAY | IPF_COCKTAIL);
@@ -83,7 +89,8 @@ public class mrdo {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START(); 	/* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Difficulty"));
             PORT_DIPSETTING(0x03, "Easy");
@@ -108,7 +115,8 @@ public class mrdo {
             PORT_DIPSETTING(0x80, "4");
             PORT_DIPSETTING(0x40, "5");
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_B"));
             PORT_DIPSETTING(0x06, DEF_STR("4C_1C"));
@@ -300,11 +308,14 @@ public class mrdo {
             ROM_LOAD("k5-06.bin", 0x1000, 0x1000, 0xb1f68b04);
 
             ROM_REGION(0x0060, REGION_PROMS);
-            ROM_LOAD("u02--2.bin", 0x0000, 0x0020, 0x238a65d7); /* palette (high bits) */
+            ROM_LOAD("u02--2.bin", 0x0000, 0x0020, 0x238a65d7);
+            /* palette (high bits) */
 
-            ROM_LOAD("t02--3.bin", 0x0020, 0x0020, 0xae263dc0); /* palette (low bits) */
+            ROM_LOAD("t02--3.bin", 0x0020, 0x0020, 0xae263dc0);
+            /* palette (low bits) */
 
-            ROM_LOAD("f10--1.bin", 0x0040, 0x0020, 0x16ee4ca2); /* sprite color lookup table */
+            ROM_LOAD("f10--1.bin", 0x0040, 0x0020, 0x16ee4ca2);
+            /* sprite color lookup table */
 
             ROM_END();
         }

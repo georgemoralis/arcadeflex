@@ -6,8 +6,14 @@ package arcadeflex.v036.drivers;
 
 //mame imports
 import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
+import static arcadeflex.v036.sound.sn76496H.*;
+import static arcadeflex.v036.sound.sn76496.*;
+import static arcadeflex.v036.sound.MSM5205H.*;
+import static arcadeflex.v036.sound.MSM5205.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.appoooh.*;
 //TODO
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -15,11 +21,6 @@ import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
-import static arcadeflex.v036.sound.sn76496H.*;
-import static arcadeflex.v036.sound.sn76496.*;
-import static arcadeflex.v036.vidhrdw.appoooh.*;
-import static arcadeflex.v036.sound.MSM5205H.*;
-import static arcadeflex.v036.sound.MSM5205.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;

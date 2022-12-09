@@ -19,7 +19,7 @@ import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.vidhrdw.zodiack.*;
-import static gr.codebb.arcadeflex.v036.machine.espial.*;
+import static arcadeflex.v036.machine.espial.*;
 
 public class zodiack {
 

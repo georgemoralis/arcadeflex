@@ -1,42 +1,30 @@
-/**
- * *************************************************************************
- *
- * Legendary Wings Section Z Trojan Avengers
- *
- * Driver provided by Paul Leaman
- *
- * Trojan contains a third Z80 to drive the game samples. This third Z80 outputs
- * the ADPCM data byte at a time to the sound hardware. Since this will be
- * expensive to do this extra processor is not emulated.
- *
- * Instead, the ADPCM data is lifted directly from the sound ROMS.
- *
- **************************************************************************
- */
-
 /*
  * ported to v0.36
  * using automatic conversion tool v0.09
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package arcadeflex.v036.drivers;
 
+//mame imports
+import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
+import static arcadeflex.v036.sound.adpcmH.*;
+import static arcadeflex.v036.sound.adpcm.*;
+import static arcadeflex.v036.sound._2203intf.*;
+import static arcadeflex.v036.sound._2203intfH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//TODO
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.lwings.*;
 import static gr.codebb.arcadeflex.v036.machine.lwings.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static arcadeflex.v036.mame.sndintrfH.*;
-import static arcadeflex.v036.sound.adpcmH.*;
-import static arcadeflex.v036.sound.adpcm.*;
-import static arcadeflex.v036.sound._2203intf.*;
-import static arcadeflex.v036.sound._2203intfH.*;
 
 public class lwings {
 
@@ -148,22 +136,28 @@ public class lwings {
 
     static InputPortPtr input_ports_sectionz = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
-            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -171,11 +165,14 @@ public class lwings {
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON2);
-            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -183,11 +180,14 @@ public class lwings {
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
-            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_SERVICE(0x01, IP_ACTIVE_LOW);
             PORT_DIPNAME(0x02, 0x02, DEF_STR("Flip_Screen"));
@@ -209,7 +209,8 @@ public class lwings {
             PORT_DIPSETTING(0x40, DEF_STR("1C_2C"));
             PORT_DIPSETTING(0x80, DEF_STR("1C_3C"));
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x01, 0x01, "Allow Continue");
             PORT_DIPSETTING(0x00, DEF_STR("No"));
@@ -239,22 +240,28 @@ public class lwings {
 
     static InputPortPtr input_ports_lwings = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
-            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -262,11 +269,14 @@ public class lwings {
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON2);
-            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER2);
@@ -274,11 +284,14 @@ public class lwings {
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER2);
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2);
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER2);
-            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x03, 0x03, "Unknown 1/2");
             PORT_DIPSETTING(0x00, "0");
@@ -301,7 +314,8 @@ public class lwings {
             PORT_DIPSETTING(0x40, DEF_STR("1C_2C"));
             PORT_DIPSETTING(0x80, DEF_STR("1C_3C"));
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Unknown"));
             PORT_DIPSETTING(0x00, "0");
@@ -332,22 +346,28 @@ public class lwings {
 
     static InputPortPtr input_ports_trojan = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
-            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -356,9 +376,11 @@ public class lwings {
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON2);
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
-            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -367,9 +389,11 @@ public class lwings {
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
-            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, "Upright 1 Player");
@@ -394,7 +418,8 @@ public class lwings {
             PORT_DIPSETTING(0x40, "6");
             /* 0x00 and 0x20 start at level 6 */
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x00, DEF_STR("2C_1C"));
@@ -424,22 +449,28 @@ public class lwings {
     /* Trojan with level selection - starting level dip switches not used */
     static InputPortPtr input_ports_trojanls = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
-            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -448,9 +479,11 @@ public class lwings {
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON2);
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
-            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -459,9 +492,11 @@ public class lwings {
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
-            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, "Upright 1 Player");
@@ -487,7 +522,8 @@ public class lwings {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x00, DEF_STR("2C_1C"));
@@ -645,13 +681,15 @@ public class lwings {
      */
     static RomLoadPtr rom_lwings = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 64k for code + 3*16k for the banked ROMs images */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 64k for code + 3*16k for the banked ROMs images */
 
             ROM_LOAD("6c_lw01.bin", 0x00000, 0x8000, 0xb55a7f60);
             ROM_LOAD("7c_lw02.bin", 0x10000, 0x8000, 0xa5efbb1b);
             ROM_LOAD("9c_lw03.bin", 0x18000, 0x8000, 0xec5cc201);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the audio CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the audio CPU */
 
             ROM_LOAD("11e_lw04.bin", 0x0000, 0x8000, 0xa20337a2);
 
@@ -670,7 +708,8 @@ public class lwings {
             ROM_LOAD("1f_lw09.bin", 0x38000, 0x8000, 0xc8f28777);
 
             ROM_REGION(0x20000, REGION_GFX3 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("3j_lw17.bin", 0x00000, 0x8000, 0x5ed1bc9b); /* sprites */
+            ROM_LOAD("3j_lw17.bin", 0x00000, 0x8000, 0x5ed1bc9b);
+            /* sprites */
 
             ROM_LOAD("1j_lw11.bin", 0x08000, 0x8000, 0x2a0790d6);
             ROM_LOAD("3h_lw16.bin", 0x10000, 0x8000, 0xe8834006);
@@ -681,21 +720,25 @@ public class lwings {
 
     static RomLoadPtr rom_lwings2 = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 64k for code + 3*16k for the banked ROMs images */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 64k for code + 3*16k for the banked ROMs images */
 
             ROM_LOAD("u13-l", 0x00000, 0x8000, 0x3069c01c);
             ROM_LOAD("u14-k", 0x10000, 0x8000, 0x5d91c828);
             ROM_LOAD("9c_lw03.bin", 0x18000, 0x8000, 0xec5cc201);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the audio CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the audio CPU */
 
             ROM_LOAD("11e_lw04.bin", 0x0000, 0x8000, 0xa20337a2);
 
             ROM_REGION(0x04000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("9h_lw05.bin", 0x00000, 0x4000, 0x091d923c); /* characters */
+            ROM_LOAD("9h_lw05.bin", 0x00000, 0x4000, 0x091d923c);
+            /* characters */
 
             ROM_REGION(0x40000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("b_03e.rom", 0x00000, 0x8000, 0x176e3027); /* tiles */
+            ROM_LOAD("b_03e.rom", 0x00000, 0x8000, 0x176e3027);
+            /* tiles */
 
             ROM_LOAD("b_01e.rom", 0x08000, 0x8000, 0xf5d25623);
             ROM_LOAD("b_03d.rom", 0x10000, 0x8000, 0x001caa35);
@@ -706,7 +749,8 @@ public class lwings {
             ROM_LOAD("b_01f.rom", 0x38000, 0x8000, 0x23654e0a);
 
             ROM_REGION(0x20000, REGION_GFX3 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("b_03j.rom", 0x00000, 0x8000, 0x8f3c763a); /* sprites */
+            ROM_LOAD("b_03j.rom", 0x00000, 0x8000, 0x8f3c763a);
+            /* sprites */
 
             ROM_LOAD("b_01j.rom", 0x08000, 0x8000, 0x7cc90a1d);
             ROM_LOAD("b_03h.rom", 0x10000, 0x8000, 0x7d58f532);
@@ -717,21 +761,25 @@ public class lwings {
 
     static RomLoadPtr rom_lwingsjp = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 64k for code + 3*16k for the banked ROMs images */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 64k for code + 3*16k for the banked ROMs images */
 
             ROM_LOAD("a_06c.rom", 0x00000, 0x8000, 0x2068a738);
             ROM_LOAD("a_07c.rom", 0x10000, 0x8000, 0xd6a2edc4);
             ROM_LOAD("9c_lw03.bin", 0x18000, 0x8000, 0xec5cc201);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the audio CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the audio CPU */
 
             ROM_LOAD("11e_lw04.bin", 0x0000, 0x8000, 0xa20337a2);
 
             ROM_REGION(0x04000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("9h_lw05.bin", 0x00000, 0x4000, 0x091d923c); /* characters */
+            ROM_LOAD("9h_lw05.bin", 0x00000, 0x4000, 0x091d923c);
+            /* characters */
 
             ROM_REGION(0x40000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("b_03e.rom", 0x00000, 0x8000, 0x176e3027); /* tiles */
+            ROM_LOAD("b_03e.rom", 0x00000, 0x8000, 0x176e3027);
+            /* tiles */
 
             ROM_LOAD("b_01e.rom", 0x08000, 0x8000, 0xf5d25623);
             ROM_LOAD("b_03d.rom", 0x10000, 0x8000, 0x001caa35);
@@ -742,7 +790,8 @@ public class lwings {
             ROM_LOAD("b_01f.rom", 0x38000, 0x8000, 0x23654e0a);
 
             ROM_REGION(0x20000, REGION_GFX3 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("b_03j.rom", 0x00000, 0x8000, 0x8f3c763a); /* sprites */
+            ROM_LOAD("b_03j.rom", 0x00000, 0x8000, 0x8f3c763a);
+            /* sprites */
 
             ROM_LOAD("b_01j.rom", 0x08000, 0x8000, 0x7cc90a1d);
             ROM_LOAD("b_03h.rom", 0x10000, 0x8000, 0x7d58f532);
@@ -763,21 +812,25 @@ public class lwings {
      */
     static RomLoadPtr rom_sectionz = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 64k for code + 3*16k for the banked ROMs images */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 64k for code + 3*16k for the banked ROMs images */
 
             ROM_LOAD("6c_sz01.bin", 0x00000, 0x8000, 0x69585125);
             ROM_LOAD("7c_sz02.bin", 0x10000, 0x8000, 0x22f161b8);
             ROM_LOAD("9c_sz03.bin", 0x18000, 0x8000, 0x4c7111ed);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the audio CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the audio CPU */
 
             ROM_LOAD("11e_sz04.bin", 0x0000, 0x8000, 0xa6073566);
 
             ROM_REGION(0x04000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("9h_sz05.bin", 0x00000, 0x4000, 0x3173ba2e); /* characters */
+            ROM_LOAD("9h_sz05.bin", 0x00000, 0x4000, 0x3173ba2e);
+            /* characters */
 
             ROM_REGION(0x40000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("3e_sz14.bin", 0x00000, 0x8000, 0x63782e30); /* tiles */
+            ROM_LOAD("3e_sz14.bin", 0x00000, 0x8000, 0x63782e30);
+            /* tiles */
 
             ROM_LOAD("1e_sz08.bin", 0x08000, 0x8000, 0xd57d9f13);
             ROM_LOAD("3d_sz13.bin", 0x10000, 0x8000, 0x1b3d4d7f);
@@ -788,7 +841,8 @@ public class lwings {
             ROM_LOAD("1f_sz09.bin", 0x38000, 0x8000, 0xda8f06c9);
 
             ROM_REGION(0x20000, REGION_GFX3 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("3j_sz17.bin", 0x00000, 0x8000, 0x8df7b24a); /* sprites */
+            ROM_LOAD("3j_sz17.bin", 0x00000, 0x8000, 0x8df7b24a);
+            /* sprites */
 
             ROM_LOAD("1j_sz11.bin", 0x08000, 0x8000, 0x685d4c54);
             ROM_LOAD("3h_sz16.bin", 0x10000, 0x8000, 0x500ff2bb);
@@ -799,21 +853,25 @@ public class lwings {
 
     static RomLoadPtr rom_sctionza = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 64k for code + 3*16k for the banked ROMs images */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 64k for code + 3*16k for the banked ROMs images */
 
             ROM_LOAD("sz-01a.bin", 0x00000, 0x8000, 0x98df49fd);
             ROM_LOAD("7c_sz02.bin", 0x10000, 0x8000, 0x22f161b8);
             ROM_LOAD("sz-03j.bin", 0x18000, 0x8000, 0x94547abf);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the audio CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the audio CPU */
 
             ROM_LOAD("11e_sz04.bin", 0x0000, 0x8000, 0xa6073566);
 
             ROM_REGION(0x04000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("9h_sz05.bin", 0x00000, 0x4000, 0x3173ba2e); /* characters */
+            ROM_LOAD("9h_sz05.bin", 0x00000, 0x4000, 0x3173ba2e);
+            /* characters */
 
             ROM_REGION(0x40000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("3e_sz14.bin", 0x00000, 0x8000, 0x63782e30); /* tiles */
+            ROM_LOAD("3e_sz14.bin", 0x00000, 0x8000, 0x63782e30);
+            /* tiles */
 
             ROM_LOAD("1e_sz08.bin", 0x08000, 0x8000, 0xd57d9f13);
             ROM_LOAD("3d_sz13.bin", 0x10000, 0x8000, 0x1b3d4d7f);
@@ -824,7 +882,8 @@ public class lwings {
             ROM_LOAD("1f_sz09.bin", 0x38000, 0x8000, 0xda8f06c9);
 
             ROM_REGION(0x20000, REGION_GFX3 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("3j_sz17.bin", 0x00000, 0x8000, 0x8df7b24a); /* sprites */
+            ROM_LOAD("3j_sz17.bin", 0x00000, 0x8000, 0x8df7b24a);
+            /* sprites */
 
             ROM_LOAD("1j_sz11.bin", 0x08000, 0x8000, 0x685d4c54);
             ROM_LOAD("3h_sz16.bin", 0x10000, 0x8000, 0x500ff2bb);
@@ -922,25 +981,30 @@ public class lwings {
 
     static RomLoadPtr rom_trojan = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 64k for code + 3*16k for the banked ROMs images */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 64k for code + 3*16k for the banked ROMs images */
 
             ROM_LOAD("t4", 0x00000, 0x8000, 0xc1bbeb4e);
             ROM_LOAD("t6", 0x10000, 0x8000, 0xd49592ef);
             ROM_LOAD("tb05.bin", 0x18000, 0x8000, 0x9273b264);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the audio CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the audio CPU */
 
             ROM_LOAD("tb02.bin", 0x0000, 0x8000, 0x21154797);
 
-            ROM_REGION(0x10000, REGION_CPU3);    /* 64k for ADPCM CPU (CPU not emulated) */
+            ROM_REGION(0x10000, REGION_CPU3);
+            /* 64k for ADPCM CPU (CPU not emulated) */
 
             ROM_LOAD("tb01.bin", 0x0000, 0x4000, 0x1c0f91b2);
 
             ROM_REGION(0x04000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("tb03.bin", 0x00000, 0x4000, 0x581a2b4c);    /* characters */
+            ROM_LOAD("tb03.bin", 0x00000, 0x4000, 0x581a2b4c);
+            /* characters */
 
             ROM_REGION(0x40000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("tb13.bin", 0x00000, 0x8000, 0x285a052b);    /* tiles */
+            ROM_LOAD("tb13.bin", 0x00000, 0x8000, 0x285a052b);
+            /* tiles */
 
             ROM_LOAD("tb09.bin", 0x08000, 0x8000, 0xaeb693f7);
             ROM_LOAD("tb12.bin", 0x10000, 0x8000, 0xdfb0fe5c);
@@ -951,7 +1015,8 @@ public class lwings {
             ROM_LOAD("tb10.bin", 0x38000, 0x8000, 0x71ba8a6d);
 
             ROM_REGION(0x40000, REGION_GFX3 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("tb18.bin", 0x00000, 0x8000, 0x862c4713);    /* sprites */
+            ROM_LOAD("tb18.bin", 0x00000, 0x8000, 0x862c4713);
+            /* sprites */
 
             ROM_LOAD("tb16.bin", 0x08000, 0x8000, 0xd86f8cbd);
             ROM_LOAD("tb17.bin", 0x10000, 0x8000, 0x12a73b3f);
@@ -962,12 +1027,14 @@ public class lwings {
             ROM_LOAD("tb19.bin", 0x38000, 0x8000, 0x81d5ab36);
 
             ROM_REGION(0x10000, REGION_GFX4 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("tb25.bin", 0x00000, 0x8000, 0x6e38c6fa);    /* Bk Tiles */
+            ROM_LOAD("tb25.bin", 0x00000, 0x8000, 0x6e38c6fa);
+            /* Bk Tiles */
 
             ROM_LOAD("tb24.bin", 0x08000, 0x8000, 0x14fc6cf2);
 
             ROM_REGION(0x08000, REGION_GFX5);
-            ROM_LOAD("tb23.bin", 0x00000, 0x08000, 0xeda13c0e); /* Tile Map */
+            ROM_LOAD("tb23.bin", 0x00000, 0x08000, 0xeda13c0e);
+            /* Tile Map */
 
             ROM_END();
         }
@@ -975,13 +1042,15 @@ public class lwings {
 
     static RomLoadPtr rom_trojanr = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 64k for code + 3*16k for the banked ROMs images */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 64k for code + 3*16k for the banked ROMs images */
 
             ROM_LOAD("tb04.bin", 0x00000, 0x8000, 0x92670f27);
             ROM_LOAD("tb06.bin", 0x10000, 0x8000, 0xa4951173);
             ROM_LOAD("tb05.bin", 0x18000, 0x8000, 0x9273b264);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the audio CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the audio CPU */
 
             ROM_LOAD("tb02.bin", 0x0000, 0x8000, 0x21154797);
 
@@ -990,10 +1059,12 @@ public class lwings {
             ROM_LOAD("tb01.bin", 0x0000, 0x4000, 0x1c0f91b2);
 
             ROM_REGION(0x04000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("tb03.bin", 0x00000, 0x4000, 0x581a2b4c);    /* characters */
+            ROM_LOAD("tb03.bin", 0x00000, 0x4000, 0x581a2b4c);
+            /* characters */
 
             ROM_REGION(0x40000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("tb13.bin", 0x00000, 0x8000, 0x285a052b);    /* tiles */
+            ROM_LOAD("tb13.bin", 0x00000, 0x8000, 0x285a052b);
+            /* tiles */
 
             ROM_LOAD("tb09.bin", 0x08000, 0x8000, 0xaeb693f7);
             ROM_LOAD("tb12.bin", 0x10000, 0x8000, 0xdfb0fe5c);
@@ -1004,7 +1075,8 @@ public class lwings {
             ROM_LOAD("tb10.bin", 0x38000, 0x8000, 0x71ba8a6d);
 
             ROM_REGION(0x40000, REGION_GFX3 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("tb18.bin", 0x00000, 0x8000, 0x862c4713);    /* sprites */
+            ROM_LOAD("tb18.bin", 0x00000, 0x8000, 0x862c4713);
+            /* sprites */
 
             ROM_LOAD("tb16.bin", 0x08000, 0x8000, 0xd86f8cbd);
             ROM_LOAD("tb17.bin", 0x10000, 0x8000, 0x12a73b3f);
@@ -1015,12 +1087,14 @@ public class lwings {
             ROM_LOAD("tb19.bin", 0x38000, 0x8000, 0x81d5ab36);
 
             ROM_REGION(0x10000, REGION_GFX4 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("tb25.bin", 0x00000, 0x8000, 0x6e38c6fa);    /* Bk Tiles */
+            ROM_LOAD("tb25.bin", 0x00000, 0x8000, 0x6e38c6fa);
+            /* Bk Tiles */
 
             ROM_LOAD("tb24.bin", 0x08000, 0x8000, 0x14fc6cf2);
 
             ROM_REGION(0x08000, REGION_GFX5);
-            ROM_LOAD("tb23.bin", 0x00000, 0x08000, 0xeda13c0e); /* Tile Map */
+            ROM_LOAD("tb23.bin", 0x00000, 0x08000, 0xeda13c0e);
+            /* Tile Map */
 
             ROM_END();
         }
@@ -1028,25 +1102,30 @@ public class lwings {
 
     static RomLoadPtr rom_trojanj = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 64k for code + 3*16k for the banked ROMs images */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 64k for code + 3*16k for the banked ROMs images */
 
             ROM_LOAD("troj-04.rom", 0x00000, 0x8000, 0x0b5a7f49);
             ROM_LOAD("troj-06.rom", 0x10000, 0x8000, 0xdee6ed92);
             ROM_LOAD("tb05.bin", 0x18000, 0x8000, 0x9273b264);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the audio CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the audio CPU */
 
             ROM_LOAD("tb02.bin", 0x0000, 0x8000, 0x21154797);
 
-            ROM_REGION(0x10000, REGION_CPU3);    /* 64k for ADPCM CPU (CPU not emulated) */
+            ROM_REGION(0x10000, REGION_CPU3);
+            /* 64k for ADPCM CPU (CPU not emulated) */
 
             ROM_LOAD("tb01.bin", 0x0000, 0x4000, 0x1c0f91b2);
 
             ROM_REGION(0x04000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("tb03.bin", 0x00000, 0x4000, 0x581a2b4c);    /* characters */
+            ROM_LOAD("tb03.bin", 0x00000, 0x4000, 0x581a2b4c);
+            /* characters */
 
             ROM_REGION(0x40000, REGION_GFX2 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("tb13.bin", 0x00000, 0x8000, 0x285a052b);    /* tiles */
+            ROM_LOAD("tb13.bin", 0x00000, 0x8000, 0x285a052b);
+            /* tiles */
 
             ROM_LOAD("tb09.bin", 0x08000, 0x8000, 0xaeb693f7);
             ROM_LOAD("tb12.bin", 0x10000, 0x8000, 0xdfb0fe5c);
@@ -1057,7 +1136,8 @@ public class lwings {
             ROM_LOAD("tb10.bin", 0x38000, 0x8000, 0x71ba8a6d);
 
             ROM_REGION(0x40000, REGION_GFX3 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("tb18.bin", 0x00000, 0x8000, 0x862c4713);    /* sprites */
+            ROM_LOAD("tb18.bin", 0x00000, 0x8000, 0x862c4713);
+            /* sprites */
 
             ROM_LOAD("tb16.bin", 0x08000, 0x8000, 0xd86f8cbd);
             ROM_LOAD("tb17.bin", 0x10000, 0x8000, 0x12a73b3f);
@@ -1068,12 +1148,14 @@ public class lwings {
             ROM_LOAD("tb19.bin", 0x38000, 0x8000, 0x81d5ab36);
 
             ROM_REGION(0x10000, REGION_GFX4 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("tb25.bin", 0x00000, 0x8000, 0x6e38c6fa);    /* Bk Tiles */
+            ROM_LOAD("tb25.bin", 0x00000, 0x8000, 0x6e38c6fa);
+            /* Bk Tiles */
 
             ROM_LOAD("tb24.bin", 0x08000, 0x8000, 0x14fc6cf2);
 
             ROM_REGION(0x08000, REGION_GFX5);
-            ROM_LOAD("tb23.bin", 0x00000, 0x08000, 0xeda13c0e); /* Tile Map */
+            ROM_LOAD("tb23.bin", 0x00000, 0x08000, 0xeda13c0e);
+            /* Tile Map */
 
             ROM_END();
         }
@@ -1167,22 +1249,28 @@ public class lwings {
 
     static InputPortPtr input_ports_avengers = new InputPortPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
-            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -1191,9 +1279,11 @@ public class lwings {
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON2);
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
-            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER2);
@@ -1202,9 +1292,11 @@ public class lwings {
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2);
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER2);
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
-            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_START();       /* DSWB */
+            PORT_START();
+            /* DSWB */
 
             PORT_DIPNAME(0x01, 0x01, "Allow Continue");
             PORT_DIPSETTING(0x00, DEF_STR("No"));
@@ -1228,7 +1320,8 @@ public class lwings {
             PORT_DIPSETTING(0x80, "5");
             PORT_DIPSETTING(0x00, "6");
 
-            PORT_START();       /* DSWA */
+            PORT_START();
+            /* DSWA */
 
             PORT_SERVICE(0x01, IP_ACTIVE_LOW);
             PORT_DIPNAME(0x02, 0x02, DEF_STR("Flip_Screen"));
@@ -1258,22 +1351,26 @@ public class lwings {
 
     static RomLoadPtr rom_avengers = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 64k for code + 3*16k for the banked ROMs images */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 64k for code + 3*16k for the banked ROMs images */
 
             ROM_LOAD("04.10n", 0x00000, 0x8000, 0xa94aadcc);
             ROM_LOAD("06.13n", 0x10000, 0x8000, 0x39cd80bd);
             ROM_LOAD("05.12n", 0x18000, 0x8000, 0x06b1cec9);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the audio CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the audio CPU */
 
             ROM_LOAD("02.15h", 0x0000, 0x8000, 0x107a2e17);/* ?? */
 
-            ROM_REGION(0x10000, REGION_CPU3);    /* ADPCM CPU (not emulated) */
+            ROM_REGION(0x10000, REGION_CPU3);
+            /* ADPCM CPU (not emulated) */
 
             ROM_LOAD("01.6d", 0x0000, 0x8000, 0xc1e5d258);/* adpcm player - "Talker" ROM */
 
             ROM_REGION(0x04000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("03.8k", 0x00000, 0x4000, 0x4a297a5c); /* characters */
+            ROM_LOAD("03.8k", 0x00000, 0x4000, 0x4a297a5c);
+            /* characters */
 
             ROM_REGION(0x40000, REGION_GFX2 | REGIONFLAG_DISPOSE);/* tiles */
 
@@ -1310,7 +1407,8 @@ public class lwings {
             ROM_LOAD("24.13n", 0x08000, 0x8000, 0xa6354024);/* planes 2,3 */
 
             ROM_REGION(0x08000, REGION_GFX5);
-            ROM_LOAD("23.9n", 0x0000, 0x08000, 0xc0a93ef6); /* Tile Map */
+            ROM_LOAD("23.9n", 0x0000, 0x08000, 0xc0a93ef6);
+            /* Tile Map */
 
             ROM_END();
         }
@@ -1318,22 +1416,26 @@ public class lwings {
 
     static RomLoadPtr rom_avenger2 = new RomLoadPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 64k for code + 3*16k for the banked ROMs images */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 64k for code + 3*16k for the banked ROMs images */
 
             ROM_LOAD("avg4.bin", 0x00000, 0x8000, 0x0fea7ac5);
             ROM_LOAD("avg6.bin", 0x10000, 0x8000, 0x491a712c);
             ROM_LOAD("avg5.bin", 0x18000, 0x8000, 0x9a214b42);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the audio CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the audio CPU */
 
             ROM_LOAD("02.15h", 0x0000, 0x8000, 0x107a2e17);/* MISSING from this set */
 
-            ROM_REGION(0x10000, REGION_CPU3);    /* ADPCM CPU (not emulated) */
+            ROM_REGION(0x10000, REGION_CPU3);
+            /* ADPCM CPU (not emulated) */
 
             ROM_LOAD("01.6d", 0x0000, 0x8000, 0xc1e5d258);/* adpcm player - "Talker" ROM */
 
             ROM_REGION(0x04000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("03.8k", 0x00000, 0x4000, 0x4a297a5c); /* characters */
+            ROM_LOAD("03.8k", 0x00000, 0x4000, 0x4a297a5c);
+            /* characters */
 
             ROM_REGION(0x40000, REGION_GFX2 | REGIONFLAG_DISPOSE);/* tiles */
 
@@ -1369,7 +1471,8 @@ public class lwings {
             ROM_LOAD("24.13n", 0x08000, 0x8000, 0xa6354024);/* planes 2,3 */
 
             ROM_REGION(0x08000, REGION_GFX5);
-            ROM_LOAD("23.9n", 0x0000, 0x08000, 0xc0a93ef6); /* Tile Map */
+            ROM_LOAD("23.9n", 0x0000, 0x08000, 0xc0a93ef6);
+            /* Tile Map */
 
             ROM_END();
         }
