@@ -24,12 +24,12 @@ import gr.codebb.arcadeflex.v036.mame.driverH.VhStopPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.VhUpdatePtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.WriteHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.TRANSPARENCY_NONE;
-import gr.codebb.arcadeflex.v037b7.mame.drawgfxH.rectangle;
-import static gr.codebb.arcadeflex.v037b7.mame.inptport.input_port_0_r;
-import static gr.codebb.arcadeflex.v037b7.mame.inptport.input_port_1_r;
-import static gr.codebb.arcadeflex.v037b7.mame.inptport.input_port_2_r;
-import static gr.codebb.arcadeflex.v037b7.mame.inptport.input_port_3_r;
+import static arcadeflex.v036.mame.drawgfxH.TRANSPARENCY_NONE;
+import arcadeflex.v036.mame.drawgfxH.rectangle;
+import static arcadeflex.v036.mame.inptport.input_port_0_r;
+import static arcadeflex.v036.mame.inptport.input_port_1_r;
+import static arcadeflex.v036.mame.inptport.input_port_2_r;
+import static arcadeflex.v036.mame.inptport.input_port_3_r;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_recalc;
 
 public class _8080bw {

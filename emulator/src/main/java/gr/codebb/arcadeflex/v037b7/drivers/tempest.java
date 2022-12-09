@@ -7,7 +7,7 @@ package gr.codebb.arcadeflex.v037b7.drivers;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.inputH.*;
+import static arcadeflex.v036.mame.inputH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
@@ -17,14 +17,14 @@ import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokeyH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokey.*;
 import static gr.codebb.arcadeflex.v037b7.machine.tempest.*;
-import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.avgdvg.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.vector.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atari_vg.*;
 import static gr.codebb.arcadeflex.v037b7.machine.mathbox.*;
-import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
-import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
+import static arcadeflex.v036.mame.inptport.*;
+import static arcadeflex.v036.mame.inptportH.*;
 
 public class tempest {
 

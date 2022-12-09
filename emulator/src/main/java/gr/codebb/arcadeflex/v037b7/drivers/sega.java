@@ -7,19 +7,19 @@ package gr.codebb.arcadeflex.v037b7.drivers;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.mame.input.*;
+import static arcadeflex.v036.mame.inputH.*;
+import static arcadeflex.v036.mame.input.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.sound.samplesH.*;
 import static arcadeflex.v036.sound.samples.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.vector.*;
 import static gr.codebb.arcadeflex.v037b7.machine.sega.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
-import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
+import static arcadeflex.v036.mame.inptport.*;
+import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.sndhrdw.sega.*;
 import static gr.codebb.arcadeflex.v037b7.machine.segar.*;
-import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.sega.*;
 
 public class sega {

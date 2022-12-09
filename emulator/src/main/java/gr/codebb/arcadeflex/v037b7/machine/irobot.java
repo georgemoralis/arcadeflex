@@ -17,7 +17,7 @@ import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
+import static arcadeflex.v036.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.irobot.irobot_poly_clear;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.irobot.run_video;
 

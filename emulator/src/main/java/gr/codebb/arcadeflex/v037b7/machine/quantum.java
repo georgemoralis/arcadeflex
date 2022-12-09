@@ -8,7 +8,7 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokey.*;
 import static gr.codebb.arcadeflex.v036.sound.pokeyH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
+import static arcadeflex.v036.mame.inptport.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.avgdvg.*;
 
 public class quantum

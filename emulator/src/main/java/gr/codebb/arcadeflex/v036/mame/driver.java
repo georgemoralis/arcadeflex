@@ -228,7 +228,6 @@ import static gr.codebb.arcadeflex.v037b7.drivers.cop01.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.galspnbl.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.asteroid.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.starwars.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.jedi.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mcr3.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.magmax.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.armedf.*;
@@ -2332,7 +2331,7 @@ public class driver {
 
                 /*TODO*/ //	DRIVER( cloak )		/* (c) 1983 */
                 /*TODO*/ //	DRIVER( cloud9 )	/* (c) 1983 */
-                driver_jedi, /* (c) 1984 */
+                /*TODO*/ //driver_jedi, /* (c) 1984 */
                 /* Atari System 1 games */
                 driver_marble, /* (c) 1984 */
                 driver_marble2, /* (c) 1984 */

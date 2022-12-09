@@ -19,7 +19,7 @@ import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_get_pen;
-import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.TRANSPARENCY_PEN;
+import static arcadeflex.v036.mame.drawgfxH.TRANSPARENCY_PEN;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_change_color;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_recalc;
 

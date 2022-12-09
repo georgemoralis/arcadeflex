@@ -29,7 +29,7 @@ import static gr.codebb.arcadeflex.v036.mame.mame.options;
 import arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_get_pen;
 import static gr.codebb.arcadeflex.v036.vidhrdw.vectorH.*;
-import gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
+import arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 
 public class vector {

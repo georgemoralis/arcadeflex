@@ -2,7 +2,7 @@ package gr.codebb.arcadeflex.v036.platform;
 
 import java.awt.event.KeyEvent;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.inputH.*;
+import static arcadeflex.v036.mame.inputH.*;
 import static gr.codebb.arcadeflex.v036.platform.software_gfx.*;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
 

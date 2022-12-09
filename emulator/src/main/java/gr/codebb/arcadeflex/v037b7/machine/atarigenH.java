@@ -17,7 +17,7 @@ import static gr.codebb.arcadeflex.common.SubArrays.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.atarigen_overrender_colortable;
-import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
 
 public class atarigenH
 {

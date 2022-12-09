@@ -19,7 +19,7 @@ See drivers\starwars.c for notes
 package gr.codebb.arcadeflex.v037b7.machine;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
+import static arcadeflex.v036.mame.inptport.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.avgdvg.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 

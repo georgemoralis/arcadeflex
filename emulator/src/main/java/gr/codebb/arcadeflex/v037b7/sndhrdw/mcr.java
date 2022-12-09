@@ -26,7 +26,7 @@ import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
+import static arcadeflex.v036.mame.inptport.*;
 import static gr.codebb.arcadeflex.v036.machine._6821pia.*;
 import static arcadeflex.v036.sound.dac.DAC_signed_data_16_w;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;

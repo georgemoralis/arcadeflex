@@ -1,15 +1,13 @@
 /**
- * ported to v0.37b7
+ * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.mame;
+package arcadeflex.v036.mame;
 
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.common.SubArrays.*;
-import static gr.codebb.arcadeflex.common.Util.*;
 import static arcadeflex.v036.mame.osdependH.*;
 import java.util.Arrays;
-
 
 public class drawgfxH {
 
@@ -36,32 +34,20 @@ public class drawgfxH {
         return ((offset) & 0x007fffff);
     }
 
-    public static int[] STEP4(int START, int STEP) {
-        return new int[]{(START), (START) + 1 * (STEP), (START) + 2 * (STEP), (START) + 3 * (STEP)};
-    }
-
-    public static int[] STEP8(int START, int STEP) {
-        return combineIntArrays(STEP4(START, STEP), STEP4((START) + 4 * (STEP), STEP));
-    }
-
-    public static int[] STEP16(int START, int STEP) {
-        return combineIntArrays(STEP8(START, STEP), STEP8((START) + 8 * (STEP), STEP));
-    }
-
     public static class GfxLayout {
 
         public GfxLayout() {
         }
 
-        public GfxLayout(int width, int height, int total, int planes, int planeoffset[], int xoffset[], int yoffset[], int charincrement) {
-            this.width = width;
-            this.height = height;
-            this.total = total;
-            this.planes = planes;
-            this.planeoffset = planeoffset;
-            this.xoffset = xoffset;
-            this.yoffset = yoffset;
-            this.charincrement = charincrement;
+        public GfxLayout(int w, int h, int t, int p, int po[], int x[], int y[], int ci) {
+            width = w;
+            height = h;
+            total = t;
+            planes = p;
+            planeoffset = po;
+            xoffset = x;
+            yoffset = y;
+            charincrement = ci;
         }
 
         public GfxLayout(GfxLayout c) {
@@ -86,13 +72,20 @@ public class drawgfxH {
 
     public static class GfxElement {
 
+        public GfxElement() {
+        }
+        //TODO rest of constructors?
         public int width, height;
         public /*unsigned */ int total_elements;/* total number of characters/sprites */
-        public int color_granularity;/* number of colors for each color code (for example, 4 for 2 bitplanes gfx) */
+        public int color_granularity;/* number of colors for each color code  (for example, 4 for 2 bitplanes gfx) */
         public UShortArray colortable;/* map color codes to screen pens */ /* if this is 0, the function does a verbatim copy */
         public int total_colors;
-        public /*unsigned */ int[] pen_usage;/* an array of total_elements ints. */
-        public UBytePtr gfxdata;/* pixel data */
+        public int[] pen_usage;//unsigned int *pen_usage;/* an array of total_elements ints. */
+        /* It is a table of the pens each character uses */
+ /* (bit 0 = pen 0, and so on). This is used by */
+ /* drawgfgx() to do optimizations like skipping */
+ /* drawing of a totally transparent characters */
+        public UBytePtr gfxdata; //unsigned char *gfxdata;/* pixel data */
         public int line_modulo;/* amount to add to get to the next line (usually = width) */
         public int char_modulo;/* = line_modulo * height */
     }
@@ -113,11 +106,7 @@ public class drawgfxH {
 
         public GfxDecodeInfo(int s, GfxLayout g, int ccs, int tcc) {
             start = s;
-            if (g != null) {
-                gfxlayout = new GfxLayout(g);
-            } else {
-                gfxlayout = null;
-            }
+            gfxlayout = g;
             color_codes_start = ccs;
             total_color_codes = tcc;
         }
@@ -126,7 +115,8 @@ public class drawgfxH {
             this(s, s, null, 0, 0);
         }
 
-        public int memory_region;/* memory region where the data resides (usually 1)  -1 marks the end of the array */
+        public int memory_region;/* memory region where the data resides (usually 1) */
+ /* -1 marks the end of the array */
         public int start;/* beginning of data data to decode (offset in RAM[]) */
         public GfxLayout gfxlayout;
         public int color_codes_start;/* offset in the color lookup table where color codes start */
@@ -138,11 +128,11 @@ public class drawgfxH {
         public rectangle() {
         }
 
-        public rectangle(int min_x, int max_x, int min_y, int max_y) {
-            this.min_x = min_x;
-            this.max_x = max_x;
-            this.min_y = min_y;
-            this.max_y = max_y;
+        public rectangle(int minx, int maxx, int miny, int maxy) {
+            min_x = minx;
+            max_x = maxx;
+            min_y = miny;
+            max_y = maxy;
         }
 
         public rectangle(rectangle rec) {
@@ -151,31 +141,22 @@ public class drawgfxH {
             min_y = rec.min_y;
             max_y = rec.max_y;
         }
-
         public int min_x, max_x;
         public int min_y, max_y;
     }
 
-    public static final int TRANSPARENCY_NONE = 0;/* opaque with remapping */
-    public static final int TRANSPARENCY_NONE_RAW = 1;/* opaque with no remapping */
-    public static final int TRANSPARENCY_PEN = 2;/* single pen transparency with remapping */
-    public static final int TRANSPARENCY_PEN_RAW = 3;/* single pen transparency with no remapping */
-    public static final int TRANSPARENCY_PENS = 4;/* multiple pen transparency with remapping */
-    public static final int TRANSPARENCY_PENS_RAW = 5;/* multiple pen transparency with no remapping */
-    public static final int TRANSPARENCY_COLOR = 6;/* single remapped pen transparency with remapping */
-    public static final int TRANSPARENCY_THROUGH = 7;/* destination pixel overdraw with remapping */
-    public static final int TRANSPARENCY_THROUGH_RAW = 8;/* destination pixel overdraw with no remapping */
-    public static final int TRANSPARENCY_PEN_TABLE = 9;/* special pen remapping modes (see DRAWMODE_xxx below) with remapping */
-    public static final int TRANSPARENCY_PEN_TABLE_RAW = 10;/* special pen remapping modes (see DRAWMODE_xxx below) with no remapping */
-    public static final int TRANSPARENCY_BLEND = 11;/* blend two bitmaps, shifting the source and ORing to the dest with remapping */
-    public static final int TRANSPARENCY_BLEND_RAW = 12;/* blend two bitmaps, shifting the source and ORing to the dest with no remapping */
-    public static final int TRANSPARENCY_MODES = 13;/* total number of modes; must be last */
+    public static final int TRANSPARENCY_NONE = 0;
+    public static final int TRANSPARENCY_PEN = 1;
+    public static final int TRANSPARENCY_PENS = 4;
+    public static final int TRANSPARENCY_COLOR = 2;
+    public static final int TRANSPARENCY_THROUGH = 3;
+    public static final int TRANSPARENCY_PEN_TABLE = 5;
 
-
- /* drawing mode case TRANSPARENCY_PEN_TABLE */
+    /* drawing mode case TRANSPARENCY_PEN_TABLE */
     public static final int DRAWMODE_NONE = 0;
     public static final int DRAWMODE_SOURCE = 1;
     public static final int DRAWMODE_SHADOW = 2;
+    public static final int DRAWMODE_HIGHLIGHT = 3;
 
     public static abstract interface plot_pixel_procPtr {
 
@@ -187,8 +168,4 @@ public class drawgfxH {
         public abstract int handler(osd_bitmap bitmap, int x, int y);
     }
 
-    public static abstract interface plot_box_procPtr {
-
-        public abstract void handler(osd_bitmap bitmap, int x, int y, int width, int height, int pen);
-    }
 }

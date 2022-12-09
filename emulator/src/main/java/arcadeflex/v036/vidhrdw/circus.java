@@ -20,9 +20,9 @@ import gr.codebb.arcadeflex.v036.mame.driverH.VhStopPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.VhUpdatePtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.WriteHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.TRANSPARENCY_NONE;
-import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.TRANSPARENCY_PEN;
-import gr.codebb.arcadeflex.v037b7.mame.drawgfxH.rectangle;
+import static arcadeflex.v036.mame.drawgfxH.TRANSPARENCY_NONE;
+import static arcadeflex.v036.mame.drawgfxH.TRANSPARENCY_PEN;
+import arcadeflex.v036.mame.drawgfxH.rectangle;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_recalc;
 import static arcadeflex.v036.sound.dac.DAC_data_w;
 
