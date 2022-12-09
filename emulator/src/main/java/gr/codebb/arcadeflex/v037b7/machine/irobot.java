@@ -3,14 +3,15 @@
  *
  */
 package gr.codebb.arcadeflex.v037b7.machine;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.M6809_FIRQ_LINE;
 import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.M6809_IRQ_LINE;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.timer.*;

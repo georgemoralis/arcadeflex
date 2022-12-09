@@ -22,7 +22,7 @@ import static arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 
 /**
  *

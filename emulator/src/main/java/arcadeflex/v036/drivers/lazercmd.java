@@ -6,6 +6,8 @@ package arcadeflex.v036.drivers;
 
 //cpu imports
 import static arcadeflex.v036.cpu.s2650.s2650H.*;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.cpuintrfH.*;
 //vidhrdw imports
@@ -17,12 +19,12 @@ import static common.libc.cstring.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
-import static gr.codebb.arcadeflex.v036.mame.commonH.REGIONFLAG_DISPOSE;
-import static gr.codebb.arcadeflex.v036.mame.commonH.REGION_CPU1;
-import static gr.codebb.arcadeflex.v036.mame.commonH.REGION_GFX1;
-import static gr.codebb.arcadeflex.v036.mame.commonH.ROM_END;
-import static gr.codebb.arcadeflex.v036.mame.commonH.ROM_LOAD;
-import static gr.codebb.arcadeflex.v036.mame.commonH.ROM_REGION;
+import static arcadeflex.v036.mame.commonH.REGIONFLAG_DISPOSE;
+import static arcadeflex.v036.mame.commonH.REGION_CPU1;
+import static arcadeflex.v036.mame.commonH.REGION_GFX1;
+import static arcadeflex.v036.mame.commonH.ROM_END;
+import static arcadeflex.v036.mame.commonH.ROM_LOAD;
+import static arcadeflex.v036.mame.commonH.ROM_REGION;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.inputH.KEYCODE_X;
 import static arcadeflex.v036.mame.inputH.KEYCODE_Z;

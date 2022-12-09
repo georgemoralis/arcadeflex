@@ -1,6 +1,7 @@
 package gr.codebb.arcadeflex.v036.sound;
 
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 
 public class pokeyH {
     /* POKEY WRITE LOGICALS */

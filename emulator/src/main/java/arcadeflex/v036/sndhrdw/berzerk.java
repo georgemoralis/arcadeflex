@@ -8,7 +8,6 @@ import static arcadeflex.v036.generic.funcPtr.*;
 //common imports
 import static common.libc.expressions.*;
 //TODO
-import gr.codebb.arcadeflex.v036.mame.driverH.WriteHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
 import arcadeflex.v036.mame.sndintrfH.MachineSound;

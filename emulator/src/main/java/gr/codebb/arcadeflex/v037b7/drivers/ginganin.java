@@ -53,10 +53,11 @@ f5d6	print 7 digit BCD number: d0.l to (a1)+ color $3000
  * using automatic conversion tool v0.01
  */ 
 package gr.codebb.arcadeflex.v037b7.drivers;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.M6809_INT_IRQ;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;

@@ -11,7 +11,7 @@ import static common.libc.expressions.*;
 //TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
-import static gr.codebb.arcadeflex.v036.mame.commonH.REGION_CPU1;
+import static arcadeflex.v036.mame.commonH.REGION_CPU1;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static arcadeflex.v036.mame.drawgfxH.*;

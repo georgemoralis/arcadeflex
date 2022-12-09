@@ -11,7 +11,7 @@ import static arcadeflex.v036.mame.sndintrfH.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.cpu.i8039.i8039H.I8039_EXT_INT;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static arcadeflex.v036.sound.samples.*;

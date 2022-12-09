@@ -1,15 +1,11 @@
 package gr.codebb.arcadeflex.v036.cpu.m6800;
 
-import arcadeflex.v036.mame.cpuintrfH.cpu_interface;
-import static arcadeflex.v036.mame.cpuintrfH.*;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6800.m6800H.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6800.m6803.*;
 
 public class hd63701 extends m6800 {

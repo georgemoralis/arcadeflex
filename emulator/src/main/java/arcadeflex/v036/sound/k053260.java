@@ -4,6 +4,8 @@
  */
 package arcadeflex.v036.sound;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.sound.k053260H.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
@@ -14,7 +16,6 @@ import static arcadeflex.v036.mame.timer.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static arcadeflex.v036.sound.streams.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 
 public class k053260 extends snd_interface {
 

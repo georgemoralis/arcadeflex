@@ -1,7 +1,8 @@
 package gr.codebb.arcadeflex.v058.machine;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import arcadeflex.v036.generic.funcPtr.DaisyChainInterruptRetiPtr;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 
 public class z80fmlyH {
     /*  Z80 FMLY.H   Z80 FAMILY IC EMURATION */

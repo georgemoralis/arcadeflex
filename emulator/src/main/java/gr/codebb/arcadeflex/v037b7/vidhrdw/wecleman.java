@@ -80,12 +80,13 @@ Note:	if MAME_DEBUG is defined, pressing Z with:
  * using automatic conversion tool v0.01
  */ 
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
 import static common.libc.cstring.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import arcadeflex.v036.mame.osdependH.osd_bitmap;

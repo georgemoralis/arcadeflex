@@ -7,7 +7,7 @@ package gr.codebb.arcadeflex.v037b7.vidhrdw;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.expressions.*;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
-import static gr.codebb.arcadeflex.v036.mame.commonH.REGION_GFX2;
+import static arcadeflex.v036.mame.commonH.REGION_GFX2;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
@@ -16,7 +16,8 @@ import static arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_w;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_clearbitmap;
 import static arcadeflex.v036.vidhrdw.generic.*;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 public class skyfox {
 
     /* Variables only used here: */

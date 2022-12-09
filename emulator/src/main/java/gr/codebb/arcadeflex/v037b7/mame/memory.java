@@ -2,9 +2,10 @@
  * ported to 0.37b7
  */
 package gr.codebb.arcadeflex.v037b7.mame;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
@@ -18,7 +19,6 @@ import gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
 import java.util.Arrays;
-
 
 public class memory {
 
@@ -1430,6 +1430,7 @@ public class memory {
         /* fall back to handler */
         (memorywritehandler[u8_hw]).handler(address - memorywriteoffset[u8_hw], data);
     }
+
     public static void cpu_writemem21(int address, int data) {
         char u8_hw;
 
@@ -1771,11 +1772,11 @@ public class memory {
 /*TODO*///}
 
     /* cpu change op-code memory base */
-    public static void cpu_setOPbaseoverride (int cpu,opbase_handlerPtr function)
-    {
-            setOPbasefunc[cpu] = function;
-            if (cpu == cpu_getactivecpu())
-                    OPbasefunc = function;
+    public static void cpu_setOPbaseoverride(int cpu, opbase_handlerPtr function) {
+        setOPbasefunc[cpu] = function;
+        if (cpu == cpu_getactivecpu()) {
+            OPbasefunc = function;
+        }
     }
 
     public static UBytePtr install_mem_read_handler(int cpu, int start, int end, ReadHandlerPtr _handler) {

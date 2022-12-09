@@ -17,7 +17,7 @@ VIDEO COMPUTER SYSTEM  (C)1989 DYNAX INC  NAGOYA JAPAN  DRAGON PUNCH  VER. 1.30
  */ 
 package gr.codebb.arcadeflex.v037b7.drivers;
 
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;

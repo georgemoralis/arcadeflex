@@ -11,7 +11,7 @@ import static arcadeflex.v036.mame.timerH.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 //TODO
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_irq_line_vector_w;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_set_irq_line;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;

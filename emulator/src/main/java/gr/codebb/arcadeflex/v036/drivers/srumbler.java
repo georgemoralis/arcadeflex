@@ -13,6 +13,8 @@
  * using automatic conversion tool v0.10
  */ 
 package gr.codebb.arcadeflex.v036.drivers;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
@@ -24,9 +26,8 @@ import static arcadeflex.v036.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.srumbler.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static arcadeflex.v036.mame.cpuintrfH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.sound._2203intf.*;
 import static arcadeflex.v036.sound._2203intfH.*;

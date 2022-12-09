@@ -1,9 +1,10 @@
 package gr.codebb.arcadeflex.v036.platform;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import java.awt.event.KeyEvent;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.platform.software_gfx.*;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
 
 public class input {

@@ -5,6 +5,8 @@
  */
 package gr.codebb.arcadeflex.v036.drivers;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //sndhrdw imports
 import static arcadeflex.v036.sndhrdw.z80bw.*;
 //vidhrdw imports
@@ -12,7 +14,7 @@ import static arcadeflex.v036.vidhrdw._8080bw.*;
 //TODO
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.vidhrdw.generic.*;

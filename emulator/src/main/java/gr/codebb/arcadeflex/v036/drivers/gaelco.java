@@ -3,31 +3,18 @@
  * using automatic conversion tool v0.10
  */ 
 package gr.codebb.arcadeflex.v036.drivers;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.gsword.*;
-import static arcadeflex.v036.sound.ay8910.*;
-import static arcadeflex.v036.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.machine.tait8741H.*;
-import static gr.codebb.arcadeflex.v036.machine.tait8741.*;
-import static arcadeflex.v036.mame.cpuintrfH.*;
-import static arcadeflex.v036.sound.MSM5205.*;
-import static arcadeflex.v036.sound.MSM5205H.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.platform.fileio.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.gaelco.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intf.*;

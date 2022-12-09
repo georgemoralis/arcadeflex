@@ -16,7 +16,8 @@
  *
  */ 
 package gr.codebb.arcadeflex.v036.vidhrdw;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static arcadeflex.v036.mame.drawgfxH.*;

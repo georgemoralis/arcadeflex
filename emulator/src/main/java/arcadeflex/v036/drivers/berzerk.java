@@ -3,14 +3,16 @@
  */
 package arcadeflex.v036.drivers;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static gr.codebb.arcadeflex.v036.mame.commonH.REGION_CPU1;
-import static gr.codebb.arcadeflex.v036.mame.commonH.ROM_END;
-import static gr.codebb.arcadeflex.v036.mame.commonH.ROM_LOAD;
-import static gr.codebb.arcadeflex.v036.mame.commonH.ROM_REGION;
+import static arcadeflex.v036.mame.commonH.REGION_CPU1;
+import static arcadeflex.v036.mame.commonH.ROM_END;
+import static arcadeflex.v036.mame.commonH.ROM_LOAD;
+import static arcadeflex.v036.mame.commonH.ROM_REGION;
 import static gr.codebb.arcadeflex.v036.mame.driverH.CPU_Z80;
 import static gr.codebb.arcadeflex.v036.mame.driverH.DEFAULT_60HZ_VBLANK_DURATION;
 import gr.codebb.arcadeflex.v036.mame.driverH.GameDriver;

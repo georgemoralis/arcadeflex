@@ -4,6 +4,8 @@
  */
 package arcadeflex.v036.sound;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //sound imports
 import static arcadeflex.v036.sound.ay8910H.*;
 //TODO

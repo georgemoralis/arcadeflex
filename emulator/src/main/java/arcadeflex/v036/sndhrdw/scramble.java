@@ -5,6 +5,8 @@ package arcadeflex.v036.sndhrdw;
 
 //cpu imports
 import static arcadeflex.v036.cpu.z80.z80H.*;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //TODO
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;

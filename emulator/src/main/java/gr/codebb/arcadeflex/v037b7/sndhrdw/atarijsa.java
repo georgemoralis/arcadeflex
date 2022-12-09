@@ -35,12 +35,13 @@ Static Program ROM (48K bytes)            4000-FFFF   R    D0-D7
  * using automatic conversion tool v0.01
  */ 
 package gr.codebb.arcadeflex.v037b7.sndhrdw;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;

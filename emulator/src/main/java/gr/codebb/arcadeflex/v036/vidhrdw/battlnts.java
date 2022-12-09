@@ -6,7 +6,8 @@
  *
  */
 package gr.codebb.arcadeflex.v036.vidhrdw;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;

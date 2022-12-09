@@ -127,11 +127,12 @@ C - uses sub board with support for player 3 and 4 controls
  * using automatic conversion tool v0.01
  */ 
 package gr.codebb.arcadeflex.v037b7.drivers;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6800.hd63701.hd63701_internal_registers_r;
 import static gr.codebb.arcadeflex.v036.cpu.m6800.hd63701.hd63701_internal_registers_w;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.sound._2151intf.*;
 import static arcadeflex.v036.sound._2151intfH.*;

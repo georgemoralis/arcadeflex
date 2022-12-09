@@ -5,6 +5,8 @@
  */
 package arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.osdependH.*;
 //vidhrdw imports

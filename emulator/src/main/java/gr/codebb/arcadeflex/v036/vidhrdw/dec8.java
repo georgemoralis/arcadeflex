@@ -7,6 +7,8 @@
  */ 
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
@@ -16,7 +18,7 @@ import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;

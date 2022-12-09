@@ -1,5 +1,6 @@
 package gr.codebb.arcadeflex.v037b7.sound;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;

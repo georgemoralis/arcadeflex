@@ -5,7 +5,7 @@
 package gr.codebb.arcadeflex.v037b7.machine;
 
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 
 public class pacplus {

@@ -3,6 +3,8 @@
  */
 package arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //machine imports
 import static arcadeflex.v036.machine.berzerk.*;
 //mame imports
@@ -12,9 +14,7 @@ import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.plot_pixel;
-import gr.codebb.arcadeflex.v036.mame.driverH.ReadHandlerPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.VhUpdatePtr;
-import gr.codebb.arcadeflex.v036.mame.driverH.WriteHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 
 public class berzerk {

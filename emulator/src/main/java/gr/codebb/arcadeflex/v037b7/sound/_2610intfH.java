@@ -3,7 +3,8 @@
  * 
  */
 package gr.codebb.arcadeflex.v037b7.sound;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import gr.codebb.arcadeflex.v036.mame.driverH.*;
 import arcadeflex.v036.sound.ay8910H.AY8910interface;
 

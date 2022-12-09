@@ -12,7 +12,8 @@ import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static arcadeflex.v036.vidhrdw.generic.*;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 public class skydiver {
 
     static int[] skydiver_lamps = new int[8];

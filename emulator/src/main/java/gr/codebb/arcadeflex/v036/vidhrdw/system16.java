@@ -6,7 +6,8 @@
  *
  */ 
 package gr.codebb.arcadeflex.v036.vidhrdw;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.common.SubArrays.*;
 import static common.libc.cstring.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
@@ -19,8 +20,8 @@ import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_get_pen;
 import static gr.codebb.arcadeflex.v036.drivers.system16.*;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
-import static gr.codebb.arcadeflex.v036.mame.commonH.REGION_GFX2;
-import static gr.codebb.arcadeflex.v036.mame.commonH.REGION_GFX3;
+import static arcadeflex.v036.mame.commonH.REGION_GFX2;
+import static arcadeflex.v036.mame.commonH.REGION_GFX3;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static arcadeflex.v036.mame.paletteH.*;

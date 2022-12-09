@@ -3,6 +3,8 @@ package gr.codebb.arcadeflex.v036.vidhrdw.konami;
 /*
  used in battlnts driver. Seems to be fully functional
  */
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;

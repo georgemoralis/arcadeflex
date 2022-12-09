@@ -7,6 +7,8 @@
  */
 package arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.artwork.*;
 import static arcadeflex.v036.mame.artworkH.*;
@@ -19,7 +21,6 @@ import static gr.codebb.arcadeflex.v036.mame.drawgfx.drawgfx;
 import gr.codebb.arcadeflex.v036.mame.driverH.VhStartPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.VhStopPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.VhUpdatePtr;
-import gr.codebb.arcadeflex.v036.mame.driverH.WriteHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static arcadeflex.v036.mame.drawgfxH.TRANSPARENCY_NONE;

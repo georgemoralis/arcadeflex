@@ -3,8 +3,9 @@
  */
 package arcadeflex.v036.sndhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //TODO
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.sound.samples.*;
 
 public class zaxxon {

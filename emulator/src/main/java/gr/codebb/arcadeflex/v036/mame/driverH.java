@@ -3,7 +3,7 @@ package gr.codebb.arcadeflex.v036.mame;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.CopyArray;
 import static arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
@@ -13,8 +13,6 @@ import static gr.codebb.arcadeflex.common.PtrLib.*;
 public class driverH 
 {
         //JAVA HELPERS
-    	public static abstract interface ReadHandlerPtr { public abstract int handler(int offset); }
-	public static abstract interface WriteHandlerPtr { public abstract void handler(int offset, int data); }
 	public static abstract interface InitMachinePtr { public abstract void handler(); }
         public static abstract interface InitDriverPtr { public abstract void handler(); }
 	public static abstract interface InterruptPtr { public abstract int handler(); }

@@ -1,6 +1,7 @@
 package gr.codebb.arcadeflex.v036.machine;
 
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 
 public class _6812piaH {
 

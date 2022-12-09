@@ -28,9 +28,10 @@ XYBOTS 6502 MEMORY MAP
  * using automatic conversion tool v0.01
  */ 
 package gr.codebb.arcadeflex.v037b7.drivers;
-        
+  //generic imports
+import static arcadeflex.v036.generic.funcPtr.*;      
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.inputH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;

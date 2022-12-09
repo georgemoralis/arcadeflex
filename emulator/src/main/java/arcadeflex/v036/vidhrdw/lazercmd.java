@@ -6,6 +6,8 @@ package arcadeflex.v036.vidhrdw;
 
 //drivers import
 import static arcadeflex.v036.drivers.lazercmd.*;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.lazercmdH.*;
@@ -15,9 +17,7 @@ import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.copybitmap;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.drawgfx;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.plot_pixel;
-import gr.codebb.arcadeflex.v036.mame.driverH.ReadHandlerPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.VhUpdatePtr;
-import gr.codebb.arcadeflex.v036.mame.driverH.WriteHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static arcadeflex.v036.mame.drawgfxH.TRANSPARENCY_NONE;

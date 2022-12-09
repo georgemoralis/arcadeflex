@@ -8,13 +8,21 @@ import static arcadeflex.v036.mame.sndintrfH.*;
 public class funcPtr {
 
     /**
+     * Common handlers
+     */
+    public static abstract interface ReadHandlerPtr {
+
+        public abstract int handler(int offset);
+    }
+
+    public static abstract interface WriteHandlerPtr {
+
+        public abstract void handler(int offset, int data);
+    }
+
+    /**
      * Sound related
      */
-    /*public static abstract interface ShInitHandlerPtr {
-
-        public abstract int handler(String gamename);
-    }*/
-
     public static abstract interface ShStartHandlerPtr {
 
         public abstract int handler(MachineSound msound);

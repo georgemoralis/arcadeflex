@@ -5,11 +5,12 @@
  */
 package gr.codebb.arcadeflex.v037b7.sound;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static common.libc.cstdio.sprintf;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
-import gr.codebb.arcadeflex.v036.mame.driverH.ReadHandlerPtr;
-import gr.codebb.arcadeflex.v036.mame.driverH.WriteHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import gr.codebb.arcadeflex.v036.mame.sndintrf.snd_interface;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.sound_name;

@@ -12,7 +12,8 @@
  * using automatic conversion tool v0.01
  */ 
 package gr.codebb.arcadeflex.v037b7.machine;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;

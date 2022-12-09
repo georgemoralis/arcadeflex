@@ -7,7 +7,8 @@ package gr.codebb.arcadeflex.v037b7.sound;
 /*********************************************************/
 /*    SEGA 16ch 8bit PCM                                 */
 /*********************************************************/
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import gr.codebb.arcadeflex.common.PtrLib.ShortPtr;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static common.libc.cstring.memset;

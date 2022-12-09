@@ -1,4 +1,6 @@
 package gr.codebb.arcadeflex.v036.mame;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import arcadeflex.v036.sound.Dummy_snd;
 import arcadeflex.v036.sound.dac;

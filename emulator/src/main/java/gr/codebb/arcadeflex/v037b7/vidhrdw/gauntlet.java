@@ -10,7 +10,8 @@
  * using automatic conversion tool v0.01
  */ 
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
-        
+ //generic imports
+import static arcadeflex.v036.generic.funcPtr.*;       
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;

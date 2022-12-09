@@ -4,7 +4,8 @@
  *
  */
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.cstring.*;
 import static common.libc.expressions.*;

@@ -11,10 +11,11 @@ Driver by Manuel Abadia <manu@teleline.es>
  * using automatic conversion tool v0.01
  */ 
 package gr.codebb.arcadeflex.v037b7.drivers;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.inputH.KEYCODE_F2;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;

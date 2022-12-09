@@ -4,6 +4,8 @@
  */
 package arcadeflex.v058.sound;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.sndintrfH.*;
 //sound imports
@@ -17,7 +19,6 @@ import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region_length;
 import static gr.codebb.arcadeflex.v036.mame.common.readsamples;
-import gr.codebb.arcadeflex.v036.mame.driverH.WriteHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import gr.codebb.arcadeflex.v036.mame.sndintrf.snd_interface;
 import static gr.codebb.arcadeflex.v036.sound.mixer.mixer_allocate_channel;

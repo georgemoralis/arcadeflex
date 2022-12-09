@@ -4,6 +4,8 @@
  */
 package arcadeflex.v036.drivers;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.cpuintrfH.*;
 //sndhrdw imports
@@ -17,7 +19,7 @@ import static common.libc.cstring.*;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region_length;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.CPU_AUDIO_CPU;
 import static gr.codebb.arcadeflex.v036.mame.driverH.CPU_S2650;
 import static gr.codebb.arcadeflex.v036.mame.driverH.DEFAULT_REAL_60HZ_VBLANK_DURATION;
@@ -28,13 +30,11 @@ import gr.codebb.arcadeflex.v036.mame.driverH.InterruptPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.MachineCPU;
 import gr.codebb.arcadeflex.v036.mame.driverH.MachineDriver;
 import static gr.codebb.arcadeflex.v036.mame.driverH.ROT0;
-import gr.codebb.arcadeflex.v036.mame.driverH.ReadHandlerPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.RomLoadPtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.VIDEO_MODIFIES_PALETTE;
 import static gr.codebb.arcadeflex.v036.mame.driverH.VIDEO_SUPPORTS_DIRTY;
 import static gr.codebb.arcadeflex.v036.mame.driverH.VIDEO_TYPE_RASTER;
 import gr.codebb.arcadeflex.v036.mame.driverH.VhConvertColorPromPtr;
-import gr.codebb.arcadeflex.v036.mame.driverH.WriteHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
 import arcadeflex.v036.mame.sndintrfH.CustomSound_interface;
 import arcadeflex.v036.mame.sndintrfH.MachineSound;

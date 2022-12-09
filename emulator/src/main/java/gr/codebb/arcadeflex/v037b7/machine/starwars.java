@@ -17,7 +17,8 @@ See drivers\starwars.c for notes
  * using automatic conversion tool v0.01
  */ 
 package gr.codebb.arcadeflex.v037b7.machine;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.avgdvg.*;

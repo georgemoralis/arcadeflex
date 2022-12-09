@@ -1,10 +1,11 @@
 package gr.codebb.arcadeflex.v058.machine;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import arcadeflex.v036.generic.funcPtr.DaisyChainInterruptEntryPtr;
 import arcadeflex.v036.generic.funcPtr.DaisyChainInterruptRetiPtr;
 import arcadeflex.v036.generic.funcPtr.DaisyChainResetPtr;
 import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.timer.*;
 import static gr.codebb.arcadeflex.v058.machine.z80fmlyH.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;

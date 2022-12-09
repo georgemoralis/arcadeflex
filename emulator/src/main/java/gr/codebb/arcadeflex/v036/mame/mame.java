@@ -40,7 +40,7 @@ import static gr.codebb.arcadeflex.v036.mame.usrintrf.*;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
 import static arcadeflex.v036.mame.input.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;

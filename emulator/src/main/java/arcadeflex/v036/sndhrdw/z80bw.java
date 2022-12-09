@@ -4,12 +4,13 @@
  */
 package arcadeflex.v036.sndhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.vidhrdw._8080bw.*;
 //TODO
 import static arcadeflex.v036.sound.samplesH.*;
 import static arcadeflex.v036.sound.samples.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 

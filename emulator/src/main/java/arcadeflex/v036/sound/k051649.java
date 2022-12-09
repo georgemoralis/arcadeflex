@@ -4,9 +4,10 @@
  */
 package arcadeflex.v036.sound;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.sound.k051649H.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.sound.streams.*;

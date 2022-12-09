@@ -21,8 +21,9 @@ Crazy Climber 2
  * using automatic conversion tool v0.01
  */ 
 package gr.codebb.arcadeflex.v037b7.drivers;
-
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.armedf.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;

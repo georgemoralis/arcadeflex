@@ -28,25 +28,20 @@ The output selects the active layer, it can be:
  * using automatic conversion tool v0.01
  */ 
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static arcadeflex.v036.mame.paletteH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.common.SubArrays.*;
-import static common.libc.expressions.NOT;
-import static gr.codebb.arcadeflex.v036.mame.commonH.REGION_CPU1;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 
 public class bionicc

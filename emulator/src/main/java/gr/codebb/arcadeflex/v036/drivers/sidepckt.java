@@ -4,10 +4,11 @@
  * using automatic conversion tool v0.08
  */
 package gr.codebb.arcadeflex.v036.drivers;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
@@ -22,7 +23,7 @@ import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
 import static arcadeflex.v036.mame.inputH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static arcadeflex.v036.sound._2203intfH.*;
 import static arcadeflex.v036.sound._2203intf.*;

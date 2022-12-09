@@ -5,8 +5,10 @@
  */
 package gr.codebb.arcadeflex.v036.mame;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.mame.mameH.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;

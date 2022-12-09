@@ -4,6 +4,8 @@
  */
 package arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.osdependH.*;
 import static arcadeflex.v036.mame.artwork.*;
@@ -13,7 +15,7 @@ import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
-import static gr.codebb.arcadeflex.v036.mame.commonH.REGION_PROMS;
+import static arcadeflex.v036.mame.commonH.REGION_PROMS;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.copybitmap;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.plot_pixel;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.plot_pixel2;
@@ -22,7 +24,6 @@ import gr.codebb.arcadeflex.v036.mame.driverH.VhConvertColorPromPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.VhStartPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.VhStopPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.VhUpdatePtr;
-import gr.codebb.arcadeflex.v036.mame.driverH.WriteHandlerPtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static arcadeflex.v036.mame.drawgfxH.TRANSPARENCY_NONE;
 import arcadeflex.v036.mame.drawgfxH.rectangle;
