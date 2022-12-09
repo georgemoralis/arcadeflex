@@ -13,8 +13,8 @@ package gr.codebb.arcadeflex.v037b7.sndhrdw;
 
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.Z80_IGNORE_INT;
-import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.Z80_IRQ_INT;
+import static arcadeflex.v036.cpu.z80.z80H.Z80_IGNORE_INT;
+import static arcadeflex.v036.cpu.z80.z80H.Z80_IRQ_INT;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 
 public class aztarac

@@ -26,7 +26,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
-import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.Z80_IRQ_INT;
+import static arcadeflex.v036.cpu.z80.z80H.Z80_IRQ_INT;
 import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
 import static common.libc.cstdlib.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.ajax.ajax_priority;

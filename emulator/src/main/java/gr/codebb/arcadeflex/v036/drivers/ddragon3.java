@@ -38,7 +38,7 @@ import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
 import static arcadeflex.v036.sound._2151intf.*;
 import static arcadeflex.v036.sound._2151intfH.*;
 import static gr.codebb.arcadeflex.v036.cpu.m68000.m68000H.*;
-import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
+import static arcadeflex.v036.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;

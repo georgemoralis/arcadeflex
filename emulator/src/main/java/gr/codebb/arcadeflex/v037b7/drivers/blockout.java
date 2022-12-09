@@ -25,7 +25,7 @@ import static arcadeflex.v036.sound._2151intf.*;
 import arcadeflex.v036.sound._2151intfH.YM2151interface;
 import static arcadeflex.v036.sound._2151intfH.YM3012_VOL;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.Z80_NMI_INT;
+import static arcadeflex.v036.cpu.z80.z80H.Z80_NMI_INT;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;

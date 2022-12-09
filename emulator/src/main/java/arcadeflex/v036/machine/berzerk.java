@@ -3,14 +3,14 @@
  */
 package arcadeflex.v036.machine;
 
+//cpu imports
+import static arcadeflex.v036.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
 import static gr.codebb.arcadeflex.v036.mame.commonH.REGION_CPU1;
 import gr.codebb.arcadeflex.v036.mame.driverH.InitMachinePtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.InterruptPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.ReadHandlerPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.WriteHandlerPtr;
-import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.Z80_IGNORE_INT;
-import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.Z80_NMI_INT;
 
 public class berzerk {
 

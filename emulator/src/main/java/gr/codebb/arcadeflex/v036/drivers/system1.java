@@ -19,7 +19,7 @@ import static gr.codebb.arcadeflex.v036.machine.segacrpt.*;
 import static arcadeflex.v036.sound.sn76496H.*;
 import static arcadeflex.v036.sound.sn76496.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
+import static arcadeflex.v036.cpu.z80.z80H.*;
 import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.system1H.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.system1.*;

@@ -27,7 +27,7 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_r;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_w;
 import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
 import static arcadeflex.v036.vidhrdw.ddragon.*;
-import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
+import static arcadeflex.v036.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import arcadeflex.v036.mame.sndintrfH.MachineSound;

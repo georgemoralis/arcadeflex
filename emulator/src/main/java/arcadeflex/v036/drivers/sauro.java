@@ -4,6 +4,8 @@
  */
 package arcadeflex.v036.drivers;
 
+//cpu imports
+import static arcadeflex.v036.cpu.z80.z80H.*;
 //mame imports
 import static arcadeflex.v036.mame.sndintrfH.*;
 //vidhrdw imports
@@ -23,7 +25,6 @@ import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intf.*;
-import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 
 public class sauro {

@@ -22,7 +22,7 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.vidhrdw.kchamp.*;
 import static arcadeflex.v036.sound.dacH.*;
 import static arcadeflex.v036.sound.dac.*;
-import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
+import static arcadeflex.v036.cpu.z80.z80H.*;
 import static arcadeflex.v036.sound.MSM5205H.*;
 import static arcadeflex.v036.sound.MSM5205.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;

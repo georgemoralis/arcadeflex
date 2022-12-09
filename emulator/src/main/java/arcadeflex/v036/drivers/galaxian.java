@@ -4,6 +4,8 @@
  */
 package arcadeflex.v036.drivers;
 
+//cpu imports
+import static arcadeflex.v036.cpu.z80.z80H.*;
 //drivers imports
 import static arcadeflex.v036.drivers.pacman.*;
 //mame imports
@@ -30,7 +32,6 @@ import static gr.codebb.arcadeflex.v037b7.mame.inptport.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.machine.scramble.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.drivers.scramble.*;

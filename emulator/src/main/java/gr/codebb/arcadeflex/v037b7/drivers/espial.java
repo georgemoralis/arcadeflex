@@ -17,7 +17,7 @@ import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;
 import static arcadeflex.v036.vidhrdw.espial.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.Z80_IRQ_INT;
+import static arcadeflex.v036.cpu.z80.z80H.Z80_IRQ_INT;
 
 public class espial {
 

@@ -1,8 +1,8 @@
 /*
- * ported to v0.37b7
+ * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.cpu.z80;
+package arcadeflex.v036.cpu.z80;
 
 public class z80H {
 
@@ -39,11 +39,8 @@ public class z80H {
     public static final int Z80_TABLE_ex = 5;
     /* cycles counts for taken jr/jp/call and interrupt latency (rst opcodes) */
 
-    public static final int Z80_IGNORE_INT = -1;
-    /* Ignore interrupt*/
-    public static final int Z80_NMI_INT = -2;
-    /* Execute NMI	*/
-    public static final int Z80_IRQ_INT = -1000;
-    /* Execute IRQ*/
+    public static final int Z80_IGNORE_INT = -1;/* Ignore interrupt*/
+    public static final int Z80_NMI_INT = -2;/* Execute NMI	*/
+    public static final int Z80_IRQ_INT = -1000;/* Execute IRQ*/
 
 }

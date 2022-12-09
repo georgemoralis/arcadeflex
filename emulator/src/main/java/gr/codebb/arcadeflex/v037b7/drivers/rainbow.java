@@ -20,7 +20,7 @@ import static arcadeflex.v036.sound._2151intf.*;
 import static arcadeflex.v036.sound._2151intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.rastan.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.Z80_IRQ_INT;
+import static arcadeflex.v036.cpu.z80.z80H.Z80_IRQ_INT;
 import static arcadeflex.v036.machine.rainbow.*;
 import static arcadeflex.v036.sound._2203intf.YM2203_control_port_0_w;
 import static arcadeflex.v036.sound._2203intf.YM2203_control_port_1_w;

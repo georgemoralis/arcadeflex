@@ -16,7 +16,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.inptportH.*;
 import static arcadeflex.v036.vidhrdw.mpatrol.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.sndhrdw.irem.*;
-import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
+import static arcadeflex.v036.cpu.z80.z80H.*;
 
 public class mpatrol {
 

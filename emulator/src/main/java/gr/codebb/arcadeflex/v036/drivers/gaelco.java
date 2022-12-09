@@ -28,7 +28,7 @@ import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v037b7.cpu.z80.z80H.*;
+import static arcadeflex.v036.cpu.z80.z80H.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.gaelco.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
