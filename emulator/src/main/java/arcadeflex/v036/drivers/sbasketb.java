@@ -288,7 +288,7 @@ public class sbasketb {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_sbasketb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sbasketb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */

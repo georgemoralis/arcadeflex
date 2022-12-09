@@ -772,7 +772,7 @@ public class docastle {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_docastle = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_docastle = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -803,7 +803,7 @@ public class docastle {
         }
     };
 
-    static RomLoadPtr rom_docastl2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_docastl2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -834,7 +834,7 @@ public class docastle {
         }
     };
 
-    static RomLoadPtr rom_douni = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_douni = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -865,7 +865,7 @@ public class docastle {
         }
     };
 
-    static RomLoadPtr rom_dorunruc = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dorunruc = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -893,7 +893,7 @@ public class docastle {
         }
     };
 
-    static RomLoadPtr rom_dorunrun = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dorunrun = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -921,7 +921,7 @@ public class docastle {
         }
     };
 
-    static RomLoadPtr rom_dorunru2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dorunru2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -949,7 +949,7 @@ public class docastle {
         }
     };
 
-    static RomLoadPtr rom_spiero = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spiero = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -980,7 +980,7 @@ public class docastle {
         }
     };
 
-    static RomLoadPtr rom_dowild = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dowild = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1008,7 +1008,7 @@ public class docastle {
         }
     };
 
-    static RomLoadPtr rom_jjack = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_jjack = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1039,7 +1039,7 @@ public class docastle {
         }
     };
 
-    static RomLoadPtr rom_kickridr = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kickridr = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 

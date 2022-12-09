@@ -555,12 +555,12 @@ public class system16
 	
 	/***************************************************************************/
 	
-	public static VhStopPtr sys16_vh_stop = new VhStopPtr() { public void handler() {
+	public static VhStopHandlerPtr sys16_vh_stop = new VhStopHandlerPtr() { public void handler() {
 	
 	} };
 	
 	
-	public static VhStartPtr sys16_vh_start = new VhStartPtr() { public int handler() {
+	public static VhStartHandlerPtr sys16_vh_start = new VhStartHandlerPtr() { public int handler() {
 		if(sys16_bg1_trans==0)
 			background = tilemap_create(
 				get_bg_tile_info,
@@ -668,7 +668,7 @@ public class system16
 		return 1;
 	} };
 	
-	public static VhStartPtr sys16_ho_vh_start = new VhStartPtr() { public int handler() {
+	public static VhStartHandlerPtr sys16_ho_vh_start = new VhStartHandlerPtr() { public int handler() {
 		int ret;
 		sys16_bg1_trans=1;
 	
@@ -686,7 +686,7 @@ public class system16
 		return 0;
 	} };
 	
-	public static VhStartPtr sys16_or_vh_start = new VhStartPtr() { public int handler() {
+	public static VhStartHandlerPtr sys16_or_vh_start = new VhStartHandlerPtr() { public int handler() {
 		int ret;
 		sys16_bg1_trans=1;
 	
@@ -705,7 +705,7 @@ public class system16
 	} };
 	
 	
-	public static VhStartPtr sys18_vh_start = new VhStartPtr() { public int handler() {
+	public static VhStartHandlerPtr sys18_vh_start = new VhStartHandlerPtr() { public int handler() {
 		int ret;
 		sys16_bg1_trans=1;
 	
@@ -1672,7 +1672,7 @@ public class system16
 	}
 
         static int freeze_counter_sys16=0;
-	public static VhUpdatePtr sys16_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) {
+	public static VhUpdateHandlerPtr sys16_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) {
 		if (sys16_update_proc != null) sys16_update_proc.handler();
 		update_page();
 	
@@ -1889,7 +1889,7 @@ public class system16
         
         static int freeze_counter=0;
 	
-	public static VhUpdatePtr sys18_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) {
+	public static VhUpdateHandlerPtr sys18_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) {
 		int i;
 		if (sys16_update_proc != null) sys16_update_proc.handler();
 		update_page();
@@ -2360,7 +2360,7 @@ public class system16
 	//static int freeze_counter=0;
         
 	// Refresh for hang-on, etc.
-	public static VhUpdatePtr sys16_ho_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) {
+	public static VhUpdateHandlerPtr sys16_ho_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) {
 		if (sys16_update_proc != null) sys16_update_proc.handler();
 		update_page();
 	
@@ -2797,7 +2797,7 @@ public class system16
 	}
 	
         // Refresh for Outrun
-	public static VhUpdatePtr sys16_or_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) {
+	public static VhUpdateHandlerPtr sys16_or_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) {
 		if (sys16_update_proc != null) sys16_update_proc.handler();
 		update_page();
 	

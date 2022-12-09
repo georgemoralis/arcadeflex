@@ -42,7 +42,7 @@ public class yiear {
      *
      **************************************************************************
      */
-    public static VhConvertColorPromPtr yiear_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr yiear_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -93,7 +93,7 @@ public class yiear {
         }
     };
 
-    public static InterruptPtr yiear_nmi_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr yiear_nmi_interrupt = new InterruptHandlerPtr() {
         public int handler() {
 
             /* can't use nmi_interrupt() because interrupt_enable_w() effects it */
@@ -110,7 +110,7 @@ public class yiear {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr yiear_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr yiear_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

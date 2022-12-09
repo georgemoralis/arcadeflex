@@ -43,7 +43,7 @@ public class taitosj
 	static int zaccept,zready;
 	
 	
-	public static InitMachinePtr taitosj_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr taitosj_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		/* set the default ROM bank (many games only have one bank and */
 		/* never write to the bank selector register) */

@@ -79,7 +79,7 @@ public class sf1
 	
 	***************************************************************************/
 	
-	public static VhStartPtr sf1_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr sf1_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		int i;
 	
@@ -283,7 +283,7 @@ public class sf1
 		}
 	}
 	
-	public static VhUpdatePtr sf1_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr sf1_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		tilemap_update(ALL_TILEMAPS);
 	

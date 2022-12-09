@@ -397,7 +397,7 @@ public class mpatrol {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_mpatrol = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mpatrol = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -447,7 +447,7 @@ public class mpatrol {
         }
     };
 
-    static RomLoadPtr rom_mpatrolw = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mpatrolw = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -498,7 +498,7 @@ public class mpatrol {
         }
     };
 
-    static RomLoadPtr rom_mranger = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mranger = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */

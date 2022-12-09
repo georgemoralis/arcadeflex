@@ -371,13 +371,13 @@ public class lastduel
 		new WriteYmHandlerPtr[] { irqhandler }
 	);
 	
-	public static InterruptPtr lastduel_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr lastduel_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (cpu_getiloops() == 0) return 2; /* VBL */
 		else return 4; /* Controls */
 	} };
 	
-	public static InterruptPtr madgear_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr madgear_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (cpu_getiloops() == 0) return 5; /* VBL */
 		else return 6; /* Controls */
@@ -702,7 +702,7 @@ public class lastduel
 	
 	/******************************************************************************/
 	
-	static RomLoadPtr rom_lastduel = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_lastduel = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x60000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "ldu-06.rom",   0x00000, 0x20000, 0x4228a00b );
 		ROM_LOAD_ODD ( "ldu-05.rom",   0x00000, 0x20000, 0x7260434f );
@@ -742,7 +742,7 @@ public class lastduel
 		ROM_LOAD( "ld_21.bin",    0x070000, 0x10000, 0xb74f0c0e );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_lstduela = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_lstduela = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x60000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "06",   0x00000, 0x20000, 0x0e71acaf );
 		ROM_LOAD_ODD ( "05",   0x00000, 0x20000, 0x47a85bea );
@@ -782,7 +782,7 @@ public class lastduel
 		ROM_LOAD( "ld_21.bin",    0x070000, 0x10000, 0xb74f0c0e );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_lstduelb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_lstduelb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x60000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "ld_08.bin",    0x00000, 0x10000, 0x43811a96 );
 		ROM_LOAD_ODD ( "ld_07.bin",    0x00000, 0x10000, 0x63c30946 );
@@ -824,7 +824,7 @@ public class lastduel
 		ROM_LOAD( "ld_21.bin",    0x070000, 0x10000, 0xb74f0c0e );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_madgear = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_madgear = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 256K for 68000 code */
 		ROM_LOAD_EVEN( "mg_04.rom",    0x00000, 0x20000, 0xb112257d );
 		ROM_LOAD_ODD ( "mg_03.rom",    0x00000, 0x20000, 0xb2672465 );
@@ -859,7 +859,7 @@ public class lastduel
 		ROM_LOAD( "ls-05",        0x20000, 0x20000, 0xb06e03b5 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_madgearj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_madgearj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 256K for 68000 code */
 		ROM_LOAD_EVEN( "mdj_04.rom",   0x00000, 0x20000, 0x9ebbebb1 );
 		ROM_LOAD_ODD ( "mdj_03.rom",   0x00000, 0x20000, 0xa5579c2d );
@@ -894,7 +894,7 @@ public class lastduel
 		ROM_LOAD( "ls-05",        0x20000, 0x20000, 0xb06e03b5 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ledstorm = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ledstorm = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 256K for 68000 code */
 		ROM_LOAD_EVEN( "mdu.04",    0x00000, 0x20000, 0x7f7f8329 );
 		ROM_LOAD_ODD ( "mdu.03",    0x00000, 0x20000, 0x11fa542f );

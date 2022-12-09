@@ -51,7 +51,7 @@ public class llander
 	
 	***************************************************************************/
 	
-	public static VhConvertColorPromPtr llander_init_colors = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr llander_init_colors = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int width, height, i, nextcol;
 	
@@ -88,7 +88,7 @@ public class llander
 /*TODO*///				3*llander_lit_panel.num_pens_used);
 	} };
 	
-	public static VhStartPtr llander_start = new VhStartPtr() {
+	public static VhStartHandlerPtr llander_start = new VhStartHandlerPtr() {
             @Override
             public int handler() {
                 int i;
@@ -110,7 +110,7 @@ public class llander
             }
         };
 	
-	public static VhStopPtr llander_stop = new VhStopPtr() {
+	public static VhStopHandlerPtr llander_stop = new VhStopHandlerPtr() {
             @Override
             public void handler() {
 		dvg_stop.handler();
@@ -124,7 +124,7 @@ public class llander
             }
         };
 	
-	public static VhUpdatePtr llander_screenrefresh = new VhUpdatePtr() {
+	public static VhUpdateHandlerPtr llander_screenrefresh = new VhUpdateHandlerPtr() {
             @Override
             public void handler(osd_bitmap bitmap, int full_refresh) {
 		int i, pwidth, pheight;

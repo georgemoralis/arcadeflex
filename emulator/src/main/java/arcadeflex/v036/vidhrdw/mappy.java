@@ -43,7 +43,7 @@ public class mappy {
      * kohm resistor -- RED
      * *************************************************************************
      */
-    public static VhConvertColorPromPtr mappy_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr mappy_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int p_inc = 0;
@@ -78,7 +78,7 @@ public class mappy {
         }
     };
 
-    public static VhStartPtr common_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr common_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((dirtybuffer = new char[videoram_size[0]]) == null) {
                 return 1;
@@ -94,21 +94,21 @@ public class mappy {
         }
     };
 
-    public static VhStartPtr mappy_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr mappy_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             special_display = 0;
             return common_vh_start.handler();
         }
     };
 
-    public static VhStartPtr motos_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr motos_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             special_display = 1;
             return common_vh_start.handler();
         }
     };
 
-    public static VhStartPtr todruaga_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr todruaga_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             special_display = 2;
             return common_vh_start.handler();
@@ -120,7 +120,7 @@ public class mappy {
      * Stop the video hardware emulation.
      * *************************************************************************
      */
-    public static VhStopPtr mappy_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr mappy_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             dirtybuffer = null;
             osd_free_bitmap(tmpbitmap);
@@ -177,7 +177,7 @@ public class mappy {
      * emulation engine.
      * *************************************************************************
      */
-    public static VhUpdatePtr mappy_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr mappy_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

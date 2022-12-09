@@ -29,7 +29,7 @@ public class foodf {
         }
     };
 
-    public static InterruptPtr foodf_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr foodf_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             /* INT 2 once per frame in addition to... */
             if (cpu_getiloops() == 0) {

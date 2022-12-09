@@ -27,7 +27,7 @@ public class jailbrek {
 
     static UBytePtr interrupt_control = new UBytePtr();
 
-    public static InitMachinePtr jailbrek_machine_init = new InitMachinePtr() {
+    public static InitMachineHandlerPtr jailbrek_machine_init = new InitMachineHandlerPtr() {
         public void handler() {
             interrupt_control.write(0, 0);
         }
@@ -214,7 +214,7 @@ public class jailbrek {
                 new GfxDecodeInfo(REGION_GFX2, 0, spritelayout, 16 * 16, 16), /* sprites */
                 new GfxDecodeInfo(-1) /* end of array */};
 
-    public static InterruptPtr jb_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr jb_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if ((interrupt_control.read(0) & 2) != 0) {
                 return interrupt.handler();
@@ -224,7 +224,7 @@ public class jailbrek {
         }
     };
 
-    public static InterruptPtr jb_interrupt_nmi = new InterruptPtr() {
+    public static InterruptHandlerPtr jb_interrupt_nmi = new InterruptHandlerPtr() {
         public int handler() {
             if ((interrupt_control.read(0) & 1) != 0) {
                 return nmi_interrupt.handler();
@@ -290,7 +290,7 @@ public class jailbrek {
      * Game driver(s)
      * *************************************************************************
      */
-    static RomLoadPtr rom_jailbrek = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_jailbrek = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);
             /* 64k for code + 64k for decrypted opcodes */
@@ -319,7 +319,7 @@ public class jailbrek {
         }
     };
 
-    public static InitDriverPtr init_jailbrek = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_jailbrek = new InitDriverHandlerPtr() {
         public void handler() {
             konami1_decode();
         }

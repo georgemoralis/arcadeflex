@@ -340,7 +340,7 @@ public class wecleman
 							[ Video Hardware Start ]
 	------------------------------------------------------------------------*/
 	
-	public static VhStartPtr wecleman_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr wecleman_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 	
 	/*
@@ -452,7 +452,7 @@ public class wecleman
 	/* for the zoomed layers we support: road and fg */
 	static osd_bitmap temp_bitmap, temp_bitmap2;
 	
-	public static VhStartPtr hotchase_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr hotchase_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 	/*
 	 Sprite banking - each bank is 0x20000 bytes (we support 0x40 bank codes)
@@ -494,7 +494,7 @@ public class wecleman
 		else return 1;
 	} };
 	
-	public static VhStopPtr hotchase_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr hotchase_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		if (temp_bitmap != null)	bitmap_free(temp_bitmap);
 		if (temp_bitmap2 != null)	bitmap_free(temp_bitmap2);
@@ -965,7 +965,7 @@ public class wecleman
 	***************************************************************************/
 	static int layers_ctrl = 0xFFFF;
         
-	public static VhUpdatePtr wecleman_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr wecleman_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int i;
 	
@@ -1063,7 +1063,7 @@ public class wecleman
 									Hot Chase
 	***************************************************************************/
 	
-	public static VhUpdatePtr hotchase_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr hotchase_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int i;
 		layers_ctrl = 0xFFFF;

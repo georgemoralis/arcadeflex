@@ -32,7 +32,7 @@ public class bottom9
 {
 
 	
-	public static InterruptPtr bottom9_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr bottom9_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (K052109_is_IRQ_enabled()!=0) return interrupt.handler();
 		else return ignore_interrupt.handler();
@@ -112,7 +112,7 @@ public class bottom9
 	
 	static int nmienable;
 	
-	public static InterruptPtr bottom9_sound_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr bottom9_sound_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (nmienable!=0) return nmi_interrupt.handler();
 		else return ignore_interrupt.handler();
@@ -367,7 +367,7 @@ public class bottom9
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_bottom9 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bottom9 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x28000, REGION_CPU1 );/* code + banked roms */
 		ROM_LOAD( "891n03.k17",   0x10000, 0x10000, 0x8b083ff3 );
 	    ROM_LOAD( "891-t02.k15",  0x20000, 0x08000, 0x2c10ced2 );
@@ -424,7 +424,7 @@ public class bottom9
 		ROM_LOAD( "891e04d",      0x30000, 0x10000, 0x8b0cd2cc );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_bottom9n = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bottom9n = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x28000, REGION_CPU1 );/* code + banked roms */
 		ROM_LOAD( "891n03.k17",   0x10000, 0x10000, 0x8b083ff3 );
 	    ROM_LOAD( "891n02.k15",   0x20000, 0x08000, 0xd44d9ed4 );
@@ -483,7 +483,7 @@ public class bottom9
 	
 	
 	
-	public static InitDriverPtr init_bottom9 = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_bottom9 = new InitDriverHandlerPtr() { public void handler() 
 	{
 		konami_rom_deinterleave_2(REGION_GFX1);
 		konami_rom_deinterleave_2(REGION_GFX2);

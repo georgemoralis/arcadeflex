@@ -534,7 +534,7 @@ public class centiped
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_centiped = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_centiped = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "centiped.307", 0x2000, 0x0800, 0x5ab0d9de );
 		ROM_LOAD( "centiped.308", 0x2800, 0x0800, 0x4c07fd3e );
@@ -547,7 +547,7 @@ public class centiped
 		ROM_LOAD( "centiped.212", 0x0800, 0x0800, 0xb1397029 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_centipd2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_centipd2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "centiped.207", 0x2000, 0x0800, 0xb2909e2f );
 		ROM_LOAD( "centiped.208", 0x2800, 0x0800, 0x110e04ff );
@@ -560,7 +560,7 @@ public class centiped
 		ROM_LOAD( "centiped.212", 0x0800, 0x0800, 0xb1397029 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_centipdb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_centipdb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "olympia.c28",  0x2000, 0x0800, 0x8a744e57 );
 		ROM_LOAD( "olympia.c29",  0x2800, 0x0800, 0xbb897b10 );
@@ -573,7 +573,7 @@ public class centiped
 		ROM_LOAD( "olympia.c33",  0x0800, 0x0800, 0x1a6acd02 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_centipb2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_centipb2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "d1",  		  0x2000, 0x0800, 0xb17b8e0b );
 		ROM_LOAD( "e1",  		  0x2800, 0x0800, 0x7684398e );

@@ -57,7 +57,7 @@ public class contra
 	**
 	***************************************************************************/
 	
-	public static VhConvertColorPromPtr contra_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr contra_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i,chip,pal,clut;
                 int c_ptr=0;
@@ -241,7 +241,7 @@ public class contra
 	**
 	***************************************************************************/
 	
-	public static VhStartPtr contra_vh_start = new VhStartPtr() { public int handler() {
+	public static VhStartHandlerPtr contra_vh_start = new VhStartHandlerPtr() { public int handler() {
 		bg_tilemap = tilemap_create(
 			get_bg_tile_info,
 			TILEMAP_OPAQUE,
@@ -284,7 +284,7 @@ public class contra
 		return 1;
 	} };
 	
-	public static VhStopPtr contra_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr contra_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		private_spriteram=null;
 		private_spriteram_2=null;
@@ -301,7 +301,7 @@ public class contra
 		K007121_sprites_draw(bank,bitmap,new UBytePtr(source),base_color,40,0);
 	}
 	
-	public static VhUpdatePtr contra_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr contra_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		tilemap_set_scrollx( fg_tilemap,0, K007121_ctrlram[0][0x00] - 40 );
 		tilemap_set_scrolly( fg_tilemap,0, K007121_ctrlram[0][0x02] );

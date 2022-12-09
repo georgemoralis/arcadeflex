@@ -32,7 +32,7 @@ public class tehkanwc {
     static /*unsigned*/ char scroll_y;
     static /*unsigned*/ char led0, led1;
 
-    public static VhStartPtr tehkanwc_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr tehkanwc_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (generic_vh_start.handler() != 0) {
                 return 1;
@@ -54,7 +54,7 @@ public class tehkanwc {
         }
     };
 
-    public static VhStopPtr tehkanwc_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr tehkanwc_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             dirtybuffer1 = null;
             osd_free_bitmap(tmpbitmap1);
@@ -165,7 +165,7 @@ public class tehkanwc {
         }
     }
 
-    public static VhUpdatePtr tehkanwc_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr tehkanwc_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

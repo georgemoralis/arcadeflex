@@ -37,7 +37,7 @@ public class gunsmoke {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr gunsmoke_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr gunsmoke_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int p_inc = 0;
@@ -89,7 +89,7 @@ public class gunsmoke {
         }
     };
 
-    public static VhStartPtr gunsmoke_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr gunsmoke_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((bgbitmap = osd_create_bitmap(9 * 32, 9 * 32)) == null) {
                 return 1;
@@ -112,7 +112,7 @@ public class gunsmoke {
         }
     };
 
-    public static VhStopPtr gunsmoke_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr gunsmoke_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(bgbitmap);
         }
@@ -162,7 +162,7 @@ public class gunsmoke {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr gunsmoke_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr gunsmoke_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, sx, sy;
             int bg_scrolly, bg_scrollx;

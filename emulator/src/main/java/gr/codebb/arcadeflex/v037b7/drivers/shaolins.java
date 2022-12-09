@@ -4,6 +4,9 @@
  */
 package gr.codebb.arcadeflex.v037b7.drivers;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -22,7 +25,7 @@ public class shaolins {
 
     public static UBytePtr shaolins_nmi_enable = new UBytePtr();
 
-    public static InterruptPtr shaolins_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr shaolins_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (cpu_getiloops() == 0) {
                 return interrupt.handler();
@@ -273,7 +276,7 @@ public class shaolins {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_kicker = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kicker = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -305,7 +308,7 @@ public class shaolins {
         }
     };
 
-    static RomLoadPtr rom_shaolins = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_shaolins = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */

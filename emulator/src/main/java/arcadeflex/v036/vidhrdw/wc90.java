@@ -55,7 +55,7 @@ public class wc90 {
     static osd_bitmap tmpbitmap1 = null;
     static osd_bitmap tmpbitmap2 = null;
 
-    public static VhStartPtr wc90_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr wc90_vh_start = new VhStartHandlerPtr() {
         public int handler() {
 
             if (generic_vh_start.handler() != 0) {
@@ -111,7 +111,7 @@ public class wc90 {
         }
     };
 
-    public static VhStopPtr wc90_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr wc90_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             dirtybuffer1 = null;
             dirtybuffer2 = null;
@@ -205,7 +205,7 @@ public class wc90 {
         }
     };
 
-    public static VhUpdatePtr wc90_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr wc90_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, i;
             int scrollx, scrolly;

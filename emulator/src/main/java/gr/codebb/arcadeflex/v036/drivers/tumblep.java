@@ -469,7 +469,7 @@ public class tumblep {
     /**
      * ***************************************************************************
      */
-    static RomLoadPtr rom_tumblep = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tumblep = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);/* 68000 code */
 
@@ -497,7 +497,7 @@ public class tumblep {
         }
     };
 
-    static RomLoadPtr rom_tumblepj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tumblepj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);/* 68000 code */
 
@@ -525,7 +525,7 @@ public class tumblep {
         }
     };
 
-    static RomLoadPtr rom_tumblepb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tumblepb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);/* 68000 code */
 
@@ -549,7 +549,7 @@ public class tumblep {
         }
     };
 
-    static RomLoadPtr rom_tumblep2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tumblep2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);/* 68000 code */
 
@@ -576,7 +576,7 @@ public class tumblep {
     /**
      * ***************************************************************************
      */
-    public static InitDriverPtr init_tumblep = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_tumblep = new InitDriverHandlerPtr() {
         public void handler() {
             UBytePtr RAM = memory_region(REGION_CPU1);
             int i, x, a;

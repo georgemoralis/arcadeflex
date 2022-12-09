@@ -4,6 +4,8 @@
  */
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
@@ -107,7 +109,7 @@ public class sega {
      **************************************************************************
      */
 
-    public static VhConvertColorPromPtr sega_init_colors = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr sega_init_colors = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i, r, g, b;
 
@@ -173,7 +175,7 @@ public class sega {
      *
      **************************************************************************
      */
-    public static VhStartPtr sega_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr sega_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int i;
 
@@ -234,7 +236,7 @@ public class sega {
      *
      **************************************************************************
      */
-    public static VhStopPtr sega_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr sega_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             if (sinTable != null) {
                 sinTable = null;
@@ -258,7 +260,7 @@ public class sega {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr sega_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr sega_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             sega_generate_vector_list();
             vector_vh_screenrefresh.handler(bitmap, full_refresh);

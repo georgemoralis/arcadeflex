@@ -242,7 +242,7 @@ public class gaelco
 	);
 	
 	
-	static RomLoadPtr rom_splash = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_splash = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x400000, REGION_CPU1 );/* 68000 code + gfx */
 		ROM_LOAD_EVEN(	"4g",	0x000000, 0x020000, 0xb38fda40 );
 		ROM_LOAD_ODD(	"4i",	0x000000, 0x020000, 0x02359c47 );

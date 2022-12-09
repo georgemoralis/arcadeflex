@@ -44,7 +44,7 @@ public class retofinv {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr retofinv_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr retofinv_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -100,7 +100,7 @@ public class retofinv {
         }
     };
 
-    public static VhStartPtr retofinv_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr retofinv_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((bg_dirtybuffer = new char[retofinv_videoram_size[0]]) == null) {
                 return 1;
@@ -115,7 +115,7 @@ public class retofinv {
         }
     };
 
-    public static VhStopPtr retofinv_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr retofinv_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             bg_dirtybuffer = null;
             osd_free_bitmap(bitmap_bg);
@@ -411,7 +411,7 @@ public class retofinv {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr retofinv_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr retofinv_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             retofinv_draw_background(bitmap);
             retofinv_render_sprites(bitmap);

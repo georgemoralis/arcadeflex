@@ -354,7 +354,7 @@ public class namcos1
 	}
 	
 	
-	public static VhStartPtr namcos1_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr namcos1_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		int i;
 	
@@ -456,7 +456,7 @@ public class namcos1
 		return 0;
 	} };
 	
-	public static VhStopPtr namcos1_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr namcos1_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		namcos1_videoram=null;
 	
@@ -566,7 +566,7 @@ public class namcos1
 		}
 	}
 	
-	public static VhUpdatePtr namcos1_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr namcos1_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int i,priority;
 	

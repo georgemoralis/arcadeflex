@@ -48,7 +48,7 @@ public class swmathbx
 	static int[] PROM_MAS=new int[1024]; /* Storage for direct address only */
 	static int[] PROM_AM=new int[1024]; /* Storage for address mode select only */
 	
-	public static InitDriverPtr init_starwars = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_starwars = new InitDriverHandlerPtr() { public void handler() 
 	{
 		int cnt,val;
 		UBytePtr RAM = new UBytePtr(memory_region(REGION_CPU1));
@@ -69,7 +69,7 @@ public class swmathbx
 	   }
 	} };
 	
-	public static InitMachinePtr init_swmathbox = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr init_swmathbox = new InitMachineHandlerPtr() { public void handler() 
 	{
 		MPA = BIC = 0;
 		PRN = 0;

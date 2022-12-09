@@ -210,7 +210,7 @@ public class pkunwar {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_pkunwar = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pkunwar = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -234,7 +234,7 @@ public class pkunwar {
         }
     };
 
-    static RomLoadPtr rom_pkunwarj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pkunwarj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 

@@ -132,7 +132,7 @@ public class tmnt {
      *
      **************************************************************************
      */
-    public static VhStartPtr mia_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr mia_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             layer_colorbase[0] = 0;
             layer_colorbase[1] = 32;
@@ -148,7 +148,7 @@ public class tmnt {
             return 0;
         }
     };
-    public static VhStartPtr tmnt_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr tmnt_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             layer_colorbase[0] = 0;
             layer_colorbase[1] = 32;
@@ -164,7 +164,7 @@ public class tmnt {
             return 0;
         }
     };
-    public static VhStartPtr punkshot_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr punkshot_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (K052109_vh_start(REGION_GFX1, 0, 1, 2, 3/*NORMAL_PLANE_ORDER*/, tmnt_tile_callback) != 0) {
                 return 1;
@@ -176,7 +176,7 @@ public class tmnt {
             return 0;
         }
     };
-    public static VhStartPtr lgtnfght_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr lgtnfght_vh_start = new VhStartHandlerPtr() {
         public int handler() /* also tmnt2, ssriders */ {
             if (K052109_vh_start(REGION_GFX1, 0, 1, 2, 3/*NORMAL_PLANE_ORDER*/, tmnt_tile_callback) != 0) {
                 return 1;
@@ -188,7 +188,7 @@ public class tmnt {
             return 0;
         }
     };
-    public static VhStartPtr detatwin_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr detatwin_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (K052109_vh_start(REGION_GFX1, 0, 1, 2, 3/*NORMAL_PLANE_ORDER*/, detatwin_tile_callback) != 0) {
                 return 1;
@@ -201,7 +201,7 @@ public class tmnt {
         }
     };
 
-    public static VhStartPtr glfgreat_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr glfgreat_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (K052109_vh_start(REGION_GFX1, 0, 1, 2, 3/*NORMAL_PLANE_ORDER*/, tmnt_tile_callback) != 0) {
                 return 1;
@@ -213,7 +213,7 @@ public class tmnt {
             return 0;
         }
     };
-    public static VhStartPtr thndrx2_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr thndrx2_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (K052109_vh_start(REGION_GFX1, 0, 1, 2, 3/*NORMAL_PLANE_ORDER*/, tmnt_tile_callback) != 0) {
                 return 1;
@@ -225,33 +225,33 @@ public class tmnt {
             return 0;
         }
     };
-    public static VhStopPtr punkshot_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr punkshot_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             K052109_vh_stop();
             K051960_vh_stop();
         }
     };
-    public static VhStopPtr lgtnfght_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr lgtnfght_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             K052109_vh_stop();
             K053245_vh_stop();
         }
     };
-    public static VhStopPtr detatwin_vh_stop = new VhStopPtr() {
-        public void handler() {
-            K052109_vh_stop();
-            K053245_vh_stop();
-        }
-    };
-
-    public static VhStopPtr glfgreat_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr detatwin_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             K052109_vh_stop();
             K053245_vh_stop();
         }
     };
 
-    public static VhStopPtr thndrx2_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr glfgreat_vh_stop = new VhStopHandlerPtr() {
+        public void handler() {
+            K052109_vh_stop();
+            K053245_vh_stop();
+        }
+    };
+
+    public static VhStopHandlerPtr thndrx2_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             K052109_vh_stop();
             K051960_vh_stop();
@@ -437,7 +437,7 @@ public class tmnt {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr mia_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr mia_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             K052109_tilemap_update();
 
@@ -460,7 +460,7 @@ public class tmnt {
             K052109_tilemap_draw(bitmap, 0, 0);
         }
     };
-    public static VhUpdatePtr tmnt_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr tmnt_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             K052109_tilemap_update();
 
@@ -483,7 +483,7 @@ public class tmnt {
             K052109_tilemap_draw(bitmap, 0, 0);
         }
     };
-    public static VhUpdatePtr punkshot_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr punkshot_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int[] pri = new int[3];
             int[] layer = new int[3];
@@ -547,7 +547,7 @@ public class tmnt {
             K051960_sprites_draw(bitmap, 0, pri[2]);
         }
     };
-    public static VhUpdatePtr lgtnfght_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr lgtnfght_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int[] pri = new int[3];
             int[] layer = new int[3];
@@ -615,7 +615,7 @@ public class tmnt {
             K053245_sprites_draw(bitmap, 0, pri[2]);
         }
     };
-    public static VhUpdatePtr glfgreat_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr glfgreat_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int[] pri = new int[3];
             int[] layer = new int[3];
@@ -684,7 +684,7 @@ public class tmnt {
             K053245_sprites_draw(bitmap, 0, pri[2]);
         }
     };
-    public static VhUpdatePtr ssriders_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr ssriders_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int i;
 
@@ -698,7 +698,7 @@ public class tmnt {
             lgtnfght_vh_screenrefresh.handler(bitmap, full_refresh);
         }
     };
-    public static VhUpdatePtr thndrx2_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr thndrx2_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int[] pri = new int[3];
             int[] layer = new int[3];

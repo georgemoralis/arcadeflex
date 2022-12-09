@@ -251,7 +251,7 @@ public class bjtwin
 	
 	
 	
-	static RomLoadPtr rom_bjtwin = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bjtwin = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );	/* 68000 code */
 		ROM_LOAD_EVEN( "bjt.77",  0x00000, 0x40000, 0x7830A465 );	/* 68000 code */
 		ROM_LOAD_ODD ( "bjt.76",  0x00000, 0x40000, 0x7CD4E72A );	/* 68000 code */
@@ -327,7 +327,7 @@ public class bjtwin
 			{0xF,0xE,0xD,0xC,0xB,0xA,0x9,0x8,0x7,0x6,0x5,0x4,0x3,0x2,0x1,0x0},
 			{0xF,0xE,0xC,0x6,0xA,0xB,0x7,0x8,0x9,0x2,0x3,0x4,0x5,0xD,0x1,0x0},
 		};
-	public static InitDriverPtr init_bjtwin = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_bjtwin = new InitDriverHandlerPtr() { public void handler() 
 	{
 		/* GFX are scrambled.  We decode them here.  (BIG Thanks to Antiriad for descrambling info) */
 		UBytePtr rom;

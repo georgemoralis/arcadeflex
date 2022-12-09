@@ -1350,7 +1350,7 @@ public class wecleman
 	
 	
 	
-	public static InterruptPtr wecleman_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr wecleman_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (cpu_getiloops() == 0)	return 4;	/* once */
 		else						return 5;	/* to read input ports */
@@ -1377,7 +1377,7 @@ public class wecleman
 	
 	
 	
-	public static InitMachinePtr wecleman_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr wecleman_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		K007232_bankswitch(0,	memory_region(REGION_SOUND1), /* the 2 channels use different ROMs */
 								memory_region(REGION_SOUND2) );
@@ -1448,9 +1448,9 @@ public class wecleman
 	
 	
 	
-	public static InitMachinePtr hotchase_init_machine = new InitMachinePtr() { public void handler() 		{						} };
-	public static InterruptPtr hotchase_interrupt = new InterruptPtr() { public int handler() 			{return 4;				} };
-	public static InterruptPtr hotchase_sound_interrupt = new InterruptPtr() { public int handler() 		{return M6809_INT_FIRQ;	} };
+	public static InitMachineHandlerPtr hotchase_init_machine = new InitMachineHandlerPtr() { public void handler() 		{						} };
+	public static InterruptHandlerPtr hotchase_interrupt = new InterruptHandlerPtr() { public int handler() 			{return 4;				} };
+	public static InterruptHandlerPtr hotchase_sound_interrupt = new InterruptHandlerPtr() { public int handler() 		{return M6809_INT_FIRQ;	} };
 	
 	static MachineDriver machine_driver_hotchase = new MachineDriver
 	(
@@ -1516,7 +1516,7 @@ public class wecleman
 									WEC Le Mans 24
 	***************************************************************************/
 	
-	static RomLoadPtr rom_wecleman = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_wecleman = new RomLoadHandlerPtr(){ public void handler(){ 
 	
 		ROM_REGION( 0x40000, REGION_CPU1 );	/* Main CPU Code */
 		ROM_LOAD_EVEN( "602f08.17h", 0x00000, 0x10000, 0x493b79d3 );
@@ -1592,7 +1592,7 @@ public class wecleman
 	
 	
 	/* Unpack sprites data and do some patching */
-	public static InitDriverPtr init_wecleman = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_wecleman = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM;
 		int i;
@@ -1656,7 +1656,7 @@ public class wecleman
 	***************************************************************************/
 	
 	
-	static RomLoadPtr rom_hotchase = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_hotchase = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );		/* Main Code */
 		ROM_LOAD_EVEN( "763k05", 0x000000, 0x010000, 0xf34fef0b );
 		ROM_LOAD_ODD ( "763k04", 0x000000, 0x010000, 0x60f73178 );
@@ -1760,7 +1760,7 @@ public class wecleman
 	
 	
 	/* Unpack sprites data and do some patching */
-	public static InitDriverPtr init_hotchase = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_hotchase = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM;
 		int i;

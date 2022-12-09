@@ -27,7 +27,7 @@ public class rastan {
 
     static UBytePtr rastan_ram = new UBytePtr();
 
-    public static InterruptPtr rastan_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr rastan_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             return 5;
             /*Interrupt vector 5*/
@@ -411,7 +411,7 @@ public class rastan {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_rastan = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rastan = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 6*64k for 68000 code */
 
@@ -461,7 +461,7 @@ public class rastan {
         }
     };
 
-    static RomLoadPtr rom_rastanu = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rastanu = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 6*64k for 68000 code */
 
@@ -511,7 +511,7 @@ public class rastan {
         }
     };
 
-    static RomLoadPtr rom_rastanu2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rastanu2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 6*64k for 68000 code */
 
@@ -561,7 +561,7 @@ public class rastan {
         }
     };
 
-    static RomLoadPtr rom_rastsaga = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rastsaga = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 6*64k for 68000 code */
 

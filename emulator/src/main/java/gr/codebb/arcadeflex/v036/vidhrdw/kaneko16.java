@@ -284,7 +284,7 @@ public class kaneko16
 	
 	
 	
-	public static VhStartPtr kaneko16_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr kaneko16_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		bg_tilemap = tilemap_create(get_bg_tile_info,
 									TILEMAP_TRANSPARENT, /* to handle the optional hi-color bg */
@@ -343,7 +343,7 @@ public class kaneko16
 	
 	
 	/* Berlwall has an additional hi-color background */
-	public static VhConvertColorPromPtr berlwall_init_palette = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr berlwall_init_palette = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
                 int palette_ptr=0;
@@ -365,7 +365,7 @@ public class kaneko16
 		}
 	}};
 	
-	public static VhStartPtr berlwall_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr berlwall_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		int sx, x,y;
 		UBytePtr RAM	=	memory_region(REGION_GFX3);
@@ -397,7 +397,7 @@ public class kaneko16
 		return kaneko16_vh_start.handler();
 	} };
 	
-	public static VhStopPtr berlwall_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr berlwall_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		if (kaneko16_bg15_bitmap != null)
 			osd_free_bitmap(kaneko16_bg15_bitmap);
@@ -612,7 +612,7 @@ public class kaneko16
 	
 	***************************************************************************/
 	
-	public static VhUpdatePtr kaneko16_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr kaneko16_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int flag;
 		int layers_ctrl = -1;

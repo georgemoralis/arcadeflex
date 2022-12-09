@@ -225,7 +225,7 @@ public class mrdo {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_mrdo = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mrdo = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -257,7 +257,7 @@ public class mrdo {
         }
     };
 
-    static RomLoadPtr rom_mrdot = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mrdot = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -289,7 +289,7 @@ public class mrdo {
         }
     };
 
-    static RomLoadPtr rom_mrdofix = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mrdofix = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -324,7 +324,7 @@ public class mrdo {
         }
     };
 
-    static RomLoadPtr rom_mrlo = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mrlo = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -356,7 +356,7 @@ public class mrdo {
         }
     };
 
-    static RomLoadPtr rom_mrdu = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mrdu = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -388,7 +388,7 @@ public class mrdo {
         }
     };
 
-    static RomLoadPtr rom_mrdoy = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mrdoy = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -420,7 +420,7 @@ public class mrdo {
         }
     };
 
-    static RomLoadPtr rom_yankeedo = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_yankeedo = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 

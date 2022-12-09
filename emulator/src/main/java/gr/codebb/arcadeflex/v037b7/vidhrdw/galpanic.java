@@ -24,7 +24,7 @@ public class galpanic {
     public static UBytePtr galpanic_fgvideoram = new UBytePtr();
     public static int[] galpanic_fgvideoram_size = new int[1];
 
-    public static VhConvertColorPromPtr galpanic_init_palette = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr galpanic_init_palette = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int palette_ptr = 0;
@@ -200,7 +200,7 @@ public class galpanic {
         }
     }
 
-    public static VhUpdatePtr galpanic_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr galpanic_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             palette_recalc();
 
@@ -215,7 +215,7 @@ public class galpanic {
         }
     };
 
-    public static VhUpdatePtr comad_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr comad_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             palette_recalc();
 

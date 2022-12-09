@@ -249,7 +249,7 @@ public class stfight {
     static MSM5205interface msm5205_interface = new MSM5205interface(
             1, /* 1 chip            */
             384000, /* 384KHz             */
-            new vclk_interruptPtr[]{stfight_adpcm_int}, /* interrupt function */
+            new vclk_InterruptHandlerPtr[]{stfight_adpcm_int}, /* interrupt function */
             new int[]{MSM5205_S48_4B}, /* 8KHz               */
             new int[]{50}
     );
@@ -306,7 +306,7 @@ public class stfight {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_empcity = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_empcity = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x18000, REGION_CPU1);/* 96k for code + 96k for decrypted opcodes */
 
@@ -373,7 +373,7 @@ public class stfight {
         }
     };
 
-    static RomLoadPtr rom_empcityj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_empcityj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x18000, REGION_CPU1);/* 96k for code + 96k for decrypted opcodes */
 
@@ -440,7 +440,7 @@ public class stfight {
         }
     };
 
-    static RomLoadPtr rom_stfight = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_stfight = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x18000, REGION_CPU1);/* 96k for code + 96k for decrypted opcodes */
 

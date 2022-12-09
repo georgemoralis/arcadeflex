@@ -150,7 +150,7 @@ public class hexa {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_hexa = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hexa = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);
             /* 64k for code + 32k for banked ROM */
@@ -171,7 +171,7 @@ public class hexa {
         }
     };
 
-    public static InitDriverPtr init_hexa = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_hexa = new InitDriverHandlerPtr() {
         public void handler() {
             UBytePtr RAM = memory_region(REGION_CPU1);
 

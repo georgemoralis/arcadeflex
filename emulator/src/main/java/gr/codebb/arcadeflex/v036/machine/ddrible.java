@@ -43,7 +43,7 @@ public class ddrible
 	public static UBytePtr ddrible_snd_sharedram=new UBytePtr();
 	public static int int_enable_0, int_enable_1;
 	
-        public static InitMachinePtr ddrible_init_machine = new InitMachinePtr() { public void handler() 
+        public static InitMachineHandlerPtr ddrible_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		int_enable_0 = int_enable_1 = 0;
         }};
@@ -56,13 +56,13 @@ public class ddrible
 		bankaddress = 0x10000 + (data & 0x0f) * 0x2000;
 		cpu_setbank(1,new UBytePtr(RAM,bankaddress));
 	} };
-	public static InterruptPtr ddrible_interrupt_0 = new InterruptPtr() { public int handler()
+	public static InterruptHandlerPtr ddrible_interrupt_0 = new InterruptHandlerPtr() { public int handler()
         {
 		if (int_enable_0 != 0)
 			return M6809_INT_FIRQ;
 		return ignore_interrupt.handler();
 	}};
-	public static InterruptPtr ddrible_interrupt_1 = new InterruptPtr() { public int handler()
+	public static InterruptHandlerPtr ddrible_interrupt_1 = new InterruptHandlerPtr() { public int handler()
         {
 		if (int_enable_1 != 0)
 			return M6809_INT_FIRQ;

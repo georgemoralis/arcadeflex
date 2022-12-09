@@ -89,12 +89,12 @@ public class centiped {
 
     static int powerup_counter;
 
-    public static InitMachinePtr centiped_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr centiped_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             powerup_counter = 10;
         }
     };
-    public static InterruptPtr centiped_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr centiped_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             int offset;
             int slice = 3 - cpu_getiloops();
@@ -136,7 +136,7 @@ public class centiped {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr centiped_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr centiped_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

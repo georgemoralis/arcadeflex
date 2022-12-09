@@ -600,7 +600,7 @@ public class hyperspt
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_hyperspt = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_hyperspt = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 2*0x10000, REGION_CPU1 );    /* 64k for code + 64k for decrypted opcodes */
 		ROM_LOAD( "c01",          0x4000, 0x2000, 0x0c720eeb );
 		ROM_LOAD( "c02",          0x6000, 0x2000, 0x560258e0 );
@@ -638,7 +638,7 @@ public class hyperspt
 		ROM_LOAD( "c08",          0x0000, 0x2000, 0xe8f8ea78 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_hpolym84 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_hpolym84 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 2*0x10000, REGION_CPU1 );    /* 64k for code + 64k for decrypted opcodes */
 		ROM_LOAD( "c01",          0x4000, 0x2000, 0x0c720eeb );
 		ROM_LOAD( "c02",          0x6000, 0x2000, 0x560258e0 );
@@ -676,7 +676,7 @@ public class hyperspt
 		ROM_LOAD( "c08",          0x0000, 0x2000, 0xe8f8ea78 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_roadf = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_roadf = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 2*0x10000, REGION_CPU1 );    /* 64k for code + 64k for decrypted opcodes */
 		ROM_LOAD( "g05_g01.bin",  0x4000, 0x2000, 0xe2492a06 );
 		ROM_LOAD( "g07_f02.bin",  0x6000, 0x2000, 0x0bf75165 );
@@ -704,7 +704,7 @@ public class hyperspt
 		ROM_LOAD( "a09_c29.bin",  0x0120, 0x0100, 0x5b3b5f2a );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_roadf2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_roadf2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );    /* 64k for code */
 		ROM_LOAD( "5g",           0x4000, 0x2000, 0xd8070d30 );
 		ROM_LOAD( "6g",           0x6000, 0x2000, 0x8b661672 );
@@ -733,7 +733,7 @@ public class hyperspt
 	ROM_END(); }}; 
 	
 	
-	public static InitDriverPtr init_hyperspt = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_hyperspt = new InitDriverHandlerPtr() { public void handler() 
 	{
 		konami1_decode();
 	} };

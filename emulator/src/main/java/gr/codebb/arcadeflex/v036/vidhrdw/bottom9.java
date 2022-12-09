@@ -7,6 +7,9 @@
  */ 
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
@@ -87,7 +90,7 @@ public class bottom9
 	
 	***************************************************************************/
 	
-	public static VhStartPtr bottom9_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr bottom9_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		layer_colorbase[0] = 0;	/* not used */
 		layer_colorbase[1] = 0;
@@ -113,7 +116,7 @@ public class bottom9
 		return 0;
 	} };
 	
-	public static VhStopPtr bottom9_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr bottom9_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		K052109_vh_stop();
 		K051960_vh_stop();
@@ -128,7 +131,7 @@ public class bottom9
 	
 	***************************************************************************/
 	
-	public static VhUpdatePtr bottom9_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr bottom9_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int i;
 	

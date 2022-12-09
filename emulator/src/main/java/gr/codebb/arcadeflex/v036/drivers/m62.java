@@ -2086,7 +2086,7 @@ public class m62 {
      **************************************************************************
      */
 
-    static RomLoadPtr rom_kungfum = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kungfum = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2144,7 +2144,7 @@ public class m62 {
         }
     };
 
-    static RomLoadPtr rom_kungfud = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kungfud = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2202,7 +2202,7 @@ public class m62 {
         }
     };
 
-    static RomLoadPtr rom_spartanx = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spartanx = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2260,7 +2260,7 @@ public class m62 {
         }
     };
 
-    static RomLoadPtr rom_kungfub = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kungfub = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2318,7 +2318,7 @@ public class m62 {
         }
     };
 
-    static RomLoadPtr rom_kungfub2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kungfub2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2376,7 +2376,7 @@ public class m62 {
         }
     };
 
-    static RomLoadPtr rom_battroad = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_battroad = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x1e000, REGION_CPU1);/* 64k for code */
 
@@ -2442,7 +2442,7 @@ public class m62 {
         }
     };
 
-    static RomLoadPtr rom_ldrun = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ldrun = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2490,7 +2490,7 @@ public class m62 {
         }
     };
 
-    static RomLoadPtr rom_ldruna = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ldruna = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2538,7 +2538,7 @@ public class m62 {
         }
     };
 
-    static RomLoadPtr rom_ldrun2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ldrun2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);/* 64k for code + 16k for banks */
 
@@ -2593,7 +2593,7 @@ public class m62 {
         }
     };
 
-    static RomLoadPtr rom_ldrun3 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ldrun3 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2642,7 +2642,7 @@ public class m62 {
         }
     };
 
-    static RomLoadPtr rom_ldrun4 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ldrun4 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);/* 64k for code + 32k for banked ROM */
 
@@ -2694,7 +2694,7 @@ public class m62 {
         }
     };
 
-    static RomLoadPtr rom_lotlot = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_lotlot = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2755,7 +2755,7 @@ public class m62 {
         }
     };
 
-    static RomLoadPtr rom_kidniki = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kidniki = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);/* main CPU */
 
@@ -2823,7 +2823,7 @@ public class m62 {
         }
     };
 
-    static RomLoadPtr rom_yanchamr = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_yanchamr = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);/* main CPU */
 
@@ -2891,7 +2891,7 @@ public class m62 {
         }
     };
 
-    static RomLoadPtr rom_spelunkr = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spelunkr = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);/* main CPU */
 
@@ -2978,7 +2978,7 @@ public class m62 {
         }
     };
 
-    static RomLoadPtr rom_spelunk2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spelunk2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x24000, REGION_CPU1);/* main CPU */
 

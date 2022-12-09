@@ -299,7 +299,7 @@ public class _1943 {
      * Game driver(s)
      * *************************************************************************
      */
-    static RomLoadPtr rom_1943 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_1943 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);/* 64k for code + 128k for the banked ROMs images */
             ROM_LOAD("1943.01", 0x00000, 0x08000, 0xc686cc5c);
@@ -357,7 +357,7 @@ public class _1943 {
         }
     };
 
-    static RomLoadPtr rom_1943j = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_1943j = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);/* 64k for code + 128k for the banked ROMs images */
             ROM_LOAD("1943jap.001", 0x00000, 0x08000, 0xf6935937);
@@ -415,7 +415,7 @@ public class _1943 {
         }
     };
 
-    static RomLoadPtr rom_1943kai = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_1943kai = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);/* 64k for code + 128k for the banked ROMs images */
             ROM_LOAD("1943kai.01", 0x00000, 0x08000, 0x7d2211db);

@@ -592,7 +592,7 @@ public class bwidow {
      * Game driver(s)
      **************************************************************************
      */
-    static RomLoadPtr rom_bwidow = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bwidow = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
  /* Vector ROM */
@@ -612,7 +612,7 @@ public class bwidow {
         }
     };
 
-    static RomLoadPtr rom_gravitar = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gravitar = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
  /* Vector ROM */
@@ -632,7 +632,7 @@ public class bwidow {
         }
     };
 
-    static RomLoadPtr rom_gravitr2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gravitr2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
  /* Vector ROM */
@@ -652,7 +652,7 @@ public class bwidow {
         }
     };
 
-    static RomLoadPtr rom_spacduel = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spacduel = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
  /* Vector ROM */

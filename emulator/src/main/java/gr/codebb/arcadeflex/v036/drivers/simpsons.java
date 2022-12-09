@@ -297,7 +297,7 @@ public class simpsons {
             new int[]{MIXER(75, MIXER_PAN_LEFT), MIXER(75, MIXER_PAN_RIGHT)},
             null//	nmi_callback
     );
-    public static InterruptPtr simpsons_irq = new InterruptPtr() {
+    public static InterruptHandlerPtr simpsons_irq = new InterruptHandlerPtr() {
         public int handler() {
             if (cpu_getiloops() == 0) {
                 if (simpsons_firq_enabled != 0 && K053247_is_IRQ_enabled() != 0) {
@@ -365,7 +365,7 @@ public class simpsons {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_simpsons = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_simpsons = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x8a000, REGION_CPU1);/* code + banked roms + banked ram */
 
@@ -402,7 +402,7 @@ public class simpsons {
         }
     };
 
-    static RomLoadPtr rom_simpsn2p = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_simpsn2p = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x8a000, REGION_CPU1);/* code + banked roms + banked ram */
 
@@ -439,7 +439,7 @@ public class simpsons {
         }
     };
 
-    static RomLoadPtr rom_simps2pj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_simps2pj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x8a000, REGION_CPU1);/* code + banked roms + banked ram */
 
@@ -483,7 +483,7 @@ public class simpsons {
      *
      **************************************************************************
      */
-    public static InitDriverPtr init_simpsons = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_simpsons = new InitDriverHandlerPtr() {
         public void handler() {
             konami_rom_deinterleave_2(REGION_GFX1);
             konami_rom_deinterleave_4(REGION_GFX2);

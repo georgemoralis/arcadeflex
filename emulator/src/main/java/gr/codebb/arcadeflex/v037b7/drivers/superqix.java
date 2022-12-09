@@ -181,7 +181,7 @@ public class superqix {
                 new GfxDecodeInfo(-1) /* end of array */};
 
     static int loop = 0;
-    public static InterruptPtr sqix_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr sqix_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             loop++;
 
@@ -246,7 +246,7 @@ public class superqix {
      *
      *************************************************************************
      */
-    static RomLoadPtr rom_superqix = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_superqix = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("sq01.97", 0x00000, 0x08000, 0x0888b7de);
@@ -268,7 +268,7 @@ public class superqix {
         }
     };
 
-    static RomLoadPtr rom_sqixbl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sqixbl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("cpu.2", 0x00000, 0x08000, 0x682e28e3);

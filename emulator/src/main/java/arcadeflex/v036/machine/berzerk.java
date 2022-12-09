@@ -9,8 +9,6 @@ import static arcadeflex.v036.cpu.z80.z80H.*;
 import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
 import static arcadeflex.v036.mame.commonH.REGION_CPU1;
-import gr.codebb.arcadeflex.v036.mame.driverH.InitMachinePtr;
-import gr.codebb.arcadeflex.v036.mame.driverH.InterruptPtr;
 
 public class berzerk {
 
@@ -22,8 +20,8 @@ public class berzerk {
 
     public static int int_count;
 
-    public static InitMachinePtr berzerk_init_machine
-            = new InitMachinePtr() {
+    public static InitMachineHandlerPtr berzerk_init_machine
+            = new InitMachineHandlerPtr() {
         public void handler() {
             int i;
 
@@ -105,8 +103,8 @@ public class berzerk {
         }
     };
 
-    public static InterruptPtr berzerk_interrupt
-            = new InterruptPtr() {
+    public static InterruptHandlerPtr berzerk_interrupt
+            = new InterruptHandlerPtr() {
         public int handler() {
             int_count++;
 

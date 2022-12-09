@@ -192,7 +192,7 @@ public class bankp {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_bankp = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bankp = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 

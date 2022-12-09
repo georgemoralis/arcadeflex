@@ -7,6 +7,9 @@
  */ 
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
@@ -67,7 +70,7 @@ public class thunderx
 	
 	***************************************************************************/
 	
-	public static VhStartPtr scontra_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr scontra_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		layer_colorbase[0] = 48;
 		layer_colorbase[1] = 0;
@@ -85,14 +88,14 @@ public class thunderx
 		return 0;
 	} };
 	
-	public static VhStopPtr scontra_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr scontra_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		K052109_vh_stop();
 		K051960_vh_stop();
 	} };
 	
 	
-	public static VhUpdatePtr scontra_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr scontra_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		K052109_tilemap_update();
 	

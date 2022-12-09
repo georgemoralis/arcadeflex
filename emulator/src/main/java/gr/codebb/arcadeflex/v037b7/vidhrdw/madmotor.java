@@ -146,7 +146,7 @@ public class madmotor
 	
 	/******************************************************************************/
 	
-	public static VhStartPtr madmotor_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr madmotor_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		madmotor_pf1_tilemap = tilemap_create(
                         get_pf1_tile_info,
@@ -406,7 +406,7 @@ public class madmotor
 	
 	/******************************************************************************/
 	
-	public static VhUpdatePtr madmotor_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr madmotor_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int offs;
 	

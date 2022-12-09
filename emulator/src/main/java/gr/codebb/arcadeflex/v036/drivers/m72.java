@@ -337,63 +337,63 @@ public class m72
 		protection_ram = new UBytePtr(memory_region(REGION_CPU1),0xb0000);
 	}
 	
-	public static InitDriverPtr init_bchopper = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_bchopper = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_protection_handler(bchopper_code,bchopper_crc);
 	
 		install_port_write_handler(0,0xc0,0xc0,bchopper_sample_trigger);
 	} };
 	
-	public static InitDriverPtr init_mrheli = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_mrheli = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_protection_handler(bchopper_code,mrheli_crc);
 	
 		install_port_write_handler(0,0xc0,0xc0,bchopper_sample_trigger);
 	} };
 	
-	public static InitDriverPtr init_nspirit = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_nspirit = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_protection_handler(nspirit_code,nspirit_crc);
 	
 		install_port_write_handler(0,0xc0,0xc0,nspirit_sample_trigger);
 	} };
 	
-	public static InitDriverPtr init_nspiritj = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_nspiritj = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_protection_handler(nspirit_code,nspiritj_crc);
 	
 		install_port_write_handler(0,0xc0,0xc0,nspirit_sample_trigger);
 	} };
 	
-	public static InitDriverPtr init_imgfight = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_imgfight = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_protection_handler(imgfight_code,imgfight_crc);
 	
 		install_port_write_handler(0,0xc0,0xc0,imgfight_sample_trigger);
 	} };
 	
-	public static InitDriverPtr init_loht = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_loht = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_protection_handler(loht_code,loht_crc);
 	
 		install_port_write_handler(0,0xc0,0xc0,loht_sample_trigger);
 	} };
 	
-	public static InitDriverPtr init_xmultipl = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_xmultipl = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_protection_handler(xmultipl_code,xmultipl_crc);
 	
 		install_port_write_handler(0,0xc0,0xc0,xmultipl_sample_trigger);
 	} };
 	
-	public static InitDriverPtr init_dbreed = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_dbreed = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_protection_handler(dbreed_code,dbreed_crc);
 	
 		install_port_write_handler(0,0xc0,0xc0,dbreed_sample_trigger);
 	} };
 	
-	public static InitDriverPtr init_gallop = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_gallop = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_port_write_handler(0,0xc0,0xc0,gallop_sample_trigger);
 	} };
@@ -2467,7 +2467,7 @@ public class m72
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_rtype = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_rtype = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "db_b1.bin",   0x00000, 0x10000, 0xc1865141 );
 		ROM_LOAD_ODD ( "db_a1.bin",   0x00000, 0x10000, 0x5ad2bd90 );
@@ -2502,7 +2502,7 @@ public class m72
 		ROM_LOAD( "cpu-b3.bin",   0x18000, 0x08000, 0xad89b072 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_rtypeu = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_rtypeu = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "aud-h0.bin",   0x00000, 0x10000, 0x36008a4e );
 		ROM_LOAD_ODD ( "aud-l0.bin",   0x00000, 0x10000, 0x4aaa668e );
@@ -2537,7 +2537,7 @@ public class m72
 		ROM_LOAD( "cpu-b3.bin",   0x18000, 0x08000, 0xad89b072 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_rtypeb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_rtypeb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "r-7.8b",       0x00000, 0x10000, 0xeacc8024 );
 		ROM_LOAD_ODD ( "r-1.7b",       0x00000, 0x10000, 0x2e5fe27b );
@@ -2572,7 +2572,7 @@ public class m72
 		ROM_LOAD( "cpu-b3.bin",   0x18000, 0x08000, 0xad89b072 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_bchopper = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bchopper = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "c-h0-b.rom",   0x00000, 0x10000, 0xf2feab16 );
 		ROM_LOAD_ODD ( "c-l0-b.rom",   0x00000, 0x10000, 0x9f887096 );
@@ -2612,7 +2612,7 @@ public class m72
 		ROM_LOAD( "c-v0-b.rom",   0x00000, 0x10000, 0xd0c27e58 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mrheli = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mrheli = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "mh-c-h0.bin",  0x00000, 0x10000, 0xe2ca5646 );
 		ROM_LOAD_ODD ( "mh-c-l0.bin",  0x00000, 0x10000, 0x643e23cd );
@@ -2648,7 +2648,7 @@ public class m72
 		ROM_LOAD( "c-v0-b.rom",   0x00000, 0x10000, 0xd0c27e58 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_nspirit = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_nspirit = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "nin-c-h0.rom", 0x00000, 0x10000, 0x035692fa );
 		ROM_LOAD_ODD ( "nin-c-l0.rom", 0x00000, 0x10000, 0x9a405898 );
@@ -2686,7 +2686,7 @@ public class m72
 		ROM_LOAD( "nin-v0.rom",      0x00000, 0x10000, 0xa32e8caf );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_nspiritj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_nspiritj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "c-h0",         0x00000, 0x10000, 0x8603fab2 );
 		ROM_LOAD_ODD ( "c-l0",         0x00000, 0x10000, 0xe520fa35 );
@@ -2724,7 +2724,7 @@ public class m72
 		ROM_LOAD( "nin-v0.rom",      0x00000, 0x10000, 0xa32e8caf );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_imgfight = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_imgfight = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "if-c-h0.bin",  0x00000, 0x10000, 0x592d2d80 );
 		ROM_LOAD_ODD ( "if-c-l0.bin",  0x00000, 0x10000, 0x61f89056 );
@@ -2759,7 +2759,7 @@ public class m72
 		ROM_LOAD( "if-c-v1.bin",  0x10000, 0x10000, 0x45b68bf5 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_loht = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_loht = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "tom_c-h0.rom", 0x00000, 0x20000, 0xa63204b6 );
 		ROM_LOAD_ODD ( "tom_c-l0.rom", 0x00000, 0x20000, 0xe788002f );
@@ -2793,7 +2793,7 @@ public class m72
 		ROM_LOAD( "tom_m44.rom",  0x00000, 0x10000, 0x3ed51d1f );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_xmultipl = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_xmultipl = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "ch3.h3",       0x00000, 0x20000, 0x20685021 );
 		ROM_LOAD_ODD ( "cl3.l3",       0x00000, 0x20000, 0x93fdd200 );
@@ -2831,7 +2831,7 @@ public class m72
 		ROM_LOAD( "t52.v0",       0x00000, 0x20000, 0x2db1bd80 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_dbreed = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_dbreed = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "db_c-h3.rom",  0x00000, 0x20000, 0x4bf3063c );
 		ROM_LOAD_ODD ( "db_c-l3.rom",  0x00000, 0x20000, 0xe4b89b79 );
@@ -2865,7 +2865,7 @@ public class m72
 		ROM_LOAD( "db_c-v0.rom",  0x00000, 0x20000, 0x312f7282 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_rtype2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_rtype2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "ic54.8d",      0x00000, 0x20000, 0xd8ece6f4 );
 		ROM_LOAD_ODD ( "ic60.9d",      0x00000, 0x20000, 0x32cfb2e4 );
@@ -2897,7 +2897,7 @@ public class m72
 		ROM_LOAD( "ic14.4c",      0x00000, 0x20000, 0x637172d5 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_rtype2j = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_rtype2j = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "rt2-a-h0.54",  0x00000, 0x20000, 0x7857ccf6 );
 		ROM_LOAD_ODD ( "rt2-a-l0.60",  0x00000, 0x20000, 0xcb22cd6e );
@@ -2929,7 +2929,7 @@ public class m72
 		ROM_LOAD( "ic14.4c",      0x00000, 0x20000, 0x637172d5 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_majtitle = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_majtitle = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "mt_m0.bin",    0x00000, 0x20000, 0xb9682c70 );
 		ROM_LOAD_ODD ( "mt_l0.bin",    0x00000, 0x20000, 0x702c9fd6 );
@@ -2963,7 +2963,7 @@ public class m72
 		ROM_LOAD( "mt_vo.bin",    0x00000, 0x20000, 0xeb24bb2c );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_hharry = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_hharry = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "a-h0-v.rom",   0x00000, 0x20000, 0xc52802a5 );
 		ROM_LOAD_ODD ( "a-l0-v.rom",   0x00000, 0x20000, 0xf463074c );
@@ -2991,7 +2991,7 @@ public class m72
 		ROM_LOAD( "a-v0-0.rom",   0x00000, 0x20000, 0xfaaacaff );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_hharryu = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_hharryu = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "a-ho-u.8d",    0x00000, 0x20000, 0xede7f755 );
 		ROM_LOAD_ODD ( "a-lo-u.9d",    0x00000, 0x20000, 0xdf0726ae );
@@ -3019,7 +3019,7 @@ public class m72
 		ROM_LOAD( "a-v0-0.rom",   0x00000, 0x20000, 0xfaaacaff );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_dkgensan = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_dkgensan = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "gen-a-h0.bin", 0x00000, 0x20000, 0x07a45f6d );
 		ROM_LOAD_ODD ( "gen-a-l0.bin", 0x00000, 0x20000, 0x46478fea );
@@ -3047,7 +3047,7 @@ public class m72
 		ROM_LOAD( "gen-vo.bin",   0x00000, 0x20000, 0xd8595c66 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_kengo = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kengo = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "ken_d-h0.rom", 0x00000, 0x20000, 0xf4ddeea5 );
 		ROM_RELOAD_EVEN(               0xc0000, 0x20000 );
@@ -3073,7 +3073,7 @@ public class m72
 		ROM_LOAD( "ken_m14.rom",  0x00000, 0x20000, 0x6651e9b7 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_gallop = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gallop = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "cc-c-h0.bin",  0x00000, 0x20000, 0x2217dcd0 );
 		ROM_LOAD_ODD ( "cc-c-l0.bin",  0x00000, 0x20000, 0xff39d7fb );
@@ -3107,7 +3107,7 @@ public class m72
 		ROM_LOAD( "cc-c-v0.bin",  0x00000, 0x20000, 0x6247bade );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_poundfor = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_poundfor = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "ppa-ho-a.9e",  0x00000, 0x20000, 0xff4c83a4 );
 		ROM_LOAD_ODD ( "ppa-lo-a.9d",  0x00000, 0x20000, 0x3374ce8f );

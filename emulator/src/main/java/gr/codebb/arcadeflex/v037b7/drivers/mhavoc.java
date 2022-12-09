@@ -354,7 +354,7 @@ public class mhavoc
 	 * Prototype is supported as "mhavocp"
 	 */
 	
-	static RomLoadPtr rom_mhavoc = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mhavoc = new RomLoadHandlerPtr(){ public void handler(){ 
 		/* Alpha Processor ROMs */
 		ROM_REGION( 0x21000, REGION_CPU1 );/* 152KB for ROMs */
 		/* Vector Generator ROM */
@@ -378,7 +378,7 @@ public class mhavoc
 		ROM_RELOAD(               0x0c000, 0x4000 );/* reset+interrupt vectors */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mhavoc2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mhavoc2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		/* Alpha Processor ROMs */
 		ROM_REGION( 0x21000, REGION_CPU1 );
 		/* Vector Generator ROM */
@@ -404,7 +404,7 @@ public class mhavoc
 		ROM_RELOAD(               0x0c000, 0x4000 );/* reset+interrupt vectors */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mhavocrv = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mhavocrv = new RomLoadHandlerPtr(){ public void handler(){ 
 		/* Alpha Processor ROMs */
 		ROM_REGION( 0x21000, REGION_CPU1 );/* 152KB for ROMs */
 		/* Vector Generator ROM */
@@ -428,7 +428,7 @@ public class mhavoc
 		ROM_RELOAD(               0x0c000, 0x4000 );/* reset+interrupt vectors */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mhavocp = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mhavocp = new RomLoadHandlerPtr(){ public void handler(){ 
 		/* Alpha Processor ROMs */
 		ROM_REGION( 0x21000, REGION_CPU1 );
 		/* Vector Generator ROM */

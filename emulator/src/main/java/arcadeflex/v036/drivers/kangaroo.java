@@ -29,7 +29,7 @@ import static arcadeflex.v036.machine.kangaroo.*;
 
 public class kangaroo {
 
-    public static InitMachinePtr kangaroo_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr kangaroo_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             /* I think there is a bug in the startup checks of the game. At the very */
  /* beginning, during the RAM check, it goes one byte too far, and ends up */
@@ -314,7 +314,7 @@ public class kangaroo {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_fnkyfish = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_fnkyfish = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);/* 64k for code + 16k for banked ROMs */
 
@@ -336,7 +336,7 @@ public class kangaroo {
         }
     };
 
-    static RomLoadPtr rom_kangaroo = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kangaroo = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);/* 64k for code + 16k for banked ROMs */
 
@@ -365,7 +365,7 @@ public class kangaroo {
         }
     };
 
-    static RomLoadPtr rom_kangaroa = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kangaroa = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);/* 64k for code + 16k for banked ROMs */
 
@@ -394,7 +394,7 @@ public class kangaroo {
         }
     };
 
-    static RomLoadPtr rom_kangarob = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kangarob = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);/* 64k for code + 16k for banked ROMs */
 

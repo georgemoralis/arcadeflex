@@ -207,7 +207,7 @@ public class tutankhm
 	);
 	
 	
-	static RomLoadPtr rom_tutankhm = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_tutankhm = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x20000, REGION_CPU1 );     /* 64k for M6809 CPU code + 64k for ROM banks */
 		ROM_LOAD( "h1.bin",       0x0a000, 0x1000, 0xda18679f );/* program ROMs */
 		ROM_LOAD( "h2.bin",       0x0b000, 0x1000, 0xa0f02c85 );
@@ -232,7 +232,7 @@ public class tutankhm
 	ROM_END(); }}; 
 	
 	
-	static RomLoadPtr rom_tutankst = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_tutankst = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x20000, REGION_CPU1 );     /* 64k for M6809 CPU code + 64k for ROM banks */
 		ROM_LOAD( "h1.bin",       0x0a000, 0x1000, 0xda18679f );/* program ROMs */
 		ROM_LOAD( "h2.bin",       0x0b000, 0x1000, 0xa0f02c85 );

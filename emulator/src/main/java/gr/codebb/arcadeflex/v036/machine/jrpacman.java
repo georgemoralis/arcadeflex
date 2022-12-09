@@ -7,6 +7,9 @@
  */
 package gr.codebb.arcadeflex.v036.machine;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -21,7 +24,7 @@ public class jrpacman {
     /* hack can be applied, and set this flag accordingly. */
 
 
-    public static InitMachinePtr jrpacman_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr jrpacman_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             UBytePtr RAM = memory_region(REGION_CPU1);
 
@@ -34,7 +37,7 @@ public class jrpacman {
         }
     };
 
-    public static InterruptPtr jrpacman_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr jrpacman_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             UBytePtr RAM = memory_region(REGION_CPU1);
 

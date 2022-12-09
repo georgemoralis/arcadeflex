@@ -31,7 +31,7 @@ public class gaiden
 
 	
 	
-	public static InterruptPtr gaiden_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr gaiden_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		return 5;  /*Interrupt vector 5*/
 	} };
@@ -507,7 +507,7 @@ public class gaiden
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_gaiden = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gaiden = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 2*128k for 68000 code */
 		ROM_LOAD_EVEN( "gaiden.1",     0x00000, 0x20000, 0xe037ff7c );
 		ROM_LOAD_ODD ( "gaiden.2",     0x00000, 0x20000, 0x454f7314 );
@@ -544,7 +544,7 @@ public class gaiden
 		ROM_LOAD( "gaiden.4",     0x0000, 0x20000, 0xb0e0faf9 );/* samples */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_shadoww = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_shadoww = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 2*128k for 68000 code */
 		ROM_LOAD_EVEN( "shadoww.1",    0x00000, 0x20000, 0xfefba387 );
 		ROM_LOAD_ODD ( "shadoww.2",    0x00000, 0x20000, 0x9b9d6b18 );
@@ -583,7 +583,7 @@ public class gaiden
 		ROM_LOAD( "gaiden.4",     0x0000, 0x20000, 0xb0e0faf9 );/* samples */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_tknight = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_tknight = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 2*128k for 68000 code */
 		ROM_LOAD_EVEN( "tkni1.bin",    0x00000, 0x20000, 0x9121daa8 );
 		ROM_LOAD_ODD ( "tkni2.bin",    0x00000, 0x20000, 0x6669cd87 );
@@ -608,7 +608,7 @@ public class gaiden
 		ROM_LOAD( "tkni4.bin",    0x0000, 0x20000, 0xa7a1dbcf );/* samples */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_wildfang = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_wildfang = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 2*128k for 68000 code */
 		ROM_LOAD_EVEN( "1.3st",    0x00000, 0x20000, 0xab876c9b );
 		ROM_LOAD_ODD ( "2.5st",    0x00000, 0x20000, 0x1dc74b3b );

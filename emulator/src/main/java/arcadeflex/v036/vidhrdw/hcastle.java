@@ -33,7 +33,7 @@ public class hcastle {
     public static UBytePtr hcastle_pf2_videoram = new UBytePtr();
     static int gfx_bank;
 
-    public static VhConvertColorPromPtr hcastle_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr hcastle_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i, chip, pal, clut;
             int c_ptr = 0;
@@ -59,7 +59,7 @@ public class hcastle {
     /**
      * **************************************************************************
      */
-    public static VhStartPtr hcastle_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr hcastle_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((pf1_bitmap = osd_create_bitmap(64 * 8, 32 * 8)) == null) {
                 return 1;
@@ -77,7 +77,7 @@ public class hcastle {
         }
     };
 
-    public static VhStopPtr hcastle_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr hcastle_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(pf1_bitmap);
             osd_free_bitmap(pf2_bitmap);
@@ -150,7 +150,7 @@ public class hcastle {
      * **************************************************************************
      */
     static int old_pf1, old_pf2;
-    public static VhUpdatePtr hcastle_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr hcastle_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, tile, color, mx, my, bank, scrollx, scrolly;
             int pf2_bankbase, pf1_bankbase, attr;

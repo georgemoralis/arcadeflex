@@ -49,7 +49,7 @@ public class terracre
 	static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-	public static VhConvertColorPromPtr terrac_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr terrac_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -151,7 +151,7 @@ public class terracre
 	  Stop the video hardware emulation.
 	***************************************************************************/
 	
-	public static VhStopPtr terrac_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr terrac_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 	        dirtybuffer2=null;
 		osd_free_bitmap(tmpbitmap2);
@@ -163,7 +163,7 @@ public class terracre
 	***************************************************************************/
 	
 	
-	public static VhStartPtr terrac_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr terrac_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		if (generic_vh_start.handler()!= 0)
 			return 1;
@@ -195,7 +195,7 @@ public class terracre
 	  the main emulation engine.
 	
 	***************************************************************************/
-	public static VhUpdatePtr terracre_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr terracre_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int offs,x,y;
 	

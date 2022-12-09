@@ -4,6 +4,9 @@
  */
 package gr.codebb.arcadeflex.v037b7.drivers;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -232,7 +235,7 @@ public class pengo {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_pengo = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pengo = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);
             /* 64k for code + 64k for decrypted opcodes */
@@ -265,7 +268,7 @@ public class pengo {
         }
     };
 
-    static RomLoadPtr rom_pengo2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pengo2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);
             /* 64k for code + 64k for decrypted opcodes */
@@ -298,7 +301,7 @@ public class pengo {
         }
     };
 
-    static RomLoadPtr rom_pengo2u = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pengo2u = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -330,7 +333,7 @@ public class pengo {
         }
     };
 
-    static RomLoadPtr rom_penta = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_penta = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);
             /* 64k for code + 64k for decrypted opcodes */
@@ -363,12 +366,12 @@ public class pengo {
         }
     };
 
-    public static InitDriverPtr init_pengo = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_pengo = new InitDriverHandlerPtr() {
         public void handler() {
             pengo_decode();
         }
     };
-    public static InitDriverPtr init_penta = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_penta = new InitDriverHandlerPtr() {
         public void handler() {
 
             /*

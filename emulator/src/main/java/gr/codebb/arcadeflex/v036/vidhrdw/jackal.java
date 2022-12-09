@@ -6,6 +6,9 @@
  *
  */ 
 package gr.codebb.arcadeflex.v036.vidhrdw;
+
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
@@ -35,7 +38,7 @@ public class jackal
         {
             return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
         }
-	public static VhConvertColorPromPtr jackal_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr jackal_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 		////#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -56,7 +59,7 @@ public class jackal
 	
 	
 	
-	public static VhStartPtr jackal_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr jackal_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		videoram_size[0] = 0x400;
 	
@@ -77,7 +80,7 @@ public class jackal
 	} };
 	
 	
-	public static VhStopPtr jackal_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr jackal_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		dirtybuffer=null;
 		osd_free_bitmap(tmpbitmap);
@@ -95,7 +98,7 @@ public class jackal
 	  the main emulation engine.
 	
 	***************************************************************************/
-	public static VhUpdatePtr jackal_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr jackal_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		//unsigned char *sr, *ss;
                 UBytePtr sr;

@@ -65,7 +65,7 @@ public class hydra
             }
         };
 	
-	public static InitMachinePtr init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_reset();
 		atarigen_slapstic_reset();
@@ -348,7 +348,7 @@ public class hydra
 	 *
 	 *************************************/
 	
-	public static InitDriverPtr init_hydra = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_hydra = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = null;
 		atarigen_slapstic_init(0, 0x078000, 116);
@@ -371,7 +371,7 @@ public class hydra
 	} };
 	
 	
-	public static InitDriverPtr init_hydrap = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_hydrap = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = null;
 	
@@ -392,7 +392,7 @@ public class hydra
 	} };
 	
 	
-	public static InitDriverPtr init_pitfight = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_pitfight = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = null;
 		atarigen_slapstic_init(0, 0x038000, 111);
@@ -422,7 +422,7 @@ public class hydra
 	 *
 	 *************************************/
 	
-	static RomLoadPtr rom_hydra = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_hydra = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 8*64k for 68000 code */
 		ROM_LOAD_EVEN( "hydr3028.bin", 0x00000, 0x10000, 0x43475f73 );
 		ROM_LOAD_ODD ( "hydr3029.bin", 0x00000, 0x10000, 0x886e1de8 );
@@ -476,7 +476,7 @@ public class hydra
 		ROM_LOAD( "hydr1039.bin",  0x20000, 0x10000, 0xeb9eaeb7 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_hydrap = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_hydrap = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 8*64k for 68000 code */
 		ROM_LOAD_EVEN( "hydhi0.bin", 0x00000, 0x10000, 0xdab2e8a2 );
 		ROM_LOAD_ODD ( "hydlo0.bin", 0x00000, 0x10000, 0xc18d4f16 );
@@ -530,7 +530,7 @@ public class hydra
 		ROM_LOAD( "hydr1039.bin",  0x20000, 0x10000, BADCRC(0xeb9eaeb7));
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_pitfight = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_pitfight = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 8*64k for 68000 code */
 		ROM_LOAD_EVEN( "4028", 0x00000, 0x10000, 0xf7cb1a4b );
 		ROM_LOAD_ODD ( "4029", 0x00000, 0x10000, 0x13ae0d4f );
@@ -576,7 +576,7 @@ public class hydra
 		ROM_LOAD( "1064",  0x30000, 0x10000, 0x33f045d5 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_pitfigh3 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_pitfigh3 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 8*64k for 68000 code */
 		ROM_LOAD_EVEN( "3028", 0x00000, 0x10000, 0x99530da4 );
 		ROM_LOAD_ODD ( "3029", 0x00000, 0x10000, 0x78c7afbf );

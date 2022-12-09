@@ -132,7 +132,7 @@ public class gladiatr {
             new ReadHandlerPtr[]{gladiator_dsw1_r, gladiator_dsw2_r, gladiator_button3_r, gladiator_controll_r} /* port handler */
     );
 
-    public static InitMachinePtr gladiator_machine_init = new InitMachinePtr() {
+    public static InitMachineHandlerPtr gladiator_machine_init = new InitMachineHandlerPtr() {
         public void handler() {
             TAITO8741_start(gsword_8741interface);
             /* 6809 bank memory set */
@@ -589,7 +589,7 @@ public class gladiatr {
     static MSM5205interface msm5205_interface = new MSM5205interface(
             1, /* 1 chip             */
             455000, /* 455KHz ??          */
-            new vclk_interruptPtr[]{null}, /* interrupt function */
+            new vclk_InterruptHandlerPtr[]{null}, /* interrupt function */
             new int[]{MSM5205_SEX_4B}, /* vclk input mode    */
             new int[]{60}
     );
@@ -650,7 +650,7 @@ public class gladiatr {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_gladiatr = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gladiatr = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x1c000, REGION_CPU1);
             ROM_LOAD("qb0-5", 0x00000, 0x4000, 0x25b19efb);
@@ -697,7 +697,7 @@ public class gladiatr {
         }
     };
 
-    static RomLoadPtr rom_ogonsiro = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ogonsiro = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x1c000, REGION_CPU1);
             ROM_LOAD("qb0-5", 0x00000, 0x4000, 0x25b19efb);

@@ -4,6 +4,9 @@
  */
 package gr.codebb.arcadeflex.v036.drivers;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -397,7 +400,7 @@ public class superpac {
             }
     );
 
-    static RomLoadPtr rom_superpac = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_superpac = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -428,7 +431,7 @@ public class superpac {
         }
     };
 
-    static RomLoadPtr rom_superpcm = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_superpcm = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -459,7 +462,7 @@ public class superpac {
         }
     };
 
-    static RomLoadPtr rom_pacnpal = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pacnpal = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -491,7 +494,7 @@ public class superpac {
         }
     };
 
-    static RomLoadPtr rom_pacnchmp = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pacnchmp = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 

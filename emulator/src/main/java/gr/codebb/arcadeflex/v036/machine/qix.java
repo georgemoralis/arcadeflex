@@ -91,7 +91,7 @@ public class qix
 		return (cpu_scalebyfcount(256) + 80) & 0xff;
 	} };
 	
-	public static InitMachinePtr withmcu_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr withmcu_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		suspended = 0;
 	
@@ -107,7 +107,7 @@ public class qix
 		sdungeon_coinctrl = 0x00;
 	} };
 	
-	public static InitMachinePtr qix_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr qix_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		suspended = 0;
 	
@@ -123,7 +123,7 @@ public class qix
 		sdungeon_coinctrl = 0x00;
 	} };
 	
-	public static InitMachinePtr zoo_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr zoo_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		withmcu_init_machine.handler();
 	} };

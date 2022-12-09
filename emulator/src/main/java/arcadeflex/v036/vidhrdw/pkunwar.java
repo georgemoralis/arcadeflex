@@ -36,7 +36,7 @@ public class pkunwar {
         }
     };
 
-    public static VhUpdatePtr pkunwar_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr pkunwar_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

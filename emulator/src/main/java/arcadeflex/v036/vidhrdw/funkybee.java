@@ -24,7 +24,7 @@ public class funkybee {
 
     static int gfx_bank;
 
-    public static VhConvertColorPromPtr funkybee_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr funkybee_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -113,7 +113,7 @@ public class funkybee {
         }
     }
 
-    public static VhUpdatePtr funkybee_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr funkybee_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

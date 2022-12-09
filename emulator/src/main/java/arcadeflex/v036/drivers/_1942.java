@@ -38,7 +38,7 @@ public class _1942 {
         }
     };
 
-    public static InterruptPtr c1942_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr c1942_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (cpu_getiloops() != 0) {
                 return 0x00cf;
@@ -288,7 +288,7 @@ public class _1942 {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_1942 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_1942 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x1c000, REGION_CPU1);/* 64k for code + 3*16k for the banked ROMs images */
 
@@ -338,7 +338,7 @@ public class _1942 {
         }
     };
 
-    static RomLoadPtr rom_1942a = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_1942a = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x1c000, REGION_CPU1);/* 64k for code + 3*16k for the banked ROMs images */
 
@@ -388,7 +388,7 @@ public class _1942 {
         }
     };
 
-    static RomLoadPtr rom_1942b = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_1942b = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x1c000, REGION_CPU1);/* 64k for code + 3*16k for the banked ROMs images */
 

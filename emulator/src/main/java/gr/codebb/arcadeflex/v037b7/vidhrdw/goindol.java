@@ -42,7 +42,7 @@ public class goindol {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr goindol_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr goindol_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -94,7 +94,7 @@ public class goindol {
         }
     };
 
-    public static VhStartPtr goindol_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr goindol_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((fg_dirtybuffer = new char[32 * 32]) == null) {
                 return 1;
@@ -120,7 +120,7 @@ public class goindol {
         }
     };
 
-    public static VhStopPtr goindol_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr goindol_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             fg_dirtybuffer = null;
             bg_dirtybuffer = null;
@@ -218,7 +218,7 @@ public class goindol {
         }
     }
 
-    public static VhUpdatePtr goindol_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr goindol_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int fg_scrollx, fg_scrolly;
 

@@ -529,7 +529,7 @@ public class baraduke
 		}
 	);
 	
-	static RomLoadPtr rom_baraduke = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_baraduke = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 6809 code */
 		ROM_LOAD( "prg1.9c",	0x6000, 0x02000, 0xea2ea790 );
 		ROM_LOAD( "prg2.9a",	0x8000, 0x04000, 0x9a0a9a87 );
@@ -558,7 +558,7 @@ public class baraduke
 		ROM_LOAD( "prmcolr.2m",	0x0800, 0x0800, 0x03f7241f );/* Red palette */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_metrocrs = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_metrocrs = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 6809 code */
 		ROM_LOAD( "mc1-3.9c",	0x6000, 0x02000, 0x3390b33c );
 		ROM_LOAD( "mc1-1.9a",	0x8000, 0x04000, 0x10b0977e );
@@ -588,7 +588,7 @@ public class baraduke
 	
 	
 	
-	public static InitDriverPtr init_metrocrs = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_metrocrs = new InitDriverHandlerPtr() { public void handler() 
 	{
 		int i;
 		UBytePtr rom = memory_region(REGION_GFX2);

@@ -26,7 +26,7 @@ public class rockrage {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr rockrage_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr rockrage_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -95,7 +95,7 @@ public class rockrage {
      *
      **************************************************************************
      */
-    public static VhStartPtr rockrage_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr rockrage_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             layer_colorbase[0] = 0x00;
             layer_colorbase[1] = 0x10;
@@ -113,7 +113,7 @@ public class rockrage {
         }
     };
 
-    public static VhStopPtr rockrage_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr rockrage_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             K007342_vh_stop();
             K007420_vh_stop();
@@ -127,7 +127,7 @@ public class rockrage {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr rockrage_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr rockrage_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             K007342_tilemap_update();
 

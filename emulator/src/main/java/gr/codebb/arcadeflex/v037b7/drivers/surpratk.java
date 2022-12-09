@@ -44,7 +44,7 @@ public class surpratk {
         }
     };
 
-    public static InitMachinePtr surpratk_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr surpratk_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             konami_cpu_setlines_callback = surpratk_banking;
 
@@ -55,7 +55,7 @@ public class surpratk {
     static int videobank;
     static UBytePtr ram = new UBytePtr();
 
-    public static InterruptPtr surpratk_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr surpratk_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (K052109_is_IRQ_enabled() != 0) {
                 return interrupt.handler();
@@ -323,7 +323,7 @@ public class surpratk {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_surpratk = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_surpratk = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x51000, REGION_CPU1);/* code + banked roms + palette RAM */
             ROM_LOAD("911m01.bin", 0x10000, 0x20000, 0xee5b2cc8);
@@ -348,7 +348,7 @@ public class surpratk {
      *
      **************************************************************************
      */
-    public static InitDriverPtr init_surpratk = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_surpratk = new InitDriverHandlerPtr() {
         public void handler() {
             konami_rom_deinterleave_2(REGION_GFX1);
             konami_rom_deinterleave_2(REGION_GFX2);

@@ -335,7 +335,7 @@ public class timeplt {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_timeplt = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_timeplt = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -367,7 +367,7 @@ public class timeplt {
         }
     };
 
-    static RomLoadPtr rom_timepltc = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_timepltc = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -399,7 +399,7 @@ public class timeplt {
         }
     };
 
-    static RomLoadPtr rom_spaceplt = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spaceplt = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -431,7 +431,7 @@ public class timeplt {
         }
     };
 
-    static RomLoadPtr rom_psurge = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_psurge = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 

@@ -12,6 +12,9 @@
  */ 
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.osdependH.*;
@@ -169,7 +172,7 @@ public class cps2
 	}
 	
 	
-	public static VhStartPtr cps2_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr cps2_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 	    if (cps1_vh_start.handler() != 0)
 	    {
@@ -185,7 +188,7 @@ public class cps2
 		return 0;
 	} };
 	
-	public static VhStopPtr cps2_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr cps2_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 	    cps1_vh_stop.handler();
 	} };
@@ -266,7 +269,7 @@ public class cps2
 	
         static int qcode;
         
-	public static VhUpdatePtr cps2_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr cps2_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 	    
 	    int stop=0;

@@ -69,7 +69,7 @@ public class offtwall
 	 *
 	 *************************************/
 	
-	public static InitMachinePtr init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_reset();
 		atarigen_video_control_reset();
@@ -485,7 +485,7 @@ public class offtwall
 	 *
 	 *************************************/
 	
-	static RomLoadPtr rom_offtwall = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_offtwall = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 4*64k for 68000 code */
 		ROM_LOAD_EVEN( "otw2012.bin", 0x00000, 0x20000, 0xd08d81eb );
 		ROM_LOAD_ODD ( "otw2013.bin", 0x00000, 0x20000, 0x61c2553d );
@@ -504,7 +504,7 @@ public class offtwall
 	ROM_END(); }}; 
 	
 	
-	static RomLoadPtr rom_offtwalc = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_offtwalc = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 4*64k for 68000 code */
 		ROM_LOAD_EVEN( "090-2612.rom", 0x00000, 0x20000, 0xfc891a3f );
 		ROM_LOAD_ODD ( "090-2613.rom", 0x00000, 0x20000, 0x805d79d4 );
@@ -545,7 +545,7 @@ public class offtwall
 	};
 	
 	
-	public static InitDriverPtr init_offtwall = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_offtwall = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = new UShortArray( default_eeprom );
 	
@@ -566,7 +566,7 @@ public class offtwall
 	} };
 	
 	
-	public static InitDriverPtr init_offtwalc = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_offtwalc = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = new UShortArray( default_eeprom );
 	

@@ -6,6 +6,9 @@
  */
 package gr.codebb.arcadeflex.v037b7.drivers;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -266,7 +269,7 @@ public class phozon {
             }
     );
 
-    static RomLoadPtr rom_phozon = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_phozon = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code for the MAIN CPU  */

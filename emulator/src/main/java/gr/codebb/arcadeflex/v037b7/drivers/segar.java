@@ -45,7 +45,7 @@ public class segar {
      *
      **************************************************************************
      */
-    public static InterruptPtr segar_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr segar_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if ((readinputport(5) & 1) != 0) /* get status of the F2 key */ {
                 return nmi_interrupt.handler();
@@ -1653,7 +1653,7 @@ public class segar {
             }
     );
 
-    static RomLoadPtr rom_astrob = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_astrob = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -1689,7 +1689,7 @@ public class segar {
         }
     };
 
-    static RomLoadPtr rom_astrob2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_astrob2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -1725,7 +1725,7 @@ public class segar {
         }
     };
 
-    static RomLoadPtr rom_astrob1 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_astrob1 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -1758,7 +1758,7 @@ public class segar {
         }
     };
 
-    static RomLoadPtr rom_005 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_005 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -1791,7 +1791,7 @@ public class segar {
         }
     };
 
-    static RomLoadPtr rom_monsterb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_monsterb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);
             /* 64k for code + space for background */
@@ -1845,7 +1845,7 @@ public class segar {
         }
     };
 
-    static RomLoadPtr rom_spaceod = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spaceod = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -1887,7 +1887,7 @@ public class segar {
         }
     };
 
-    static RomLoadPtr rom_pignewt = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pignewt = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -1929,7 +1929,7 @@ public class segar {
         }
     };
 
-    static RomLoadPtr rom_pignewta = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pignewta = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -1975,7 +1975,7 @@ public class segar {
         }
     };
 
-    static RomLoadPtr rom_sindbadm = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sindbadm = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
             ROM_LOAD("epr5393.new", 0x0000, 0x2000, 0x51f2e51e);
@@ -2008,42 +2008,42 @@ public class segar {
      * Security Decode "chips"
      * *************************************************************************
      */
-    public static InitDriverPtr init_astrob = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_astrob = new InitDriverHandlerPtr() {
         public void handler() {
             /* This game uses the 315-0062 security chip */
             sega_security(62);
         }
     };
 
-    public static InitDriverPtr init_005 = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_005 = new InitDriverHandlerPtr() {
         public void handler() {
             /* This game uses the 315-0070 security chip */
             sega_security(70);
         }
     };
 
-    public static InitDriverPtr init_monsterb = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_monsterb = new InitDriverHandlerPtr() {
         public void handler() {
             /* This game uses the 315-0082 security chip */
             sega_security(82);
         }
     };
 
-    public static InitDriverPtr init_spaceod = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_spaceod = new InitDriverHandlerPtr() {
         public void handler() {
             /* This game uses the 315-0063 security chip */
             sega_security(63);
         }
     };
 
-    public static InitDriverPtr init_pignewt = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_pignewt = new InitDriverHandlerPtr() {
         public void handler() {
             /* This game uses the 315-0063? security chip */
             sega_security(63);
         }
     };
 
-    public static InitDriverPtr init_sindbadm = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_sindbadm = new InitDriverHandlerPtr() {
         public void handler() {
             /* This game uses an encrypted CPU */
             sindbadm_decode();

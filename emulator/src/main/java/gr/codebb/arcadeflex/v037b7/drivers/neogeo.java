@@ -53,7 +53,7 @@ public class neogeo
 	
 	static int irq2_enable;
 	static int fc_1=0;
-	public static InterruptPtr neogeo_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr neogeo_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		
 	
@@ -79,7 +79,7 @@ public class neogeo
 	
         static int fc=0;
         static int raster_enable=1;
-	public static InterruptPtr neogeo_raster_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr neogeo_raster_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		
 		int line = RASTER_LINES - cpu_getiloops();
@@ -882,7 +882,7 @@ public class neogeo
 	
 	/******************************************************************************/
 	
-	static RomLoadPtr rom_nam1975 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_nam1975 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "nam_p1.rom", 0x000000, 0x080000, 0xcc9fc951 );
 	
@@ -914,7 +914,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "nam_c6.rom", 0x200000, 0x80000, 0xe62bed58 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_bstars = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bstars = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "bpro_p1.rom", 0x000000, 0x080000, 0x3bc7790e );
 	
@@ -947,7 +947,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "bpro_c6.rom", 0x200000, 0x080000, 0x5a3cad41 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_tpgolf = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_tpgolf = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "topg_p1.rom", 0x000000, 0x080000, 0xf75549ba );
 		ROM_LOAD_WIDE_SWAP( "topg_p2.rom", 0x080000, 0x080000, 0xb7809a8f );
@@ -983,7 +983,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "topg_c8.rom", 0x300000, 0x80000, 0x422af22d );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mahretsu = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mahretsu = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "maj_p1.rom", 0x000000, 0x080000, 0xfc6f53db );
 	
@@ -1014,7 +1014,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "maj_c4.rom", 0x100000, 0x80000, 0x7e81cb29 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_maglord = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_maglord = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "magl_p1.rom", 0x000000, 0x080000, 0xbd0a492d );
 	
@@ -1045,7 +1045,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "magl_c6.rom", 0x200000, 0x80000, 0xab7ac142 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_maglordh = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_maglordh = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "maglh_p1.rom", 0x000000, 0x080000, 0x599043c5 );
 	
@@ -1076,7 +1076,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "magl_c6.rom", 0x200000, 0x80000, 0xab7ac142 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ridhero = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ridhero = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_ODD ( "n046001a.038", 0x000000, 0x040000, 0xdabfac95 );
 		ROM_CONTINUE (                 0x000000 & ~1, 0x040000 | ROMFLAG_ALTERNATE );
@@ -1113,7 +1113,7 @@ public class neogeo
 		ROM_CONTINUE(             0x1c0000, 0x40000 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_alpham2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_alpham2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "lstg_p1.rom", 0x000000, 0x100000, 0x7b0ebe08 );
 	
@@ -1144,7 +1144,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "lstg_c4.rom", 0x200000, 0x080000, 0x7d588349 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ncombat = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ncombat = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "ncom_p1.rom", 0x000000, 0x080000, 0xb45fcfbf );
 	
@@ -1175,7 +1175,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "ncom_c6.rom", 0x200000, 0x80000, 0x2eca8b19 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_cyberlip = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_cyberlip = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "cybl_p1.rom", 0x000000, 0x080000, 0x69a6b42d );
 	
@@ -1208,7 +1208,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "cybl_c6.rom", 0x200000, 0x80000, 0xc495c567 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_superspy = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_superspy = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "sspy_p1.rom", 0x000000, 0x080000, 0xc7f944b5 );
 		ROM_LOAD_WIDE_SWAP( "sspy_p2.rom", 0x080000, 0x020000, 0x811a4faf );
@@ -1238,7 +1238,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "sspy_c4.rom", 0x200000, 0x100000, 0xb7f63162 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mutnat = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mutnat = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "mnat_p1.rom", 0x000000, 0x080000, 0x6f1699c8 );
 	
@@ -1266,7 +1266,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "mnat_c4.rom", 0x200000, 0x100000, 0xe4002651 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_kotm = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kotm = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_ODD ( "n058001a.038", 0x000000, 0x040000, 0xd239c184 );
 		ROM_CONTINUE (                 0x000000 & ~1, 0x040000 | ROMFLAG_ALTERNATE );
@@ -1311,7 +1311,7 @@ public class neogeo
 		ROM_CONTINUE(             0x3c0000, 0x40000 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sengoku = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sengoku = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "sngku_p1.rom", 0x000000, 0x080000, 0xf8a63983 );
 		ROM_LOAD_WIDE_SWAP( "sngku_p2.rom", 0x080000, 0x020000, 0x3024bbb3 );
@@ -1340,7 +1340,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "sngku_c4.rom", 0x200000, 0x100000, 0xf4f3c9cb );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sengokh = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sengokh = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "sngkh_p1.rom", 0x000000, 0x080000, 0x33eccae0 );
 		ROM_LOAD_WIDE_SWAP( "sngku_p2.rom", 0x080000, 0x020000, 0x3024bbb3 );
@@ -1369,7 +1369,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "sngku_c4.rom", 0x200000, 0x100000, 0xf4f3c9cb );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_burningf = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_burningf = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "burnf_p1.rom", 0x000000, 0x080000, 0x4092c8db );
 	
@@ -1397,7 +1397,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "burnf_c4.rom", 0x200000, 0x100000, 0xe2e0aff7 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_burningh = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_burningh = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "burnh_p1.rom", 0x000000, 0x080000, 0xddffcbf4 );
 	
@@ -1425,7 +1425,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "burnf_c4.rom", 0x200000, 0x100000, 0xe2e0aff7 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_lbowling = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_lbowling = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_ODD ( "n050001a.038", 0x000000, 0x040000, 0x380e358d );
 		ROM_CONTINUE (                 0x000000 & ~1, 0x040000 | ROMFLAG_ALTERNATE );
@@ -1467,7 +1467,7 @@ public class neogeo
 		ROM_CONTINUE(             0x3c0000, 0x40000 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_gpilots = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gpilots = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "ghst_p1.rom", 0x000000, 0x080000, 0xe6f2fe64 );
 		ROM_LOAD_WIDE_SWAP( "ghst_p2.rom", 0x080000, 0x020000, 0xedcb22ac );
@@ -1497,7 +1497,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "ghst_c4.rom", 0x200000, 0x100000, 0xedde439b );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_joyjoy = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_joyjoy = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "joy_p1.rom", 0x000000, 0x080000, 0x39c3478f );
 	
@@ -1523,7 +1523,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "joy_c2.rom", 0x000000, 0x080000, 0x09ed5258 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_bjourney = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bjourney = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "bj-p1.rom", 0x000000, 0x100000, 0x6a2f6d4a );
 	
@@ -1551,7 +1551,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "bj-c4.rom", 0x200000, 0x080000, 0x71bfd48a );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_quizdais = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_quizdais = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "quizd_p1.rom", 0x000000, 0x100000, 0xc488fda3 );
 	
@@ -1576,7 +1576,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "quizd_c2.rom", 0x000000, 0x100000, 0x876a99e6 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_lresort = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_lresort = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "lr_p1.rom", 0x000000, 0x080000, 0x89c4ab97 );
 	
@@ -1604,7 +1604,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "lr_c4.rom", 0x200000, 0x080000, 0x7382fefb );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_eightman = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_eightman = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_ODD ( "n046001a.038", 0x000000, 0x040000, 0xe23e2631 );
 		ROM_CONTINUE (                 0x000000 & ~1, 0x040000 | ROMFLAG_ALTERNATE );
@@ -1643,7 +1643,7 @@ public class neogeo
 		ROM_CONTINUE(             0x2c0000, 0x40000 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_minasan = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_minasan = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_ODD ( "n054001a.038", 0x000000, 0x040000, 0x86805d5a );
 		ROM_CONTINUE (                 0x000000 & ~1, 0x040000 | ROMFLAG_ALTERNATE );
@@ -1686,7 +1686,7 @@ public class neogeo
 		ROM_CONTINUE(             0x3c0000, 0x40000 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_legendos = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_legendos = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "joe_p1.rom", 0x000000, 0x080000, 0x9d563f19 );
 	
@@ -1713,7 +1713,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "joe_c4.rom", 0x200000, 0x100000, 0x37ef298c );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_2020bb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_2020bb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "2020_p1.rom", 0x000000, 0x080000, 0xd396c9cb );
 	
@@ -1741,7 +1741,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "2020_c4.rom", 0x200000, 0x080000, 0xbef75dd0 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_2020bbh = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_2020bbh = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "2020h_p1.rom", 0x000000, 0x080000, 0x12d048d7 );
 	
@@ -1769,7 +1769,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "2020_c4.rom", 0x200000, 0x080000, 0xbef75dd0 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_socbrawl = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_socbrawl = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "sbrl_p1.rom", 0x000000, 0x080000, 0xa2801c24 );
 	
@@ -1797,7 +1797,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "sbrl_c4.rom", 0x200000, 0x080000, 0xed297de8 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_roboarmy = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_roboarmy = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "rarmy_p1.rom", 0x000000, 0x080000, 0xcd11cbd4 );
 	
@@ -1829,7 +1829,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "rarmy_c6.rom", 0x200000, 0x080000, 0x462571de );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_fatfury1 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_fatfury1 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "ffry_p1.rom", 0x000000, 0x080000, 0x47ebdc2f );
 		ROM_LOAD_WIDE_SWAP( "ffry_p2.rom", 0x080000, 0x020000, 0xc473af1c );
@@ -1858,7 +1858,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "ffry_c4.rom", 0x200000, 0x100000, 0x9397476a );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_fbfrenzy = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_fbfrenzy = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_ODD ( "n046001a.038", 0x000000, 0x040000, 0xc9fc879c );
 		ROM_CONTINUE (                 0x000000 & ~1, 0x040000 | ROMFLAG_ALTERNATE );
@@ -1897,7 +1897,7 @@ public class neogeo
 		ROM_CONTINUE(             0x2c0000, 0x40000 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_bakatono = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bakatono = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_ODD ( "n058001a.038", 0x000000, 0x040000, 0x083ca651 );
 		ROM_CONTINUE (                 0x000000 & ~1, 0x040000 | ROMFLAG_ALTERNATE );
@@ -1942,7 +1942,7 @@ public class neogeo
 		ROM_CONTINUE(             0x3c0000, 0x40000 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_crsword = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_crsword = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "csrd_p1.rom", 0x000000, 0x080000, 0xe7f2553c );
 	
@@ -1969,7 +1969,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "csrd_c4.rom", 0x200000, 0x100000, 0x4a24395d );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_trally = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_trally = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "tral_p1.rom", 0x000000, 0x080000, 0x1e52a576 );
 		ROM_LOAD_WIDE_SWAP( "tral_p2.rom", 0x080000, 0x080000, 0xa5193e2f );
@@ -1998,7 +1998,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "tral_c4.rom", 0x200000, 0x080000, 0xa4513ecf );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_kotm2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kotm2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "kotm2_p1.rom", 0x000000, 0x080000, 0xb372d54c );
 		ROM_LOAD_WIDE_SWAP( "kotm2_p2.rom", 0x080000, 0x080000, 0x28661afe );
@@ -2031,7 +2031,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( null,              0x600000, 0x100000, 0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sengoku2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sengoku2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "goku2_p1.rom", 0x000000, 0x080000, 0xcc245299 );
 		ROM_LOAD_WIDE_SWAP( "goku2_p2.rom", 0x080000, 0x080000, 0x2e466360 );
@@ -2061,7 +2061,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "goku2_c4.rom", 0x400000, 0x200000, 0xe9947e5b );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_bstars2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bstars2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "star2_p1.rom", 0x000000, 0x080000, 0x523567fd );
 	
@@ -2090,7 +2090,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "star2_c4.rom", 0x200000, 0x100000, 0x70457a0c );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_quizdai2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_quizdai2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "mein_p1.rom", 0x000000, 0x100000, 0xed719dcf);
 	
@@ -2118,7 +2118,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "mein_c4.rom", 0x200000, 0x080000, 0xd602219b );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_3countb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_3countb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "3cb_p1.rom", 0x000000, 0x080000, 0xeb2714c4 );
 		ROM_LOAD_WIDE_SWAP( "3cb_p2.rom", 0x080000, 0x080000, 0x5e764567 );
@@ -2147,7 +2147,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "3cb_c4.rom", 0x0400000, 0x200000, 0x4d1ff7b9 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_aof = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_aof = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "aof_p1.rom", 0x000000, 0x080000, 0xca9f7a6d );
 	
@@ -2179,7 +2179,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( null,            0x600000, 0x100000, 0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_samsho = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_samsho = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x180000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "samsh_p1.rom", 0x000000, 0x080000, 0x80aa6c97 );
 		ROM_LOAD_WIDE_SWAP( "samsh_p2.rom", 0x080000, 0x080000, 0x71768728 );
@@ -2211,7 +2211,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "samsh_c6.rom", 0x800000, 0x080000, 0x4fa71252 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_tophuntr = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_tophuntr = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x180000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "thunt_p1.rom", 0x000000, 0x100000, 0x69fa9e29 );
 		ROM_LOAD_WIDE_SWAP( "thunt_p2.rom", 0x100000, 0x080000, 0xdb71f269 );
@@ -2246,7 +2246,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "thunt_c8.rom", 0x600000, 0x100000, 0xc944e03d );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_fatfury2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_fatfury2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "fury2_p1.rom", 0x000000, 0x080000, 0xbe40ea92 );
 		ROM_LOAD_WIDE_SWAP( "fury2_p2.rom", 0x080000, 0x080000, 0x2a9beac5 );
@@ -2279,7 +2279,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( null,              0x600000, 0x100000, 0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_janshin = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_janshin = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "jans-p1.rom", 0x000000, 0x100000, 0x7514cb7a );
 	
@@ -2304,7 +2304,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "jans-c2.rom", 0x000000, 0x200000, 0x59c48ad8 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_androdun = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_androdun = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "adun_p1.rom", 0x000000, 0x080000, 0x3b857da2 );
 		ROM_LOAD_WIDE_SWAP( "adun_p2.rom", 0x080000, 0x080000, 0x2f062209 );
@@ -2333,7 +2333,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "adun_c4.rom", 0x200000, 0x100000, 0x4a19fb92 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ncommand = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ncommand = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_ODD ( "n054001a.038", 0x000000, 0x040000, 0xfdaaca42);
 		ROM_CONTINUE (                 0x000000 & ~1, 0x040000 | ROMFLAG_ALTERNATE );
@@ -2377,7 +2377,7 @@ public class neogeo
 		ROM_CONTINUE(             0x3c0000, 0x40000 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_viewpoin = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_viewpoin = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "viewp_p1.rom", 0x000000, 0x100000, 0x17aa899d );
 	
@@ -2405,7 +2405,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( null,              0x400000, 0x100000, 0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ssideki = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ssideki = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "sidek_p1.rom", 0x000000, 0x080000, 0x9cd97256 );
 	
@@ -2432,7 +2432,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( null,              0x400000, 0x100000, 0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_wh1 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_wh1 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "wh_p1.rom", 0x000000, 0x080000, 0x95b574cb );
 		ROM_LOAD_WIDE_SWAP( "wh_p2.rom", 0x080000, 0x080000, 0xf198ed45 );
@@ -2463,7 +2463,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "wh_c4.rom", 0x200000, 0x100000, 0x9270d954 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_kof94 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kof94 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "kof94_p1.rom", 0x100000, 0x100000, 0xf10a2042 );
 		ROM_CONTINUE(                       0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -2497,7 +2497,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "kof94_c8.rom", 0xc00000, 0x200000, 0xfe0a235d );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_aof2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_aof2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "aof2_p1.rom", 0x000000, 0x100000, 0xa3b1d021 );
 	
@@ -2530,7 +2530,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "aof2_c8.rom", 0xc00000, 0x200000, 0xe546d7a8 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_wh2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_wh2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "hero2_p1.rom", 0x100000, 0x100000, 0x65a891d9 );
 		ROM_CONTINUE(                       0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -2561,7 +2561,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "hero2_c6.rom", 0x800000, 0x200000, 0xb13d1de3 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_fatfursp = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_fatfursp = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "ffspe_p1.rom", 0x000000, 0x100000, 0x2f585ba2 );
 		ROM_LOAD_WIDE_SWAP( "ffspe_p2.rom", 0x100000, 0x080000, 0xd7c71a6b );
@@ -2594,7 +2594,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "ffspe_c6.rom", 0x800000, 0x200000, 0x8ff1f43d );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_savagere = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_savagere = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "savag_p1.rom", 0x100000, 0x100000, 0x01d4e9c0 );
 		ROM_CONTINUE(                       0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -2628,7 +2628,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "savag_c8.rom", 0xc00000, 0x200000, 0x484ce3ba );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_fightfev = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_fightfev = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "ff_p1.rom", 0x000000, 0x080000, 0x3032041b );
 		ROM_LOAD_WIDE_SWAP( "ff_p2.rom", 0x080000, 0x080000, 0xb0801d5f );
@@ -2657,7 +2657,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "ff_c4.rom", 0x0400000, 0x200000, 0x026f3b62 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ssideki2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ssideki2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "kick2_p1.rom", 0x000000, 0x100000, 0x5969e0dc );
 	
@@ -2685,7 +2685,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "kick2_c4.rom", 0x400000, 0x200000, 0xc0be9a1f );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_spinmast = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_spinmast = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x180000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "spnm_p1.rom", 0x000000, 0x100000, 0x37aba1aa );
 		ROM_LOAD_WIDE_SWAP( "spnm_p2.rom", 0x100000, 0x080000, 0x43763ad2 );
@@ -2717,7 +2717,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "spnm_c8.rom", 0x600000, 0x100000, 0x8d7be933 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_samsho2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_samsho2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "sams2_p1.rom", 0x100000, 0x100000, 0x22368892 );
 		ROM_CONTINUE(                       0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -2752,7 +2752,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "sams2_c8.rom", 0xc00000, 0x200000, 0x1ffc6dfa );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_wh2j = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_wh2j = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "wh2j_p1.rom", 0x100000, 0x100000, 0x385a2e86 );
 		ROM_CONTINUE(                      0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -2785,7 +2785,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "wh2j_c8.rom", 0xc00000, 0x200000, 0xfc092367 );/* Plane 0,1 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_wjammers = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_wjammers = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "windj_p1.rom", 0x000000, 0x080000, 0xe81e7a31 );
 	
@@ -2815,7 +2815,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "windj_c4.rom", 0x200000, 0x100000, 0x715e15ff );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_karnovr = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_karnovr = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "karev_p1.rom", 0x000000, 0x100000, 0x8c86fd22 );
 	
@@ -2844,7 +2844,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "karev_c6.rom", 0x800000, 0x200000, 0xc15c01ed );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_gururin = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gururin = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "gurin_p1.rom", 0x000000, 0x80000, 0x4cea8a49 );
 	
@@ -2869,7 +2869,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "gurin_c2.rom", 0x000000, 0x200000, 0x9db64084 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_pspikes2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_pspikes2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "spike_p1.rom", 0x000000, 0x100000, 0x105a408f );
 	
@@ -2900,7 +2900,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "spike_c6.rom", 0x400000, 0x100000, 0xa6722604 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_fatfury3 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_fatfury3 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x300000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "fury3_p1.rom", 0x000000, 0x100000, 0xa8bcfbbc );
 		ROM_LOAD_WIDE_SWAP( "fury3_p2.rom", 0x100000, 0x200000, 0xdbe963ed );
@@ -2936,7 +2936,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "fury3_c6.rom", 0x1000000, 0x200000, 0x69210441 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_panicbom = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_panicbom = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "panic_p1.rom", 0x000000, 0x040000, 0x0b21130d );
 	
@@ -2962,7 +2962,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "panic_c2.rom", 0x000000, 0x100000, 0xe15a093b );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_aodk = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_aodk = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "aodk_p1.rom", 0x100000, 0x100000, 0x62369553 );
 		ROM_CONTINUE(                      0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -2995,7 +2995,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "aodk_c8.rom", 0xc00000, 0x200000, 0x14e7ad71 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sonicwi2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sonicwi2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "afig2_p1.rom", 0x100000, 0x100000, 0x92871738 );
 		ROM_CONTINUE(                       0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -3024,7 +3024,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "afig2_c4.rom", 0x400000, 0x200000, 0x1f777206 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_zedblade = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_zedblade = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "zedbl_p1.rom", 0x000000, 0x080000, 0xd7c1effd );
 	
@@ -3053,7 +3053,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "zedbl_c4.rom", 0x400000, 0x200000, 0x4b1c089b );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_galaxyfg = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_galaxyfg = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "galfi_p1.rom", 0x100000, 0x100000, 0x45906309 );
 		ROM_CONTINUE(                       0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -3087,7 +3087,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "galfi_c8.rom", 0xc00000, 0x100000, 0x0a7cc0d8 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_strhoop = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_strhoop = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "shoop_p1.rom", 0x000000, 0x100000, 0x5e78328e );
 	
@@ -3115,7 +3115,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "shoop_c4.rom", 0x400000, 0x200000, 0xa4c90213 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_quizkof = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_quizkof = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "qkof-p1.rom", 0x000000, 0x100000, 0x4440315e );
 	
@@ -3144,7 +3144,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "qkof-c4.rom",  0x400000, 0x200000, 0xca6f5460 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ssideki3 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ssideki3 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "side3_p1.rom", 0x100000, 0x100000, 0x6bc27a3d );
 		ROM_CONTINUE(                       0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -3176,7 +3176,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "side3_c6.rom", 0x800000, 0x200000, 0x6b53fb75 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_doubledr = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_doubledr = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "ddrag_p1.rom", 0x100000, 0x100000, 0x34ab832a );
 		ROM_CONTINUE(                       0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -3209,7 +3209,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "ddrag_c8.rom", 0xc00000, 0x100000, 0x69a5fa37 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_pbobble = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_pbobble = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "puzzb_p1.rom", 0x000000, 0x040000, 0x7c3c34e1 );
 	
@@ -3236,7 +3236,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "puzzb_c6.rom", 0x000000, 0x080000, 0x4b42d7eb );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_kof95 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kof95 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "kof95_p1.rom", 0x100000, 0x100000, 0x5e54cf95 );
 		ROM_CONTINUE(                       0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -3276,7 +3276,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "kof95_c8.rom", 0x1800000, 0x100000, 0x78eb0f9b );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_tws96 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_tws96 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "tecmo_p1.rom", 0x000000, 0x100000, 0x03e20ab6 );
 	
@@ -3306,7 +3306,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "tecmo_c4.rom", 0x800000, 0x100000, 0x7a6e7d82 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_samsho3 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_samsho3 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x300000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "sams3_p1.rom", 0x000000, 0x100000, 0x282a336e );
 		ROM_LOAD_WIDE_SWAP( "sams3_p2.rom", 0x100000, 0x200000, 0x9bbe27e0 );
@@ -3345,7 +3345,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "sams3_c8.rom", 0x1800000, 0x080000, 0xffd009c2 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_stakwin = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_stakwin = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "stakw_p1.rom",  0x100000, 0x100000, 0xbd5814f6 );
 		ROM_CONTINUE(                        0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP);
@@ -3373,7 +3373,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "stakw_c4.rom", 0x400000, 0x200000, 0x4604f0dc );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_pulstar = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_pulstar = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x300000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "pstar_p1.rom", 0x000000, 0x100000, 0x5e5847a2 );
 		ROM_LOAD_WIDE_SWAP( "pstar_p2.rom", 0x100000, 0x200000, 0x028b774c );
@@ -3412,7 +3412,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "pstar_c8.rom", 0x1800000, 0x200000, 0xa223572d );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_whp = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_whp = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "whp_p1.rom", 0x100000, 0x100000, 0xafaa4702 );
 		ROM_CONTINUE(                     0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -3450,7 +3450,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "whp_c8.rom", 0x1800000, 0x200000, 0xfc092367 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_kabukikl = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kabukikl = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "klash_p1.rom", 0x100000, 0x100000, 0x28ec9b77 );
 		ROM_CONTINUE(                       0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -3485,7 +3485,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( null,              0x800000, 0x200000, 0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_neobombe = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_neobombe = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "bombm_p1.rom", 0x000000, 0x100000, 0xa1a71d0d );
 	
@@ -3516,7 +3516,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "bombm_c4.rom", 0x800000, 0x080000, 0x59826783 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_gowcaizr = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gowcaizr = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "vfgow_p1.rom", 0x100000, 0x100000, 0x33019545 );
 		ROM_CONTINUE(                       0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -3550,7 +3550,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "vfgow_c8.rom", 0xc00000, 0x200000, 0x0d31dee6 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_rbff1 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_rbff1 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x300000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "rbff1_p1.rom", 0x000000, 0x100000, 0x63b4d8ae );
 		ROM_LOAD_WIDE_SWAP( "rbff1_p2.rom", 0x100000, 0x200000, 0xcc15826e );
@@ -3590,7 +3590,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "rbff1_c8.rom", 0x1800000, 0x200000, 0x4e6beb6c );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_aof3 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_aof3 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x300000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "aof3_p1.rom", 0x000000, 0x100000, 0x9edb420d );
 		ROM_LOAD_WIDE_SWAP( "aof3_p2.rom", 0x100000, 0x200000, 0x4d5a2602 );
@@ -3630,7 +3630,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "aof3_c8.rom", 0x1800000, 0x200000, 0x9a34f99c );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sonicwi3 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sonicwi3 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "sonw3_p1.rom", 0x100000, 0x100000, 0x0547121d );
 		ROM_CONTINUE(                       0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -3661,7 +3661,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "sonw3_c4.rom", 0x800000, 0x200000, 0x84a40c6e );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_turfmast = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_turfmast = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "turfm_p1.rom",  0x100000, 0x100000, 0x28c83048 );
 		ROM_CONTINUE(                        0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP);
@@ -3692,7 +3692,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( null,              0x000000, 0x200000, 0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mslug = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mslug = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "mslug_p1.rom", 0x100000, 0x100000, 0x08d8daa5 );
 		ROM_CONTINUE(                       0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -3725,7 +3725,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( null,              0x800000, 0x200000, 0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_puzzledp = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_puzzledp = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "pdpon_p1.rom", 0x000000, 0x080000, 0x2b61415b );
 	
@@ -3750,7 +3750,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "pdpon_c2.rom", 0x000000, 0x100000, 0x42371307 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mosyougi = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mosyougi = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "syoug_p1.rom", 0x000000, 0x100000, 0x7ba70e2d );
 	
@@ -3775,7 +3775,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "syoug_c2.rom",  0x000000, 0x200000, 0x2574be03 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_marukodq = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_marukodq = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "maru-p1.rom", 0x000000, 0x100000, 0xc33ed21e );
 	
@@ -3803,7 +3803,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "maru-c4.rom", 0x800000, 0x100000, 0x55e1314d );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_neomrdo = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_neomrdo = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "neomd-p1.rom", 0x000000, 0x80000, 0x39efdb82 );
 	
@@ -3828,7 +3828,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "neomd-c2.rom", 0x000000, 0x200000, 0xf57166d2 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sdodgeb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sdodgeb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "dodge_p1.rom", 0x100000, 0x100000, 0x127f3d32 );
 		ROM_CONTINUE(                       0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -3857,7 +3857,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "dodge_c4.rom", 0x0800000, 0x200000, 0xc7165f19 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_goalx3 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_goalx3 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "goal!_p1.rom", 0x100000, 0x100000, 0x2a019a79 );
 		ROM_CONTINUE(                       0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -3887,7 +3887,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "goal!_c4.rom", 0x800000, 0x100000, 0x1e9f76f2 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_overtop = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_overtop = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "ovr_p1.rom", 0x100000, 0x100000, 0x16c063a9 );
 		ROM_CONTINUE(                     0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -3917,7 +3917,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "ovr_c6.rom", 0x1000000, 0x200000, 0x0589c15e );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_neodrift = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_neodrift = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "drift_p1.rom",  0x100000, 0x100000, 0xe397d798 );
 		ROM_CONTINUE(                        0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP);
@@ -3946,7 +3946,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( null,              0x000000, 0x200000, 0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_kof96 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kof96 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x300000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "kof96_p1.rom", 0x000000, 0x100000, 0x52755d74 );
 		ROM_LOAD_WIDE_SWAP( "kof96_p2.rom", 0x100000, 0x200000, 0x002ccb73 );
@@ -3980,7 +3980,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "kof96_c8.rom", 0x1800000, 0x400000, 0xfa1461ad );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ssideki4 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ssideki4 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "side4_p1.rom", 0x100000, 0x100000, 0x519b4ba3 );
 		ROM_CONTINUE(                       0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -4016,7 +4016,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "side4_c6.rom", 0x1000000, 0x200000, 0x329c5e1b );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_kizuna = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kizuna = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "ke_p1.rom", 0x100000, 0x100000, 0x75d2b3de );
 		ROM_CONTINUE(                    0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -4053,7 +4053,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "ke_c8.rom", 0x1800000, 0x200000, 0x484ce3ba );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ninjamas = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ninjamas = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x300000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "ninjm_p1.rom", 0x000000, 0x100000, 0x3e97ed69 );
 		ROM_LOAD_WIDE_SWAP( "ninjm_p2.rom", 0x100000, 0x200000, 0x191fca88 );
@@ -4094,7 +4094,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( null,              0x1800000, 0x200000, 0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ragnagrd = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ragnagrd = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "rgard_p1.rom", 0x100000, 0x100000, 0xca372303 );
 		ROM_CONTINUE(                       0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -4135,7 +4135,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( null,              0x1800000, 0x200000, 0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_pgoal = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_pgoal = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "pgoal_p1.rom", 0x100000, 0x100000, 0x6af0e574 );
 		ROM_CONTINUE(                       0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -4166,7 +4166,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "pgoal_c6.rom", 0x0800000, 0x200000, 0xf57b4a1c );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_magdrop2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_magdrop2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "drop2_p1.rom", 0x000000, 0x80000, 0x7be82353 );
 	
@@ -4191,7 +4191,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "drop2_c2.rom", 0x000000, 0x400000, 0x14b90536 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_samsho4 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_samsho4 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x500000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "sams4_p1.rom", 0x000000, 0x100000, 0x1a5cb56d );
 		ROM_LOAD_WIDE_SWAP( "sams4_p2.rom", 0x300000, 0x200000, 0x7587f09b );
@@ -4234,7 +4234,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( null,              0x1800000, 0x200000, 0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_rbffspec = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_rbffspec = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x500000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "rbffs_p1.rom", 0x000000, 0x100000, 0xf84a2d1d );
 		ROM_LOAD_WIDE_SWAP( "rbffs_p2.rom", 0x300000, 0x200000, 0x27e3e54b );
@@ -4277,7 +4277,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( null,              0x1800000, 0x200000, 0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_twinspri = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_twinspri = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x400000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "sprit_p1.rom", 0x100000, 0x100000, 0x7697e445 );
 		ROM_CONTINUE(                       0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -4308,7 +4308,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "sprit_c4.rom", 0x800000, 0x100000, 0xb5532e53 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_wakuwak7 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_wakuwak7 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x300000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "waku7_p1.rom", 0x000000, 0x100000, 0xb14da766 );
 		ROM_LOAD_WIDE_SWAP( "waku7_p2.rom", 0x100000, 0x200000, 0xfe190665 );
@@ -4345,7 +4345,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( null,              0x1000000, 0x200000, 0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_stakwin2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_stakwin2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "sw2_p1.rom", 0x100000, 0x100000, 0xdaf101d2 );
 		ROM_CONTINUE(                     0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -4374,7 +4374,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "sw2_c4.rom", 0x0800000, 0x200000, 0x7efea43a );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_breakers = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_breakers = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "break_p1.rom", 0x100000, 0x100000, 0xed24a6e6 );
 		ROM_CONTINUE(                       0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -4403,7 +4403,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "break_c4.rom", 0x800000, 0x400000, 0x63aeb74c );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_miexchng = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_miexchng = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "miex-p1.rom", 0x000000, 0x80000, 0x61be1810 );
 	
@@ -4430,7 +4430,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "miex-c4.rom", 0x400000, 0x080000, 0x1694f171 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_kof97 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kof97 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x500000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "kof97_p1.rom", 0x000000, 0x100000, 0x7db81ad9 );
 		ROM_LOAD_WIDE_SWAP( "kof97_p2.rom", 0x100000, 0x400000, 0x158b23f6 );
@@ -4462,7 +4462,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "kof97_c6.rom", 0x2000000, 0x400000, 0x4ff4d47b );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_magdrop3 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_magdrop3 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "drop3_p1.rom", 0x000000, 0x100000, 0x931e17fa );
 	
@@ -4494,7 +4494,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( null,              0x800000, 0x200000, 0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_lastblad = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_lastblad = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x500000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "lb_p1.rom", 0x000000, 0x100000, 0xcd01c06d );
 		ROM_LOAD_WIDE_SWAP( "lb_p2.rom", 0x100000, 0x400000, 0x0fdc289e );
@@ -4527,7 +4527,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "lb_c6.rom", 0x2000000, 0x200000, 0x5c35d541 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_puzzldpr = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_puzzldpr = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "pdpnr_p1.rom", 0x000000, 0x080000, 0xafed5de2 );
 	
@@ -4552,7 +4552,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "pdpon_c2.rom", 0x000000, 0x100000, 0x42371307 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_irrmaze = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_irrmaze = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "im_p1.rom", 0x000000, 0x200000, 0x6d536c6e );
 	
@@ -4578,7 +4578,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "im_c2.rom", 0x000000, 0x400000, 0xe15f972e );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_popbounc = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_popbounc = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "pnb-p1.rom", 0x000000, 0x100000, 0xbe96e44f );
 	
@@ -4603,7 +4603,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( "pnb-c2.rom", 0x000000, 0x200000, 0x5e633c65 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_shocktro = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_shocktro = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x500000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "shock_p1.rom", 0x000000, 0x100000, 0x5677456f );
 		ROM_LOAD_WIDE_SWAP( "shock_p2.rom", 0x300000, 0x200000, 0x646f6c76 );
@@ -4645,7 +4645,7 @@ public class neogeo
 		ROM_LOAD_GFX_ODD ( null,              0x1800000, 0x200000, 0 );
 	ROM_END(); }}; 
 	
-        static RomLoadPtr rom_shocktrj = new RomLoadPtr(){ public void handler(){ 
+        static RomLoadHandlerPtr rom_shocktrj = new RomLoadHandlerPtr(){ public void handler(){ 
 	ROM_REGION( 0x500000, REGION_CPU1 );
 	ROM_LOAD_WIDE_SWAP( "238-pg1.p1",   0x000000, 0x100000, 0xefedf8dc );
 	ROM_LOAD_WIDE_SWAP( "shock_p2.rom", 0x300000, 0x200000, 0x646f6c76 );
@@ -4687,7 +4687,7 @@ public class neogeo
 	ROM_LOAD_GFX_ODD ( null,              0x1800000, 0x200000, 0 );
 ROM_END(); }};
         
-	static RomLoadPtr rom_blazstar = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_blazstar = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x300000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "bstar_p1.rom", 0x000000, 0x100000, 0x183682f8 );
 		ROM_LOAD_WIDE_SWAP( "bstar_p2.rom", 0x100000, 0x200000, 0x9a9f4154 );
@@ -4728,7 +4728,7 @@ ROM_END(); }};
 		ROM_LOAD_GFX_ODD ( null,              0x1800000, 0x200000, 0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_rbff2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_rbff2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x500000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "rb2_p1.rom", 0x000000, 0x100000, 0xb6969780 );
 		ROM_LOAD_WIDE_SWAP( "rb2_p2.rom", 0x100000, 0x400000, 0x960aa88d );
@@ -4761,7 +4761,7 @@ ROM_END(); }};
 		ROM_LOAD_GFX_ODD ( "rb2_c6.rom", 0x2000000, 0x800000, 0x4609e507 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mslug2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mslug2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x300000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "ms2_p1.rom", 0x000000, 0x100000, 0x2a53c5da );
 		ROM_LOAD_WIDE_SWAP( "ms2_p2.rom", 0x100000, 0x200000, 0x38883f44 );
@@ -4790,7 +4790,7 @@ ROM_END(); }};
 		ROM_LOAD_GFX_ODD ( "ms2_c4.rom", 0x1000000, 0x800000, 0x7d3e306f );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_kof98 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kof98 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x500000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "kof98_p1.rom", 0x000000, 0x100000, 0x61ac868a );
 		ROM_LOAD_WIDE_SWAP( "kof98_p2.rom", 0x100000, 0x400000, 0x980aba4c );
@@ -4825,7 +4825,7 @@ ROM_END(); }};
 		ROM_LOAD_GFX_ODD ( "kof98_c8.rom", 0x3000000, 0x800000, 0xc823e045 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_lastbld2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_lastbld2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x500000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "lb2_p1.rom", 0x000000, 0x100000, 0xaf1e6554 );
 		ROM_LOAD_WIDE_SWAP( "lb2_p2.rom", 0x100000, 0x400000, 0xadd4a30b );
@@ -4858,7 +4858,7 @@ ROM_END(); }};
 		ROM_LOAD_GFX_ODD ( "lb2_c6.rom",  0x2000000, 0x800000, 0xec9c36d0 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_neocup98 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_neocup98 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "nc98_p1.rom", 0x100000, 0x100000, 0xf8fdb7a5 );
 		ROM_CONTINUE(                      0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -4885,7 +4885,7 @@ ROM_END(); }};
 		ROM_LOAD_GFX_ODD ( "nc98_c2.rom", 0x000000, 0x800000, 0x33aa0f35 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_breakrev = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_breakrev = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "brev_p1.rom", 0x100000, 0x100000, 0xc828876d );
 		ROM_CONTINUE(                      0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -4916,7 +4916,7 @@ ROM_END(); }};
 		ROM_LOAD_GFX_ODD ( "brev_c6.rom",  0x1000000, 0x200000, 0x23c65644 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_shocktr2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_shocktr2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x500000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "st2_p1.rom", 0x000000, 0x100000, 0x6d4b7781 );
 		ROM_LOAD_WIDE_SWAP( "st2_p2.rom", 0x100000, 0x400000, 0x72ea04c3 );
@@ -4948,7 +4948,7 @@ ROM_END(); }};
 		ROM_LOAD_GFX_ODD ( "st2_c6.rom", 0x2000000, 0x800000, 0x7e2caae1 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_flipshot = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_flipshot = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "flip_p1.rom", 0x000000, 0x080000, 0xd2e7a7e3 );
 	
@@ -4973,7 +4973,7 @@ ROM_END(); }};
 		ROM_LOAD_GFX_ODD ( "flip_c2.rom",  0x000000, 0x200000, 0x7d6d6e87 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_pbobbl2n = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_pbobbl2n = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "pb2_p1.rom", 0x000000, 0x100000, 0x9d6c0754 );
 	
@@ -5001,7 +5001,7 @@ ROM_END(); }};
 		ROM_LOAD_GFX_ODD ( "pb2_c4.rom", 0x800000, 0x100000, 0x8efead3f );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ctomaday = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ctomaday = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x200000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "ctom_p1.rom", 0x100000, 0x100000, 0xc9386118 );
 		ROM_CONTINUE(                      0x000000, 0x100000 | ROMFLAG_WIDE | ROMFLAG_SWAP );
@@ -5028,7 +5028,7 @@ ROM_END(); }};
 		ROM_LOAD_GFX_ODD ( "ctom_c2.rom",  0x000000, 0x400000, 0x74f3cdf4 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mslugx = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mslugx = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x500000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "msx_p1.rom", 0x000000, 0x100000, 0x81f1f60b );
 		ROM_LOAD_WIDE_SWAP( "msx_p2.rom", 0x100000, 0x400000, 0x1fda2e12 );
@@ -5060,7 +5060,7 @@ ROM_END(); }};
 		ROM_LOAD_GFX_ODD ( "msx_c6.rom", 0x2000000, 0x800000, 0x83e3e69d );/* Plane 0,1 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_kof99 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kof99 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x500000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "kof99_p1.rom", 0x000000, 0x100000, 0x00000000 );
 		ROM_LOAD_WIDE_SWAP( "kof99_p2.rom", 0x100000, 0x400000, 0x00000000 );
@@ -5095,7 +5095,7 @@ ROM_END(); }};
 		ROM_LOAD_GFX_ODD ( "kof99_c8.rom", 0x3000000, 0x800000, 0x00000000 );/* Plane 2,3 */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_garou = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_garou = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x500000, REGION_CPU1 );
 		ROM_LOAD_WIDE_SWAP( "motw_p1.rom", 0x000000, 0x100000, 0x00000000 );
 		ROM_LOAD_WIDE_SWAP( "motw_p2.rom", 0x100000, 0x400000, 0x00000000 );
@@ -5133,7 +5133,7 @@ ROM_END(); }};
 	/******************************************************************************/
 	
 	/* dummy entry for the dummy bios driver */
-	static RomLoadPtr rom_neogeo = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_neogeo = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x020000, REGION_USER1 );
 		ROM_LOAD_WIDE_SWAP( "neo-geo.rom", 0x00000, 0x020000, 0x9036d879 );
 	
@@ -5183,7 +5183,7 @@ ROM_END(); }};
 		shuffle(buf + len,len);
 	}*/
 	
-	public static InitDriverPtr init_mgd2 = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_mgd2 = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr gfxdata = memory_region(REGION_GFX2);
 		int len = memory_region_length(REGION_GFX2);

@@ -127,7 +127,7 @@ public class punchout
         {
             return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
         }
-        public static VhConvertColorPromPtr punchout_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+        public static VhConvertColorPromHandlerPtr punchout_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -175,7 +175,7 @@ public class punchout
                         }
 		}
 	}};
-	public static VhConvertColorPromPtr armwrest_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr armwrest_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -234,7 +234,7 @@ public class punchout
                     memory_region(REGION_GFX3).write(0x2c000+i, 0xff);
                 }
 	}
-	public static InitDriverPtr init_punchout = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_punchout = new InitDriverHandlerPtr() { public void handler() 
 	{
 		gfx_fix();
 	
@@ -243,7 +243,7 @@ public class punchout
 		gfx2inv = 0xff;
 		gfx3inv = 0xfc;
 	}};
-	public static InitDriverPtr init_spnchout = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_spnchout = new InitDriverHandlerPtr() { public void handler() 
 	{
 		gfx_fix();
 	
@@ -252,7 +252,7 @@ public class punchout
 		gfx2inv = 0xff;
 		gfx3inv = 0xff;
 	}};
-	public static InitDriverPtr init_spnchotj = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_spnchotj = new InitDriverHandlerPtr() { public void handler() 
 	{
 		gfx_fix();
 	
@@ -261,7 +261,7 @@ public class punchout
 		gfx2inv = 0xff;
 		gfx3inv = 0xff;
 	}};
-	public static InitDriverPtr init_armwrest = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_armwrest = new InitDriverHandlerPtr() { public void handler() 
 	{
 		gfx_fix();
 	
@@ -282,7 +282,7 @@ public class punchout
 	  Start the video hardware emulation.
 	
 	***************************************************************************/
-	public static VhStartPtr punchout_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr punchout_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		if ((dirtybuffer = new char[videoram_size[0]]) == null)
 			return 1;
@@ -345,7 +345,7 @@ public class punchout
 		return 0;
 	} };
 	
-	public static VhStartPtr armwrest_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr armwrest_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		if ((dirtybuffer = new char[videoram_size[0]]) == null)
 			return 1;
@@ -415,7 +415,7 @@ public class punchout
 	  Stop the video hardware emulation.
 	
 	***************************************************************************/
-	public static VhStopPtr punchout_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr punchout_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		dirtybuffer=null;
 		dirtybuffer2=null;
@@ -487,7 +487,7 @@ public class punchout
 	  the main emulation engine.
 	
 	***************************************************************************/
-	public static VhUpdatePtr punchout_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr punchout_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int offs;
 	
@@ -664,7 +664,7 @@ public class punchout
 	} };
 	
 	
-	public static VhUpdatePtr armwrest_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr armwrest_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int offs;
 	

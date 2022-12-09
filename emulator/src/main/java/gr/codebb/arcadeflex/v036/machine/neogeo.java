@@ -50,7 +50,7 @@ public class neogeo {
 
 
     /* This function is called on every reset */
-    public static InitMachinePtr neogeo_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr neogeo_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             int src, res;
             /*TODO*///		time_t		ltime;
@@ -100,7 +100,7 @@ public class neogeo {
     };
 
     /* This function is only called once per game. */
-    public static InitDriverPtr init_neogeo = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_neogeo = new InitDriverHandlerPtr() {
         public void handler() {
             UBytePtr RAM = memory_region(REGION_CPU1);
 		//YM2610interface neogeo_ym2610_interface;

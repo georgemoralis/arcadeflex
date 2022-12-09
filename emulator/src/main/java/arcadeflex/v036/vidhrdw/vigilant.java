@@ -46,7 +46,7 @@ public class vigilant {
 
     static osd_bitmap bg_bitmap;
 
-    public static VhStartPtr vigilant_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr vigilant_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             generic_vh_start.handler();
 
@@ -59,7 +59,7 @@ public class vigilant {
         }
     };
 
-    public static VhStopPtr vigilant_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr vigilant_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(bg_bitmap);
             generic_vh_stop.handler();
@@ -305,7 +305,7 @@ public class vigilant {
         }
     }
 
-    public static VhUpdatePtr vigilant_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr vigilant_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int i;
 
@@ -354,7 +354,7 @@ public class vigilant {
         }
     };
 
-    public static VhUpdatePtr kikcubic_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr kikcubic_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

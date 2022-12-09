@@ -45,7 +45,7 @@ public class taitof2
 	static osd_bitmap tmpbitmap3;
 	static int[] spritebank=new int[8];
 	
-	public static VhStartPtr taitof2_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr taitof2_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		char_dirty = new char[f2_characterram_size[0]/16];
 		if (char_dirty==null) return 1;
@@ -128,7 +128,7 @@ public class taitof2
 		return 0;
 	} };
 	
-	public static VhStopPtr taitof2_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr taitof2_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		char_dirty=null;
 			text_dirty=null;
@@ -458,7 +458,7 @@ public class taitof2
 		}
 	}
 	
-	public static VhUpdatePtr taitof2_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr taitof2_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int offs;
 		int scrollx, scrolly;

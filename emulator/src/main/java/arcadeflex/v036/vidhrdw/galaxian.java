@@ -120,7 +120,7 @@ public class galaxian {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr galaxian_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr galaxian_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -191,7 +191,7 @@ public class galaxian {
             }
         }
     };
-    public static VhConvertColorPromPtr minefld_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr minefld_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -214,7 +214,7 @@ public class galaxian {
         }
     };
 
-    public static VhConvertColorPromPtr rescue_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr rescue_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -230,7 +230,7 @@ public class galaxian {
         }
     };
 
-    public static VhConvertColorPromPtr stratgyx_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr stratgyx_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             galaxian_vh_convert_color_prom.handler(palette, colortable, color_prom);
 
@@ -245,7 +245,7 @@ public class galaxian {
             palette[97 * 3 + 2] = (char) 0x0;
         }
     };
-    public static VhConvertColorPromPtr mariner_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr mariner_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -355,13 +355,13 @@ public class galaxian {
 
         return 0;
     }
-    public static VhStartPtr galaxian_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr galaxian_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             stars_type = 0;
             return common_vh_start();
         }
     };
-    public static VhStartPtr mooncrst_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr mooncrst_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int ret = galaxian_vh_start.handler();
             modify_charcode = mooncrst_modify_charcode;
@@ -369,13 +369,13 @@ public class galaxian {
             return ret;
         }
     };
-    public static VhStartPtr mooncrgx_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr mooncrgx_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             install_mem_write_handler(0, 0x6000, 0x6002, mooncrgx_gfxextend_w);
             return mooncrst_vh_start.handler();
         }
     };
-    public static VhStartPtr moonqsr_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr moonqsr_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int ret = galaxian_vh_start.handler();
             modify_charcode = moonqsr_modify_charcode;
@@ -383,7 +383,7 @@ public class galaxian {
             return ret;
         }
     };
-    public static VhStartPtr pisces_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr pisces_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int ret = galaxian_vh_start.handler();
             modify_charcode = pisces_modify_charcode;
@@ -391,14 +391,14 @@ public class galaxian {
             return ret;
         }
     };
-    public static VhStartPtr scramble_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr scramble_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             stars_type = 1;
             return common_vh_start();
         }
     };
 
-    public static VhStartPtr rescue_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr rescue_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int x;
 
@@ -427,7 +427,7 @@ public class galaxian {
         }
     };
 
-    public static VhStartPtr minefld_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr minefld_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int x;
 
@@ -456,7 +456,7 @@ public class galaxian {
         }
     };
 
-    public static VhStartPtr stratgyx_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr stratgyx_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int x;
 
@@ -478,7 +478,7 @@ public class galaxian {
             return ret;
         }
     };
-    public static VhStartPtr ckongs_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr ckongs_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int ret = common_vh_start();
 
@@ -487,7 +487,7 @@ public class galaxian {
             return ret;
         }
     };
-    public static VhStartPtr calipso_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr calipso_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int ret = common_vh_start();
 
@@ -496,7 +496,7 @@ public class galaxian {
             return ret;
         }
     };
-    public static VhStartPtr mariner_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr mariner_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int x;
 
@@ -548,7 +548,7 @@ public class galaxian {
             return ret;
         }
     };
-    public static VhStartPtr jumpbug_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr jumpbug_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int ret = galaxian_vh_start.handler();
 
@@ -557,7 +557,7 @@ public class galaxian {
             return ret;
         }
     };
-    public static VhStartPtr zigzag_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr zigzag_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int ret = galaxian_vh_start.handler();
 
@@ -785,7 +785,7 @@ public class galaxian {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr galaxian_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr galaxian_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
 
             int i, offs;
@@ -1025,14 +1025,14 @@ public class galaxian {
             }
         }
     };
-    public static InterruptPtr galaxian_vh_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr galaxian_vh_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             stars_scroll++;
             return nmi_interrupt.handler();
         }
     };
     static int blink_count_scramble;
-    public static InterruptPtr scramble_vh_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr scramble_vh_interrupt = new InterruptHandlerPtr() {
         public int handler() {
 
             blink_count_scramble++;
@@ -1044,7 +1044,7 @@ public class galaxian {
             return nmi_interrupt.handler();
         }
     };
-    public static InterruptPtr mariner_vh_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr mariner_vh_interrupt = new InterruptHandlerPtr() {
         public int handler() {
 
             stars_scroll--;
@@ -1052,14 +1052,14 @@ public class galaxian {
             return nmi_interrupt.handler();
         }
     };
-    public static InterruptPtr devilfsg_vh_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr devilfsg_vh_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             stars_scroll++;
 
             return interrupt.handler();
         }
     };
-    public static InterruptPtr hunchbks_vh_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr hunchbks_vh_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             cpu_irq_line_vector_w(0, 0, 0x03);
             cpu_set_irq_line(0, 0, PULSE_LINE);

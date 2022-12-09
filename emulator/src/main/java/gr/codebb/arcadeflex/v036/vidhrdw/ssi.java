@@ -35,18 +35,18 @@ public class ssi {
         }
     };
 
-    public static VhStartPtr ssi_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr ssi_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             return 0;
         }
     };
 
-    public static VhStopPtr ssi_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr ssi_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
         }
     };
 
-    public static VhUpdatePtr ssi_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr ssi_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int i, x, y, offs, code, color, spritecont, flipx, flipy;
             int xcurrent, ycurrent;

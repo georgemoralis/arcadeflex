@@ -29,7 +29,7 @@ import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
 
 public class spy {
 
-    public static InterruptPtr spy_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr spy_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (K052109_is_IRQ_enabled() != 0) {
                 if (cpu_getiloops() != 0) {
@@ -356,7 +356,7 @@ public class spy {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_spy = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spy = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x28800, REGION_CPU1);/* code + banked roms + space for banked ram */
 
@@ -399,7 +399,7 @@ public class spy {
         konami_rom_deinterleave_2(REGION_GFX2);
     }
 
-    public static InitDriverPtr init_spy = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_spy = new InitDriverHandlerPtr() {
         public void handler() {
             paletteram = new UBytePtr(memory_region(REGION_CPU1), 0x28000);
             gfx_untangle();

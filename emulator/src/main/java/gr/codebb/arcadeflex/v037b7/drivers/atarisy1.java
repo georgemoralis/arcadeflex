@@ -204,7 +204,7 @@ public class atarisy1
         };
 	
 	
-	public static InitMachinePtr init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		/* initialize the system */
 		atarigen_eeprom_reset();
@@ -1007,7 +1007,7 @@ public class atarisy1
 	 *
 	 *************************************/
 	
-	public static InitDriverPtr init_marble = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_marble = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = null;
 		atarigen_slapstic_init(0, 0x080000, 103);
@@ -1029,7 +1029,7 @@ public class atarisy1
 	} };
 	
 	
-	public static InitDriverPtr init_peterpak = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_peterpak = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = null;
 		atarigen_slapstic_init(0, 0x080000, 107);
@@ -1047,7 +1047,7 @@ public class atarisy1
 	} };
 	
 	
-	public static InitDriverPtr init_indytemp = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_indytemp = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = null;
 		atarigen_slapstic_init(0, 0x080000, 105);
@@ -1068,7 +1068,7 @@ public class atarisy1
 	} };
 	
 	
-	public static InitDriverPtr init_roadrunn = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_roadrunn = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = null;
 		atarigen_slapstic_init(0, 0x080000, 108);
@@ -1086,7 +1086,7 @@ public class atarisy1
 	} };
 	
 	
-	public static InitDriverPtr init_roadblst = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_roadblst = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = null;
 		atarigen_slapstic_init(0, 0x080000, 110);
@@ -1111,7 +1111,7 @@ public class atarisy1
 	 *
 	 *************************************/
 	
-	static RomLoadPtr rom_marble = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_marble = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x88000, REGION_CPU1 );/* 8.5*64k for 68000 code & slapstic ROM */
 		ROM_LOAD_EVEN( "136032.205",   0x00000, 0x04000, 0x88d0be26 );
 		ROM_LOAD_ODD ( "136032.206",   0x00000, 0x04000, 0x3c79ef05 );
@@ -1150,7 +1150,7 @@ public class atarisy1
 		ROM_LOAD( "136033.119",   0x200, 0x200, 0x19f6e767 ); /* color */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_marble2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_marble2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x88000, REGION_CPU1 );/* 8.5*64k for 68000 code & slapstic ROM */
 		ROM_LOAD_EVEN( "136032.205",   0x00000, 0x04000, 0x88d0be26 );
 		ROM_LOAD_ODD ( "136032.206",   0x00000, 0x04000, 0x3c79ef05 );
@@ -1189,7 +1189,7 @@ public class atarisy1
 		ROM_LOAD( "136033.119",   0x200, 0x200, 0x19f6e767 ); /* color */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_marblea = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_marblea = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x88000, REGION_CPU1 );/* 8.5*64k for 68000 code & slapstic ROM */
 		ROM_LOAD_EVEN( "136032.205",   0x00000, 0x04000, 0x88d0be26 );
 		ROM_LOAD_ODD ( "136032.206",   0x00000, 0x04000, 0x3c79ef05 );
@@ -1232,7 +1232,7 @@ public class atarisy1
 		ROM_LOAD( "136033.119",   0x200, 0x200, 0x19f6e767 ); /* color */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_peterpak = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_peterpak = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x88000, REGION_CPU1 );/* 8.5*64k for 68000 code & slapstic ROM */
 		ROM_LOAD_EVEN( "136032.205",   0x00000, 0x04000, 0x88d0be26 );
 		ROM_LOAD_ODD ( "136032.206",   0x00000, 0x04000, 0x3c79ef05 );
@@ -1273,7 +1273,7 @@ public class atarisy1
 		ROM_LOAD( "136028.137",   0x200, 0x200, 0x8507e5ea ); /* color */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_indytemp = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_indytemp = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x88000, REGION_CPU1 );/* 8.5*64k for 68000 code & slapstic ROM */
 		ROM_LOAD_EVEN( "136032.205",   0x00000, 0x04000, 0x88d0be26 );
 		ROM_LOAD_ODD ( "136032.206",   0x00000, 0x04000, 0x3c79ef05 );
@@ -1320,7 +1320,7 @@ public class atarisy1
 		ROM_LOAD( "136036.151",   0x200, 0x200, 0x7daf351f ); /* color */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_indytem2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_indytem2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x88000, REGION_CPU1 );/* 8.5*64k for 68000 code & slapstic ROM */
 		ROM_LOAD_EVEN( "136032.205",   0x00000, 0x04000, 0x88d0be26 );
 		ROM_LOAD_ODD ( "136032.206",   0x00000, 0x04000, 0x3c79ef05 );
@@ -1367,7 +1367,7 @@ public class atarisy1
 		ROM_LOAD( "136036.151",   0x200, 0x200, 0x7daf351f ); /* color */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_indytem3 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_indytem3 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x88000, REGION_CPU1 );/* 8.5*64k for 68000 code & slapstic ROM */
 		ROM_LOAD_EVEN( "136032.205",   0x00000, 0x04000, 0x88d0be26 );
 		ROM_LOAD_ODD ( "136032.206",   0x00000, 0x04000, 0x3c79ef05 );
@@ -1414,7 +1414,7 @@ public class atarisy1
 		ROM_LOAD( "136036.151",   0x200, 0x200, 0x7daf351f ); /* color */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_indytem4 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_indytem4 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x88000, REGION_CPU1 );/* 8.5*64k for 68000 code & slapstic ROM */
 		ROM_LOAD_EVEN( "136032.205",   0x00000, 0x04000, 0x88d0be26 );
 		ROM_LOAD_ODD ( "136032.206",   0x00000, 0x04000, 0x3c79ef05 );
@@ -1461,7 +1461,7 @@ public class atarisy1
 		ROM_LOAD( "136036.151",   0x200, 0x200, 0x7daf351f ); /* color */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_roadrunn = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_roadrunn = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x88000, REGION_CPU1 );/* 8.5*64k for 68000 code & slapstic ROM */
 		ROM_LOAD_EVEN( "136032.205",   0x00000, 0x04000, 0x88d0be26 );
 		ROM_LOAD_ODD ( "136032.206",   0x00000, 0x04000, 0x3c79ef05 );
@@ -1521,7 +1521,7 @@ public class atarisy1
 		ROM_LOAD( "136040.125",   0x200, 0x200, 0xa9ca8795 ); /* color */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_roadblst = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_roadblst = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x88000, REGION_CPU1 );/* 8.5*64k for 68000 code & slapstic ROM */
 		ROM_LOAD_EVEN( "136032.205",   0x00000, 0x04000, 0x88d0be26 );
 		ROM_LOAD_ODD ( "136032.206",   0x00000, 0x04000, 0x3c79ef05 );

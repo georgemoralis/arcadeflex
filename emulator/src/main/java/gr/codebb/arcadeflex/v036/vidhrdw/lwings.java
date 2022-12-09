@@ -65,7 +65,7 @@ public class lwings {
     static int GFX_ELEM_COLORS(int gfxn) {
         return Machine.gfx[gfxn].color_granularity;
     }
-    public static VhStartPtr lwings_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr lwings_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int i;
 
@@ -134,7 +134,7 @@ public class lwings {
      *
      **************************************************************************
      */
-    public static VhStopPtr lwings_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr lwings_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(tmpbitmap2);
             dirtybuffer2 = null;
@@ -170,7 +170,7 @@ public class lwings {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr lwings_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr lwings_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 
@@ -283,7 +283,7 @@ public class lwings {
      Extra scroll layer
 	
      */
-    public static VhStartPtr trojan_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr trojan_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int i;
             trojan_vh_type = 0;
@@ -356,7 +356,7 @@ public class lwings {
             return 0;
         }
     };
-    public static VhStartPtr avengers_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr avengers_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int result = trojan_vh_start.handler();
             trojan_vh_type = 1;
@@ -364,7 +364,7 @@ public class lwings {
         }
     };
 
-    public static VhStopPtr trojan_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr trojan_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(tmpbitmap3);
             dirtybuffer4 = null;
@@ -470,7 +470,7 @@ public class lwings {
     }
     static int oldoffsy = 0xffff;
     static int oldoffsx = 0xffff;
-    public static VhUpdatePtr trojan_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr trojan_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, sx, sy, scrollx, scrolly;
             int offsy, offsx;

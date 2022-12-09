@@ -1127,7 +1127,7 @@ public class cpuintrf {
         }
     };
 
-    public static InterruptPtr interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr interrupt = new InterruptHandlerPtr() {
         public int handler() {
             int cpunum = (activecpu < 0) ? 0 : activecpu;
             int val;
@@ -1145,7 +1145,7 @@ public class cpuintrf {
         }
     };
 
-    public static InterruptPtr nmi_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr nmi_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             int cpunum = (activecpu < 0) ? 0 : activecpu;
 
@@ -1156,7 +1156,7 @@ public class cpuintrf {
         }
     };
 
-    public static InterruptPtr m68_level1_irq = new InterruptPtr() {
+    public static InterruptHandlerPtr m68_level1_irq = new InterruptHandlerPtr() {
         public int handler() {
             int cpunum = (activecpu < 0) ? 0 : activecpu;
             if (interrupt_enable[cpunum] == 0) {
@@ -1165,7 +1165,7 @@ public class cpuintrf {
             return MC68000_IRQ_1;
         }
     };
-    public static InterruptPtr m68_level2_irq = new InterruptPtr() {
+    public static InterruptHandlerPtr m68_level2_irq = new InterruptHandlerPtr() {
         public int handler() {
             int cpunum = (activecpu < 0) ? 0 : activecpu;
             if (interrupt_enable[cpunum] == 0) {
@@ -1174,7 +1174,7 @@ public class cpuintrf {
             return MC68000_IRQ_2;
         }
     };
-    public static InterruptPtr m68_level3_irq = new InterruptPtr() {
+    public static InterruptHandlerPtr m68_level3_irq = new InterruptHandlerPtr() {
         public int handler() {
             int cpunum = (activecpu < 0) ? 0 : activecpu;
             if (interrupt_enable[cpunum] == 0) {
@@ -1183,7 +1183,7 @@ public class cpuintrf {
             return MC68000_IRQ_3;
         }
     };
-    public static InterruptPtr m68_level4_irq = new InterruptPtr() {
+    public static InterruptHandlerPtr m68_level4_irq = new InterruptHandlerPtr() {
         public int handler() {
             int cpunum = (activecpu < 0) ? 0 : activecpu;
             if (interrupt_enable[cpunum] == 0) {
@@ -1192,7 +1192,7 @@ public class cpuintrf {
             return MC68000_IRQ_4;
         }
     };
-    public static InterruptPtr m68_level5_irq = new InterruptPtr() {
+    public static InterruptHandlerPtr m68_level5_irq = new InterruptHandlerPtr() {
         public int handler() {
             int cpunum = (activecpu < 0) ? 0 : activecpu;
             if (interrupt_enable[cpunum] == 0) {
@@ -1201,7 +1201,7 @@ public class cpuintrf {
             return MC68000_IRQ_5;
         }
     };
-    public static InterruptPtr m68_level6_irq = new InterruptPtr() {
+    public static InterruptHandlerPtr m68_level6_irq = new InterruptHandlerPtr() {
         public int handler() {
             int cpunum = (activecpu < 0) ? 0 : activecpu;
             if (interrupt_enable[cpunum] == 0) {
@@ -1210,7 +1210,7 @@ public class cpuintrf {
             return MC68000_IRQ_6;
         }
     };
-    public static InterruptPtr m68_level7_irq = new InterruptPtr() {
+    public static InterruptHandlerPtr m68_level7_irq = new InterruptHandlerPtr() {
         public int handler() {
             int cpunum = (activecpu < 0) ? 0 : activecpu;
             if (interrupt_enable[cpunum] == 0) {
@@ -1220,7 +1220,7 @@ public class cpuintrf {
         }
     };
 
-    public static InterruptPtr ignore_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr ignore_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             int cpunum = (activecpu < 0) ? 0 : activecpu;
             return INT_TYPE_NONE(cpunum);
@@ -1437,7 +1437,7 @@ public class cpuintrf {
 /*TODO*///	cpu_internal_interrupt(cpunum, type);
 /*TODO*///}
 /*TODO*///
-    static void cpu_generate_interrupt(int cpunum, InterruptPtr func, int num) {
+    static void cpu_generate_interrupt(int cpunum, InterruptHandlerPtr func, int num) {
         int oldactive = activecpu;
 
         /* don't trigger interrupts on suspended CPUs */

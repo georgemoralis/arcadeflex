@@ -111,7 +111,7 @@ public class ddragon3 {
         }
     };
 
-    public static InterruptPtr ddragon3_cpu_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr ddragon3_cpu_interrupt = new InterruptHandlerPtr() {
         public int handler() { /* 6:0x177e - 5:0x176a */
 
             if (cpu_getiloops() == 0) {
@@ -754,7 +754,7 @@ public class ddragon3 {
     /**
      * ***********************************************************************
      */
-    static RomLoadPtr rom_ddragon3 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ddragon3 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);/* 64k for cpu code */
 
@@ -806,7 +806,7 @@ public class ddragon3 {
         }
     };
 
-    static RomLoadPtr rom_ddrago3b = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ddrago3b = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);/* 64k for cpu code */
 
@@ -860,7 +860,7 @@ public class ddragon3 {
         }
     };
 
-    static RomLoadPtr rom_ctribe = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ctribe = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);/* 64k for cpu code */
 
@@ -899,7 +899,7 @@ public class ddragon3 {
         }
     };
 
-    static RomLoadPtr rom_ctribeb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ctribeb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);/* 64k for cpu code */
 

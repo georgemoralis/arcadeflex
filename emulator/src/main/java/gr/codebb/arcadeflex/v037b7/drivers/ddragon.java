@@ -53,7 +53,7 @@ public class ddragon
 	static int[] adpcm_pos=new int[2],adpcm_end=new int[2],adpcm_idle=new int[2];
 	/* end of private globals */
 	
-	public static InitMachinePtr ddragon_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr ddragon_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		sprite_irq = M6809_INT_NMI;
 		sound_irq = M6809_INT_IRQ;
@@ -63,7 +63,7 @@ public class ddragon
 		adpcm_idle[0] = adpcm_idle[1] = 1;
 	} };
 	
-	public static InitMachinePtr ddragonb_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr ddragonb_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		sprite_irq = M6809_INT_NMI;
 		sound_irq = M6809_INT_IRQ;
@@ -73,7 +73,7 @@ public class ddragon
 		adpcm_idle[0] = adpcm_idle[1] = 1;
 	} };
 	
-	public static InitMachinePtr ddragon2_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr ddragon2_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		sprite_irq = Z80_NMI_INT;
 		sound_irq = Z80_NMI_INT;
@@ -160,7 +160,7 @@ public class ddragon
         
         static int adpcm_data[] = { -1, -1 };
 	
-	public static vclk_interruptPtr dd_adpcm_int = new vclk_interruptPtr() { public void handler(int chip) 
+	public static vclk_InterruptHandlerPtr dd_adpcm_int = new vclk_InterruptHandlerPtr() { public void handler(int chip) 
 	{
 		
 		if (adpcm_pos[chip] >= adpcm_end[chip] || adpcm_pos[chip] >= 0x10000)
@@ -569,7 +569,7 @@ public class ddragon
 	(
 		2,					/* 2 chips             */
 		384000,				/* 384KHz             */
-		new vclk_interruptPtr[] { dd_adpcm_int, dd_adpcm_int },/* interrupt function */
+		new vclk_InterruptHandlerPtr[] { dd_adpcm_int, dd_adpcm_int },/* interrupt function */
 		new int[] { MSM5205_S48_4B, MSM5205_S64_4B },	/* 8kHz and 6kHz      */
 		new int[] { 40, 40 }				/* volume */
 	);
@@ -582,7 +582,7 @@ public class ddragon
 		new int[] { 15 }
 	);
 	
-	public static InterruptPtr ddragon_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr ddragon_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 	    cpu_set_irq_line(0, 1, HOLD_LINE); /* hold the FIRQ line */
 	    cpu_set_nmi_line(0, PULSE_LINE); /* pulse the NMI line */
@@ -755,7 +755,7 @@ public class ddragon
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_ddragon = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ddragon = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x28000, REGION_CPU1 );/* 64k for code + bankswitched memory */
 		ROM_LOAD( "21j-1-5",      0x08000, 0x08000, 0x42045dfd );
 		ROM_LOAD( "21j-2-3",      0x10000, 0x08000, 0x5779705e );/* banked at 0x4000-0x8000 */
@@ -796,7 +796,7 @@ public class ddragon
 		ROM_LOAD( "21j-l-0",      0x0100, 0x0200, 0x46339529 );/* unknown */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ddragonu = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ddragonu = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x28000, REGION_CPU1 );/* 64k for code + bankswitched memory */
 		ROM_LOAD( "21a-1-5",      0x08000, 0x08000, 0xe24a6e11 );
 		ROM_LOAD( "21j-2-3",      0x10000, 0x08000, 0x5779705e );/* banked at 0x4000-0x8000 */
@@ -837,7 +837,7 @@ public class ddragon
 		ROM_LOAD( "21j-l-0",      0x0100, 0x0200, 0x46339529 );/* unknown */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ddragonb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ddragonb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x28000, REGION_CPU1 );/* 64k for code + bankswitched memory */
 		ROM_LOAD( "ic26",         0x08000, 0x08000, 0xae714964 );
 		ROM_LOAD( "21j-2-3",      0x10000, 0x08000, 0x5779705e );/* banked at 0x4000-0x8000 */
@@ -878,7 +878,7 @@ public class ddragon
 		ROM_LOAD( "21j-l-0",      0x0100, 0x0200, 0x46339529 );/* unknown */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ddragon2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ddragon2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x28000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "26a9-04.bin",  0x08000, 0x8000, 0xf2cfc649 );
 		ROM_LOAD( "26aa-03.bin",  0x10000, 0x8000, 0x44dd5d4b );

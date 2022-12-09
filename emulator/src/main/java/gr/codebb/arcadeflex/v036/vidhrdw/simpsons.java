@@ -66,7 +66,7 @@ public class simpsons
 	
 	***************************************************************************/
 	
-	public static VhStartPtr simpsons_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr simpsons_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		if (K052109_vh_start(REGION_GFX1,0,1,2,3/*NORMAL_PLANE_ORDER*/,tile_callback)!=0)
 			return 1;
@@ -79,7 +79,7 @@ public class simpsons
 		return 0;
 	} };
 	
-	public static VhStopPtr simpsons_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr simpsons_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		K052109_vh_stop();
 		K053247_vh_stop();
@@ -109,7 +109,7 @@ public class simpsons
 		SWAP(1,2)
 	}*/
 	
-	public static VhUpdatePtr simpsons_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr simpsons_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int[] pri=new int[3];
                 int[] layer=new int[3];

@@ -14,7 +14,7 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 
 public class espial {
 
-    public static InitMachinePtr espial_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr espial_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             /* we must start with NMI interrupts disabled */
             //interrupt_enable = 0;
@@ -28,7 +28,7 @@ public class espial {
         }
     };
 
-    public static InterruptPtr zodiac_master_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr zodiac_master_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             return (cpu_getiloops() == 0) ? nmi_interrupt.handler() : interrupt.handler();
         }

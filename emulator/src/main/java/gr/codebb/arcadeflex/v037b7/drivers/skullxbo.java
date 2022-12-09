@@ -132,7 +132,7 @@ public class skullxbo
         };
         
 	
-	public static InitMachinePtr init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_reset();
 		atarigen_interrupt_reset(update_interrupts);
@@ -374,7 +374,7 @@ public class skullxbo
 	 *
 	 *************************************/
 	
-	static RomLoadPtr rom_skullxbo = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_skullxbo = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 8*64k for 68000 code */
 		ROM_LOAD_EVEN( "5150", 0x00000, 0x10000, 0x9546d88b );
 		ROM_LOAD_ODD ( "5151", 0x00000, 0x10000, 0xb9ed8bd4 );
@@ -442,7 +442,7 @@ public class skullxbo
 	ROM_END(); }}; 
 	
 	
-	static RomLoadPtr rom_skullxb2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_skullxb2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 8*64k for 68000 code */
 		ROM_LOAD_EVEN( "sku0h.bin", 0x00000, 0x10000, 0x47083d59 );
 		ROM_LOAD_ODD ( "sku0l.bin", 0x00000, 0x10000, 0x2c03feaf );
@@ -528,7 +528,7 @@ public class skullxbo
 	
 	
 	
-	public static InitDriverPtr init_skullxbo = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_skullxbo = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = null;
 	

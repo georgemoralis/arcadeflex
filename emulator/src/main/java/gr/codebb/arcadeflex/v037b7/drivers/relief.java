@@ -74,7 +74,7 @@ public class relief
 	 *
 	 *************************************/
 	
-	public static InitMachinePtr init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_reset();
 		atarigen_video_control_reset();
@@ -434,7 +434,7 @@ public class relief
 	 *
 	 *************************************/
 	
-	public static InitDriverPtr init_relief = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_relief = new InitDriverHandlerPtr() { public void handler() 
 	{
 		char default_eeprom[] =
 		{
@@ -453,7 +453,7 @@ public class relief
 	} };
 	
 	
-	public static InitDriverPtr init_relief2 = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_relief2 = new InitDriverHandlerPtr() { public void handler() 
 	{
 		char default_eeprom[] =
 		{
@@ -486,7 +486,7 @@ public class relief
 	 *
 	 *************************************/
 	
-	static RomLoadPtr rom_relief = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_relief = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 8*64k for 68000 code */
 		ROM_LOAD_EVEN( "0011d.19e", 0x00000, 0x20000, 0xcb3f73ad );
 		ROM_LOAD_ODD ( "0012d.19j", 0x00000, 0x20000, 0x90655721 );
@@ -505,7 +505,7 @@ public class relief
 		ROM_LOAD( "093-0031.10b", 0x180000, 0x80000, 0xba908d73 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_relief2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_relief2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 8*64k for 68000 code */
 		ROM_LOAD_EVEN( "093-0011.19e", 0x00000, 0x20000, 0x794cea33 );
 		ROM_LOAD_ODD ( "093-0012.19j", 0x00000, 0x20000, 0x577495f8 );

@@ -137,7 +137,7 @@ public class marineb {
         }
     }
 
-    public static VhUpdatePtr marineb_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr marineb_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 
@@ -194,7 +194,7 @@ public class marineb {
         }
     };
 
-    public static VhUpdatePtr changes_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr changes_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, sx, sy, code, col, flipx, flipy;
 
@@ -266,7 +266,7 @@ public class marineb {
         }
     };
 
-    public static VhUpdatePtr springer_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr springer_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 
@@ -320,7 +320,7 @@ public class marineb {
         }
     };
 
-    public static VhUpdatePtr hoccer_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr hoccer_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 
@@ -359,7 +359,7 @@ public class marineb {
         }
     };
 
-    public static VhUpdatePtr hopprobo_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr hopprobo_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

@@ -41,6 +41,9 @@
  */
 package gr.codebb.arcadeflex.v036.drivers;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -96,7 +99,7 @@ public class astrof {
      *
      **************************************************************************
      */
-    public static InterruptPtr astrof_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr astrof_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if ((readinputport(2) & 1) != 0) /* Coin */ {
                 return nmi_interrupt.handler();
@@ -295,7 +298,7 @@ public class astrof {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_astrof = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_astrof = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -312,7 +315,7 @@ public class astrof {
         }
     };
 
-    static RomLoadPtr rom_astrof2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_astrof2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -335,7 +338,7 @@ public class astrof {
         }
     };
 
-    static RomLoadPtr rom_astrof3 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_astrof3 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -358,7 +361,7 @@ public class astrof {
         }
     };
 
-    static RomLoadPtr rom_tomahawk = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tomahawk = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -378,7 +381,7 @@ public class astrof {
         }
     };
 
-    static RomLoadPtr rom_tomahaw5 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tomahaw5 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 

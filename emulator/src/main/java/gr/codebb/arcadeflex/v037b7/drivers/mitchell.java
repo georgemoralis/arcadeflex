@@ -1133,7 +1133,7 @@ public class mitchell {
             nvram_handler
     );
 
-    static RomLoadPtr rom_mgakuen = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mgakuen = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);/* 192k for code */
 
@@ -1160,7 +1160,7 @@ public class mitchell {
         }
     };
 
-    static RomLoadPtr rom_mgakuen2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mgakuen2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x50000, REGION_CPU1);/* 320k for code + 320k for decrypted opcodes */
 
@@ -1188,7 +1188,7 @@ public class mitchell {
         }
     };
 
-    static RomLoadPtr rom_pkladies = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pkladies = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x20000, REGION_CPU1);/* 128k for code + 128k for decrypted opcodes */
 
@@ -1215,7 +1215,7 @@ public class mitchell {
         }
     };
 
-    static RomLoadPtr rom_dokaben = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dokaben = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x50000, REGION_CPU1);/* 320k for code + 320k for decrypted opcodes */
 
@@ -1244,7 +1244,7 @@ public class mitchell {
         }
     };
 
-    static RomLoadPtr rom_pang = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pang = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x30000, REGION_CPU1);/* 192k for code + 192k for decrypted opcodes */
 
@@ -1272,7 +1272,7 @@ public class mitchell {
         }
     };
 
-    static RomLoadPtr rom_pangb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pangb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x30000, REGION_CPU1);/* 192k for code + 192k for decrypted opcodes */
 
@@ -1304,7 +1304,7 @@ public class mitchell {
         }
     };
 
-    static RomLoadPtr rom_bbros = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bbros = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x30000, REGION_CPU1);/* 192k for code + 192k for decrypted opcodes */
 
@@ -1332,7 +1332,7 @@ public class mitchell {
         }
     };
 
-    static RomLoadPtr rom_pompingw = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pompingw = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x30000, REGION_CPU1);/* 192k for code + 192k for decrypted opcodes */
 
@@ -1360,7 +1360,7 @@ public class mitchell {
         }
     };
 
-    static RomLoadPtr rom_cworld = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_cworld = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x50000, REGION_CPU1);/* 320k for code + 320k for decrypted opcodes */
 
@@ -1391,7 +1391,7 @@ public class mitchell {
         }
     };
 
-    static RomLoadPtr rom_hatena = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hatena = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x50000, REGION_CPU1);/* 320k for code + 320k for decrypted opcodes */
 
@@ -1422,7 +1422,7 @@ public class mitchell {
         }
     };
 
-    static RomLoadPtr rom_spang = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spang = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x50000, REGION_CPU1);/* 320k for code + 320k for decrypted opcodes */
 
@@ -1451,7 +1451,7 @@ public class mitchell {
         }
     };
 
-    static RomLoadPtr rom_sbbros = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sbbros = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x50000, REGION_CPU1);/* 320k for code + 320k for decrypted opcodes */
 
@@ -1480,7 +1480,7 @@ public class mitchell {
         }
     };
 
-    static RomLoadPtr rom_marukin = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_marukin = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x30000, REGION_CPU1);/* 192k for code + 192k for decrypted opcodes */
 
@@ -1507,7 +1507,7 @@ public class mitchell {
         }
     };
 
-    static RomLoadPtr rom_qtono1 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_qtono1 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x50000, REGION_CPU1);/* 320k for code + 320k for decrypted opcodes */
 
@@ -1538,7 +1538,7 @@ public class mitchell {
         }
     };
 
-    static RomLoadPtr rom_qsangoku = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_qsangoku = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x50000, REGION_CPU1);/* 320k for code + 320k for decrypted opcodes */
 
@@ -1569,7 +1569,7 @@ public class mitchell {
         }
     };
 
-    static RomLoadPtr rom_block = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_block = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x50000, REGION_CPU1);/* 320k for code + 320k for decrypted opcodes */
 
@@ -1600,7 +1600,7 @@ public class mitchell {
         }
     };
 
-    static RomLoadPtr rom_blockj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_blockj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x50000, REGION_CPU1);/* 320k for code + 320k for decrypted opcodes */
 
@@ -1631,7 +1631,7 @@ public class mitchell {
         }
     };
 
-    static RomLoadPtr rom_blockbl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_blockbl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x50000, REGION_CPU1);/* 320k for code + 320k for decrypted opcodes */
 
@@ -1675,42 +1675,42 @@ public class mitchell {
         memory_set_opcode_base(0, new UBytePtr(rom, diff));
     }
 
-    public static InitDriverPtr init_dokaben = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_dokaben = new InitDriverHandlerPtr() {
         public void handler() {
             input_type = 0;
             nvram_size = 0;
             mgakuen2_decode();
         }
     };
-    public static InitDriverPtr init_pang = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_pang = new InitDriverHandlerPtr() {
         public void handler() {
             input_type = 0;
             nvram_size = 0;
             pang_decode();
         }
     };
-    public static InitDriverPtr init_pangb = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_pangb = new InitDriverHandlerPtr() {
         public void handler() {
             input_type = 0;
             nvram_size = 0;
             bootleg_decode();
         }
     };
-    public static InitDriverPtr init_cworld = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_cworld = new InitDriverHandlerPtr() {
         public void handler() {
             input_type = 0;
             nvram_size = 0;
             cworld_decode();
         }
     };
-    public static InitDriverPtr init_hatena = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_hatena = new InitDriverHandlerPtr() {
         public void handler() {
             input_type = 0;
             nvram_size = 0;
             hatena_decode();
         }
     };
-    public static InitDriverPtr init_spang = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_spang = new InitDriverHandlerPtr() {
         public void handler() {
             input_type = 3;
             nvram_size = 0x80;
@@ -1719,7 +1719,7 @@ public class mitchell {
             spang_decode();
         }
     };
-    public static InitDriverPtr init_sbbros = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_sbbros = new InitDriverHandlerPtr() {
         public void handler() {
             input_type = 3;
             nvram_size = 0x80;
@@ -1728,40 +1728,40 @@ public class mitchell {
             sbbros_decode();
         }
     };
-    public static InitDriverPtr init_qtono1 = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_qtono1 = new InitDriverHandlerPtr() {
         public void handler() {
             input_type = 0;
             nvram_size = 0;
             qtono1_decode();
         }
     };
-    public static InitDriverPtr init_qsangoku = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_qsangoku = new InitDriverHandlerPtr() {
         public void handler() {
             input_type = 0;
             nvram_size = 0;
             qsangoku_decode();
         }
     };
-    public static InitDriverPtr init_mgakuen = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_mgakuen = new InitDriverHandlerPtr() {
         public void handler() {
             input_type = 1;
         }
     };
-    public static InitDriverPtr init_mgakuen2 = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_mgakuen2 = new InitDriverHandlerPtr() {
         public void handler() {
             input_type = 1;
             nvram_size = 0;
             mgakuen2_decode();
         }
     };
-    public static InitDriverPtr init_marukin = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_marukin = new InitDriverHandlerPtr() {
         public void handler() {
             input_type = 1;
             nvram_size = 0;
             marukin_decode();
         }
     };
-    public static InitDriverPtr init_block = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_block = new InitDriverHandlerPtr() {
         public void handler() {
             input_type = 2;
             nvram_size = 0x80;
@@ -1770,7 +1770,7 @@ public class mitchell {
             block_decode();
         }
     };
-    public static InitDriverPtr init_blockbl = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_blockbl = new InitDriverHandlerPtr() {
         public void handler() {
             input_type = 2;
             nvram_size = 0x80;

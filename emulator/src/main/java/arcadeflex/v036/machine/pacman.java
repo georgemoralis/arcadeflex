@@ -4,6 +4,9 @@
  */
 package arcadeflex.v036.machine;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -18,7 +21,7 @@ public class pacman {
  /* his usual speed. When we start the emulation, we check if the */
  /* hack can be applied, and set this flag accordingly. */
 
-    public static InitMachinePtr pacman_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr pacman_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             UBytePtr RAM = memory_region(REGION_CPU1);
 
@@ -32,7 +35,7 @@ public class pacman {
         }
     };
 
-    public static InterruptPtr pacman_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr pacman_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             UBytePtr RAM = memory_region(REGION_CPU1);
 

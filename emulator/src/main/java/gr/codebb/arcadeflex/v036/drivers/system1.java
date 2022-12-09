@@ -30,7 +30,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 
 public class system1 {
 
-    public static InitMachinePtr system1_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr system1_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             /* skip the long IC CHECK in Teddyboy Blues and Choplifter */
             /* this is not a ROM patch, the game checks a RAM location */
@@ -43,7 +43,7 @@ public class system1 {
         }
     };
 
-    public static InitMachinePtr chplft_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr chplft_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             /* skip the long IC CHECK in Teddyboy Blues and Choplifter */
             /* this is not a ROM patch, the game checks a RAM location */
@@ -55,7 +55,7 @@ public class system1 {
             system1_define_background_memory(system1_BACKGROUND_MEMORY_SINGLE);
         }
     };
-    public static InitMachinePtr wbml_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr wbml_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             /* skip the long IC CHECK in Teddyboy Blues and Choplifter */
             /* this is not a ROM patch, the game checks a RAM location */
@@ -2951,7 +2951,7 @@ public class system1 {
      */
     /* Since the standard System 1 PROM has part # 5317, Star Jacker, whose first */
     /* ROM is #5318, is probably the first or second System 1 game produced */
-    static RomLoadPtr rom_starjack = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_starjack = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2982,7 +2982,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_starjacs = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_starjacs = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -3016,7 +3016,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_regulus = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_regulus = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -3051,7 +3051,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_regulusu = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_regulusu = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -3082,7 +3082,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_upndown = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_upndown = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -3113,7 +3113,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_mrviking = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mrviking = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -3148,7 +3148,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_mrvikinj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mrvikinj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -3183,7 +3183,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_swat = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_swat = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -3218,7 +3218,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_flicky = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_flicky = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -3243,7 +3243,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_flicky2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_flicky2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -3272,7 +3272,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_bullfgtj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bullfgtj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -3302,7 +3302,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_pitfall2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pitfall2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -3332,7 +3332,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_pitfallu = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pitfallu = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -3360,7 +3360,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_seganinj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_seganinj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -3392,7 +3392,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_seganinu = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_seganinu = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -3422,7 +3422,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_nprinces = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_nprinces = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -3454,7 +3454,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_nprincsu = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_nprincsu = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -3487,7 +3487,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_nprincsb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_nprincsb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -3519,7 +3519,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_imsorry = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_imsorry = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -3549,7 +3549,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_imsorryj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_imsorryj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -3579,7 +3579,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_teddybb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_teddybb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -3612,7 +3612,7 @@ public class system1 {
     };
 
     /* This is the first System 1 game to have extended ROM space */
-    static RomLoadPtr rom_hvymetal = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hvymetal = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x20000, REGION_CPU1);/* 128k for code + 128k for decrypted opcodes */
 
@@ -3651,7 +3651,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_myhero = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_myhero = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -3681,7 +3681,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_myheroj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_myheroj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -3710,7 +3710,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_myherok = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_myherok = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
             /* all the three program ROMs have bits 0-1 swapped */
@@ -3743,7 +3743,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_shtngmst = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_shtngmst = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* 128k for code */
 
@@ -3781,7 +3781,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_chplft = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_chplft = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* 128k for code */
 
@@ -3816,7 +3816,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_chplftb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_chplftb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* 128k for code */
 
@@ -3851,7 +3851,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_chplftbl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_chplftbl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* 128k for code */
 
@@ -3886,7 +3886,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_4dwarrio = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_4dwarrio = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -3918,7 +3918,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_brain = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_brain = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* 128k for code */
 
@@ -3956,7 +3956,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_wboy = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_wboy = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -3988,7 +3988,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_wboy2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_wboy2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -4020,7 +4020,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_wboy3 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_wboy3 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -4052,7 +4052,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_wboy4 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_wboy4 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -4089,7 +4089,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_wboyu = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_wboyu = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -4119,7 +4119,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_wboy4u = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_wboy4u = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -4152,7 +4152,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_wbdeluxe = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_wbdeluxe = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -4185,7 +4185,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_gardia = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gardia = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x20000, REGION_CPU1);/* 128k for code + 128k for decrypted opcodes */
 
@@ -4220,7 +4220,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_gardiab = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gardiab = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x20000, REGION_CPU1);/* 128k for code + 128k for decrypted opcodes */
 
@@ -4255,7 +4255,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_blockgal = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_blockgal = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -4286,7 +4286,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_blckgalb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_blckgalb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -4316,7 +4316,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_tokisens = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tokisens = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* 128k for code */
 
@@ -4351,7 +4351,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_wbml = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_wbml = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x20000, REGION_CPU1);/* 256k for code + 256k for decrypted opcodes */
 
@@ -4390,7 +4390,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_wbmlj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_wbmlj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x20000, REGION_CPU1);/* 256k for code + 256k for decrypted opcodes */
 
@@ -4424,7 +4424,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_wbmlj2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_wbmlj2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x20000, REGION_CPU1);/* 256k for code + 256k for decrypted opcodes */
 
@@ -4458,7 +4458,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_wbmlju = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_wbmlju = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x20000, REGION_CPU1);/* 256k for code + 256k for decrypted opcodes */
 
@@ -4497,7 +4497,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_dakkochn = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dakkochn = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* 128k for code */
 
@@ -4533,7 +4533,7 @@ public class system1 {
         }
     };
 
-    static RomLoadPtr rom_ufosensi = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ufosensi = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* 128k for code */
 
@@ -4570,88 +4570,88 @@ public class system1 {
         }
     };
 
-    public static InitDriverPtr init_regulus = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_regulus = new InitDriverHandlerPtr() {
         public void handler() {
             regulus_decode();
         }
     };
-    public static InitDriverPtr init_mrviking = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_mrviking = new InitDriverHandlerPtr() {
         public void handler() {
             mrviking_decode();
         }
     };
-    public static InitDriverPtr init_swat = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_swat = new InitDriverHandlerPtr() {
         public void handler() {
             swat_decode();
         }
     };
-    public static InitDriverPtr init_flicky = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_flicky = new InitDriverHandlerPtr() {
         public void handler() {
             flicky_decode();
         }
     };
-    public static InitDriverPtr init_bullfgtj = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_bullfgtj = new InitDriverHandlerPtr() {
         public void handler() {
             bullfgtj_decode();
         }
     };
-    public static InitDriverPtr init_pitfall2 = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_pitfall2 = new InitDriverHandlerPtr() {
         public void handler() {
             pitfall2_decode();
         }
     };
-    public static InitDriverPtr init_nprinces = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_nprinces = new InitDriverHandlerPtr() {
         public void handler() {
             nprinces_decode();
         }
     };
-    public static InitDriverPtr init_seganinj = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_seganinj = new InitDriverHandlerPtr() {
         public void handler() {
             seganinj_decode();
         }
     };
-    public static InitDriverPtr init_imsorry = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_imsorry = new InitDriverHandlerPtr() {
         public void handler() {
             imsorry_decode();
         }
     };
-    public static InitDriverPtr init_teddybb = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_teddybb = new InitDriverHandlerPtr() {
         public void handler() {
             teddybb_decode();
         }
     };
-    public static InitDriverPtr init_hvymetal = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_hvymetal = new InitDriverHandlerPtr() {
         public void handler() {
             hvymetal_decode();
         }
     };
-    public static InitDriverPtr init_myheroj = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_myheroj = new InitDriverHandlerPtr() {
         public void handler() {
             myheroj_decode();
         }
     };
-    public static InitDriverPtr init_fdwarrio = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_fdwarrio = new InitDriverHandlerPtr() {
         public void handler() {
             fdwarrio_decode();
         }
     };
-    public static InitDriverPtr init_wboy3 = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_wboy3 = new InitDriverHandlerPtr() {
         public void handler() {
             wboy3_decode();
         }
     };
-    public static InitDriverPtr init_wboy4 = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_wboy4 = new InitDriverHandlerPtr() {
         public void handler() {
             wboy4_decode();
         }
     };
-    public static InitDriverPtr init_gardia = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_gardia = new InitDriverHandlerPtr() {
         public void handler() {
             gardia_decode();
         }
     };
 
-    public static InitDriverPtr init_myherok = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_myherok = new InitDriverHandlerPtr() {
         public void handler() {
             int A;
             UBytePtr rom;
@@ -4698,7 +4698,7 @@ public class system1 {
         }
     };
 
-    public static InitDriverPtr init_bootleg = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_bootleg = new InitDriverHandlerPtr() {
         public void handler() {
             UBytePtr rom = memory_region(REGION_CPU1);
             int diff = memory_region_length(REGION_CPU1) / 2;

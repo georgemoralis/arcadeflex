@@ -87,7 +87,7 @@ public class renegade
 	    );
 	} };
 	
-	public static VhStartPtr renegade_vh_start = new VhStartPtr() { public int handler() {
+	public static VhStartHandlerPtr renegade_vh_start = new VhStartHandlerPtr() { public int handler() {
 	    bg_tilemap = tilemap_create(
 	        get_bg_tilemap_info,
 	        TILEMAP_OPAQUE,
@@ -150,7 +150,7 @@ public class renegade
                 source.inc(4);
 	    }
 	}
-	public static VhUpdatePtr renegade_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr renegade_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 	    tilemap_set_scrollx( bg_tilemap, 0, renegade_scrollx );
 	    tilemap_set_scrolly( bg_tilemap, 0, 0 );

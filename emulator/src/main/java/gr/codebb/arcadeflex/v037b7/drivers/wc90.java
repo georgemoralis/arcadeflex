@@ -353,7 +353,7 @@ public class wc90 {
             }
     );
 
-    static RomLoadPtr rom_wc90 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_wc90 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* 128k for code */
 

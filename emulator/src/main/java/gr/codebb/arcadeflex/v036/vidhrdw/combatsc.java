@@ -64,7 +64,7 @@ public class combatsc
 	static UBytePtr combasc_scrollram=new UBytePtr();
 	
 
-	public static VhConvertColorPromPtr combasc_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr combasc_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i,pal,clut = 0;
                 int ptr=0;
@@ -112,7 +112,7 @@ public class combatsc
 			}
 		}
 	}};
-	public static VhConvertColorPromPtr combascb_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr combascb_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i,pal;
                 int ptr=0;
@@ -251,7 +251,7 @@ public class combatsc
 	
 	***************************************************************************/
 	
-	public static VhStartPtr combasc_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr combasc_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		combasc_vreg = -1;
 	
@@ -283,7 +283,7 @@ public class combatsc
 		return 1;
 	} };
 	
-	public static VhStartPtr combascb_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr combascb_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		combasc_vreg = -1;
 	
@@ -316,7 +316,7 @@ public class combatsc
 		return 1;
 	} };
 	
-	public static VhStopPtr combasc_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr combasc_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
             private_spriteram[0]=null;
             private_spriteram[1]=null;
@@ -472,7 +472,7 @@ public class combatsc
 			}
 		}
 	} };
-	public static InitMachinePtr combasc_init_machine = new InitMachinePtr() { public void handler()
+	public static InitMachineHandlerPtr combasc_init_machine = new InitMachineHandlerPtr() { public void handler()
        {
 		UBytePtr MEM = new UBytePtr(memory_region(REGION_CPU1), 0x38000);
 	
@@ -548,7 +548,7 @@ public class combatsc
 		K007121_sprites_draw(circuit,bitmap,new UBytePtr(source),base_color,0,0);
 	}
 	
-	public static VhUpdatePtr combasc_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr combasc_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int i;
 	
@@ -713,7 +713,7 @@ public class combatsc
 			source.dec(8);
 		}
 	}
-	public static VhUpdatePtr combascb_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr combascb_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int i;
 	

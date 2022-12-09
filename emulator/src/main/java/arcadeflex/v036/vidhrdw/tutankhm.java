@@ -78,7 +78,7 @@ public class tutankhm {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr tutankhm_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr tutankhm_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             if (palette_recalc() != null) {
                 int offs;

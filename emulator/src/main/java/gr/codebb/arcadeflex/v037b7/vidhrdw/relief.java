@@ -159,7 +159,7 @@ public class relief
                 0
         );
                 
-	public static VhStartPtr relief_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr relief_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		
 		/* reset statics */
@@ -196,7 +196,7 @@ public class relief
 	 *
 	 *************************************/
 	
-	public static VhStopPtr relief_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr relief_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		atarigen_pf2_free();
 		atarigen_pf_free();
@@ -308,7 +308,7 @@ public class relief
 	 *
 	 *************************************/
 	
-	public static VhUpdatePtr relief_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr relief_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int i;
 		

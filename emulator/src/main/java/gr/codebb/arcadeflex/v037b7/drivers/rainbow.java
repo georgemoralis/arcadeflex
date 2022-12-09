@@ -533,7 +533,7 @@ public class rainbow {
             }
     );
 
-    static RomLoadPtr rom_rainbow = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rainbow = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);
             /* 8*64k for 68000 code */
@@ -566,7 +566,7 @@ public class rainbow {
         }
     };
 
-    static RomLoadPtr rom_rainbowe = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rainbowe = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);
             /* 8*64k for 68000 code */
@@ -597,7 +597,7 @@ public class rainbow {
         }
     };
 
-    static RomLoadPtr rom_jumping = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_jumping = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0xA0000, REGION_CPU1);
             /* 8*64k for code, 64k*2 for protection chip */
@@ -647,7 +647,7 @@ public class rainbow {
 
     /* sprite roms need all bits reversing, as colours are    */
  /* mapped back to front from the pattern used by Rainbow! */
-    public static InitDriverPtr init_jumping = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_jumping = new InitDriverHandlerPtr() {
         public void handler() {
             /* Sprite colour map is reversed - switch to normal */
             int i;

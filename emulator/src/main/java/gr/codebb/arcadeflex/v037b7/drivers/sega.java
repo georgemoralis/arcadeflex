@@ -4,6 +4,9 @@
  */
 package gr.codebb.arcadeflex.v037b7.drivers;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
@@ -734,42 +737,42 @@ public class sega {
      * Security Chips
      * *************************************************************************
      */
-    public static InitDriverPtr init_spacfury = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_spacfury = new InitDriverHandlerPtr() {
         public void handler() {
             /* This game uses the 315-0064 security chip */
             sega_security(64);
         }
     };
 
-    public static InitDriverPtr init_zektor = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_zektor = new InitDriverHandlerPtr() {
         public void handler() {
             /* This game uses the 315-0082 security chip */
             sega_security(82);
         }
     };
 
-    public static InitDriverPtr init_elim2 = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_elim2 = new InitDriverHandlerPtr() {
         public void handler() {
             /* This game uses the 315-0070 security chip */
             sega_security(70);
         }
     };
 
-    public static InitDriverPtr init_elim4 = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_elim4 = new InitDriverHandlerPtr() {
         public void handler() {
             /* This game uses the 315-0076 security chip */
             sega_security(76);
         }
     };
 
-    public static InitDriverPtr init_startrek = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_startrek = new InitDriverHandlerPtr() {
         public void handler() {
             /* This game uses the 315-0064 security chip */
             sega_security(64);
         }
     };
 
-    public static InitDriverPtr init_tacscan = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_tacscan = new InitDriverHandlerPtr() {
         public void handler() {
             /* This game uses the 315-0076 security chip */
             sega_security(76);
@@ -1252,7 +1255,7 @@ public class sega {
             }
     );
 
-    static RomLoadPtr rom_spacfury = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spacfury = new RomLoadHandlerPtr() {
         public void handler() {
             /* Revision C */
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
@@ -1270,7 +1273,7 @@ public class sega {
         }
     };
 
-    static RomLoadPtr rom_spacfura = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spacfura = new RomLoadHandlerPtr() {
         public void handler() {
             /* Revision A */
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
@@ -1288,7 +1291,7 @@ public class sega {
         }
     };
 
-    static RomLoadPtr rom_zektor = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_zektor = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("1611.cpu", 0x0000, 0x0800, 0x6245aa23);
@@ -1317,7 +1320,7 @@ public class sega {
         }
     };
 
-    static RomLoadPtr rom_tacscan = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tacscan = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("1711a", 0x0000, 0x0800, 0x0da13158);
@@ -1346,7 +1349,7 @@ public class sega {
         }
     };
 
-    static RomLoadPtr rom_elim2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_elim2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("cpu_u25.969", 0x0000, 0x0800, 0x411207f2);
@@ -1367,7 +1370,7 @@ public class sega {
         }
     };
 
-    static RomLoadPtr rom_elim2a = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_elim2a = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("cpu_u25.969", 0x0000, 0x0800, 0x411207f2);
@@ -1388,7 +1391,7 @@ public class sega {
         }
     };
 
-    static RomLoadPtr rom_elim4 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_elim4 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("1390_cpu.u25", 0x0000, 0x0800, 0x97010c3e);
@@ -1410,7 +1413,7 @@ public class sega {
         }
     };
 
-    static RomLoadPtr rom_startrek = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_startrek = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("cpu1873", 0x0000, 0x0800, 0xbe46f5d9);

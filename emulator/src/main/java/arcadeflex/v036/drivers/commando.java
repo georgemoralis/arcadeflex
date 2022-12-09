@@ -29,7 +29,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 
 public class commando {
 
-    public static InterruptPtr commando_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr commando_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             return 0x00d7;
             /* RST 10h - VBLANK */
@@ -360,7 +360,7 @@ public class commando {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_commando = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_commando = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -409,7 +409,7 @@ public class commando {
         }
     };
 
-    static RomLoadPtr rom_commandu = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_commandu = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -458,7 +458,7 @@ public class commando {
         }
     };
 
-    static RomLoadPtr rom_commandj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_commandj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -507,7 +507,7 @@ public class commando {
         }
     };
 
-    static RomLoadPtr rom_spaceinv = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spaceinv = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -556,7 +556,7 @@ public class commando {
         }
     };
 
-    public static InitDriverPtr init_commando = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_commando = new InitDriverHandlerPtr() {
         public void handler() {
             int A;
             UBytePtr rom = memory_region(REGION_CPU1);
@@ -575,7 +575,7 @@ public class commando {
         }
     };
 
-    public static InitDriverPtr init_spaceinv = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_spaceinv = new InitDriverHandlerPtr() {
         public void handler() {
             int A;
             UBytePtr rom = memory_region(REGION_CPU1);

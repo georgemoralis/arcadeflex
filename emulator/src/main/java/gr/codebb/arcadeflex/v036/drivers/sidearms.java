@@ -625,7 +625,7 @@ public class sidearms {
             }
     );
 
-    static RomLoadPtr rom_sidearms = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sidearms = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);    /* 64k for code + banked ROMs images */
 
@@ -675,7 +675,7 @@ public class sidearms {
         }
     };
 
-    static RomLoadPtr rom_sidearmr = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sidearmr = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);    /* 64k for code + banked ROMs images */
 
@@ -725,7 +725,7 @@ public class sidearms {
         }
     };
 
-    static RomLoadPtr rom_sidearjp = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sidearjp = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);    /* 64k for code + banked ROMs images */
 
@@ -775,7 +775,7 @@ public class sidearms {
         }
     };
 
-    static RomLoadPtr rom_turtship = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_turtship = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);    /* 64k for code + banked ROMs images */
 
@@ -813,7 +813,7 @@ public class sidearms {
         }
     };
 
-    static RomLoadPtr rom_dyger = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dyger = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);    /* 64k for code + banked ROMs images */
 

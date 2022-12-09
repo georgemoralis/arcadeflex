@@ -43,7 +43,7 @@ public class citycon {
      *
      **************************************************************************
      */
-    public static VhStartPtr citycon_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr citycon_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((dirtybuffer = new char[videoram_size[0]]) == null) {
                 return 1;
@@ -76,7 +76,7 @@ public class citycon {
      *
      **************************************************************************
      */
-    public static VhStopPtr citycon_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr citycon_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             dirtybuffer = null;
             osd_free_bitmap(tmpbitmap);
@@ -132,7 +132,7 @@ public class citycon {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr citycon_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr citycon_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

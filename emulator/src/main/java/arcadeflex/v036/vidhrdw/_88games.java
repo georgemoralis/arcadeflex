@@ -4,6 +4,8 @@
  */
 package arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.osdependH.*;
 
@@ -73,7 +75,7 @@ public class _88games {
      *
      **************************************************************************
      */
-    public static VhStartPtr k88games_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr k88games_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             layer_colorbase[0] = 64;
             layer_colorbase[1] = 0;
@@ -97,7 +99,7 @@ public class _88games {
         }
     };
 
-    public static VhStopPtr k88games_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr k88games_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             K052109_vh_stop();
             K051960_vh_stop();
@@ -112,7 +114,7 @@ public class _88games {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr k88games_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr k88games_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int i;
 

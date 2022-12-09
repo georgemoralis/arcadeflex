@@ -1644,7 +1644,7 @@ public class m92
 	
 	/***************************************************************************/
 	
-	public static InterruptPtr m92_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr m92_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		m92_vblank=m92_raster_machine=0;
 		if (osd_skip_this_frame()==0)
@@ -1653,7 +1653,7 @@ public class m92
 		return M92_IRQ_0(); /* VBL */
 	} };
 	static int last_line=0;
-	public static InterruptPtr m92_raster_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr m92_raster_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		
 		int line = 256 - cpu_getiloops();
@@ -1906,7 +1906,7 @@ public class m92
 	
 	/***************************************************************************/
 	
-	static RomLoadPtr rom_bmaster = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bmaster = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "bm_d-h0.rom",  0x000000, 0x40000, 0x49b257c7 );
 		ROM_LOAD_ODD ( "bm_d-l0.rom",  0x000000, 0x40000, 0xa873523e );
@@ -1933,7 +1933,7 @@ public class m92
 		ROM_LOAD( "bm_da.rom",       0x000000, 0x80000, 0x62ce5798 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_skingame = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_skingame = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x180000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "is-h0-d",  0x000000, 0x40000, 0x80940abb );
 		ROM_LOAD_ODD ( "is-l0-d",  0x000000, 0x40000, 0xb84beed6 );
@@ -1963,7 +1963,7 @@ public class m92
 		ROM_LOAD( "mt2eep",       0x000000, 0x800, 0x208af971 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_majtitl2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_majtitl2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x180000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "mt2-ho-b.5m",0x000000, 0x40000, 0xb163b12e );
 		ROM_LOAD_ODD ( "mt2-lo-b.5f",0x000000, 0x40000, 0x6f3b5d9d );
@@ -1993,7 +1993,7 @@ public class m92
 		ROM_LOAD( "mt2eep",       0x000000, 0x800, 0x208af971 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_skingam2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_skingam2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x180000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "mt2h0a", 0x000000, 0x40000, 0x7c6dbbc7 );
 		ROM_LOAD_ODD ( "mt2l0a", 0x000000, 0x40000, 0x9de5f689 );
@@ -2023,7 +2023,7 @@ public class m92
 		ROM_LOAD( "mt2eep",       0x000000, 0x800, 0x208af971 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_gunforce = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gunforce = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "gf_h0-c.rom",  0x000000, 0x20000, 0xc09bb634 );
 		ROM_LOAD_ODD ( "gf_l0-c.rom",  0x000000, 0x20000, 0x1bef6f7d );
@@ -2050,7 +2050,7 @@ public class m92
 		ROM_LOAD( "gf-da.rom",	 0x000000, 0x020000, 0x933ba935 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_gunforcu = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gunforcu = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "gf_h0-d.5m",  0x000000, 0x20000, 0xa6db7b5c );
 		ROM_LOAD_ODD ( "gf_l0-d.5f",  0x000000, 0x20000, 0x82cf55f6 );
@@ -2077,7 +2077,7 @@ public class m92
 		ROM_LOAD( "gf-da.rom",	 0x000000, 0x020000, 0x933ba935 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_inthunt = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_inthunt = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "ith-h0-d.rom",0x000000, 0x040000, 0x52f8e7a6 );
 		ROM_LOAD_ODD ( "ith-l0-d.rom",0x000000, 0x040000, 0x5db79eb7 );
@@ -2104,7 +2104,7 @@ public class m92
 		ROM_LOAD( "ith_ic9.rom" ,0x000000, 0x080000, 0x318ee71a );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_kaiteids = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kaiteids = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "ith-h0j.bin",0x000000, 0x040000, 0xdc1dec36 );
 		ROM_LOAD_ODD ( "ith-l0j.bin",0x000000, 0x040000, 0x8835d704 );
@@ -2131,7 +2131,7 @@ public class m92
 		ROM_LOAD( "ith_ic9.rom" ,0x000000, 0x080000, 0x318ee71a );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_hook = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_hook = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "h-h0-d.rom",0x000000, 0x040000, 0x40189ff6 );
 		ROM_LOAD_ODD ( "h-l0-d.rom",0x000000, 0x040000, 0x14567690 );
@@ -2158,7 +2158,7 @@ public class m92
 		ROM_LOAD( "hook-da.rom" ,0x000000, 0x080000, 0x88cd0212 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_hooku = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_hooku = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "h0-c.3h",0x000000, 0x040000, 0x84cc239e );
 		ROM_LOAD_ODD ( "l0-c.5h",0x000000, 0x040000, 0x45e194fe );
@@ -2185,7 +2185,7 @@ public class m92
 		ROM_LOAD( "hook-da.rom" ,0x000000, 0x080000, 0x88cd0212 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_rtypeleo = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_rtypeleo = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "rtl-h0-d.bin", 0x000000, 0x040000, 0x3dbac89f );
 		ROM_LOAD_ODD ( "rtl-l0-d.bin", 0x000000, 0x040000, 0xf85a2537 );
@@ -2212,7 +2212,7 @@ public class m92
 		ROM_LOAD( "rtl-da.bin" ,0x000000, 0x080000, 0xdbebd1ff );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mysticri = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mysticri = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "mr-h0-b.bin",  0x000000, 0x040000, 0xd529f887 );
 		ROM_LOAD_ODD ( "mr-l0-b.bin",  0x000000, 0x040000, 0xa457ab44 );
@@ -2239,7 +2239,7 @@ public class m92
 		ROM_LOAD( "mr-da.bin" ,0x000000, 0x040000, 0x1a11fc59 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_gunhohki = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gunhohki = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "mr-h0.bin",  0x000000, 0x040000, 0x83352270 );
 		ROM_LOAD_ODD ( "mr-l0.bin",  0x000000, 0x040000, 0x9db308ae );
@@ -2266,7 +2266,7 @@ public class m92
 		ROM_LOAD( "mr-da.bin" ,0x000000, 0x040000, 0x1a11fc59 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_uccops = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_uccops = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "uc_h0.rom",  0x000000, 0x040000, 0x240aa5f7 );
 		ROM_LOAD_ODD ( "uc_l0.rom",  0x000000, 0x040000, 0xdf9a4826 );
@@ -2293,7 +2293,7 @@ public class m92
 		ROM_LOAD( "uc_w42.rom", 0x000000, 0x080000, 0xd17d3fd6 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_uccopsj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_uccopsj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "uca-h0.bin", 0x000000, 0x040000, 0x9e17cada );
 		ROM_LOAD_ODD ( "uca-l0.bin", 0x000000, 0x040000, 0x4a4e3208 );
@@ -2320,7 +2320,7 @@ public class m92
 		ROM_LOAD( "uca-da.bin", 0x000000, 0x080000, 0x0b2855e9 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_lethalth = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_lethalth = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "lt_d-h0.rom",  0x000000, 0x020000, 0x20c68935 );
 		ROM_LOAD_ODD ( "lt_d-l0.rom",  0x000000, 0x020000, 0xe1432fb3 );
@@ -2347,7 +2347,7 @@ public class m92
 		ROM_LOAD( "lt_8a.rom" ,0x000000, 0x040000, 0x357762a2 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_thndblst = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_thndblst = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "lt_d-h0j.rom", 0x000000, 0x020000, 0xdc218a18 );
 		ROM_LOAD_ODD ( "lt_d-l0j.rom", 0x000000, 0x020000, 0xae9a3f81 );
@@ -2374,7 +2374,7 @@ public class m92
 		ROM_LOAD( "lt_8a.rom" ,0x000000, 0x040000, 0x357762a2 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_nbbatman = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_nbbatman = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x180000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "a1-h0-a.34",  0x000000, 0x040000, 0x24a9b794 );
 		ROM_LOAD_ODD ( "a1-l0-a.31",  0x000000, 0x040000, 0x846d7716 );
@@ -2401,7 +2401,7 @@ public class m92
 		ROM_LOAD( "lh534k0k.8" ,0x000000, 0x080000, 0x735e6380 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_leaguemn = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_leaguemn = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x180000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "lma1-h0.34",  0x000000, 0x040000, 0x47c54204 );
 		ROM_LOAD_ODD ( "lma1-l0.31",  0x000000, 0x040000, 0x1d062c82 );
@@ -2428,7 +2428,7 @@ public class m92
 		ROM_LOAD( "lh534k0k.8" ,0x000000, 0x080000, 0x735e6380 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_psoldier = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_psoldier = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "f3_h0d.h0",  0x000000, 0x040000, 0x38f131fd );
 		ROM_LOAD_ODD ( "f3_l0d.l0",  0x000000, 0x040000, 0x1662969c );
@@ -2626,48 +2626,48 @@ public class m92
 	}
 	
 	
-	public static InitDriverPtr init_m92 = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_m92 = new InitDriverHandlerPtr() { public void handler() 
 	{
 		m92_sound_decrypt();
 	} };
 	
-	public static InitDriverPtr init_gunforce = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_gunforce = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_mem_read_handler(0, 0xe61d0, 0xe61d1, gunforce_cycle_r);
 		init_m92.handler();
 	} };
 	
-	public static InitDriverPtr init_hook = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_hook = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_mem_read_handler(0, 0xe0012, 0xe0013, hook_cycle_r);
 		init_m92.handler();
 	} };
 	
-	public static InitDriverPtr init_uccops = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_uccops = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_mem_read_handler(0, 0xe3a02, 0xe3a03, uccops_cycle_r);
 		init_m92.handler();
 	} };
 	
-	public static InitDriverPtr init_rtypeleo = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_rtypeleo = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_mem_read_handler(0, 0xe0032, 0xe0033, rtypeleo_cycle_r);
 		init_m92.handler();
 	} };
 	
-	public static InitDriverPtr init_inthunt = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_inthunt = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_mem_read_handler(0, 0xe025e, 0xe025f, inthunt_cycle_r);
 		init_m92.handler();
 	} };
 	
-	public static InitDriverPtr init_lethalth = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_lethalth = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_mem_read_handler(0, 0xe001e, 0xe001f, lethalth_cycle_r);
 		init_m92.handler();
 	} };
 	
-	public static InitDriverPtr init_psoldier = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_psoldier = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_mem_read_handler(0, 0xe1aec, 0xe1aed, psoldier_cycle_r);
 		init_m92.handler();

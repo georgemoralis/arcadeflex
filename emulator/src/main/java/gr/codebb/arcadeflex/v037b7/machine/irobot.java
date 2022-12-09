@@ -217,7 +217,7 @@ public class irobot {
             irscanline_timer = timer_set(cpu_getscanlinetime(scanline), scanline, scanline_callback);
         }
     };
-    public static InitMachinePtr irobot_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr irobot_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             UBytePtr MB = memory_region(REGION_CPU2);
 
@@ -444,7 +444,7 @@ public class irobot {
 
 
     /* Init mathbox (only called once) */
-    public static InitDriverPtr init_irobot = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_irobot = new InitDriverHandlerPtr() {
         public void handler() {
             int i;
             for (i = 0; i < 16; i++) {

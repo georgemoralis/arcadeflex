@@ -32,7 +32,7 @@ public class snowbros {
 
     static UBytePtr ram = new UBytePtr();
 
-    public static InterruptPtr snowbros_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr snowbros_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             return cpu_getiloops() + 2;
             /* IRQs 4, 3, and 2 */
@@ -304,7 +304,7 @@ public class snowbros {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_snowbros = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_snowbros = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);/* 6*64k for 68000 code */
 
@@ -324,7 +324,7 @@ public class snowbros {
         }
     };
 
-    static RomLoadPtr rom_snowbroa = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_snowbroa = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);/* 6*64k for 68000 code */
 
@@ -344,7 +344,7 @@ public class snowbros {
         }
     };
 
-    static RomLoadPtr rom_snowbrob = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_snowbrob = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);/* 6*64k for 68000 code */
 
@@ -364,7 +364,7 @@ public class snowbros {
         }
     };
 
-    static RomLoadPtr rom_snowbroj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_snowbroj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);/* 6*64k for 68000 code */
 

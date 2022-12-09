@@ -205,7 +205,7 @@ public class aztarac
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_aztarac = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_aztarac = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0xc000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "l8_6.bin", 0x000000, 0x001000, 0x25f8da18 );
 		ROM_LOAD_ODD ( "n8_0.bin", 0x000000, 0x001000, 0x04e20626 );
@@ -227,7 +227,7 @@ public class aztarac
 	
 	
 	
-	public static InitDriverPtr init_aztarac = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_aztarac = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr rom = memory_region(REGION_CPU1);
 	

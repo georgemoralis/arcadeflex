@@ -42,7 +42,7 @@ public class solomon {
      *
      **************************************************************************
      */
-    public static VhStartPtr solomon_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr solomon_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int i;
 
@@ -78,7 +78,7 @@ public class solomon {
      *
      **************************************************************************
      */
-    public static VhStopPtr solomon_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr solomon_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             bitmap_free(tmpbitmap2);
             dirtybuffer2 = null;
@@ -125,7 +125,7 @@ public class solomon {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr solomon_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr solomon_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

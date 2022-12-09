@@ -31,7 +31,7 @@ public class wardner {
 
     static int wardner_membank = 0;
 
-    public static InterruptPtr wardner_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr wardner_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (twincobr_intenable!=0) {
                 twincobr_intenable = 0;
@@ -634,7 +634,7 @@ public class wardner {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_wardner = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_wardner = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x48000, REGION_CPU1);/* Banked Main Z80 code */
 
@@ -705,7 +705,7 @@ public class wardner {
         }
     };
 
-    static RomLoadPtr rom_pyros = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pyros = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x48000, REGION_CPU1);/* Banked Z80 code */
 
@@ -776,7 +776,7 @@ public class wardner {
         }
     };
 
-    static RomLoadPtr rom_wardnerj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_wardnerj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x48000, REGION_CPU1);/* Banked Z80 code */
 
@@ -847,7 +847,7 @@ public class wardner {
         }
     };
 
-    public static InitDriverPtr init_wardner = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_wardner = new InitDriverHandlerPtr() {
         public void handler() {
             int A;
             /*unsigned*/ char datamsb;

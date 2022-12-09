@@ -482,7 +482,7 @@ public class ginganin
 	
 	
 	
-	public static VhStartPtr ginganin_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr ginganin_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		bg_tilemap = tilemap_create(get_bg_tile_info,
 								TILEMAP_OPAQUE,
@@ -602,7 +602,7 @@ public class ginganin
             }
 	}
 	
-        public static VhUpdatePtr ginganin_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+        public static VhUpdateHandlerPtr ginganin_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
             int i, offs;
             int layers_ctrl1;

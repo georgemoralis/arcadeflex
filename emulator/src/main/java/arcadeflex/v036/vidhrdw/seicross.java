@@ -36,7 +36,7 @@ public class seicross {
      *
      **************************************************************************
      */
-    public static VhConvertColorPromPtr seicross_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr seicross_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int p_inc = 0;
@@ -90,7 +90,7 @@ public class seicross {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr seicross_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr seicross_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, x;
 

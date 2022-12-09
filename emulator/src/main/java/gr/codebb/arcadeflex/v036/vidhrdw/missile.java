@@ -33,7 +33,7 @@ public class missile
 	  Start the video hardware emulation.
 	
 	***************************************************************************/
-	public static VhStartPtr missile_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr missile_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 	
 		/* force video ram to be $0000-$FFFF even though only $1900-$FFFF is used */
@@ -52,7 +52,7 @@ public class missile
 	  Stop the video hardware emulation.
 	
 	***************************************************************************/
-	public static VhStopPtr missile_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr missile_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		missile_videoram=null;
 	} };
@@ -185,7 +185,7 @@ public class missile
 	
 	
 	/********************************************************************************************/
-	public static VhUpdatePtr missile_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr missile_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int address;
 	

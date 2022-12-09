@@ -344,7 +344,7 @@ public class blueprnt {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_blueprnt = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_blueprnt = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("1m", 0x0000, 0x1000, 0xb20069a6);
@@ -369,7 +369,7 @@ public class blueprnt {
         }
     };
 
-    static RomLoadPtr rom_blueprnj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_blueprnj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("bp_01.bin", 0x0000, 0x1000, 0x2e746693);
@@ -394,7 +394,7 @@ public class blueprnt {
         }
     };
 
-    static RomLoadPtr rom_saturn = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_saturn = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("r1", 0x0000, 0x1000, 0x18a6d68e);

@@ -807,32 +807,32 @@ public class avgdvg {
     }
 
     /* The functions referenced from gamedriver */
-    public static VhConvertColorPromPtr avg_init_palette_white = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr avg_init_palette_white = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             avg_init_palette(VEC_PAL_WHITE, palette, colortable, color_prom);
         }
     };
-    public static VhConvertColorPromPtr avg_init_palette_aqua = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr avg_init_palette_aqua = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             avg_init_palette(VEC_PAL_AQUA, palette, colortable, color_prom);
         }
     };
-    public static VhConvertColorPromPtr avg_init_palette_bzone = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr avg_init_palette_bzone = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             avg_init_palette(VEC_PAL_BZONE, palette, colortable, color_prom);
         }
     };
-    public static VhConvertColorPromPtr avg_init_palette_multi = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr avg_init_palette_multi = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             avg_init_palette(VEC_PAL_MULTI, palette, colortable, color_prom);
         }
     };
-    public static VhConvertColorPromPtr avg_init_palette_swars = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr avg_init_palette_swars = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             avg_init_palette(VEC_PAL_SWARS, palette, colortable, color_prom);
         }
     };
-    public static VhConvertColorPromPtr avg_init_palette_astdelux = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr avg_init_palette_astdelux = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             avg_init_palette(VEC_PAL_ASTDELUX, palette, colortable, color_prom);
         }
@@ -909,54 +909,54 @@ public class avgdvg {
      * emulation engine.
      **************************************************************************
      */
-    public static VhStartPtr dvg_start = new VhStartPtr() {
+    public static VhStartHandlerPtr dvg_start = new VhStartHandlerPtr() {
         public int handler() {
             return avgdvg_init(USE_DVG);
         }
     };
 
-    public static VhStartPtr avg_start = new VhStartPtr() {
+    public static VhStartHandlerPtr avg_start = new VhStartHandlerPtr() {
         public int handler() {
 
             return avgdvg_init(USE_AVG);
         }
     };
-    public static VhStartPtr avg_start_starwars = new VhStartPtr() {
+    public static VhStartHandlerPtr avg_start_starwars = new VhStartHandlerPtr() {
         public int handler() {
 
             return avgdvg_init(USE_AVG_SWARS);
         }
     };
-    public static VhStartPtr avg_start_tempest = new VhStartPtr() {
+    public static VhStartHandlerPtr avg_start_tempest = new VhStartHandlerPtr() {
         public int handler() {
 
             return avgdvg_init(USE_AVG_TEMPEST);
         }
     };
-    public static VhStartPtr avg_start_mhavoc = new VhStartPtr() {
+    public static VhStartHandlerPtr avg_start_mhavoc = new VhStartHandlerPtr() {
         public int handler() {
 
             return avgdvg_init(USE_AVG_MHAVOC);
         }
     };
-    public static VhStartPtr avg_start_bzone = new VhStartPtr() {
+    public static VhStartHandlerPtr avg_start_bzone = new VhStartHandlerPtr() {
         public int handler() {
 
             return avgdvg_init(USE_AVG_BZONE);
         }
     };
-    public static VhStartPtr avg_start_quantum = new VhStartPtr() {
+    public static VhStartHandlerPtr avg_start_quantum = new VhStartHandlerPtr() {
         public int handler() {
             return avgdvg_init(USE_AVG_QUANTUM);
         }
     };
-    public static VhStartPtr avg_start_redbaron = new VhStartPtr() {
+    public static VhStartHandlerPtr avg_start_redbaron = new VhStartHandlerPtr() {
         public int handler() {
             return avgdvg_init(USE_AVG_RBARON);
         }
     };
 
-    public static VhStopPtr avg_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr avg_stop = new VhStopHandlerPtr() {
         public void handler() {
             busy = 0;
             vector_clear_list();
@@ -964,7 +964,7 @@ public class avgdvg {
             vector_vh_stop.handler();
         }
     };
-    public static VhStopPtr dvg_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr dvg_stop = new VhStopHandlerPtr() {
         public void handler() {
             busy = 0;
             vector_clear_list();

@@ -32,7 +32,7 @@ public class kangaroo {
     public static int screen_flipped;
     public static osd_bitmap tmpbitmap2;
 
-    public static VhConvertColorPromPtr kangaroo_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr kangaroo_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -52,7 +52,7 @@ public class kangaroo {
      *
      **************************************************************************
      */
-    public static VhStartPtr kangaroo_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr kangaroo_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((tmpbitmap = osd_create_bitmap(Machine.drv.screen_width, Machine.drv.screen_height)) == null) {
                 return 1;
@@ -79,7 +79,7 @@ public class kangaroo {
      *
      **************************************************************************
      */
-    public static VhStopPtr kangaroo_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr kangaroo_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(tmpbitmap2);
             osd_free_bitmap(tmpbitmap);
@@ -286,7 +286,7 @@ public class kangaroo {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr kangaroo_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr kangaroo_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             if (palette_recalc() != null || screen_flipped != 0) {
                 int x, y;

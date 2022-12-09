@@ -150,7 +150,7 @@ public class gaiden
 	
 	/********************************************************************************/
 	
-	public static VhStartPtr gaiden_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr gaiden_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		sprite_list = sprite_list_create( NUMSPRITES, SPRITE_LIST_BACK_TO_FRONT );
 	
@@ -187,7 +187,7 @@ public class gaiden
 		return 1;
 	} };
 	
-	public static VhStopPtr gaiden_vh_stop = new VhStopPtr() { public void handler() {
+	public static VhStopHandlerPtr gaiden_vh_stop = new VhStopHandlerPtr() { public void handler() {
 	} };
 	
 	/* scroll write handlers */
@@ -281,7 +281,7 @@ public class gaiden
 		return spriteram.READ_WORD(offset);
 	} };
 	
-	public static VhUpdatePtr gaiden_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr gaiden_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		gfxbank = 1;
 		videoram1 = new UShortPtr(gaiden_videoram3,0x1000);

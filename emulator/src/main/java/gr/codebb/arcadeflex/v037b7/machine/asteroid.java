@@ -28,7 +28,7 @@ import static gr.codebb.arcadeflex.v036.vidhrdw.avgdvg.*;
 public class asteroid
 {
 	
-	public static InterruptPtr asteroid_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr asteroid_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		/* Turn off interrupts if self-test is enabled */
 		if ((readinputport(0) & 0x80) != 0)
@@ -37,7 +37,7 @@ public class asteroid
 			return nmi_interrupt.handler();
 	} };
 	
-	public static InterruptPtr llander_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr llander_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		/* Turn off interrupts if self-test is enabled */
 		if ((readinputport(0) & 0x02) != 0)
@@ -166,7 +166,7 @@ public class asteroid
 /*TODO*///		set_led_status(offset,~data & 0x01);
 	} };
 	
-	public static InitMachinePtr asteroid_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr asteroid_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		asteroid_bank_switch_w.handler(0,0);
 	} };

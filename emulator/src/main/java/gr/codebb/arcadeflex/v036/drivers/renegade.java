@@ -172,14 +172,14 @@ public class renegade {
         0x26, 0x01, 0xa5, 0x01, 0xc5, 0x00, 0x90, 0x04, 0xe5, 0x00, 0x85, 0x01, 0x26, 0x10, 0x26, 0x11,
         0xca, 0xd0, 0xed, 0x68, 0x85, 0x01, 0x68, 0xaa, 0x68, 0x60
     };
-    public static InitDriverPtr init_kuniokun = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_kuniokun = new InitDriverHandlerPtr() {
         public void handler() {
             mcu_type = 0x85;
             mcu_encrypt_table = new CharPtr(kuniokun_xor_table);
             mcu_encrypt_table_len = 0x2a;
         }
     };
-    public static InitDriverPtr init_renegade = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_renegade = new InitDriverHandlerPtr() {
         public void handler() {
             mcu_type = 0xda;
             mcu_encrypt_table = new CharPtr(renegade_xor_table);
@@ -404,7 +404,7 @@ public class renegade {
         }
     };
     static int ren_count;
-    public static InterruptPtr renegade_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr renegade_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             /*
 		static int coin;
@@ -716,7 +716,7 @@ public class renegade {
             }
     );
 
-    static RomLoadPtr rom_renegade = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_renegade = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);/* 64k for code + bank switched ROM */
             ROM_LOAD("nb-5.bin", 0x08000, 0x8000, 0xba683ddf);
@@ -759,7 +759,7 @@ public class renegade {
         }
     };
 
-    static RomLoadPtr rom_kuniokun = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kuniokun = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);/* 64k for code + bank switched ROM */
             ROM_LOAD("nb-01.bin", 0x08000, 0x8000, 0x93fcfdf5);// original
@@ -802,7 +802,7 @@ public class renegade {
         }
     };
 
-    static RomLoadPtr rom_kuniokub = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kuniokub = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);/* 64k for code + bank switched ROM */
             ROM_LOAD("ta18-10.bin", 0x08000, 0x8000, 0xa90cf44a);// bootleg

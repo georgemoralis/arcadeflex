@@ -25,7 +25,7 @@ import static common.libc.cstring.*;
 
 public class galpanic {
 
-    public static InterruptPtr galpanic_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr galpanic_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             /* IRQ 3 drives the game, IRQ 5 updates the palette */
             if (cpu_getiloops() != 0) {
@@ -465,7 +465,7 @@ public class galpanic {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_galpanic = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_galpanic = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x400000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("pm110.4m2", 0x000000, 0x080000, 0xae6b17a8);
@@ -494,7 +494,7 @@ public class galpanic {
         }
     };
 
-    static RomLoadPtr rom_fantasia = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_fantasia = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x500000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("prog2_16.rom", 0x000000, 0x80000, 0xe27c6c57);
@@ -526,7 +526,7 @@ public class galpanic {
         }
     };
 
-    static RomLoadPtr rom_newfant = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_newfant = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x500000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("prog2_12.rom", 0x000000, 0x80000, 0xde43a457);
@@ -552,7 +552,7 @@ public class galpanic {
         }
     };
 
-    static RomLoadPtr rom_missw96 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_missw96 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x400000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("mw96_10.bin", 0x000000, 0x80000, 0xb1309bb1);

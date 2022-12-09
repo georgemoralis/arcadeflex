@@ -21,7 +21,7 @@ public class rainbow {
      *
      ************************************
      */
-    public static InterruptPtr rainbow_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr rainbow_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             return 4;
             /* Interrupt vector 4 */

@@ -76,7 +76,7 @@ public class xybots
             }
         };
 	
-	public static InitMachinePtr init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_reset();
 		atarigen_slapstic_reset();
@@ -298,7 +298,7 @@ public class xybots
 	 *
 	 *************************************/
 	
-	static RomLoadPtr rom_xybots = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_xybots = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x90000, REGION_CPU1 );/* 8*64k for 68000 code */
 		ROM_LOAD_EVEN( "2112.c17",     0x00000, 0x10000, 0x16d64748 );
 		ROM_LOAD_ODD ( "2113.c19",     0x00000, 0x10000, 0x2677d44a );
@@ -336,7 +336,7 @@ public class xybots
 	 *
 	 *************************************/
 	
-	public static InitDriverPtr init_xybots = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_xybots = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = null;
 		atarigen_slapstic_init(0, 0x008000, 107);

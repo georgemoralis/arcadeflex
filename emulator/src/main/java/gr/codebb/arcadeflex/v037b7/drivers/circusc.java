@@ -289,7 +289,7 @@ public class circusc {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_circusc = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_circusc = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);
             /* 64k for code + 64k for decrypted opcodes */
@@ -324,7 +324,7 @@ public class circusc {
         }
     };
 
-    static RomLoadPtr rom_circusc2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_circusc2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);
             /* 64k for code + 64k for decrypted opcodes */
@@ -359,7 +359,7 @@ public class circusc {
         }
     };
 
-    static RomLoadPtr rom_circuscc = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_circuscc = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);
             /* 64k for code + 64k for decrypted opcodes */
@@ -394,7 +394,7 @@ public class circusc {
         }
     };
 
-    static RomLoadPtr rom_circusce = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_circusce = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);
             /* 64k for code + 64k for decrypted opcodes */
@@ -429,7 +429,7 @@ public class circusc {
         }
     };
 
-    public static InitDriverPtr init_circusc = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_circusc = new InitDriverHandlerPtr() {
         public void handler() {
             konami1_decode();
         }

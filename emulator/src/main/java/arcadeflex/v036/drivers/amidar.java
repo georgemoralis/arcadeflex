@@ -637,7 +637,7 @@ public class amidar {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_amidar = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_amidar = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -661,7 +661,7 @@ public class amidar {
         }
     };
 
-    static RomLoadPtr rom_amidaru = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_amidaru = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -686,7 +686,7 @@ public class amidar {
         }
     };
 
-    static RomLoadPtr rom_amidaro = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_amidaro = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -712,7 +712,7 @@ public class amidar {
         }
     };
 
-    static RomLoadPtr rom_amigo = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_amigo = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -736,7 +736,7 @@ public class amidar {
         }
     };
 
-    static RomLoadPtr rom_turtles = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_turtles = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -761,7 +761,7 @@ public class amidar {
         }
     };
 
-    static RomLoadPtr rom_turpin = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_turpin = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -786,7 +786,7 @@ public class amidar {
         }
     };
 
-    static RomLoadPtr rom_600 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_600 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 

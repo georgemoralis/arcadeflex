@@ -43,7 +43,7 @@ public class baraduke
 	
 	***************************************************************************/
 	
-	public static VhConvertColorPromPtr baraduke_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr baraduke_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 		int bit0,bit1,bit2,bit3;
@@ -104,7 +104,7 @@ public class baraduke
 	
 	***************************************************************************/
 	
-	public static VhStartPtr baraduke_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr baraduke_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
                 _tilemap[0] = tilemap_create(get_tile_info0, TILEMAP_TRANSPARENT, 8, 8, 64, 32);
 		_tilemap[1] = tilemap_create(get_tile_info1, TILEMAP_TRANSPARENT, 8, 8, 64, 32);
@@ -291,7 +291,7 @@ public class baraduke
 	}
 	
 	
-	public static VhUpdatePtr baraduke_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr baraduke_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int offs;
 	
@@ -334,7 +334,7 @@ public class baraduke
 		}
 	} };
 	
-	public static VhUpdatePtr metrocrs_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr metrocrs_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int offs;
 	

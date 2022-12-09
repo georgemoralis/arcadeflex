@@ -35,7 +35,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
 
 public class scobra {
 
-    public static InitMachinePtr scobra_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr scobra_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             /* we must start with NMI interrupts disabled, otherwise some games */
  /* (e.g. Lost Tomb, Rescue) will not pass the startup test. */
@@ -1625,7 +1625,7 @@ public class scobra {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_scobra = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_scobra = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1652,7 +1652,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_scobras = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_scobras = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1679,7 +1679,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_scobrab = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_scobrab = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1707,7 +1707,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_stratgyx = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_stratgyx = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1733,7 +1733,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_stratgys = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_stratgys = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1759,7 +1759,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_armorcar = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_armorcar = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1784,7 +1784,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_armorca2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_armorca2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1809,7 +1809,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_moonwar2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_moonwar2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1833,7 +1833,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_monwar2a = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_monwar2a = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1857,7 +1857,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_spdcoin = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spdcoin = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1879,7 +1879,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_darkplnt = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_darkplnt = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1906,7 +1906,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_tazmania = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tazmania = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1931,7 +1931,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_tazmani2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tazmani2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1956,7 +1956,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_calipso = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_calipso = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1982,7 +1982,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_anteater = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_anteater = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2007,7 +2007,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_rescue = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rescue = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2033,7 +2033,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_minefld = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_minefld = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2060,7 +2060,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_losttomb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_losttomb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2088,7 +2088,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_losttmbh = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_losttmbh = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2116,7 +2116,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_superbon = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_superbon = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2143,7 +2143,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_hustler = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hustler = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2167,7 +2167,7 @@ public class scobra {
         }
     };
 
-    static RomLoadPtr rom_billiard = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_billiard = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2192,7 +2192,7 @@ public class scobra {
     };
 
     /* this is identical to billiard, but with a different memory map */
-    static RomLoadPtr rom_hustlerb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hustlerb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2216,7 +2216,7 @@ public class scobra {
         }
     };
 
-    public static InitDriverPtr init_moonwar2 = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_moonwar2 = new InitDriverHandlerPtr() {
         public void handler() {
             /* Install special handler for the spinner */
             install_mem_read_handler(0, 0x9800, 0x9800, moonwar2_IN0_r);
@@ -2227,7 +2227,7 @@ public class scobra {
         return ((i >> n) & 1);
     }
 
-    public static InitDriverPtr init_anteater = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_anteater = new InitDriverHandlerPtr() {
         public void handler() {
             /*
              *   Code To Decode Lost Tomb by Mirko Buffoni
@@ -2250,7 +2250,7 @@ public class scobra {
         }
     };
 
-    public static InitDriverPtr init_rescue = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_rescue = new InitDriverHandlerPtr() {
         public void handler() {
             /*
              *   Code To Decode Lost Tomb by Mirko Buffoni
@@ -2273,7 +2273,7 @@ public class scobra {
         }
     };
 
-    public static InitDriverPtr init_minefld = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_minefld = new InitDriverHandlerPtr() {
         public void handler() {
             /*
              *   Code To Decode Minefield by Mike Balfour and Nicola Salmoria
@@ -2296,7 +2296,7 @@ public class scobra {
         }
     };
 
-    public static InitDriverPtr init_losttomb = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_losttomb = new InitDriverHandlerPtr() {
         public void handler() {
             /*
              *   Code To Decode Lost Tomb by Mirko Buffoni
@@ -2319,7 +2319,7 @@ public class scobra {
         }
     };
 
-    public static InitDriverPtr init_superbon = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_superbon = new InitDriverHandlerPtr() {
         public void handler() {
             /*
              *   Code rom deryption worked out by hand by Chris Hardy.
@@ -2349,7 +2349,7 @@ public class scobra {
         }
     };
 
-    public static InitDriverPtr init_hustler = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_hustler = new InitDriverHandlerPtr() {
         public void handler() {
             int A;
 
@@ -2403,7 +2403,7 @@ public class scobra {
         }
     };
 
-    public static InitDriverPtr init_billiard = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_billiard = new InitDriverHandlerPtr() {
         public void handler() {
             int A;
 

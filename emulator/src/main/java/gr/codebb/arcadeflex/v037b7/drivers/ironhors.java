@@ -26,7 +26,7 @@ public class ironhors {
 
     public static UBytePtr ironhors_interrupt_enable = new UBytePtr();
 
-    public static InterruptPtr ironhors_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr ironhors_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (cpu_getiloops() == 0) {
                 if ((ironhors_interrupt_enable.read() & 4) != 0) {
@@ -520,7 +520,7 @@ public class ironhors {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_ironhors = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ironhors = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -555,7 +555,7 @@ public class ironhors {
         }
     };
 
-    static RomLoadPtr rom_dairesya = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dairesya = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -590,7 +590,7 @@ public class ironhors {
         }
     };
 
-    static RomLoadPtr rom_farwest = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_farwest = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x12000, REGION_CPU1);/* 64k for code + 8k for extra ROM */
 

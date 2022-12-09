@@ -7,6 +7,9 @@
  */
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
@@ -35,7 +38,7 @@ public class phozon {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr phozon_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr phozon_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int p_inc = 0;
@@ -78,7 +81,7 @@ public class phozon {
         }
     };
 
-    public static VhStartPtr phozon_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr phozon_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             /* set up spriteram area */
             spriteram_size[0] = 0x80;
@@ -90,7 +93,7 @@ public class phozon {
         }
     };
 
-    public static VhStopPtr phozon_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr phozon_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
 
             generic_vh_stop.handler();
@@ -118,7 +121,7 @@ public class phozon {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr phozon_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr phozon_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

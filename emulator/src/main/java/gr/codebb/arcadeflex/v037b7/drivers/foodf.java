@@ -251,7 +251,7 @@ public class foodf
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_foodf = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_foodf = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for 68000 code */
 		ROM_LOAD_EVEN( "foodf.9c",     0x00000, 0x02000, 0xef92dc5c );
 		ROM_LOAD_ODD ( "foodf.8c",     0x00000, 0x02000, 0xdfc3d5a8 );

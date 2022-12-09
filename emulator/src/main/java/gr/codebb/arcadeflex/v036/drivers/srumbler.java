@@ -60,13 +60,13 @@ public class srumbler
 		}
 	} };
 	
-	public static InitMachinePtr srumbler_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr srumbler_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		/* initialize banked ROM pointers */
 		srumbler_bankswitch_w.handler(0,0);
 	} };
 	
-	public static InterruptPtr srumbler_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr srumbler_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (cpu_getiloops()==0)
 		{
@@ -342,7 +342,7 @@ public class srumbler
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_srumbler = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_srumbler = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 ); /* 64k for code */
 		/* empty, will be filled later */
 	
@@ -388,7 +388,7 @@ public class srumbler
 		ROM_LOAD( "63s141.8j",    0x0200, 0x0100, 0x1a89a7ff );/* priority (not used) */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_srumblr2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_srumblr2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 ); /* 64k for code */
 		/* empty, will be filled later */
 	
@@ -434,7 +434,7 @@ public class srumbler
 		ROM_LOAD( "63s141.8j",    0x0200, 0x0100, 0x1a89a7ff );/* priority (not used) */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_rushcrsh = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_rushcrsh = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 ); /* 64k for code */
 		/* empty, will be filled later */
 	

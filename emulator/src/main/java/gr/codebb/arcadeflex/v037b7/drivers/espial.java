@@ -23,7 +23,7 @@ import static arcadeflex.v036.cpu.z80.z80H.Z80_IRQ_INT;
 
 public class espial {
 
-    public static InitMachinePtr espial_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr espial_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             /* we must start with NMI interrupts disabled */
             //interrupt_enable = 0;
@@ -37,7 +37,7 @@ public class espial {
         }
     };
 
-    public static InterruptPtr zodiac_master_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr zodiac_master_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             return (cpu_getiloops() == 0) ? nmi_interrupt.handler() : interrupt.handler();
         }
@@ -257,7 +257,7 @@ public class espial {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_espial = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_espial = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("espial.3", 0x0000, 0x2000, 0x10f1da30);
@@ -284,7 +284,7 @@ public class espial {
         }
     };
 
-    static RomLoadPtr rom_espiale = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_espiale = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("2764.3", 0x0000, 0x2000, 0x0973c8a4);

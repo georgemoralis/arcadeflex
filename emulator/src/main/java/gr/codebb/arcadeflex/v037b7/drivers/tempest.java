@@ -285,7 +285,7 @@ public class tempest {
 	 */
 
 
-    static RomLoadPtr rom_tempest = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tempest = new RomLoadHandlerPtr() {
         public void handler() {  /* rev 3 */
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("136002.113", 0x9000, 0x0800, 0x65d61fe7);
@@ -306,7 +306,7 @@ public class tempest {
         }
     };
 
-    static RomLoadPtr rom_tempest1 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tempest1 = new RomLoadHandlerPtr() {
         public void handler() {  /* rev 1 */
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("136002.113", 0x9000, 0x0800, 0x65d61fe7);
@@ -327,7 +327,7 @@ public class tempest {
         }
     };
 
-    static RomLoadPtr rom_tempest2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tempest2 = new RomLoadHandlerPtr() {
         public void handler() {  /* rev 2 */
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("136002.113", 0x9000, 0x0800, 0x65d61fe7);
@@ -348,7 +348,7 @@ public class tempest {
         }
     };
 
-    static RomLoadPtr rom_temptube = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_temptube = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("136002.113", 0x9000, 0x0800, 0x65d61fe7);

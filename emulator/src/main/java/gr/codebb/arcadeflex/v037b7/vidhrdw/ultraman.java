@@ -4,6 +4,8 @@
  */ 
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import arcadeflex.v036.mame.osdependH.osd_bitmap;
@@ -83,7 +85,7 @@ public class ultraman
 	
 	***************************************************************************/
 	
-	public static VhStartPtr ultraman_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr ultraman_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		sprite_colorbase = 192;
 		zoom_colorbase[0] = 0;
@@ -123,7 +125,7 @@ public class ultraman
 		return 0;
 	} };
 	
-	public static VhStopPtr ultraman_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr ultraman_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		K051960_vh_stop();
 		K051316_vh_stop_0();
@@ -139,7 +141,7 @@ public class ultraman
 	
 	***************************************************************************/
 	
-	public static VhUpdatePtr ultraman_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr ultraman_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int i;
 	

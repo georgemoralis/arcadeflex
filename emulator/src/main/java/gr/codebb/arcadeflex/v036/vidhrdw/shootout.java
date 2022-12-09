@@ -12,6 +12,9 @@
  */ 
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
@@ -32,7 +35,7 @@ public class shootout
         static sprite_list sprite_list;
 	
 	
-	public static VhStartPtr shootout_vh_start = new VhStartPtr() { public int handler() {
+	public static VhStartHandlerPtr shootout_vh_start = new VhStartHandlerPtr() { public int handler() {
 		if( generic_vh_start.handler()==0 ){
 			sprite_list = sprite_list_create( NUM_SPRITES, SPRITE_LIST_BACK_TO_FRONT );
 			if (sprite_list != null){
@@ -185,7 +188,7 @@ public class shootout
 		}
 	}
 	
-	public static VhUpdatePtr shootout_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) {
+	public static VhUpdateHandlerPtr shootout_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) {
 		get_sprite_info();
 		sprite_update();
 		draw_background( bitmap );
@@ -194,7 +197,7 @@ public class shootout
 		sprite_draw( sprite_list, 0);
 	} };
 	
-	public static VhUpdatePtr shootouj_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) {
+	public static VhUpdateHandlerPtr shootouj_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) {
 		get_sprite_info2();
 		sprite_update();
 		draw_background( bitmap );

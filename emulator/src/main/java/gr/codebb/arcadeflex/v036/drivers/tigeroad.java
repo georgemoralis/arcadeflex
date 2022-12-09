@@ -165,7 +165,7 @@ public class tigeroad
 		MSM5205_vclk_w.handler(offset,0);
 	} };
 	
-	public static InterruptPtr tigeroad_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr tigeroad_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		return 2;
 	} };
@@ -573,7 +573,7 @@ public class tigeroad
 	(
 		1,		/* 1 chip */
 		384000,	/* 384KHz ? */
-		new vclk_interruptPtr[] { null },	/* interrupt function */
+		new vclk_InterruptHandlerPtr[] { null },	/* interrupt function */
 		new int[] { MSM5205_SEX_4B },	/* 4KHz playback ?  */
 		new int[] { 100 }
 	);
@@ -687,7 +687,7 @@ public class tigeroad
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_tigeroad = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_tigeroad = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 256K for 68000 code */
 		ROM_LOAD_EVEN( "tru02.bin",    0x00000, 0x20000, 0x8d283a95 );
 		ROM_LOAD_ODD ( "tru04.bin",    0x00000, 0x20000, 0x72e2ef20 );
@@ -723,7 +723,7 @@ public class tigeroad
 		ROM_LOAD( "trprom.bin",   0x0000, 0x0100, 0xec80ae36 );/* unknown (palette bank select?) */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_toramich = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_toramich = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 256K for 68000 code */
 		ROM_LOAD_EVEN( "tr_02.bin",    0x00000, 0x20000, 0xb54723b1 );
 		ROM_LOAD_ODD ( "tr_04.bin",    0x00000, 0x20000, 0xab432479 );
@@ -760,7 +760,7 @@ public class tigeroad
 		ROM_LOAD( "trprom.bin",   0x0000, 0x0100, 0xec80ae36 );/* unknown (palette bank select?) */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_f1dream = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_f1dream = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 256K for 68000 code */
 		ROM_LOAD_EVEN( "06j_02.bin",   0x00000, 0x20000, 0x3c2ec697 );
 		ROM_LOAD_ODD ( "06k_03.bin",   0x00000, 0x20000, 0x85ebad91 );
@@ -798,7 +798,7 @@ public class tigeroad
 		ROM_LOAD( "09e_tr.bin",   0x0000, 0x0100, 0xec80ae36 );/* unknown (palette bank select?) */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_f1dreamb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_f1dreamb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 256K for 68000 code */
 		ROM_LOAD_EVEN( "f1d_04.bin",   0x00000, 0x10000, 0x903febad );
 		ROM_LOAD_ODD( "f1d_05.bin",   0x00000, 0x10000, 0x666fa2a7 );
@@ -840,12 +840,12 @@ public class tigeroad
 	
 	
 	
-	public static InitDriverPtr init_tigeroad = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_tigeroad = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_mem_write_handler(0, 0xfe4002, 0xfe4003, tigeroad_soundcmd_w);
 	} };
 	
-	public static InitDriverPtr init_f1dream = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_f1dream = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_mem_write_handler(0, 0xfe4002, 0xfe4003, f1dream_control_w);
 	} };

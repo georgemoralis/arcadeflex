@@ -513,7 +513,7 @@ public class vigilant {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_vigilant = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_vigilant = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);/* 64k for code + 128k for bankswitching */
 
@@ -551,7 +551,7 @@ public class vigilant {
         }
     };
 
-    static RomLoadPtr rom_vigilntu = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_vigilntu = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);/* 64k for code + 128k for bankswitching */
 
@@ -589,7 +589,7 @@ public class vigilant {
         }
     };
 
-    static RomLoadPtr rom_vigilntj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_vigilntj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);/* 64k for code + 128k for bankswitching */
 
@@ -627,7 +627,7 @@ public class vigilant {
         }
     };
 
-    static RomLoadPtr rom_kikcubic = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kikcubic = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);/* 64k for code + 128k for bankswitching */
 

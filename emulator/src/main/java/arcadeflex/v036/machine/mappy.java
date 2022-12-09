@@ -25,7 +25,7 @@ public class mappy {
     static int credits, coin, start1, start2;
     static int io_chip_1_enabled, io_chip_2_enabled;
 
-    public static InitMachinePtr mappy_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr mappy_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             /* Reset all flags */
             credits = coin = start1 = start2 = 0;
@@ -33,7 +33,7 @@ public class mappy {
         }
     };
 
-    public static InitMachinePtr motos_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr motos_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             /* Reset all flags */
             credits = coin = start1 = start2 = 0;
@@ -656,7 +656,7 @@ public class mappy {
         }
     };
 
-    public static InterruptPtr mappy_interrupt_1 = new InterruptPtr() {
+    public static InterruptHandlerPtr mappy_interrupt_1 = new InterruptHandlerPtr() {
         public int handler() {
             if (interrupt_enable_1 != 0) {
                 return interrupt.handler();
@@ -672,7 +672,7 @@ public class mappy {
         }
     };
 
-    public static InterruptPtr mappy_interrupt_2 = new InterruptPtr() {
+    public static InterruptHandlerPtr mappy_interrupt_2 = new InterruptHandlerPtr() {
         public int handler() {
             if (interrupt_enable_2 != 0) {
                 return interrupt.handler();

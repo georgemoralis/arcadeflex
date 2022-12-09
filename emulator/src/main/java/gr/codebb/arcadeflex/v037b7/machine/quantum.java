@@ -27,7 +27,7 @@ public class quantum
 	* History: 11/19/97 PF Created
 	*
 	**************************/
-	public static InterruptPtr quantum_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr quantum_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		return 1; /* ipl0' == ivector 1 */
 	} };

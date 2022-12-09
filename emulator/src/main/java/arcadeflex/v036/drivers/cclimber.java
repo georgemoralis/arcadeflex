@@ -32,7 +32,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 
 public class cclimber {
 
-    public static InitMachinePtr cclimber_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr cclimber_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             /* Disable interrupts, River Patrol / Silver Land needs this */
             interrupt_enable_w.handler(0, 0);
@@ -376,7 +376,7 @@ public class cclimber {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_cclimber = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_cclimber = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -413,7 +413,7 @@ public class cclimber {
         }
     };
 
-    public static InitDriverPtr init_cclimber = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_cclimber = new InitDriverHandlerPtr() {
         public void handler() {
             /*
              translation mask is layed out like this:
@@ -488,7 +488,7 @@ public class cclimber {
         }
     };
 
-    static RomLoadPtr rom_cclimbrj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_cclimbrj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -525,7 +525,7 @@ public class cclimber {
         }
     };
 
-    static RomLoadPtr rom_ccboot = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ccboot = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -562,7 +562,7 @@ public class cclimber {
         }
     };
 
-    static RomLoadPtr rom_ccboot2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ccboot2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -599,7 +599,7 @@ public class cclimber {
         }
     };
 
-    public static InitDriverPtr init_cclimbrj = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_cclimbrj = new InitDriverHandlerPtr() {
         public void handler() {
             /*
              translation mask is layed out like this:
@@ -673,7 +673,7 @@ public class cclimber {
         }
     };
 
-    static RomLoadPtr rom_ckong = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ckong = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -708,7 +708,7 @@ public class cclimber {
         }
     };
 
-    static RomLoadPtr rom_ckonga = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ckonga = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -743,7 +743,7 @@ public class cclimber {
         }
     };
 
-    static RomLoadPtr rom_ckongjeu = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ckongjeu = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -778,7 +778,7 @@ public class cclimber {
         }
     };
 
-    static RomLoadPtr rom_ckongo = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ckongo = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -818,7 +818,7 @@ public class cclimber {
         }
     };
 
-    static RomLoadPtr rom_ckongalc = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ckongalc = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -853,7 +853,7 @@ public class cclimber {
         }
     };
 
-    static RomLoadPtr rom_monkeyd = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_monkeyd = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -888,7 +888,7 @@ public class cclimber {
         }
     };
 
-    static RomLoadPtr rom_rpatrolb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rpatrolb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -924,7 +924,7 @@ public class cclimber {
         }
     };
 
-    static RomLoadPtr rom_silvland = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_silvland = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -1292,7 +1292,7 @@ public class cclimber {
             }
     );
 
-    static RomLoadPtr rom_swimmer = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_swimmer = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -1338,7 +1338,7 @@ public class cclimber {
         }
     };
 
-    static RomLoadPtr rom_swimmera = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_swimmera = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -1384,7 +1384,7 @@ public class cclimber {
         }
     };
 
-    static RomLoadPtr rom_guzzler = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_guzzler = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */

@@ -67,7 +67,7 @@ public class crimfght
 		cpu_setbank( 2, new UBytePtr(RAM,offs) );
 	}};
 	
-	public static InitMachinePtr crimfght_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr crimfght_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM = memory_region(REGION_CPU1);
 	
@@ -502,7 +502,7 @@ public class crimfght
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_crimfght = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_crimfght = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x28000, REGION_CPU1 );/* code + banked roms */
 		ROM_LOAD( "821l02.f24", 0x10000, 0x18000, 0x588e7da6 );
 		ROM_CONTINUE(           0x08000, 0x08000 );
@@ -525,7 +525,7 @@ public class crimfght
 		ROM_LOAD( "821k03.e5",  0x00000, 0x40000, 0xfef8505a );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_crimfgtj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_crimfgtj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x28000, REGION_CPU1 );/* code + banked roms */
 		ROM_LOAD( "821p02.bin", 0x10000, 0x18000, 0xf33fa2e1 );
 		ROM_CONTINUE(           0x08000, 0x08000 );
@@ -548,7 +548,7 @@ public class crimfght
 		ROM_LOAD( "821k03.e5",  0x00000, 0x40000, 0xfef8505a );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_crimfgt2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_crimfgt2 = new RomLoadHandlerPtr(){ public void handler(){ 
 	ROM_REGION( 0x28000, REGION_CPU1 );/* code + banked roms */
 		ROM_LOAD( "crimefb.r02", 0x10000, 0x18000, 0x4ecdd923 );
 		ROM_CONTINUE(           0x08000, 0x08000 );
@@ -579,7 +579,7 @@ public class crimfght
 	
 
 	
-	public static InitDriverPtr init_crimfght = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_crimfght = new InitDriverHandlerPtr() { public void handler() 
 	{
 		konami_rom_deinterleave_2(REGION_GFX1);
 		konami_rom_deinterleave_2(REGION_GFX2);

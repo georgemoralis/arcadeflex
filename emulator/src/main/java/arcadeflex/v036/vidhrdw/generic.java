@@ -50,7 +50,7 @@ public class generic {
      *
      **************************************************************************
      */
-    public static VhStartPtr generic_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr generic_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             dirtybuffer = null;
             tmpbitmap = null;
@@ -76,7 +76,7 @@ public class generic {
         }
     };
 
-    public static VhStartPtr generic_bitmapped_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr generic_bitmapped_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((tmpbitmap = osd_new_bitmap(Machine.drv.screen_width, Machine.drv.screen_height, Machine.scrbitmap.depth)) == null) {
                 return 1;
@@ -91,14 +91,14 @@ public class generic {
      * Stop the video hardware emulation.
      * *************************************************************************
      */
-    public static VhStopPtr generic_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr generic_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             dirtybuffer = null;
             osd_free_bitmap(tmpbitmap);
             tmpbitmap = null;
         }
     };
-    public static VhStopPtr generic_bitmapped_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr generic_bitmapped_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
 
             osd_free_bitmap(tmpbitmap);
@@ -113,7 +113,7 @@ public class generic {
      * games not using sprites.
      * *************************************************************************
      */
-    public static VhUpdatePtr generic_bitmapped_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr generic_bitmapped_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
 
             if (full_refresh != 0) {

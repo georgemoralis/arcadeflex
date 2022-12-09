@@ -486,7 +486,7 @@ public class wiz {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_wiz = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_wiz = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -526,7 +526,7 @@ public class wiz {
         }
     };
 
-    static RomLoadPtr rom_wizt = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_wizt = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -566,7 +566,7 @@ public class wiz {
         }
     };
 
-    static RomLoadPtr rom_stinger = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_stinger = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -607,7 +607,7 @@ public class wiz {
         }
     };
 
-    static RomLoadPtr rom_scion = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_scion = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -644,7 +644,7 @@ public class wiz {
         }
     };
 
-    static RomLoadPtr rom_scionc = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_scionc = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -681,7 +681,7 @@ public class wiz {
         }
     };
 
-    public static InitDriverPtr init_stinger = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_stinger = new InitDriverHandlerPtr() {
         public void handler() {
             char xortable[][]
                     = {

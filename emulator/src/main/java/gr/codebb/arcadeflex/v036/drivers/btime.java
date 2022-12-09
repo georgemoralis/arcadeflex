@@ -449,7 +449,7 @@ public class btime
 	
 	***************************************************************************/
 	static int bcoin;
-        static int btime_interrupt(InterruptPtr generated_interrupt, int active_high)
+        static int btime_interrupt(InterruptHandlerPtr generated_interrupt, int active_high)
 	{
 		
 		int port;
@@ -470,17 +470,17 @@ public class btime
 		return ignore_interrupt.handler();
 	}
 	
-	public static InterruptPtr btime_irq_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr btime_irq_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		return btime_interrupt(interrupt, 1);
 	} };
 	
-	public static InterruptPtr zoar_irq_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr zoar_irq_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		return btime_interrupt(interrupt, 0);
 	} };
 	
-	public static InterruptPtr btime_nmi_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr btime_nmi_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		return btime_interrupt(nmi_interrupt, 0);
 	} };
@@ -1569,7 +1569,7 @@ public class btime
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_btime = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_btime = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 2*0x10000, REGION_CPU1 );/* 64k for code + 64k for decrypted opcodes */
 		ROM_LOAD( "aa04.9b",      0xc000, 0x1000, 0x368a25b5 );
 		ROM_LOAD( "aa06.13b",     0xd000, 0x1000, 0xb4ba400d );
@@ -1596,7 +1596,7 @@ public class btime
 		ROM_LOAD( "ab03.6b",      0x0000, 0x0800, 0xd26bc1f3 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_btime2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_btime2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 2*0x10000, REGION_CPU1 );/* 64k for code + 64k for decrypted opcodes */
 		ROM_LOAD( "aa04.9b2",     0xc000, 0x1000, 0xa041e25b );
 		ROM_LOAD( "aa06.13b",     0xd000, 0x1000, 0xb4ba400d );
@@ -1623,7 +1623,7 @@ public class btime
 		ROM_LOAD( "ab03.6b",      0x0000, 0x0800, 0xd26bc1f3 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_btimem = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_btimem = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 2*0x10000, REGION_CPU1 );/* 64k for code + 64k for decrypted opcodes */
 		ROM_LOAD( "ab05a1.12b",   0xb000, 0x1000, 0x0a98b230 );
 		ROM_LOAD( "ab04.9b",      0xc000, 0x1000, 0x797e5f75 );
@@ -1651,7 +1651,7 @@ public class btime
 		ROM_LOAD( "ab03.6b",      0x0000, 0x0800, 0xd26bc1f3 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_cookrace = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_cookrace = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 2*0x10000, REGION_CPU1 );/* 64k for code + 64k for decrypted opcodes */
 		/* code is in the range 0500-3fff, encrypted */
 		ROM_LOAD( "1f.1",         0x0000, 0x2000, 0x68759d32 );
@@ -1683,7 +1683,7 @@ public class btime
 	/* There is a flyer with a screen shot for Lock'n'Chase at:
 	   http://www.gamearchive.com/flyers/video/taito/locknchase_f.jpg  */
 	
-	static RomLoadPtr rom_lnc = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_lnc = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 2*0x10000, REGION_CPU1 );/* 64k for code + 64k for decrypted opcodes */
 		ROM_LOAD( "s3-3d",        0xc000, 0x1000, 0x1ab4f2c2 );
 		ROM_LOAD( "s2-3c",        0xd000, 0x1000, 0x5e46b789 );
@@ -1706,7 +1706,7 @@ public class btime
 		ROM_LOAD( "sb-4c",        0x0020, 0x0020, 0xa29b4204 );/* RAS/CAS logic - not used */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_wtennis = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_wtennis = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 2*0x10000, REGION_CPU1 );/* 64k for code + 64k for decrypted opcodes */
 		ROM_LOAD( "tx",           0xc000, 0x0800, 0xfd343474 );
 		ROM_LOAD( "t4",           0xd000, 0x1000, 0xe465d82c );
@@ -1730,7 +1730,7 @@ public class btime
 		ROM_LOAD( "sb-4c",        0x0020, 0x0020, 0xa29b4204 );/* RAS/CAS logic - not used */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mmonkey = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mmonkey = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 2*0x10000, REGION_CPU1 );/* 64k for code + 64k for decrypted opcodes */
 		ROM_LOAD( "mmonkey.e4",   0xc000, 0x1000, 0x8d31bf6a );
 		ROM_LOAD( "mmonkey.d4",   0xd000, 0x1000, 0xe54f584a );
@@ -1753,7 +1753,7 @@ public class btime
 		ROM_LOAD( "sb-4c",        0x0020, 0x0020, 0xa29b4204 );/* RAS/CAS logic - not used */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_brubber = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_brubber = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 2*0x10000, REGION_CPU1 );/* 64k for code + 64k for decrypted opcodes */
 		/* a000-bfff space for the service ROM */
 		ROM_LOAD( "brubber.12c",  0xc000, 0x2000, 0xb5279c70 );
@@ -1772,7 +1772,7 @@ public class btime
 		ROM_LOAD( "bnj10f.bin",   0x1000, 0x1000, 0xa9ffacb4 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_bnj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bnj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 2*0x10000, REGION_CPU1 );/* 64k for code + 64k for decrypted opcodes */
 		ROM_LOAD( "bnj12b.bin",   0xa000, 0x2000, 0xba3e3801 );
 		ROM_LOAD( "bnj12c.bin",   0xc000, 0x2000, 0xfb3a2cdd );
@@ -1791,7 +1791,7 @@ public class btime
 		ROM_LOAD( "bnj10f.bin",   0x1000, 0x1000, 0xa9ffacb4 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_caractn = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_caractn = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 2*0x10000, REGION_CPU1 );/* 64k for code + 64k for decrypted opcodes */
 		/* a000-bfff space for the service ROM */
 		ROM_LOAD( "brubber.12c",  0xc000, 0x2000, 0xb5279c70 );
@@ -1810,7 +1810,7 @@ public class btime
 		ROM_LOAD( "bnj10f.bin",   0x1000, 0x1000, 0xa9ffacb4 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_zoar = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_zoar = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 2*0x10000, REGION_CPU1 );/* 64k for code + 64k for decrypted opcodes */
 		ROM_LOAD( "zoar15",       0xd000, 0x1000, 0x1f0cfdb7 );
 		ROM_LOAD( "zoar16",       0xe000, 0x1000, 0x7685999c );
@@ -1845,7 +1845,7 @@ public class btime
 		ROM_LOAD( "z21-1l",       0x0020, 0x0020, 0x5e1e5788 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_disco = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_disco = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 2*0x10000, REGION_CPU1 );/* 64k for code + 64k for decrypted opcodes */
 		ROM_LOAD( "disco.w5",     0xa000, 0x1000, 0xb2c87b78 );
 		ROM_LOAD( "disco.w4",     0xb000, 0x1000, 0xad7040ee );
@@ -1877,7 +1877,7 @@ public class btime
 		return RAM.read(0xc15f);
 	} };
 	
-	public static InitDriverPtr init_btime = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_btime = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr rom = memory_region(REGION_CPU1);
 		int diff = memory_region_length(REGION_CPU1) / 2;
@@ -1894,7 +1894,7 @@ public class btime
                 }
 	} };
 	
-	public static InitDriverPtr init_zoar = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_zoar = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr rom = memory_region(REGION_CPU1);
 	
@@ -1908,7 +1908,7 @@ public class btime
                 init_btime.handler();
 	} };
 	
-	public static InitDriverPtr init_lnc = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_lnc = new InitDriverHandlerPtr() { public void handler() 
 	{
 		int A;
 		UBytePtr rom = memory_region(REGION_CPU1);
@@ -1921,7 +1921,7 @@ public class btime
 			rom.write(A+diff,swap_bits_5_6.handler(rom.read(A)));
 	} };
 	
-	public static InitDriverPtr init_wtennis = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_wtennis = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_mem_read_handler(0, 0xc15f, 0xc15f, wtennis_reset_hack_r);
 		init_lnc.handler();
@@ -2150,7 +2150,7 @@ public class btime
 		}
 	);
 	
-	static RomLoadPtr rom_decocass = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_decocass = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 2*0x10000, REGION_CPU1 );/* 64k for code + 64k for decrypted opcodes */
 		ROM_LOAD( "rms8.cpu",     0xf000, 0x1000, 0x23d929b7 );
 	/* the following two are just about the same stuff as the one above */

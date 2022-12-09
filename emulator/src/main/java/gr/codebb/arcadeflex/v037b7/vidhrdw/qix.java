@@ -72,7 +72,7 @@ public class qix {
      * Start the video hardware emulation.
      **************************************************************************
      */
-    public static VhStartPtr qix_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr qix_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             //if ((videoram = malloc(256*256)) == 0)
             //	return 1;
@@ -87,7 +87,7 @@ public class qix {
      * Stop the video hardware emulation.
      **************************************************************************
      */
-    public static VhStopPtr qix_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr qix_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             videoram = null;
 
@@ -183,7 +183,7 @@ public class qix {
         }
     };
 
-    public static VhUpdatePtr qix_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr qix_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             /* recalc the palette if necessary */
             if (palette_recalc() != null || full_refresh != 0) {

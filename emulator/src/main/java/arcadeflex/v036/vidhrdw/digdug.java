@@ -47,7 +47,7 @@ public class digdug {
      * <p>
      * *************************************************************************
      */
-    public static VhConvertColorPromPtr digdug_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr digdug_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -91,7 +91,7 @@ public class digdug {
      * <p>
      * *************************************************************************
      */
-    public static VhStartPtr digdug_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr digdug_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (generic_vh_start.handler() != 0) {
                 return 1;
@@ -111,7 +111,7 @@ public class digdug {
      * <p>
      * *************************************************************************
      */
-    public static VhStopPtr digdug_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr digdug_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             generic_vh_stop.handler();
         }
@@ -171,7 +171,7 @@ public class digdug {
      * <p>
      * *************************************************************************
      */
-    public static VhUpdatePtr digdug_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr digdug_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, pfindex, pfcolor;
             UBytePtr pf;

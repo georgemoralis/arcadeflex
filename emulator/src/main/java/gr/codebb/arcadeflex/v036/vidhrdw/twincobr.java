@@ -100,7 +100,7 @@ public class twincobr {
     static int fg_scrolly_lsb = 0;
     static int fg_scrolly_msb = 0;
 
-    public static VhStartPtr twincobr_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr twincobr_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             /* the video RAM is accessed via ports, it's not memory mapped */
             videoram_size[0] = 0x1000;
@@ -150,7 +150,7 @@ public class twincobr {
         }
     };
 
-    public static VhStopPtr twincobr_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr twincobr_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(tmpbitmap);
             dirtybuffer = null;
@@ -498,7 +498,7 @@ public class twincobr {
 /*TODO*///	
     static int offs,code,tile,i,pal_base,sprite,color;
     static int[] colmask=new int[64];
-    public static VhUpdatePtr twincobr_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr twincobr_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
  	  if (twincobr_display_on != 0) {
                         

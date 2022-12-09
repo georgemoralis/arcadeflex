@@ -49,7 +49,7 @@ public class troangel {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr troangel_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr troangel_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -241,7 +241,7 @@ public class troangel {
         }
     }
 
-    public static VhUpdatePtr troangel_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr troangel_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             draw_background(bitmap);
             draw_sprites(bitmap);

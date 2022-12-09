@@ -35,7 +35,7 @@ public class bjtwin
 	static int flipscreen = 0;
 	
 	
-	public static VhStartPtr bjtwin_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr bjtwin_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		dirtybuffer = new char[bjtwin_txvideoram_size[0]/2];
 		tmpbitmap = osd_new_bitmap(Machine.drv.screen_width,Machine.drv.screen_height,Machine.scrbitmap.depth);
@@ -52,7 +52,7 @@ public class bjtwin
 		return 0;
 	} };
 	
-	public static VhStopPtr bjtwin_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr bjtwin_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		osd_free_bitmap(tmpbitmap);
 		dirtybuffer=null;
@@ -110,7 +110,7 @@ public class bjtwin
 		}
 	} };
 	static int oldbgstart = -1;
-	public static VhUpdatePtr bjtwin_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr bjtwin_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		
 		int offs, bgstart;

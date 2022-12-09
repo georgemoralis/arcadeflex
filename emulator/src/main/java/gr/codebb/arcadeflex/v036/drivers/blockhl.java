@@ -80,7 +80,7 @@ public class blockhl
                 if (errorlog!=null && (lines & 0x84) != 0x80) fprintf(errorlog,"%04x: setlines %02x\n",cpu_get_pc(),lines);
 	}};
 	
-	public static InitMachinePtr blockhl_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr blockhl_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM = memory_region(REGION_CPU1);
 	
@@ -93,7 +93,7 @@ public class blockhl
 	static UBytePtr ram=new UBytePtr();
 	static int rombank;
 	
-	public static InterruptPtr blockhl_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr blockhl_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (K052109_is_IRQ_enabled()!=0 && rombank == 0)	/* kludge to prevent crashes */
 			return KONAMI_INT_IRQ;
@@ -343,7 +343,7 @@ public class blockhl
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_blockhl = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_blockhl = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x18800, REGION_CPU1 );/* code + banked roms + space for banked RAM */
 		ROM_LOAD( "973l02.e21", 0x10000, 0x08000, 0xe14f849a );
 		ROM_CONTINUE(           0x08000, 0x08000 );
@@ -367,7 +367,7 @@ public class blockhl
 		ROM_LOAD( "973a11.h10", 0x0000, 0x0100, 0x46d28fe9 );/* priority encoder (not used) */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_quarth = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_quarth = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x18800, REGION_CPU1 );/* code + banked roms + space for banked RAM */
 		ROM_LOAD( "973j02.e21", 0x10000, 0x08000, 0x27a90118 );
 		ROM_CONTINUE(           0x08000, 0x08000 );
@@ -401,7 +401,7 @@ public class blockhl
 
 	
 	
-	public static InitDriverPtr init_blockhl = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_blockhl = new InitDriverHandlerPtr() { public void handler() 
 	{
 		konami_rom_deinterleave_2(REGION_GFX1);
 		konami_rom_deinterleave_2(REGION_GFX2);

@@ -137,12 +137,12 @@ public class docastle {
         }
     }
 
-    public static VhConvertColorPromPtr docastle_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr docastle_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             convert_color_prom(palette, colortable, color_prom, 0);
         }
     };
-    public static VhConvertColorPromPtr dorunrun_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr dorunrun_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             convert_color_prom(palette, colortable, color_prom, 1);
         }
@@ -155,7 +155,7 @@ public class docastle {
      *
      **************************************************************************
      */
-    public static VhStartPtr docastle_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr docastle_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (generic_vh_start.handler() != 0) {
                 return 1;
@@ -177,7 +177,7 @@ public class docastle {
      *
      **************************************************************************
      */
-    public static VhStopPtr docastle_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr docastle_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(tmpbitmap1);
             generic_vh_stop.handler();
@@ -225,7 +225,7 @@ public class docastle {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr docastle_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr docastle_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

@@ -132,7 +132,7 @@ public class gaelco
 	
 	***************************************************************************/
 	
-	public static VhStartPtr splash_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr splash_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		screen0 = tilemap_create(get_tile_info_screen0, TILEMAP_TRANSPARENT, 8, 8, 64, 32);
 		screen1 = tilemap_create(get_tile_info_screen1, TILEMAP_TRANSPARENT, 16, 16, 32, 32);
@@ -198,7 +198,7 @@ public class gaelco
 		}
 	}
 	
-	public static VhUpdatePtr splash_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr splash_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		/* set scroll registers */
 		tilemap_set_scrolly(screen0, 0, splash_vregs.READ_WORD(0));

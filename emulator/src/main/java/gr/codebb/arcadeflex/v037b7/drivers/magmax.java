@@ -83,7 +83,7 @@ public class magmax
             }
         };
         
-	public static InitMachinePtr init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
             System.out.println("init_machine");
 		scanline_timer = timer_set(cpu_getscanlinetime( 64 ), 64, scanline_callback );
@@ -373,7 +373,7 @@ public class magmax
 	);
 	
 	
-	public static InterruptPtr magmax_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr magmax_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		return MC68000_IRQ_1;
 	} };
@@ -422,7 +422,7 @@ public class magmax
 	);
 	
 	
-	static RomLoadPtr rom_magmax = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_magmax = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x14000, REGION_CPU1 );/* main cpu code */
 		ROM_LOAD_ODD ( "1.3b", 0x00000, 0x4000, 0x33793cbb );
 		ROM_LOAD_EVEN( "6.3d", 0x00000, 0x4000, 0x677ef450 );

@@ -131,7 +131,7 @@ public class klax
 	 *
 	 *************************************/
 	
-	public static InitMachinePtr init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_reset();
 		atarigen_interrupt_reset(update_interrupts);
@@ -339,7 +339,7 @@ public class klax
 	 *
 	 *************************************/
 	
-	static RomLoadPtr rom_klax = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_klax = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 4*64k for 68000 code */
 		ROM_LOAD_EVEN( "136075-6.006", 0x00000, 0x10000, 0xe8991709 );
 		ROM_LOAD_ODD ( "136075-6.005", 0x00000, 0x10000, 0x72b8c510 );
@@ -362,7 +362,7 @@ public class klax
 	ROM_END(); }}; 
 	
 	
-	static RomLoadPtr rom_klax2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_klax2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 4*64k for 68000 code */
 		ROM_LOAD_EVEN( "136075.006",   0x00000, 0x10000, 0x05c98fc0 );
 		ROM_LOAD_ODD ( "136075.005",   0x00000, 0x10000, 0xd461e1ee );
@@ -385,7 +385,7 @@ public class klax
 	ROM_END(); }}; 
 	
 	
-	static RomLoadPtr rom_klax3 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_klax3 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 4*64k for 68000 code */
 		ROM_LOAD_EVEN( "5006",         0x00000, 0x10000, 0x65eb9a31 );
 		ROM_LOAD_ODD ( "5005",         0x00000, 0x10000, 0x7be27349 );
@@ -408,7 +408,7 @@ public class klax
 	ROM_END(); }}; 
 	
 	
-	static RomLoadPtr rom_klaxj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_klaxj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 4*64k for 68000 code */
 		ROM_LOAD_EVEN( "136075-3.406", 0x00000, 0x10000, 0xab2aa50b );
 		ROM_LOAD_ODD ( "136075-3.405", 0x00000, 0x10000, 0x9dc9a590 );
@@ -438,7 +438,7 @@ public class klax
 	 *
 	 *************************************/
 	
-	public static InitDriverPtr init_klax = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_klax = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = null;
 	} };

@@ -195,7 +195,7 @@ public class atarigen
 	 *
 	 */
 	
-	public static InterruptPtr atarigen_video_int_gen = new InterruptPtr() {
+	public static InterruptHandlerPtr atarigen_video_int_gen = new InterruptHandlerPtr() {
             @Override
             public int handler() {
 		atarigen_video_int_state = 1;
@@ -579,7 +579,7 @@ public class atarigen
 	 *
 	 */
 	
-	public static InterruptPtr atarigen_6502_irq_gen = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr atarigen_6502_irq_gen = new InterruptHandlerPtr() { public int handler() 
 	{
 		timed_int = 1;
 		update_6502_irq();

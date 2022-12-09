@@ -199,7 +199,7 @@ public class marvins {
      ** Video Initialization *
 	**************************************************************************
      */
-    public static VhStartPtr marvins_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr marvins_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             flipscreen = -1;
             old_bg_color = (char) -1;
@@ -347,7 +347,7 @@ public class marvins {
             source.inc(4);
         }
     }
-    public static VhUpdatePtr marvins_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr marvins_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             UBytePtr mem = memory_region(REGION_CPU1);
 
@@ -403,7 +403,7 @@ public class marvins {
             draw_status(bitmap);
         }
     };
-    public static VhUpdatePtr madcrash_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr madcrash_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
 
             UBytePtr mem = new UBytePtr(memory_region(REGION_CPU1), madcrash_vreg);

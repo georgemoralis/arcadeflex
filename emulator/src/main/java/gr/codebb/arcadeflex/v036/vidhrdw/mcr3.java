@@ -219,7 +219,7 @@ public class mcr3
      *
      ************************************
      */
-    public static VhUpdatePtr mcr3_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr mcr3_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             /* mark everything dirty on a cocktail flip change */
             if (palette_recalc() != null || u8_last_cocktail_flip != mcr_cocktail_flip) {
@@ -245,7 +245,7 @@ public class mcr3
      *
      ************************************
      */
-    public static VhUpdatePtr mcrmono_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr mcrmono_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             if (palette_recalc() != null) {
                 memset(dirtybuffer, 1, videoram_size[0]);
@@ -269,7 +269,7 @@ public class mcr3
      *
      ************************************
      */
-    public static VhConvertColorPromPtr spyhunt_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr spyhunt_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             /* add some colors for the alpha RAM */
             palette[(8 * 16) * 3 + 0] = 0;
@@ -300,7 +300,7 @@ public class mcr3
      *
      ************************************
      */
-    public static VhStartPtr spyhunt_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr spyhunt_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             /* allocate our own dirty buffer */
             dirtybuffer = new char[videoram_size[0]];
@@ -328,7 +328,7 @@ public class mcr3
      *
      ************************************
      */
-    public static VhStopPtr spyhunt_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr spyhunt_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             /* free the buffers */
             bitmap_free(spyhunt_backbitmap);
@@ -344,7 +344,7 @@ public class mcr3
      ************************************
      */
     static rectangle spyhunt_clip = new rectangle(0, 30 * 16 - 1, 0, 30 * 16 - 1);
-    public static VhUpdatePtr spyhunt_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr spyhunt_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, scrollx, scrolly;
 
@@ -415,7 +415,7 @@ public class mcr3
      *
      ************************************
      */
-    public static VhStartPtr dotron_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr dotron_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int i, x, y;
 
@@ -485,7 +485,7 @@ public class mcr3
      *
      ************************************
      */
-    public static VhUpdatePtr dotron_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr dotron_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             rectangle sclip = new rectangle();
             int offs;

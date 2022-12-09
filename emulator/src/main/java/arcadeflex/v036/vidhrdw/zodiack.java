@@ -31,7 +31,7 @@ public class zodiack {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr zodiack_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr zodiack_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int p_inc = 0;
@@ -109,7 +109,7 @@ public class zodiack {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr zodiack_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr zodiack_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

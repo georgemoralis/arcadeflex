@@ -36,7 +36,7 @@ public class cabal
 	static int cabal_sound_command1, cabal_sound_command2;
 	
 	
-	public static InitMachinePtr cabal_init_machine = new InitMachinePtr() { public void handler()  {
+	public static InitMachineHandlerPtr cabal_init_machine = new InitMachineHandlerPtr() { public void handler()  {
 		cabal_sound_command1 = cabal_sound_command2 = 0xff;
 	} };
 	
@@ -455,7 +455,7 @@ public class cabal
 		}
 	);
 	
-	static RomLoadPtr rom_cabal = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_cabal = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x50000, REGION_CPU1 );/* 64k for cpu code */
 		ROM_LOAD_EVEN( "h7_512.bin",      0x00000, 0x10000, 0x8fe16fb4 );
 		ROM_LOAD_ODD ( "h6_512.bin",      0x00000, 0x10000, 0x6968101c );
@@ -496,7 +496,7 @@ public class cabal
 		ROM_LOAD( "1-1u",           0x10000, 0x10000, 0x8b3e0789 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_cabal2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_cabal2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x50000, REGION_CPU1 );/* 64k for cpu code */
 		ROM_LOAD_EVEN( "9-7h",            0x00000, 0x10000, 0xebbb9484 );
 		ROM_LOAD_ODD ( "7-6h",            0x00000, 0x10000, 0x51aeb49e );
@@ -537,7 +537,7 @@ public class cabal
 		ROM_LOAD( "1-1u",           0x10000, 0x10000, 0x8b3e0789 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_cabalbl = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_cabalbl = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x50000, REGION_CPU1 );/* 64k for cpu code */
 		ROM_LOAD_EVEN( "cabal_24.bin",    0x00000, 0x10000, 0x00abbe0c );
 		ROM_LOAD_ODD ( "cabal_22.bin",    0x00000, 0x10000, 0x78c4af27 );

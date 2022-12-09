@@ -41,7 +41,7 @@ public class exctsccr {
         }
     };
 
-    public static VhStartPtr exctsccr_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr exctsccr_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             exctsccr_fm_timer = timer_pulse(TIME_IN_HZ(75.0), 0, exctsccr_fm_callback);
             /* updates fm */
@@ -50,7 +50,7 @@ public class exctsccr {
         }
     };
 
-    public static VhStopPtr exctsccr_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr exctsccr_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             if (exctsccr_fm_timer != null) {
                 timer_remove(exctsccr_fm_timer);
@@ -68,7 +68,7 @@ public class exctsccr {
      *
      **************************************************************************
      */
-    public static VhConvertColorPromPtr exctsccr_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr exctsccr_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i, idx;
 
@@ -236,7 +236,7 @@ public class exctsccr {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr exctsccr_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr exctsccr_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

@@ -52,7 +52,7 @@ public class matmania {
      *
      **************************************************************************
      */
-    public static VhConvertColorPromPtr matmania_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr matmania_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int p_inc = 0;
@@ -121,7 +121,7 @@ public class matmania {
      *
      **************************************************************************
      */
-    public static VhStartPtr matmania_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr matmania_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((dirtybuffer = new char[videoram_size[0]]) == null) {
                 return 1;
@@ -160,7 +160,7 @@ public class matmania {
      *
      **************************************************************************
      */
-    public static VhStopPtr matmania_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr matmania_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             dirtybuffer = null;
             dirtybuffer2 = null;
@@ -189,7 +189,7 @@ public class matmania {
         }
     };
 
-    public static VhUpdatePtr matmania_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr matmania_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 
@@ -277,7 +277,7 @@ public class matmania {
         }
     };
 
-    public static VhUpdatePtr maniach_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr maniach_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

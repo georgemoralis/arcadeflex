@@ -1,31 +1,33 @@
 package gr.codebb.arcadeflex.v036.mame;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.platform.libc_old.CopyArray;
 import static arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class driverH 
 {
         //JAVA HELPERS
-	public static abstract interface InitMachinePtr { public abstract void handler(); }
-        public static abstract interface InitDriverPtr { public abstract void handler(); }
-	public static abstract interface InterruptPtr { public abstract int handler(); }
-	public static abstract interface VhConvertColorPromPtr { public abstract void handler(char []palette, char []colortable, UBytePtr color_prom); }
+	
+        
+	
+	
 	public static abstract interface VhEofCallbackPtr { public abstract void handler(); }
-	public static abstract interface VhStartPtr { public abstract int handler(); }
-	public static abstract interface VhStopPtr { public abstract void handler(); }
-	public static abstract interface VhUpdatePtr { public abstract void handler(osd_bitmap bitmap,int full_refresh); }
+	
+	
+	
 	public static abstract interface DecodePtr {  public abstract void handler();}
 	public static abstract interface HiscoreLoadPtr { public abstract int handler(); }
 	public static abstract interface HiscoreSavePtr { public abstract void handler(); }
         public static abstract interface ConversionPtr{ public abstract int handler(int data);}
-        public static abstract interface RomLoadPtr { public abstract void handler();}
+        
         public static abstract interface InputPortPtr { public abstract void handler();}
         public static abstract interface nvramPtr { public abstract void handler(Object file,int read_or_write); };
         //new
@@ -35,7 +37,7 @@ public class driverH
     public static class GameDriver
     {
         //this is used instead of GAME macro
-        public GameDriver(String year,String name,String source,RomLoadPtr romload,GameDriver parent,MachineDriver drv,InputPortPtr input,InitDriverPtr init,int monitor,String manufacture,String fullname)
+        public GameDriver(String year,String name,String source,RomLoadHandlerPtr romload,GameDriver parent,MachineDriver drv,InputPortPtr input,InitDriverHandlerPtr init,int monitor,String manufacture,String fullname)
         {
             this.year=year;
             this.source_file=source;
@@ -53,7 +55,7 @@ public class driverH
             this.flags=monitor;
         }
         //GAMEX macro
-        public GameDriver(String year,String name,String source,RomLoadPtr romload,GameDriver parent,MachineDriver drv,InputPortPtr input,InitDriverPtr init,int monitor,String manufacture,String fullname,int flags)
+        public GameDriver(String year,String name,String source,RomLoadHandlerPtr romload,GameDriver parent,MachineDriver drv,InputPortPtr input,InitDriverHandlerPtr init,int monitor,String manufacture,String fullname,int flags)
         {
             this.year=year;
             this.source_file=source;
@@ -79,7 +81,7 @@ public class driverH
 	public String manufacturer;
         public MachineDriver drv;
         public InputPortTiny[] input_ports;
-        public InitDriverPtr driver_init;	/* optional function to be called during initialization */
+        public InitDriverHandlerPtr driver_init;	/* optional function to be called during initialization */
 						/* This is called ONCE, unlike Machine->init_machine */
 						/* which is called every time the game is reset. */
 
@@ -94,7 +96,7 @@ public class driverH
     
         public static class MachineCPU
         {
-		public MachineCPU(int ct, int cc,MemoryReadAddress []mr, MemoryWriteAddress []mw, IOReadPort []pr, IOWritePort []pw, InterruptPtr vb, int vbf,InterruptPtr ti, int tif,Object reset)
+		public MachineCPU(int ct, int cc,MemoryReadAddress []mr, MemoryWriteAddress []mw, IOReadPort []pr, IOWritePort []pw, InterruptHandlerPtr vb, int vbf,InterruptHandlerPtr ti, int tif,Object reset)
 		{
 			cpu_type = ct; 
                         cpu_clock =cc; 
@@ -108,11 +110,11 @@ public class driverH
                         timed_interrupts_per_second=tif;
                         reset_param=reset;
 		};
-                public MachineCPU(int ct, int cc,MemoryReadAddress []mr, MemoryWriteAddress []mw, IOReadPort []pr, IOWritePort []pw, InterruptPtr vb, int vbf,InterruptPtr ti, int tif)
+                public MachineCPU(int ct, int cc,MemoryReadAddress []mr, MemoryWriteAddress []mw, IOReadPort []pr, IOWritePort []pw, InterruptHandlerPtr vb, int vbf,InterruptHandlerPtr ti, int tif)
 		{
                     this(ct,cc,mr,mw,pr,pw,vb,vbf,ti,tif,null);
                 }
-		public MachineCPU(int ct, int cc,MemoryReadAddress []mr, MemoryWriteAddress []mw, IOReadPort []pr, IOWritePort []pw, InterruptPtr vb, int vbf)
+		public MachineCPU(int ct, int cc,MemoryReadAddress []mr, MemoryWriteAddress []mw, IOReadPort []pr, IOWritePort []pw, InterruptHandlerPtr vb, int vbf)
 		{
                     //3 last parameter are null
                     this(ct,cc,mr,mw,pr,pw,vb,vbf,null,0,null);
@@ -133,12 +135,12 @@ public class driverH
 		public MemoryWriteAddress []memory_write;
 		public IOReadPort []port_read;
 		public IOWritePort []port_write;
-                public InterruptPtr vblank_interrupt;
+                public InterruptHandlerPtr vblank_interrupt;
                 public int vblank_interrupts_per_frame;    /* usually 1 */
                 /* use this for interrupts which are not tied to vblank 	*/
                 /* usually frequency in Hz, but if you need 				*/
                 /* greater precision you can give the period in nanoseconds */
-                public InterruptPtr timed_interrupt;
+                public InterruptHandlerPtr timed_interrupt;
                 public int timed_interrupts_per_second;
                 /* pointer to a parameter to pass to the CPU cores reset function */
                 public Object reset_param;
@@ -236,7 +238,7 @@ public class driverH
                 public MachineDriver() {} //null implementation
              
                 
-                public MachineDriver(MachineCPU []mcp,int fps,int vblank,int cpu_slices,InitMachinePtr im,int sw, int sh, rectangle va,GfxDecodeInfo []gdi, int tc, int ctl,VhConvertColorPromPtr vccp,int vattr, VhEofCallbackPtr veof, VhStartPtr vsta, VhStopPtr vsto,VhUpdatePtr vup,int sattr,int obs1,int obs2,int obs3,MachineSound []snd)
+                public MachineDriver(MachineCPU []mcp,int fps,int vblank,int cpu_slices,InitMachineHandlerPtr im,int sw, int sh, rectangle va,GfxDecodeInfo []gdi, int tc, int ctl,VhConvertColorPromHandlerPtr vccp,int vattr, VhEofCallbackPtr veof, VhStartHandlerPtr vsta, VhStopHandlerPtr vsto,VhUpdateHandlerPtr vup,int sattr,int obs1,int obs2,int obs3,MachineSound []snd)
                 {
                     CopyArray(cpu,mcp);
                     frames_per_second = fps;
@@ -263,7 +265,7 @@ public class driverH
                     nvram_handler = null;
                 }
                 //same as previous but with nvram_handler
-                public MachineDriver(MachineCPU []mcp,int fps,int vblank,int cpu_slices,InitMachinePtr im,int sw, int sh, rectangle va,GfxDecodeInfo []gdi, int tc, int ctl,VhConvertColorPromPtr vccp,int vattr, VhEofCallbackPtr veof, VhStartPtr vsta, VhStopPtr vsto,VhUpdatePtr vup,int sattr,int obs1,int obs2,int obs3,MachineSound []snd,nvramPtr nvr)
+                public MachineDriver(MachineCPU []mcp,int fps,int vblank,int cpu_slices,InitMachineHandlerPtr im,int sw, int sh, rectangle va,GfxDecodeInfo []gdi, int tc, int ctl,VhConvertColorPromHandlerPtr vccp,int vattr, VhEofCallbackPtr veof, VhStartHandlerPtr vsta, VhStopHandlerPtr vsto,VhUpdateHandlerPtr vup,int sattr,int obs1,int obs2,int obs3,MachineSound []snd,nvramPtr nvr)
                 {
                     this(mcp,fps,vblank,cpu_slices,im,sw,sh,va,gdi,tc,ctl,vccp,vattr,veof,vsta,vsto,vup,sattr,obs1,obs2,obs3,snd);
                     nvram_handler = nvr;
@@ -279,7 +281,7 @@ public class driverH
 								/* and therefore the more accurate the emulation is. */
 								/* However, an higher setting also means slower */
 								/* performance. */
-		public InitMachinePtr init_machine;
+		public InitMachineHandlerPtr init_machine;
 
 		/* video hardware */
 		public int screen_width, screen_height;
@@ -287,7 +289,7 @@ public class driverH
 		public GfxDecodeInfo []gfxdecodeinfo;
 		public int total_colors;	/* palette is 3*total_colors bytes long */
 		public int color_table_len;	/* length in bytes of the color lookup table */
-		public VhConvertColorPromPtr vh_init_palette;
+		public VhConvertColorPromHandlerPtr vh_init_palette;
                 public int video_attributes;
 
                 	
@@ -295,9 +297,9 @@ public class driverH
 									/* This is useful when there are operations that need */
 									/* to be performed every frame regardless of frameskip, */
 									/* e.g. sprite buffering or collision detection. */
-		public VhStartPtr vh_start;
-		public VhStopPtr vh_stop;
-		public VhUpdatePtr vh_update;
+		public VhStartHandlerPtr vh_start;
+		public VhStopHandlerPtr vh_stop;
+		public VhUpdateHandlerPtr vh_update;
 
                 /* sound hardware */
                 public int sound_attributes;

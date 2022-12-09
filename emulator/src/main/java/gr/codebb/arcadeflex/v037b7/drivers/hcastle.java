@@ -364,7 +364,7 @@ public class hcastle {
     /**
      * ************************************************************************
      */
-    static RomLoadPtr rom_hcastle = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hcastle = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);
             ROM_LOAD("768.k03", 0x08000, 0x08000, 0x40ce4f38);
@@ -394,7 +394,7 @@ public class hcastle {
         }
     };
 
-    static RomLoadPtr rom_hcastlea = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hcastlea = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);
             ROM_LOAD("m03.k12", 0x08000, 0x08000, 0xd85e743d);
@@ -424,7 +424,7 @@ public class hcastle {
         }
     };
 
-    static RomLoadPtr rom_hcastlej = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hcastlej = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);
             ROM_LOAD("768p03.k12", 0x08000, 0x08000, 0xd509e340);

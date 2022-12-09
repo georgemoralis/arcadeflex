@@ -48,7 +48,7 @@ public class galaga {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr galaga_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr galaga_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             for (i = 0; i < 32; i++) {
@@ -113,7 +113,7 @@ public class galaga {
      *
      **************************************************************************
      */
-    public static VhStartPtr galaga_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr galaga_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int generator;
             int x, y;
@@ -181,7 +181,7 @@ public class galaga {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr galaga_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr galaga_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

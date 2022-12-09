@@ -20,10 +20,8 @@ import gr.codebb.arcadeflex.v036.mame.driverH.InputPortPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.MachineCPU;
 import gr.codebb.arcadeflex.v036.mame.driverH.MachineDriver;
 import static gr.codebb.arcadeflex.v036.mame.driverH.ROT0;
-import gr.codebb.arcadeflex.v036.mame.driverH.RomLoadPtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.VIDEO_SUPPORTS_DIRTY;
 import static gr.codebb.arcadeflex.v036.mame.driverH.VIDEO_TYPE_RASTER;
-import gr.codebb.arcadeflex.v036.mame.driverH.VhConvertColorPromPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.nvramPtr;
 import static arcadeflex.v036.mame.inputH.KEYCODE_F1;
 import static arcadeflex.v036.mame.inputH.KEYCODE_F2;
@@ -483,8 +481,8 @@ public class berzerk {
         0x40, 0xff, 0xff,
         0xff, 0xff, 0xff
     };
-    public static VhConvertColorPromPtr init_palette
-            = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr init_palette
+            = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] game_palette, char[] game_colortable, UBytePtr color_prom) {
             // memcpy(game_palette,palette,sizeof(palette));
             for (int i = 0; i < palette.length; i++) {
@@ -628,8 +626,8 @@ public class berzerk {
      * <p>
      *************************************************************************
      */
-    static RomLoadPtr rom_berzerk
-            = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_berzerk
+            = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             ROM_LOAD("1c-0", 0x0000, 0x0800, 0xca566dbc);
@@ -642,8 +640,8 @@ public class berzerk {
         }
     };
 
-    static RomLoadPtr rom_berzerk1
-            = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_berzerk1
+            = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             ROM_LOAD("rom0.1c", 0x0000, 0x0800, 0x5b7eb77d);
@@ -656,8 +654,8 @@ public class berzerk {
         }
     };
 
-    static RomLoadPtr rom_frenzy
-            = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_frenzy
+            = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             ROM_LOAD("1c-0", 0x0000, 0x1000, 0xabdd25b8);

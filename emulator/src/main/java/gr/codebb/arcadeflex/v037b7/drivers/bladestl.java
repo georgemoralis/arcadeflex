@@ -33,7 +33,7 @@ import static arcadeflex.v036.sound.upd7759H.*;
 
 public class bladestl {
 
-    public static InterruptPtr bladestl_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr bladestl_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (cpu_getiloops() == 0) {
                 if (K007342_is_INT_enabled() != 0) {
@@ -523,7 +523,7 @@ public class bladestl {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_bladestl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bladestl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);/* code + banked roms */
 
@@ -555,7 +555,7 @@ public class bladestl {
         }
     };
 
-    static RomLoadPtr rom_bladstle = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bladstle = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);/* code + banked roms */
 

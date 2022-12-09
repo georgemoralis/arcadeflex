@@ -42,7 +42,7 @@ public class speedbal {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr speedbal_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr speedbal_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int p_inc = 0;
@@ -91,7 +91,7 @@ public class speedbal {
      *				   *
      * Start-Stop	* * ***********************************
      */
-    public static VhStartPtr speedbal_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr speedbal_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((bg_dirtybuffer = new char[speedbal_background_videoram_size[0]]) == null) {
                 return 1;
@@ -123,7 +123,7 @@ public class speedbal {
         }
     };
 
-    public static VhStopPtr speedbal_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr speedbal_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(bitmap_ch);
             osd_free_bitmap(bitmap_bg);
@@ -272,7 +272,7 @@ public class speedbal {
      *				   *
      * Refresh screen	* * ***********************************
      */
-    public static VhUpdatePtr speedbal_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr speedbal_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

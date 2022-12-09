@@ -1129,7 +1129,7 @@ public class namcos1
 		namcos1_install_rom_bank(0x3c0,0x3ff,0x20000 , 0x00000);
 	}
 	
-	public static InitMachinePtr init_namcos1 = new InitMachinePtr() { public void handler()  {
+	public static InitMachineHandlerPtr init_namcos1 = new InitMachineHandlerPtr() { public void handler()  {
 	
 		int oldcpu = cpu_getactivecpu(), i;
 	
@@ -1295,7 +1295,7 @@ public class namcos1
 	/*******************************************************************************
 	*	Shadowland / Youkai Douchuuki specific									   *
 	*******************************************************************************/
-	public static InitDriverPtr init_shadowld = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_shadowld = new InitDriverHandlerPtr() { public void handler() 
 	{
 		namcos1_specific shadowld_specific= new namcos1_specific
 		(
@@ -1310,7 +1310,7 @@ public class namcos1
 /*TODO*///	/*******************************************************************************
 /*TODO*///	*	Dragon Spirit specific													   *
 /*TODO*///	*******************************************************************************/
-/*TODO*///	public static InitDriverPtr init_dspirit = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_dspirit = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		const struct namcos1_specific dspirit_specific=
 /*TODO*///		{
@@ -1325,7 +1325,7 @@ public class namcos1
 /*TODO*///	/*******************************************************************************
 /*TODO*///	*	Quester specific														   *
 /*TODO*///	*******************************************************************************/
-/*TODO*///	public static InitDriverPtr init_quester = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_quester = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		const struct namcos1_specific quester_specific=
 /*TODO*///		{
@@ -1340,7 +1340,7 @@ public class namcos1
 /*TODO*///	/*******************************************************************************
 /*TODO*///	*	Blazer specific 														   *
 /*TODO*///	*******************************************************************************/
-/*TODO*///	public static InitDriverPtr init_blazer = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_blazer = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		const struct namcos1_specific blazer_specific=
 /*TODO*///		{
@@ -1355,7 +1355,7 @@ public class namcos1
 	/*******************************************************************************
 	*	Pac-Mania / Pac-Mania (Japan) specific									   *
 	*******************************************************************************/
-	public static InitDriverPtr init_pacmania = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_pacmania = new InitDriverHandlerPtr() { public void handler() 
 	{
 		namcos1_specific pacmania_specific=new namcos1_specific
 		(
@@ -1370,7 +1370,7 @@ public class namcos1
 	/*******************************************************************************
 	*	Galaga '88 / Galaga '88 (Japan) specific								   *
 	*******************************************************************************/
-	public static InitDriverPtr init_galaga88 = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_galaga88 = new InitDriverHandlerPtr() { public void handler() 
 	{
 		namcos1_specific galaga88_specific=new namcos1_specific
 		(
@@ -1385,7 +1385,7 @@ public class namcos1
 /*TODO*///	/*******************************************************************************
 /*TODO*///	*	World Stadium specific													   *
 /*TODO*///	*******************************************************************************/
-/*TODO*///	public static InitDriverPtr init_ws = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_ws = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		const struct namcos1_specific ws_specific=
 /*TODO*///		{
@@ -1453,7 +1453,7 @@ public class namcos1
 /*TODO*///		return res;
 /*TODO*///	} };
 /*TODO*///	
-/*TODO*///	public static InitDriverPtr init_berabohm = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_berabohm = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		const struct namcos1_specific berabohm_specific=
 /*TODO*///		{
@@ -1469,7 +1469,7 @@ public class namcos1
 /*TODO*///	/*******************************************************************************
 /*TODO*///	*	Alice in Wonderland / Marchen Maze specific 							   *
 /*TODO*///	*******************************************************************************/
-/*TODO*///	public static InitDriverPtr init_alice = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_alice = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		const struct namcos1_specific alice_specific=
 /*TODO*///		{
@@ -1484,7 +1484,7 @@ public class namcos1
 /*TODO*///	/*******************************************************************************
 /*TODO*///	*	Bakutotsu Kijuutei specific 											   *
 /*TODO*///	*******************************************************************************/
-/*TODO*///	public static InitDriverPtr init_bakutotu = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_bakutotu = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		const struct namcos1_specific bakutotu_specific=
 /*TODO*///		{
@@ -1499,7 +1499,7 @@ public class namcos1
 /*TODO*///	/*******************************************************************************
 /*TODO*///	*	World Court specific													   *
 /*TODO*///	*******************************************************************************/
-/*TODO*///	public static InitDriverPtr init_wldcourt = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_wldcourt = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		const struct namcos1_specific worldcourt_specific=
 /*TODO*///		{
@@ -1514,7 +1514,7 @@ public class namcos1
 /*TODO*///	/*******************************************************************************
 /*TODO*///	*	Splatter House specific 												   *
 /*TODO*///	*******************************************************************************/
-/*TODO*///	public static InitDriverPtr init_splatter = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_splatter = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		const struct namcos1_specific splatter_specific=
 /*TODO*///		{
@@ -1529,7 +1529,7 @@ public class namcos1
 /*TODO*///	/*******************************************************************************
 /*TODO*///	*	Face Off specific														   *
 /*TODO*///	*******************************************************************************/
-/*TODO*///	public static InitDriverPtr init_faceoff = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_faceoff = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		const struct namcos1_specific faceoff_specific=
 /*TODO*///		{
@@ -1544,7 +1544,7 @@ public class namcos1
 /*TODO*///	/*******************************************************************************
 /*TODO*///	*	Rompers specific														   *
 /*TODO*///	*******************************************************************************/
-/*TODO*///	public static InitDriverPtr init_rompers = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_rompers = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		const struct namcos1_specific rompers_specific=
 /*TODO*///		{
@@ -1560,7 +1560,7 @@ public class namcos1
 /*TODO*///	/*******************************************************************************
 /*TODO*///	*	Blast Off specific														   *
 /*TODO*///	*******************************************************************************/
-/*TODO*///	public static InitDriverPtr init_blastoff = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_blastoff = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		const struct namcos1_specific blastoff_specific=
 /*TODO*///		{
@@ -1576,7 +1576,7 @@ public class namcos1
 /*TODO*///	/*******************************************************************************
 /*TODO*///	*	World Stadium '89 specific                                                 *
 /*TODO*///	*******************************************************************************/
-/*TODO*///	public static InitDriverPtr init_ws89 = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_ws89 = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		const struct namcos1_specific ws89_specific=
 /*TODO*///		{
@@ -1593,7 +1593,7 @@ public class namcos1
 /*TODO*///	/*******************************************************************************
 /*TODO*///	*	Dangerous Seed specific 												   *
 /*TODO*///	*******************************************************************************/
-/*TODO*///	public static InitDriverPtr init_dangseed = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_dangseed = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		const struct namcos1_specific dangseed_specific=
 /*TODO*///		{
@@ -1608,7 +1608,7 @@ public class namcos1
 /*TODO*///	/*******************************************************************************
 /*TODO*///	*	World Stadium '90 specific                                                 *
 /*TODO*///	*******************************************************************************/
-/*TODO*///	public static InitDriverPtr init_ws90 = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_ws90 = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		const struct namcos1_specific ws90_specific=
 /*TODO*///		{
@@ -1626,7 +1626,7 @@ public class namcos1
 /*TODO*///	/*******************************************************************************
 /*TODO*///	*	Pistol Daimyo no Bouken specific										   *
 /*TODO*///	*******************************************************************************/
-/*TODO*///	public static InitDriverPtr init_pistoldm = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_pistoldm = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		const struct namcos1_specific pistoldm_specific=
 /*TODO*///		{
@@ -1644,7 +1644,7 @@ public class namcos1
 /*TODO*///	/*******************************************************************************
 /*TODO*///	*	Souko Ban DX specific													   *
 /*TODO*///	*******************************************************************************/
-/*TODO*///	public static InitDriverPtr init_soukobdx = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_soukobdx = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		const struct namcos1_specific soukobdx_specific=
 /*TODO*///		{
@@ -1662,7 +1662,7 @@ public class namcos1
 /*TODO*///	/*******************************************************************************
 /*TODO*///	*	Puzzle Club specific													   *
 /*TODO*///	*******************************************************************************/
-/*TODO*///	public static InitDriverPtr init_puzlclub = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_puzlclub = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		const struct namcos1_specific puzlclub_specific=
 /*TODO*///		{
@@ -1678,7 +1678,7 @@ public class namcos1
 /*TODO*///	/*******************************************************************************
 /*TODO*///	*	Tank Force specific 													   *
 /*TODO*///	*******************************************************************************/
-/*TODO*///	public static InitDriverPtr init_tankfrce = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_tankfrce = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		const struct namcos1_specific tankfrce_specific=
 /*TODO*///		{

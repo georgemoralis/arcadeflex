@@ -284,7 +284,7 @@ public class system16 {
     }
     static sys16_custom_irqPtr sys16_custom_irq;
 
-    public static InitMachinePtr sys16_onetime_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr sys16_onetime_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             sys16_bg1_trans = 0;
             sys16_rowscroll_scroll = 0;
@@ -304,7 +304,7 @@ public class system16 {
 
     /***************************************************************************/
 
-    public static InterruptPtr sys16_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr sys16_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (sys16_custom_irq != null) {
                 sys16_custom_irq.handler();
@@ -1251,7 +1251,7 @@ public class system16 {
      * ************************************************************************
      */
     // sys16A
-    static RomLoadPtr rom_alexkidd = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_alexkidd = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x040000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("epr10429.42", 0x000000, 0x10000, 0xbdf49eca);
@@ -1290,7 +1290,7 @@ public class system16 {
         }
     };
 
-    static RomLoadPtr rom_alexkida = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_alexkida = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x040000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("10447.43", 0x000000, 0x10000, 0x29e87f71);
@@ -1390,7 +1390,7 @@ public class system16 {
         }
     };
 
-    public static InitMachinePtr alexkidd_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr alexkidd_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             int bank[] = {00, 01, 02, 03, 00, 01, 02, 03, 00, 01, 02, 03, 00, 01, 02, 03};
             sys16_obj_bank = bank;
@@ -1404,7 +1404,7 @@ public class system16 {
         }
     };
 
-    public static InitDriverPtr init_alexkidd = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_alexkidd = new InitDriverHandlerPtr() {
         public void handler() {
             sys16_onetime_init_machine.handler();
             sys16_sprite_decode(5, 0x010000);
@@ -1557,7 +1557,7 @@ public class system16 {
     );
     	/***************************************************************************/
 	// sys16B
-	static RomLoadPtr rom_aliensyn = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_aliensyn = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x030000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "11083.a4", 0x00000, 0x8000, 0xcb2ad9b3 );
 		ROM_LOAD_ODD ( "11080.a1", 0x00000, 0x8000, 0xfe7378d9 );
@@ -1589,7 +1589,7 @@ public class system16 {
 	ROM_END(); }}; 
 	
 /*TODO*///	// sys16A - use a different sound chip?
-/*TODO*///	static RomLoadPtr rom_aliensya = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_aliensya = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x030000, REGION_CPU1 );/* 68000 code. I guessing the order a bit here */
 /*TODO*///		ROM_LOAD_EVEN( "10808", 0x00000, 0x8000, 0xe669929f )
 /*TODO*///		ROM_LOAD_ODD ( "10806", 0x00000, 0x8000, 0x9f7f8fdd )
@@ -1620,7 +1620,7 @@ public class system16 {
 /*TODO*///		ROM_LOAD( "10708", 0x20000, 0x8000, 0x5921ef52 );
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_aliensyj = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_aliensyj = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x030000, REGION_CPU1 );/* Custom 68000 code . I guessing the order a bit here */
 /*TODO*///	// custom cpu 317-0033
 /*TODO*///		ROM_LOAD_EVEN( "epr10699.43", 0x00000, 0x8000, 0x3fd38d17 )
@@ -1653,7 +1653,7 @@ public class system16 {
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_aliensyb = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_aliensyb = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x030000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "as_typeb.a4", 0x00000, 0x8000, 0x17bf5304 )
 /*TODO*///		ROM_LOAD_ODD ( "as_typeb.a1", 0x00000, 0x8000, 0x4cd134df )
@@ -1737,7 +1737,7 @@ public class system16 {
         };
 		
 	
-	public static InitMachinePtr aliensyn_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr aliensyn_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = { 0,0,0,0,0,0,0,6,0,0,0,4,0,2,0,0 };
 		sys16_obj_bank = bank;
 		sys16_bg_priority_mode=1;
@@ -1750,7 +1750,7 @@ public class system16 {
 		sys16_sprite_decode( 4,0x20000 );
 	}
 	
-	public static InitDriverPtr init_aliensyn = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_aliensyn = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 		sys16_bg1_trans=1;
@@ -1851,7 +1851,7 @@ public class system16 {
      * ************************************************************************
      */
     // sys16B
-    static RomLoadPtr rom_altbeast = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_altbeast = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x040000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("11705", 0x000000, 0x20000, 0x57dc5c7a);
@@ -1888,7 +1888,7 @@ public class system16 {
         }
     };
 
-    static RomLoadPtr rom_jyuohki = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_jyuohki = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x040000, REGION_CPU1);/* Custom 68000 code. */
             // custom cpu 317-0065
@@ -1927,7 +1927,7 @@ public class system16 {
     };
 
     // sys16B
-    static RomLoadPtr rom_altbeas2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_altbeas2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x040000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("epr11740", 0x000000, 0x20000, 0xce227542);
@@ -2035,7 +2035,7 @@ public class system16 {
         }
     };
 
-    public static InitMachinePtr altbeast_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr altbeast_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             int bank[] = {0x00, 0x02, 0x04, 0x06, 0x08, 0x0A, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
             sys16_obj_bank = bank;
@@ -2043,7 +2043,7 @@ public class system16 {
         }
     };
 
-    public static InitMachinePtr altbeas2_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr altbeas2_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             int bank[] = {0x00, 0x00, 0x02, 0x00, 0x04, 0x00, 0x06, 0x00, 0x08, 0x00, 0x0A, 0x00, 0x0C, 0x00, 0x00, 0x00};
             sys16_obj_bank = bank;
@@ -2051,7 +2051,7 @@ public class system16 {
         }
     };
 
-    public static InitDriverPtr init_altbeast = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_altbeast = new InitDriverHandlerPtr() {
         public void handler() {
             sys16_onetime_init_machine.handler();
             sys16_sprite_decode(7, 0x20000);
@@ -2237,7 +2237,7 @@ public class system16 {
      * ************************************************************************
      */
     /*TODO*///	// sys18
-	static RomLoadPtr rom_astorm = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_astorm = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x080000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "epr13085.bin", 0x000000, 0x40000, 0x15f74e2d );
 		ROM_LOAD_ODD ( "epr13084.bin", 0x000000, 0x40000, 0x9687b38f );
@@ -2264,7 +2264,7 @@ public class system16 {
 		ROM_LOAD( "epr13078.bin", 0xb0000, 0x40000, 0x15684dc5 );
 	ROM_END(); }}; 
 	
-/*TODO*///	static RomLoadPtr rom_astorm2p = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_astorm2p = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x080000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "epr13182.bin", 0x000000, 0x40000, 0xe31f2a1c )
 /*TODO*///		ROM_LOAD_ODD ( "epr13181.bin", 0x000000, 0x40000, 0x78cd3b26 )
@@ -2291,7 +2291,7 @@ public class system16 {
 /*TODO*///		ROM_LOAD( "epr13078.bin", 0xb0000, 0x40000, 0x15684dc5 );
 /*TODO*///	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_astormbl = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_astormbl = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x080000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "astorm.a6", 0x000000, 0x40000, 0x7682ed3e );
 		ROM_LOAD_ODD ( "astorm.a5", 0x000000, 0x40000, 0xefe9711e );
@@ -2417,7 +2417,7 @@ public class system16 {
             }
         };
 	
-	public static InitMachinePtr astorm_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr astorm_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = {0x00,0x02,0x04,0x06,0x08,0x0A,0x0C,0x0E,0x10,0x12,0x14,0x16,0x18,0x1A,0x1C,0x1E};
 		sys16_obj_bank = bank;
 		sys16_fgxoffset = sys16_bgxoffset = -9;
@@ -2485,7 +2485,7 @@ public class system16 {
 		sys16_update_proc = astorm_update_proc;
 	} };
 	
-	public static InitDriverPtr init_astorm = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_astorm = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM= new UBytePtr(memory_region(REGION_CPU2));
 		sys16_onetime_init_machine.handler();
@@ -2618,7 +2618,7 @@ public class system16 {
 	);        
 /*TODO*///	/***************************************************************************/
     // sys16B
-    static RomLoadPtr rom_atomicp = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_atomicp = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x020000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("ap-t2.bin", 0x000000, 0x10000, 0x97421047);
@@ -2705,7 +2705,7 @@ public class system16 {
             set_bg_page(sys16_textram.READ_WORD(0x0e82));
         }
     };
-    public static InitMachinePtr atomicp_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr atomicp_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             int bank[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
             sys16_obj_bank = bank;
@@ -2713,7 +2713,7 @@ public class system16 {
         }
     };
 
-    public static InitDriverPtr init_atomicp = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_atomicp = new InitDriverHandlerPtr() {
         public void handler() {
             sys16_onetime_init_machine.handler();
         }
@@ -2804,7 +2804,7 @@ public class system16 {
     /**
      * ************************************************************************
      */
-    public static InterruptPtr ap_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr ap_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             int intleft = cpu_getiloops();
             if (intleft != 0) {
@@ -2857,7 +2857,7 @@ public class system16 {
 	
 	***************************************************************************/
 	// sys16B
-	static RomLoadPtr rom_aurail = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_aurail = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0xc0000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "13577", 0x000000, 0x20000, 0x6701b686 );
 		ROM_LOAD_ODD ( "13576", 0x000000, 0x20000, 0x1e428d94 );
@@ -2897,7 +2897,7 @@ public class system16 {
 		ROM_LOAD( "aurail.a12", 0x30000,0x20000, 0xd3d9aaf9 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_auraila = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_auraila = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0xc0000, REGION_CPU1 );/* 68000 code */
 	// custom cpu 317-0168
 		ROM_LOAD_EVEN( "epr13469.a7", 0x000000, 0x20000, 0xc628b69d );
@@ -2999,7 +2999,7 @@ public class system16 {
             }
         };
 	
-	public static InitMachinePtr aurail_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr aurail_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = {0x00,0x02,0x04,0x06,0x08,0x0A,0x0C,0x0E,0x10,0x12,0x14,0x16,0x18,0x1A,0x1C,0x1E};
 	
 		sys16_obj_bank = bank;
@@ -3010,13 +3010,13 @@ public class system16 {
 		sys16_update_proc = aurail_update_proc;
 	} };
 	
-	public static InitDriverPtr init_aurail = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_aurail = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 		sys16_sprite_decode (8,0x40000);
 	} };
 	
-	public static InitDriverPtr init_auraila = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_auraila = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr rom = new UBytePtr(memory_region(REGION_CPU1));
 		int diff = 0x40000;	/* place decrypted opcodes in a empty hole */
@@ -3113,7 +3113,7 @@ public class system16 {
         
 	/***************************************************************************/
 	// sys16B
-	static RomLoadPtr rom_bayroute = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bayroute = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0xc0000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "br.4a", 0x000000, 0x10000, 0x91c6424b );
 		ROM_LOAD_ODD ( "br.1a", 0x000000, 0x10000, 0x76954bf3 );
@@ -3144,7 +3144,7 @@ public class system16 {
 		ROM_LOAD( "mpr12461.a12", 0x30000, 0x20000, 0xb03b8b46 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_bayrouta = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bayrouta = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0xc0000, REGION_CPU1 );/* 68000 code */
 	// custom cpu 317-0116
 		ROM_LOAD_EVEN( "epr12517.a7", 0x000000, 0x20000, 0x436728a9 );
@@ -3170,7 +3170,7 @@ public class system16 {
 		ROM_LOAD( "mpr12461.a12", 0x30000, 0x20000, 0xb03b8b46 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_bayrtbl1 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bayrtbl1 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0xc0000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "b4.bin", 0x000000, 0x10000, 0xeb6646ae );
 		ROM_LOAD_ODD ( "b2.bin", 0x000000, 0x10000, 0xecd9cd0e );
@@ -3201,7 +3201,7 @@ public class system16 {
 		ROM_LOAD( "mpr12461.a12", 0x30000, 0x20000, 0xb03b8b46 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_bayrtbl2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bayrtbl2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0xc0000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "br_04", 0x000000, 0x10000, 0x2e33ebfc );
 		ROM_LOAD_ODD ( "br_06", 0x000000, 0x10000, 0x3db42313 );
@@ -3280,7 +3280,7 @@ public class system16 {
             }
         };
 	
-	public static InitMachinePtr bayroute_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr bayroute_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = { 0,0,0,0,0,0,0,6,0,0,0,4,0,2,0,0 };
 		sys16_obj_bank = bank;
 		sys16_update_proc = bayroute_update_proc;
@@ -3288,19 +3288,19 @@ public class system16 {
 		sys16_spritelist_end=0xc000;
 	} };
 	
-	public static InitDriverPtr init_bayroute = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_bayroute = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 		sys16_sprite_decode( 4,0x20000 );
 	} };
 	
-	public static InitDriverPtr init_bayrouta = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_bayrouta = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 		sys16_sprite_decode( 2,0x40000 );
 	} };
 	
-	public static InitDriverPtr init_bayrtbl1 = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_bayrtbl1 = new InitDriverHandlerPtr() { public void handler() 
 	{
 		int i;
 	
@@ -3397,7 +3397,7 @@ public class system16 {
 	
 	***************************************************************************/
 	// pre16
-	static RomLoadPtr rom_bodyslam = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bodyslam = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "epr10066.b9", 0x000000, 0x8000, 0x6cd53290 );
 		ROM_LOAD_ODD ( "epr10063.b6", 0x000000, 0x8000, 0xdd849a16 );
@@ -3437,7 +3437,7 @@ public class system16 {
 	
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_dumpmtmt = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_dumpmtmt = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "7704a.bin", 0x000000, 0x8000, 0x96de6c7b );
 		ROM_LOAD_ODD ( "7701a.bin", 0x000000, 0x8000, 0x786d1009 );
@@ -3525,7 +3525,7 @@ public class system16 {
             }
         };
 	
-	public static InitMachinePtr bodyslam_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr bodyslam_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = {0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3};
 		sys16_obj_bank = bank;
 		sys16_textmode=1;
@@ -3597,7 +3597,7 @@ public class system16 {
             }
         };
 	
-	public static InitDriverPtr init_bodyslam = new InitDriverPtr() { public void handler() {
+	public static InitDriverHandlerPtr init_bodyslam = new InitDriverHandlerPtr() { public void handler() {
 		sys16_onetime_init_machine.handler();
 		sys16_bg1_trans=1;
 		sys16_custom_irq=bodyslam_irq_timer;
@@ -3696,7 +3696,7 @@ public class system16 {
      * ************************************************************************
      */
     // sys16B
-    static RomLoadPtr rom_dduxbl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dduxbl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x0c0000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("dduxb03.bin", 0x000000, 0x20000, 0xe7526012);
@@ -3816,7 +3816,7 @@ public class system16 {
         }
     };
 
-    public static InitMachinePtr dduxbl_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr dduxbl_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             int bank[] = {00, 00, 00, 00, 00, 00, 00, 0x06, 00, 00, 00, 0x04, 00, 0x02, 00, 00};
 
@@ -3840,7 +3840,7 @@ public class system16 {
         }
     };
 
-    public static InitDriverPtr init_dduxbl = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_dduxbl = new InitDriverHandlerPtr() {
         public void handler() {
             int i;
 
@@ -3993,7 +3993,7 @@ public class system16 {
     );
     	/***************************************************************************/
 	// sys16B
-	static RomLoadPtr rom_eswat = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_eswat = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x080000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "12657", 0x000000, 0x40000, 0xcfb935e9 );
 		ROM_LOAD_ODD ( "12656", 0x000000, 0x40000, 0xbe3f9d28 );
@@ -4016,7 +4016,7 @@ public class system16 {
 		ROM_LOAD( "e12616r",0x10000, 0x20000, 0xf213fa4a );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_eswatbl = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_eswatbl = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x080000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "eswat_c.rom", 0x000000, 0x10000, 0x1028cc81 );
 		ROM_LOAD_ODD ( "eswat_f.rom", 0x000000, 0x10000, 0xf7b2d388 );
@@ -4107,7 +4107,7 @@ public class system16 {
             }
         };
 	
-	public static InitMachinePtr eswat_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr eswat_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = { 0,2,8,10,16,18,24,26,4,6,12,14,20,22,28,30};
 	
 		sys16_obj_bank = bank;
@@ -4118,7 +4118,7 @@ public class system16 {
 		sys16_update_proc = eswat_update_proc;
 	} };
 	
-	public static InitDriverPtr init_eswat = new InitDriverPtr() { public void handler() {
+	public static InitDriverHandlerPtr init_eswat = new InitDriverHandlerPtr() { public void handler() {
 		sys16_onetime_init_machine.handler();
 		sys16_rowscroll_scroll=0x8000;
 		sys18_splittab_fg_x=new UBytePtr(sys16_textram, 0x0f80);
@@ -4205,7 +4205,7 @@ public class system16 {
 	);
 	/***************************************************************************/
 	// sys16A
-	static RomLoadPtr rom_fantzono = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_fantzono = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x030000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "7385.43", 0x000000, 0x8000, 0x5cb64450 );
 		ROM_LOAD_ODD ( "7382.26", 0x000000, 0x8000, 0x3fda7416 );
@@ -4231,7 +4231,7 @@ public class system16 {
 		ROM_LOAD( "7535.12", 0x0000, 0x8000, 0x0cb2126a );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_fantzone = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_fantzone = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x030000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "epr7385a.43", 0x000000, 0x8000, 0x4091af42 );
 		ROM_LOAD_ODD ( "epr7382a.26", 0x000000, 0x8000, 0x77d67bfd );
@@ -4347,7 +4347,7 @@ public class system16 {
             }
         };
 	
-	public static InitMachinePtr fantzono_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr fantzono_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = { 00,01,02,03,00,01,02,03,00,01,02,03,00,01,02,03};
 	
 		sys16_obj_bank = bank;
@@ -4384,7 +4384,7 @@ public class system16 {
 		sys16_update_proc = fantzone_update_proc;
 	} };
 	
-	public static InitMachinePtr fantzone_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr fantzone_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = { 00,01,02,03,00,01,02,03,00,01,02,03,00,01,02,03};
 	
 		sys16_obj_bank = bank;
@@ -4403,7 +4403,7 @@ public class system16 {
 		sys16_update_proc = fantzone_update_proc;
 	} };
 	
-	public static InitDriverPtr init_fantzone = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_fantzone = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 		sys16_sprite_decode( 3,0x010000 );
@@ -4524,7 +4524,7 @@ public class system16 {
      * ************************************************************************
      */
     // sys16B
-    static RomLoadPtr rom_fpoint = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_fpoint = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x020000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("12591b.bin", 0x000000, 0x10000, 0x248b3e1b);
@@ -4544,7 +4544,7 @@ public class system16 {
             ROM_END();
         }
     };
-    static RomLoadPtr rom_fpointbl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_fpointbl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x020000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("flpoint.003", 0x000000, 0x10000, 0x4d6df514);
@@ -4621,7 +4621,7 @@ public class system16 {
         }
     };
 
-    public static InitMachinePtr fpoint_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr fpoint_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             int[] bank = {00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00};
 
@@ -4655,14 +4655,14 @@ public class system16 {
         }
     };
 
-    public static InitDriverPtr init_fpoint = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_fpoint = new InitDriverHandlerPtr() {
         public void handler() {
             sys16_onetime_init_machine.handler();
             sys16_sprite_decode(1, 0x020000);
         }
     };
 
-    public static InitDriverPtr init_fpointbl = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_fpointbl = new InitDriverHandlerPtr() {
         public void handler() {
             int i;
 
@@ -4819,7 +4819,7 @@ public class system16 {
      * ************************************************************************
      */
     // sys16B
-    static RomLoadPtr rom_goldnaxe = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_goldnaxe = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x0c0000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("epr12523.a7", 0x00000, 0x20000, 0x8e6128d7);
@@ -4848,7 +4848,7 @@ public class system16 {
         }
     };
 
-    static RomLoadPtr rom_goldnaxj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_goldnaxj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x0c0000, REGION_CPU1);/* 68000 code */
             // Custom cpu 317-0121
@@ -4878,7 +4878,7 @@ public class system16 {
         }
     };
 
-    static RomLoadPtr rom_goldnabl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_goldnabl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x0c0000, REGION_CPU1);/* 68000 code */
             // protected code
@@ -5005,7 +5005,7 @@ public class system16 {
         }
     };
 
-    public static InitMachinePtr goldnaxe_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr goldnaxe_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             int bank[] = {0, 2, 8, 10, 16, 18, 0, 0, 4, 6, 12, 14, 20, 22, 0, 0};
 
@@ -5019,14 +5019,14 @@ public class system16 {
         }
     };
 
-    public static InitDriverPtr init_goldnaxe = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_goldnaxe = new InitDriverHandlerPtr() {
         public void handler() {
             sys16_onetime_init_machine.handler();
             sys16_sprite_decode(3, 0x80000);
         }
     };
 
-    public static InitDriverPtr init_goldnabl = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_goldnabl = new InitDriverHandlerPtr() {
         public void handler() {
             int i;
 
@@ -5183,7 +5183,7 @@ public class system16 {
      * ************************************************************************
      */
     /*TODO*///	// sys16B
-/*TODO*///	static RomLoadPtr rom_goldnaxa = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_goldnaxa = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x0c0000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "epr12545.a2", 0x00000, 0x40000, 0xa97c4e4d )
 /*TODO*///		ROM_LOAD_ODD ( "epr12544.a1", 0x00000, 0x40000, 0x5e38f668 )
@@ -5206,7 +5206,7 @@ public class system16 {
 /*TODO*///		ROM_LOAD( "mpr12384.a11", 0x10000, 0x20000, 0x6218d8e7 );
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_goldnaxb = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_goldnaxb = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x0c0000, REGION_CPU1 );/* 68000 code */
 /*TODO*///	// Custom 68000 ver 317-0110
 /*TODO*///		ROM_LOAD_EVEN( "epr12389.a2", 0x00000, 0x40000, 0x35d5fa77 )
@@ -5230,7 +5230,7 @@ public class system16 {
 /*TODO*///		ROM_LOAD( "mpr12384.a11", 0x10000, 0x20000, 0x6218d8e7 );
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_goldnaxc = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_goldnaxc = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x0c0000, REGION_CPU1 );/* 68000 code */
 /*TODO*///	// Custom 68000 ver 317-0122
 /*TODO*///		ROM_LOAD_EVEN( "epr12543.a2", 0x00000, 0x40000, 0xb0df9ca4 )
@@ -5357,7 +5357,7 @@ public class system16 {
 /*TODO*///		set_refresh( READ_WORD( &sys16_extraram2[0] ) );
 /*TODO*///	}
 /*TODO*///	
-/*TODO*///	public static InitMachinePtr goldnaxa_init_machine = new InitMachinePtr() { public void handler() {
+/*TODO*///	public static InitMachineHandlerPtr goldnaxa_init_machine = new InitMachineHandlerPtr() { public void handler() {
 /*TODO*///		static int bank[16] = { 0,2,8,10,16,18,0,0,4,6,12,14,20,22,0,0 };
 /*TODO*///	
 /*TODO*///		sys16_obj_bank = bank;
@@ -5376,7 +5376,7 @@ public class system16 {
 /*TODO*///	
 /*TODO*///	/***************************************************************************/
     // sys16B
-    static RomLoadPtr rom_hwchamp = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hwchamp = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x040000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("rom0-e.bin", 0x000000, 0x20000, 0xe5abfed7);
@@ -5541,7 +5541,7 @@ public class system16 {
         }
     };
 
-    public static InitMachinePtr hwchamp_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr hwchamp_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             int bank[] = {0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30};
 
@@ -5552,7 +5552,7 @@ public class system16 {
         }
     };
 
-    public static InitDriverPtr init_hwchamp = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_hwchamp = new InitDriverHandlerPtr() {
         public void handler() {
             sys16_onetime_init_machine.handler();
             sys16_sprite_decode(4, 0x040000);
@@ -5698,7 +5698,7 @@ public class system16 {
 
     	/***************************************************************************/
 	// pre16
-	static RomLoadPtr rom_mjleague = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mjleague = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x030000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "epr-7404.09b", 0x000000, 0x8000, 0xec1655b5 );
 		ROM_LOAD_ODD ( "epr-7401.06b", 0x000000, 0x8000, 0x2befa5e0 );
@@ -5853,7 +5853,7 @@ public class system16 {
             }
         };
 	
-	public static InitMachinePtr mjleague_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr mjleague_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = { 00,01,02,03,00,01,02,03,00,01,02,03,00,01,02,03};
 	
 		sys16_obj_bank = bank;
@@ -5868,7 +5868,7 @@ public class system16 {
 		sys16_update_proc = mjleague_update_proc;
 	} };
 	
-	public static InitDriverPtr init_mjleague = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_mjleague = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 		sys16_sprite_decode( 5,0x010000 );
@@ -5997,7 +5997,7 @@ public class system16 {
 
 	/***************************************************************************/
 	// sys18
-	static RomLoadPtr rom_moonwalk = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_moonwalk = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x080000, REGION_CPU1 );/* 68000 code */
 	// custom cpu 317-0159
 		ROM_LOAD_EVEN( "epr13235.a6", 0x000000, 0x40000, 0x6983e129 );
@@ -6025,7 +6025,7 @@ public class system16 {
 		ROM_LOAD( "mpr13249.b6", 0xb0000, 0x40000, 0x623edc5d );
 	ROM_END(); }}; 
 	
-/*TODO*///	static RomLoadPtr rom_moonwlka = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_moonwlka = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x080000, REGION_CPU1 );/* 68000 code */
 /*TODO*///	// custom cpu 317-0158
 /*TODO*///		ROM_LOAD_EVEN( "epr13233", 0x000000, 0x40000, 0xf3dac671 )
@@ -6054,7 +6054,7 @@ public class system16 {
 /*TODO*///	ROM_END(); }}; 
 	
 	// sys18
-	static RomLoadPtr rom_moonwlkb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_moonwlkb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x080000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "moonwlkb.01", 0x000000, 0x10000, 0xf49cdb16 );
 		ROM_LOAD_ODD ( "moonwlkb.05", 0x000000, 0x10000, 0xc483f29f );
@@ -6169,7 +6169,7 @@ public class system16 {
             }
         };
 	
-	public static InitMachinePtr moonwalk_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr moonwalk_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = {0x00,0x02,0x04,0x06,0x08,0x0A,0x0C,0x0E,0x10,0x12,0x14,0x16,0x18,0x1A,0x1C,0x1E};
 		sys16_obj_bank = bank;
 		sys16_bg_priority_value=0x1000;
@@ -6218,7 +6218,7 @@ public class system16 {
 		sys16_update_proc = moonwalk_update_proc;
 	} };
 	
-	public static InitDriverPtr init_moonwalk = new InitDriverPtr() { public void handler() {
+	public static InitDriverHandlerPtr init_moonwalk = new InitDriverHandlerPtr() { public void handler() {
 		UBytePtr RAM= new UBytePtr(memory_region(REGION_CPU2));
 		sys16_onetime_init_machine.handler();
 		sys18_splittab_fg_x=new UBytePtr(sys16_textram, 0x0f80);
@@ -6351,7 +6351,7 @@ public class system16 {
 	);
 	/***************************************************************************/
 	// sys16B
-	static RomLoadPtr rom_passsht = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_passsht = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x020000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "epr11871.a4", 0x000000, 0x10000, 0x0f9ccea5 );
 		ROM_LOAD_ODD ( "epr11870.a1", 0x000000, 0x10000, 0xdf43ebcf );
@@ -6377,7 +6377,7 @@ public class system16 {
 		ROM_LOAD( "epr11861.a11", 0x28000, 0x08000, 0x38b54a71 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_passht4b = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_passht4b = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x020000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "pas4p.3", 0x000000, 0x10000, 0x2d8bc946 );
 		ROM_LOAD_ODD ( "pas4p.4", 0x000000, 0x10000, 0xe759e831 );
@@ -6400,7 +6400,7 @@ public class system16 {
 		ROM_LOAD( "pas4p.2",  0x10000, 0x10000, 0x092e016e );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_passshtb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_passshtb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x020000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "pass3_2p.bin", 0x000000, 0x10000, 0x26bb9299 );
 		ROM_LOAD_ODD ( "pass4_2p.bin", 0x000000, 0x10000, 0x06ac6d5d );
@@ -6570,7 +6570,7 @@ public class system16 {
             }
         };
 	
-	public static InitMachinePtr passsht_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr passsht_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = { 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,3 };
 		sys16_obj_bank = bank;
 	
@@ -6583,7 +6583,7 @@ public class system16 {
 		sys16_update_proc = passsht_update_proc;
 	} };
 	
-	public static InitMachinePtr passht4b_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr passht4b_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = { 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,3 };
 		sys16_obj_bank = bank;
 	
@@ -6596,13 +6596,13 @@ public class system16 {
 		sys16_update_proc = passht4b_update_proc;
 	} };
 	
-	public static InitDriverPtr init_passsht = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_passsht = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 		sys16_sprite_decode( 3,0x20000 );
 	} };
 	
-	public static InitDriverPtr init_passht4b = new InitDriverPtr() { public void handler() {
+	public static InitDriverHandlerPtr init_passht4b = new InitDriverHandlerPtr() { public void handler() {
 		int i;
 	
 		sys16_onetime_init_machine.handler();
@@ -6834,7 +6834,7 @@ public class system16 {
 	);
 	/***************************************************************************/
 	// pre16
-	static RomLoadPtr rom_quartet = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_quartet = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x030000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "epr7458a.9b",  0x000000, 0x8000, 0x42e7b23e );
 		ROM_LOAD_ODD ( "epr7455a.6b",  0x000000, 0x8000, 0x01631ab2 );
@@ -6873,7 +6873,7 @@ public class system16 {
 		ROM_LOAD( "epr7476.4c", 0x18000, 0x8000, 0x5eba655a );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_quartetj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_quartetj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x030000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "epr-7458.43",  0x000000, 0x8000, 0x0096499f );
 		ROM_LOAD_ODD ( "epr-7455.26",  0x000000, 0x8000, 0xda934390 );
@@ -6981,7 +6981,7 @@ public class system16 {
             }
         };
 	
-	public static InitMachinePtr quartet_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr quartet_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = { 00,01,02,03,00,01,02,03,00,01,02,03,00,01,02,03};
 		sys16_obj_bank = bank;
 		sys16_textmode=1;
@@ -6992,7 +6992,7 @@ public class system16 {
 		sys16_update_proc = quartet_update_proc;
 	} };
 	
-	public static InitDriverPtr init_quartet = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_quartet = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 		sys16_sprite_decode( 5,0x010000 );
@@ -7123,7 +7123,7 @@ public class system16 {
 	);        
 /*TODO*///	/***************************************************************************/
 /*TODO*///	// pre16
-/*TODO*///	static RomLoadPtr rom_quartet2 = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_quartet2 = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x030000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "quartet2.b9",  0x000000, 0x8000, 0x67177cd8 )
 /*TODO*///		ROM_LOAD_ODD ( "quartet2.b6",  0x000000, 0x8000, 0x50f50b08 )
@@ -7220,7 +7220,7 @@ public class system16 {
 /*TODO*///		set_refresh_3d( READ_WORD( &sys16_extraram[2] ) );
 /*TODO*///	}
 /*TODO*///	
-/*TODO*///	public static InitMachinePtr quartet2_init_machine = new InitMachinePtr() { public void handler() {
+/*TODO*///	public static InitMachineHandlerPtr quartet2_init_machine = new InitMachineHandlerPtr() { public void handler() {
 /*TODO*///		static int bank[16] = { 00,01,02,03,00,01,02,03,00,01,02,03,00,01,02,03};
 /*TODO*///		sys16_obj_bank = bank;
 /*TODO*///		sys16_textmode=1;
@@ -7231,7 +7231,7 @@ public class system16 {
 /*TODO*///		sys16_update_proc = quartet2_update_proc;
 /*TODO*///	} };
 /*TODO*///	
-/*TODO*///	public static InitDriverPtr init_quartet2 = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_quartet2 = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		sys16_onetime_init_machine();
 /*TODO*///		sys16_sprite_decode( 5,0x010000 );
@@ -7281,7 +7281,7 @@ public class system16 {
 	
 	***************************************************************************/
 	// sys16B
-	static RomLoadPtr rom_riotcity = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_riotcity = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0xc0000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "epr14612.bin", 0x000000, 0x20000, 0xa1b331ec );
 		ROM_LOAD_ODD ( "epr14610.bin", 0x000000, 0x20000, 0xcd4f2c50 );
@@ -7372,7 +7372,7 @@ public class system16 {
             }
         };
 	
-	public static InitMachinePtr riotcity_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr riotcity_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = {0x00,0x02,0x08,0x0A,0x10,0x12,0x00,0x00,0x04,0x06,0x0C,0x0E,0x14,0x16,0x00,0x00};
 	
 		sys16_obj_bank = bank;
@@ -7383,7 +7383,7 @@ public class system16 {
 		sys16_update_proc = riotcity_update_proc;
 	} };
 	
-	public static InitDriverPtr init_riotcity = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_riotcity = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 		sys16_sprite_decode (3,0x80000);
@@ -7471,7 +7471,7 @@ public class system16 {
      * ************************************************************************
      */
     // sys16B
-    static RomLoadPtr rom_sdi = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sdi = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x030000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("a4.rom", 0x000000, 0x8000, 0xf2c41dd6);
@@ -7501,7 +7501,7 @@ public class system16 {
     };
 
     // sys16A
-    static RomLoadPtr rom_sdioj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sdioj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x030000, REGION_CPU1);/* 68000 code */
             // Custom cpu 317-0027
@@ -7621,7 +7621,7 @@ public class system16 {
         }
     };
 
-    public static InitMachinePtr sdi_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr sdi_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             int bank[] = {00, 00, 00, 00, 00, 00, 00, 0x06, 00, 00, 00, 0x04, 00, 0x02, 00, 00};
 
@@ -7639,7 +7639,7 @@ public class system16 {
         sys16_sprite_decode(3, 0x020000);
     }
 
-    public static InitDriverPtr init_sdi = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_sdi = new InitDriverHandlerPtr() {
         public void handler() {
             sys16_onetime_init_machine.handler();
             sys18_splittab_bg_x = new UBytePtr(sys16_textram, 0x0fc0);
@@ -7807,7 +7807,7 @@ public class system16 {
      * ************************************************************************
      */
     	// sys18
-	static RomLoadPtr rom_shdancer = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_shdancer = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x080000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "shdancer.a6", 0x000000, 0x40000, 0x3d5b3fa9 );
 		ROM_LOAD_ODD ( "shdancer.a5", 0x000000, 0x40000, 0x2596004e );
@@ -7909,7 +7909,7 @@ public class system16 {
             }
         };
 	
-	public static InitMachinePtr shdancer_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr shdancer_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = {0x00,0x02,0x04,0x06,0x08,0x0A,0x0C,0x0E,0x10,0x12,0x14,0x16,0x18,0x1A,0x1C,0x1E};
 		sys16_obj_bank = bank;
 		sys16_spritelist_end=0x8000;
@@ -7917,7 +7917,7 @@ public class system16 {
 		sys16_update_proc = shdancer_update_proc;
 	} };
 	
-	public static InitDriverPtr init_shdancer = new InitDriverPtr() { public void handler() {
+	public static InitDriverHandlerPtr init_shdancer = new InitDriverHandlerPtr() { public void handler() {
 		UBytePtr RAM= new UBytePtr(memory_region(REGION_CPU2));
 		sys16_onetime_init_machine.handler();
 		sys18_splittab_fg_x=new UBytePtr(sys16_textram, 0x0f80);
@@ -8031,7 +8031,7 @@ public class system16 {
                 
 	);
 
-/*TODO*///	static RomLoadPtr rom_shdancbl = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_shdancbl = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x080000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "ic39", 0x000000, 0x10000, 0xadc1781c )
 /*TODO*///		ROM_LOAD_ODD ( "ic53", 0x000000, 0x10000, 0x1c1ac463 )
@@ -8172,7 +8172,7 @@ public class system16 {
 /*TODO*///	}
 /*TODO*///	
 /*TODO*///	
-/*TODO*///	public static InitMachinePtr shdancbl_init_machine = new InitMachinePtr() { public void handler() {
+/*TODO*///	public static InitMachineHandlerPtr shdancbl_init_machine = new InitMachineHandlerPtr() { public void handler() {
 /*TODO*///		static int bank[16] = {0x00,0x02,0x04,0x06,0x08,0x0A,0x0C,0x0E,0x10,0x12,0x14,0x16,0x18,0x1A,0x1C,0x1E};
 /*TODO*///		sys16_obj_bank = bank;
 /*TODO*///		sys16_spritelist_end=0x8000;
@@ -8181,7 +8181,7 @@ public class system16 {
 /*TODO*///		sys16_update_proc = shdancbl_update_proc;
 /*TODO*///	} };
 /*TODO*///	
-/*TODO*///	public static InitDriverPtr init_shdancbl = new InitDriverPtr() { public void handler() {
+/*TODO*///	public static InitDriverHandlerPtr init_shdancbl = new InitDriverHandlerPtr() { public void handler() {
 /*TODO*///		UBytePtr RAM= memory_region(REGION_CPU2);
 /*TODO*///		int i;
 /*TODO*///	
@@ -8205,7 +8205,7 @@ public class system16 {
 /*TODO*///	
 /*TODO*///	/***************************************************************************/
 /*TODO*///	// sys18
-/*TODO*///	static RomLoadPtr rom_shdancrj = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_shdancrj = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x080000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "sd12722b.bin", 0x000000, 0x40000, 0xc00552a2 )
 /*TODO*///		ROM_LOAD_ODD ( "sd12721b.bin", 0x000000, 0x40000, 0x653d351a )
@@ -8238,7 +8238,7 @@ public class system16 {
 /*TODO*///		return READ_WORD(&sys16_workingram[0xc000]);
 /*TODO*///	} };
 /*TODO*///	
-/*TODO*///	public static InitMachinePtr shdancrj_init_machine = new InitMachinePtr() { public void handler() {
+/*TODO*///	public static InitMachineHandlerPtr shdancrj_init_machine = new InitMachineHandlerPtr() { public void handler() {
 /*TODO*///		static int bank[16] = {0x00,0x02,0x04,0x06,0x08,0x0A,0x0C,0x0E,0x10,0x12,0x14,0x16,0x18,0x1A,0x1C,0x1E};
 /*TODO*///		sys16_obj_bank = bank;
 /*TODO*///		sys16_spritelist_end=0x8000;
@@ -8247,7 +8247,7 @@ public class system16 {
 /*TODO*///		sys16_update_proc = shdancer_update_proc;
 /*TODO*///	} };
 /*TODO*///	
-/*TODO*///	public static InitDriverPtr init_shdancrj = new InitDriverPtr() { public void handler() {
+/*TODO*///	public static InitDriverHandlerPtr init_shdancrj = new InitDriverHandlerPtr() { public void handler() {
 /*TODO*///		UBytePtr RAM= memory_region(REGION_CPU2);
 /*TODO*///		sys16_onetime_init_machine();
 /*TODO*///		sys18_splittab_fg_x=&sys16_textram[0x0f80];
@@ -8268,7 +8268,7 @@ public class system16 {
      * ************************************************************************
      */
     // sys16B
-    static RomLoadPtr rom_shinobi = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_shinobi = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x040000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("shinobi.a4", 0x000000, 0x10000, 0xb930399d);
@@ -8300,7 +8300,7 @@ public class system16 {
         }
     };
 
-    static RomLoadPtr rom_shinobib = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_shinobib = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x040000, REGION_CPU1);/* 68000 code */
             // Custom cpu 317-0049
@@ -8397,7 +8397,7 @@ public class system16 {
         }
     };
 
-    public static InitMachinePtr shinobi_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr shinobi_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             int bank[] = {0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 4, 0, 2, 0, 0};
             sys16_obj_bank = bank;
@@ -8406,7 +8406,7 @@ public class system16 {
         }
     };
 
-    public static InitDriverPtr init_shinobi = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_shinobi = new InitDriverHandlerPtr() {
         public void handler() {
             sys16_onetime_init_machine.handler();
             sys16_sprite_decode(4, 0x20000);
@@ -8556,7 +8556,7 @@ public class system16 {
      * ************************************************************************
      */
     // sys16A
-/*TODO*///	static RomLoadPtr rom_shinobia = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_shinobia = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x040000, REGION_CPU1 );/* 68000 code */
 /*TODO*///	// custom cpu 317-0050
 /*TODO*///		ROM_LOAD_EVEN( "epr11262.42", 0x000000, 0x10000, 0xd4b8df12 )
@@ -8590,7 +8590,7 @@ public class system16 {
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_shinobl = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_shinobl = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x040000, REGION_CPU1 );/* 68000 code */
 /*TODO*///	// Star Bootleg
 /*TODO*///		ROM_LOAD_EVEN( "b3",          0x000000, 0x10000, 0x38e59646 )
@@ -8677,7 +8677,7 @@ public class system16 {
 /*TODO*///	
 /*TODO*///	}
 /*TODO*///	
-/*TODO*///	public static InitMachinePtr shinobl_init_machine = new InitMachinePtr() { public void handler() {
+/*TODO*///	public static InitMachineHandlerPtr shinobl_init_machine = new InitMachineHandlerPtr() { public void handler() {
 /*TODO*///		static int bank[16] = {0,2,4,6,1,3,5,7,0,0,0,0,0,0,0,0};
 /*TODO*///		sys16_obj_bank = bank;
 /*TODO*///		sys16_textmode=1;
@@ -8700,7 +8700,7 @@ public class system16 {
 /*TODO*///	/***************************************************************************/
 
     // sys16A custom
-    static RomLoadPtr rom_tetris = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tetris = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x020000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("epr12201.rom", 0x000000, 0x8000, 0x338e9b51);
@@ -8722,7 +8722,7 @@ public class system16 {
     };
 
     // sys16B
-    static RomLoadPtr rom_tetrisbl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tetrisbl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x020000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("rom2.bin", 0x000000, 0x10000, 0x4d165c38);
@@ -8744,7 +8744,7 @@ public class system16 {
     };
 
     // sys16B
-    static RomLoadPtr rom_tetrisa = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tetrisa = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x020000, REGION_CPU1);/* 68000 code */
             // Custom Cpu 317-0092
@@ -8820,7 +8820,7 @@ public class system16 {
         }
     };
 
-    public static InitMachinePtr tetris_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr tetris_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
 
             int bank[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -8835,14 +8835,14 @@ public class system16 {
         }
     };
 
-    public static InitDriverPtr init_tetris = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_tetris = new InitDriverHandlerPtr() {
         public void handler() {
             sys16_onetime_init_machine.handler();
             sys16_sprite_decode(1, 0x10000);
         }
     };
 
-    public static InitDriverPtr init_tetrisbl = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_tetrisbl = new InitDriverHandlerPtr() {
         public void handler() {
             sys16_onetime_init_machine.handler();
             sys16_sprite_decode(1, 0x20000);
@@ -8989,7 +8989,7 @@ public class system16 {
      * ************************************************************************
      */
     // sys16B
-	static RomLoadPtr rom_timscanr = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_timscanr = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x030000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "ts10853.bin", 0x00000, 0x8000, 0x24d7c5fb );
 		ROM_LOAD_ODD ( "ts10850.bin", 0x00000, 0x8000, 0xf1575732 );
@@ -9074,14 +9074,14 @@ public class system16 {
             }
         };
 	
-	public static InitMachinePtr timscanr_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr timscanr_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = {00,00,00,00,00,00,00,0x03,00,00,00,0x02,00,0x01,00,00};
 		sys16_obj_bank = bank;
 		sys16_textmode=1;
 		sys16_update_proc = timscanr_update_proc;
 	} };
 	
-	public static InitDriverPtr init_timscanr = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_timscanr = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 		sys16_sprite_decode( 4,0x10000 );
@@ -9200,7 +9200,7 @@ public class system16 {
 	/***************************************************************************/
 	
 	// sys16B
-	static RomLoadPtr rom_toryumon = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_toryumon = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "17689",  0x00000, 0x20000, 0x4f0dee19 );
 		ROM_LOAD_ODD ( "17688",  0x00000, 0x20000, 0x717d81c7 );
@@ -9282,14 +9282,14 @@ public class system16 {
             }
         };
         
-	public static InitMachinePtr toryumon_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr toryumon_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = {00,0x02,0x04,0x06,0x08,0x0a,0x0c,0x0e,00,00,00,00,00,00,00,00};
 		sys16_obj_bank = bank;
 	
 		sys16_update_proc = toryumon_update_proc;
 	} };
 	
-	public static InitDriverPtr init_toryumon = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_toryumon = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 		sys16_sprite_decode( 4,0x40000 );
@@ -9377,7 +9377,7 @@ public class system16 {
 	);
         
 	// sys16B
-	static RomLoadPtr rom_tturf = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_tturf = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "12327.7a",  0x00000, 0x20000, 0x0376c593 );
 		ROM_LOAD_ODD ( "12326.5a",  0x00000, 0x20000, 0xf998862b );
@@ -9405,7 +9405,7 @@ public class system16 {
 	ROM_END(); }}; 
 	
 	// sys16B
-	static RomLoadPtr rom_tturfu = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_tturfu = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "epr12266.bin",  0x00000, 0x10000, 0xf549def8 );
 		ROM_LOAD_ODD ( "epr12264.bin",  0x00000, 0x10000, 0xf7cdb289 );
@@ -9485,7 +9485,7 @@ public class system16 {
             }
         };
         
-	public static InitMachinePtr tturf_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr tturf_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = {00,00,0x02,00,0x04,00,0x06,00,00,00,00,00,00,00,00,00};
 		sys16_obj_bank = bank;
 		sys16_spritelist_end=0xc000;
@@ -9493,7 +9493,7 @@ public class system16 {
 		sys16_update_proc = tturf_update_proc;
 	} };
 	
-	public static InitMachinePtr tturfu_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr tturfu_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = {00,00,00,00,00,00,00,00,00,00,00,02,00,04,06,00};
 		sys16_obj_bank = bank;
 		sys16_spritelist_end=0xc000;
@@ -9501,7 +9501,7 @@ public class system16 {
 		sys16_update_proc = tturf_update_proc;
 	} };
 	
-	public static InitDriverPtr init_tturf = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_tturf = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 		sys16_sprite_decode( 4,0x20000 );
@@ -9588,7 +9588,7 @@ public class system16 {
 /*TODO*///	
 /*TODO*///	/***************************************************************************/
 /*TODO*///	// sys16B
-/*TODO*///	static RomLoadPtr rom_tturfbl = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_tturfbl = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x40000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "tt042197.rom", 0x00000, 0x10000, 0xdeee5af1 )
 /*TODO*///		ROM_LOAD_ODD ( "tt06c794.rom", 0x00000, 0x10000, 0x90e6a95a )
@@ -9685,7 +9685,7 @@ public class system16 {
 /*TODO*///		set_refresh( READ_WORD( &sys16_extraram2[0] ) );
 /*TODO*///	}
 /*TODO*///	
-/*TODO*///	public static InitMachinePtr tturfbl_init_machine = new InitMachinePtr() { public void handler() {
+/*TODO*///	public static InitMachineHandlerPtr tturfbl_init_machine = new InitMachineHandlerPtr() { public void handler() {
 /*TODO*///		static int bank[16] = {00,00,00,00,00,00,00,0x06,00,00,00,0x04,00,0x02,00,00};
 /*TODO*///		sys16_obj_bank = bank;
 /*TODO*///		sys16_sprxoffset = -0x48;
@@ -9694,7 +9694,7 @@ public class system16 {
 /*TODO*///		sys16_update_proc = tturfbl_update_proc;
 /*TODO*///	} };
 /*TODO*///	
-/*TODO*///	public static InitDriverPtr init_tturfbl = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_tturfbl = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		int i;
 /*TODO*///	
@@ -9713,7 +9713,7 @@ public class system16 {
 /*TODO*///	
 /*TODO*///	/***************************************************************************/
     // sys16B
-    static RomLoadPtr rom_wb3 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_wb3 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("epr12259.a7", 0x000000, 0x20000, 0x54927c7e);
@@ -9740,7 +9740,7 @@ public class system16 {
         }
     };
 
-    static RomLoadPtr rom_wb3a = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_wb3a = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);/* 68000 code */
             // Custom CPU 317-0089
@@ -9824,7 +9824,7 @@ public class system16 {
         }
     };
 
-    public static InitMachinePtr wb3_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr wb3_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             int bank[] = {4, 0, 2, 0, 6, 0, 0, 0x06, 0, 0, 0, 0x04, 0, 0x02, 0, 0};
 
@@ -9834,7 +9834,7 @@ public class system16 {
         }
     };
 
-    public static InitDriverPtr init_wb3 = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_wb3 = new InitDriverHandlerPtr() {
         public void handler() {
             sys16_onetime_init_machine.handler();
             sys16_sprite_decode(4, 0x20000);
@@ -9980,7 +9980,7 @@ public class system16 {
     );
     /*TODO*///	/***************************************************************************/
 /*TODO*///	// sys16B
-/*TODO*///	static RomLoadPtr rom_wb3bl = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_wb3bl = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x040000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "wb3_03", 0x000000, 0x10000, 0x0019ab3b )
 /*TODO*///		ROM_LOAD_ODD ( "wb3_05", 0x000000, 0x10000, 0x196e17ee )
@@ -10054,7 +10054,7 @@ public class system16 {
 /*TODO*///		set_refresh( READ_WORD( &sys16_extraram2[0] ) );
 /*TODO*///	}
 /*TODO*///	
-/*TODO*///	public static InitMachinePtr wb3bl_init_machine = new InitMachinePtr() { public void handler() {
+/*TODO*///	public static InitMachineHandlerPtr wb3bl_init_machine = new InitMachineHandlerPtr() { public void handler() {
 /*TODO*///		static int bank[16] = {4,0,2,0,6,0,0,0x06,0,0,0,0x04,0,0x02,0,0};
 /*TODO*///	
 /*TODO*///		sys16_obj_bank = bank;
@@ -10084,7 +10084,7 @@ public class system16 {
 /*TODO*///		sys16_update_proc = wb3bl_update_proc;
 /*TODO*///	} };
 /*TODO*///	
-/*TODO*///	public static InitDriverPtr init_wb3bl = new InitDriverPtr() { public void handler() 
+/*TODO*///	public static InitDriverHandlerPtr init_wb3bl = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		int i;
 /*TODO*///	
@@ -10104,7 +10104,7 @@ public class system16 {
 	
 	/***************************************************************************/
 	// sys16B
-	static RomLoadPtr rom_wrestwar = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_wrestwar = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0xc0000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "ww.a7", 0x00000, 0x20000, 0xeeaba126 );
 		ROM_LOAD_ODD ( "ww.a5", 0x00000, 0x20000, 0x6714600a );
@@ -10194,7 +10194,7 @@ public class system16 {
             }
         };
 	
-	public static InitMachinePtr wrestwar_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr wrestwar_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = {0x00,0x02,0x04,0x06,0x08,0x0A,0x0C,0x0E,0x10,0x12,0x14,0x16,0x18,0x1A,0x1C,0x1E};
 	
 		sys16_obj_bank = bank;
@@ -10204,7 +10204,7 @@ public class system16 {
 		sys16_update_proc = wrestwar_update_proc;
 	} };
 	
-	public static InitDriverPtr init_wrestwar = new InitDriverPtr() { public void handler() {
+	public static InitDriverHandlerPtr init_wrestwar = new InitDriverHandlerPtr() { public void handler() {
 		sys16_onetime_init_machine.handler();
 		sys16_bg1_trans=1;
 		sys16_MaxShadowColors=16;
@@ -10304,7 +10304,7 @@ public class system16 {
 /*TODO*///	#define HANGON_DIGITAL_CONTROLS
 	
 	// hangon hardware
-	static RomLoadPtr rom_hangon = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_hangon = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x020000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "6918.rom", 0x000000, 0x8000, 0x20b1c2b0 );
 		ROM_LOAD_ODD ( "6916.rom", 0x000000, 0x8000, 0x7d9db1bf );
@@ -10521,7 +10521,7 @@ public class system16 {
             }
         };
         
-	public static InitMachinePtr hangon_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr hangon_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = { 00,01,02,03,04,05,06,00,01,02,03,04,05,06,00,06};
 		sys16_obj_bank = bank;
 		sys16_textmode=1;
@@ -10557,7 +10557,7 @@ public class system16 {
 	
 	
 	
-	public static InitDriverPtr init_hangon = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_hangon = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 	
@@ -10667,7 +10667,7 @@ public class system16 {
 	
 /*TODO*///	/***************************************************************************/
 	// space harrier / enduro racer hardware
-	static RomLoadPtr rom_sharrier = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sharrier = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x040000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "ic97.bin", 0x000000, 0x8000, 0x7c30a036 );
 		ROM_LOAD_ODD ( "ic84.bin", 0x000000, 0x8000, 0x16deaeb1 );
@@ -10884,7 +10884,7 @@ public class system16 {
             }
         };
         	
-	public static InitMachinePtr harrier_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr harrier_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = { 00,01,02,03,04,05,06,07,00,00,00,00,00,00,00,00};
 		sys16_obj_bank = bank;
 		sys16_textmode=1;
@@ -10928,7 +10928,7 @@ public class system16 {
 		sys16_sh_shadowpal=0;
 	} };
 	
-	public static InitDriverPtr init_sharrier = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_sharrier = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 		sys16_MaxShadowColors=NumOfShadowColors / 2;	
@@ -11043,7 +11043,7 @@ public class system16 {
 	as digital as well to see what works better */
 	
 	// hangon hardware
-	static RomLoadPtr rom_shangon = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_shangon = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x040000, REGION_CPU1 );/* 68000 code - protected */
 		ROM_LOAD_EVEN( "ic133", 0x000000, 0x10000, 0xe52721fe );
 		ROM_LOAD_ODD ( "ic118", 0x000000, 0x10000, 0x5fee09f6 );
@@ -11093,7 +11093,7 @@ public class system16 {
 		ROM_LOAD( "ic47", 0x0000, 0x8000, 0x7836bcc3 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_shangonb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_shangonb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x030000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "s-hangon.30", 0x000000, 0x10000, 0xd95e82fc );
 		ROM_LOAD_ODD ( "s-hangon.32", 0x000000, 0x10000, 0x2ee4b4fb );
@@ -11257,7 +11257,7 @@ public class system16 {
             }
         };
 	
-	public static InitMachinePtr shangon_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr shangon_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 		sys16_obj_bank = bank;
 		sys16_textmode=1;
@@ -11294,7 +11294,7 @@ public class system16 {
 	
 	
 	
-	public static InitDriverPtr init_shangon = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_shangon = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 	
@@ -11305,7 +11305,7 @@ public class system16 {
 		patch_z80code.handler( 0x1088, 0x01);
 	} };
 	
-	public static InitDriverPtr init_shangonb = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_shangonb = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 	
@@ -11426,7 +11426,7 @@ public class system16 {
 	
 	/***************************************************************************/
 	// Outrun hardware
-	static RomLoadPtr rom_outrun = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_outrun = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x040000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "10380a", 0x000000, 0x10000, 0x434fadbc );
 		ROM_LOAD_ODD ( "10382a", 0x000000, 0x10000, 0x1ddcc04e );
@@ -11482,7 +11482,7 @@ public class system16 {
 		ROM_LOAD( "10185", 0x0000, 0x8000, 0x22794426 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_outruna = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_outruna = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x040000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "10380b", 0x000000, 0x10000, 0x1f6cadad );
 		ROM_LOAD_ODD ( "10382b", 0x000000, 0x10000, 0xc4c3fa1a );
@@ -11539,7 +11539,7 @@ public class system16 {
 	ROM_END(); }}; 
 	
 	
-	static RomLoadPtr rom_outrunb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_outrunb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x040000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "orun_mn.rom", 0x000000, 0x10000, 0xcddceea2 );
 		ROM_LOAD_ODD ( "orun_ml.rom", 0x000000, 0x10000, 0x9cfc07d5 );
@@ -11782,7 +11782,7 @@ public class system16 {
             }
         };
         
-	public static InitMachinePtr outrun_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr outrun_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = { 07,00,01,04,05,02,03,06,00,00,00,00,00,00,00,00};
 		sys16_obj_bank = bank;
 		sys16_spritesystem = 7;
@@ -11832,7 +11832,7 @@ public class system16 {
 	
 	} };
 	
-	public static InitMachinePtr outruna_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr outruna_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = { 07,00,01,04,05,02,03,06,00,00,00,00,00,00,00,00};
 		sys16_obj_bank = bank;
 		sys16_spritesystem = 7;
@@ -11881,14 +11881,14 @@ public class system16 {
 	
 	} };
 	
-	public static InitDriverPtr init_outrun = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_outrun = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 		sys16_sprite_decode2( 4,0x040000, 0 );
 		generate_gr_screen(512,2048,0,0,3,0x8000);
 	} };
 	
-	public static InitDriverPtr init_outrunb = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_outrunb = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM = new UBytePtr(memory_region(REGION_CPU1));
 		int i;
@@ -12044,7 +12044,7 @@ public class system16 {
 	INPUT_PORTS_END(); }}; 
 	
 	/***************************************************************************/
-	public static InterruptPtr or_interrupt = new InterruptPtr() { public int handler() {
+	public static InterruptHandlerPtr or_interrupt = new InterruptHandlerPtr() { public int handler() {
 		int intleft=cpu_getiloops();
 		if(intleft!=0) return 2;
 		else return 4;
@@ -12199,7 +12199,7 @@ public class system16 {
 	/*****************************************************************************/
 	// Enduro Racer
 	
-	static RomLoadPtr rom_enduror = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_enduror = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x040000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "7640a.rom",0x00000, 0x8000, 0x1d1dc5d4 );
 		ROM_LOAD_ODD ( "7636a.rom",0x00000, 0x8000, 0x84131639 );
@@ -12276,7 +12276,7 @@ public class system16 {
 	
 	
 	
-	static RomLoadPtr rom_endurobl = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_endurobl = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x040000+0x010000+0x040000, REGION_CPU1 );/* 68000 code + space for RAM + space for decrypted opcodes */
 		ROM_LOAD_EVEN( "7.13j", 0x030000, 0x08000, 0xf1d6b4b7 );
 		ROM_CONTINUE (          0x000000, 0x08000 | ROMFLAG_ALTERNATE );
@@ -12351,7 +12351,7 @@ public class system16 {
 		ROM_LOAD( "7633.rom", 0x0000, 0x8000, 0x6f146210 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_endurob2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_endurob2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x040000+0x010000+0x040000, REGION_CPU1 );/* 68000 code + space for RAM + space for decrypted opcodes */
 		ROM_LOAD_EVEN( "enduro.a07", 0x000000, 0x08000, 0x259069bc );
 		ROM_LOAD_ODD ( "enduro.a04", 0x000000, 0x08000, 0xf584fbd9 );
@@ -12628,7 +12628,7 @@ public class system16 {
             }
         };
 	
-	public static InitMachinePtr enduror_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr enduror_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = { 00,01,02,03,04,05,06,07,00,00,00,00,00,00,00,00};
 		sys16_obj_bank = bank;
 		sys16_textmode=1;
@@ -12718,7 +12718,7 @@ public class system16 {
 		rom.WRITE_WORD(0x186a + diff,0x0000);
 	}
 	
-	public static InitDriverPtr init_enduror = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_enduror = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 		sys16_MaxShadowColors=NumOfShadowColors / 2;
@@ -12727,7 +12727,7 @@ public class system16 {
 		enduror_sprite_decode();
 	} };
 	
-	public static InitDriverPtr init_endurobl = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_endurobl = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 		sys16_MaxShadowColors=NumOfShadowColors / 2;
@@ -12737,7 +12737,7 @@ public class system16 {
 		endurora_opcode_decode();
 	} };
 	
-	public static InitDriverPtr init_endurob2 = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_endurob2 = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 		sys16_MaxShadowColors=NumOfShadowColors / 2;
@@ -12914,12 +12914,12 @@ public class system16 {
 		new MemoryWriteAddress(-1)
 	};
 	
-	public static InitMachinePtr sys16_dummy_init_machine = new InitMachinePtr() { public void handler() {
+	public static InitMachineHandlerPtr sys16_dummy_init_machine = new InitMachineHandlerPtr() { public void handler() {
 		int bank[] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 		sys16_obj_bank = bank;
 	} };
 	
-	public static InitDriverPtr init_s16dummy = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_s16dummy = new InitDriverHandlerPtr() { public void handler() 
 	{
 		sys16_onetime_init_machine.handler();
 	//	sys16_sprite_decode( 4,0x040000 );
@@ -12935,7 +12935,7 @@ public class system16 {
 /*TODO*///	// Ace Attacker
 /*TODO*///	
 /*TODO*///	// sys18
-/*TODO*///	static RomLoadPtr rom_aceattac = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_aceattac = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x100000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "11491.4a", 0x000000, 0x10000, 0x77b820f1 )
 /*TODO*///		ROM_LOAD_ODD ( "11489.1a", 0x000000, 0x10000, 0xbbe623c5 )
@@ -12969,7 +12969,7 @@ public class system16 {
 /*TODO*///	/*****************************************************************************/
 /*TODO*///	// After Burner
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_aburner = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_aburner = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x100000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD( "epr10949.bin",0x000000,0x20000, 0xd8437d92 );
 /*TODO*///		ROM_LOAD( "epr10948.bin",0x000000,0x20000, 0x64284761 );
@@ -13003,7 +13003,7 @@ public class system16 {
 /*TODO*///	/*****************************************************************************/
 /*TODO*///	// After Burner II
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_aburner2 = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_aburner2 = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x100000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "11107.58",  0x000000, 0x20000, 0x6d87bab7 )
 /*TODO*///		ROM_LOAD_ODD ( "11108.104", 0x000000, 0x20000, 0x202a3e1d )
@@ -13053,7 +13053,7 @@ public class system16 {
 /*TODO*///	// Bloxeed
 /*TODO*///	
 /*TODO*///	// sys18
-/*TODO*///	static RomLoadPtr rom_bloxeed = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_bloxeed = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x100000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "rom-e.rom", 0x000000, 0x20000, 0xa481581a )
 /*TODO*///		ROM_LOAD_ODD ( "rom-o.rom", 0x000000, 0x20000, 0xdd1bc3bf )
@@ -13075,7 +13075,7 @@ public class system16 {
 /*TODO*///	/*****************************************************************************/
 /*TODO*///	// Clutch Hitter
 /*TODO*///	// sys18
-/*TODO*///	static RomLoadPtr rom_cltchitr = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_cltchitr = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x100000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "epr13795.6a", 0x000000, 0x40000, 0xb0b60b67 )
 /*TODO*///		ROM_LOAD_ODD ( "epr13751.4a", 0x000000, 0x40000, 0xc8d80233 )
@@ -13105,7 +13105,7 @@ public class system16 {
 /*TODO*///	/*****************************************************************************/
 /*TODO*///	// Cotton
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_cotton = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_cotton = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x100000, REGION_CPU1 );/* 68000 code */
 /*TODO*///	// custom cpu 317-?????
 /*TODO*///		ROM_LOAD_EVEN( "epr13858.a7", 0x000000, 0x20000, 0x276f42fe )
@@ -13145,7 +13145,7 @@ public class system16 {
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_cottona = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_cottona = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x100000, REGION_CPU1 );/* 68000 code */
 /*TODO*///	// custom cpu 317-0181a
 /*TODO*///		ROM_LOAD_EVEN( "ep13921a.a7", 0x000000, 0x20000, 0xf047a037 )
@@ -13188,7 +13188,7 @@ public class system16 {
 /*TODO*///	/*****************************************************************************/
 /*TODO*///	// DD Crew
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_ddcrew = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_ddcrew = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x100000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "14153.6a", 0x000000, 0x40000, 0xe01fae0c )
 /*TODO*///		ROM_LOAD_ODD ( "14152.4a", 0x000000, 0x40000, 0x69c7b571 )
@@ -13221,7 +13221,7 @@ public class system16 {
 /*TODO*///	/*****************************************************************************/
 /*TODO*///	// Dunk Shot
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_dunkshot = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_dunkshot = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x100000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "10468.bin", 0x000000, 0x8000, 0xe2d5f97a )
 /*TODO*///		ROM_LOAD_ODD ( "10467.bin", 0x000000, 0x8000, 0x29774114 )
@@ -13258,7 +13258,7 @@ public class system16 {
 /*TODO*///	// Laser Ghost
 /*TODO*///	
 /*TODO*///	// sys18
-/*TODO*///	static RomLoadPtr rom_lghost = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_lghost = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x100000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "13429", 0x000000, 0x20000, 0x0e0ccf26 )
 /*TODO*///		ROM_LOAD_ODD ( "13437", 0x000000, 0x20000, 0x38b4dc2f )
@@ -13290,7 +13290,7 @@ public class system16 {
 /*TODO*///	/*****************************************************************************/
 /*TODO*///	// Line of Fire
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_loffire = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_loffire = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x100000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "epr12850.rom", 0x000000, 0x20000, 0x14598f2a )
 /*TODO*///		ROM_LOAD_ODD ( "epr12849.rom", 0x000000, 0x20000, 0x61cfd2fe )
@@ -13338,7 +13338,7 @@ public class system16 {
 /*TODO*///	/*****************************************************************************/
 /*TODO*///	// MVP
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_mvp = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_mvp = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x100000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "13000.rom", 0x000000, 0x40000, 0x2e0e21ec )
 /*TODO*///		ROM_LOAD_ODD ( "12999.rom", 0x000000, 0x40000, 0xfd213d28 )
@@ -13368,7 +13368,7 @@ public class system16 {
 /*TODO*///	// Thunder Blade
 /*TODO*///	
 /*TODO*///	// after burner hardware
-/*TODO*///	static RomLoadPtr rom_thndrbld = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_thndrbld = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x100000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "thnbld.58", 0x000000, 0x20000, 0xe057dd5a )
 /*TODO*///		ROM_LOAD_ODD ( "thnbld.63", 0x000000, 0x20000, 0xc6b994b8 )
@@ -13422,7 +13422,7 @@ public class system16 {
 /*TODO*///	// Thunder Blade Japan
 /*TODO*///	
 /*TODO*///	// after burner hardware
-/*TODO*///	static RomLoadPtr rom_thndrbdj = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_thndrbdj = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x100000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "11304.epr", 0x000000, 0x20000, 0xa90630ef )
 /*TODO*///		ROM_LOAD_ODD ( "11305.epr", 0x000000, 0x20000, 0x9ba3ef61 )
@@ -13475,7 +13475,7 @@ public class system16 {
 /*TODO*///	/*****************************************************************************/
 /*TODO*///	// Turbo Outrun
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_toutrun = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_toutrun = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x100000, REGION_CPU1 );/* 68000 code */
 /*TODO*///	// custom cpu 317-0106
 /*TODO*///		ROM_LOAD_EVEN( "epr12397.133", 0x000000, 0x10000, 0xe4b57d7d )
@@ -13531,7 +13531,7 @@ public class system16 {
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_toutruna = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_toutruna = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x100000, REGION_CPU1 );/* 68000 code */
 /*TODO*///	// custom cpu 317-0106
 /*TODO*///		ROM_LOAD_EVEN( "epr12410.133", 0x000000, 0x10000, 0xaa74f3e9 )
@@ -13590,7 +13590,7 @@ public class system16 {
 /*TODO*///	/*****************************************************************************/
 /*TODO*///	// Excite League
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_exctleag = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_exctleag = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x100000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "epr11937.a02",0x00000,0x10000, 0x4ebda367 )
 /*TODO*///		ROM_LOAD_ODD ( "epr11936.a01",0x00000,0x10000, 0x0863de60 )
@@ -13628,7 +13628,7 @@ public class system16 {
 /*TODO*///	/*****************************************************************************/
 /*TODO*///	// Super League
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_suprleag = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_suprleag = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x100000, REGION_CPU1 );/* 68000 code */
 /*TODO*///		ROM_LOAD_EVEN( "epr11131.a02",0x00000,0x10000, 0x9b78c2cc )
 /*TODO*///		ROM_LOAD_ODD ( "epr11130.a01",0x00000,0x10000, 0xe2451676 )
@@ -13664,7 +13664,7 @@ public class system16 {
 /*TODO*///	/*****************************************************************************/
 /*TODO*///	// Action Fighter
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_afighter = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_afighter = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x100000, REGION_CPU1 );/* 68000 code */
 /*TODO*///	// cpu 317-0018
 /*TODO*///		ROM_LOAD_EVEN( "10348",0x00000,0x08000, 0xe51e3012 )
@@ -13697,7 +13697,7 @@ public class system16 {
 /*TODO*///	/*****************************************************************************/
 /*TODO*///	// Ryukyu
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_ryukyu = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_ryukyu = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x100000, REGION_CPU1 );/* 68000 code */
 /*TODO*///	// cpu 317-5023
 /*TODO*///		ROM_LOAD_EVEN( "13347",0x00000,0x10000, 0x398031fa )

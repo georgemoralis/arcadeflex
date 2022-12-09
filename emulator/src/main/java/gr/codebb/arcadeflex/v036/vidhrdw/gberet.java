@@ -39,7 +39,7 @@ public class gberet
         {
             return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
         }
-	public static VhConvertColorPromPtr gberet_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr gberet_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -104,7 +104,7 @@ public class gberet
 	
 	***************************************************************************/
 	
-	public static VhStartPtr gberet_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr gberet_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		bg_tilemap = tilemap_create(get_tile_info,TILEMAP_SPLIT,8,8,64,32);
 	
@@ -117,11 +117,11 @@ public class gberet
 	
 		return 0;
 	} };
-	public static InitDriverPtr init_gberet = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_gberet = new InitDriverHandlerPtr() { public void handler() 
         {
 		sprites_type = 0;
 	}};
-	public static InitDriverPtr init_gberetb = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_gberetb = new InitDriverHandlerPtr() { public void handler() 
         {
 	
 		sprites_type = 1;
@@ -181,7 +181,7 @@ public class gberet
 			tilemap_set_scrollx(bg_tilemap,offset,data + 64-8);
 	} };
 	
-	public static InterruptPtr gberet_interrupt = new InterruptPtr() { public int handler()
+	public static InterruptHandlerPtr gberet_interrupt = new InterruptHandlerPtr() { public int handler()
 	{
 		if (cpu_getiloops() == 0) return interrupt.handler();
 		else if ((cpu_getiloops() % 2)!=0)
@@ -277,7 +277,7 @@ public class gberet
 	}
 	
 	
-	public static VhUpdatePtr gberet_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr gberet_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		tilemap_update(ALL_TILEMAPS);
 	

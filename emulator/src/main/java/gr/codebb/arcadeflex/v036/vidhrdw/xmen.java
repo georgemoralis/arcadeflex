@@ -7,6 +7,9 @@
  */
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
@@ -69,7 +72,7 @@ public class xmen {
      *
      **************************************************************************
      */
-    public static VhStartPtr xmen_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr xmen_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (K052109_vh_start(REGION_GFX1, 0, 1, 2, 3/*NORMAL_PLANE_ORDER*/, xmen_tile_callback) != 0) {
                 return 1;
@@ -82,7 +85,7 @@ public class xmen {
         }
     };
 
-    public static VhStopPtr xmen_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr xmen_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             K052109_vh_stop();
             K053247_vh_stop();
@@ -111,7 +114,7 @@ public class xmen {
      SWAP(0,2)
      SWAP(1,2)
      }*/
-    public static VhUpdatePtr xmen_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr xmen_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int[] pri = new int[3];
             int[] layer = new int[3];

@@ -46,7 +46,7 @@ public class frogger {
      *
      **************************************************************************
      */
-    public static VhConvertColorPromPtr frogger_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr frogger_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -123,7 +123,7 @@ public class frogger {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr frogger_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr frogger_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int i, offs;
 
@@ -211,7 +211,7 @@ public class frogger {
 
     /* the alternate version doesn't have the sprite & scroll registers mangling, */
  /* but it still has the color code mangling. */
-    public static VhUpdatePtr frogger2_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr frogger2_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int i, offs;
 

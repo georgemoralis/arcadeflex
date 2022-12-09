@@ -826,7 +826,7 @@ public class cninja {
     /**
      * *******************************************************************************
      */
-    static RomLoadPtr rom_cninja = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_cninja = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0xc0000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("gn02rev3.bin", 0x00000, 0x20000, 0x39aea12a);
@@ -867,7 +867,7 @@ public class cninja {
         }
     };
 
-    static RomLoadPtr rom_cninja0 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_cninja0 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0xc0000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("gn-02.rom", 0x00000, 0x20000, 0xccc59524);
@@ -908,7 +908,7 @@ public class cninja {
         }
     };
 
-    static RomLoadPtr rom_cninjau = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_cninjau = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0xc0000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("gm02-3.1k", 0x00000, 0x20000, 0xd931c3b1);
@@ -949,7 +949,7 @@ public class cninja {
         }
     };
 
-    static RomLoadPtr rom_joemac = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_joemac = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0xc0000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("gl02-2.k1", 0x00000, 0x20000, 0x80da12e2);
@@ -990,7 +990,7 @@ public class cninja {
         }
     };
 
-    static RomLoadPtr rom_stoneage = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_stoneage = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0xc0000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("sa_1_019.bin", 0x00000, 0x20000, 0x7fb8c44f);
@@ -1032,7 +1032,7 @@ public class cninja {
         }
     };
 
-    static RomLoadPtr rom_edrandy = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_edrandy = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x100000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("gg-00-2", 0x00000, 0x20000, 0xce1ba964);
@@ -1081,7 +1081,7 @@ public class cninja {
         }
     };
 
-    static RomLoadPtr rom_edrandyj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_edrandyj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x100000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("ge-00-2", 0x00000, 0x20000, 0xb3d2403c);
@@ -1159,14 +1159,14 @@ public class cninja {
     /**
      * *******************************************************************************
      */
-    public static InitDriverPtr init_cninja = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_cninja = new InitDriverHandlerPtr() {
         public void handler() {
             install_mem_write_handler(0, 0x1bc0a8, 0x1bc0a9, cninja_sound_w);
             cninja_patch();
         }
     };
 
-    public static InitDriverPtr init_stoneage = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_stoneage = new InitDriverHandlerPtr() {
         public void handler() {
             install_mem_write_handler(0, 0x1bc0a8, 0x1bc0a9, stoneage_sound_w);
         }

@@ -324,7 +324,7 @@ public class exprraid
 		new WriteYmHandlerPtr[] { irqhandler }
 	);
 	static int coinexp = 0;
-	public static InterruptPtr exprraid_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr exprraid_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		
 	
@@ -395,7 +395,7 @@ public class exprraid
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_exprraid = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_exprraid = new RomLoadHandlerPtr(){ public void handler(){ 
 	    ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "cz01",    0x4000, 0x4000, 0xdc8f9fba );
 	    ROM_LOAD( "cz00",    0x8000, 0x8000, 0xa81290bc );
@@ -430,7 +430,7 @@ public class exprraid
 	    ROM_LOAD( "cz14.prm", 0x0300, 0x0100, 0x52aad300 );/* ??? */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_wexpress = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_wexpress = new RomLoadHandlerPtr(){ public void handler(){ 
 	    ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "2",       0x4000, 0x4000, 0xea5e5a8f );
 	    ROM_LOAD( "1",       0x8000, 0x8000, 0xa7daae12 );
@@ -465,7 +465,7 @@ public class exprraid
 	    ROM_LOAD( "cz14.prm", 0x0300, 0x0100, 0x52aad300 );/* ??? */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_wexpresb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_wexpresb = new RomLoadHandlerPtr(){ public void handler(){ 
 	    ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "wexpress.3", 0x4000, 0x4000, 0xb4dd0fa4 );
 	    ROM_LOAD( "wexpress.1", 0x8000, 0x8000, 0xe8466596 );
@@ -530,7 +530,7 @@ public class exprraid
 	}
 	
 	
-	public static InitDriverPtr init_wexpress = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_wexpress = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr rom = memory_region(REGION_CPU1);
 		int i;
@@ -552,7 +552,7 @@ public class exprraid
 		}
 	} };
 	
-	public static InitDriverPtr init_exprraid = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_exprraid = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr rom = memory_region(REGION_CPU1);
 	
@@ -571,7 +571,7 @@ public class exprraid
 		init_wexpress.handler();
 	} };
 	
-	public static InitDriverPtr init_wexpresb = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_wexpresb = new InitDriverHandlerPtr() { public void handler() 
 	{
 		exprraid_gfx_expand();
 	} };

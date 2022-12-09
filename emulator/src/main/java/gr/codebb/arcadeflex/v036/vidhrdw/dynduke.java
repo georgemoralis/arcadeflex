@@ -118,7 +118,7 @@ public class dynduke
 		SET_TILE_INFO(0,tile,color);
 	} };
 	
-	public static VhStartPtr dynduke_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr dynduke_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		background_layer = tilemap_create(
 			get_back_tile_info,
@@ -231,7 +231,7 @@ public class dynduke
 		}
 	}
 	
-	public static VhUpdatePtr dynduke_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr dynduke_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int color,offs,sprite;
 		int[] colmask=new int[32];

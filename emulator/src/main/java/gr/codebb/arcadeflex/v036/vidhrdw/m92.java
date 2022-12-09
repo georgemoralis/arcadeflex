@@ -361,7 +361,7 @@ public class m92
 	
 	/*****************************************************************************/
 	
-	public static VhStartPtr m92_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr m92_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		if (RYPELEO_SPEEDUP() != 0) {
 			pf1_hlayer = tilemap_create(
@@ -458,7 +458,7 @@ public class m92
 		return 0;
 	} };
 	
-	public static VhStopPtr m92_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr m92_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		/* Nothing */
 	} };
@@ -571,7 +571,7 @@ public class m92
 	
 	/*****************************************************************************/
 	
-	public static VhUpdatePtr m92_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr m92_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		/* Screen refresh is handled by raster interrupt routine, here
 			we just check the keyboard */

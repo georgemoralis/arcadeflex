@@ -81,7 +81,7 @@ public class badlands
                 1					/* non-scrolling */
         );
 
-	public static VhStartPtr badlands_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr badlands_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 			
 		/* initialize statics */
@@ -124,7 +124,7 @@ public class badlands
 	 *
 	 *************************************/
 	
-	public static VhStopPtr badlands_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr badlands_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		atarigen_pf_free();
 		atarigen_mo_free();
@@ -193,7 +193,7 @@ public class badlands
 	 *
 	 *************************************/
 	
-	public static VhUpdatePtr badlands_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr badlands_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int i;
 	

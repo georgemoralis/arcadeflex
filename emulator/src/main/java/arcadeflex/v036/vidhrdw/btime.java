@@ -59,7 +59,7 @@ public class btime {
      *
      **************************************************************************
      */
-    public static VhConvertColorPromPtr btime_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr btime_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -107,7 +107,7 @@ public class btime {
      *
      **************************************************************************
      */
-    public static VhConvertColorPromPtr lnc_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr lnc_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -136,7 +136,7 @@ public class btime {
         }
     };
 
-    public static InitMachinePtr lnc_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr lnc_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             lnc_charbank.write(1);
         }
@@ -149,7 +149,7 @@ public class btime {
      *
      **************************************************************************
      */
-    public static VhStartPtr bnj_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr bnj_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (generic_vh_start.handler() != 0) {
                 return 1;
@@ -175,7 +175,7 @@ public class btime {
         }
     };
 
-    public static VhStartPtr btime_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr btime_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             bnj_scroll1 = 0;
             bnj_scroll2 = 0;
@@ -191,7 +191,7 @@ public class btime {
      *
      **************************************************************************
      */
-    public static VhStopPtr bnj_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr bnj_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(background_bitmap);
             dirtybuffer2 = null;
@@ -413,7 +413,7 @@ public class btime {
         }
     };
 
-    public static InterruptPtr lnc_sound_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr lnc_sound_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (lnc_sound_interrupt_enabled != 0) {
                 return nmi_interrupt.handler();
@@ -599,7 +599,7 @@ public class btime {
     }
 
     static /*unsigned*/ char[] btime_tilemap = new char[4];
-    public static VhUpdatePtr btime_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr btime_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             if (palette_recalc() != null) {
                 memset(dirtybuffer, 1, videoram_size[0]);
@@ -634,7 +634,7 @@ public class btime {
         }
     };
 
-    public static VhUpdatePtr eggs_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr eggs_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             if (palette_recalc() != null) {
                 memset(dirtybuffer, 1, videoram_size[0]);
@@ -649,7 +649,7 @@ public class btime {
         }
     };
 
-    public static VhUpdatePtr lnc_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr lnc_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             if (palette_recalc() != null) {
                 memset(dirtybuffer, 1, videoram_size[0]);
@@ -664,7 +664,7 @@ public class btime {
         }
     };
 
-    public static VhUpdatePtr zoar_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr zoar_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             if (palette_recalc() != null) {
                 memset(dirtybuffer, 1, videoram_size[0]);
@@ -687,7 +687,7 @@ public class btime {
         }
     };
 
-    public static VhUpdatePtr bnj_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr bnj_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             if (palette_recalc() != null) {
                 memset(dirtybuffer, 1, videoram_size[0]);
@@ -750,7 +750,7 @@ public class btime {
         }
     };
 
-    public static VhUpdatePtr cookrace_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr cookrace_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 
@@ -787,7 +787,7 @@ public class btime {
         }
     };
 
-    public static VhUpdatePtr disco_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr disco_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             if (palette_recalc() != null) {
                 memset(dirtybuffer, 1, videoram_size[0]);
@@ -804,7 +804,7 @@ public class btime {
         }
     };
 
-    public static VhUpdatePtr decocass_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr decocass_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             if (palette_recalc() != null) {
                 memset(dirtybuffer, 1, videoram_size[0]);

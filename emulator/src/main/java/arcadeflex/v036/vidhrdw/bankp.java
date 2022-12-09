@@ -36,7 +36,7 @@ public class bankp {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
 
-    public static VhConvertColorPromPtr bankp_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr bankp_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -88,7 +88,7 @@ public class bankp {
      * <p>
      * *************************************************************************
      */
-    public static VhStartPtr bankp_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr bankp_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (generic_vh_start.handler() != 0) {
                 return 1;
@@ -123,7 +123,7 @@ public class bankp {
      * <p>
      * *************************************************************************
      */
-    public static VhStopPtr bankp_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr bankp_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             dirtybuffer2 = null;
             osd_free_bitmap(tmpbitmap2);
@@ -186,7 +186,7 @@ public class bankp {
      * <p>
      * *************************************************************************
      */
-    public static VhUpdatePtr bankp_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr bankp_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

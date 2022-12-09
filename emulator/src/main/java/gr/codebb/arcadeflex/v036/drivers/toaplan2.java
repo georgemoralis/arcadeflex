@@ -59,7 +59,7 @@ public class toaplan2
 
 	
 	static int video_status = 0;
-	public static InitMachinePtr init_toaplan2_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr init_toaplan2_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		old_p1_paddle_h = 0;
 		old_p1_paddle_v = 0;
@@ -68,7 +68,7 @@ public class toaplan2
 		toaplan2_sub_cpu = CPU_2_HD647180;
 		mcu_data = 0;
 	} };
-	public static InitDriverPtr init_toaplan2 = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_toaplan2 = new InitDriverHandlerPtr() { public void handler() 
 	{
 		old_p1_paddle_h = 0;
 		old_p1_paddle_v = 0;
@@ -77,31 +77,31 @@ public class toaplan2
 		toaplan2_sub_cpu = CPU_2_HD647180;
 		mcu_data = 0;
 	} };
-	public static InitMachinePtr init_toaplan3_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr init_toaplan3_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		toaplan2_sub_cpu = CPU_2_Zx80;
 		mcu_data = 0;
 	} };
-	public static InitDriverPtr init_toaplan3 = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_toaplan3 = new InitDriverHandlerPtr() { public void handler() 
 	{
 		toaplan2_sub_cpu = CPU_2_Zx80;
 		mcu_data = 0;
 	} };
-	public static InitMachinePtr init_pipibibs_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr init_pipibibs_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		toaplan2_sub_cpu = CPU_2_Z80;
 	} };
-	public static InitDriverPtr init_pipibibs = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_pipibibs = new InitDriverHandlerPtr() { public void handler() 
 	{
 		toaplan2_sub_cpu = CPU_2_Z80;
 	} };
 	
-	public static InitDriverPtr init_snowbro2 = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_snowbro2 = new InitDriverHandlerPtr() { public void handler() 
 	{
 		toaplan2_sub_cpu = CPU_2_NONE;
 	} };
 	
-	public static InterruptPtr toaplan2_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr toaplan2_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		return MC68000_IRQ_4;
 	} };
@@ -2367,7 +2367,7 @@ public class toaplan2
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_tekipaki = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_tekipaki = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x020000, REGION_CPU1 );		/* Main 68K code */
 		ROM_LOAD_EVEN( "tp020-1.bin", 0x000000, 0x010000, 0xd8420bd5 );
 		ROM_LOAD_ODD ( "tp020-2.bin", 0x000000, 0x010000, 0x7222de8e );
@@ -2383,7 +2383,7 @@ public class toaplan2
 		ROM_LOAD( "tp020-3.bin", 0x080000, 0x080000, 0x2d5e2201 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ghox = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ghox = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x040000, REGION_CPU1 );		/* Main 68K code */
 		ROM_LOAD_EVEN( "tp021-01.u10", 0x000000, 0x020000, 0x9e56ac67 );
 		ROM_LOAD_ODD ( "tp021-02.u11", 0x000000, 0x020000, 0x15cac60f );
@@ -2399,7 +2399,7 @@ public class toaplan2
 		ROM_LOAD( "tp021-04.u37", 0x080000, 0x080000, 0x26ed1c9a );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_dogyuun = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_dogyuun = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x080000, REGION_CPU1 );		/* Main 68K code */
 		ROM_LOAD_WIDE( "tp022_1.r16", 0x000000, 0x080000, 0x72f18907 );
 	
@@ -2421,7 +2421,7 @@ public class toaplan2
 		ROM_LOAD( "tp022_2.rom", 0x00000, 0x40000, 0x043271b3 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_kbash = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kbash = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x080000, REGION_CPU1 );		/* Main 68K code */
 		ROM_LOAD_WIDE_SWAP( "kbash01.bin", 0x000000, 0x080000, 0x2965f81d );
 	
@@ -2445,7 +2445,7 @@ public class toaplan2
 		ROM_LOAD( "kbash07.bin", 0x00000, 0x40000, 0x3732318f );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_tatsujn2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_tatsujn2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x080000, REGION_CPU1 );		/* Main 68K code */
 		ROM_LOAD_WIDE( "tsj2rom1.bin", 0x000000, 0x080000, 0xf5cfe6ee );
 	
@@ -2463,7 +2463,7 @@ public class toaplan2
 		ROM_LOAD( "tsj2rom2.bin", 0x00000, 0x80000, 0xf2f6cae4 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_pipibibs = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_pipibibs = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x040000, REGION_CPU1 );		/* Main 68K code */
 		ROM_LOAD_EVEN( "tp025-1.bin", 0x000000, 0x020000, 0xb2ea8659 );
 		ROM_LOAD_ODD ( "tp025-2.bin", 0x000000, 0x020000, 0xdc53b939 );
@@ -2476,7 +2476,7 @@ public class toaplan2
 		ROM_LOAD( "tp025-3.bin", 0x100000, 0x100000, 0x7b16101e );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_whoopee = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_whoopee = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x040000, REGION_CPU1 );		/* Main 68K code */
 		ROM_LOAD_EVEN( "whoopee.1", 0x000000, 0x020000, 0x28882e7e );
 		ROM_LOAD_ODD ( "whoopee.2", 0x000000, 0x020000, 0x6796f133 );
@@ -2491,7 +2491,7 @@ public class toaplan2
 		ROM_LOAD( "tp025-3.bin", 0x100000, 0x100000, 0x7b16101e );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_pipibibi = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_pipibibi = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x040000, REGION_CPU1 );		/* Main 68K code */
 		ROM_LOAD_EVEN( "ppbb05.bin", 0x000000, 0x020000, 0x3d51133c );
 		ROM_LOAD_ODD ( "ppbb06.bin", 0x000000, 0x020000, 0x14c92515 );
@@ -2509,7 +2509,7 @@ public class toaplan2
 		ROM_LOAD( "ppbb07.bin", 0x0000, 0x8000, 0x456dd16e );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_fixeight = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_fixeight = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x080000, REGION_CPU1 );		/* Main 68K code */
 		ROM_LOAD_WIDE_SWAP( "tp-026-1", 0x000000, 0x080000, 0xf7b1746a );
 	
@@ -2532,7 +2532,7 @@ public class toaplan2
 		ROM_LOAD( "93c45.u21", 0x00, 0x80, 0x40d75df0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_vfive = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_vfive = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x080000, REGION_CPU1 );		/* Main 68K code */
 		ROM_LOAD_WIDE( "tp027_01.bin", 0x000000, 0x080000, 0x98dd1919 );
 	
@@ -2548,7 +2548,7 @@ public class toaplan2
 		ROM_LOAD( "tp027_03.bin", 0x100000, 0x100000, 0xb1fc6362 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_batsugun = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_batsugun = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x080000, REGION_CPU1 );		/* Main 68K code */
 		ROM_LOAD_WIDE( "tp030_1.bin", 0x000000, 0x080000, 0xe0cd772b );
 	
@@ -2573,7 +2573,7 @@ public class toaplan2
 		ROM_LOAD( "tp030_2.bin", 0x00000, 0x40000, 0x276146f5 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_snowbro2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_snowbro2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x080000, REGION_CPU1 );		/* Main 68K code */
 		ROM_LOAD_WIDE_SWAP( "pro-4", 0x000000, 0x080000, 0x4c7ee341 );
 	

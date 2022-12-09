@@ -218,7 +218,7 @@ public class gauntlet
             }
         };
         
-	public static InitMachinePtr init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		last_speed_check = 0;
 		last_speech_write = 0x80;
@@ -823,7 +823,7 @@ public class gauntlet
 	 *
 	 *************************************/
 	
-	static RomLoadPtr rom_gauntlet = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gauntlet = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 8*64k for 68000 code */
 		ROM_LOAD_EVEN( "gauntlt1.9a",  0x00000, 0x08000, 0x46fe8743 );
 		ROM_LOAD_ODD ( "gauntlt1.9b",  0x00000, 0x08000, 0x276e15c4 );
@@ -854,7 +854,7 @@ public class gauntlet
 	ROM_END(); }}; 
 	
 	
-	static RomLoadPtr rom_gauntir1 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gauntir1 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 8*64k for 68000 code */
 		ROM_LOAD_EVEN( "gaun1ir1.9a",  0x00000, 0x08000, 0xfd871f81 );
 		ROM_LOAD_ODD ( "gaun1ir1.9b",  0x00000, 0x08000, 0xbcb2fb1d );
@@ -885,7 +885,7 @@ public class gauntlet
 	ROM_END(); }}; 
 	
 	
-	static RomLoadPtr rom_gauntir2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gauntir2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 8*64k for 68000 code */
 		ROM_LOAD_EVEN( "gaun1ir1.9a",  0x00000, 0x08000, 0xfd871f81 );
 		ROM_LOAD_ODD ( "gaun1ir1.9b",  0x00000, 0x08000, 0xbcb2fb1d );
@@ -916,7 +916,7 @@ public class gauntlet
 	ROM_END(); }}; 
 	
 	
-	static RomLoadPtr rom_gaunt2p = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gaunt2p = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 8*64k for 68000 code */
 		ROM_LOAD_EVEN( "gaunt2p.9a",   0x00000, 0x08000, 0x8784133f );
 		ROM_LOAD_ODD ( "gaunt2p.9b",   0x00000, 0x08000, 0x2843bde3 );
@@ -947,7 +947,7 @@ public class gauntlet
 	ROM_END(); }}; 
 	
 	
-	static RomLoadPtr rom_gaunt2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gaunt2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 8*64k for 68000 code */
 		ROM_LOAD_EVEN( "gauntlt2.9a",  0x00000, 0x08000, 0x46fe8743 );
 		ROM_LOAD_ODD ( "gauntlt2.9b",  0x00000, 0x08000, 0x276e15c4 );
@@ -988,7 +988,7 @@ public class gauntlet
 	ROM_END(); }}; 
 	
 	
-	static RomLoadPtr rom_vindctr2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_vindctr2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 8*64k for 68000 code */
 		ROM_LOAD_EVEN( "1186", 0x00000, 0x08000, 0xaf138263 );
 		ROM_LOAD_ODD ( "1187", 0x00000, 0x08000, 0x44baff64 );
@@ -1132,7 +1132,7 @@ public class gauntlet
 	 *
 	 *************************************/
 	
-	public static InitDriverPtr init_gauntlet = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_gauntlet = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = null;
 		atarigen_slapstic_init(0, 0x038000, 104);
@@ -1153,7 +1153,7 @@ public class gauntlet
 	} };
 	
 	
-	public static InitDriverPtr init_gaunt2p = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_gaunt2p = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = null;
 		atarigen_slapstic_init(0, 0x038000, 107);
@@ -1174,7 +1174,7 @@ public class gauntlet
 	} };
 	
 	
-	public static InitDriverPtr init_gauntlet2 = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_gauntlet2 = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = null;
 		atarigen_slapstic_init(0, 0x038000, 106);
@@ -1195,7 +1195,7 @@ public class gauntlet
 	} };
 	
 	
-	public static InitDriverPtr init_vindctr2 = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_vindctr2 = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = null;
 		atarigen_slapstic_init(0, 0x038000, 118);

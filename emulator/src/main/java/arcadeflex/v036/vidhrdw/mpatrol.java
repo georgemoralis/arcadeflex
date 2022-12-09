@@ -61,7 +61,7 @@ public class mpatrol {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr mpatrol_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr mpatrol_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -205,7 +205,7 @@ public class mpatrol {
      *
      **************************************************************************
      */
-    public static VhStartPtr mpatrol_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr mpatrol_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int i, j;
 
@@ -247,7 +247,7 @@ public class mpatrol {
      *
      **************************************************************************
      */
-    public static VhStopPtr mpatrol_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr mpatrol_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(bgbitmap[0]);
             osd_free_bitmap(bgbitmap[1]);
@@ -364,7 +364,7 @@ public class mpatrol {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr mpatrol_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr mpatrol_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, i;
 

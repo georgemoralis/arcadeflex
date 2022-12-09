@@ -30,7 +30,7 @@ public class nova2001 {
     static int nova2001_yscroll;
     static int flipscreen;
 
-    public static VhConvertColorPromPtr nova2001_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr nova2001_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i, j;
 
@@ -99,7 +99,7 @@ public class nova2001 {
      * <p>
      * *************************************************************************
      */
-    public static VhUpdatePtr nova2001_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr nova2001_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

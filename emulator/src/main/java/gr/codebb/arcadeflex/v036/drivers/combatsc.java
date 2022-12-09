@@ -781,7 +781,7 @@ public class combatsc
 	
 	
 	
-	static RomLoadPtr rom_combasc = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_combasc = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 6309 code */
 		ROM_LOAD( "611g01.rom", 0x30000, 0x08000, 0x857ffffe );
 		ROM_CONTINUE(           0x08000, 0x08000 );
@@ -809,7 +809,7 @@ public class combatsc
 		ROM_LOAD( "611g04.rom",  0x00000, 0x20000, 0x2987e158 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_combasct = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_combasct = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 6309 code */
 		ROM_LOAD( "g01.rom",     0x30000, 0x08000, 0x489c132f );
 		ROM_CONTINUE(            0x08000, 0x08000 );
@@ -837,7 +837,7 @@ public class combatsc
 		ROM_LOAD( "611g04.rom",  0x00000, 0x20000, 0x2987e158 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_combascj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_combascj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 6309 code */
 		ROM_LOAD( "611p01.a14",  0x30000, 0x08000, 0xd748268e );
 		ROM_CONTINUE(            0x08000, 0x08000 );
@@ -865,7 +865,7 @@ public class combatsc
 		ROM_LOAD( "611g04.rom",  0x00000, 0x20000, 0x2987e158 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_bootcamp = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bootcamp = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 6309 code */
 		ROM_LOAD( "xxx-v01.12a", 0x30000, 0x08000, 0xc10dca64 );
 		ROM_CONTINUE(            0x08000, 0x08000 );
@@ -893,7 +893,7 @@ public class combatsc
 		ROM_LOAD( "611g04.rom",  0x00000, 0x20000, 0x2987e158 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_combascb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_combascb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 6809 code */
 		ROM_LOAD( "combat.002",	 0x30000, 0x08000, 0x0996755d );
 		ROM_CONTINUE(            0x08000, 0x08000 );
@@ -934,12 +934,12 @@ public class combatsc
 	ROM_END(); }}; 
 	
 	
-	public static InitDriverPtr init_combasc = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_combasc = new InitDriverHandlerPtr() { public void handler() 
 	{
 		/* joystick instead of trackball */
 		install_mem_read_handler(0,0x0404,0x0404,input_port_4_r);
 	}};
-	public static InitDriverPtr init_combascb = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_combascb = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr gfx;
 		int i;

@@ -21,7 +21,7 @@ public class galspnbl {
     public static UBytePtr galspnbl_bgvideoram = new UBytePtr();
     static int screenscroll;
 
-    public static VhConvertColorPromPtr galspnbl_init_palette = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr galspnbl_init_palette = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int palette_ptr = 0;
@@ -135,7 +135,7 @@ public class galspnbl {
         }
     }
 
-    public static VhUpdatePtr galspnbl_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr galspnbl_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

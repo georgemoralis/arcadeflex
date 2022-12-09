@@ -40,7 +40,7 @@ public class foodf {
         colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs] = (char) value;
     }
 
-    public static VhConvertColorPromPtr foodf_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr foodf_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int _palette = 0;
@@ -61,7 +61,7 @@ public class foodf {
     /*
 	 *   video system start; we also initialize the system memory as well here
      */
-    public static VhStartPtr foodf_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr foodf_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             /* allocate dirty buffers */
             if (playfielddirty == null) {
@@ -89,7 +89,7 @@ public class foodf {
     /*
 	 *   video system shutdown; we also bring down the system memory as well here
      */
-    public static VhStopPtr foodf_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr foodf_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             /* free bitmaps */
             if (playfieldbitmap != null) {
@@ -167,7 +167,7 @@ public class foodf {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr foodf_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr foodf_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

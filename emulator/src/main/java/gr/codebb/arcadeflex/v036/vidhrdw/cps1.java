@@ -689,7 +689,7 @@ public class cps1 {
      *
      **************************************************************************
      */
-    public static VhStartPtr cps1_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr cps1_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int i;
 
@@ -765,7 +765,7 @@ public class cps1 {
      *
      **************************************************************************
      */
-    public static VhStopPtr cps1_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr cps1_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             if (cps1_old_palette != null) {
                 cps1_old_palette = null;
@@ -1524,7 +1524,7 @@ public class cps1 {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr cps1_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr cps1_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
 
             char[] palette_usage = new char[cps1_palette_entries];

@@ -20,6 +20,9 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import static common.libc.cstdlib.rand;
@@ -237,7 +240,7 @@ public class vector {
     /*
      * Initializes vector game video emulation
      */
-    public static VhStartPtr vector_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr vector_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int h, i, j, k;
             int c[] = new int[3];
@@ -382,7 +385,7 @@ public class vector {
     /*
      * Stop the vector video hardware emulation. Free memory.
      */
-    public static VhStopPtr vector_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr vector_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             pTcosin = null;
             u8_pTinten = null;
@@ -829,7 +832,7 @@ public class vector {
         }
     }
 
-    public static VhUpdatePtr vector_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr vector_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int i;
             int temp_x, temp_y;

@@ -4,6 +4,8 @@
  */
 package arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
@@ -16,7 +18,7 @@ import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class superpac {
 
-    public static VhConvertColorPromPtr superpac_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr superpac_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -63,7 +65,7 @@ public class superpac {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr superpac_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr superpac_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

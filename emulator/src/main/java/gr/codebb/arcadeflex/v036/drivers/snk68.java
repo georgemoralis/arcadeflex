@@ -1079,7 +1079,7 @@ public class snk68 {
     /**
      * ***************************************************************************
      */
-    static RomLoadPtr rom_pow = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pow = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);
             ROM_LOAD_EVEN("dg1", 0x000000, 0x20000, 0x8e71a8af);
@@ -1120,7 +1120,7 @@ public class snk68 {
         }
     };
 
-    static RomLoadPtr rom_powj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_powj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);
             ROM_LOAD_EVEN("1-2", 0x000000, 0x20000, 0x2f17bfb0);
@@ -1161,7 +1161,7 @@ public class snk68 {
         }
     };
 
-    static RomLoadPtr rom_searchar = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_searchar = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);
             ROM_LOAD_EVEN("bhw.2", 0x000000, 0x20000, 0xe1430138);
@@ -1197,7 +1197,7 @@ public class snk68 {
         }
     };
 
-    static RomLoadPtr rom_sercharu = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sercharu = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);
             ROM_LOAD_EVEN("bh.2", 0x000000, 0x20000, 0xc852e2e2);
@@ -1233,7 +1233,7 @@ public class snk68 {
         }
     };
 
-    static RomLoadPtr rom_streetsm = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_streetsm = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);
             ROM_LOAD_EVEN("s2-1ver2.14h", 0x00000, 0x20000, 0x655f4773);
@@ -1264,7 +1264,7 @@ public class snk68 {
         }
     };
 
-    static RomLoadPtr rom_streets1 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_streets1 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);
             ROM_LOAD_EVEN("s2-1ver1.9c", 0x00000, 0x20000, 0xb59354c5);
@@ -1295,7 +1295,7 @@ public class snk68 {
         }
     };
 
-    static RomLoadPtr rom_streetsj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_streetsj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);
             ROM_LOAD_EVEN("s2v1j_01.bin", 0x00000, 0x20000, 0xf031413c);
@@ -1326,7 +1326,7 @@ public class snk68 {
         }
     };
 
-    static RomLoadPtr rom_ikari3 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ikari3 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);
             ROM_LOAD_EVEN("ik3-2.bin", 0x000000, 0x20000, 0xa7b34dcd);
@@ -1379,7 +1379,7 @@ public class snk68 {
     /**
      * ***************************************************************************
      */
-    public static InitDriverPtr init_searchar = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_searchar = new InitDriverHandlerPtr() {
         public void handler() {
             cpu_setbank(8, memory_region(REGION_USER1));
         }

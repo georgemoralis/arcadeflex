@@ -51,7 +51,7 @@ public class sega {
         }
     };
 
-    public static InterruptPtr sega_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr sega_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if ((input_port_5_r.handler(0) & 0x01) != 0) {
                 return nmi_interrupt.handler();

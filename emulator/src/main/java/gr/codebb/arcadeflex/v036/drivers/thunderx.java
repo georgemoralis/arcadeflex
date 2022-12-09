@@ -49,7 +49,7 @@ public class thunderx
 	
 	/***************************************************************************/
 	
-	public static InterruptPtr scontra_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr scontra_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (K052109_is_IRQ_enabled()!=0)
 			return KONAMI_INT_IRQ;
@@ -57,7 +57,7 @@ public class thunderx
 			return ignore_interrupt.handler();
 	} };
 	
-	public static InterruptPtr thunderx_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr thunderx_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (K052109_is_IRQ_enabled()!=0)
 		{
@@ -259,14 +259,14 @@ public class thunderx
 		K007232_bankswitch(0,new UBytePtr(RAM,bank_A),new UBytePtr(RAM,bank_B));
 	} };
 
-        public static InitMachinePtr scontra_init_machine = new InitMachinePtr() { public void handler() 
+        public static InitMachineHandlerPtr scontra_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM = memory_region(REGION_CPU1);
 	
 		paletteram = new UBytePtr(RAM,0x30000);
 	} };
 	
-	public static InitMachinePtr thunderx_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr thunderx_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 /*TODO*///		unsigned char *RAM = memory_region(REGION_CPU1);
 	
@@ -718,7 +718,7 @@ public class thunderx
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_scontra = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_scontra = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30800, REGION_CPU1 );/* ROMs + banked RAM */
 		ROM_LOAD( "e02.k11",     0x10000, 0x08000, 0xa61c0ead );/* banked ROM */
 		ROM_CONTINUE(            0x08000, 0x08000 );			/* fixed ROM */
@@ -773,7 +773,7 @@ public class thunderx
 		ROM_LOAD( "775a09.b19",   0x0000, 0x0100, 0x46d1e0df );/* priority encoder (not used) */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_scontraj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_scontraj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30800, REGION_CPU1 );/* ROMs + banked RAM */
 		ROM_LOAD( "775-f02.bin", 0x10000, 0x08000, 0x8d5933a7 );/* banked ROM */
 		ROM_CONTINUE(            0x08000, 0x08000 );			/* fixed ROM */
@@ -828,7 +828,7 @@ public class thunderx
 		ROM_LOAD( "775a09.b19",   0x0000, 0x0100, 0x46d1e0df );/* priority encoder (not used) */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_thunderx = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_thunderx = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x29000, REGION_CPU1 );/* ROMs + banked RAM */
 		ROM_LOAD( "873k03.k15", 0x10000, 0x10000, 0x276817ad );
 		ROM_LOAD( "873k02.k13", 0x20000, 0x08000, 0x80cc1c45 );
@@ -861,7 +861,7 @@ public class thunderx
 		ROM_LOAD( "873a08.f20",   0x0000, 0x0100, 0xe2d09a1b );/* priority encoder (not used) */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_thnderxj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_thnderxj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x29000, REGION_CPU1 );/* ROMs + banked RAM */
 		ROM_LOAD( "873-n03.k15", 0x10000, 0x10000, 0xa01e2e3e );
 		ROM_LOAD( "873-n02.k13", 0x20000, 0x08000, 0x55afa2cc );
@@ -911,7 +911,7 @@ public class thunderx
 	
 
 	
-	public static InitDriverPtr init_scontra = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_scontra = new InitDriverHandlerPtr() { public void handler() 
 	{
 		konami_rom_deinterleave_2(REGION_GFX1);
 		konami_rom_deinterleave_2(REGION_GFX2);

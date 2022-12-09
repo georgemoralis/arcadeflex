@@ -18,9 +18,6 @@ import static arcadeflex.v036.vidhrdw.generic.*;
 import static common.libc.cstring.*;
 //TODO
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.drawgfx;
-import gr.codebb.arcadeflex.v036.mame.driverH.VhStartPtr;
-import gr.codebb.arcadeflex.v036.mame.driverH.VhStopPtr;
-import gr.codebb.arcadeflex.v036.mame.driverH.VhUpdatePtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static arcadeflex.v036.mame.drawgfxH.TRANSPARENCY_NONE;
@@ -80,7 +77,7 @@ public class meadows {
     /**
      * **********************************************************
      */
-    public static VhStartPtr deadeye_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr deadeye_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (generic_vh_start.handler() != 0) {
                 return 1;
@@ -93,7 +90,7 @@ public class meadows {
         }
     };
 
-    public static VhStartPtr gypsyjug_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr gypsyjug_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (generic_vh_start.handler() != 0) {
                 return 1;
@@ -113,7 +110,7 @@ public class meadows {
     /**
      * **********************************************************
      */
-    public static VhStopPtr meadows_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr meadows_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             if (overlay != null) {
                 artwork_free(overlay);
@@ -181,7 +178,7 @@ public class meadows {
     /**
      * **********************************************************
      */
-    public static VhUpdatePtr meadows_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr meadows_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int i;
 

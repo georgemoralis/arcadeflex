@@ -64,7 +64,7 @@ public class gbusters
 		/* other bits unknown */
 	}};
 	
-	public static InitMachinePtr gbusters_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr gbusters_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM = memory_region(REGION_CPU1);
 	
@@ -85,7 +85,7 @@ public class gbusters
 	static int palette_selected;
 	static UBytePtr ram=new UBytePtr();
 	
-	public static InterruptPtr gbusters_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr gbusters_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (K052109_is_IRQ_enabled()!=0)
 			return KONAMI_INT_IRQ;
@@ -432,7 +432,7 @@ public class gbusters
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_gbusters = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gbusters = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30800, REGION_CPU1 );/* code + banked roms + space for banked RAM */
 		ROM_LOAD( "878n02.rom", 0x10000, 0x08000, 0x51697aaa );/* ROM K13 */
 		ROM_CONTINUE(           0x08000, 0x08000 );
@@ -456,7 +456,7 @@ public class gbusters
 		ROM_LOAD( "878c04.rom",  0x00000, 0x40000, 0x9e982d1c );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_crazycop = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_crazycop = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30800, REGION_CPU1 );/* code + banked roms + space for banked RAM */
 		ROM_LOAD( "878m02.bin", 0x10000, 0x08000, 0x9c1c9f52 );/* ROM K13 */
 		ROM_CONTINUE(           0x08000, 0x08000 );
@@ -484,7 +484,7 @@ public class gbusters
 
 	
 	
-	public static InitDriverPtr init_gbusters = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_gbusters = new InitDriverHandlerPtr() { public void handler() 
 	{
 		konami_rom_deinterleave_2(REGION_GFX1);
 		konami_rom_deinterleave_2(REGION_GFX2);

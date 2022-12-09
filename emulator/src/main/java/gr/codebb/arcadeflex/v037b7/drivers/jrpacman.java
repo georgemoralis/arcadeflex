@@ -4,6 +4,9 @@
  */
 package gr.codebb.arcadeflex.v037b7.drivers;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -28,7 +31,7 @@ public class jrpacman {
  /* his usual speed. When we start the emulation, we check if the */
  /* hack can be applied, and set this flag accordingly. */
 
-    public static InitMachinePtr jrpacman_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr jrpacman_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             UBytePtr RAM = memory_region(REGION_CPU1);
 
@@ -41,7 +44,7 @@ public class jrpacman {
         }
     };
 
-    public static InterruptPtr jrpacman_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr jrpacman_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             UBytePtr RAM = memory_region(REGION_CPU1);
 
@@ -233,7 +236,7 @@ public class jrpacman {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_jrpacman = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_jrpacman = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("jrp8d.bin", 0x0000, 0x2000, 0xe3fa972e);
@@ -260,7 +263,7 @@ public class jrpacman {
         }
     };
 
-    public static InitDriverPtr init_jrpacman = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_jrpacman = new InitDriverHandlerPtr() {
         public void handler() {
             /* The encryption PALs garble bits 0, 2 and 7 of the ROMs. The encryption */
  /* scheme is complex (basically it's a state machine) and can only be */

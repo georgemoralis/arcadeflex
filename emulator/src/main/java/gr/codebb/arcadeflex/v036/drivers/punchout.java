@@ -843,7 +843,7 @@ public class punchout
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_punchout = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_punchout = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "chp1-c.8l",    0x0000, 0x2000, 0xa4003adc );
 		ROM_LOAD( "chp1-c.8k",    0x2000, 0x2000, 0x745ecf40 );
@@ -902,7 +902,7 @@ public class punchout
 		ROM_LOAD( "chp1-c.6p",    0x0000, 0x4000, 0xea0bbb31 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_spnchout = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_spnchout = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "chs1-c.8l",    0x0000, 0x2000, 0x703b9780 );
 		ROM_LOAD( "chs1-c.8k",    0x2000, 0x2000, 0xe13719f6 );
@@ -982,7 +982,7 @@ public class punchout
 		ROM_LOAD( "chs1-c.6p",    0x0000, 0x4000, 0xad8b64b8 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_spnchotj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_spnchotj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "chs1c8la.bin", 0x0000, 0x2000, 0xdc2a592b );
 		ROM_LOAD( "chs1c8ka.bin", 0x2000, 0x2000, 0xce687182 );
@@ -1056,7 +1056,7 @@ public class punchout
 		ROM_LOAD( "chs1c6pa.bin", 0x0000, 0x4000, 0xd05fb730 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_armwrest = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_armwrest = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "chv1-c.8l",    0x0000, 0x2000, 0xb09764c1 );
 		ROM_LOAD( "chv1-c.8k",    0x2000, 0x2000, 0x0e147ff7 );

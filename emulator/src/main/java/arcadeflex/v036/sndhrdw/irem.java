@@ -83,7 +83,7 @@ public class irem {
         }
     };
 
-    public static vclk_interruptPtr irem_adpcm_int = new vclk_interruptPtr() {
+    public static vclk_InterruptHandlerPtr irem_adpcm_int = new vclk_InterruptHandlerPtr() {
         public void handler(int num) {
             cpu_set_nmi_line(1, PULSE_LINE);
         }
@@ -102,7 +102,7 @@ public class irem {
     public static MSM5205interface irem_msm5205_interface = new MSM5205interface(
             2, /* 2 chips            */
             384000, /* 384KHz             */
-            new vclk_interruptPtr[]{irem_adpcm_int, null},/* interrupt function */
+            new vclk_InterruptHandlerPtr[]{irem_adpcm_int, null},/* interrupt function */
             new int[]{MSM5205_S96_4B, MSM5205_S96_4B}, /* 4KHz  */
             new int[]{100, 100}
     );

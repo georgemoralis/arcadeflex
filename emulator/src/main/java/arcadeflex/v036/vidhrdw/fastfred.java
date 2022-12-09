@@ -41,7 +41,7 @@ public class fastfred {
     static int flipscreenx, flipscreeny;
     static int canspritesflipx = 0;
 
-    public static InitMachinePtr jumpcoas_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr jumpcoas_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             canspritesflipx = 1;
         }
@@ -83,7 +83,7 @@ public class fastfred {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr fastfred_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr fastfred_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -185,7 +185,7 @@ public class fastfred {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr fastfred_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr fastfred_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, charbank, colorbank;
 

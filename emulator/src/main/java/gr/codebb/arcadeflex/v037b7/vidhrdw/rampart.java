@@ -92,7 +92,7 @@ public class rampart
                 1					/* non-scrolling */
         );
                 
-	public static VhStartPtr rampart_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr rampart_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		
 		/* allocate color usage */
@@ -127,7 +127,7 @@ public class rampart
 	 *
 	 *************************************/
 	
-	public static VhStopPtr rampart_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr rampart_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		/* free data */
 		if (color_usage != null)
@@ -193,7 +193,7 @@ public class rampart
 	 *
 	 *************************************/
 	
-	public static VhUpdatePtr rampart_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr rampart_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		/* remap if necessary */
 		if (update_palette() != null)

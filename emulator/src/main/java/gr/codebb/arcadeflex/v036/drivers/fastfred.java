@@ -506,7 +506,7 @@ public class fastfred {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_fastfred = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_fastfred = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);    /* 64k for main CPU */
 
@@ -545,7 +545,7 @@ public class fastfred {
         }
     };
 
-    static RomLoadPtr rom_flyboy = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_flyboy = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);    /* 64k for main CPU */
 
@@ -584,7 +584,7 @@ public class fastfred {
         }
     };
 
-    static RomLoadPtr rom_flyboyb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_flyboyb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);    /* 64k for main CPU */
 
@@ -623,7 +623,7 @@ public class fastfred {
         }
     };
 
-    static RomLoadPtr rom_jumpcoas = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_jumpcoas = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
 
@@ -645,13 +645,13 @@ public class fastfred {
         }
     };
 
-    public static InitDriverPtr init_fastfred = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_fastfred = new InitDriverHandlerPtr() {
         public void handler() {
             install_mem_read_handler(0, 0xc800, 0xcfff, fastfred_custom_io_r);
         }
     };
 
-    public static InitDriverPtr init_jumpcoas = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_jumpcoas = new InitDriverHandlerPtr() {
         public void handler() {
             install_mem_read_handler(0, 0xc800, 0xcfff, jumpcoas_custom_io_r);
         }

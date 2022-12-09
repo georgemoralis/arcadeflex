@@ -143,7 +143,7 @@ public class ddragon3 {
     };
 
     /* start & stop */
-    public static VhStartPtr ddragon3_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr ddragon3_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             ddragon3_bg_tilebase = 0;
             old_ddragon3_bg_tilebase = -1;
@@ -281,7 +281,7 @@ public class ddragon3 {
         }
     }
 
-    public static VhUpdatePtr ddragon3_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr ddragon3_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             if (ddragon3_bg_tilebase != old_ddragon3_bg_tilebase) {
                 old_ddragon3_bg_tilebase = ddragon3_bg_tilebase;
@@ -318,7 +318,7 @@ public class ddragon3 {
         }
     };
 
-    public static VhUpdatePtr ctribe_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr ctribe_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             if (ddragon3_bg_tilebase != old_ddragon3_bg_tilebase) {
                 old_ddragon3_bg_tilebase = ddragon3_bg_tilebase;

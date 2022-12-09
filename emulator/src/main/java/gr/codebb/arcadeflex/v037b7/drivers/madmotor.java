@@ -402,7 +402,7 @@ public class madmotor
 	
 	/******************************************************************************/
 	
-	static RomLoadPtr rom_madmotor = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_madmotor = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "02", 0x00000, 0x20000, 0x50b554e0 );
 		ROM_LOAD_ODD ( "00", 0x00000, 0x20000, 0x2d6a1b3f );
@@ -468,7 +468,7 @@ public class madmotor
 		return ret;
 	} };
 	
-	public static InitDriverPtr init_madmotor = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_madmotor = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_mem_read_handler(0, 0x3e0000, 0x3e0001, cycle_r);
 		madmotor_decrypt();

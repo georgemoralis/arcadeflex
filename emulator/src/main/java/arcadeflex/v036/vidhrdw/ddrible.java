@@ -30,7 +30,7 @@ public class ddrible {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr ddrible_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr ddrible_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -141,7 +141,7 @@ public class ddrible {
      *
      **************************************************************************
      */
-    public static VhStartPtr ddrible_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr ddrible_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             fg_tilemap = tilemap_create(get_fg_tile_info, TILEMAP_TRANSPARENT, 8, 8, 64, 32);
             bg_tilemap = tilemap_create(get_bg_tile_info, TILEMAP_OPAQUE, 8, 8, 64, 32);
@@ -305,7 +305,7 @@ public class ddrible {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr ddrible_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr ddrible_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             tilemap_update(ALL_TILEMAPS);
             if (palette_recalc() != null) {

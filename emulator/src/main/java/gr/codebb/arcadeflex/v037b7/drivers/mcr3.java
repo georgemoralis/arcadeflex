@@ -151,7 +151,7 @@ public class mcr3
      *
      ************************************
      */
-    public static InterruptPtr dotron_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr dotron_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             /* pulse the CTC line 2 to enable Platform Poles */
             z80ctc_0_trg2_w.handler(0, 1);
@@ -236,7 +236,7 @@ public class mcr3
      *
      ************************************
      */
-    public static InterruptPtr powerdrv_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr powerdrv_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             /* pulse the CTC line 2 periodically */
             z80ctc_0_trg2_w.handler(0, 1);
@@ -1535,7 +1535,7 @@ public class mcr3
      *
      ************************************
      */
-    static RomLoadPtr rom_tapper = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tapper = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("tappg0.bin", 0x00000, 0x4000, 0x127171d1);
@@ -1566,7 +1566,7 @@ public class mcr3
         }
     };
 
-    static RomLoadPtr rom_tappera = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tappera = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("pr00_1c.128", 0x00000, 0x4000, 0xbb060bb0);
@@ -1597,7 +1597,7 @@ public class mcr3
         }
     };
 
-    static RomLoadPtr rom_sutapper = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sutapper = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("5791", 0x0000, 0x4000, 0x87119cc4);
@@ -1628,7 +1628,7 @@ public class mcr3
         }
     };
 
-    static RomLoadPtr rom_rbtapper = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rbtapper = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("rbtpg0.bin", 0x00000, 0x4000, 0x20b9adf4);
@@ -1659,7 +1659,7 @@ public class mcr3
         }
     };
 
-    static RomLoadPtr rom_timber = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_timber = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("timpg0.bin", 0x00000, 0x4000, 0x377032ab);
@@ -1689,7 +1689,7 @@ public class mcr3
         }
     };
 
-    static RomLoadPtr rom_dotron = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dotron = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("loc-pg0.1c", 0x0000, 0x4000, 0xba0da15f);
@@ -1725,7 +1725,7 @@ public class mcr3
         }
     };
 
-    static RomLoadPtr rom_dotrone = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dotrone = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("loc-cpu1", 0x00000, 0x4000, 0xeee31b8c);
@@ -1761,7 +1761,7 @@ public class mcr3
         }
     };
 
-    static RomLoadPtr rom_destderb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_destderb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("dd_pro", 0x00000, 0x4000, 0x8781b367);
@@ -1790,7 +1790,7 @@ public class mcr3
         }
     };
 
-    static RomLoadPtr rom_destderm = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_destderm = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("pro0.3b", 0x00000, 0x8000, 0x2e24527b);
@@ -1818,7 +1818,7 @@ public class mcr3
         }
     };
 
-    static RomLoadPtr rom_sarge = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sarge = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("cpu_3b.bin", 0x0000, 0x8000, 0xda31a58f);
@@ -1842,7 +1842,7 @@ public class mcr3
         }
     };
 
-    static RomLoadPtr rom_rampage = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rampage = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("pro0rev3.3b", 0x00000, 0x08000, 0x2f7ca03c);
@@ -1868,7 +1868,7 @@ public class mcr3
         }
     };
 
-    static RomLoadPtr rom_rampage2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rampage2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("pro0rev2.3b", 0x0000, 0x8000, 0x3f1d0293);
@@ -1895,7 +1895,7 @@ public class mcr3
         }
     };
 
-    static RomLoadPtr rom_powerdrv = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_powerdrv = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("pdrv3b.bin", 0x0000, 0x8000, 0xd870b704);
@@ -1921,7 +1921,7 @@ public class mcr3
         }
     };
 
-    static RomLoadPtr rom_maxrpm = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_maxrpm = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x12000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("pro.0", 0x00000, 0x8000, 0x3f9ec35f);
@@ -1947,7 +1947,7 @@ public class mcr3
         }
     };
 
-    static RomLoadPtr rom_spyhunt = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spyhunt = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("cpu_pg0.6d", 0x0000, 0x2000, 0x1721b88f);
@@ -1990,7 +1990,7 @@ public class mcr3
         }
     };
 
-    static RomLoadPtr rom_turbotag = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_turbotag = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("ttprog0.bin", 0x0000, 0x2000, 0x6110fd80);
@@ -2030,7 +2030,7 @@ public class mcr3
         }
     };
 
-    static RomLoadPtr rom_crater = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_crater = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("crcpu.6d", 0x0000, 0x2000, 0xad31f127);
@@ -2099,13 +2099,13 @@ public class mcr3
         }
     }
 
-    public static InitDriverPtr init_tapper = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_tapper = new InitDriverHandlerPtr() {
         public void handler() {
             MCR_CONFIGURE_SOUND(MCR_SSIO);
         }
     };
 
-    public static InitDriverPtr init_timber = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_timber = new InitDriverHandlerPtr() {
         public void handler() {
             MCR_CONFIGURE_SOUND(MCR_SSIO);
 
@@ -2115,7 +2115,7 @@ public class mcr3
         }
     };
 
-    public static InitDriverPtr init_dotron = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_dotron = new InitDriverHandlerPtr() {
         public void handler() {
             MCR_CONFIGURE_SOUND(MCR_SSIO | MCR_SQUAWK_N_TALK);
             install_port_read_handler(0, 0x02, 0x02, dotron_port_2_r);
@@ -2123,14 +2123,14 @@ public class mcr3
         }
     };
 
-    public static InitDriverPtr init_destderb = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_destderb = new InitDriverHandlerPtr() {
         public void handler() {
             MCR_CONFIGURE_SOUND(MCR_TURBO_CHIP_SQUEAK);
             install_port_write_handler(0, 0x04, 0x04, turbocs_data_w);
         }
     };
 
-    public static InitDriverPtr init_destderm = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_destderm = new InitDriverHandlerPtr() {
         public void handler() {
             MCR_CONFIGURE_SOUND(MCR_TURBO_CHIP_SQUEAK);
             install_port_write_handler(0, 0x06, 0x06, turbocs_data_w);
@@ -2138,7 +2138,7 @@ public class mcr3
         }
     };
 
-    public static InitDriverPtr init_sarge = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_sarge = new InitDriverHandlerPtr() {
         public void handler() {
             MCR_CONFIGURE_SOUND(MCR_TURBO_CHIP_SQUEAK);
             install_port_read_handler(0, 0x01, 0x01, sarge_port_1_r);
@@ -2148,7 +2148,7 @@ public class mcr3
         }
     };
 
-    public static InitDriverPtr init_rampage = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_rampage = new InitDriverHandlerPtr() {
         public void handler() {
             MCR_CONFIGURE_SOUND(MCR_SOUNDS_GOOD);
             install_port_write_handler(0, 0x06, 0x06, soundsgood_data_w);
@@ -2156,7 +2156,7 @@ public class mcr3
         }
     };
 
-    public static InitDriverPtr init_powerdrv = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_powerdrv = new InitDriverHandlerPtr() {
         public void handler() {
             MCR_CONFIGURE_SOUND(MCR_SOUNDS_GOOD);
             install_port_read_handler(0, 0x02, 0x02, powerdrv_port_2_r);
@@ -2166,7 +2166,7 @@ public class mcr3
         }
     };
 
-    public static InitDriverPtr init_maxrpm = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_maxrpm = new InitDriverHandlerPtr() {
         public void handler() {
             MCR_CONFIGURE_SOUND(MCR_TURBO_CHIP_SQUEAK);
             install_port_read_handler(0, 0x01, 0x01, maxrpm_port_1_r);
@@ -2177,7 +2177,7 @@ public class mcr3
         }
     };
 
-    public static InitDriverPtr init_spyhunt = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_spyhunt = new InitDriverHandlerPtr() {
         public void handler() {
             MCR_CONFIGURE_SOUND(MCR_SSIO | MCR_CHIP_SQUEAK_DELUXE);
             install_port_read_handler(0, 0x02, 0x02, spyhunt_port_2_r);
@@ -2191,7 +2191,7 @@ public class mcr3
         }
     };
 
-    public static InitDriverPtr init_turbotag = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_turbotag = new InitDriverHandlerPtr() {
         public void handler() {
             MCR_CONFIGURE_SOUND(MCR_CHIP_SQUEAK_DELUXE);
             install_port_read_handler(0, 0x02, 0x02, spyhunt_port_2_r);
@@ -2206,7 +2206,7 @@ public class mcr3
         }
     };
 
-    public static InitDriverPtr init_crater = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_crater = new InitDriverHandlerPtr() {
         public void handler() {
             MCR_CONFIGURE_SOUND(MCR_SSIO);
 

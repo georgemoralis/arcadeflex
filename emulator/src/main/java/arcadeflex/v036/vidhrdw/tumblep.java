@@ -283,7 +283,7 @@ public class tumblep {
     /**
      * ***************************************************************************
      */
-    public static VhUpdatePtr tumblep_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr tumblep_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int scrollx, scrolly;
             int mx, my, offs, tile, color;
@@ -344,7 +344,7 @@ public class tumblep {
         }
     };
 
-    public static VhUpdatePtr tumblepb_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr tumblepb_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int scrollx, scrolly;
             int mx, my, offs, tile, color;
@@ -459,7 +459,7 @@ public class tumblep {
     /**
      * ***************************************************************************
      */
-    public static VhStopPtr tumblep_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr tumblep_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(tumblep_pf2_bitmap);
             osd_free_bitmap(tumblep_pf3_bitmap);
@@ -469,7 +469,7 @@ public class tumblep {
         }
     };
 
-    public static VhStartPtr tumblep_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr tumblep_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             /* Allocate bitmaps */
             if ((tumblep_pf1_bitmap = osd_create_bitmap(512, 256)) == null) {

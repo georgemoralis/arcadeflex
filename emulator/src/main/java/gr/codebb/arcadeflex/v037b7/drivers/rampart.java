@@ -160,7 +160,7 @@ public class rampart
 	 *
 	 *************************************/
 	
-	public static InitMachinePtr init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_reset();
 		slapstic_reset();
@@ -551,7 +551,7 @@ public class rampart
 	 *
 	 *************************************/
 	
-	static RomLoadPtr rom_rampart = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_rampart = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x148000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "082-1033.13l", 0x00000, 0x80000, 0x5c36795f );
 		ROM_LOAD_ODD ( "082-1032.13j", 0x00000, 0x80000, 0xec7bc38c );
@@ -567,7 +567,7 @@ public class rampart
 	ROM_END(); }}; 
 	
 	
-	static RomLoadPtr rom_ramprt2p = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ramprt2p = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x148000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "082-1033.13l", 0x00000, 0x80000, 0x5c36795f );
 		ROM_LOAD_ODD ( "082-1032.13j", 0x00000, 0x80000, 0xec7bc38c );
@@ -583,7 +583,7 @@ public class rampart
 	ROM_END(); }}; 
 	
 	
-	static RomLoadPtr rom_rampartj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_rampartj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x148000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "3451.bin",  0x00000, 0x20000, 0xc6596d32 );
 		ROM_LOAD_ODD ( "3450.bin",  0x00000, 0x20000, 0x563b33cc );
@@ -603,7 +603,7 @@ public class rampart
 	ROM_END(); }}; 
 	
 	
-	static RomLoadPtr rom_arcadecr = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_arcadecr = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x148000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "pgm0",  0x00000, 0x80000, 0xb5b93623 );
 		ROM_LOAD_ODD ( "prog1", 0x00000, 0x80000, 0xe7efef85 );
@@ -623,7 +623,7 @@ public class rampart
 	 *
 	 *************************************/
 	
-	public static InitDriverPtr init_rampart = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_rampart = new InitDriverHandlerPtr() { public void handler() 
 	{
 		int compressed_default_eeprom[] =
 		{
@@ -663,7 +663,7 @@ public class rampart
 	} };
 	
 	
-	public static InitDriverPtr init_arcadecr = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_arcadecr = new InitDriverHandlerPtr() { public void handler() 
 	{
 		int length = 0x80000 * 2;
 		UShortPtr data = new UShortPtr(memory_region(REGION_CPU1));

@@ -167,7 +167,7 @@ public class tehkanwc {
         }
     };
     static int toggle;
-    public static vclk_interruptPtr tehkanwc_adpcm_int = new vclk_interruptPtr() {
+    public static vclk_InterruptHandlerPtr tehkanwc_adpcm_int = new vclk_InterruptHandlerPtr() {
         public void handler(int data) {
             UBytePtr SAMPLES = memory_region(REGION_SOUND1);
             int msm_data = SAMPLES.read(msm_data_offs & 0x7fff);
@@ -712,7 +712,7 @@ public class tehkanwc {
     static MSM5205interface msm5205_interface = new MSM5205interface(
             1, /* 1 chip             */
             384000, /* 384KHz             */
-            new vclk_interruptPtr[]{tehkanwc_adpcm_int},/* interrupt function */
+            new vclk_InterruptHandlerPtr[]{tehkanwc_adpcm_int},/* interrupt function */
             new int[]{MSM5205_S48_4B}, /* 8KHz               */
             new int[]{25}
     );
@@ -773,7 +773,7 @@ public class tehkanwc {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_tehkanwc = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tehkanwc = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -809,7 +809,7 @@ public class tehkanwc {
         }
     };
 
-    static RomLoadPtr rom_gridiron = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gridiron = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -848,7 +848,7 @@ public class tehkanwc {
         }
     };
 
-    static RomLoadPtr rom_teedoff = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_teedoff = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 

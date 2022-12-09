@@ -148,7 +148,7 @@ public class eprom
                 0
         );
                 
-	public static VhStartPtr eprom_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr eprom_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		
 		/* reset statics */
@@ -177,7 +177,7 @@ public class eprom
 	 *
 	 *************************************/
 	
-	public static VhStopPtr eprom_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr eprom_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		atarigen_pf_free();
 		atarigen_mo_free();
@@ -254,7 +254,7 @@ public class eprom
 	 *
 	 *************************************/
 	
-	public static VhUpdatePtr eprom_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr eprom_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int i;
 	

@@ -44,7 +44,7 @@ public class blockout
 {
 	
 	
-	public static InterruptPtr blockout_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr blockout_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		/* interrupt 6 is vblank */
 		/* interrupt 5 reads coin inputs - might have to be triggered only */
@@ -295,7 +295,7 @@ public class blockout
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_blockout = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_blockout = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 2*128k for 68000 code */
 		ROM_LOAD_EVEN( "bo29a0-2.bin", 0x00000, 0x20000, 0xb0103427 );
 		ROM_LOAD_ODD ( "bo29a1-2.bin", 0x00000, 0x20000, 0x5984d5a2 );
@@ -310,7 +310,7 @@ public class blockout
 		ROM_LOAD( "mb7114h.25",   0x0000, 0x0100, 0xb25bbda7 );/* unknown */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_blckout2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_blckout2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 2*128k for 68000 code */
 		ROM_LOAD_EVEN( "29a0",         0x00000, 0x20000, 0x605f931e );
 		ROM_LOAD_ODD ( "29a1",         0x00000, 0x20000, 0x38f07000 );

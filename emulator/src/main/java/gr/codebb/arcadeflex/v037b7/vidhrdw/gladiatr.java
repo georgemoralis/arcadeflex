@@ -107,7 +107,7 @@ public class gladiatr {
         }
     };
 
-    public static VhStartPtr gladiatr_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr gladiatr_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             sprite_bank = 2;
 
@@ -126,7 +126,7 @@ public class gladiatr {
         }
     };
 
-    public static VhStopPtr gladiatr_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr gladiatr_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             bitmap_free(tmpbitmap);
             dirtybuffer = null;
@@ -295,7 +295,7 @@ public class gladiatr {
         } while (source.offset < finish);
     }
 
-    public static VhUpdatePtr gladiatr_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr gladiatr_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             if ((video_attributes & 0x20) != 0) /* screen refresh enable? */ {
                 if (palette_recalc() != null) {

@@ -27,7 +27,7 @@ public class bogeyman {
     static int flipscreen;
     public static UBytePtr bogeyman_videoram = new UBytePtr();
 
-    public static VhConvertColorPromPtr bogeyman_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr bogeyman_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int p_inc = 0;
@@ -60,7 +60,7 @@ public class bogeyman {
         }
     };
 
-    public static VhStartPtr bogeyman_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr bogeyman_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             dirtybuffer = new char[videoram_size[0]];
             memset(dirtybuffer, 1, videoram_size[0]);
@@ -70,7 +70,7 @@ public class bogeyman {
         }
     };
 
-    public static VhStopPtr bogeyman_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr bogeyman_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             dirtybuffer = null;
             osd_free_bitmap(tmpbitmap);
@@ -93,7 +93,7 @@ public class bogeyman {
             dirtybuffer[offset] = 1;
         }
     };
-    public static VhUpdatePtr bogeyman_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr bogeyman_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int mx, my, offs, color, tile, bank, sx, sy, flipx, flipy, multi;
 

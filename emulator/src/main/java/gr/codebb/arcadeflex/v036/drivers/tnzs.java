@@ -1552,7 +1552,7 @@ public class tnzs
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_extrmatn = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_extrmatn = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30000, REGION_CPU1 );			/* Region 0 - main cpu */
 		ROM_LOAD( "b06-20.bin", 0x00000, 0x08000, 0x04e3fc1f );
 		ROM_CONTINUE(           0x18000, 0x08000 );			/* banked at 8000-bfff */
@@ -1573,7 +1573,7 @@ public class tnzs
 		ROM_LOAD( "b06-08.bin", 0x00200, 0x200, 0x10c9aac3 );/* lo bytes */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_arkanoi2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_arkanoi2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30000, REGION_CPU1 );			/* Region 0 - main cpu */
 		ROM_LOAD( "a2-05.rom",  0x00000, 0x08000, 0x136edf9d );
 		ROM_CONTINUE(           0x18000, 0x08000 );		/* banked at 8000-bfff */
@@ -1594,7 +1594,7 @@ public class tnzs
 		ROM_LOAD( "b08-07.bin", 0x00200, 0x200, 0xea34d9f7 );/* lo bytes */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ark2us = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ark2us = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30000, REGION_CPU1 );			/* Region 0 - main cpu */
 		ROM_LOAD( "b08-11.bin", 0x00000, 0x08000, 0x99555231 );
 		ROM_CONTINUE(           0x18000, 0x08000 );		/* banked at 8000-bfff */
@@ -1615,7 +1615,7 @@ public class tnzs
 		ROM_LOAD( "b08-07.bin", 0x00200, 0x200, 0xea34d9f7 );/* lo bytes */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ark2jp = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ark2jp = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30000, REGION_CPU1 );			/* Region 0 - main cpu */
 		ROM_LOAD( "a2-05.rom",  0x00000, 0x08000, 0x136edf9d );
 		ROM_CONTINUE(           0x18000, 0x08000 );		/* banked at 8000-bfff */
@@ -1636,7 +1636,7 @@ public class tnzs
 		ROM_LOAD( "b08-07.bin", 0x00200, 0x200, 0xea34d9f7 );/* lo bytes */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_plumppop = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_plumppop = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30000, REGION_CPU1 );/* 64k + bankswitch areas for the first CPU */
 		ROM_LOAD( "a98-09.bin", 0x00000, 0x08000, 0x107f9e06 );
 		ROM_CONTINUE(           0x18000, 0x08000 );			/* banked at 8000-bfff */
@@ -1669,7 +1669,7 @@ public class tnzs
 		ROM_LOAD( "a98-12.bpr", 0x0200, 0x200, 0x90dc9da7 );/* lo bytes */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_drtoppel = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_drtoppel = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30000, REGION_CPU1 );/* 64k + bankswitch areas for the first CPU */
 		ROM_LOAD( "b19-09.bin", 0x00000, 0x08000, 0x3e654f82 );
 		ROM_CONTINUE(           0x18000, 0x08000 );			/* banked at 8000-bfff */
@@ -1694,7 +1694,7 @@ public class tnzs
 		ROM_LOAD( "b19-12.bin", 0x0200, 0x200, 0x5754e9d8 );/* lo bytes */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_chukatai = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_chukatai = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30000, REGION_CPU1 );/* 64k + bankswitch areas for the first CPU */
 		ROM_LOAD( "b44.10", 0x00000, 0x08000, 0x8c69e008 );
 		ROM_CONTINUE(       0x18000, 0x08000 );			/* banked at 8000-bfff */
@@ -1715,7 +1715,7 @@ public class tnzs
 		ROM_LOAD( "b44-08.a02", 0xe0000, 0x20000, 0x6cb1e8fc );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_tnzs = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_tnzs = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30000, REGION_CPU1 );/* 64k + bankswitch areas for the first CPU */
 		ROM_LOAD( "nzsb5310.bin", 0x00000, 0x08000, 0xa73745c6 );
 		ROM_CONTINUE(             0x18000, 0x18000 );	/* banked at 8000-bfff */
@@ -1736,7 +1736,7 @@ public class tnzs
 		ROM_LOAD( "nzsb5321.bin", 0xe0000, 0x20000, 0x9800c54d );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_tnzsb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_tnzsb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30000, REGION_CPU1 );/* 64k + bankswitch areas for the first CPU */
 		ROM_LOAD( "nzsb5324.bin", 0x00000, 0x08000, 0xd66824c6 );
 		ROM_CONTINUE(             0x18000, 0x18000 );	/* banked at 8000-bfff */
@@ -1760,7 +1760,7 @@ public class tnzs
 		ROM_LOAD( "nzsb5321.bin", 0xe0000, 0x20000, 0x9800c54d );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_tnzs2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_tnzs2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30000, REGION_CPU1 );/* 64k + bankswitch areas for the first CPU */
 		ROM_LOAD( "ns_c-11.rom",  0x00000, 0x08000, 0x3c1dae7b );
 		ROM_CONTINUE(             0x18000, 0x18000 );	/* banked at 8000-bfff */
@@ -1780,7 +1780,7 @@ public class tnzs
 		ROM_LOAD( "ns_a02.rom",   0xe0000, 0x20000, 0x2ab06bda );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_insectx = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_insectx = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30000, REGION_CPU1 );/* 64k + bankswitch areas for the first CPU */
 		ROM_LOAD( "insector.u32", 0x00000, 0x08000, 0x18eef387 );
 		ROM_CONTINUE(             0x18000, 0x18000 );	/* banked at 8000-bfff */
@@ -1794,7 +1794,7 @@ public class tnzs
 		ROM_LOAD( "insector.r16", 0x80000, 0x80000, 0xdb5a7434 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_kageki = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kageki = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30000, REGION_CPU1 );
 		ROM_LOAD( "b35-16.11c",  0x00000, 0x08000, 0xa4e6fd58 );/* US ver */
 		ROM_CONTINUE(            0x18000, 0x08000 );
@@ -1818,7 +1818,7 @@ public class tnzs
 		ROM_LOAD( "b35-15.98g",  0x00000, 0x10000, 0xe6212a0f );/* US ver */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_kagekij = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kagekij = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30000, REGION_CPU1 );
 		ROM_LOAD( "b35-09j.11c", 0x00000, 0x08000, 0x829637d5 );/* JP ver */
 		ROM_CONTINUE(            0x18000, 0x08000 );

@@ -135,7 +135,7 @@ public class bionicc
 	
 	********************************************************************/
 	
-	public static InterruptPtr bionicc_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr bionicc_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (cpu_getiloops() == 0) return 2;
 		else return 4;
@@ -406,7 +406,7 @@ public class bionicc
 	
 	
 	
-	static RomLoadPtr rom_bionicc = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bionicc = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "tsu_02b.rom",  0x00000, 0x10000, 0xcf965a0a );/* 68000 code */
 		ROM_LOAD_ODD ( "tsu_04b.rom",  0x00000, 0x10000, 0xc9884bfb );/* 68000 code */
@@ -447,7 +447,7 @@ public class bionicc
 /*TODO*///		ROM_LOAD( "63s141.18f",   0x0000, 0x0100, 0xb58d0023 );/* priority (not used) */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_bionicc2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bionicc2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "02",      0x00000, 0x10000, 0xf2528f08 );/* 68000 code */
 		ROM_LOAD_ODD ( "04",      0x00000, 0x10000, 0x38b1c7e4 );/* 68000 code */
@@ -488,7 +488,7 @@ public class bionicc
 /*TODO*///		ROM_LOAD( "63s141.18f",   0x0000, 0x0100, 0xb58d0023 );/* priority (not used) */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_topsecrt = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_topsecrt = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "ts_02.rom",  0x00000, 0x10000, 0xb2fe1ddb );/* 68000 code */
 		ROM_LOAD_ODD ( "ts_04.rom",  0x00000, 0x10000, 0x427a003d );/* 68000 code */

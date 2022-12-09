@@ -228,7 +228,7 @@ public class pbaction {
                 new GfxDecodeInfo(REGION_GFX3, 0x01000, spritelayout2, 0, 16), /*   0-127 large sprites */
                 new GfxDecodeInfo(-1) /* end of array */};
 
-    public static InterruptPtr pbaction_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr pbaction_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             return 0x02;
             /* the CPU is in Interrupt Mode 2 */
@@ -291,7 +291,7 @@ public class pbaction {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_pbaction = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pbaction = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -322,7 +322,7 @@ public class pbaction {
         }
     };
 
-    static RomLoadPtr rom_pbactio2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pbactio2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 

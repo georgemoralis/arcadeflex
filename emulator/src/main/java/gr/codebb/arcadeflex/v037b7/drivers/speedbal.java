@@ -271,7 +271,7 @@ public class speedbal {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_speedbal = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_speedbal = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64K for code: main */
@@ -305,7 +305,7 @@ public class speedbal {
         }
     };
 
-    public static InitDriverPtr init_speedbal = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_speedbal = new InitDriverHandlerPtr() {
         public void handler() {
             int i;
 

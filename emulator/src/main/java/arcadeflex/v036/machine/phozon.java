@@ -21,7 +21,7 @@ public class phozon {
     public static UBytePtr phozon_customio_2 = new UBytePtr();
     static int credits, coincounter1, coincounter2;
 
-    public static InitMachinePtr phozon_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr phozon_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             credits = coincounter1 = coincounter2 = 0;
             cpu_set_halt_line(1, CLEAR_LINE);

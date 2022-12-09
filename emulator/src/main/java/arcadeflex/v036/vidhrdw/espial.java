@@ -40,7 +40,7 @@ public class espial {
      *
      **************************************************************************
      */
-    public static VhConvertColorPromPtr espial_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr espial_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -89,7 +89,7 @@ public class espial {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr espial_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr espial_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

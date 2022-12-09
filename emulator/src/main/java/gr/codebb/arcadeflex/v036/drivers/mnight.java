@@ -25,13 +25,13 @@ public class mnight {
 
     static int mnight_bank_latch = 255, main_cpu_num;
 
-    public static InitMachinePtr mnight_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr mnight_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             main_cpu_num = 0;
         }
     };
 
-    public static InterruptPtr mnight_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr mnight_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             return 0x00d7;
             /* RST 10h */
@@ -403,7 +403,7 @@ public class mnight {
             }
     );
 
-    static RomLoadPtr rom_mnight = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mnight = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);
             ROM_LOAD("mn6-j19.bin", 0x00000, 0x8000, 0x56678d14);
@@ -452,7 +452,7 @@ public class mnight {
         }
     };
 
-    static RomLoadPtr rom_arkarea = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_arkarea = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);
             ROM_LOAD("arkarea.008", 0x00000, 0x8000, 0x1ce1b5b9);

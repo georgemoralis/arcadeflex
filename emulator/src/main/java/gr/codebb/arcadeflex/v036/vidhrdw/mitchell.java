@@ -60,7 +60,7 @@ public class mitchell {
      * Video init
 	**************************************************************************
      */
-    public static VhStartPtr pang_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr pang_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             pang_objram = null;
             paletteram = null;
@@ -102,7 +102,7 @@ public class mitchell {
         }
     };
 
-    public static VhStopPtr pang_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr pang_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             pang_objram = null;
             paletteram = null;
@@ -326,7 +326,7 @@ public class mitchell {
         }
     }
 
-    public static VhUpdatePtr pang_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr pang_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int i;
 

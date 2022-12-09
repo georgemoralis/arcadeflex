@@ -66,7 +66,7 @@ public class bloodbro {
     /**
      * ***********************************************************************
      */
-    public static VhStopPtr bloodbro_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr bloodbro_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             if (tmpbitmap != null) {
                 osd_free_bitmap(tmpbitmap);
@@ -78,7 +78,7 @@ public class bloodbro {
             dirtybuffer = null;
         }
     };
-    public static VhStartPtr bloodbro_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr bloodbro_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             tmpbitmap = osd_new_bitmap(512, 256, Machine.scrbitmap.depth);
             dirtybuffer = new char[32 * 16];
@@ -310,7 +310,7 @@ static void get_sprite_info(  ){
         }
     }
 
-    public static VhUpdatePtr bloodbro_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr bloodbro_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             get_sprite_info();
 
@@ -449,7 +449,7 @@ static void get_sprite_info(  ){
             memset(dirtybuffer2, 1, 32 * 16);
         }
     }
-    public static VhUpdatePtr weststry_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr weststry_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             weststry_mark_used_colors();
 

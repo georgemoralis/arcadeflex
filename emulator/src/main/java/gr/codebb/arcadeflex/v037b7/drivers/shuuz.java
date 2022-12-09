@@ -70,7 +70,7 @@ public class shuuz
 	 *
 	 *************************************/
 	
-	public static InitMachinePtr init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_reset();
 		atarigen_video_control_reset();
@@ -392,7 +392,7 @@ public class shuuz
 	 *
 	 *************************************/
 	
-	static RomLoadPtr rom_shuuz = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_shuuz = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 4*64k for 68000 code */
 		ROM_LOAD_EVEN( "4010.23p",     0x00000, 0x20000, 0x1c2459f8 );
 		ROM_LOAD_ODD ( "4011.13p",     0x00000, 0x20000, 0x6db53a85 );
@@ -419,7 +419,7 @@ public class shuuz
 	ROM_END(); }}; 
 	
 	
-	static RomLoadPtr rom_shuuz2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_shuuz2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 4*64k for 68000 code */
 		ROM_LOAD_EVEN( "23p.rom",     0x00000, 0x20000, 0x98aec4e7 );
 		ROM_LOAD_ODD ( "13p.rom",     0x00000, 0x20000, 0xdd9d5d5c );
@@ -447,7 +447,7 @@ public class shuuz
 	
 	
 	
-	public static InitDriverPtr init_shuuz = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_shuuz = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = null;
 	

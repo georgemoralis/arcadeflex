@@ -226,7 +226,7 @@ public class mcr68
   	 *
   	 *************************************/
   	
-  	public static VhUpdatePtr mcr68_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+  	public static VhUpdateHandlerPtr mcr68_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
   	{
 /*TODO*///  	#if DEBUG_VIDEO
 /*TODO*///  		mcr68_debug();
@@ -363,7 +363,7 @@ public class mcr68
   	 *
   	 *************************************/
   	
-  	public static VhConvertColorPromPtr zwackery_convert_color_prom = new VhConvertColorPromPtr() {
+  	public static VhConvertColorPromHandlerPtr zwackery_convert_color_prom = new VhConvertColorPromHandlerPtr() {
               @Override
               public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
                 UBytePtr colordatabase = new UBytePtr(memory_region(REGION_GFX3));
@@ -641,7 +641,7 @@ public class mcr68
   	 *
   	 *************************************/
   	
-  	public static VhUpdatePtr zwackery_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+  	public static VhUpdateHandlerPtr zwackery_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
   	{
 /*TODO*///  	#if DEBUG_VIDEO
 /*TODO*///  		zwackery_debug();

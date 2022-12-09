@@ -45,7 +45,7 @@ public class ninjakd2 {
     static int bg_enable = 1;
     static int sp_overdraw = 0;
 
-    public static VhStartPtr ninjakd2_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr ninjakd2_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int i;
 
@@ -74,7 +74,7 @@ public class ninjakd2 {
         }
     };
 
-    public static VhStopPtr ninjakd2_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr ninjakd2_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(bitmap_bg);
             osd_free_bitmap(bitmap_sp);
@@ -220,7 +220,7 @@ public class ninjakd2 {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr ninjakd2_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr ninjakd2_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int scrollx, scrolly;
 

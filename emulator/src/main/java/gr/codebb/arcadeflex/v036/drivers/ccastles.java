@@ -223,7 +223,7 @@ public class ccastles {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_ccastles = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ccastles = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);/* 64k for code */
 
@@ -241,7 +241,7 @@ public class ccastles {
         }
     };
 
-    static RomLoadPtr rom_ccastle2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ccastle2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);/* 64k for code */
 

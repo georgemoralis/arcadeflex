@@ -45,7 +45,7 @@ public class jackal {
         }
     };
 
-    public static InterruptPtr jackal_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr jackal_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if ((intenable & 0x02) != 0) {
                 return nmi_interrupt.handler();
@@ -408,7 +408,7 @@ public class jackal {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_jackal = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_jackal = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* Banked 64k for 1st CPU */
 
@@ -434,7 +434,7 @@ public class jackal {
         }
     };
 
-    static RomLoadPtr rom_topgunr = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_topgunr = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* Banked 64k for 1st CPU */
 
@@ -460,7 +460,7 @@ public class jackal {
         }
     };
 
-    static RomLoadPtr rom_jackalj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_jackalj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* Banked 64k for 1st CPU */
 
@@ -486,7 +486,7 @@ public class jackal {
         }
     };
 
-    static RomLoadPtr rom_topgunbl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_topgunbl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* Banked 64k for 1st CPU */
 

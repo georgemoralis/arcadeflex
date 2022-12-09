@@ -94,6 +94,9 @@
  */
 package gr.codebb.arcadeflex.v036.drivers;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -238,7 +241,7 @@ public class rockola {
                 new MemoryWriteAddress(0xb300, 0xb300, MWA_RAM, rockola_scrollx),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    public static InterruptPtr satansat_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr satansat_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (cpu_getiloops() != 0) {
                 /* user asks to insert coin: generate a NMI interrupt. */
@@ -254,7 +257,7 @@ public class rockola {
         }
     };
 
-    public static InterruptPtr rockola_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr rockola_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (cpu_getiloops() != 0) {
                 /* user asks to insert coin: generate a NMI interrupt. */
@@ -883,7 +886,7 @@ public class rockola {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_sasuke = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sasuke = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("sc1", 0x4000, 0x0800, 0x34cbbe03);
@@ -911,7 +914,7 @@ public class rockola {
         }
     };
 
-    static RomLoadPtr rom_satansat = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_satansat = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("ss1", 0x4000, 0x0800, 0x549dd13a);
@@ -942,7 +945,7 @@ public class rockola {
         }
     };
 
-    static RomLoadPtr rom_zarzon = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_zarzon = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("zarz122.07", 0x4000, 0x0800, 0xbdfa67e2);
@@ -973,7 +976,7 @@ public class rockola {
         }
     };
 
-    static RomLoadPtr rom_vanguard = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_vanguard = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("sk4_ic07.bin", 0x4000, 0x1000, 0x6a29e354);
@@ -1008,7 +1011,7 @@ public class rockola {
         }
     };
 
-    static RomLoadPtr rom_vangrdce = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_vangrdce = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("sk4_ic07.bin", 0x4000, 0x1000, 0x6a29e354);
@@ -1043,7 +1046,7 @@ public class rockola {
         }
     };
 
-    static RomLoadPtr rom_fantasy = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_fantasy = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("ic12.cpu", 0x3000, 0x1000, 0x22cb2249);
@@ -1078,7 +1081,7 @@ public class rockola {
         }
     };
 
-    static RomLoadPtr rom_fantasyj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_fantasyj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("fs5jic12.bin", 0x3000, 0x1000, 0xdd1eac89);
@@ -1113,7 +1116,7 @@ public class rockola {
         }
     };
 
-    static RomLoadPtr rom_pballoon = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pballoon = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("sk7_ic12.bin", 0x3000, 0x1000, 0xdfe2ae05);
@@ -1142,7 +1145,7 @@ public class rockola {
         }
     };
 
-    static RomLoadPtr rom_nibbler = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_nibbler = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("g960-52.12", 0x3000, 0x1000, 0xac6a802b);
@@ -1172,7 +1175,7 @@ public class rockola {
         }
     };
 
-    static RomLoadPtr rom_nibblera = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_nibblera = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("ic12", 0x3000, 0x1000, 0x6dfa1be5);

@@ -49,7 +49,7 @@ public class neogeo {
 /*TODO*///
 /*TODO*////******************************************************************************/
 /*TODO*///
-    public static VhStopPtr neogeo_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr neogeo_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             /*TODO*///   	if (pal_bank1) free (pal_bank1);
 /*TODO*///	if (pal_bank2) free (pal_bank2);
@@ -59,7 +59,7 @@ public class neogeo {
 /*TODO*///	pal_bank1=pal_bank2=vidram=neogeo_ram=0;
         }
     };
-    public static VhStartPtr common_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr common_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             pal_bank1 = null;
             pal_bank2 = null;
@@ -137,7 +137,7 @@ public class neogeo {
             gfxdata.inc();
         }
     }
-    public static VhStartPtr neogeo_mvs_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr neogeo_mvs_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             no_of_tiles = memory_region_length(REGION_GFX2) / 128;
             if (no_of_tiles > 0x10000) {
@@ -1137,7 +1137,7 @@ public class neogeo {
 
     }
 
-    public static VhUpdatePtr neogeo_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr neogeo_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             screenrefresh(bitmap, Machine.drv.visible_area);
 
@@ -1171,7 +1171,7 @@ public class neogeo {
 
         next_update_first_line = current_line + 1;
     }
-    public static VhUpdatePtr neogeo_vh_raster_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr neogeo_vh_raster_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             /* Palette swap occured after last frame but before this one */
             if (palette_swap_pending != 0) {

@@ -572,7 +572,7 @@ public class kingobox {
             new int[]{25}
     );
 
-    public static InterruptPtr kingobox_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr kingobox_interrupt = new InterruptHandlerPtr() {
         public int handler() {
 
             if (kingofb_nmi_enable != 0) {
@@ -703,7 +703,7 @@ public class kingobox {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_kingofb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kingofb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -752,7 +752,7 @@ public class kingobox {
     };
 
     /* Ring King */
-    static RomLoadPtr rom_ringking = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ringking = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -796,7 +796,7 @@ public class kingobox {
         }
     };
 
-    static RomLoadPtr rom_ringkin2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ringkin2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -840,7 +840,7 @@ public class kingobox {
         }
     };
 
-    static RomLoadPtr rom_ringkin3 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ringkin3 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -889,7 +889,7 @@ public class kingobox {
         }
     };
 
-    public static InitDriverPtr init_ringkin3 = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_ringkin3 = new InitDriverHandlerPtr() {
         public void handler() {
             int i;
             UBytePtr RAM = memory_region(REGION_PROMS);

@@ -17,7 +17,6 @@ import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.copybitmap;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.drawgfx;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.plot_pixel;
-import gr.codebb.arcadeflex.v036.mame.driverH.VhUpdatePtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static arcadeflex.v036.mame.drawgfxH.TRANSPARENCY_NONE;
@@ -98,7 +97,7 @@ public class lazercmd {
         }
     };
 
-    public static VhUpdatePtr lazercmd_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr lazercmd_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int i;
 

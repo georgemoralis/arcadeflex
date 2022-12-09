@@ -28,7 +28,7 @@ public class digdug {
 
     static timer_entry nmi_timer;
 
-    public static InitMachinePtr digdig_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr digdig_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             credits = 0;
             nmi_timer = null;
@@ -292,7 +292,7 @@ public class digdug {
         }
     };
 
-    public static InterruptPtr digdug_interrupt_1 = new InterruptPtr() {
+    public static InterruptHandlerPtr digdug_interrupt_1 = new InterruptHandlerPtr() {
         public int handler() {
             if (interrupt_enable_1 != 0) {
                 return interrupt.handler();
@@ -308,7 +308,7 @@ public class digdug {
         }
     };
 
-    public static InterruptPtr digdug_interrupt_2 = new InterruptPtr() {
+    public static InterruptHandlerPtr digdug_interrupt_2 = new InterruptHandlerPtr() {
         public int handler() {
             if (interrupt_enable_2 != 0) {
                 return interrupt.handler();
@@ -324,7 +324,7 @@ public class digdug {
         }
     };
 
-    public static InterruptPtr digdug_interrupt_3 = new InterruptPtr() {
+    public static InterruptHandlerPtr digdug_interrupt_3 = new InterruptHandlerPtr() {
         public int handler() {
             if (interrupt_enable_3 != 0) {
                 return nmi_interrupt.handler();

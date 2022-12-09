@@ -83,7 +83,7 @@ public class _88games
 		k88games_priority = lines & 0x80;
 	}};
 	
-	public static InitMachinePtr k88games_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr k88games_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		konami_cpu_setlines_callback = k88games_banking;
 		paletteram = new UBytePtr(memory_region(REGION_CPU1),0x20000);
@@ -111,7 +111,7 @@ public class _88games
 	} };
 	
 	
-	public static InterruptPtr k88games_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr k88games_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (K052109_is_IRQ_enabled()!=0) return interrupt.handler();
 		else return ignore_interrupt.handler();
@@ -444,7 +444,7 @@ public class _88games
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_88games = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_88games = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x21000, REGION_CPU1 );/* code + banked roms + space for banked ram */
 	    ROM_LOAD( "861m01.k18", 0x08000, 0x08000, 0x4a4e2959 );
 		ROM_LOAD( "861m02.k16", 0x10000, 0x10000, 0xe19f15f6 );
@@ -498,7 +498,7 @@ public class _88games
 		ROM_LOAD( "861a07.d", 0x010000, 0x10000, 0x86731451 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_konami88 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_konami88 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x21000, REGION_CPU1 );/* code + banked roms + space for banked ram */
 		ROM_LOAD( "861.e03", 0x08000, 0x08000, 0x55979bd9 );
 		ROM_LOAD( "861.e02", 0x10000, 0x10000, 0x5b7e98a6 );
@@ -552,7 +552,7 @@ public class _88games
 		ROM_LOAD( "861a07.d", 0x010000, 0x10000, 0x86731451 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_hypsptsp = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_hypsptsp = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x21000, REGION_CPU1 );/* code + banked roms + space for banked ram */
 		ROM_LOAD( "861f03.k18", 0x08000, 0x08000, 0x8c61aebd );
 		ROM_LOAD( "861f02.k16", 0x10000, 0x10000, 0xd2460c28 );
@@ -612,7 +612,7 @@ public class _88games
 	
 	
 	
-	public static InitDriverPtr init_88games = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_88games = new InitDriverHandlerPtr() { public void handler() 
 	{
 		konami_rom_deinterleave_2(REGION_GFX1);
 		konami_rom_deinterleave_2(REGION_GFX2);

@@ -372,7 +372,7 @@ public class ddrible {
             }
     );
 
-    static RomLoadPtr rom_ddribble = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ddribble = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x1a000, REGION_CPU1);/* 64K CPU #0 + 40K for Banked ROMS */
 

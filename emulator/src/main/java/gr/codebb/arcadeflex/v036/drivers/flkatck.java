@@ -38,7 +38,7 @@ public class flkatck
 
 	/***************************************************************************/
 	
-	public static InitMachinePtr flkatck_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr flkatck_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM = memory_region(REGION_SOUND1);
 		int bank_A, bank_B;
@@ -48,7 +48,7 @@ public class flkatck
 /*TODO*///		K007232_bankswitch(0,RAM + bank_A,RAM + bank_B);
 	} };
 	
-	public static InterruptPtr flkatck_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr flkatck_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (flkatck_irq_enabled!=0)
 			return HD6309_INT_IRQ;
@@ -351,7 +351,7 @@ public class flkatck
 	
 	
 	
-	static RomLoadPtr rom_mx5000 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mx5000 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x18000, REGION_CPU1 );	/* 6309 code */
 		ROM_LOAD( "r01",          0x010000, 0x006000, 0x79b226fc );/* banked ROM */
 		ROM_CONTINUE(             0x006000, 0x00a000 );		/* fixed ROM */
@@ -366,7 +366,7 @@ public class flkatck
 		ROM_LOAD( "mask2m.bin",		0x000000, 0x040000, 0x6d1ea61c );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_flkatck = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_flkatck = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x18000, REGION_CPU1 );	/* 6309 code */
 		ROM_LOAD( "gx669_p1.16c", 0x010000, 0x006000, 0xc5cd2807 );/* banked ROM */
 		ROM_CONTINUE(             0x006000, 0x00a000 );		/* fixed ROM */

@@ -119,7 +119,7 @@ public class snk68 {
     /**
      * ***************************************************************************
      */
-    public static VhUpdatePtr pow_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr pow_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, color, i;
             int[] colmask = new int[0x80];
@@ -261,7 +261,7 @@ public class snk68 {
     /**
      * ***************************************************************************
      */
-    public static VhUpdatePtr searchar_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr searchar_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, color, i;
             int[] colmask = new int[0x80];
@@ -321,7 +321,7 @@ public class snk68 {
     /**
      * ***************************************************************************
      */
-    public static VhStartPtr pow_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr pow_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             /* Tilemaps are different between games */
             if (strcmp(Machine.gamedrv.name, "pow") == 0

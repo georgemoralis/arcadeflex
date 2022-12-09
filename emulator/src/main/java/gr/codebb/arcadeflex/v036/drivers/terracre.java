@@ -398,7 +398,7 @@ public class terracre
 	
 	
 	
-	static RomLoadPtr rom_terracre = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_terracre = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x20000, REGION_CPU1 );/* 128K for 68000 code */
 		ROM_LOAD_ODD ( "1a_4b.rom",    0x00000, 0x4000, 0x76f17479 );
 		ROM_LOAD_EVEN( "1a_4d.rom",    0x00000, 0x4000, 0x8119f06e );
@@ -439,7 +439,7 @@ public class terracre
 	/* Notes: All the roms are the same except the SOUND ROMs */
 	/**********************************************************/
 	
-	static RomLoadPtr rom_terracrb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_terracrb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x20000, REGION_CPU1 );/* 128K for 68000 code */
 		ROM_LOAD_ODD ( "1a_4b.rom",    0x00000, 0x4000, 0x76f17479 );
 		ROM_LOAD_EVEN( "1a_4d.rom",    0x00000, 0x4000, 0x8119f06e );
@@ -480,7 +480,7 @@ public class terracre
 	/* Notes: All the roms are the same except the SOUND ROMs */
 	/**********************************************************/
 	
-	static RomLoadPtr rom_terracra = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_terracra = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x20000, REGION_CPU1 );/* 128K for 68000 code */
 		ROM_LOAD_ODD ( "1a_4b.rom",    0x00000, 0x4000, 0x76f17479 );
 		ROM_LOAD_EVEN( "1a_4d.rom",    0x00000, 0x4000, 0x8119f06e );

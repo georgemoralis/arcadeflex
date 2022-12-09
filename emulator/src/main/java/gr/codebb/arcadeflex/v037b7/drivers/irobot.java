@@ -270,7 +270,7 @@ public class irobot {
      * Game driver(s)
      **************************************************************************
      */
-    static RomLoadPtr rom_irobot = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_irobot = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* 64k for code + 48K Banked ROM*/
             ROM_LOAD("136029.208", 0x06000, 0x2000, 0xb4d0be59);

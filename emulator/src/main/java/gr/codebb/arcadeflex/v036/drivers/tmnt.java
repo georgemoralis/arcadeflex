@@ -169,7 +169,7 @@ public class tmnt {
         }
     };
 
-    public static InterruptPtr punkshot_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr punkshot_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (K052109_is_IRQ_enabled() != 0) {
                 return m68_level4_irq.handler();
@@ -180,7 +180,7 @@ public class tmnt {
         }
     };
 	
-	public static InterruptPtr lgtnfght_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr lgtnfght_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (K052109_is_IRQ_enabled()!=0) return m68_level5_irq.handler();
 		else return ignore_interrupt.handler();
@@ -2669,7 +2669,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_mia = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mia = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);/* 2*128k and 2*64k for 68000 code */
 
@@ -2707,7 +2707,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_mia2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mia2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);/* 2*128k and 2*64k for 68000 code */
 
@@ -2744,7 +2744,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
             ROM_END();
         }
     };
-    static RomLoadPtr rom_tmnt = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tmnt = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 2*128k and 2*64k for 68000 code */
 
@@ -2793,7 +2793,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_tmht = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tmht = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 2*128k and 2*64k for 68000 code */
 
@@ -2842,7 +2842,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_tmntj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tmntj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 2*128k and 2*64k for 68000 code */
 
@@ -2891,7 +2891,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_tmht2p = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tmht2p = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 2*128k and 2*64k for 68000 code */
 
@@ -2940,7 +2940,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_tmnt2pj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tmnt2pj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 2*128k and 2*64k for 68000 code */
 
@@ -2988,7 +2988,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
             ROM_END();
         }
     };
-    static RomLoadPtr rom_punkshot = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_punkshot = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);/* 4*64k for 68000 code */
 
@@ -3018,7 +3018,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_punksht2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_punksht2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);/* 4*64k for 68000 code */
 
@@ -3047,7 +3047,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
             ROM_END();
         }
     };
-    static RomLoadPtr rom_lgtnfght = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_lgtnfght = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);/* 4*64k for 68000 code */
 
@@ -3075,7 +3075,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_trigon = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_trigon = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);/* 4*64k for 68000 code */
 
@@ -3103,7 +3103,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_blswhstl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_blswhstl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);
             ROM_LOAD_EVEN("e09.bin", 0x000000, 0x20000, 0xe8b7b234);
@@ -3134,7 +3134,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_detatwin = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_detatwin = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);
             ROM_LOAD_EVEN("060_j02.rom", 0x000000, 0x20000, 0x11b761ac);
@@ -3165,7 +3165,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_glfgreat = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_glfgreat = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);
             ROM_LOAD_EVEN("061l02.1h", 0x000000, 0x20000, 0xac7399f4);
@@ -3204,7 +3204,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_tmnt2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tmnt2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);
             ROM_LOAD_EVEN("uaa02", 0x000000, 0x20000, 0x58d5c93d);
@@ -3239,7 +3239,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_tmnt22p = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tmnt22p = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);
             ROM_LOAD_EVEN("a02", 0x000000, 0x20000, 0xaadffe3a);
@@ -3274,7 +3274,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_tmnt2a = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tmnt2a = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);
             ROM_LOAD_EVEN("ada02", 0x000000, 0x20000, 0x4f11b587);
@@ -3309,7 +3309,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_ssriders = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ssriders = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0xc0000, REGION_CPU1);
             ROM_LOAD_EVEN("064eac02", 0x000000, 0x40000, 0x5a5425f4);
@@ -3340,7 +3340,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_ssrdrebd = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ssrdrebd = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0xc0000, REGION_CPU1);
             ROM_LOAD_EVEN("064ebd02", 0x000000, 0x40000, 0x8deef9ac);
@@ -3371,7 +3371,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_ssrdrebc = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ssrdrebc = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0xc0000, REGION_CPU1);
             ROM_LOAD_EVEN("sr_c02.rom", 0x000000, 0x40000, 0x9bd7d164);
@@ -3402,7 +3402,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_ssrdruda = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ssrdruda = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0xc0000, REGION_CPU1);
             ROM_LOAD_EVEN("064uda02", 0x000000, 0x40000, 0x5129a6b7);
@@ -3433,7 +3433,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_ssrdruac = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ssrdruac = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0xc0000, REGION_CPU1);
             ROM_LOAD_EVEN("064uac02", 0x000000, 0x40000, 0x870473b6);
@@ -3464,7 +3464,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_ssrdrubc = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ssrdrubc = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0xc0000, REGION_CPU1);
             ROM_LOAD_EVEN("2pl.8e", 0x000000, 0x40000, 0xaca7fda5);
@@ -3495,7 +3495,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_ssrdrabd = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ssrdrabd = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0xc0000, REGION_CPU1);
             ROM_LOAD_EVEN("064abd02.8e", 0x000000, 0x40000, 0x713406cb);
@@ -3526,7 +3526,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         }
     };
 
-    static RomLoadPtr rom_ssrdrjbd = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ssrdrjbd = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0xc0000, REGION_CPU1);
             ROM_LOAD_EVEN("064jbd02.8e", 0x000000, 0x40000, 0x7acdc1e3);
@@ -3556,7 +3556,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
             ROM_END();
         }
     };
-    static RomLoadPtr rom_thndrx2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_thndrx2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);
             ROM_LOAD_EVEN("073-k02.11c", 0x000000, 0x20000, 0x0c8b2d3f);
@@ -3584,13 +3584,13 @@ static Samplesinterface samples_interface = new Samplesinterface(
             ROM_END();
         }
     };
-    public static InitDriverPtr init_gfx = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_gfx = new InitDriverHandlerPtr() {
         public void handler() {
             konami_rom_deinterleave_2(REGION_GFX1);
             konami_rom_deinterleave_2(REGION_GFX2);
         }
     };
-    public static InitDriverPtr init_mia = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_mia = new InitDriverHandlerPtr() {
         public void handler() {
             UBytePtr gfxdata;
             int len;
@@ -3686,7 +3686,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
             temp = null;
         }
     };
-    public static InitDriverPtr init_tmnt = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_tmnt = new InitDriverHandlerPtr() {
         public void handler() {
             UBytePtr gfxdata;
             int len;
@@ -3817,7 +3817,7 @@ static Samplesinterface samples_interface = new Samplesinterface(
         shuffle(new UBytePtr(buf, len), len);
     }
 
-    public static InitDriverPtr init_glfgreat = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_glfgreat = new InitDriverHandlerPtr() {
         public void handler() {
             /* ROMs are interleaved at byte level */
             shuffle(memory_region(REGION_GFX1), memory_region_length(REGION_GFX1));

@@ -4,6 +4,9 @@
  */
 package gr.codebb.arcadeflex.v037b7.drivers;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -319,7 +322,7 @@ public class travrusa {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_travrusa = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_travrusa = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -353,7 +356,7 @@ public class travrusa {
         }
     };
 
-    static RomLoadPtr rom_motorace = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_motorace = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x12000, REGION_CPU1);/* 64k for code */
 
@@ -389,7 +392,7 @@ public class travrusa {
         }
     };
 
-    public static InitDriverPtr init_motorace = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_motorace = new InitDriverHandlerPtr() {
         public void handler() {
             int A, i, j;
             UBytePtr RAM = memory_region(REGION_CPU1);

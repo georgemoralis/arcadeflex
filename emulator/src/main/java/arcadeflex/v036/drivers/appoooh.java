@@ -32,7 +32,7 @@ public class appoooh {
     static UBytePtr adpcmptr = null;
     static int appoooh_adpcm_data;
 
-    public static vclk_interruptPtr appoooh_adpcm_int = new vclk_interruptPtr() {
+    public static vclk_InterruptHandlerPtr appoooh_adpcm_int = new vclk_InterruptHandlerPtr() {
         public void handler(int num) {
             if (adpcmptr != null) {
                 if (appoooh_adpcm_data == -1) {
@@ -202,7 +202,7 @@ public class appoooh {
     static MSM5205interface msm5205_interface = new MSM5205interface(
             1, /* 1 chip             */
             384000, /* 384KHz             */
-            new vclk_interruptPtr[]{appoooh_adpcm_int},/* interrupt function */
+            new vclk_InterruptHandlerPtr[]{appoooh_adpcm_int},/* interrupt function */
             new int[]{MSM5205_S64_4B}, /* 6KHz               */
             new int[]{50}
     );
@@ -249,7 +249,7 @@ public class appoooh {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_appoooh = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_appoooh = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);/* 64k for code + 16k bank */
 

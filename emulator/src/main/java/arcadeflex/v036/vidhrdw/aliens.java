@@ -4,6 +4,8 @@
  */
 package arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.osdependH.*;
 
@@ -80,7 +82,7 @@ public class aliens {
      *
      **************************************************************************
      */
-    public static VhStartPtr aliens_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr aliens_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             paletteram = new UBytePtr(0x400);
             if (paletteram == null) {
@@ -105,7 +107,7 @@ public class aliens {
         }
     };
 
-    public static VhStopPtr aliens_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr aliens_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             paletteram = null;
             K052109_vh_stop();
@@ -120,7 +122,7 @@ public class aliens {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr aliens_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr aliens_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             K052109_tilemap_update();
 

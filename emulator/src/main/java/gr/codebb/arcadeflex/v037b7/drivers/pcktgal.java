@@ -72,7 +72,7 @@ public class pcktgal {
 
     static int msm5205next;
     static int toggle;
-    public static vclk_interruptPtr pcktgal_adpcm_int = new vclk_interruptPtr() {
+    public static vclk_InterruptHandlerPtr pcktgal_adpcm_int = new vclk_InterruptHandlerPtr() {
         public void handler(int num) {
 
             MSM5205_data_w.handler(0, msm5205next >> 4);
@@ -280,7 +280,7 @@ public class pcktgal {
     static MSM5205interface msm5205_interface = new MSM5205interface(
             1, /* 1 chip			 */
             384000, /* 384KHz			 */
-            new vclk_interruptPtr[]{pcktgal_adpcm_int},/* interrupt function */
+            new vclk_InterruptHandlerPtr[]{pcktgal_adpcm_int},/* interrupt function */
             new int[]{MSM5205_S48_4B}, /* 8KHz			   */
             new int[]{70}
     );
@@ -389,7 +389,7 @@ public class pcktgal {
     /**
      * ************************************************************************
      */
-    static RomLoadPtr rom_pcktgal = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pcktgal = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);
             /* 64k for code + 16k for banks */
@@ -421,7 +421,7 @@ public class pcktgal {
         }
     };
 
-    static RomLoadPtr rom_pcktgalb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pcktgalb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);
             /* 64k for code + 16k for banks */
@@ -454,7 +454,7 @@ public class pcktgal {
         }
     };
 
-    static RomLoadPtr rom_pcktgal2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pcktgal2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);
             /* 64k for code + 16k for banks */
@@ -486,7 +486,7 @@ public class pcktgal {
         }
     };
 
-    static RomLoadPtr rom_spool3 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spool3 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);
             /* 64k for code + 16k for banks */
@@ -518,7 +518,7 @@ public class pcktgal {
         }
     };
 
-    static RomLoadPtr rom_spool3i = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spool3i = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);
             /* 64k for code + 16k for banks */
@@ -553,7 +553,7 @@ public class pcktgal {
     /**
      * ************************************************************************
      */
-    public static InitDriverPtr init_deco222 = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_deco222 = new InitDriverHandlerPtr() {
         public void handler() {
             int A;
             UBytePtr rom = memory_region(REGION_CPU2);
@@ -568,7 +568,7 @@ public class pcktgal {
         }
     };
 
-    public static InitDriverPtr init_graphics = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_graphics = new InitDriverHandlerPtr() {
         public void handler() {
             UBytePtr rom = memory_region(REGION_GFX1);
             int len = memory_region_length(REGION_GFX1);
@@ -586,7 +586,7 @@ public class pcktgal {
         }
     };
 
-    public static InitDriverPtr init_pcktgal = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_pcktgal = new InitDriverHandlerPtr() {
         public void handler() {
             init_deco222.handler();
             init_graphics.handler();

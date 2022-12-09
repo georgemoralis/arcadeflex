@@ -1153,7 +1153,7 @@ public class alpha68k
 		new int[] { 60 }
 	);
 	
-	public static InterruptPtr kyros_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr kyros_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (cpu_getiloops() == 0)
 			return 1;
@@ -1412,7 +1412,7 @@ public class alpha68k
 	
 	/******************************************************************************/
 	
-	static RomLoadPtr rom_kyros = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kyros = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x20000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "2.10c", 0x0000,  0x4000, 0x4bd030b1 );
 		ROM_CONTINUE ( 0x10000, 0x4000 | ROMFLAG_ALTERNATE );
@@ -1443,7 +1443,7 @@ public class alpha68k
 	//	ROM_LOAD( "padlem.c",   0x00200, 0x0100, 0xffffffff );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sstingry = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sstingry = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );    /* 68000 code */
 		ROM_LOAD_EVEN( "ss_05.rom",  0x0000,  0x4000, 0xbfb28d53 );
 		ROM_LOAD_ODD ( "ss_07.rom",  0x0000,  0x4000, 0xeb1b65c5 );
@@ -1468,7 +1468,7 @@ public class alpha68k
 		ROM_LOAD( "ic93",            0x0200,  0x0100, 0x9af8a375 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_paddlema = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_paddlema = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "padlem.6g",  0x00000, 0x10000, 0xc227a6e8 );
 		ROM_LOAD_ODD ( "padlem.3g",  0x00000, 0x10000, 0xf11a21aa );
@@ -1497,7 +1497,7 @@ public class alpha68k
 		ROM_LOAD( "padlem.c",        0x0200,  0x0100,  0x39ca9b86 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_timesold = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_timesold = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "bf.3",       0x00000,  0x10000, 0xa491e533 );
 		ROM_LOAD_ODD ( "bf.4",       0x00000,  0x10000, 0x34ebaccc );
@@ -1529,7 +1529,7 @@ public class alpha68k
 		ROM_LOAD( "bf.21",           0x1c0000, 0x20000, 0xbc3b3944 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_timesol1 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_timesol1 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "3",          0x00000,  0x10000, 0xbc069a29 );
 		ROM_LOAD_ODD ( "4",          0x00000,  0x10000, 0xac7dca56 );
@@ -1561,7 +1561,7 @@ public class alpha68k
 		ROM_LOAD( "bf.21",           0x1c0000, 0x20000, 0xbc3b3944 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_btlfield = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_btlfield = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "bfv1_03.bin", 0x00000, 0x10000, 0x8720af0d );
 		ROM_LOAD_ODD ( "bfv1_04.bin", 0x00000, 0x10000, 0x7dcccbe6 );
@@ -1593,7 +1593,7 @@ public class alpha68k
 		ROM_LOAD( "bf.21",           0x1c0000, 0x20000, 0xbc3b3944 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_skysoldr = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_skysoldr = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "ss.3",       0x00000, 0x10000, 0x7b88aa2e );
 		ROM_CONTINUE ( 0x40000,      0x10000 | ROMFLAG_ALTERNATE );
@@ -1643,7 +1643,7 @@ public class alpha68k
 		ROM_CONTINUE ( 0x60001,     0x10000 | ROMFLAG_ALTERNATE );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_goldmedl = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_goldmedl = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "gm.3",      0x00000,  0x10000, 0xddf0113c );
 		ROM_LOAD_ODD ( "gm.4",      0x00000,  0x10000, 0x16db4326 );
@@ -1665,7 +1665,7 @@ public class alpha68k
 		ROM_LOAD( "goldchr0.c43",   0x180000, 0x80000, 0x76572c3f );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_goldmedb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_goldmedb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "l_3.bin",   0x00000,  0x10000, 0x5e106bcf);
 		ROM_LOAD_ODD ( "l_4.bin",   0x00000,  0x10000, 0xe19966af);
@@ -1694,7 +1694,7 @@ public class alpha68k
 		ROM_LOAD_ODD ( "l_2.bin",   0x00000,  0x08000, 0xbf59e4f9);
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_skyadvnt = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_skyadvnt = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "sa_v3.1",   0x00000,  0x20000, 0x862393b5 );
 		ROM_LOAD_ODD ( "sa_v3.2",   0x00000,  0x20000, 0xfa7a14d1 );
@@ -1716,7 +1716,7 @@ public class alpha68k
 		ROM_LOAD( "sachr0",         0x1e0000, 0x80000, 0xe281b204 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_gangwars = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gangwars = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "u1",        0x00000, 0x20000, 0x11433507 );
 		ROM_LOAD_ODD ( "u2",        0x00000, 0x20000, 0x44cc375f );
@@ -1787,7 +1787,7 @@ public class alpha68k
 		ROM_LOAD_ODD ( "u4",        0x00000,  0x20000, 0x43f7f5d3 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_gangwarb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gangwarb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "gwb_ic.m15", 0x00000, 0x20000, 0x7752478e );
 		ROM_LOAD_ODD ( "gwb_ic.m16", 0x00000, 0x20000, 0xc2f3b85e );
@@ -1849,7 +1849,7 @@ public class alpha68k
 		ROM_LOAD_ODD ( "gwb_ic.m18", 0x00000, 0x20000, 0xc8b60c53 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sbasebal = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sbasebal = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "snksb1.bin", 0x00000, 0x20000, 0x304fef2d );
 		ROM_LOAD_ODD ( "snksb2.bin", 0x00000, 0x20000, 0x35821339 );
@@ -1909,23 +1909,23 @@ public class alpha68k
 		return ret;
 	} };
 	
-	public static InitDriverPtr init_timesold = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_timesold = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_mem_read_handler(0, 0x40008, 0x40009, timesold_cycle_r);
 	} };
 	
-	public static InitDriverPtr init_skysoldr = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_skysoldr = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_mem_read_handler(0, 0x40008, 0x40009, skysoldr_cycle_r);
 		cpu_setbank(8, new UBytePtr(memory_region(REGION_USER1),0x40000));
 	} };
 	
-	public static InitDriverPtr init_goldmedb = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_goldmedb = new InitDriverHandlerPtr() { public void handler() 
 	{
 		cpu_setbank(8, memory_region(REGION_USER1));
 	} };
 	
-	public static InitDriverPtr init_gangwarb = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_gangwarb = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM = memory_region(REGION_CPU1);
 	
@@ -1936,7 +1936,7 @@ public class alpha68k
 		RAM.WRITE_WORD(0xb76c,0x4e71);	/* Disable rom check */
 	} };
 	
-	public static InitDriverPtr init_gangwars = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_gangwars = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM = memory_region(REGION_CPU1);
 	
@@ -1947,7 +1947,7 @@ public class alpha68k
 		RAM.WRITE_WORD(0xb758,0x4e71);	/* Disable rom check */
 	} };
 	
-	public static InitDriverPtr init_btlfield = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_btlfield = new InitDriverHandlerPtr() { public void handler() 
 	{
 	//	UBytePtr RAM = memory_region(REGION_CPU1);
 	//	WRITE_WORD(&RAM[0x9da8],0x4e73);

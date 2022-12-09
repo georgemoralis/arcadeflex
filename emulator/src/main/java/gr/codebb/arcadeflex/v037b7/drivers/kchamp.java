@@ -398,7 +398,7 @@ public class kchamp {
                 new GfxDecodeInfo(-1)
             };
 
-    public static InterruptPtr kc_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr kc_interrupt = new InterruptHandlerPtr() {
         public int handler() {
 
             if (nmi_enable != 0) {
@@ -409,7 +409,7 @@ public class kchamp {
         }
     };
     static int counter = 0;
-    public static vclk_interruptPtr msmint = new vclk_interruptPtr() {
+    public static vclk_InterruptHandlerPtr msmint = new vclk_InterruptHandlerPtr() {
         public void handler(int data) {
 
             if (msm_play_lo_nibble != 0) {
@@ -441,7 +441,7 @@ public class kchamp {
     static MSM5205interface msm_interface = new MSM5205interface(
             1, /* 1 chip */
             375000, /* 12Mhz / 16 / 2 */
-            new vclk_interruptPtr[]{msmint}, /* interrupt function */
+            new vclk_InterruptHandlerPtr[]{msmint}, /* interrupt function */
             new int[]{MSM5205_S96_4B}, /* 1 / 96 = 3906.25Hz playback */
             new int[]{100}
     );
@@ -450,7 +450,7 @@ public class kchamp {
      * ******************
      * 1 Player Version * ******************
      */
-    public static InterruptPtr sound_int = new InterruptPtr() {
+    public static InterruptHandlerPtr sound_int = new InterruptHandlerPtr() {
         public int handler() {
             if (sound_nmi_enable != 0) {
                 return Z80_NMI_INT;
@@ -569,7 +569,7 @@ public class kchamp {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_kchamp = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kchamp = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -662,7 +662,7 @@ public class kchamp {
         }
     };
 
-    static RomLoadPtr rom_karatedo = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_karatedo = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -755,7 +755,7 @@ public class kchamp {
         }
     };
 
-    static RomLoadPtr rom_kchampvs = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kchampvs = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -821,7 +821,7 @@ public class kchamp {
         }
     };
 
-    static RomLoadPtr rom_karatevs = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_karatevs = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -887,7 +887,7 @@ public class kchamp {
         }
     };
 
-    public static InitDriverPtr init_kchampvs = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_kchampvs = new InitDriverHandlerPtr() {
         public void handler() {
             UBytePtr rom = memory_region(REGION_CPU1);
             int diff = memory_region_length(REGION_CPU1) / 2;

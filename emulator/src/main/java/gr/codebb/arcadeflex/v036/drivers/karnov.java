@@ -551,7 +551,7 @@ public class karnov
 	
 	/******************************************************************************/
 	static int latch;
-	public static InterruptPtr karnov_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr karnov_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		
 	
@@ -590,7 +590,7 @@ public class karnov
 	);
 	
 	/******************************************************************************/
-	public static InitMachinePtr karnov_reset_init = new InitMachinePtr() {
+	public static InitMachineHandlerPtr karnov_reset_init = new InitMachineHandlerPtr() {
         public void handler() {
 		memset(karnov_ram,0,0x4000); /* Chelnov likes ram clear on reset.. */
 	}};
@@ -693,7 +693,7 @@ public class karnov
 	
 	/******************************************************************************/
 	
-	static RomLoadPtr rom_karnov = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_karnov = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x60000, REGION_CPU1 );/* 6*64k for 68000 code */
 		ROM_LOAD_EVEN( "dn08-5",       0x00000, 0x10000, 0xdb92c264 );
 		ROM_LOAD_ODD ( "dn11-5",       0x00000, 0x10000, 0x05669b4b );
@@ -729,7 +729,7 @@ public class karnov
 		ROM_LOAD( "karnprom.20",  0x0400, 0x0400, 0x02f78ffb );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_karnovj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_karnovj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x60000, REGION_CPU1 );/* 6*64k for 68000 code */
 		ROM_LOAD_EVEN( "kar8",         0x00000, 0x10000, 0x3e17e268 );
 		ROM_LOAD_ODD ( "kar11",        0x00000, 0x10000, 0x417c936d );
@@ -765,7 +765,7 @@ public class karnov
 		ROM_LOAD( "karnprom.20",  0x0400, 0x0400, 0x02f78ffb );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_wndrplnt = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_wndrplnt = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x60000, REGION_CPU1 );/* 6*64k for 68000 code */
 		ROM_LOAD_EVEN( "ea08.bin",   0x00000, 0x10000, 0xb0578a14 );
 		ROM_LOAD_ODD ( "ea11.bin",   0x00000, 0x10000, 0x271edc6c );
@@ -801,7 +801,7 @@ public class karnov
 		ROM_LOAD( "ea20.prm",      0x0400, 0x0400, 0x619f9d1e );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_chelnov = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_chelnov = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x60000, REGION_CPU1 );/* 6*64k for 68000 code */
 		ROM_LOAD_EVEN( "ee08-a.j15",   0x00000, 0x10000, 0x2f2fb37b );
 		ROM_LOAD_ODD ( "ee11-a.j20",   0x00000, 0x10000, 0xf306d05f );
@@ -834,7 +834,7 @@ public class karnov
 		ROM_LOAD( "ee20.l6",      0x0400, 0x0400, 0x41816132 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_chelnovj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_chelnovj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x60000, REGION_CPU1 );/* 6*64k for 68000 code */
 		ROM_LOAD_EVEN( "a-j15.bin",    0x00000, 0x10000, 0x1978cb52 );
 		ROM_LOAD_ODD ( "a-j20.bin",    0x00000, 0x10000, 0xe0ed3d99 );
@@ -890,7 +890,7 @@ public class karnov
 		if (cpu_get_pc()==0xe06 && (karnov_ram.READ_WORD(0)&0xff00)!=0) {cpu_spinuntil_int(); return 0;} return karnov_ram.READ_WORD(0);
 	} };
 	
-	public static InitDriverPtr init_karnov = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_karnov = new InitDriverHandlerPtr() { public void handler() 
 	{
 		if (strcmp(Machine.gamedrv.name,"karnov")==0) {
 			install_mem_read_handler(0, 0x60000, 0x60001, karnov_cycle_r);
@@ -923,7 +923,7 @@ public class karnov
 		}
 	} };
 	
-	public static InitDriverPtr init_wndrplnt = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_wndrplnt = new InitDriverHandlerPtr() { public void handler() 
 	{
 	//	UBytePtr RAM = memory_region(REGION_CPU1);
 	
@@ -942,7 +942,7 @@ public class karnov
 	//WRITE_WORD (&RAM[0xd58],0x4E71);
 	} };
 	
-	public static InitDriverPtr init_chelnov = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_chelnov = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM = memory_region(REGION_CPU1);
 	
@@ -952,7 +952,7 @@ public class karnov
 		RAM.WRITE_WORD(0x062a,0x4E71);  /* hangs waiting on i8751 int */
 	} };
 	
-	public static InitDriverPtr init_chelnovj = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_chelnovj = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM = memory_region(REGION_CPU1);
 	

@@ -272,7 +272,7 @@ public class vulgus {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_vulgus = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_vulgus = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x1c000, REGION_CPU1);/* 64k for code */
 
@@ -322,7 +322,7 @@ public class vulgus {
         }
     };
 
-    static RomLoadPtr rom_vulgus2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_vulgus2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x1c000, REGION_CPU1);/* 64k for code */
 
@@ -372,7 +372,7 @@ public class vulgus {
         }
     };
 
-    static RomLoadPtr rom_vulgusj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_vulgusj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x1c000, REGION_CPU1);/* 64k for code */
 

@@ -291,7 +291,7 @@ public class bogeyman {
     /**
      * ***************************************************************************
      */
-    static RomLoadPtr rom_bogeyman = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bogeyman = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x58000, REGION_CPU1);
             ROM_LOAD("j20.c14", 0x04000, 0x04000, 0xea90d637);

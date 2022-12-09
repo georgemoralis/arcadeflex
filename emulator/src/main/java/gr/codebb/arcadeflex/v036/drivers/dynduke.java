@@ -320,7 +320,7 @@ public class dynduke {
             new int[]{40}
     );
 
-    public static InterruptPtr dynduke_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr dynduke_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             return 0xc8 / 4;
             /* VBL */
@@ -383,7 +383,7 @@ public class dynduke {
     /**
      * ************************************************************************
      */
-    static RomLoadPtr rom_dynduke = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dynduke = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x100000, REGION_CPU1);/* v30 main cpu */
             ROM_LOAD_ODD("dd1.cd8", 0x0a0000, 0x10000, 0xa5e2a95a);
@@ -433,7 +433,7 @@ public class dynduke {
         }
     };
 
-    static RomLoadPtr rom_dbldyn = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dbldyn = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x100000, REGION_CPU1);/* v30 main cpu */
             ROM_LOAD_ODD("dd1.cd8", 0x0a0000, 0x10000, 0xa5e2a95a);
@@ -490,7 +490,7 @@ public class dynduke {
     /**
      * ************************************************************************
      */
-    public static InitDriverPtr init_dynduke = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_dynduke = new InitDriverHandlerPtr() {
         public void handler() {
             seibu_sound_decrypt();
         }

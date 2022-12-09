@@ -23,7 +23,7 @@ public class ladybug {
 
     static int flipscreen;
 
-    public static VhConvertColorPromPtr ladybug_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr ladybug_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -88,7 +88,7 @@ public class ladybug {
      * <p>
      * *************************************************************************
      */
-    public static VhUpdatePtr ladybug_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr ladybug_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int i, offs;
 

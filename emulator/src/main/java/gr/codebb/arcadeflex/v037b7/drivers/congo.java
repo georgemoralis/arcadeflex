@@ -26,7 +26,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.zaxxon.*;
 
 public class congo {
 
-    public static InitMachinePtr congo_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr congo_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             zaxxon_vid_type = 1;
         }
@@ -114,7 +114,7 @@ public class congo {
      *
      **************************************************************************
      */
-    public static InterruptPtr congo_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr congo_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if ((readinputport(5) & 1) != 0) /* get status of the F2 key */ {
                 return nmi_interrupt.handler();
@@ -446,7 +446,7 @@ public class congo {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_congo = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_congo = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("congo1.bin", 0x0000, 0x2000, 0x09355b5b);
@@ -486,7 +486,7 @@ public class congo {
         }
     };
 
-    static RomLoadPtr rom_tiptop = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tiptop = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("tiptop1.bin", 0x0000, 0x2000, 0xe19dc77b);

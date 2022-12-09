@@ -729,7 +729,7 @@ public class bublbobl {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_bublbobl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bublbobl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x1c000, REGION_CPU1);/* 64k+64k for the first CPU */
 
@@ -773,7 +773,7 @@ public class bublbobl {
         }
     };
 
-    static RomLoadPtr rom_bublbobr = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bublbobr = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x1c000, REGION_CPU1);/* 64k+64k for the first CPU */
 
@@ -817,7 +817,7 @@ public class bublbobl {
         }
     };
 
-    static RomLoadPtr rom_bubbobr1 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bubbobr1 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x1c000, REGION_CPU1);/* 64k+64k for the first CPU */
 
@@ -861,7 +861,7 @@ public class bublbobl {
         }
     };
 
-    static RomLoadPtr rom_boblbobl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_boblbobl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x1c000, REGION_CPU1);/* 64k+64k for the first CPU */
 
@@ -902,7 +902,7 @@ public class bublbobl {
         }
     };
 
-    static RomLoadPtr rom_sboblbob = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sboblbob = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x1c000, REGION_CPU1);/* 64k+64k for the first CPU */
 
@@ -943,7 +943,7 @@ public class bublbobl {
         }
     };
 
-    static RomLoadPtr rom_tokio = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tokio = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);/* main CPU */
 
@@ -985,7 +985,7 @@ public class bublbobl {
         }
     };
 
-    static RomLoadPtr rom_tokiob = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tokiob = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);/* main CPU */
 
@@ -1031,7 +1031,7 @@ public class bublbobl {
         memory_region(REGION_CPU1).write(page != 0 ? addr - 0x8000 + 0x10000 + 0x4000 * (page - 1) : addr, data);
     }
 
-    public static InitDriverPtr init_boblbobl = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_boblbobl = new InitDriverHandlerPtr() {
         public void handler() {
             /* these shouldn't be necessary, surely - this is a bootleg ROM
              * with the protection removed - so what are all these JP's to

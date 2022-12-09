@@ -16,7 +16,8 @@ VIDEO COMPUTER SYSTEM  (C)1989 DYNAX INC  NAGOYA JAPAN  DRAGON PUNCH  VER. 1.30
  * using automatic conversion tool v0.01
  */ 
 package gr.codebb.arcadeflex.v037b7.drivers;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import arcadeflex.v036.mame.osdependH.osd_bitmap;
@@ -31,7 +32,7 @@ public class ladyfrog
 {
 	
 	
-	public static VhUpdatePtr ladyfrog_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr ladyfrog_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		palette_recalc();
 	} };
@@ -145,7 +146,7 @@ public class ladyfrog
 	
 	
 	
-	static RomLoadPtr rom_ladyfrog = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ladyfrog = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x400000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "ladyfrog.002",	0x000000, 0x080000, 0x724cf022 );
 		ROM_LOAD_ODD ( "ladyfrog.006",	0x000000, 0x080000, 0xe52a7ae2 );

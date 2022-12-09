@@ -81,7 +81,7 @@ public class aerofgt {
         return 0;
     }
 
-    public static VhStartPtr pspikes_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr pspikes_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             bg2_chardisplacement = 0;
             aerofgt_bg2videoram_size[0] = 0;	/* no bg2 in this game */
@@ -90,21 +90,21 @@ public class aerofgt {
         }
     };
 
-    public static VhStartPtr turbofrc_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr turbofrc_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             bg2_chardisplacement = 0x9c;
             return common_vh_start(512, 512);
         }
     };
 
-    public static VhStartPtr aerofgt_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr aerofgt_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             bg2_chardisplacement = 0;
             return common_vh_start(512, 512);
         }
     };
 
-    public static VhStartPtr aerofgtb_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr aerofgtb_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             bg2_chardisplacement = 0x4000;
             return common_vh_start(512, 512);
@@ -118,7 +118,7 @@ public class aerofgt {
      *
      **************************************************************************
      */
-    public static VhStopPtr aerofgt_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr aerofgt_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             dirtybuffer = null;
             osd_free_bitmap(tmpbitmap);
@@ -578,7 +578,7 @@ public class aerofgt {
             }
         }
     }
-    public static VhUpdatePtr pspikes_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr pspikes_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 
@@ -629,7 +629,7 @@ public class aerofgt {
         }
     };
     static int drawbg2 = 1;
-    public static VhUpdatePtr turbofrc_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr turbofrc_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 
@@ -714,7 +714,7 @@ public class aerofgt {
             turbofrc_drawsprites(bitmap, 3);
         }
     };
-    public static VhUpdatePtr aerofgt_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr aerofgt_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

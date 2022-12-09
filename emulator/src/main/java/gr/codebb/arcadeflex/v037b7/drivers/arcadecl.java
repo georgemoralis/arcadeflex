@@ -143,7 +143,7 @@ public class arcadecl
 	 *
 	 *************************************/
 	
-	public static InitMachinePtr init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_reset();
 		atarigen_interrupt_reset(update_interrupts);
@@ -453,7 +453,7 @@ public class arcadecl
 	 *
 	 *************************************/
 	
-	static RomLoadPtr rom_arcadecl = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_arcadecl = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "pgm0",  0x00000, 0x80000, 0xb5b93623 );
 		ROM_LOAD_ODD ( "prog1", 0x00000, 0x80000, 0xe7efef85 );
@@ -466,7 +466,7 @@ public class arcadecl
 	ROM_END(); }}; 
 	
 	
-	static RomLoadPtr rom_sparkz = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sparkz = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "sparkzpg.0", 0x00000, 0x80000, 0xa75c331c );
 		ROM_LOAD_ODD ( "sparkzpg.1", 0x00000, 0x80000, 0x1af1fc04 );
@@ -486,7 +486,7 @@ public class arcadecl
 	 *
 	 *************************************/
 	
-	public static InitDriverPtr init_arcadecl = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_arcadecl = new InitDriverHandlerPtr() { public void handler() 
 	{
 		int i;
 	
@@ -497,7 +497,7 @@ public class arcadecl
 	} };
 	
 	
-	public static InitDriverPtr init_sparkz = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_sparkz = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = null;
 		memset(memory_region(REGION_GFX1), 0, memory_region_length(REGION_GFX1));

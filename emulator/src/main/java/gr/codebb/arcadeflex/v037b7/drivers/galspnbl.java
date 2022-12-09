@@ -370,7 +370,7 @@ public class galspnbl {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_galspnbl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_galspnbl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x400000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("7.rom", 0x000000, 0x80000, 0xce0189bf);
@@ -399,7 +399,7 @@ public class galspnbl {
         }
     };
 
-    static RomLoadPtr rom_hotpinbl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hotpinbl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x400000, REGION_CPU1);/* 68000 code */
             ROM_LOAD_EVEN("hp_07.bin", 0x000000, 0x80000, 0x978cc13e);

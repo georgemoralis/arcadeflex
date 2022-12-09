@@ -19,7 +19,7 @@ public class arkanoid {
     static /*unsigned*/ char u8_portA_in, u8_portA_out, u8_ddrA;
     static /*unsigned*/ char u8_portC_out, u8_ddrC;
 
-    public static InitMachinePtr arkanoid_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr arkanoid_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             u8_portA_in = 0;
             u8_portA_out = 0;

@@ -42,7 +42,7 @@ public class superqix {
      *
      **************************************************************************
      */
-    public static VhStartPtr superqix_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr superqix_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (generic_vh_start.handler() != 0) {
                 return 1;
@@ -85,7 +85,7 @@ public class superqix {
      *
      **************************************************************************
      */
-    public static VhStopPtr superqix_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr superqix_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(tmpbitmap2);
             generic_vh_stop.handler();
@@ -193,7 +193,7 @@ public class superqix {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr superqix_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr superqix_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, i;
             char[] pens = new char[16];

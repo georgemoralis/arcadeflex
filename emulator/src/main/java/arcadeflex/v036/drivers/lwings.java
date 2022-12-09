@@ -681,7 +681,7 @@ public class lwings {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_lwings = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_lwings = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             /* 64k for code + 3*16k for the banked ROMs images */
@@ -720,7 +720,7 @@ public class lwings {
         }
     };
 
-    static RomLoadPtr rom_lwings2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_lwings2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             /* 64k for code + 3*16k for the banked ROMs images */
@@ -761,7 +761,7 @@ public class lwings {
         }
     };
 
-    static RomLoadPtr rom_lwingsjp = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_lwingsjp = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             /* 64k for code + 3*16k for the banked ROMs images */
@@ -812,7 +812,7 @@ public class lwings {
      *
      **************************************************************
      */
-    static RomLoadPtr rom_sectionz = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sectionz = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             /* 64k for code + 3*16k for the banked ROMs images */
@@ -853,7 +853,7 @@ public class lwings {
         }
     };
 
-    static RomLoadPtr rom_sctionza = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sctionza = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             /* 64k for code + 3*16k for the banked ROMs images */
@@ -981,7 +981,7 @@ public class lwings {
             }
     );
 
-    static RomLoadPtr rom_trojan = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_trojan = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             /* 64k for code + 3*16k for the banked ROMs images */
@@ -1042,7 +1042,7 @@ public class lwings {
         }
     };
 
-    static RomLoadPtr rom_trojanr = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_trojanr = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             /* 64k for code + 3*16k for the banked ROMs images */
@@ -1102,7 +1102,7 @@ public class lwings {
         }
     };
 
-    static RomLoadPtr rom_trojanj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_trojanj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             /* 64k for code + 3*16k for the banked ROMs images */
@@ -1351,7 +1351,7 @@ public class lwings {
         }
     };
 
-    static RomLoadPtr rom_avengers = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_avengers = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             /* 64k for code + 3*16k for the banked ROMs images */
@@ -1416,7 +1416,7 @@ public class lwings {
         }
     };
 
-    static RomLoadPtr rom_avenger2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_avenger2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             /* 64k for code + 3*16k for the banked ROMs images */

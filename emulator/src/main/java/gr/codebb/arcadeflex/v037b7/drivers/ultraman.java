@@ -385,7 +385,7 @@ public class ultraman
 	
 	
 	
-	static RomLoadPtr rom_ultraman = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ultraman = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x040000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN(	"910-b01.c11",	0x000000, 0x020000, 0x3d9e4323 );
 		ROM_LOAD_ODD(	"910-b02.d11",	0x000000, 0x020000, 0xd24c82e9 );
@@ -424,7 +424,7 @@ public class ultraman
 	
 	
 	
-	public static InitDriverPtr init_ultraman = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_ultraman = new InitDriverHandlerPtr() { public void handler() 
 	{
 		konami_rom_deinterleave_2(REGION_GFX1);
 	} };

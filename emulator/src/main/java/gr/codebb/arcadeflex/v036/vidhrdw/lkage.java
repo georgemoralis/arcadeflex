@@ -107,7 +107,7 @@ public class lkage
 	    );
 	} };
 	
-	public static VhStartPtr lkage_vh_start = new VhStartPtr() { public int handler() {
+	public static VhStartHandlerPtr lkage_vh_start = new VhStartHandlerPtr() { public int handler() {
 	    bg_tile_bank = fg_tile_bank = 0;
 	
 	    bg_tilemap = tilemap_create(
@@ -139,7 +139,7 @@ public class lkage
 	    return 1;
 	} };
 	
-	public static VhStopPtr lkage_vh_stop = new VhStopPtr() { public void handler() {
+	public static VhStopHandlerPtr lkage_vh_stop = new VhStopHandlerPtr() { public void handler() {
 	} };
 	
 	static void draw_sprites( osd_bitmap bitmap, int priority ){
@@ -228,7 +228,7 @@ public class lkage
 	    }
 	}
 	
-	public static VhUpdatePtr lkage_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) {
+	public static VhUpdateHandlerPtr lkage_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) {
 	    if( bg_tile_bank != (lkage_vreg.read(0x01)&0x08) ){
 	        bg_tile_bank = (char)(lkage_vreg.read(0x01)&0x08);
 	        tilemap_mark_all_tiles_dirty( bg_tilemap );

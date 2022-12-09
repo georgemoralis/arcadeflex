@@ -73,7 +73,7 @@ public class pacland
         static int TOTAL_COLORS(int gfxn) {
             return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
         }
-	public static VhConvertColorPromPtr pacland_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr pacland_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -146,7 +146,7 @@ public class pacland
 	
 	
 	
-	public static VhStartPtr pacland_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr pacland_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		if ( ( dirtybuffer = new char[videoram_size[0]+1] ) == null)//shadow hack! added +1 to dirtybuffer else it overflows?
 			return 1;
@@ -178,7 +178,7 @@ public class pacland
 		return 0;
 	} };
 	
-	public static VhStopPtr pacland_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr pacland_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		osd_free_bitmap(tmpbitmap3);
 		osd_free_bitmap(tmpbitmap2);
@@ -330,7 +330,7 @@ public class pacland
 	
 	
 	
-	public static VhUpdatePtr pacland_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr pacland_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int offs;
 		int sx,sy, code, flipx, flipy, color;

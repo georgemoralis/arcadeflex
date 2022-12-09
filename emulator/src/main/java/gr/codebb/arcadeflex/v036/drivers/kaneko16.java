@@ -42,7 +42,7 @@ public class kaneko16
 	
 	
 	
-	public static InitMachinePtr gtmr_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr gtmr_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		kaneko16_bgram = new UBytePtr(kaneko16_fgram , 0x1000);
 		kaneko16_spritetype = 1;	// "standard" sprites
@@ -51,7 +51,7 @@ public class kaneko16
 	} };
 	
 	
-	public static InitMachinePtr shogwarr_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr shogwarr_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		kaneko16_bgram =  new UBytePtr(kaneko16_fgram , 0x1000);
 		kaneko16_spritetype = 0;	// differently mapped attribute word
@@ -61,7 +61,7 @@ public class kaneko16
 	} };
 	
 	
-	public static InitMachinePtr berlwall_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr berlwall_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		kaneko16_bgram =  new UBytePtr(kaneko16_fgram , 0x1000);
 		kaneko16_spritetype = 2;	// like type 0, but using 16 instead of 8 bytes
@@ -1155,7 +1155,7 @@ public class kaneko16
 		6-7] rte
 	*/
 	public static final int BERLWALL_INTERRUPTS_NUM	=3;
-	public static InterruptPtr berlwall_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr berlwall_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		switch ( cpu_getiloops() )
 		{
@@ -1229,7 +1229,7 @@ public class kaneko16
 		VIDEO_UPDATE_AFTER_VBLANK fixes the mangled/wrong colored sprites
 	*/
 	public static final int GTMR_INTERRUPTS_NUM	=3;
-	public static InterruptPtr gtmr_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr gtmr_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		switch ( cpu_getiloops() )
 		{
@@ -1305,7 +1305,7 @@ public class kaneko16
 		other: busy loop
 	*/
 	public static final int SHOGWARR_INTERRUPTS_NUM	=3;
-	public static InterruptPtr shogwarr_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr shogwarr_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		switch ( cpu_getiloops() )
 		{
@@ -1378,7 +1378,7 @@ public class kaneko16
 		}
 	}
 	
-	public static InitDriverPtr init_kaneko16 = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_kaneko16 = new InitDriverHandlerPtr() { public void handler() 
 	{
 		kaneko16_unscramble_tiles(REGION_GFX1);
 	} };
@@ -1415,7 +1415,7 @@ public class kaneko16
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_berlwall = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_berlwall = new RomLoadHandlerPtr(){ public void handler(){ 
 	
 	 	ROM_REGION( 0x040000, REGION_CPU1 );		/* 68000 Code */
 		ROM_LOAD_EVEN( "bw100a", 0x000000, 0x020000, 0xe6bcb4eb );
@@ -1450,7 +1450,7 @@ public class kaneko16
 	
 	
 	
-	static RomLoadPtr rom_berlwalt = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_berlwalt = new RomLoadHandlerPtr(){ public void handler(){ 
 	
 	 	ROM_REGION( 0x040000, REGION_CPU1 );		/* 68000 Code */
 		ROM_LOAD_EVEN( "u23_01.bin", 0x000000, 0x020000, 0x76b526ce );
@@ -1577,7 +1577,7 @@ public class kaneko16
 		tb05mm-eu "1000 miglia"
 		master up= 94/07/18 15:12:35			*/
 	
-	static RomLoadPtr rom_gtmr = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gtmr = new RomLoadHandlerPtr(){ public void handler(){ 
 	
 	 	ROM_REGION( 0x100000, REGION_CPU1 );		/* 68000 Code */
 		ROM_LOAD_EVEN( "u2.bin", 0x000000, 0x080000, 0x031799f7 );
@@ -1614,7 +1614,7 @@ public class kaneko16
 		tb05mm-eu "1000 miglia"
 		master up= 94/09/06 14:49:19			*/
 	
-	static RomLoadPtr rom_gtmre = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gtmre = new RomLoadHandlerPtr(){ public void handler(){ 
 	
 	 	ROM_REGION( 0x100000, REGION_CPU1 );		/* 68000 Code */
 		ROM_LOAD_EVEN( "gmmu2.bin", 0x000000, 0x080000, 0x36dc4aa9 );
@@ -1661,7 +1661,7 @@ public class kaneko16
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_gtmr2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gtmr2 = new RomLoadHandlerPtr(){ public void handler(){ 
 	
 	 	ROM_REGION( 0x100000, REGION_CPU1 );		/* 68000 Code */
 		ROM_LOAD_EVEN( "maincode.1", 0x000000, 0x080000, 0x00000000 );
@@ -1731,7 +1731,7 @@ public class kaneko16
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_shogwarr = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_shogwarr = new RomLoadHandlerPtr(){ public void handler(){ 
 	
 	 	ROM_REGION( 0x040000, REGION_CPU1 );		/* 68000 Code */
 		ROM_LOAD_EVEN( "fb030a.u61", 0x000000, 0x020000, 0xa04106c6 );
@@ -1766,7 +1766,7 @@ public class kaneko16
 	ROM_END(); }}; 
 	
 	
-	public static InitDriverPtr init_shogwarr = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_shogwarr = new InitDriverHandlerPtr() { public void handler() 
 	{
 		/* Code patches */
 	

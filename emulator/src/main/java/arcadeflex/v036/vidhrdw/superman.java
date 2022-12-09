@@ -31,13 +31,13 @@ public class superman {
     //static unsigned char *dirtybuffer;		/* foreground */
     //static unsigned char *dirtybuffer2;		/* background */
 
-    public static VhStartPtr superman_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr superman_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             return 0;
         }
     };
 
-    public static VhStopPtr superman_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr superman_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
         }
     };
@@ -157,7 +157,7 @@ public class superman {
         palette_recalc();
 
     }
-    public static VhUpdatePtr superman_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr superman_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
 
             int i;

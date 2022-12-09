@@ -41,7 +41,7 @@ public class appoooh {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
 
-    public static VhConvertColorPromPtr appoooh_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr appoooh_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int p_inc = 0;
@@ -91,7 +91,7 @@ public class appoooh {
      *
      **************************************************************************
      */
-    public static VhStartPtr appoooh_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr appoooh_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (generic_vh_start.handler() != 0) {
                 return 1;
@@ -126,7 +126,7 @@ public class appoooh {
      *
      **************************************************************************
      */
-    public static VhStopPtr appoooh_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr appoooh_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             dirtybuffer2 = null;
             osd_free_bitmap(tmpbitmap2);
@@ -231,7 +231,7 @@ public class appoooh {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr appoooh_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr appoooh_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
             int scroll;

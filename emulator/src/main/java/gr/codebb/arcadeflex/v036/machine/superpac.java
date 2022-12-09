@@ -26,7 +26,7 @@ public class superpac {
     static int crednum[] = {1, 2, 3, 6, 7, 1, 3, 1};
     static int credden[] = {1, 1, 1, 1, 1, 2, 2, 3};
 
-    public static InitMachinePtr superpac_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr superpac_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             /* Reset all flags */
             coin1 = coin2 = start1 = start2 = credits = 0;
@@ -314,7 +314,7 @@ public class superpac {
         }
     };
 
-    public static InterruptPtr superpac_interrupt_1 = new InterruptPtr() {
+    public static InterruptHandlerPtr superpac_interrupt_1 = new InterruptHandlerPtr() {
         public int handler() {
             if (interrupt_enable_1 != 0) {
                 return interrupt.handler();
@@ -336,7 +336,7 @@ public class superpac {
         }
     };
 
-    public static InterruptPtr pacnpal_interrupt_2 = new InterruptPtr() {
+    public static InterruptHandlerPtr pacnpal_interrupt_2 = new InterruptHandlerPtr() {
         public int handler() {
             if (interrupt_enable_2 != 0) {
                 return interrupt.handler();

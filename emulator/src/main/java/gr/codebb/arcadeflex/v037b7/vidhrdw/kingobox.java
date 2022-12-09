@@ -46,7 +46,7 @@ public class kingobox {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr kingobox_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr kingobox_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -97,7 +97,7 @@ public class kingobox {
     };
 
     /* Ring King has one 256x8 PROM instead of two 256x4 */
-    public static VhConvertColorPromPtr ringking_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr ringking_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -157,7 +157,7 @@ public class kingobox {
         }
     };
 
-    public static VhUpdatePtr kingobox_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr kingobox_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 
@@ -231,7 +231,7 @@ public class kingobox {
         }
     };
 
-    public static VhUpdatePtr ringking_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr ringking_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

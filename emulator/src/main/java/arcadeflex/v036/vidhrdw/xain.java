@@ -71,7 +71,7 @@ public class xain {
      *
      **************************************************************************
      */
-    public static VhStartPtr xain_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr xain_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             bgram0_tilemap = tilemap_create(
                     get_bgram0_tile_info,
@@ -230,7 +230,7 @@ public class xain {
         }
     }
 
-    public static VhUpdatePtr xain_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr xain_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             tilemap_update(ALL_TILEMAPS);
 

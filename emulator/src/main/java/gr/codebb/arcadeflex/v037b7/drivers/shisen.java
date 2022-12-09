@@ -335,7 +335,7 @@ public class shisen
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_sichuan2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sichuan2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30000, REGION_CPU1 );/* 64k+128k for main CPU */
 		ROM_LOAD( "ic06.06",      0x00000, 0x10000, 0x98a2459b );
 		ROM_RELOAD(               0x10000, 0x10000 );
@@ -369,7 +369,7 @@ public class shisen
 		ROM_LOAD( "ic05.05",      0x30000, 0x10000, 0x92ffe22a );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sichuana = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sichuana = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30000, REGION_CPU1 );/* 64k+128k for main CPU */
 		ROM_LOAD( "sichuan.a6",   0x00000, 0x10000, 0xf8ac05ef );
 		ROM_RELOAD(               0x10000, 0x10000 );
@@ -403,7 +403,7 @@ public class shisen
 		ROM_LOAD( "ic05.05",      0x30000, 0x10000, 0x92ffe22a );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_shisen = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_shisen = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x30000, REGION_CPU1 );/* 64k+128k for main CPU */
 		ROM_LOAD( "a-27-a.rom",   0x00000, 0x20000, 0xde2ecf05 );
 		ROM_RELOAD(               0x10000, 0x20000 );

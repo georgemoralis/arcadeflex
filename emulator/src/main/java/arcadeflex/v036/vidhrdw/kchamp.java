@@ -3,6 +3,8 @@
  */
 package arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.osdependH.*;
 //vidhrdw imports
@@ -28,7 +30,7 @@ public class kchamp {
      * Video hardware start.
      * *************************************************************************
      */
-    public static VhStartPtr kchampvs_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr kchampvs_vh_start = new VhStartHandlerPtr() {
         public int handler() {
 
             kchamp_drawsprites = kchamp_vs_drawsprites;
@@ -37,7 +39,7 @@ public class kchamp {
         }
     };
 
-    public static VhStartPtr kchamp1p_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr kchamp1p_vh_start = new VhStartHandlerPtr() {
         public int handler() {
 
             kchamp_drawsprites = kchamp_1p_drawsprites;
@@ -51,7 +53,7 @@ public class kchamp {
      * Convert color prom.
      * *************************************************************************
      */
-    public static VhConvertColorPromPtr kchamp_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr kchamp_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i, red, green, blue;
             int p_inc = 0;
@@ -145,7 +147,7 @@ public class kchamp {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr kchamp_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr kchamp_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

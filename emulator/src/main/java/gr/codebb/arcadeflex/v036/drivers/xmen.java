@@ -368,7 +368,7 @@ public class xmen
 	
 	
 	
-	public static InterruptPtr xmen_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr xmen_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (cpu_getiloops() == 0) return m68_level5_irq.handler();
 		else return m68_level3_irq.handler();
@@ -427,7 +427,7 @@ public class xmen
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_xmen = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_xmen = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "065ubb04.10d",  0x00000, 0x20000, 0xf896c93b );
 		ROM_LOAD_ODD ( "065ubb05.10f",  0x00000, 0x20000, 0xe02e5d64 );
@@ -452,7 +452,7 @@ public class xmen
 		ROM_LOAD( "xmenc25.bin",  0x000000, 0x200000, 0x5adbcee0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_xmen6p = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_xmen6p = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "xmenb04.bin",   0x00000, 0x20000, 0x0f09b8e0 );
 		ROM_LOAD_ODD ( "xmenb05.bin",   0x00000, 0x20000, 0x867becbf );
@@ -477,7 +477,7 @@ public class xmen
 		ROM_LOAD( "xmenc25.bin",  0x000000, 0x200000, 0x5adbcee0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_xmen2pj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_xmen2pj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x100000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "065jaa04.10d",  0x00000, 0x20000, 0x66746339 );
 		ROM_LOAD_ODD ( "065jaa05.10f",  0x00000, 0x20000, 0x1215b706 );
@@ -504,13 +504,13 @@ public class xmen
 	
 	
 	
-	public static InitDriverPtr init_xmen = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_xmen = new InitDriverHandlerPtr() { public void handler() 
 	{
 		konami_rom_deinterleave_2(REGION_GFX1);
 		konami_rom_deinterleave_4(REGION_GFX2);
 	} };
 	
-	public static InitDriverPtr init_xmen6p = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_xmen6p = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM = memory_region(REGION_CPU1);
 	

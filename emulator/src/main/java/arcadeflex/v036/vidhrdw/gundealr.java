@@ -54,7 +54,7 @@ public class gundealr {
      *
      **************************************************************************
      */
-    public static VhStartPtr gundealr_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr gundealr_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             bg_tilemap = tilemap_create(
                     get_bg_tile_info,
@@ -164,7 +164,7 @@ public class gundealr {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr gundealr_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr gundealr_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             tilemap_update(ALL_TILEMAPS);
 

@@ -31,7 +31,7 @@ public class finalizr {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr finalizr_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr finalizr_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -78,7 +78,7 @@ public class finalizr {
         }
     };
 
-    public static VhStartPtr finalizr_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr finalizr_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             dirtybuffer = null;
             tmpbitmap = null;
@@ -97,7 +97,7 @@ public class finalizr {
         }
     };
 
-    public static VhStopPtr finalizr_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr finalizr_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             dirtybuffer = null;
             osd_free_bitmap(tmpbitmap);
@@ -122,7 +122,7 @@ public class finalizr {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr finalizr_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr finalizr_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

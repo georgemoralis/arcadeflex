@@ -11,6 +11,10 @@
  * using automatic conversion tool v0.10
  */ 
 package gr.codebb.arcadeflex.v036.drivers;
+
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -61,7 +65,7 @@ public class cheekyms
 	};
 	
 	
-	public static InterruptPtr cheekyms_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr cheekyms_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if ((readinputport(2) & 1)!=0)	/* Coin */
 			return nmi_interrupt.handler();
@@ -201,7 +205,7 @@ public class cheekyms
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_cheekyms = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_cheekyms = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "cm03.c5",       0x0000, 0x0800, 0x1ad0cb40 );
 		ROM_LOAD( "cm04.c6",       0x0800, 0x0800, 0x2238f607 );

@@ -109,7 +109,7 @@ public class raiden
 		SET_TILE_INFO(0,tile,color);
 	} };
 	
-	public static VhStartPtr raiden_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr raiden_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		background_layer = tilemap_create(
 			get_back_tile_info,
@@ -207,7 +207,7 @@ public class raiden
 		}
 	}
 	
-	public static VhUpdatePtr raiden_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr raiden_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int color,offs,sprite;
 		int[] colmask=new int[16];

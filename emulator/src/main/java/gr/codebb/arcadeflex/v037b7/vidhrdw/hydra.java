@@ -147,7 +147,7 @@ public class hydra
                 0
         );
         
-	public static VhStartPtr hydra_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr hydra_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		
 	
@@ -211,7 +211,7 @@ public class hydra
 	 *
 	 *************************************/
 	
-	public static VhStopPtr hydra_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr hydra_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		atarigen_rle_free();
 		atarigen_pf_free();
@@ -306,7 +306,7 @@ public class hydra
                 0x58fc, 0xb877, 0x9449, 0x59d4, 0x8b63, 0x241b, 0xa3de, 0x4724
         };
         
-	public static VhUpdatePtr hydra_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr hydra_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		/* 	a note about this: I don't see how to compute the MO ROM checksums, so these
 			are just the values Pit Fighter is expecting. Hydra never checks. */

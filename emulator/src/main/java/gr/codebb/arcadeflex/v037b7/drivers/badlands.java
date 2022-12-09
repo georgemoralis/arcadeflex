@@ -172,7 +172,7 @@ public class badlands
         };
         
 	
-	public static InitMachinePtr init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		pedal_value[0] = pedal_value[1] = 0x80;
 	
@@ -192,7 +192,7 @@ public class badlands
 	 *
 	 *************************************/
 	
-	static InterruptPtr vblank_int = new InterruptPtr() {
+	static InterruptHandlerPtr vblank_int = new InterruptHandlerPtr() {
             @Override
             public int handler() {
                 int pedal_state = input_port_4_r.handler(0);
@@ -581,7 +581,7 @@ public class badlands
 	 *
 	 *************************************/
 	
-	static RomLoadPtr rom_badlands = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_badlands = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 4*64k for 68000 code */
 		ROM_LOAD_EVEN( "1008.20f",  0x00000, 0x10000, 0xa3da5774 );
 		ROM_LOAD_ODD ( "1006.27f",  0x00000, 0x10000, 0xaa03b4f3 );
@@ -614,7 +614,7 @@ public class badlands
 	 *
 	 *************************************/
 	
-	public static InitDriverPtr init_badlands = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_badlands = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = null;
 	

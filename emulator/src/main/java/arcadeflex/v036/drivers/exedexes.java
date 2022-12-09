@@ -264,7 +264,7 @@ public class exedexes {
             }
     );
 
-    static RomLoadPtr rom_exedexes = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_exedexes = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -306,7 +306,7 @@ public class exedexes {
         }
     };
 
-    static RomLoadPtr rom_savgbees = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_savgbees = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */

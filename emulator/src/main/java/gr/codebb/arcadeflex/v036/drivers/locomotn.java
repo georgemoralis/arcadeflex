@@ -481,7 +481,7 @@ public class locomotn {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_locomotn = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_locomotn = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -515,7 +515,7 @@ public class locomotn {
         }
     };
 
-    static RomLoadPtr rom_gutangtn = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gutangtn = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -549,7 +549,7 @@ public class locomotn {
         }
     };
 
-    static RomLoadPtr rom_cottong = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_cottong = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -583,7 +583,7 @@ public class locomotn {
         }
     };
 
-    static RomLoadPtr rom_jungler = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_jungler = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -617,7 +617,7 @@ public class locomotn {
         }
     };
 
-    static RomLoadPtr rom_junglers = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_junglers = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -651,7 +651,7 @@ public class locomotn {
         }
     };
 
-    static RomLoadPtr rom_commsega = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_commsega = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 

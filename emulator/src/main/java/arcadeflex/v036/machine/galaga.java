@@ -32,7 +32,7 @@ public class galaga {
 
     static Object nmi_timer;
 
-    public static InitMachinePtr galaga_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr galaga_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             nmi_timer = null;
             galaga_halt_w.handler(0, 0);
@@ -232,7 +232,7 @@ public class galaga {
         }
     };
 
-    public static InterruptPtr galaga_interrupt_1 = new InterruptPtr() {
+    public static InterruptHandlerPtr galaga_interrupt_1 = new InterruptHandlerPtr() {
         public int handler() {
             galaga_vh_interrupt();
             /* update the background stars position */
@@ -251,7 +251,7 @@ public class galaga {
         }
     };
 
-    public static InterruptPtr galaga_interrupt_2 = new InterruptPtr() {
+    public static InterruptHandlerPtr galaga_interrupt_2 = new InterruptHandlerPtr() {
         public int handler() {
             if (interrupt_enable_2 != 0) {
                 return interrupt.handler();
@@ -267,7 +267,7 @@ public class galaga {
         }
     };
 
-    public static InterruptPtr galaga_interrupt_3 = new InterruptPtr() {
+    public static InterruptHandlerPtr galaga_interrupt_3 = new InterruptHandlerPtr() {
         public int handler() {
             if (interrupt_enable_3 != 0) {
                 return nmi_interrupt.handler();

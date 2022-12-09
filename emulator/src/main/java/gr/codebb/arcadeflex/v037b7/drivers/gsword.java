@@ -91,7 +91,7 @@ public class gsword {
             new ReadHandlerPtr[]{input_port_7_r, input_port_6_r, gsword_8741_2_r, gsword_8741_3_r} /* port handler */
     );
 
-    public static InitMachinePtr machine_init = new InitMachinePtr() {
+    public static InitMachineHandlerPtr machine_init = new InitMachineHandlerPtr() {
         public void handler() {
             UBytePtr ROM2 = memory_region(REGION_CPU2);
 
@@ -105,7 +105,7 @@ public class gsword {
         }
     };
 
-    public static InitDriverPtr init_gsword = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_gsword = new InitDriverHandlerPtr() {
         public void handler() {
             int i;
 
@@ -116,7 +116,7 @@ public class gsword {
         }
     };
 
-    public static InterruptPtr gsword_snd_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr gsword_snd_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if ((gsword_nmi_count += gsword_nmi_step) >= 4) {
                 gsword_nmi_count = 0;
@@ -457,7 +457,7 @@ public class gsword {
     static MSM5205interface msm5205_interface = new MSM5205interface(
             1, /* 1 chip             */
             384000, /* 384KHz verified!   */
-            new vclk_interruptPtr[]{null}, /* interrupt function */
+            new vclk_InterruptHandlerPtr[]{null}, /* interrupt function */
             new int[]{MSM5205_SEX_4B}, /* vclk input mode    */
             new int[]{60}
     );
@@ -521,7 +521,7 @@ public class gsword {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_gsword = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gsword = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64K for main CPU */
 

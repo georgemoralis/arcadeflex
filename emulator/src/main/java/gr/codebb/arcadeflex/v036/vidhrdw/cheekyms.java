@@ -42,7 +42,7 @@ public class cheekyms
 	static int char_palette = 0;
 	
 	
-	public static VhConvertColorPromPtr cheekyms_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr cheekyms_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i,j,bit;
 	
@@ -154,7 +154,7 @@ public class cheekyms
 	  the main emulation engine.
 	
 	***************************************************************************/
-	public static VhUpdatePtr cheekyms_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr cheekyms_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int offs;
 	

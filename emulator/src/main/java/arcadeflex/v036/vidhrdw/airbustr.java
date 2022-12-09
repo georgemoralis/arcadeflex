@@ -64,7 +64,7 @@ public class airbustr {
         }
     };
 
-    public static VhStartPtr airbustr_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr airbustr_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             fg_tilemap = tilemap_create(get_fg_tile_info,
                     TILEMAP_TRANSPARENT,
@@ -204,7 +204,7 @@ public class airbustr {
 
     }
 
-    public static VhUpdatePtr airbustr_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr airbustr_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             UBytePtr ram;
             int i, offs;

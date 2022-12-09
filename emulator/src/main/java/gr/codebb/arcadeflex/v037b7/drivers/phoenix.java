@@ -3,7 +3,8 @@
  * using automatic conversion tool v0.01
  */
 package gr.codebb.arcadeflex.v037b7.drivers;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
@@ -372,7 +373,7 @@ public class phoenix {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_phoenix = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_phoenix = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("ic45", 0x0000, 0x0800, 0x9f68086b);
@@ -401,7 +402,7 @@ public class phoenix {
         }
     };
 
-    static RomLoadPtr rom_phoenixa = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_phoenixa = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("ic45.k1", 0x0000, 0x0800, 0xc7a9b499);
@@ -430,7 +431,7 @@ public class phoenix {
         }
     };
 
-    static RomLoadPtr rom_phoenixt = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_phoenixt = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("phoenix.45", 0x0000, 0x0800, 0x5b8c55a8);
@@ -459,7 +460,7 @@ public class phoenix {
         }
     };
 
-    static RomLoadPtr rom_phoenix3 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_phoenix3 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("phoenix3.45", 0x0000, 0x0800, 0xa362cda0);
@@ -488,7 +489,7 @@ public class phoenix {
         }
     };
 
-    static RomLoadPtr rom_phoenixc = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_phoenixc = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("phoenix.45", 0x0000, 0x0800, 0x5b8c55a8);
@@ -517,7 +518,7 @@ public class phoenix {
         }
     };
 
-    static RomLoadPtr rom_pleiads = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pleiads = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("ic47.r1", 0x0000, 0x0800, 0x960212c8);
@@ -546,7 +547,7 @@ public class phoenix {
         }
     };
 
-    static RomLoadPtr rom_pleiadbl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pleiadbl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("ic45.bin", 0x0000, 0x0800, 0x93fc2958);
@@ -575,7 +576,7 @@ public class phoenix {
         }
     };
 
-    static RomLoadPtr rom_pleiadce = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pleiadce = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("pleiades.47", 0x0000, 0x0800, 0x711e2ba0);

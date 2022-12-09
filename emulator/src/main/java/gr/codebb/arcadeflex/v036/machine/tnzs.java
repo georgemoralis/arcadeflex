@@ -508,7 +508,7 @@ public class tnzs
 	} };
 	
 	
-	public static InitDriverPtr init_extrmatn = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_extrmatn = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM = memory_region(REGION_CPU1);
 	
@@ -518,7 +518,7 @@ public class tnzs
 		/* copy it there otherwise the CPU bank switching support will not catch it. */
 		memcpy(RAM.memory,RAM.offset+0x08000,RAM.memory,RAM.offset+0x2c000,0x4000);
 	}};
-	public static InitDriverPtr init_arkanoi2 = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_arkanoi2 = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM = memory_region(REGION_CPU1);
 	
@@ -528,7 +528,7 @@ public class tnzs
 		/* copy it there otherwise the CPU bank switching support will not catch it. */
 		memcpy(RAM,0x08000,RAM,0x18000,0x4000);
 	}};
-	public static InitDriverPtr init_drtoppel = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_drtoppel = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM = memory_region(REGION_CPU1);
 	
@@ -538,7 +538,7 @@ public class tnzs
 		/* copy it there otherwise the CPU bank switching support will not catch it. */
 		memcpy(RAM,0x08000,RAM,0x18000,0x4000);
 	}};
-	public static InitDriverPtr init_chukatai = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_chukatai = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM = memory_region(REGION_CPU1);
 	
@@ -548,7 +548,7 @@ public class tnzs
 		/* copy it there otherwise the CPU bank switching support will not catch it. */
 		memcpy(RAM,0x08000,RAM,0x18000,0x4000);
 	}};
-	public static InitDriverPtr init_tnzs = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_tnzs = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM = memory_region(REGION_CPU1);
 		mcu_type = MCU_TNZS;
@@ -557,7 +557,7 @@ public class tnzs
 		/* copy it there otherwise the CPU bank switching support will not catch it. */
 		memcpy(RAM,0x08000,RAM,0x18000,0x4000);
 	}};
-	public static InitDriverPtr init_insectx = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_insectx = new InitDriverHandlerPtr() { public void handler() 
 	{
 		mcu_type = MCU_NONE;
 	
@@ -566,7 +566,7 @@ public class tnzs
 		install_mem_read_handler(1, 0xc001, 0xc001, input_port_3_r );
 		install_mem_read_handler(1, 0xc002, 0xc002, input_port_4_r );
 	}};
-	public static InitDriverPtr init_kageki = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_kageki = new InitDriverHandlerPtr() { public void handler() 
 	{
 		/* this game has no mcu */
 		mcu_type = MCU_NONE;
@@ -611,7 +611,7 @@ public class tnzs
 		}
 	} };
 	
-	public static InterruptPtr tnzs_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr tnzs_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		int coin;
 	
@@ -643,7 +643,7 @@ public class tnzs
 		return 0;
 	} };
 	
-	public static InitMachinePtr tnzs_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr tnzs_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		/* initialize the mcu simulation */
 		mcu_reset();

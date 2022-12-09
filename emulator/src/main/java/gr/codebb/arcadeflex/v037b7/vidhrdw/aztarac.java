@@ -104,12 +104,12 @@ public class aztarac
 	    }
 	} };
 	
-	public static InterruptPtr aztarac_vg_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr aztarac_vg_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 	    return 4;
 	} };
 	
-	public static VhConvertColorPromPtr aztarac_init_colors = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr aztarac_init_colors = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 	    int r, g, b, i;
             int _palette=0;
@@ -125,7 +125,7 @@ public class aztarac
 	                }
 	} };
 	
-	public static VhStartPtr aztarac_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr aztarac_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 	    int xmin, xmax, ymin, ymax;
 	

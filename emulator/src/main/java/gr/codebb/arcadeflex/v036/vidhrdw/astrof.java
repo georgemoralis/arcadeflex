@@ -44,7 +44,7 @@ public class astrof
 	
 	
 	/* Just save the colorprom pointer */
-	public static VhConvertColorPromPtr astrof_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr astrof_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		prom = new UBytePtr(color_prom);
 	} };
@@ -101,7 +101,7 @@ public class astrof
 	  Start the video hardware emulation.
 	
 	***************************************************************************/
-	public static VhStartPtr astrof_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr astrof_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		/*if ((colorram = malloc(videoram_size)) == 0)
 		{
@@ -119,7 +119,7 @@ public class astrof
 	  Stop the video hardware emulation.
 	
 	***************************************************************************/
-	public static VhStopPtr astrof_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr astrof_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		if (colorram != null)  colorram=null;
 	} };
@@ -261,7 +261,7 @@ public class astrof
 	  the main emulation engine.
 	
 	***************************************************************************/
-	public static VhUpdatePtr astrof_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr astrof_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		if (do_modify_palette != 0)
 		{

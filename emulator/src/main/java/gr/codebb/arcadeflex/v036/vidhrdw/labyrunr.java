@@ -29,7 +29,7 @@ public class labyrunr
 	static tilemap layer0, layer1;
 	
 	
-	public static VhConvertColorPromPtr labyrunr_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr labyrunr_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i,pal;
                 int ptr=0;
@@ -109,7 +109,7 @@ public class labyrunr
 	
 	***************************************************************************/
 	
-	public static VhStartPtr labyrunr_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr labyrunr_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		layer0 = tilemap_create(get_tile_info0, TILEMAP_OPAQUE, 8, 8, 32, 32);
 		layer1 = tilemap_create(get_tile_info1, TILEMAP_OPAQUE, 8, 8,  5, 32);
@@ -165,7 +165,7 @@ public class labyrunr
 	
 	***************************************************************************/
 	
-	public static VhUpdatePtr labyrunr_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr labyrunr_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		tilemap_set_scrollx(layer0,0,K007121_ctrlram[0][0x00] - 40);
 		tilemap_set_scrolly(layer0,0,K007121_ctrlram[0][0x02]);

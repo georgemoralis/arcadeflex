@@ -27,11 +27,11 @@ public class z80fmlyH {
             public WriteHandlerPtr[] zc1=new WriteHandlerPtr[MAX_CTC];   /* ZC/TO1 callback */
             public WriteHandlerPtr[] zc2=new WriteHandlerPtr[MAX_CTC];   /* ZC/TO2 callback */
 
-        public z80ctc_interface(int i, int[] i0, int[] i1, IntrPtr[] interruptPtr, WriteHandlerPtr[] writeHandlerPtr, WriteHandlerPtr[] writeHandlerPtr0, WriteHandlerPtr[] writeHandlerPtr1) {
+        public z80ctc_interface(int i, int[] i0, int[] i1, IntrPtr[] InterruptHandlerPtr, WriteHandlerPtr[] writeHandlerPtr, WriteHandlerPtr[] writeHandlerPtr0, WriteHandlerPtr[] writeHandlerPtr1) {
             num = i;
             baseclock = i0;
             notimer = i1;
-            intr = interruptPtr;
+            intr = InterruptHandlerPtr;
             zc0 = writeHandlerPtr;
             zc1 = writeHandlerPtr0;
             zc2 = writeHandlerPtr1;

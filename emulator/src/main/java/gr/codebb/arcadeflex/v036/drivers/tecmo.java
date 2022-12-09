@@ -769,7 +769,7 @@ public class tecmo {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_rygar = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rygar = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);/* 64k for code */
 
@@ -814,7 +814,7 @@ public class tecmo {
         }
     };
 
-    static RomLoadPtr rom_rygar2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rygar2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);/* 64k for code */
 
@@ -859,7 +859,7 @@ public class tecmo {
         }
     };
 
-    static RomLoadPtr rom_rygarj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rygarj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);/* 64k for code */
 
@@ -904,7 +904,7 @@ public class tecmo {
         }
     };
 
-    static RomLoadPtr rom_silkworm = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_silkworm = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* 64k for code */
 
@@ -953,7 +953,7 @@ public class tecmo {
         }
     };
 
-    static RomLoadPtr rom_silkwrm2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_silkwrm2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* 64k for code */
 
@@ -1002,7 +1002,7 @@ public class tecmo {
         }
     };
 
-    static RomLoadPtr rom_gemini = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gemini = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* 64k for code */
 

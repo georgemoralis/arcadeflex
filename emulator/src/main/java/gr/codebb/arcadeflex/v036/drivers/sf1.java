@@ -882,7 +882,7 @@ public class sf1
 	(
 		2,		/* 2 chips */
 		384000,				/* 384KHz ?           */
-		new vclk_interruptPtr[] { null, null },/* interrupt function */
+		new vclk_InterruptHandlerPtr[] { null, null },/* interrupt function */
 		new int[] { MSM5205_SEX_4B,MSM5205_SEX_4B},	/* 8KHz playback ?    */
 		new int[] { 100, 100 }
 	);
@@ -1053,7 +1053,7 @@ public class sf1
 	);
 	
 	
-	static RomLoadPtr rom_sf1 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sf1 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x60000, REGION_CPU1 );
 		ROM_LOAD_EVEN("sfe-19", 0x00000, 0x10000, 0x8346c3ca );
 		ROM_LOAD_ODD ("sfe-22", 0x00000, 0x10000, 0x3a4bfaa8 );
@@ -1111,7 +1111,7 @@ public class sf1
 		ROM_LOAD( "sf-33.bin", 0x030000, 0x010000, 0x3e99d3d5 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sf1us = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sf1us = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x60000, REGION_CPU1 );
 		ROM_LOAD_EVEN("sfd-19", 0x00000, 0x10000, 0xfaaf6255 );
 		ROM_LOAD_ODD ("sfd-22", 0x00000, 0x10000, 0xe1fe3519 );
@@ -1169,7 +1169,7 @@ public class sf1
 		ROM_LOAD( "sf-33.bin", 0x030000, 0x010000, 0x3e99d3d5 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sf1jp = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sf1jp = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x60000, REGION_CPU1 );
 		ROM_LOAD_EVEN("sf-19.bin", 0x00000, 0x10000, 0x116027d7 );
 		ROM_LOAD_ODD ("sf-22.bin", 0x00000, 0x10000, 0xd3cbd09e );

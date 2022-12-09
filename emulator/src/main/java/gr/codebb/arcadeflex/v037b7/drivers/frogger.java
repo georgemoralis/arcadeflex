@@ -329,7 +329,7 @@ public class frogger {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_frogger = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_frogger = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -353,7 +353,7 @@ public class frogger {
         }
     };
 
-    static RomLoadPtr rom_frogseg1 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_frogseg1 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -377,7 +377,7 @@ public class frogger {
         }
     };
 
-    static RomLoadPtr rom_frogseg2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_frogseg2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -402,7 +402,7 @@ public class frogger {
         }
     };
 
-    static RomLoadPtr rom_froggrmc = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_froggrmc = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -426,7 +426,7 @@ public class frogger {
         }
     };
 
-    public static InitDriverPtr init_frogger = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_frogger = new InitDriverHandlerPtr() {
         public void handler() {
             int A;
             UBytePtr RAM;
@@ -445,7 +445,7 @@ public class frogger {
         }
     };
 
-    public static InitDriverPtr init_froggrmc = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_froggrmc = new InitDriverHandlerPtr() {
         public void handler() {
             int A;
             UBytePtr RAM;

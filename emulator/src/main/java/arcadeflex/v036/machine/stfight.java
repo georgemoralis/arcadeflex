@@ -20,7 +20,7 @@ import static arcadeflex.v036.mame.inptport.*;
 
 public class stfight {
 
-    public static InitDriverPtr init_empcity = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_empcity = new InitDriverHandlerPtr() {
         public void handler() {
             UBytePtr rom = memory_region(REGION_CPU1);
             int diff = memory_region_length(REGION_CPU1) / 2;
@@ -50,7 +50,7 @@ public class stfight {
         }
     };
 
-    public static InitDriverPtr init_stfight = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_stfight = new InitDriverHandlerPtr() {
         public void handler() {
             UBytePtr rom = memory_region(REGION_CPU1);
             int diff = memory_region_length(REGION_CPU1) / 2;
@@ -66,7 +66,7 @@ public class stfight {
             rom.write(0xb5 + diff, 0x00);
         }
     };
-    public static InitMachinePtr stfight_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr stfight_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             // initialise rom bank
             stfight_bank_w.handler(0, 0);
@@ -82,7 +82,7 @@ public class stfight {
             cpu_setbank(1, new UBytePtr(ROM2, data << 14));
         }
     };
-    public static InterruptPtr stfight_vb_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr stfight_vb_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             // Do a RST10
             interrupt_vector_w.handler(0, 0xd7);
@@ -94,7 +94,7 @@ public class stfight {
     /*
 	 *      CPU 1 timed interrupt - 30Hz???
      */
-    public static InterruptPtr stfight_interrupt_1 = new InterruptPtr() {
+    public static InterruptHandlerPtr stfight_interrupt_1 = new InterruptHandlerPtr() {
         public int handler() {
             // Do a RST08
             interrupt_vector_w.handler(0, 0xcf);
@@ -106,7 +106,7 @@ public class stfight {
     /*
 	 *      CPU 2 timed interrupt - 120Hz
      */
-    public static InterruptPtr stfight_interrupt_2 = new InterruptPtr() {
+    public static InterruptHandlerPtr stfight_interrupt_2 = new InterruptHandlerPtr() {
         public int handler() {
             return (interrupt.handler());
         }
@@ -180,7 +180,7 @@ public class stfight {
     static int adpcm_data_offs;
     static int adpcm_data_end;
     static int toggle;
-    public static vclk_interruptPtr stfight_adpcm_int = new vclk_interruptPtr() {
+    public static vclk_InterruptHandlerPtr stfight_adpcm_int = new vclk_InterruptHandlerPtr() {
         public void handler(int data) {
 
             UBytePtr SAMPLES = memory_region(REGION_SOUND1);

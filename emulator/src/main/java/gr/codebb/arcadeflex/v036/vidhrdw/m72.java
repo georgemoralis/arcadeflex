@@ -44,7 +44,7 @@ public class m72
 	
 	static int irq1,irq2;
 	
-        public static InitMachinePtr m72_init_machine = new InitMachinePtr() { public void handler() 
+        public static InitMachineHandlerPtr m72_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		int i;
 	
@@ -57,13 +57,13 @@ public class m72
 	
 		m72_init_sound.handler();
 	}};
-	public static InitMachinePtr xmultipl_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr xmultipl_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		irq1 = 0x08;
 		irq2 = 0x0a;
 		m72_init_sound.handler();
 	}};
-	public static InterruptPtr m72_interrupt = new InterruptPtr() {
+	public static InterruptHandlerPtr m72_interrupt = new InterruptHandlerPtr() {
             public int handler() {
 
 		int line = 255 - cpu_getiloops();
@@ -191,7 +191,7 @@ public class m72
 	
 	***************************************************************************/
 	
-	public static VhStartPtr m72_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr m72_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		int i;
 	
@@ -218,7 +218,7 @@ public class m72
 		return 0;
 	} };
 	
-	public static VhStartPtr dbreed_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr dbreed_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		bg_tilemap = tilemap_create(dbreed_get_bg_tile_info,TILEMAP_OPAQUE,     8,8,64,64);
 		fg_tilemap = tilemap_create(m72_get_fg_tile_info,TILEMAP_TRANSPARENT,8,8,64,64);
@@ -237,7 +237,7 @@ public class m72
 		return 0;
 	} };
 	
-	public static VhStartPtr rtype2_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr rtype2_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		bg_tilemap = tilemap_create(rtype2_get_bg_tile_info,TILEMAP_OPAQUE,     8,8,64,64);
 		fg_tilemap = tilemap_create(rtype2_get_fg_tile_info,TILEMAP_TRANSPARENT,8,8,64,64);
@@ -257,7 +257,7 @@ public class m72
 	} };
 	
 	/* Major Title has a larger background RAM, and rowscroll */
-	public static VhStartPtr majtitle_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr majtitle_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 	// tilemap can be 256x64, but seems to be used at 128x64 (scroll wraparound) */
 	//	bg_tilemap = tilemap_create(majtitle_get_bg_tile_info,TILEMAP_OPAQUE,     8,8,256,64);
@@ -278,7 +278,7 @@ public class m72
 		return 0;
 	} };
 	
-	public static VhStartPtr hharry_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr hharry_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		bg_tilemap = tilemap_create(hharry_get_bg_tile_info,TILEMAP_OPAQUE,     8,8,64,64);
 		fg_tilemap = tilemap_create(hharry_get_fg_tile_info,TILEMAP_TRANSPARENT,8,8,64,64);
@@ -297,7 +297,7 @@ public class m72
 		return 0;
 	} };
 	
-	public static VhStopPtr m72_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr m72_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		m72_spriteram = null;
 	} };
@@ -637,7 +637,7 @@ public class m72
 	}
 	
 	
-	public static VhUpdatePtr m72_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr m72_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		tilemap_set_clip(fg_tilemap,null);
 		tilemap_set_clip(bg_tilemap,null);
@@ -658,7 +658,7 @@ public class m72
 		draw_fg(bitmap,1);
 	} };
 	
-	public static VhUpdatePtr dbreed_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr dbreed_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		tilemap_set_clip(fg_tilemap,null);
 		tilemap_set_clip(bg_tilemap,null);
@@ -680,7 +680,7 @@ public class m72
 		draw_fg(bitmap,1);
 	} };
 	
-	public static VhUpdatePtr majtitle_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr majtitle_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int i;
 	

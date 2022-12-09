@@ -344,7 +344,7 @@ public class raiden {
             new int[]{40}
     );
 
-    public static InterruptPtr raiden_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr raiden_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             return 0xc8 / 4;	/* VBL */
 
@@ -458,7 +458,7 @@ public class raiden {
     /**
      * ************************************************************************
      */
-    static RomLoadPtr rom_raiden = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_raiden = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x100000, REGION_CPU1);/* v30 main cpu */
 
@@ -498,7 +498,7 @@ public class raiden {
         }
     };
 
-    static RomLoadPtr rom_raidena = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_raidena = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x100000, REGION_CPU1);/* v30 main cpu */
 
@@ -538,7 +538,7 @@ public class raiden {
         }
     };
 
-    static RomLoadPtr rom_raidenk = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_raidenk = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x100000, REGION_CPU1);/* v30 main cpu */
 
@@ -616,7 +616,7 @@ public class raiden {
         }
     };
 
-    public static InitDriverPtr init_raiden = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_raiden = new InitDriverHandlerPtr() {
         public void handler() {
             install_mem_read_handler(1, 0x4008, 0x4009, sub_cpu_spin);
             install_seibu_sound_speedup(2);
@@ -687,14 +687,14 @@ public class raiden {
         }
     }
 
-    public static InitDriverPtr init_raidenk = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_raidenk = new InitDriverHandlerPtr() {
         public void handler() {
             memory_patcha();
             common_decrypt();
         }
     };
 
-    public static InitDriverPtr init_raidena = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_raidena = new InitDriverHandlerPtr() {
         public void handler() {
             memory_patcha();
             common_decrypt();

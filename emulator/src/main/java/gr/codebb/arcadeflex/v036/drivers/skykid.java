@@ -49,7 +49,7 @@ public class skykid
 	static int irq_disabled = 1;
 	static int inputport_selected;
 	
-	public static InterruptPtr skykid_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr skykid_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (irq_disabled==0)
 			return M6809_INT_IRQ;
@@ -552,7 +552,7 @@ public class skykid
 		}
 	);
 	
-	static RomLoadPtr rom_skykid = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_skykid = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x14000, REGION_CPU1 );/* 6809 code */
 		ROM_LOAD( "sk2-6c.bin",   0x08000, 0x4000, 0xea8a5822 );
 		ROM_LOAD( "sk1-6b.bin",   0x0c000, 0x4000, 0x7abe6c6c );
@@ -583,7 +583,7 @@ public class skykid
 	ROM_END(); }}; 
 	
 	
-	static RomLoadPtr rom_drgnbstr = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_drgnbstr = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x14000, REGION_CPU1 );/* 6809 code */
 		ROM_LOAD( "6c.bin",		0x08000, 0x04000, 0x0f11cd17 );
 		ROM_LOAD( "6b.bin",		0x0c000, 0x04000, 0x1c7c1821 );

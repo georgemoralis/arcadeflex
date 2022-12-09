@@ -106,7 +106,7 @@ public class blstroid
                 1					/* non-scrolling */
         );
         
-	public static VhStartPtr blstroid_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr blstroid_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		
 	
@@ -135,7 +135,7 @@ public class blstroid
 	 *
 	 *************************************/
 	
-	public static VhStopPtr blstroid_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr blstroid_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		atarigen_pf_free();
 		atarigen_mo_free();
@@ -229,7 +229,7 @@ public class blstroid
 	 *
 	 *************************************/
 	
-	public static VhUpdatePtr blstroid_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr blstroid_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		/* remap if necessary */
 		if (update_palette() != null)

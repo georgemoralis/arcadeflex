@@ -3,6 +3,8 @@
  */
 package arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
@@ -38,7 +40,7 @@ public class slapfght {
      *
      **************************************************************************
      */
-    public static VhConvertColorPromPtr slapfight_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr slapfight_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -76,7 +78,7 @@ public class slapfght {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr slapfight_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr slapfight_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

@@ -78,7 +78,7 @@ public class taitosj {
      *
      **************************************************************************
      */
-    public static VhConvertColorPromPtr taitosj_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr taitosj_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define COLOR(gfxn,offs) (colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs])
@@ -163,7 +163,7 @@ public class taitosj {
      *
      **************************************************************************
      */
-    public static VhStartPtr taitosj_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr taitosj_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int i;
 
@@ -230,7 +230,7 @@ public class taitosj {
      *
      **************************************************************************
      */
-    public static VhStopPtr taitosj_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr taitosj_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             int i;
 
@@ -723,7 +723,7 @@ public class taitosj {
         }
     }
 
-    public static VhUpdatePtr taitosj_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr taitosj_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, i;
 

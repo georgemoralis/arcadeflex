@@ -279,7 +279,7 @@ public class missile {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_missile = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_missile = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("035820.02", 0x5000, 0x0800, 0x7a62ce6a);
@@ -294,7 +294,7 @@ public class missile {
         }
     };
 
-    static RomLoadPtr rom_missile2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_missile2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("35820-01.h1", 0x5000, 0x0800, 0x41cbb8f2);
@@ -309,7 +309,7 @@ public class missile {
         }
     };
 
-    static RomLoadPtr rom_suprmatk = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_suprmatk = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("035820.sma", 0x5000, 0x0800, 0x75f01b87);

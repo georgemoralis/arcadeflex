@@ -3,7 +3,9 @@
  */
 package arcadeflex.v036.generic;
 
+import static arcadeflex.v036.mame.osdependH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class funcPtr {
 
@@ -18,6 +20,49 @@ public class funcPtr {
     public static abstract interface WriteHandlerPtr {
 
         public abstract void handler(int offset, int data);
+    }
+
+    public static abstract interface InitMachineHandlerPtr {
+
+        public abstract void handler();
+    }
+
+    public static abstract interface InitDriverHandlerPtr {
+
+        public abstract void handler();
+    }
+
+    public static abstract interface InterruptHandlerPtr {
+
+        public abstract int handler();
+    }
+
+    public static abstract interface RomLoadHandlerPtr {
+
+        public abstract void handler();
+    }
+
+    /**
+     * Video related
+     */
+    public static abstract interface VhConvertColorPromHandlerPtr {
+
+        public abstract void handler(char[] palette, char[] colortable, UBytePtr color_prom);
+    }
+
+    public static abstract interface VhStartHandlerPtr {
+
+        public abstract int handler();
+    }
+
+    public static abstract interface VhStopHandlerPtr {
+
+        public abstract void handler();
+    }
+
+    public static abstract interface VhUpdateHandlerPtr {
+
+        public abstract void handler(osd_bitmap bitmap, int full_refresh);
     }
 
     /**

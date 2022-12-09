@@ -7,6 +7,9 @@
  */ 
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
@@ -65,7 +68,7 @@ public class surpratk
 	
 	***************************************************************************/
 	
-	public static VhStartPtr surpratk_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr surpratk_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		if (K052109_vh_start(REGION_GFX1,0,1,2,3/*NORMAL_PLANE_ORDER*/,tile_callback)!=0)
 		{
@@ -80,7 +83,7 @@ public class surpratk
 		return 0;
 	} };
 	
-	public static VhStopPtr surpratk_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr surpratk_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		K052109_vh_stop();
 		K053245_vh_stop();
@@ -102,7 +105,7 @@ public class surpratk
 		SWAP(1,2)
 	}*/
 	
-	public static VhUpdatePtr surpratk_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr surpratk_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int[] pri=new int[3];
                 int[] layer=new int[3];

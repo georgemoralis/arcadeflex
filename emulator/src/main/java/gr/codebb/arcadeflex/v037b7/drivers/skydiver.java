@@ -105,7 +105,7 @@ public class skydiver {
         }
     };
 
-    public static InterruptPtr skydiver_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr skydiver_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (skydiver_nmion != 0) {
                 return nmi_interrupt.handler();
@@ -277,7 +277,7 @@ public class skydiver {
                 0x00, 0x02,
                 0x00, 0x00, /* used only to draw the SKYDIVER LEDs */
                 0x00, 0x01, /* used only to draw the SKYDIVER LEDs */};
-    public static VhConvertColorPromPtr init_palette = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr init_palette = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] game_palette, char[] game_colortable, UBytePtr color_prom) {
             //memcpy(game_palette,palette,sizeof(palette));
             //memcpy(game_colortable,colortable,sizeof(colortable));
@@ -324,7 +324,7 @@ public class skydiver {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_skydiver = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_skydiver = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 

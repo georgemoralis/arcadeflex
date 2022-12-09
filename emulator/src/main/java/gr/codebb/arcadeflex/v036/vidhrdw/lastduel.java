@@ -139,7 +139,7 @@ public class lastduel
 	
 	***************************************************************************/
 	
-	public static VhStartPtr lastduel_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr lastduel_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		background_tilemap = tilemap_create(
 			get_ld_tile_info,
@@ -176,7 +176,7 @@ public class lastduel
 		return 0;
 	} };
 	
-	public static VhStartPtr madgear_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr madgear_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		background_tilemap = tilemap_create(
 			get_tile_info,
@@ -215,7 +215,7 @@ public class lastduel
 	
 	/***************************************************************************/
 	static int lastduel_flip;
-	public static VhUpdatePtr lastduel_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr lastduel_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int i,offs,color,code;
 		int []colmask=new int[16];
@@ -317,7 +317,7 @@ public class lastduel
 		tilemap_draw(bitmap,fix_tilemap,0);
 	} };
 	static int last_flip;
-	public static VhUpdatePtr ledstorm_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr ledstorm_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int i,offs,color,code;
 		int[] colmask=new int[16];

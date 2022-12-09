@@ -232,12 +232,12 @@ public class ajax
 	} };
 	
 	
-	public static InitMachinePtr ajax_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr ajax_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		firq_enable = 1;
 	} };
 	
-	public static InterruptPtr ajax_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr ajax_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (K051960_is_IRQ_enabled() != 0)
 			return 1;

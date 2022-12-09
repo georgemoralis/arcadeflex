@@ -25,7 +25,7 @@ public class bagman {
     public static UBytePtr bagman_video_enable = new UBytePtr();
     public static int[] flipscreen = new int[2];
 
-    public static VhConvertColorPromPtr bagman_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr bagman_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int p_inc = 0;
@@ -71,7 +71,7 @@ public class bagman {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr bagman_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr bagman_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

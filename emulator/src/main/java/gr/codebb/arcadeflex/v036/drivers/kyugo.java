@@ -779,7 +779,7 @@ public class kyugo {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_gyrodine = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gyrodine = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -836,7 +836,7 @@ public class kyugo {
         }
     };
 
-    static RomLoadPtr rom_sonofphx = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sonofphx = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -888,7 +888,7 @@ public class kyugo {
         }
     };
 
-    static RomLoadPtr rom_repulse = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_repulse = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -940,7 +940,7 @@ public class kyugo {
         }
     };
 
-    static RomLoadPtr rom_99lstwar = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_99lstwar = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -992,7 +992,7 @@ public class kyugo {
         }
     };
 
-    static RomLoadPtr rom_99lstwra = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_99lstwra = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1044,7 +1044,7 @@ public class kyugo {
         }
     };
 
-    static RomLoadPtr rom_flashgal = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_flashgal = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1098,7 +1098,7 @@ public class kyugo {
         }
     };
 
-    static RomLoadPtr rom_srdmissn = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_srdmissn = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1148,7 +1148,7 @@ public class kyugo {
         }
     };
 
-    static RomLoadPtr rom_airwolf = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_airwolf = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1199,7 +1199,7 @@ public class kyugo {
         }
     };
 
-    static RomLoadPtr rom_skywolf = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_skywolf = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1248,7 +1248,7 @@ public class kyugo {
         }
     };
 
-    static RomLoadPtr rom_skywolf2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_skywolf2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 

@@ -206,7 +206,7 @@ public class nemesis
 	
 	
 	/* free the palette dirty array */
-	public static VhStopPtr nemesis_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr nemesis_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		osd_free_bitmap(tmpbitmap);
 		osd_free_bitmap(tmpbitmap2);
@@ -228,7 +228,7 @@ public class nemesis
 	} };
 	
 	/* claim a palette dirty array */
-	public static VhStartPtr nemesis_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr nemesis_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		if ((tmpbitmap = osd_new_bitmap(2 * Machine.drv.screen_width,Machine.drv.screen_height,Machine.scrbitmap.depth)) == null)
 		{
@@ -1263,7 +1263,7 @@ public class nemesis
 	
 	/******************************************************************************/
 	
-	public static VhUpdatePtr nemesis_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr nemesis_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int offs;
 		int xscroll[]=new int[256];
@@ -1307,7 +1307,7 @@ public class nemesis
 		}
 	} };
 	
-	public static VhUpdatePtr twinbee_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr twinbee_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int offs;
 		int xscroll[] =new int[256];
@@ -1358,7 +1358,7 @@ public class nemesis
 		}
 	} };
 	
-	public static VhUpdatePtr salamand_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr salamand_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int offs,l;
 		int[] xscroll=new int[256];

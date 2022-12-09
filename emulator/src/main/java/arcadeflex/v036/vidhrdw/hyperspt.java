@@ -29,7 +29,7 @@ public class hyperspt {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr hyperspt_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr hyperspt_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -78,7 +78,7 @@ public class hyperspt {
      *
      **************************************************************************
      */
-    public static VhStartPtr hyperspt_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr hyperspt_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((dirtybuffer = new char[videoram_size[0]]) == null) {
                 return 1;
@@ -102,7 +102,7 @@ public class hyperspt {
      *
      **************************************************************************
      */
-    public static VhStopPtr hyperspt_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr hyperspt_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             dirtybuffer = null;
             osd_free_bitmap(tmpbitmap);
@@ -127,7 +127,7 @@ public class hyperspt {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr hyperspt_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr hyperspt_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 
@@ -214,7 +214,7 @@ public class hyperspt {
 
     /* Only difference with Hyper Sports is the way tiles are selected (1536 tiles */
  /* instad of 1024). Plus, it has 256 sprites instead of 512. */
-    public static VhUpdatePtr roadf_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr roadf_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

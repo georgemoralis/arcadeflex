@@ -43,7 +43,7 @@ public class mystston {
      *
      **************************************************************************
      */
-    public static VhConvertColorPromPtr mystston_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr mystston_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int p_inc = 0;
@@ -81,7 +81,7 @@ public class mystston {
      *
      **************************************************************************
      */
-    public static VhStartPtr mystston_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr mystston_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((dirtybuffer = new char[videoram_size[0]]) == null) {
                 return 1;
@@ -105,7 +105,7 @@ public class mystston {
      *
      **************************************************************************
      */
-    public static VhStopPtr mystston_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr mystston_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             dirtybuffer = null;
             osd_free_bitmap(tmpbitmap);
@@ -143,7 +143,7 @@ public class mystston {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr mystston_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr mystston_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

@@ -69,7 +69,7 @@ public class vendetta {
         }
     };
 
-    public static InitMachinePtr vendetta_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr vendetta_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             konami_cpu_setlines_callback = vendetta_banking;
 
@@ -401,7 +401,7 @@ public class vendetta {
             new int[]{MIXER(75, MIXER_PAN_LEFT), MIXER(75, MIXER_PAN_RIGHT)},
             null
     );
-    public static InterruptPtr vendetta_irq = new InterruptPtr() {
+    public static InterruptHandlerPtr vendetta_irq = new InterruptHandlerPtr() {
         public int handler() {
             if (irq_enabled != 0) {
                 return KONAMI_INT_IRQ;
@@ -462,7 +462,7 @@ public class vendetta {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_vendetta = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_vendetta = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x49000, REGION_CPU1);/* code + banked roms + banked ram */
 
@@ -496,7 +496,7 @@ public class vendetta {
         }
     };
 
-    static RomLoadPtr rom_vendett2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_vendett2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x49000, REGION_CPU1);/* code + banked roms + banked ram */
 
@@ -530,7 +530,7 @@ public class vendetta {
         }
     };
 
-    static RomLoadPtr rom_vendettj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_vendettj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x49000, REGION_CPU1);/* code + banked roms + banked ram */
 
@@ -571,7 +571,7 @@ public class vendetta {
      *
      **************************************************************************
      */
-    public static InitDriverPtr init_vendetta = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_vendetta = new InitDriverHandlerPtr() {
         public void handler() {
             konami_rom_deinterleave_2(REGION_GFX1);
             konami_rom_deinterleave_4(REGION_GFX2);

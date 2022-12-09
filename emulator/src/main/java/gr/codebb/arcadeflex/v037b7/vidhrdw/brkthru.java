@@ -49,7 +49,7 @@ public class brkthru {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
 
-    public static VhConvertColorPromPtr brkthru_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr brkthru_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -102,7 +102,7 @@ public class brkthru {
      * <p>
      * *************************************************************************
      */
-    public static VhStartPtr brkthru_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr brkthru_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((dirtybuffer = new char[videoram_size[0]]) == null) {
                 generic_vh_stop.handler();
@@ -127,7 +127,7 @@ public class brkthru {
      * <p>
      * *************************************************************************
      */
-    public static VhStopPtr brkthru_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr brkthru_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             bitmap_free(tmpbitmap);
             dirtybuffer = null;
@@ -173,7 +173,7 @@ public class brkthru {
      * <p>
      * *************************************************************************
      */
-    public static VhUpdatePtr brkthru_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr brkthru_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

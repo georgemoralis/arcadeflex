@@ -6,7 +6,7 @@ package arcadeflex.v036.sound;
 
 public class MSM5205H {
 
-    public static abstract interface vclk_interruptPtr {
+    public static abstract interface vclk_InterruptHandlerPtr {
 
         public abstract void handler(int num);
     }
@@ -44,7 +44,7 @@ public class MSM5205H {
 
     public static class MSM5205interface {
 
-        public MSM5205interface(int num, int baseclock, vclk_interruptPtr[] vclk_interrupt, int[] select, int[] mixing_level) {
+        public MSM5205interface(int num, int baseclock, vclk_InterruptHandlerPtr[] vclk_interrupt, int[] select, int[] mixing_level) {
             this.num = num;
             this.baseclock = baseclock;
             this.vclk_interrupt = vclk_interrupt;
@@ -55,7 +55,7 @@ public class MSM5205H {
         /* total number of chips                 */
         int baseclock;
         /* master clock (default = 384KHz)       */
-        vclk_interruptPtr[] vclk_interrupt;    //void (*vclk_interrupt[MAX_MSM5205])(int);   /* VCLK interrupt callback  */
+        vclk_InterruptHandlerPtr[] vclk_interrupt;    //void (*vclk_interrupt[MAX_MSM5205])(int);   /* VCLK interrupt callback  */
         int[] select;//[MAX_MSM5205];       /* prescaler / bit width selector        */
         int[] mixing_level;//[MAX_MSM5205]; /* master volume                         */
     }

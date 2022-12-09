@@ -1035,7 +1035,7 @@ public class namcos1
         }
 	
 	/* Shadowland */
-	static RomLoadPtr rom_shadowld = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_shadowld = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 	
@@ -1092,7 +1092,7 @@ public class namcos1
 	ROM_END(); }}; 
 	
 /*TODO*///	/* Youkai Douchuuki (Shadowland Japan) */
-/*TODO*///	static RomLoadPtr rom_youkaidk = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_youkaidk = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -1145,7 +1145,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Youkai Douchuuki (Shadowland Japan old version) */
-/*TODO*///	static RomLoadPtr rom_yokaidko = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_yokaidko = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -1198,7 +1198,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Dragon Spirit */
-/*TODO*///	static RomLoadPtr rom_dspirit = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_dspirit = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -1251,7 +1251,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Dragon Spirit (old version) */
-/*TODO*///	static RomLoadPtr rom_dspirito = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_dspirito = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -1304,7 +1304,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Blazer */
-/*TODO*///	static RomLoadPtr rom_blazer = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_blazer = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -1355,7 +1355,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Quester */
-/*TODO*///	static RomLoadPtr rom_quester = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_quester = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -1389,7 +1389,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 	
 	/* Pac-Mania */
-	static RomLoadPtr rom_pacmania = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_pacmania = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 	
@@ -1425,7 +1425,7 @@ public class namcos1
 	ROM_END(); }}; 
 	
 /*TODO*///	/* Pac-Mania (Japan) diff o1,s0,s1,p7,v0 */
-/*TODO*///	static RomLoadPtr rom_pacmanij = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_pacmanij = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -1461,7 +1461,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 	
 	/* Galaga '88 */
-	static RomLoadPtr rom_galaga88 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_galaga88 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 	
@@ -1508,7 +1508,7 @@ public class namcos1
 		ROM_LOAD( "g88_obj5.rom",		0xa0000, 0x20000, 0xb0645169 );
 	ROM_END(); }}; 
 	
-/*TODO*///	static RomLoadPtr rom_galag88b = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_galag88b = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -1556,7 +1556,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Galaga '88 (Japan) */
-/*TODO*///	static RomLoadPtr rom_galag88j = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_galag88j = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -1604,7 +1604,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* World Stadium */
-/*TODO*///	static RomLoadPtr rom_ws = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_ws = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -1647,7 +1647,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Beraboh Man */
-/*TODO*///	static RomLoadPtr rom_berabohm = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_berabohm = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -1696,7 +1696,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Marchen Maze */
-/*TODO*///	static RomLoadPtr rom_mmaze = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_mmaze = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -1741,7 +1741,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Bakutotsu Kijuutei */
-/*TODO*///	static RomLoadPtr rom_bakutotu = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_bakutotu = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -1789,7 +1789,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* World Court */
-/*TODO*///	static RomLoadPtr rom_wldcourt = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_wldcourt = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -1827,7 +1827,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Splatter House */
-/*TODO*///	static RomLoadPtr rom_splatter = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_splatter = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -1881,7 +1881,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Face Off */
-/*TODO*///	static RomLoadPtr rom_faceoff = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_faceoff = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -1920,7 +1920,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Rompers */
-/*TODO*///	static RomLoadPtr rom_rompers = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_rompers = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -1963,7 +1963,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Rompers (old version) */
-/*TODO*///	static RomLoadPtr rom_romperso = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_romperso = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -2006,7 +2006,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Blast Off */
-/*TODO*///	static RomLoadPtr rom_blastoff = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_blastoff = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -2052,7 +2052,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* World Stadium '89 */
-/*TODO*///	static RomLoadPtr rom_ws89 = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_ws89 = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -2095,7 +2095,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Dangerous Seed */
-/*TODO*///	static RomLoadPtr rom_dangseed = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_dangseed = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -2137,7 +2137,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* World Stadium '90 */
-/*TODO*///	static RomLoadPtr rom_ws90 = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_ws90 = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -2180,7 +2180,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Pistol Daimyo no Bouken */
-/*TODO*///	static RomLoadPtr rom_pistoldm = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_pistoldm = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -2224,7 +2224,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Souko Ban Deluxe */
-/*TODO*///	static RomLoadPtr rom_soukobdx = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_soukobdx = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -2259,7 +2259,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Puzzle Club */
-/*TODO*///	static RomLoadPtr rom_puzlclub = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_puzlclub = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -2297,7 +2297,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Tank Force */
-/*TODO*///	static RomLoadPtr rom_tankfrce = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_tankfrce = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	
@@ -2338,7 +2338,7 @@ public class namcos1
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Tank Force (Japan) */
-/*TODO*///	static RomLoadPtr rom_tankfrcj = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_tankfrcj = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x10000, REGION_CPU1 );	/* 64k for the main cpu */
 /*TODO*///		/* Nothing loaded here. Bankswitching makes sure this gets the necessary code */
 /*TODO*///	

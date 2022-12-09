@@ -56,7 +56,7 @@ public class cclimber {
     public static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr cclimber_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr cclimber_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -144,7 +144,7 @@ public class cclimber {
     public static final int BGPEN = (256 + 32);
     public static final int SIDEPEN = (256 + 32 + 1);
 
-    public static VhConvertColorPromPtr swimmer_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr swimmer_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -274,7 +274,7 @@ public class cclimber {
      *
      **************************************************************************
      */
-    public static VhStartPtr cclimber_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr cclimber_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (generic_vh_start.handler() != 0) {
                 return 1;
@@ -303,7 +303,7 @@ public class cclimber {
      *
      **************************************************************************
      */
-    public static VhStopPtr cclimber_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr cclimber_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(bsbitmap);
             bsdirtybuffer = null;
@@ -411,7 +411,7 @@ public class cclimber {
     }
 
     static int lastcol_cc;
-    public static VhUpdatePtr cclimber_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr cclimber_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 
@@ -537,7 +537,7 @@ public class cclimber {
     };
 
     static int lastcol_swimmer;
-    public static VhUpdatePtr swimmer_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr swimmer_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

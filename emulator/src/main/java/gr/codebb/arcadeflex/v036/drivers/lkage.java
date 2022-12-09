@@ -415,7 +415,7 @@ public class lkage
                 null
 	);
 	
-	static RomLoadPtr rom_lkage = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_lkage = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x14000, REGION_CPU1 );/* Z80 code (main CPU) */
 		ROM_LOAD( "a54-01-1.37", 0x00000, 0x8000, 0x973da9c5 );
 		ROM_LOAD( "a54-02-1.38", 0x08000, 0x8000, 0x27b509da );
@@ -436,7 +436,7 @@ public class lkage
 		ROM_LOAD( "a54-08-1.87", 0x0c000, 0x4000, 0x3ff3b230 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_lkageb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_lkageb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* Z80 code (main CPU) */
 		ROM_LOAD( "lok.a",     0x0000, 0x8000, 0x866df793 );
 		ROM_LOAD( "lok.b",     0x8000, 0x8000, 0xfba9400f );

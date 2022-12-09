@@ -12,6 +12,8 @@
  */ 
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
@@ -93,7 +95,7 @@ public class ajax
 	
 	***************************************************************************/
 	
-	public static VhStartPtr ajax_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr ajax_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		layer_colorbase[0] = 64;
 		layer_colorbase[1] = 0;
@@ -117,7 +119,7 @@ public class ajax
 		return 0;
 	} };
 	
-	public static VhStopPtr ajax_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr ajax_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		K052109_vh_stop();
 		K051960_vh_stop();
@@ -132,7 +134,7 @@ public class ajax
 	
 	***************************************************************************/
 	
-	public static VhUpdatePtr ajax_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr ajax_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		K052109_tilemap_update();
 		K051316_tilemap_update_0();

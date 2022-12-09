@@ -139,7 +139,7 @@ public class bublbobl {
      *
      **************************************************************************
      */
-    public static InterruptPtr bublbobl_m68705_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr bublbobl_m68705_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             /* I don't know how to handle the interrupt line so I just toggle it every time. */
             if ((cpu_getiloops() & 1) != 0) {

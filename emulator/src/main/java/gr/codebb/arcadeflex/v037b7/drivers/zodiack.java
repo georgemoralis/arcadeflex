@@ -26,14 +26,14 @@ public class zodiack {
 
     public static int percuss_hardware;
 
-    public static InitMachinePtr zodiack_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr zodiack_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             percuss_hardware = 0;
             espial_init_machine.handler();
         }
     };
 
-    public static InitMachinePtr percuss_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr percuss_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             percuss_hardware = 1;
             espial_init_machine.handler();
@@ -539,7 +539,7 @@ public class zodiack {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_zodiack = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_zodiack = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -564,7 +564,7 @@ public class zodiack {
         }
     };
 
-    static RomLoadPtr rom_dogfight = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dogfight = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -590,7 +590,7 @@ public class zodiack {
         }
     };
 
-    static RomLoadPtr rom_moguchan = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_moguchan = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -615,7 +615,7 @@ public class zodiack {
         }
     };
 
-    static RomLoadPtr rom_percuss = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_percuss = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -643,7 +643,7 @@ public class zodiack {
         }
     };
 
-    static RomLoadPtr rom_bounty = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bounty = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */

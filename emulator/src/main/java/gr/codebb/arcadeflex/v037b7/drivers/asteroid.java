@@ -790,7 +790,7 @@ public class asteroid
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_asteroid = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_asteroid = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "035145.02",    0x6800, 0x0800, 0x0cc75459 );
 		ROM_LOAD( "035144.02",    0x7000, 0x0800, 0x096ed35c );
@@ -800,7 +800,7 @@ public class asteroid
 		ROM_LOAD( "035127.02",    0x5000, 0x0800, 0x8b71fd9e );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_asteroi1 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_asteroi1 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "035145.01",    0x6800, 0x0800, 0xe9bfda64 );
 		ROM_LOAD( "035144.01",    0x7000, 0x0800, 0xe53c28a9 );
@@ -810,7 +810,7 @@ public class asteroid
 		ROM_LOAD( "035127.01",    0x5000, 0x0800, 0x99699366 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_asteroib = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_asteroib = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "035145ll.bin", 0x6800, 0x0800, 0x605fc0f2 );
 		ROM_LOAD( "035144ll.bin", 0x7000, 0x0800, 0xe106de77 );
@@ -820,7 +820,7 @@ public class asteroid
 		ROM_LOAD( "035127.02",    0x5000, 0x0800, 0x8b71fd9e );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_astdelux = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_astdelux = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "036430.02",    0x6000, 0x0800, 0xa4d7a525 );
 		ROM_LOAD( "036431.02",    0x6800, 0x0800, 0xd4004aae );
@@ -832,7 +832,7 @@ public class asteroid
 		ROM_LOAD( "036799.01",    0x5000, 0x0800, 0x7d511572 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_astdelu1 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_astdelu1 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "036430.01",    0x6000, 0x0800, 0x8f5dabc6 );
 		ROM_LOAD( "036431.01",    0x6800, 0x0800, 0x157a8516 );
@@ -844,7 +844,7 @@ public class asteroid
 		ROM_LOAD( "036799.01",    0x5000, 0x0800, 0x7d511572 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_llander = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_llander = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "034572.02",    0x6000, 0x0800, 0xb8763eea );
 		ROM_LOAD( "034571.02",    0x6800, 0x0800, 0x77da4b2f );
@@ -859,7 +859,7 @@ public class asteroid
 		ROM_LOAD( "034597.01",    0x5800, 0x0800, 0x00000000 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_llander1 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_llander1 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "034572.01",    0x6000, 0x0800, 0x2aff3140 );
 		ROM_LOAD( "034571.01",    0x6800, 0x0800, 0x493e24b7 );

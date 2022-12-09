@@ -64,7 +64,7 @@ public class psychic5
 		if (ps5_foreground_videoram.read(0x7C6)=='H') return 0;
 		return 1;
 	}
-	public static InitMachinePtr psychic5_init_machine = new InitMachinePtr() {
+	public static InitMachineHandlerPtr psychic5_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
 		bg_clip_mode = -10;
 	}};
@@ -286,7 +286,7 @@ public class psychic5
 	} };
 	
 	
-	public static VhStartPtr psychic5_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr psychic5_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		/*if ((ps5_background_videoram = malloc(0x1000)) == 0)
 		{
@@ -346,7 +346,7 @@ public class psychic5
 	        return 0;
 	} };
 	
-	public static VhStopPtr psychic5_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr psychic5_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		/*free(ps5_background_videoram);
 		free(ps5_dummy_bg_ram);
@@ -666,7 +666,7 @@ public class psychic5
 		}
 	} };
 	
-	public static VhUpdatePtr psychic5_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr psychic5_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int bg_scrollx,bg_scrolly;
 	

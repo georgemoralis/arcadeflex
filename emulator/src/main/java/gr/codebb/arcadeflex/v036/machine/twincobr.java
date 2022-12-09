@@ -91,7 +91,7 @@ public class twincobr {
 /*TODO*///		/* blank out the screen */
 /*TODO*///		osd_clearbitmap(Machine.scrbitmap);
 /*TODO*///	}
-    public static InitMachinePtr wardner_reset = new InitMachinePtr() {
+    public static InitMachineHandlerPtr wardner_reset = new InitMachineHandlerPtr() {
         public void handler() {
             /* clean out high score tables in these game hardware */
             wardner_mainram.write(0x0117, 0xff);

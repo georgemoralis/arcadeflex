@@ -292,7 +292,7 @@ public class mikie {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_mikie = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mikie = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -328,7 +328,7 @@ public class mikie {
         }
     };
 
-    static RomLoadPtr rom_mikiej = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mikiej = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -364,7 +364,7 @@ public class mikie {
         }
     };
 
-    static RomLoadPtr rom_mikiehs = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mikiehs = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */

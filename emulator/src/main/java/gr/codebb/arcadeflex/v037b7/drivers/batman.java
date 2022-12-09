@@ -72,7 +72,7 @@ public class batman
             }
         };
 	
-	public static InitMachinePtr init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_reset();
 		atarigen_video_control_reset();
@@ -345,7 +345,7 @@ public class batman
 	 *
 	 *************************************/
 	
-	public static InitDriverPtr init_batman = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_batman = new InitDriverHandlerPtr() { public void handler() 
 	{
 		char default_eeprom[] =
 		{
@@ -383,7 +383,7 @@ public class batman
 	 *
 	 *************************************/
 	
-	static RomLoadPtr rom_batman = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_batman = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0xc0000, REGION_CPU1 );/* 6*128k for 68000 code */
 		ROM_LOAD_EVEN( "085-2030.10r",  0x00000, 0x20000, 0x7cf4e5bf );
 		ROM_LOAD_ODD ( "085-2031.7r",   0x00000, 0x20000, 0x7d7f3fc4 );

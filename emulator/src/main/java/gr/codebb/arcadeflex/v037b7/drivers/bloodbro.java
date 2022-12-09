@@ -505,7 +505,7 @@ public class bloodbro {
             }
     );
 
-    static RomLoadPtr rom_bloodbro = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bloodbro = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x90000, REGION_CPU1);
             ROM_LOAD_ODD("bb_02.bin", 0x00000, 0x20000, 0xc0fdc3e4);
@@ -535,7 +535,7 @@ public class bloodbro {
         }
     };
 
-    static RomLoadPtr rom_weststry = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_weststry = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x90000, REGION_CPU1);/* 64k for cpu code */
 
@@ -601,13 +601,13 @@ public class bloodbro {
     /**
      * ************************************************************************
      */
-    public static InitDriverPtr init_bloodbro = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_bloodbro = new InitDriverHandlerPtr() {
         public void handler() {
             install_seibu_sound_speedup(1);
         }
     };
 
-    public static InitDriverPtr init_weststry = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_weststry = new InitDriverHandlerPtr() {
         public void handler() {
             install_seibu_sound_speedup(1);
             gfx_untangle();

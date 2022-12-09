@@ -233,11 +233,11 @@ public class ajax
 		cpu_setbank(1,new UBytePtr(RAM,bankaddress));
 	} };
 	
-	public static InitMachinePtr ajax_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr ajax_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		firq_enable = 1;
 	}};
-	public static InterruptPtr ajax_interrupt = new InterruptPtr() {
+	public static InterruptHandlerPtr ajax_interrupt = new InterruptHandlerPtr() {
         public int handler() {
 		if (K051960_is_IRQ_enabled()!=0)
 			return KONAMI_INT_IRQ;

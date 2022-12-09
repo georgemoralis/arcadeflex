@@ -358,7 +358,7 @@ public class ajax
 	
 	
 	
-	static RomLoadPtr rom_ajax = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ajax = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x28000, REGION_CPU1 );/* 052001 code */
 		ROM_LOAD( "m01.n11",	0x10000, 0x08000, 0x4a64e53a );/* banked ROM */
 		ROM_CONTINUE(			0x08000, 0x08000 );			/* fixed ROM */
@@ -394,7 +394,7 @@ public class ajax
 		ROM_LOAD( "770c11",		0x000000, 0x080000, 0x299a615a );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ajaxj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ajaxj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x28000, REGION_CPU1 );/* 052001 code */
 		ROM_LOAD( "770l01.bin",	0x10000, 0x08000, 0x7cea5274 );/* banked ROM */
 		ROM_CONTINUE(			0x08000, 0x08000 );			/* fixed ROM */
@@ -431,7 +431,7 @@ public class ajax
 	ROM_END(); }}; 
 	
 	
-	public static InitDriverPtr init_ajax = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_ajax = new InitDriverHandlerPtr() { public void handler() 
 	{
 		konami_rom_deinterleave_2(REGION_GFX1);
 		konami_rom_deinterleave_2(REGION_GFX2);

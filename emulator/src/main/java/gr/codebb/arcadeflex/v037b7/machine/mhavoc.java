@@ -55,7 +55,7 @@ public class mhavoc {
         }
     };
 
-    public static InitMachinePtr mhavoc_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr mhavoc_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             /* Set all the banks to the right place */
             mhavoc_ram_banksel_w.handler(0, 0);

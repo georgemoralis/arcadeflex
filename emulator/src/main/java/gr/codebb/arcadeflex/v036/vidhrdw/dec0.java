@@ -1127,7 +1127,7 @@ public class dec0 {
     /**
      * ***************************************************************************
      */
-    public static VhUpdatePtr hbarrel_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr hbarrel_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             dec0_update_palette(dec0_pri & 0x01);
 
@@ -1147,7 +1147,7 @@ public class dec0 {
     /**
      * ***************************************************************************
      */
-    public static VhUpdatePtr baddudes_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr baddudes_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             /* WARNING: priority inverted wrt all the other games */
             dec0_update_palette(~dec0_pri & 0x01);
@@ -1202,7 +1202,7 @@ public class dec0 {
     /**
      * ***************************************************************************
      */
-    public static VhUpdatePtr robocop_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr robocop_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             dec0_update_palette(dec0_pri & 0x01);
             dec0_pf1_update();
@@ -1275,7 +1275,7 @@ public class dec0 {
     /**
      * ***************************************************************************
      */
-    public static VhUpdatePtr birdtry_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr birdtry_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             dec0_update_palette(dec0_pri & 0x01);
 
@@ -1291,7 +1291,7 @@ public class dec0 {
     /**
      * ***************************************************************************
      */
-    public static VhUpdatePtr hippodrm_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr hippodrm_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             dec0_update_palette(dec0_pri & 0x01);
             dec0_pf1_update();
@@ -1318,7 +1318,7 @@ public class dec0 {
     /**
      * ***************************************************************************
      */
-    public static VhUpdatePtr slyspy_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr slyspy_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             dec0_update_palette(0);
 
@@ -1343,7 +1343,7 @@ public class dec0 {
     /**
      * ***************************************************************************
      */
-    public static VhUpdatePtr midres_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr midres_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             dec0_update_palette(dec0_pri & 0x01);
             dec0_pf1_update();
@@ -1595,7 +1595,7 @@ public class dec0 {
     /**
      * ***************************************************************************
      */
-    public static VhStopPtr dec0_nodma_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr dec0_nodma_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(dec0_pf3_bitmap);
             osd_free_bitmap(dec0_pf2_bitmap);
@@ -1608,14 +1608,14 @@ public class dec0 {
         }
     };
 
-    public static VhStopPtr dec0_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr dec0_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             dec0_spriteram = null;
             dec0_nodma_vh_stop.handler();
         }
     };
 
-    public static VhStartPtr dec0_nodma_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr dec0_nodma_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             /* Allocate bitmaps */
             if ((dec0_pf1_bitmap = osd_create_bitmap(512, 512)) == null) {
@@ -1660,7 +1660,7 @@ public class dec0 {
         }
     };
 
-    public static VhStartPtr dec0_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr dec0_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             dec0_nodma_vh_start.handler();
             dec0_spriteram = new UBytePtr(0x800);

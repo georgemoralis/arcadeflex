@@ -44,7 +44,7 @@ public class airbustr {
     /* Debug stuff (bound to go away sometime) */
     static int u1, u2, u3, u4;
 
-    public static InitMachinePtr airbustr_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr airbustr_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             soundlatch_status = soundlatch2_status = 0;
             bankswitch_w.handler(0, 2);
@@ -54,7 +54,7 @@ public class airbustr {
     };
 
     static int addr_air = 0xff;
-    public static InterruptPtr airbustr_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr airbustr_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             addr_air = addr_air ^ 0x02;
 
@@ -175,7 +175,7 @@ public class airbustr {
             };
 
     static int addr_air2 = 0xfd;
-    public static InterruptPtr airbustr_interrupt2 = new InterruptPtr() {
+    public static InterruptHandlerPtr airbustr_interrupt2 = new InterruptHandlerPtr() {
         public int handler() {
             addr_air2 ^= 0x02;
 
@@ -578,7 +578,7 @@ public class airbustr {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_airbustr = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_airbustr = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x24000, REGION_CPU1);
             ROM_LOAD("pr-14j.bin", 0x00000, 0x0c000, 0x6b9805bd);
@@ -605,7 +605,7 @@ public class airbustr {
         }
     };
 
-    public static InitDriverPtr init_airbustr = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_airbustr = new InitDriverHandlerPtr() {
         public void handler() {
             int i;
             UBytePtr RAM;

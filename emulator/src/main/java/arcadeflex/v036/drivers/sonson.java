@@ -279,7 +279,7 @@ public class sonson {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_sonson = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sonson = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code + 3*16k for the banked ROMs images */
 

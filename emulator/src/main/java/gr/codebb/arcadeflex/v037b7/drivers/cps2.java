@@ -74,7 +74,7 @@ public class cps2 {
     public static final int CODE_SIZE   = 0x0800000;
 
 
-    public static InitDriverPtr init_cps2 = new InitDriverPtr() { public void handler() 
+    public static InitDriverHandlerPtr init_cps2 = new InitDriverHandlerPtr() { public void handler() 
     {
             UBytePtr RAM = memory_region(REGION_CPU1);
 /*TODO*///	FILE *fp;
@@ -227,7 +227,7 @@ public class cps2 {
 
 
 
-/*TODO*///static RomLoadPtr rom_19xx = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_19xx = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "19xu.03", 0x000000, 0x80000, 0x05955268 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "19xu.04", 0x080000, 0x80000, 0x3111ab7f );
@@ -254,7 +254,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "19x.12",   0x200000, 0x200000, 0xd47c96e2 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_armwar = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_armwar = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "pwgu.03b", 0x000000, 0x80000, 0x8b95497a );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "pwgu.04b", 0x080000, 0x80000, 0x29eb5661 );
@@ -285,7 +285,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "pwg.12",   0x200000, 0x200000, 0x77438ed0 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_armwara = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_armwara = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "pwga.03a", 0x000000, 0x80000, 0x8d474ab1 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "pwga.04a", 0x080000, 0x80000, 0x81b5aec7 );
@@ -316,7 +316,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "pwg.12",   0x200000, 0x200000, 0x77438ed0 );
 /*TODO*///ROM_END(); }}; 
 
-    static RomLoadPtr rom_avsp = new RomLoadPtr(){ public void handler(){ 
+    static RomLoadHandlerPtr rom_avsp = new RomLoadHandlerPtr(){ public void handler(){ 
             ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
             ROM_LOAD_WIDE_SWAP( "avpu.03d", 0x000000, 0x80000, 0x42757950 );
             ROM_LOAD_WIDE_SWAP( "avpu.04d", 0x080000, 0x80000, 0x5abcdee6 );
@@ -342,7 +342,7 @@ public class cps2 {
             ROM_LOAD( "avp.12",   0x200000, 0x200000, 0xf4110d49 );
     ROM_END(); }}; 
 
-/*TODO*///static RomLoadPtr rom_avspa = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_avspa = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "avpa.03d", 0x000000, 0x80000, 0x6c1c1858 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "avpa.04d", 0x080000, 0x80000, 0x94f50b0c );
@@ -368,7 +368,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "avp.12",   0x200000, 0x200000, 0xf4110d49 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_batcirj = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_batcirj = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "btcj.03", 0x000000, 0x80000, 0x6b7e168d );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "btcj.04", 0x080000, 0x80000, 0x46ba3467 );
@@ -394,7 +394,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "btc.12",   0x200000, 0x200000, 0x418a2e33 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_batcira = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_batcira = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "btca.03", 0x000000, 0x80000, 0x1ad20d87 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "btca.04", 0x080000, 0x80000, 0x2b3f4dbe );
@@ -420,7 +420,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "btc.12",   0x200000, 0x200000, 0x418a2e33 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_cybotsj = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_cybotsj = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "cybj.03", 0x000000, 0x80000, 0x6096eada );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "cybj.04", 0x080000, 0x80000, 0x7b0ffaa9 );
@@ -451,7 +451,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "cyb.12",   0x200000, 0x200000, 0x7066e9cc );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_ddtod = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_ddtod = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "dadu.03a", 0x000000, 0x80000, 0x4413f177 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "dadu.04a", 0x080000, 0x80000, 0x168de230 );
@@ -478,7 +478,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "dad.12",   0x200000, 0x200000, 0x2f0b5a4e );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_ddtoda = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_ddtoda = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "dada.03a", 0x000000, 0x80000, 0xfc6f2dd7 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "dada.04a", 0x080000, 0x80000, 0xd4be4009 );
@@ -505,7 +505,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "dad.12",   0x200000, 0x200000, 0x2f0b5a4e );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_ddtodr1 = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_ddtodr1 = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "dadu.03b", 0x000000, 0x80000, 0xa519905f );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "dadu.04b", 0x080000, 0x80000, 0x52562d38 );
@@ -532,7 +532,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "dad.12",   0x200000, 0x200000, 0x2f0b5a4e );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_ddsom = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_ddsom = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "dd2u.03d", 0x000000, 0x80000, 0x0f700d84 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "dd2u.04d", 0x080000, 0x80000, 0xb99eb254 );
@@ -563,7 +563,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "dd2.12",   0x200000, 0x200000, 0x5ea2e7fa );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_dstlk = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_dstlk = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "vamu.03b", 0x000000, 0x80000, 0x68a6343f );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "vamu.04b", 0x080000, 0x80000, 0x58161453 );
@@ -594,7 +594,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "vam.12",   0x200000, 0x200000, 0x1a3e5c03 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_vampj = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_vampj = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "vamj.03a", 0x000000, 0x80000, 0xf55d3722 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "vamj.04b", 0x080000, 0x80000, 0x4d9c43c4 );
@@ -625,7 +625,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "vam.12",   0x200000, 0x200000, 0x1a3e5c03 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_vampa = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_vampa = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "vama.03a", 0x000000, 0x80000, 0x294e0bec );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "vama.04a", 0x080000, 0x80000, 0xbc18e128 );
@@ -656,7 +656,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "vam.12",   0x200000, 0x200000, 0x1a3e5c03 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_ecofe = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_ecofe = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "uece.03", 0x000000, 0x80000, 0xec2c1137 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "uece.04", 0x080000, 0x80000, 0xb35f99db );
@@ -682,7 +682,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "uec.12",   0x200000, 0x200000, 0x27729e52 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_uecology = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_uecology = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "uecj.03", 0x000000, 0x80000, 0x94c40a4c );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "uecj.04", 0x080000, 0x80000, 0x8d6e3a09 );
@@ -709,7 +709,7 @@ public class cps2 {
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_msh = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_msh = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "mshu.03", 0x000000, 0x80000, 0xd2805bdd );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "mshu.04", 0x080000, 0x80000, 0x743f96ff );
@@ -740,7 +740,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "msh.12",   0x200000, 0x200000, 0xde092570 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_mshvsf = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_mshvsf = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "mvsu.03d", 0x000000, 0x80000, 0xae60a66a );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "mvsu.04d", 0x080000, 0x80000, 0x91f67d8a );
@@ -771,7 +771,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "mvs.12",   0x400000, 0x400000, 0xf2fd7f68 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_mshvsfj = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_mshvsfj = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "mvsj.03i", 0x000000, 0x80000, 0xd8cbb691 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "mvsj.04i", 0x080000, 0x80000, 0x32741ace );
@@ -802,7 +802,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "mvs.12",   0x400000, 0x400000, 0xf2fd7f68 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_mvsc = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_mvsc = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "mvcu.03d", 0x000000, 0x80000, 0xc6007557 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "mvcu.04d", 0x080000, 0x80000, 0x724b2b20 );
@@ -833,7 +833,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "mvc.12",   0x400000, 0x400000, 0x7ccb1896 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_mvscj = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_mvscj = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "mvcj.03a", 0x000000, 0x80000, 0x3df18879 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "mvcj.04a", 0x080000, 0x80000, 0x07d212e8 );
@@ -864,7 +864,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "mvc.12",   0x400000, 0x400000, 0x7ccb1896 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_nwarr = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_nwarr = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "vphu.03f", 0x000000, 0x80000, 0x85d6a359 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "vphu.04c", 0x080000, 0x80000, 0xcb7fce77 );
@@ -895,7 +895,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "vph.12",   0x200000, 0x200000, 0xfbd3cd90 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_vhuntj = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_vhuntj = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "vphj.03b", 0x000000, 0x80000, 0x679c3fa9 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "vphj.04a", 0x080000, 0x80000, 0xeb6e71e4 );
@@ -926,7 +926,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "vph.12",   0x200000, 0x200000, 0xfbd3cd90 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_rckman2j = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_rckman2j = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION(CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "rm2j.03",  0x000000, 0x80000, 0xdbaa1437 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "rm2j.04",  0x080000, 0x80000, 0xcf5ba612 );
@@ -948,7 +948,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "rm2.12",   0x200000, 0x200000, 0x546c1636 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_qndream = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_qndream = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION(CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "tqzj.03",  0x000000, 0x80000, 0x7acf3e30 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "tqzj.04",  0x080000, 0x80000, 0xf1044a87 );
@@ -970,7 +970,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "tqz.12",   0x200000, 0x200000, 0x2e049b13 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_sfa = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_sfa = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "sfzu.03a",  0x000000, 0x80000, 0x49fc7db9 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "sfz.04a",   0x080000, 0x80000, 0x5f99e9a5 );
@@ -993,7 +993,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "sfz.12",   0x200000, 0x200000, 0x8bdbc4b4 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_sfzj = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_sfzj = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "sfzj.03a",  0x000000, 0x80000, 0x844220c2 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "sfz.04a",   0x080000, 0x80000, 0x5f99e9a5 );
@@ -1016,7 +1016,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "sfz.12",   0x200000, 0x200000, 0x8bdbc4b4 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_sfar1 = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_sfar1 = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "sfzu.03b",  0x000000, 0x80000, 0xebf2054d );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "sfz.04b",   0x080000, 0x80000, 0x8b73b0e5 );
@@ -1039,7 +1039,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "sfz.12",   0x200000, 0x200000, 0x8bdbc4b4 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_sfzjr1 = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_sfzjr1 = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "sfzj.03b",  0x000000, 0x80000, 0xf5444120 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "sfz.04b",   0x080000, 0x80000, 0x8b73b0e5 );
@@ -1062,7 +1062,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "sfz.12",   0x200000, 0x200000, 0x8bdbc4b4 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_sfz2j = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_sfz2j = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "sz2j.03a", 0x000000, 0x80000, 0x97461e28 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "sz2j.04a", 0x080000, 0x80000, 0xae4851a9 );
@@ -1092,7 +1092,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "sz2.12",   0x200000, 0x200000, 0x2237bc53 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_sfz2a = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_sfz2a = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "szaj.03a", 0x000000, 0x80000, 0xa3802fe3 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "szaj.04a", 0x080000, 0x80000, 0xe7ca87c7 );
@@ -1122,7 +1122,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "sza.12",   0x200000, 0x200000, 0x2237bc53 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_sfa3 = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_sfa3 = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "sz3u.03", 0x000000, 0x80000, 0xb5984a19 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "sz3u.04", 0x080000, 0x80000, 0x7e8158ba );
@@ -1153,7 +1153,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "sz3.12",   0x400000, 0x400000, 0xf392b13a );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_sfz3 = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_sfz3 = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "sz3j.03", 0x000000, 0x80000, 0x6ee0beae );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "sz3j.04", 0x080000, 0x80000, 0xa6e2978d );
@@ -1184,7 +1184,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "sz3.12",   0x400000, 0x400000, 0xf392b13a );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_sgemf = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_sgemf = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "pcfu.03", 0x000000, 0x80000, 0xac2e8566 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "pcf.04",  0x080000, 0x80000, 0xf4314c96 );
@@ -1213,7 +1213,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "pcf.12",   0x400000, 0x400000, 0x4ce235fe );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_pfghtj = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_pfghtj = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "pcfj.03", 0x000000, 0x80000, 0x681da43e );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "pcf.04",  0x080000, 0x80000, 0xf4314c96 );
@@ -1242,7 +1242,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "pcf.12",   0x400000, 0x400000, 0x4ce235fe );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_slam2e = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_slam2e = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "smbe.03b", 0x000000, 0x80000, 0xb8016278 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "smbe.04b", 0x080000, 0x80000, 0x18c4c447 );
@@ -1275,7 +1275,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "smb.12",   0x200000, 0x200000, 0x955b0782 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_smbomber = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_smbomber = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "smbj.03", 0x000000, 0x80000, 0x52eafb10 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "smbj.04", 0x080000, 0x80000, 0xaa6e8078 );
@@ -1308,7 +1308,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "smb.12",   0x200000, 0x200000, 0x955b0782 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_spf2t = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_spf2t = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION(CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "pzfu.03a",  0x000000, 0x80000, 0x346e62ef );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "pzf.04a",   0x080000, 0x80000, 0xb80649e2 );
@@ -1329,7 +1329,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "pzf.12",   0x200000, 0x200000, 0x399d2c7b );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_spf2xj = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_spf2xj = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION(CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "pzfj.03a",  0x000000, 0x80000, 0x2070554a );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "pzf.04a",   0x080000, 0x80000, 0xb80649e2 );
@@ -1350,7 +1350,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "pzf.12",   0x200000, 0x200000, 0x399d2c7b );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_ssf2 = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_ssf2 = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "ssfu.03a", 0x000000, 0x80000, 0x72f29c33 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "ssfu.04a", 0x080000, 0x80000, 0x935cea44 );
@@ -1383,7 +1383,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "ssf.q08",  0x380000, 0x080000, 0x6f5a088c );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_ssf2a = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_ssf2a = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "ssfa.03a", 0x000000, 0x80000, 0xd2a3c520 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "ssfa.04a", 0x080000, 0x80000, 0x5d873642 );
@@ -1417,7 +1417,7 @@ public class cps2 {
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_ssf2j = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_ssf2j = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "ssfj.03", 0x000000, 0x80000, 0x7eb0efed );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "ssfj.04", 0x080000, 0x80000, 0xd7322164 );
@@ -1450,7 +1450,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "ssf.q08",  0x380000, 0x080000, 0x6f5a088c );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_ssf2t = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_ssf2t = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "sfxu.03c", 0x000000, 0x80000, 0x86e4a335 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "sfxu.04a", 0x080000, 0x80000, 0x532b5ffd );
@@ -1484,7 +1484,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "sfx.12",   0x200000, 0x200000, 0xa05e3aab );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_ssf2xj = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_ssf2xj = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "sfxj.03c", 0x000000, 0x80000, 0xa7417b79 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "sfxj.04a", 0x080000, 0x80000, 0xaf7767b4 );
@@ -1518,7 +1518,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "sfx.12",   0x200000, 0x200000, 0xa05e3aab );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_vhunt2 = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_vhunt2 = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "vh2j.03", 0x000000, 0x80000, 0x1a5feb13 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "vh2j.04", 0x080000, 0x80000, 0x434611a5 );
@@ -1549,7 +1549,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "vh2.12",  0x400000, 0x400000, 0x6e2430af );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_vsav = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_vsav = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "vm3u.03d", 0x000000, 0x80000, 0x1f295274 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "vm3u.04d", 0x080000, 0x80000, 0xc46adf81 );
@@ -1580,7 +1580,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "vm3.12",   0x400000, 0x400000, 0x9cd71557 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_vsavj = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_vsavj = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "vm3j.03d", 0x000000, 0x80000, 0x2a2e74a4 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "vm3j.04d", 0x080000, 0x80000, 0x1c2427bc );
@@ -1611,7 +1611,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "vm3.12",   0x400000, 0x400000, 0x9cd71557 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_vsav2 = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_vsav2 = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "vs2j.03", 0x000000, 0x80000, 0x89fd86b4 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "vs2j.04", 0x080000, 0x80000, 0x107c091b );
@@ -1642,7 +1642,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "vs2.12",   0x400000, 0x400000, 0x6d020a14 );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_xmcota = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_xmcota = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "xmnu.03e", 0x000000, 0x80000, 0x0bafeb0e );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "xmnu.04e", 0x080000, 0x80000, 0xc29bdae3 );
@@ -1673,7 +1673,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "xmn.12",   0x200000, 0x200000, 0x729c188f );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_xmcotaj = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_xmcotaj = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "xmnj.03b", 0x000000, 0x80000, 0xc8175fb3 );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "xmnj.04b", 0x080000, 0x80000, 0x54b3fba3 );
@@ -1704,7 +1704,7 @@ public class cps2 {
 /*TODO*///	ROM_LOAD( "xmn.12",   0x200000, 0x200000, 0x729c188f );
 /*TODO*///ROM_END(); }}; 
 /*TODO*///
-/*TODO*///static RomLoadPtr rom_xmvsf = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///static RomLoadHandlerPtr rom_xmvsf = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///	ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "xvsu.03i", 0x000000, 0x80000, 0x5481155a );
 /*TODO*///	ROM_LOAD_WIDE_SWAP( "xvsu.04i", 0x080000, 0x80000, 0x1e236388 );

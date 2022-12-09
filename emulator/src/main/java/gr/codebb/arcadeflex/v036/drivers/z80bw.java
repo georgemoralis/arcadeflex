@@ -145,7 +145,7 @@ public class z80bw {
 	 Added By Lee Taylor (lee@defender.demon.co.uk)
 	 December 1998
 	------------------------------------------------------------------------------*/
-    public static InterruptPtr spaceint_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr spaceint_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if ((readinputport(3) & 1) != 0) /* Coin */ {
                 return nmi_interrupt.handler();
@@ -272,7 +272,7 @@ public class z80bw {
                     }
             );
 
-    static RomLoadPtr rom_astinvad = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_astinvad = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -290,7 +290,7 @@ public class z80bw {
         }
     };
 
-    static RomLoadPtr rom_kamikaze = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kamikaze = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -305,7 +305,7 @@ public class z80bw {
         }
     };
 
-    static RomLoadPtr rom_spaceint = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spaceint = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */

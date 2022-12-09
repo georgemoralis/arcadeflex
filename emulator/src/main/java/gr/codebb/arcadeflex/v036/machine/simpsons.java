@@ -236,7 +236,7 @@ public class simpsons
 	
 		cpu_setbank( 1, new UBytePtr(RAM,offs) );
 	}};
-	public static InitMachinePtr simpsons_init_machine = new InitMachinePtr() {
+	public static InitMachineHandlerPtr simpsons_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
 
 		UBytePtr RAM = memory_region(REGION_CPU1);

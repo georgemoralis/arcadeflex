@@ -388,7 +388,7 @@ public class ssi
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_ssi = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ssi = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );    /* 512k for 68000 code */
 		ROM_LOAD_EVEN( "ssi_15-1.rom", 0x00000, 0x40000, 0xce9308a6 );
 		ROM_LOAD_ODD ( "ssi_16-1.rom", 0x00000, 0x40000, 0x470a483a );
@@ -404,7 +404,7 @@ public class ssi
 		ROM_LOAD( "ssi_m02.rom",  0x00000, 0x20000, 0x3cb0b907 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_majest12 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_majest12 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );    /* 512k for 68000 code */
 		ROM_LOAD_EVEN( "c64-07.bin", 0x00000, 0x20000, 0xf29ed5c9 );
 		ROM_LOAD_EVEN( "c64-06.bin", 0x40000, 0x20000, 0x18dc71ac );

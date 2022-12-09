@@ -293,7 +293,7 @@ public class rallyx {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_rallyx = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rallyx = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("1b", 0x0000, 0x1000, 0x5882700d);
@@ -318,7 +318,7 @@ public class rallyx {
         }
     };
 
-    static RomLoadPtr rom_rallyxm = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rallyxm = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("1b", 0x0000, 0x1000, 0x5882700d);
@@ -343,7 +343,7 @@ public class rallyx {
         }
     };
 
-    static RomLoadPtr rom_nrallyx = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_nrallyx = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("nrallyx.1b", 0x0000, 0x1000, 0x9404c8d6);

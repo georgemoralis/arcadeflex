@@ -54,7 +54,7 @@ public class phoenix {
      *
      **************************************************************************
      */
-    public static VhConvertColorPromPtr phoenix_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr phoenix_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -110,7 +110,7 @@ public class phoenix {
      *
      **************************************************************************
      */
-    public static VhStartPtr phoenix_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr phoenix_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((ram_page1 = new UBytePtr(0x1000)) == null) {
                 return 1;
@@ -135,7 +135,7 @@ public class phoenix {
      *
      **************************************************************************
      */
-    public static VhStopPtr phoenix_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr phoenix_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
 
             ram_page1 = null;
@@ -231,7 +231,7 @@ public class phoenix {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr phoenix_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr phoenix_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

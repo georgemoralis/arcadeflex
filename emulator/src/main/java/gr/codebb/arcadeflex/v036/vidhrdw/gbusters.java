@@ -7,6 +7,8 @@
  */ 
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
@@ -69,7 +71,7 @@ public class gbusters
 	
 	***************************************************************************/
 	
-	public static VhStartPtr gbusters_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr gbusters_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		layer_colorbase[0] = 48;
 		layer_colorbase[1] = 0;
@@ -87,14 +89,14 @@ public class gbusters
 		return 0;
 	} };
 	
-	public static VhStopPtr gbusters_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr gbusters_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		K052109_vh_stop();
 		K051960_vh_stop();
 	} };
 	
 	
-	public static VhUpdatePtr gbusters_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr gbusters_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		K052109_tilemap_update();
 	

@@ -44,6 +44,9 @@
  */
 package gr.codebb.arcadeflex.v036.drivers;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -1925,7 +1928,7 @@ public class toaplan1 {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_rallybik = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rallybik = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x080000, REGION_CPU1);/* Main 68K code */
             ROM_LOAD_EVEN("b45-02.rom", 0x000000, 0x08000, 0x383386d7);
@@ -1958,7 +1961,7 @@ public class toaplan1 {
         }
     };
 
-    static RomLoadPtr rom_truxton = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_truxton = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x040000, REGION_CPU1);/* Main 68K code */
             ROM_LOAD_EVEN("b65_11.bin", 0x000000, 0x20000, 0x1a62379a);
@@ -1982,7 +1985,7 @@ public class toaplan1 {
         }
     };
 
-    static RomLoadPtr rom_hellfire = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hellfire = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x040000, REGION_CPU1);/* Main 68K code */
             ROM_LOAD_EVEN("b90-14.bin", 0x000000, 0x20000, 0x101df9f5);
@@ -2006,7 +2009,7 @@ public class toaplan1 {
         }
     };
 
-    static RomLoadPtr rom_zerowing = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_zerowing = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x080000, REGION_CPU1);/* Main 68K code */
             ROM_LOAD_EVEN("o15-11.rom", 0x000000, 0x08000, 0x6ff2b9a0);
@@ -2032,7 +2035,7 @@ public class toaplan1 {
         }
     };
 
-    static RomLoadPtr rom_demonwld = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_demonwld = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x040000, REGION_CPU1);/* Main 68K code */
             ROM_LOAD_EVEN("rom10", 0x000000, 0x20000, 0x036ee46c);
@@ -2065,7 +2068,7 @@ public class toaplan1 {
         }
     };
 
-    static RomLoadPtr rom_samesame = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_samesame = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x080000, REGION_CPU1);/* Main 68K code */
             ROM_LOAD_EVEN("o17_09.bin", 0x000000, 0x08000, 0x3f69e437);
@@ -2092,7 +2095,7 @@ public class toaplan1 {
         }
     };
 
-    static RomLoadPtr rom_fireshrk = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_fireshrk = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x080000, REGION_CPU1);/* Main 68K code */
             ROM_LOAD_EVEN("9.bin", 0x000000, 0x08000, 0xf0c70e6f);
@@ -2119,7 +2122,7 @@ public class toaplan1 {
         }
     };
 
-    static RomLoadPtr rom_outzone = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_outzone = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x040000, REGION_CPU1);/* Main 68K code */
             ROM_LOAD_EVEN("rom7.bin", 0x000000, 0x20000, 0x936e25d8);
@@ -2141,7 +2144,7 @@ public class toaplan1 {
         }
     };
 
-    static RomLoadPtr rom_outzonep = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_outzonep = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x040000, REGION_CPU1);/* Main 68K code */
             ROM_LOAD_EVEN("18.bin", 0x000000, 0x20000, 0x31a171bb);
@@ -2181,7 +2184,7 @@ public class toaplan1 {
         }
     };
 
-    static RomLoadPtr rom_vimana = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_vimana = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x040000, REGION_CPU1);/* Main 68K code */
             ROM_LOAD_EVEN("vim07.bin", 0x000000, 0x20000, 0x1efaea84);
@@ -2209,7 +2212,7 @@ public class toaplan1 {
         }
     };
 
-    static RomLoadPtr rom_vimana2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_vimana2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x040000, REGION_CPU1);/* Main 68K code */
             ROM_LOAD_EVEN("vimana07.bin", 0x000000, 0x20000, 0x5a4bf73e);
@@ -2237,7 +2240,7 @@ public class toaplan1 {
         }
     };
 
-    static RomLoadPtr rom_vimanan = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_vimanan = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x040000, REGION_CPU1);/* Main 68K code */
             ROM_LOAD_EVEN("tp019-07.rom", 0x000000, 0x20000, 0x78888ff2);

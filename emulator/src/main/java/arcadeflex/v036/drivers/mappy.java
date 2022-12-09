@@ -736,7 +736,7 @@ public class mappy {
             }
     );
 
-    static RomLoadPtr rom_mappy = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mappy = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code for the first CPU  */
@@ -771,7 +771,7 @@ public class mappy {
         }
     };
 
-    static RomLoadPtr rom_mappyjp = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mappyjp = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code for the first CPU  */
@@ -806,7 +806,7 @@ public class mappy {
         }
     };
 
-    static RomLoadPtr rom_digdug2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_digdug2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code for the first CPU  */
@@ -840,7 +840,7 @@ public class mappy {
         }
     };
 
-    static RomLoadPtr rom_digdug2a = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_digdug2a = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code for the first CPU  */
@@ -875,7 +875,7 @@ public class mappy {
         }
     };
 
-    static RomLoadPtr rom_motos = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_motos = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code for the first CPU  */
@@ -909,7 +909,7 @@ public class mappy {
         }
     };
 
-    static RomLoadPtr rom_todruaga = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_todruaga = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code for the first CPU  */
@@ -949,7 +949,7 @@ public class mappy {
         }
     };
 
-    static RomLoadPtr rom_todruagb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_todruagb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code for the first CPU  */

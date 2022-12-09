@@ -234,7 +234,7 @@ public class taitof2 {
         }
     };
 
-    public static InterruptPtr liquidk_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr liquidk_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             timer_set(TIME_IN_CYCLES((double) (200000 - 5000), 0), 0, liquidk_interrupt5);
             return MC68000_IRQ_6;
@@ -1049,7 +1049,7 @@ public class taitof2 {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_finalb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_finalb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);    /* 256k for 68000 code */
 
@@ -1083,7 +1083,7 @@ public class taitof2 {
         }
     };
 
-    static RomLoadPtr rom_megab = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_megab = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x100000, REGION_CPU1);    /* 256k for 68000 code */
 
@@ -1114,7 +1114,7 @@ public class taitof2 {
         }
     };
 
-    static RomLoadPtr rom_liquidk = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_liquidk = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);    /* 512k for 68000 code */
 
@@ -1144,7 +1144,7 @@ public class taitof2 {
         }
     };
 
-    static RomLoadPtr rom_liquidku = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_liquidku = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);    /* 512k for 68000 code */
 
@@ -1174,7 +1174,7 @@ public class taitof2 {
         }
     };
 
-    static RomLoadPtr rom_mizubaku = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mizubaku = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);    /* 512k for 68000 code */
 
@@ -1204,7 +1204,7 @@ public class taitof2 {
         }
     };
 
-    static RomLoadPtr rom_growl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_growl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x100000, REGION_CPU1);    /* 1024k for 68000 code */
 
@@ -1239,7 +1239,7 @@ public class taitof2 {
         }
     };
 
-    static RomLoadPtr rom_growlu = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_growlu = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x100000, REGION_CPU1);    /* 1024k for 68000 code */
 
@@ -1274,7 +1274,7 @@ public class taitof2 {
         }
     };
 
-    static RomLoadPtr rom_runark = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_runark = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x100000, REGION_CPU1);    /* 1024k for 68000 code */
 

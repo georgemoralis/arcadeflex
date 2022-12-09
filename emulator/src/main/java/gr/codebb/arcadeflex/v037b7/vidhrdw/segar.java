@@ -71,7 +71,7 @@ public class segar {
      **************************************************************************
      */
     static /*unsigned*/ char color_scale[] = {0x00, 0x40, 0x80, 0xC0};
-    public static VhConvertColorPromPtr segar_init_colors = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr segar_init_colors = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int p_ptr = 0;
             int i;
@@ -224,7 +224,7 @@ public class segar {
      *
      **************************************************************************
      */
-    public static VhStartPtr segar_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr segar_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (generic_vh_start.handler() != 0) {
                 return 1;
@@ -302,7 +302,7 @@ public class segar {
      * "Standard" refresh for games without special background boards.
      * *************************************************************************
      */
-    public static VhUpdatePtr segar_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr segar_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             if (palette_recalc() != null || full_refresh != 0) {
                 sv.refresh = 1;
@@ -328,7 +328,7 @@ public class segar {
      *
      **************************************************************************
      */
-    public static VhStartPtr spaceod_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr spaceod_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (segar_vh_start.handler() != 0) {
                 return 1;
@@ -356,7 +356,7 @@ public class segar {
      *
      **************************************************************************
      */
-    public static VhStopPtr spaceod_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr spaceod_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             bitmap_free(sv.horizbackbitmap);
             bitmap_free(sv.vertbackbitmap);
@@ -460,7 +460,7 @@ public class segar {
      * background.
      * *************************************************************************
      */
-    public static VhUpdatePtr spaceod_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr spaceod_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
             int charcode;
@@ -562,7 +562,7 @@ public class segar {
      * ---------------------------------------------------------------------------
      * *************************************************************************
      */
-    public static VhStartPtr monsterb_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr monsterb_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (segar_vh_start.handler() != 0) {
                 return 1;
@@ -614,7 +614,7 @@ public class segar {
      * background.
      * *************************************************************************
      */
-    public static VhUpdatePtr monsterb_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr monsterb_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
             int charcode;
@@ -784,7 +784,7 @@ public class segar {
      * background.
      * *************************************************************************
      */
-    public static VhUpdatePtr sindbadm_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr sindbadm_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
             int charcode;

@@ -13,6 +13,8 @@ Additional tweaking by Jarek Burczynski
  */ 
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
@@ -51,7 +53,7 @@ public class magmax
         public static int TOTAL_COLORS(int gfxn){ return (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity); }
 	public static void COLOR(char []colortable, int gfxn, int offs, int value){ colortable[Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + offs]=(char) value; }
         
-	public static VhConvertColorPromPtr magmax_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr magmax_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
                 int _palette=0;
@@ -95,19 +97,19 @@ public class magmax
 	} };
 	
 	
-	public static VhStartPtr magmax_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr magmax_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		if (generic_vh_start.handler() != 0) return 1;
 		return 0;
 	} };
 	
-	public static VhStopPtr magmax_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr magmax_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		generic_vh_stop.handler();
 	} };
 	
 	
-	public static VhUpdatePtr magmax_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr magmax_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int offs;
 	

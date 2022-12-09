@@ -193,7 +193,7 @@ public class armedf
 	
 	/******************************************************************/
 	
-	public static VhStartPtr terraf_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr terraf_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		scroll_type = 0;
 
@@ -227,7 +227,7 @@ public class armedf
                 return 1;
 	} };
 	
-	public static VhStartPtr armedf_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr armedf_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		scroll_type = 1;
 
@@ -261,7 +261,7 @@ public class armedf
                 return 1;
 	} };
 	
-	public static VhStartPtr kodure_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr kodure_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		scroll_type = 2;
 
@@ -295,7 +295,7 @@ public class armedf
                 return 1;
 	} };
 	
-	public static VhStopPtr armedf_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr armedf_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 	} };
 	
@@ -354,7 +354,7 @@ public class armedf
                 }
 	}
 	
-	public static VhUpdatePtr armedf_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr armedf_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int sprite_enable = armedf_vreg & 0x200;
 
@@ -434,7 +434,7 @@ public class armedf
                 }
 	}
 	
-	public static VhUpdatePtr cclimbr2_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr cclimbr2_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		UBytePtr RAM=new UBytePtr();
 		int sprite_enable = armedf_vreg & 0x200;

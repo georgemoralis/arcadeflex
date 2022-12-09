@@ -188,7 +188,7 @@ public class theglob {
         }
     };
 
-    public static InitMachinePtr theglob_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr theglob_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             UBytePtr RAM = memory_region(REGION_CPU1);
 

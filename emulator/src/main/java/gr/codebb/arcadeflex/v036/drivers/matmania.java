@@ -495,7 +495,7 @@ public class matmania
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_matmania = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_matmania = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "k0-03",        0x4000, 0x4000, 0x314ab8a4 );
 		ROM_LOAD( "k1-03",        0x8000, 0x4000, 0x3b3c3f08 );
@@ -545,7 +545,7 @@ public class matmania
 		ROM_LOAD( "matmania.16",  0x0060, 0x0020, 0x09325dc2 );/* tile palette blue component */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_excthour = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_excthour = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "e29",          0x04000, 0x4000, 0xc453e855 );
 		ROM_LOAD( "e28",          0x08000, 0x4000, 0x17b63708 );
@@ -595,7 +595,7 @@ public class matmania
 		ROM_LOAD( "matmania.16",  0x0060, 0x0020, 0x09325dc2 );/* tile palette blue component */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_maniach = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_maniach = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "mc-mb2.bin",   0x04000, 0x4000, 0xa6da1ba8 );
 		ROM_LOAD( "mc-ma2.bin",   0x08000, 0x4000, 0x84583323 );
@@ -649,7 +649,7 @@ public class matmania
 		ROM_LOAD( "prom.17",      0x0060, 0x0020, 0x41f51d49 );/* tile palette blue component */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_maniach2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_maniach2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "ic40-mb1",     0x04000, 0x4000, 0xb337a867 );
 		ROM_LOAD( "ic41-ma1",     0x08000, 0x4000, 0x85ec8279 );

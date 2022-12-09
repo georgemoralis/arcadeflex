@@ -4,6 +4,9 @@
  */
 package arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.osdependH.*;
@@ -61,7 +64,7 @@ public class rollerg {
      *
      **************************************************************************
      */
-    public static VhStartPtr rollerg_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr rollerg_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             bg_colorbase = 16;
             sprite_colorbase = 16;
@@ -80,7 +83,7 @@ public class rollerg {
         }
     };
 
-    public static VhStopPtr rollerg_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr rollerg_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             K053245_vh_stop();
             K051316_vh_stop_0();
@@ -94,7 +97,7 @@ public class rollerg {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr rollerg_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr rollerg_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int i;
 

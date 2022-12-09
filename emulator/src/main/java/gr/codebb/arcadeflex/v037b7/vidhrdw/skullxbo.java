@@ -139,7 +139,7 @@ public class skullxbo
                 0
         );
                 
-	public static VhStartPtr skullxbo_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr skullxbo_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		
 		/* reset statics */
@@ -178,7 +178,7 @@ public class skullxbo
 	 *
 	 *************************************/
 	
-	public static VhStopPtr skullxbo_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr skullxbo_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		if (scroll_list != null)
 			scroll_list = null;
@@ -318,7 +318,7 @@ public class skullxbo
 	 *
 	 *************************************/
 	
-	public static VhUpdatePtr skullxbo_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr skullxbo_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int i;
 	

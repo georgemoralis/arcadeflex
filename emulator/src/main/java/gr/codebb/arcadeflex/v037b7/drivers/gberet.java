@@ -635,7 +635,7 @@ public class gberet {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_gberet = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gberet = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("c10_l03.bin", 0x0000, 0x4000, 0xae29e4ff);
@@ -659,7 +659,7 @@ public class gberet {
         }
     };
 
-    static RomLoadPtr rom_rushatck = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rushatck = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("rush_h03.10c", 0x0000, 0x4000, 0x4d276b52);
@@ -683,7 +683,7 @@ public class gberet {
         }
     };
 
-    static RomLoadPtr rom_gberetb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gberetb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("2-ic82.10g", 0x0000, 0x8000, 0x6d6fb494);
@@ -706,7 +706,7 @@ public class gberet {
         }
     };
 
-    static RomLoadPtr rom_mrgoemon = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mrgoemon = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);/* 64k for code + banked ROM */
             ROM_LOAD("621d01.10c", 0x00000, 0x8000, 0xb2219c56);

@@ -30,7 +30,7 @@ public class ddragon {
     public static UBytePtr dd_spriteram = new UBytePtr();
     public static int dd2_video;
 
-    public static VhStartPtr dd_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr dd_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             dirtybuffer = new char[0x400];
             if (dirtybuffer != null) {
@@ -52,7 +52,7 @@ public class ddragon {
         }
     };
 
-    public static VhStopPtr dd_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr dd_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(tmpbitmap);
             dirtybuffer = null;
@@ -202,7 +202,7 @@ public class ddragon {
         }
     }
 
-    public static VhUpdatePtr dd_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr dd_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             if (palette_recalc() != null) {
                 memset(dirtybuffer, 1, 0x400);

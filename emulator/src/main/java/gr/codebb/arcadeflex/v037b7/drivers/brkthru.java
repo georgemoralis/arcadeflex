@@ -131,7 +131,7 @@ public class brkthru {
                 new MemoryWriteAddress(0x8000, 0xffff, MWA_ROM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    public static InterruptPtr brkthru_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr brkthru_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (cpu_getiloops() == 0) {
                 if (nmi_enable != 0) {
@@ -470,7 +470,7 @@ public class brkthru {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_brkthru = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_brkthru = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             /* 64k for main CPU + 64k for banked ROMs */
@@ -531,7 +531,7 @@ public class brkthru {
         }
     };
 
-    static RomLoadPtr rom_brkthruj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_brkthruj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             /* 64k for main CPU + 64k for banked ROMs */
@@ -592,7 +592,7 @@ public class brkthru {
         }
     };
 
-    static RomLoadPtr rom_darwin = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_darwin = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             /* 64k for main CPU + 64k for banked ROMs */

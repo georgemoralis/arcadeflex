@@ -370,7 +370,7 @@ public class galaga {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_galaga = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_galaga = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code for the first CPU  */
@@ -406,7 +406,7 @@ public class galaga {
         }
     };
 
-    static RomLoadPtr rom_galagamw = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_galagamw = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code for the first CPU  */
@@ -442,7 +442,7 @@ public class galaga {
         }
     };
 
-    static RomLoadPtr rom_galagads = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_galagads = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code for the first CPU  */
@@ -478,7 +478,7 @@ public class galaga {
         }
     };
 
-    static RomLoadPtr rom_gallag = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gallag = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code for the first CPU  */
@@ -517,7 +517,7 @@ public class galaga {
         }
     };
 
-    static RomLoadPtr rom_galagab2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_galagab2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code for the first CPU  */
@@ -556,7 +556,7 @@ public class galaga {
         }
     };
 
-    static RomLoadPtr rom_galaga84 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_galaga84 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code for the first CPU  */
@@ -595,7 +595,7 @@ public class galaga {
         }
     };
 
-    static RomLoadPtr rom_nebulbee = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_nebulbee = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code for the first CPU  */

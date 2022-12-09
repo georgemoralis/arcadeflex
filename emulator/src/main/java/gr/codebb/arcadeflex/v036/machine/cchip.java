@@ -73,7 +73,7 @@ public class cchip
 		0x4e, 0x75,							/* RTS					  ( Return ) */
 	};
 	
-	public static InitMachinePtr cchip1_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr cchip1_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		/* init custom cchip values */
 		cchip[0] = cchip[1] = cchip[2] = 0;

@@ -41,12 +41,12 @@ public class lwings
 		lwings_bank_register=data;
 	} };
 	
-	public static InterruptPtr lwings_interrupt = new InterruptPtr() { public int handler() {
+	public static InterruptHandlerPtr lwings_interrupt = new InterruptHandlerPtr() { public int handler() {
 		return 0x00d7; /* RST 10h */
 	} };
         static int n_aveng;
         static int s_aveng;
-	public static InterruptPtr avengers_interrupt = new InterruptPtr() { public int handler() {/* hack */
+	public static InterruptHandlerPtr avengers_interrupt = new InterruptHandlerPtr() { public int handler() {/* hack */
 
 		
 /*TODO??)		/*if (keyboard_pressed(KEYCODE_S)){ /* test code */

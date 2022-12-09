@@ -4,6 +4,8 @@
  */
 package arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
@@ -36,7 +38,7 @@ public class zaxxon {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr zaxxon_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr zaxxon_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int p_inc = 0;
@@ -124,7 +126,7 @@ public class zaxxon {
         }
     }
 
-    public static VhStartPtr zaxxon_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr zaxxon_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             osd_bitmap prebitmap;
             int width, height;
@@ -186,7 +188,7 @@ public class zaxxon {
         }
     };
 
-    public static VhStartPtr razmataz_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr razmataz_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int offs;
 
@@ -238,7 +240,7 @@ public class zaxxon {
      *
      **************************************************************************
      */
-    public static VhStopPtr zaxxon_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr zaxxon_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             if (backgroundbitmap1 != null) {
                 osd_free_bitmap(backgroundbitmap1);
@@ -321,7 +323,7 @@ public class zaxxon {
         }
     }
 
-    public static VhUpdatePtr zaxxon_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr zaxxon_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 
@@ -419,7 +421,7 @@ public class zaxxon {
         }
     };
 
-    public static VhUpdatePtr razmataz_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr razmataz_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

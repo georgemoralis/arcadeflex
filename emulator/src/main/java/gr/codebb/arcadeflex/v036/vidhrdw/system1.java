@@ -53,7 +53,7 @@ public class system1 {
 
     static char[] palette_lookup = new char[256 * 3];
 
-    public static VhConvertColorPromPtr system1_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr system1_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -121,7 +121,7 @@ public class system1 {
         }
     };
 
-    public static VhStartPtr system1_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr system1_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((SpritesCollisionTable = new char[256 * 256]) == null) {
                 return 1;
@@ -166,7 +166,7 @@ public class system1 {
         }
     };
 
-    public static VhStopPtr system1_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr system1_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(bitmap2);
             osd_free_bitmap(bitmap1);
@@ -571,7 +571,7 @@ public class system1 {
         }
     }
 
-    public static VhUpdatePtr system1_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr system1_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int drawn;
 
@@ -670,7 +670,7 @@ public class system1 {
         }
     }
 
-    public static VhUpdatePtr choplifter_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr choplifter_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int drawn;
 
@@ -794,7 +794,7 @@ public class system1 {
         }
     }
 
-    public static VhUpdatePtr wbml_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr wbml_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             palette_recalc();
             /* no need to check the return code since we redraw everything each frame */

@@ -158,7 +158,7 @@ public class cps1
 	    }
 	} };
 	
-	public static InterruptPtr cps1_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr cps1_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		/* Strider also has a IRQ4 handler. It is input port related, but the game */
 		/* works without it (maybe it's used to multiplex controls). It is the */
@@ -182,7 +182,7 @@ public class cps1
 	
 	static UBytePtr qsound_sharedram1=new UBytePtr(), qsound_sharedram2=new UBytePtr();
 	
-	public static InterruptPtr cps1_qsound_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr cps1_qsound_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 /*TODO*///	#if 0
 /*TODO*///	I have removed CPU_AUDIO_CPU from the Z(0 so this is no longer necessary
@@ -3825,7 +3825,7 @@ public class cps1
 	
 	public static final int CODE_SIZE = 0x200000;
 	
-	static RomLoadPtr rom_forgottn = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_forgottn = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );
 		ROM_LOAD_EVEN( "lwu11a",        0x00000, 0x20000, 0xddf78831 );
 		ROM_LOAD_ODD ( "lwu15a",        0x00000, 0x20000, 0xf7ce2097 );
@@ -3852,7 +3852,7 @@ public class cps1
 		ROM_LOAD( "lw-04u",        0x20000, 0x20000, 0xe6cd098e );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_lostwrld = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_lostwrld = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );
 		ROM_LOAD_EVEN( "lw-11c.14f",    0x00000, 0x20000, 0x67e42546 );
 		ROM_LOAD_ODD ( "lw-15c.14g",    0x00000, 0x20000, 0x402e2a46 );
@@ -3879,7 +3879,7 @@ public class cps1
 		ROM_LOAD( "lw-04.13c",     0x20000, 0x20000, 0x39305536 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ghouls = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ghouls = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );
 		ROM_LOAD_EVEN( "ghl29.bin",    0x00000, 0x20000, 0x166a58a2 );
 		ROM_LOAD_ODD ( "ghl30.bin",    0x00000, 0x20000, 0x7ac8407a );
@@ -3914,7 +3914,7 @@ public class cps1
 		ROM_CONTINUE(              0x10000, 0x08000 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ghoulsu = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ghoulsu = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );
 		ROM_LOAD_EVEN( "dmu29",        0x00000, 0x20000, 0x334d85b2 );
 		ROM_LOAD_ODD ( "dmu30",        0x00000, 0x20000, 0xcee8ceb5 );
@@ -3949,7 +3949,7 @@ public class cps1
 		ROM_CONTINUE(              0x10000, 0x08000 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ghoulsj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ghoulsj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );
 		ROM_LOAD_EVEN( "ghlj29.bin",   0x00000, 0x20000, 0x82fd1798 );
 		ROM_LOAD_ODD ( "ghlj30.bin",   0x00000, 0x20000, 0x35366ccc );
@@ -3984,7 +3984,7 @@ public class cps1
 		ROM_CONTINUE(              0x10000, 0x08000 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_strider = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_strider = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "strider.30",   0x00000, 0x20000, 0xda997474 );
 		ROM_LOAD_ODD ( "strider.35",   0x00000, 0x20000, 0x5463aaa3 );
@@ -4011,7 +4011,7 @@ public class cps1
 		ROM_LOAD( "strider.19",   0x20000, 0x20000, 0x444536d7 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_striderj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_striderj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "sthj23.bin",   0x00000, 0x080000, 0x046e7b12 );
 		ROM_LOAD_WIDE_SWAP( "strider.32",   0x80000, 0x80000, 0x9b3cfc08 );
@@ -4035,7 +4035,7 @@ public class cps1
 		ROM_LOAD( "strider.19",   0x20000, 0x20000, 0x444536d7 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_stridrja = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_stridrja = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "sth36.bin",   0x00000, 0x20000, 0x53c7b006 );
 		ROM_LOAD_ODD ( "sth42.bin",   0x00000, 0x20000, 0x4037f65f );
@@ -4062,7 +4062,7 @@ public class cps1
 		ROM_LOAD( "strider.19",   0x20000, 0x20000, 0x444536d7 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_dwj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_dwj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "36.bin",       0x00000, 0x20000, 0x1a516657 );
 		ROM_LOAD_ODD ( "42.bin",       0x00000, 0x20000, 0x12a290a0 );
@@ -4116,7 +4116,7 @@ public class cps1
 		ROM_LOAD( "31.bin",       0x20000, 0x20000, 0x4a30c737 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_willow = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_willow = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "wlu_30.rom",   0x00000, 0x20000, 0xd604dbb1 );
 		ROM_LOAD_ODD ( "wlu_35.rom",   0x00000, 0x20000, 0xdaee72fe );
@@ -4147,7 +4147,7 @@ public class cps1
 		ROM_LOAD( "wl_19.rom",    0x20000, 0x20000, 0x683898f5 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_willowj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_willowj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "wl36.bin",     0x00000, 0x20000, 0x2b0d7cbc );
 		ROM_LOAD_ODD ( "wl42.bin",     0x00000, 0x20000, 0x1ac39615 );
@@ -4178,7 +4178,7 @@ public class cps1
 		ROM_LOAD( "wl_19.rom",    0x20000, 0x20000, 0x683898f5 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_unsquad = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_unsquad = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "unsquad.30",   0x00000, 0x20000, 0x24d8f88d );
 		ROM_LOAD_ODD ( "unsquad.35",   0x00000, 0x20000, 0x8b954b59 );
@@ -4200,7 +4200,7 @@ public class cps1
 		ROM_LOAD( "unsquad.18",   0x00000, 0x20000, 0x584b43a9 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_area88 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_area88 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "ar36.bin",     0x00000, 0x20000, 0x65030392 );
 		ROM_LOAD_ODD ( "ar42.bin",     0x00000, 0x20000, 0xc48170de );
@@ -4222,7 +4222,7 @@ public class cps1
 		ROM_LOAD( "unsquad.18",   0x00000, 0x20000, 0x584b43a9 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ffight = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ffight = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "ff30-36.bin",  0x00000, 0x20000, 0xf9a5ce83 );
 		ROM_LOAD_ODD ( "ff35-42.bin",  0x00000, 0x20000, 0x65f11215 );
@@ -4245,7 +4245,7 @@ public class cps1
 		ROM_LOAD( "ff19-19.bin",  0x20000, 0x20000, 0x1ef137f9 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ffightu = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ffightu = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "36",           0x00000, 0x20000, 0xe2a48af9 );
 		ROM_LOAD_ODD ( "42",           0x00000, 0x20000, 0xf4bb480e );
@@ -4271,7 +4271,7 @@ public class cps1
 		ROM_LOAD( "ff19-19.bin",  0x20000, 0x20000, 0x1ef137f9 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ffightj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ffightj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "ff30-36.bin",  0x00000, 0x20000, 0xf9a5ce83 );
 		ROM_LOAD_ODD ( "ff35-42.bin",  0x00000, 0x20000, 0x65f11215 );
@@ -4306,7 +4306,7 @@ public class cps1
 		ROM_LOAD( "ff19-19.bin",  0x20000, 0x20000, 0x1ef137f9 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_1941 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_1941 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "41e_30.rom",   0x00000, 0x20000, 0x9deb1e75 );
 		ROM_LOAD_ODD ( "41e_35.rom",   0x00000, 0x20000, 0xd63942b3 );
@@ -4329,7 +4329,7 @@ public class cps1
 		ROM_LOAD( "41_19.rom",    0x20000, 0x20000, 0x15aec3a6 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_1941j = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_1941j = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "4136.bin",     0x00000, 0x20000, 0x7fbd42ab );
 		ROM_LOAD_ODD ( "4142.bin",     0x00000, 0x20000, 0xc7781f89 );
@@ -4352,7 +4352,7 @@ public class cps1
 		ROM_LOAD( "41_19.rom",    0x20000, 0x20000, 0x15aec3a6 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mercs = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mercs = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "so2_30e.rom",  0x00000, 0x20000, 0xe17f9bf7 );
 		ROM_LOAD_ODD ( "so2_35e.rom",  0x00000, 0x20000, 0x78e63575 );
@@ -4383,7 +4383,7 @@ public class cps1
 		ROM_LOAD( "so2_19.rom",   0x20000, 0x20000, 0xac58aa71 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mercsu = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mercsu = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "so2_30e.rom",  0x00000, 0x20000, 0xe17f9bf7 );
 		ROM_LOAD_ODD ( "s02-35",       0x00000, 0x20000, 0x4477df61 );
@@ -4414,7 +4414,7 @@ public class cps1
 		ROM_LOAD( "so2_19.rom",   0x20000, 0x20000, 0xac58aa71 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mercsj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mercsj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "so2_30e.rom",  0x00000, 0x20000, 0xe17f9bf7 );
 		ROM_LOAD_ODD ( "so2_42.bin",   0x00000, 0x20000, 0x2c3884c6 );
@@ -4445,7 +4445,7 @@ public class cps1
 		ROM_LOAD( "so2_19.rom",   0x20000, 0x20000, 0xac58aa71 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mtwins = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mtwins = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "che_30.rom",   0x00000, 0x20000, 0x9a2a2db1 );
 		ROM_LOAD_ODD ( "che_35.rom",   0x00000, 0x20000, 0xa7f96b02 );
@@ -4468,7 +4468,7 @@ public class cps1
 		ROM_LOAD( "ch_19.rom",    0x20000, 0x20000, 0xfc158cf7 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_chikij = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_chikij = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "chj36a.bin",   0x00000, 0x20000, 0xec1328d8 );
 		ROM_LOAD_ODD ( "chj42a.bin",   0x00000, 0x20000, 0x4ae13503 );
@@ -4491,7 +4491,7 @@ public class cps1
 		ROM_LOAD( "ch_19.rom",    0x20000, 0x20000, 0xfc158cf7 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_msword = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_msword = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "mse_30.rom",   0x00000, 0x20000, 0x03fc8dbc );
 		ROM_LOAD_ODD ( "mse_35.rom",   0x00000, 0x20000, 0xd5bf66cd );
@@ -4514,7 +4514,7 @@ public class cps1
 		ROM_LOAD( "ms_19.rom",    0x20000, 0x20000, 0x74f892b9 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mswordu = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mswordu = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "msu30",   0x00000, 0x20000, 0xd963c816 );
 		ROM_LOAD_ODD ( "msu35",   0x00000, 0x20000, 0x72f179b3 );
@@ -4537,7 +4537,7 @@ public class cps1
 		ROM_LOAD( "ms_19.rom",    0x20000, 0x20000, 0x74f892b9 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mswordj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mswordj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "msj_30.rom",   0x00000, 0x20000, 0x04f0ef50 );
 		ROM_LOAD_ODD ( "msj_35.rom",   0x00000, 0x20000, 0x9fcbb9cd );
@@ -4560,7 +4560,7 @@ public class cps1
 		ROM_LOAD( "ms_19.rom",    0x20000, 0x20000, 0x74f892b9 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_cawing = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_cawing = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "cae_30a.rom",  0x00000, 0x20000, 0x91fceacd );
 		ROM_LOAD_ODD ( "cae_35a.rom",  0x00000, 0x20000, 0x3ef03083 );
@@ -4583,7 +4583,7 @@ public class cps1
 		ROM_LOAD( "ca_19.rom",    0x20000, 0x20000, 0x74584493 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_cawingj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_cawingj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "cae_30a.rom",  0x00000, 0x20000, 0x91fceacd );
 		ROM_LOAD_ODD ( "caj42a.bin",   0x00000, 0x20000, 0x039f8362 );
@@ -4621,7 +4621,7 @@ public class cps1
 		ROM_LOAD( "ca_19.rom",    0x20000, 0x20000, 0x74584493 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_nemo = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_nemo = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "nme_30a.rom",  0x00000, 0x20000, 0xd2c03e56 );
 		ROM_LOAD_ODD ( "nme_35a.rom",  0x00000, 0x20000, 0x5fd31661 );
@@ -4644,7 +4644,7 @@ public class cps1
 		ROM_LOAD( "nm_19.rom",    0x20000, 0x20000, 0x2650a0a8 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_nemoj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_nemoj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "nm36.bin",     0x00000, 0x20000, 0xdaeceabb );
 		ROM_LOAD_ODD ( "nm42.bin",     0x00000, 0x20000, 0x55024740 );
@@ -4667,7 +4667,7 @@ public class cps1
 		ROM_LOAD( "nm_19.rom",    0x20000, 0x20000, 0x2650a0a8 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sf2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sf2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "sf2e_30b.rom",    0x00000, 0x20000, 0x57bd7051 );
 		ROM_LOAD_ODD ( "sf2e_37b.rom",    0x00000, 0x20000, 0x62691cdd );
@@ -4701,7 +4701,7 @@ public class cps1
 		ROM_LOAD( "sf2_19.rom",       0x20000, 0x20000, 0xbeade53f );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sf2a = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sf2a = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "sf2u.30a",    0x00000, 0x20000, 0x08beb861 );
 		ROM_LOAD_ODD ( "sf2u.37a",    0x00000, 0x20000, 0xb7638d69 );
@@ -4735,7 +4735,7 @@ public class cps1
 		ROM_LOAD( "sf2_19.rom",       0x20000, 0x20000, 0xbeade53f );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sf2b = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sf2b = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "sf2e_30b.rom",   0x00000, 0x20000, 0x57bd7051 );
 		ROM_LOAD_ODD ( "sf2u.37b",       0x00000, 0x20000, 0x4a54d479 );
@@ -4769,7 +4769,7 @@ public class cps1
 		ROM_LOAD( "sf2_19.rom",       0x20000, 0x20000, 0xbeade53f );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sf2e = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sf2e = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "sf2u.30e",    0x00000, 0x20000, 0xf37cd088 );
 		ROM_LOAD_ODD ( "sf2u.37e",    0x00000, 0x20000, 0x6c61a513 );
@@ -4803,7 +4803,7 @@ public class cps1
 		ROM_LOAD( "sf2_19.rom",       0x20000, 0x20000, 0xbeade53f );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sf2j = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sf2j = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "sf2j30.bin",    0x00000, 0x20000, 0x79022b31 );
 		ROM_LOAD_ODD ( "sf2j37.bin",    0x00000, 0x20000, 0x516776ec );
@@ -4837,7 +4837,7 @@ public class cps1
 		ROM_LOAD( "sf2_19.rom",       0x20000, 0x20000, 0xbeade53f );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sf2jb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sf2jb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "sf2e_30b.rom",   0x00000, 0x20000, 0x57bd7051 );
 		ROM_LOAD_ODD ( "sf2j_37b.rom",   0x00000, 0x20000, 0x1e1f6844 );
@@ -4871,7 +4871,7 @@ public class cps1
 		ROM_LOAD( "sf2_19.rom",       0x20000, 0x20000, 0xbeade53f );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_3wonders = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_3wonders = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "3wonders.30",  0x00000, 0x20000, 0x0b156fd8 );
 		ROM_LOAD_ODD ( "3wonders.35",  0x00000, 0x20000, 0x57350bf4 );
@@ -4901,7 +4901,7 @@ public class cps1
 		ROM_LOAD( "3wonders.19",  0x20000, 0x20000, 0xdbe64ad0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_wonder3 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_wonder3 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "rtj36.bin",    0x00000, 0x20000, 0xe3741247 );
 		ROM_LOAD_ODD ( "rtj42.bin",    0x00000, 0x20000, 0xb4baa117 );
@@ -4932,7 +4932,7 @@ public class cps1
 		ROM_LOAD( "3wonders.19",  0x20000, 0x20000, 0xdbe64ad0 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_kod = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kod = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "kod30.rom",    0x00000, 0x20000, 0xc7414fd4 );
 		ROM_LOAD_ODD ( "kod37.rom",    0x00000, 0x20000, 0xa5bf40d2 );
@@ -4962,7 +4962,7 @@ public class cps1
 		ROM_LOAD( "kod19.rom",    0x20000, 0x20000, 0x02d851c1 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_kodj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kodj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "kd30.bin",    0x00000, 0x20000, 0xebc788ad );
 		ROM_LOAD_ODD ( "kd37.bin",    0x00000, 0x20000, 0xe55c3529 );
@@ -4989,7 +4989,7 @@ public class cps1
 		ROM_LOAD( "kd19.bin",    0x20000, 0x20000, 0x92941b80 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_kodb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kodb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "kod.17",    0x00000, 0x080000, 0x036dd74c );
 		ROM_LOAD_ODD ( "kod.18",    0x00000, 0x080000, 0x3e4b7295 );
@@ -5013,7 +5013,7 @@ public class cps1
 		ROM_LOAD( "kd19.bin",    0x20000, 0x20000, 0x92941b80 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_captcomm = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_captcomm = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "cce_23d.rom",  0x000000, 0x80000, 0x19c58ece );
 		ROM_LOAD_WIDE_SWAP( "cc_22d.rom",   0x080000, 0x80000, 0xa91949b7 );
@@ -5039,7 +5039,7 @@ public class cps1
 		ROM_LOAD( "cc_19.rom",    0x20000, 0x20000, 0xb99091ae );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_captcomu = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_captcomu = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "23b",   0x000000, 0x80000, 0x03da44fd );
 		ROM_LOAD_WIDE_SWAP( "22c",   0x080000, 0x80000, 0x9b82a052 );
@@ -5065,7 +5065,7 @@ public class cps1
 		ROM_LOAD( "cc_19.rom",    0x20000, 0x20000, 0xb99091ae );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_captcomj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_captcomj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "cc23.bin",   0x000000, 0x80000, 0x5b482b62 );
 		ROM_LOAD_WIDE_SWAP( "cc22.bin",   0x080000, 0x80000, 0x0fd34195 );
@@ -5091,7 +5091,7 @@ public class cps1
 		ROM_LOAD( "cc_19.rom",    0x20000, 0x20000, 0xb99091ae );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_knights = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_knights = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "kr_23e.rom",   0x00000, 0x80000, 0x1b3997eb );
 		ROM_LOAD_WIDE_SWAP( "kr_22.rom",    0x80000, 0x80000, 0xd0b671a9 );
@@ -5115,7 +5115,7 @@ public class cps1
 		ROM_LOAD( "kr_19.rom",    0x20000, 0x20000, 0xbfc654e9 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_knightsu = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_knightsu = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "kru23.rom",    0x00000, 0x80000, 0x252bc2ba );
 		ROM_LOAD_WIDE_SWAP( "kr_22.rom",    0x80000, 0x80000, 0xd0b671a9 );
@@ -5139,7 +5139,7 @@ public class cps1
 		ROM_LOAD( "kr_19.rom",    0x20000, 0x20000, 0xbfc654e9 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_knightsj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_knightsj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "krj30.bin",   0x00000, 0x20000, 0xad3d1a8e );
 		ROM_LOAD_ODD ( "krj37.bin",   0x00000, 0x20000, 0xe694a491 );
@@ -5166,7 +5166,7 @@ public class cps1
 		ROM_LOAD( "kr_19.rom",    0x20000, 0x20000, 0xbfc654e9 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sf2ce = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sf2ce = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "sf2ce.23",     0x000000, 0x80000, 0x3f846b74 );
 		ROM_LOAD_WIDE_SWAP( "sf2ce.22",     0x080000, 0x80000, 0x99f1cca4 );
@@ -5195,7 +5195,7 @@ public class cps1
 		ROM_LOAD( "sf2.19",       0x20000, 0x20000, 0xbeade53f );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sf2cea = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sf2cea = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "s92u-23a",     0x000000, 0x80000, 0xac44415b );
 		ROM_LOAD_WIDE_SWAP( "sf2ce.22",     0x080000, 0x80000, 0x99f1cca4 );
@@ -5224,7 +5224,7 @@ public class cps1
 		ROM_LOAD( "sf2.19",       0x20000, 0x20000, 0xbeade53f );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sf2ceb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sf2ceb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "s92-23b",      0x000000, 0x80000, 0x996a3015 );
 		ROM_LOAD_WIDE_SWAP( "s92-22b",      0x080000, 0x80000, 0x2bbe15ed );
@@ -5253,7 +5253,7 @@ public class cps1
 		ROM_LOAD( "sf2.19",       0x20000, 0x20000, 0xbeade53f );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sf2cej = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sf2cej = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE( "sf2cej.23",    0x000000, 0x80000, 0x7c463f94 );
 		ROM_LOAD_WIDE( "sf2cej.22",    0x080000, 0x80000, 0x6628f6a6 );
@@ -5282,7 +5282,7 @@ public class cps1
 		ROM_LOAD( "sf2.19",       0x20000, 0x20000, 0xbeade53f );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sf2rb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sf2rb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE( "sf2d__23.rom", 0x000000, 0x80000, 0x450532b0 );
 		ROM_LOAD_WIDE( "sf2d__22.rom", 0x080000, 0x80000, 0xfe9d9cf5 );
@@ -5311,7 +5311,7 @@ public class cps1
 		ROM_LOAD( "sf2.19",       0x20000, 0x20000, 0xbeade53f );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sf2red = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sf2red = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "sf2red.23",    0x000000, 0x80000, 0x40276abb );
 		ROM_LOAD_WIDE_SWAP( "sf2red.22",    0x080000, 0x80000, 0x18daf387 );
@@ -5340,7 +5340,7 @@ public class cps1
 		ROM_LOAD( "sf2.19",       0x20000, 0x20000, 0xbeade53f );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sf2accp2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sf2accp2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "sf2ca-23.bin", 0x000000, 0x80000, 0x36c3ba2f );
 		ROM_LOAD_WIDE_SWAP( "sf2ca-22.bin", 0x080000, 0x80000, 0x0550453d );
@@ -5369,7 +5369,7 @@ public class cps1
 		ROM_LOAD( "sf2.19",       0x20000, 0x20000, 0xbeade53f );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_varth = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_varth = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "vae_30a.rom",  0x00000, 0x20000, 0x7fcd0091 );
 		ROM_LOAD_ODD ( "vae_35a.rom",  0x00000, 0x20000, 0x35cf9509 );
@@ -5395,7 +5395,7 @@ public class cps1
 		ROM_LOAD( "va_19.rom",    0x20000, 0x20000, 0x0610a4ac );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_varthu = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_varthu = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "vau23a.bin",  0x00000, 0x80000, 0xfbe68726 );
 		ROM_LOAD_EVEN( "vae_28a.rom",  0x80000, 0x20000, 0x7a0e0d25 );
@@ -5418,7 +5418,7 @@ public class cps1
 		ROM_LOAD( "va_19.rom",    0x20000, 0x20000, 0x0610a4ac );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_varthj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_varthj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "vaj36b.bin",   0x00000, 0x20000, 0x1d798d6a );
 		ROM_LOAD_ODD ( "vaj42b.bin",   0x00000, 0x20000, 0x0f720233 );
@@ -5444,7 +5444,7 @@ public class cps1
 		ROM_LOAD( "va_19.rom",    0x20000, 0x20000, 0x0610a4ac );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_cworld2j = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_cworld2j = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "q536.bin",       0x00000, 0x20000, 0x38a08099 );
 		ROM_LOAD_ODD ( "q542.bin",       0x00000, 0x20000, 0x4d29b3a4 );
@@ -5482,7 +5482,7 @@ public class cps1
 		ROM_LOAD( "q531.bin",       0x20000, 0x20000, 0x7d17e496 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_wof = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_wof = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "tk2e_23b.rom",  0x000000, 0x80000, 0x11fb2ed1 );
 		ROM_LOAD_WIDE_SWAP( "tk2e_22b.rom",  0x080000, 0x80000, 0x479b3f24 );
@@ -5508,7 +5508,7 @@ public class cps1
 		ROM_LOAD( "tk2_q4.rom",     0x180000, 0x80000, 0x36642e88 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_wofa = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_wofa = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "tk2a_23b.rom",  0x000000, 0x80000, 0x2e024628 );
 		ROM_LOAD_WIDE_SWAP( "tk2a_22b.rom",  0x080000, 0x80000, 0x900ad4cd );
@@ -5534,7 +5534,7 @@ public class cps1
 		ROM_LOAD( "tk2_q4.rom",     0x180000, 0x80000, 0x36642e88 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_wofj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_wofj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "tk2j23c.bin",  0x000000, 0x80000, 0x9b215a68 );
 		ROM_LOAD_WIDE_SWAP( "tk2j22c.bin",  0x080000, 0x80000, 0xb74b09ac );
@@ -5560,7 +5560,7 @@ public class cps1
 		ROM_LOAD( "tk2_q4.rom",     0x180000, 0x80000, 0x36642e88 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sf2t = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sf2t = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "sf2.23",       0x000000, 0x80000, 0x89a1fc38 );
 		ROM_LOAD_WIDE_SWAP( "sf2.22",       0x080000, 0x80000, 0xaea6e035 );
@@ -5589,7 +5589,7 @@ public class cps1
 		ROM_LOAD( "sf2.19",       0x20000, 0x20000, 0xbeade53f );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sf2tj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sf2tj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "sf2tj.23",   0x000000, 0x80000, 0xea73b4dc );
 		ROM_LOAD_WIDE_SWAP( "sf2.22",     0x080000, 0x80000, 0xaea6e035 );
@@ -5618,7 +5618,7 @@ public class cps1
 		ROM_LOAD( "sf2.19",       0x20000, 0x20000, 0xbeade53f );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_dino = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_dino = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "cde_23a.rom",  0x000000, 0x80000, 0x8f4e585e );
 		ROM_LOAD_WIDE_SWAP( "cde_22a.rom",  0x080000, 0x80000, 0x9278aa12 );
@@ -5645,7 +5645,7 @@ public class cps1
 		ROM_LOAD( "cd_q4.rom",      0x180000, 0x80000, 0x2c67821d );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_dinoj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_dinoj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "cdj-23a.8f",   0x000000, 0x80000, 0x5f3ece96 );
 		ROM_LOAD_WIDE_SWAP( "cdj-22a.7f",   0x080000, 0x80000, 0xa0d8de29 );
@@ -5672,7 +5672,7 @@ public class cps1
 		ROM_LOAD( "cd_q4.rom",      0x180000, 0x80000, 0x2c67821d );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_punisher = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_punisher = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "pse_26.rom",       0x000000, 0x20000, 0x389a99d2 );
 		ROM_LOAD_ODD ( "pse_30.rom",       0x000000, 0x20000, 0x68fb06ac );
@@ -5705,7 +5705,7 @@ public class cps1
 		ROM_LOAD( "ps_q4.rom",      0x180000, 0x80000, 0xbed42f03 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_punishru = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_punishru = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN ( "psu26.rom",       0x000000, 0x20000, 0x9236d121 );
 		ROM_LOAD_ODD  ( "psu30.rom",       0x000000, 0x20000, 0x8320e501 );
@@ -5738,7 +5738,7 @@ public class cps1
 		ROM_LOAD( "ps_q4.rom",      0x180000, 0x80000, 0xbed42f03 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_punishrj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_punishrj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "psj23.bin",   0x000000, 0x80000, 0x6b2fda52 );
 		ROM_LOAD_WIDE_SWAP( "psj22.bin",   0x080000, 0x80000, 0xe01036bc );
@@ -5765,7 +5765,7 @@ public class cps1
 		ROM_LOAD( "ps_q4.rom",      0x180000, 0x80000, 0xbed42f03 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_slammast = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_slammast = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "mbe_23e.rom",  0x000000, 0x80000, 0x5394057a );
 		ROM_LOAD_EVEN( "mbe_24b.rom",       0x080000, 0x20000, 0x95d5e729 );
@@ -5807,7 +5807,7 @@ public class cps1
 		ROM_LOAD( "mb_q8.rom",      0x380000, 0x80000, 0x59fe702a );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_slammasu = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_slammasu = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "mbu-23e.rom",  0x000000, 0x80000, 0x224f0062 );
 		ROM_LOAD_EVEN( "mbe_24b.rom",       0x080000, 0x20000, 0x95d5e729 );
@@ -5849,7 +5849,7 @@ public class cps1
 		ROM_LOAD( "mb_q8.rom",      0x380000, 0x80000, 0x59fe702a );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mbomberj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mbomberj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "mbj23e",       0x000000, 0x80000, 0x0d06036a );
 		ROM_LOAD_EVEN( "mbe_24b.rom",       0x080000, 0x20000, 0x95d5e729 );
@@ -5891,7 +5891,7 @@ public class cps1
 		ROM_LOAD( "mb_q8.rom",      0x380000, 0x80000, 0x59fe702a );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mbombrd = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mbombrd = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "mbde_26.rom",       0x000000, 0x20000, 0x72b7451c );
 		ROM_LOAD_ODD ( "mbde_30.rom",       0x000000, 0x20000, 0xa036dc16 );
@@ -5933,7 +5933,7 @@ public class cps1
 		ROM_LOAD( "mb_q8.rom",      0x380000, 0x80000, 0x59fe702a );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mbombrdj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mbombrdj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "mbde_26.rom",       0x000000, 0x20000, 0x72b7451c );
 		ROM_LOAD_ODD ( "mbde30.rom",        0x000000, 0x20000, 0xbeff31cf );
@@ -5975,7 +5975,7 @@ public class cps1
 		ROM_LOAD( "mb_q8.rom",      0x380000, 0x80000, 0x59fe702a );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_pnickj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_pnickj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "pnij36.bin",   0x00000, 0x20000, 0x2d4ffb2b );
 		ROM_LOAD_ODD ( "pnij42.bin",   0x00000, 0x20000, 0xc085dfaf );
@@ -6007,7 +6007,7 @@ public class cps1
 		ROM_LOAD( "pnij25.bin",   0x20000, 0x20000, 0x22109aaa );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_qad = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_qad = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "qdu_36a.rom",  0x00000, 0x20000, 0xde9c24a0 );
 		ROM_LOAD_ODD ( "qdu_42a.rom",  0x00000, 0x20000, 0xcfe36f0c );
@@ -6033,7 +6033,7 @@ public class cps1
 		ROM_LOAD( "qdu_31.rom",  0x20000, 0x20000, 0xb7583f73 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_qadj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_qadj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "qad23a.bin",   0x00000, 0x080000, 0x4d3553de );
 		ROM_LOAD_WIDE_SWAP( "qad22a.bin",   0x80000, 0x80000, 0x3191ddd0 );
@@ -6053,7 +6053,7 @@ public class cps1
 		ROM_LOAD( "qad19.bin",   0x20000, 0x20000, 0x13d3236b );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_qtono2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_qtono2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_EVEN( "tn2j-30.11e",  0x00000, 0x20000, 0x9226eb5e );
 		ROM_LOAD_ODD ( "tn2j-37.11f",  0x00000, 0x20000, 0xd1d30da1 );
@@ -6082,7 +6082,7 @@ public class cps1
 		ROM_LOAD( "tn2j-19.12c",  0x20000, 0x20000, 0x5b3b931e );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_pang3 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_pang3 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "pa3w-17.11l",  0x00000, 0x80000, 0x12138234 );
 		ROM_LOAD_WIDE_SWAP( "pa3w-16.10l",  0x80000, 0x80000, 0xd1ba585c );
@@ -6101,7 +6101,7 @@ public class cps1
 		ROM_LOAD( "pa3-06.11d",    0x20000, 0x20000, 0xaffa4f82 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_pang3j = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_pang3j = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "pa3j-17.11l",  0x00000, 0x80000, 0x21f6e51f );
 		ROM_LOAD_WIDE_SWAP( "pa3j-16.10l",  0x80000, 0x80000, 0xca1d7897 );
@@ -6120,7 +6120,7 @@ public class cps1
 		ROM_LOAD( "pa3-06.11d",    0x20000, 0x20000, 0xaffa4f82 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_megaman = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_megaman = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "rcma_23b.rom",   0x000000, 0x80000, 0x61e4a397 );
 		ROM_LOAD_WIDE_SWAP( "rcma_22b.rom",   0x080000, 0x80000, 0x708268c4 );
@@ -6153,7 +6153,7 @@ public class cps1
 		ROM_LOAD( "rcm_19.rom",    0x20000, 0x20000, 0xf257dbe1 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_rockmanj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_rockmanj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "rcm23a.bin",   0x000000, 0x80000, 0xefd96cb2 );
 		ROM_LOAD_WIDE_SWAP( "rcm22a.bin",   0x080000, 0x80000, 0x8729a689 );
@@ -6186,7 +6186,7 @@ public class cps1
 		ROM_LOAD( "rcm_19.rom",    0x20000, 0x20000, 0xf257dbe1 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sfzch = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sfzch = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( CODE_SIZE, REGION_CPU1 );     /* 68000 code */
 		ROM_LOAD_WIDE_SWAP( "sfzch23",        0x000000, 0x80000, 0x1140743f );
 		ROM_LOAD_WIDE_SWAP( "sfza22",         0x080000, 0x80000, 0x8d9b2480 );
@@ -6220,27 +6220,27 @@ public class cps1
 		ROM_LOAD( "sfz19",         0x20000, 0x20000, 0x3b5886d5 );
 	ROM_END(); }}; 
 	
-	public static InitDriverPtr init_wof = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_wof = new InitDriverHandlerPtr() { public void handler() 
 	{
 		wof_decode();
 	} };
 	
-	public static InitDriverPtr init_dino = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_dino = new InitDriverHandlerPtr() { public void handler() 
 	{
 		dino_decode();
 	} };
 	
-	public static InitDriverPtr init_punisher = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_punisher = new InitDriverHandlerPtr() { public void handler() 
 	{
 		punisher_decode();
 	} };
 	
-	public static InitDriverPtr init_slammast = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_slammast = new InitDriverHandlerPtr() { public void handler() 
 	{
 		slammast_decode();
 	} };
 	
-	public static InitDriverPtr init_pang3 = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_pang3 = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr rom = new UBytePtr(memory_region(REGION_CPU1));
 		int A,src,dst;

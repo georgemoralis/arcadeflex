@@ -180,7 +180,7 @@ public class atarisy1
                 0
         );
         
-	public static VhStartPtr atarisys1_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr atarisys1_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		
 		int i, e;
@@ -257,7 +257,7 @@ public class atarisy1
 	 *
 	 *************************************/
 	
-	public static VhStopPtr atarisys1_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr atarisys1_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		int i;
 	
@@ -522,7 +522,7 @@ public class atarisy1
 	 *
 	 *************************************/
 	
-	public static VhUpdatePtr atarisys1_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr atarisys1_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int i;
 	

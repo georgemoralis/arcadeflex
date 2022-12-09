@@ -43,7 +43,7 @@ public class rocnrope {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
 
-    public static VhConvertColorPromPtr rocnrope_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr rocnrope_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -103,7 +103,7 @@ public class rocnrope {
      * <p>
      * *************************************************************************
      */
-    public static VhUpdatePtr rocnrope_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr rocnrope_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

@@ -37,7 +37,7 @@ public class amidar {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr amidar_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr amidar_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int p_inc = 0;
@@ -115,7 +115,7 @@ public class amidar {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr amidar_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr amidar_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

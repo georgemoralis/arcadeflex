@@ -351,7 +351,7 @@ public class pacland
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_pacland = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_pacland = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x20000, REGION_CPU1 );/* 128k for code */
 		ROM_LOAD( "pl5_01b.bin",  0x08000, 0x4000, 0xb0ea7631 );
 		ROM_LOAD( "pl5_02.bin",   0x0C000, 0x4000, 0xd903e84e );
@@ -387,7 +387,7 @@ public class pacland
 		ROM_LOAD( "pl1-4.bin",    0x1000, 0x0400, 0x3a7be418 );/* background lookup table */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_pacland2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_pacland2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x20000, REGION_CPU1 );/* 128k for code */
 		ROM_LOAD( "pl6_01.bin",   0x08000, 0x4000, 0x4c96e11c );
 		ROM_LOAD( "pl6_02.bin",   0x0C000, 0x4000, 0x8cf5bd8d );
@@ -423,7 +423,7 @@ public class pacland
 		ROM_LOAD( "pl1-4.bin",    0x1000, 0x0400, 0x3a7be418 );/* background lookup table */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_pacland3 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_pacland3 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x20000, REGION_CPU1 );/* 128k for code */
 		ROM_LOAD( "pln1-1",       0x08000, 0x4000, 0xf729fb94 );
 		ROM_LOAD( "pln1-2",       0x0C000, 0x4000, 0x5c66eb6f );
@@ -459,7 +459,7 @@ public class pacland
 		ROM_LOAD( "pl1-4.bin",    0x1000, 0x0400, 0x3a7be418 );/* background lookup table */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_paclandm = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_paclandm = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x20000, REGION_CPU1 );/* 128k for code */
 		ROM_LOAD( "pl1-1",        0x08000, 0x4000, 0xa938ae99 );
 		ROM_LOAD( "pl1-2",        0x0C000, 0x4000, 0x3fe43bb5 );

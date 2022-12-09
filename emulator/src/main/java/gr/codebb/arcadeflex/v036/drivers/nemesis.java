@@ -72,7 +72,7 @@ public class nemesis
 	static int irq2_on = 0;
 	static int irq4_on = 0;
 	
-	public static InitMachinePtr nemesis_init_machine = new InitMachinePtr() {
+	public static InitMachineHandlerPtr nemesis_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
 		irq_on = 0;
 		irq1_on = 0;
@@ -82,7 +82,7 @@ public class nemesis
 	
 	
 	
-	public static InterruptPtr nemesis_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr nemesis_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (irq_on!=0) return 1;
 	
@@ -97,7 +97,7 @@ public class nemesis
 	
 	//cpu_cause_interrupt(1,Z80_NMI_INT);
 	}};
-	public static InterruptPtr konamigt_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr konamigt_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (cpu_getiloops() == 0)
 		{
@@ -111,7 +111,7 @@ public class nemesis
 		return 0;
 	} };
 	
-	public static InterruptPtr gx400_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr gx400_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		switch (cpu_getiloops())
 		{
@@ -175,7 +175,7 @@ public class nemesis
 	
 	
 	
-	public static InterruptPtr salamand_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr salamand_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (irq_on!=0)
 			return(1);
@@ -2038,7 +2038,7 @@ public class nemesis
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_nemesis = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_nemesis = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );   /* 4 * 64k for code and rom */
 		ROM_LOAD_EVEN( "12a_01.bin",   0x00000, 0x8000, 0x35ff1aaa );
 		ROM_LOAD_ODD ( "12c_05.bin",   0x00000, 0x8000, 0x23155faa );
@@ -2057,7 +2057,7 @@ public class nemesis
 		ROM_LOAD(      "400-a02.fse",  0x00100, 0x0100, 0x2f44f970 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_nemesuk = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_nemesuk = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );   /* 4 * 64k for code and rom */
 		ROM_LOAD_EVEN( "12a_01.uk",    0x00000, 0x8000, 0xe1993f91 );
 		ROM_LOAD_ODD ( "12c_05.uk",    0x00000, 0x8000, 0xc9761c78 );
@@ -2076,7 +2076,7 @@ public class nemesis
 		ROM_LOAD(      "400-a02.fse",  0x00100, 0x0100, 0x2f44f970 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_konamigt = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_konamigt = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );   /* 4 * 64k for code and rom */
 		ROM_LOAD_EVEN( "c01.rom",      0x00000, 0x8000, 0x56245bfd );
 		ROM_LOAD_ODD ( "c05.rom",      0x00000, 0x8000, 0x8d651f44 );
@@ -2095,7 +2095,7 @@ public class nemesis
 		ROM_LOAD(      "400-a02.fse",  0x00100, 0x0100, 0x2f44f970 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_rf2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_rf2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0xc0000, REGION_CPU1 );   /* 5 * 64k for code and rom */
 		ROM_LOAD_EVEN( "400-a06.15l",  0x00000, 0x08000, 0xb99d8cff );
 		ROM_LOAD_ODD ( "400-a04.10l",  0x00000, 0x08000, 0xd02c9552 );
@@ -2110,7 +2110,7 @@ public class nemesis
 		ROM_LOAD(      "400-a02.fse",  0x00100, 0x0100, 0x2f44f970 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_twinbee = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_twinbee = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0xc0000, REGION_CPU1 );   /* 5 * 64k for code and rom */
 		ROM_LOAD_EVEN( "400-a06.15l",  0x00000, 0x08000, 0xb99d8cff );
 		ROM_LOAD_ODD ( "400-a04.10l",  0x00000, 0x08000, 0xd02c9552 );
@@ -2125,7 +2125,7 @@ public class nemesis
 		ROM_LOAD(      "400-a02.fse",  0x00100, 0x0100, 0x2f44f970 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_gradius = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gradius = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0xc0000, REGION_CPU1 );   /* 5 * 64k for code and rom */
 		ROM_LOAD_EVEN( "400-a06.15l",  0x00000, 0x08000, 0xb99d8cff );
 		ROM_LOAD_ODD ( "400-a04.10l",  0x00000, 0x08000, 0xd02c9552 );
@@ -2140,7 +2140,7 @@ public class nemesis
 		ROM_LOAD(      "400-a02.fse",  0x00100, 0x0100, 0x2f44f970 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_gwarrior = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gwarrior = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0xc0000, REGION_CPU1 );   /* 5 * 64k for code and rom */
 		ROM_LOAD_EVEN( "400-a06.15l",  0x00000, 0x08000, 0xb99d8cff );
 		ROM_LOAD_ODD ( "400-a04.10l",  0x00000, 0x08000, 0xd02c9552 );
@@ -2155,7 +2155,7 @@ public class nemesis
 		ROM_LOAD(      "400-a02.fse",  0x00100, 0x0100, 0x2f44f970 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_salamand = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_salamand = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );   /* 64k for code */
 		ROM_LOAD_EVEN( "18b.bin",      0x00000, 0x10000, 0xa42297f9 );
 		ROM_LOAD_ODD ( "18c.bin",      0x00000, 0x10000, 0xf9130b0a );
@@ -2172,7 +2172,7 @@ public class nemesis
 		ROM_LOAD(      "10a.bin",      0x00000, 0x20000, 0x09fe0632 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_lifefrce = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_lifefrce = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );   /* 64k for code */
 		ROM_LOAD_EVEN( "587-k02.bin",  0x00000, 0x10000, 0x4a44da18 );
 		ROM_LOAD_ODD ( "587-k05.bin",  0x00000, 0x10000, 0x2f8c1cbd );
@@ -2189,7 +2189,7 @@ public class nemesis
 		ROM_LOAD(      "10a.bin",      0x00000, 0x20000, 0x09fe0632 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_lifefrcj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_lifefrcj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );   /* 64k for code */
 		ROM_LOAD_EVEN( "587-n02.bin",  0x00000, 0x10000, 0x235dba71 );
 		ROM_LOAD_ODD ( "587-n05.bin",  0x00000, 0x10000, 0x054e569f );

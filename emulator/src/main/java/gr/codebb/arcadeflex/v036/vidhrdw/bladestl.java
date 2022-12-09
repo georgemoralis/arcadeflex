@@ -6,6 +6,8 @@
  *
  */ 
 package gr.codebb.arcadeflex.v036.vidhrdw;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
@@ -37,7 +39,7 @@ public class bladestl
         {
             return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
         }
-	public static VhConvertColorPromPtr bladestl_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr bladestl_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 		//#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -79,7 +81,7 @@ public class bladestl
 	
 	***************************************************************************/
 	
-	public static VhStartPtr bladestl_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr bladestl_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		layer_colorbase[0] = 0;
 		layer_colorbase[1] = 1;
@@ -98,7 +100,7 @@ public class bladestl
 		return 0;
 	} };
 	
-	public static VhStopPtr bladestl_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr bladestl_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		K007342_vh_stop();
 		K007420_vh_stop();
@@ -110,7 +112,7 @@ public class bladestl
 	
 	***************************************************************************/
 	
-	public static VhUpdatePtr bladestl_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr bladestl_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		K007342_tilemap_update();
 	

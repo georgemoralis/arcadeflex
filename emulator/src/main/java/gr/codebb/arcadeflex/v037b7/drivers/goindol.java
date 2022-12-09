@@ -323,7 +323,7 @@ public class goindol
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_goindol = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_goindol = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x20000, REGION_CPU1 );    /* 2*64k for code */
 		ROM_LOAD( "r1", 0x00000, 0x8000, 0x3111c61b );/* Code 0000-7fff */
 		ROM_LOAD( "r2", 0x10000, 0x8000, 0x1ff6e3a2 );/* Paged data */
@@ -348,7 +348,7 @@ public class goindol
 		ROM_LOAD( "am27s21.pr3", 0x0200, 0x0100, 0x8534cfb5 );/* palette blue bits  */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_homo = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_homo = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x20000, REGION_CPU1 );    /* 2*64k for code */
 		ROM_LOAD( "homo.01", 0x00000, 0x8000, 0x28c539ad );/* Code 0000-7fff */
 		ROM_LOAD( "r2", 0x10000, 0x8000, 0x1ff6e3a2 );/* Paged data */
@@ -375,7 +375,7 @@ public class goindol
 	
 	
 	
-	public static InitDriverPtr init_goindol = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_goindol = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr rom = memory_region(REGION_CPU1);
 	
@@ -401,7 +401,7 @@ public class goindol
 		rom.write(0x3365,0x00);
 	} };
 	
-	public static InitDriverPtr init_homo = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_homo = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr rom = memory_region(REGION_CPU1);
 	

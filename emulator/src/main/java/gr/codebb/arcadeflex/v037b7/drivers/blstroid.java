@@ -117,7 +117,7 @@ public class blstroid
             }
         };
 	
-	public static InitMachinePtr init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_reset();
 		atarigen_interrupt_reset(update_interrupts);
@@ -321,7 +321,7 @@ public class blstroid
 	 *
 	 *************************************/
 	
-	static RomLoadPtr rom_blstroid = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_blstroid = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 4*64k for 68000 code */
 		ROM_LOAD_EVEN( "057-4123",  0x00000, 0x10000, 0xd14badc4 );
 		ROM_LOAD_ODD ( "057-4121",  0x00000, 0x10000, 0xae3e93e8 );
@@ -358,7 +358,7 @@ public class blstroid
 	ROM_END(); }}; 
 	
 	
-	static RomLoadPtr rom_blstroi2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_blstroi2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 4*64k for 68000 code */
 		ROM_LOAD_EVEN( "blstroid.6c",  0x00000, 0x10000, 0x5a092513 );
 		ROM_LOAD_ODD ( "blstroid.6b",  0x00000, 0x10000, 0x486aac51 );
@@ -395,7 +395,7 @@ public class blstroid
 	ROM_END(); }}; 
 	
 	
-	static RomLoadPtr rom_blsthead = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_blsthead = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );/* 4*64k for 68000 code */
 		ROM_LOAD_EVEN( "eheadh0.c6",  0x00000, 0x10000, 0x061f0898 );
 		ROM_LOAD_ODD ( "eheadl0.b6",  0x00000, 0x10000, 0xae8df7cb );
@@ -439,7 +439,7 @@ public class blstroid
 	 *
 	 *************************************/
 	
-	public static InitDriverPtr init_blstroid = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_blstroid = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = null;
 		atarijsa_init(1, 4, 2, 0x80);

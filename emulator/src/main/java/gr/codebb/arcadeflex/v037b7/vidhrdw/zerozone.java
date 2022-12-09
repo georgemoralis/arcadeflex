@@ -52,13 +52,13 @@ public class zerozone
 	
 	
 	/* free the palette dirty array */
-	public static VhStopPtr zerozone_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr zerozone_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		video_dirty = null;
 	} };
 	
 	/* claim a palette dirty array */
-	public static VhStartPtr zerozone_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr zerozone_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		video_dirty = new UBytePtr(videoram_size[0]/2);
 	
@@ -115,7 +115,7 @@ public class zerozone
 	
 	}
 	
-	public static VhUpdatePtr zerozone_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr zerozone_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int offs;
 	

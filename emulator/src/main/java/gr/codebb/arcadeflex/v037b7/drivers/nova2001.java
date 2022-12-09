@@ -204,7 +204,7 @@ public class nova2001 {
             }
     );
 
-    static RomLoadPtr rom_nova2001 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_nova2001 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             ROM_LOAD("1.6c", 0x0000, 0x2000, 0x368cffc0);
@@ -227,7 +227,7 @@ public class nova2001 {
         }
     };
 
-    static RomLoadPtr rom_nov2001u = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_nov2001u = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             ROM_LOAD("nova2001.1", 0x0000, 0x2000, 0xb79461bd);

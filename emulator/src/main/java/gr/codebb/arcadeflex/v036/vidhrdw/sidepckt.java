@@ -34,7 +34,7 @@ public class sidepckt
 		flipscreen=data; /* The game never seems to write here?! */
 	} };
 	
-	public static VhConvertColorPromPtr sidepckt_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr sidepckt_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
                 int p_inc=0;
@@ -90,7 +90,7 @@ public class sidepckt
 	
 	***************************************************************************/
 	
-	public static VhStartPtr sidepckt_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr sidepckt_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		bg_tilemap = tilemap_create(get_tile_info,TILEMAP_SPLIT,8,8,32,32);
 	
@@ -170,7 +170,7 @@ public class sidepckt
 	}
 	
 	
-	public static VhUpdatePtr sidepckt_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr sidepckt_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 	//	tilemap_set_flip(ALL_TILEMAPS,flipscreen ? (TILEMAP_FLIPY | TILEMAP_FLIPX) : 0);
 	

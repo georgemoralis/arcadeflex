@@ -230,7 +230,7 @@ public class bagman {
             columnvalue[line + 1] = (char) (data & 1);
         }
     };
-    public static InitMachinePtr bagman_machine_init = new InitMachinePtr() {
+    public static InitMachineHandlerPtr bagman_machine_init = new InitMachineHandlerPtr() {
         public void handler() {
             bagman_pal16r6_w.handler(0, 1);
             bagman_pal16r6_w.handler(1, 1);

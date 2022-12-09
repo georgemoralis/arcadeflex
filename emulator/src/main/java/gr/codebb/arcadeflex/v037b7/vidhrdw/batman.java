@@ -145,7 +145,7 @@ public class batman
 	 *
 	 *************************************/
 	
-	public static VhStartPtr batman_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr batman_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		atarigen_mo_desc mo_desc = new atarigen_mo_desc
 		(
@@ -199,7 +199,7 @@ public class batman
 	 *
 	 *************************************/
 	
-	public static VhStopPtr batman_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr batman_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		atarigen_pf2_free();
 		atarigen_pf_free();
@@ -351,7 +351,7 @@ public class batman
 	 *
 	 *************************************/
 	
-	public static VhUpdatePtr batman_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr batman_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int i;
 		

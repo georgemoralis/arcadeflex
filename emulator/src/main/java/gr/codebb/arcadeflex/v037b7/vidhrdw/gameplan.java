@@ -27,7 +27,7 @@ public class gameplan {
      *
      **************************************************************************
      */
-    public static VhStartPtr gameplan_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr gameplan_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (strcmp(Machine.gamedrv.name, "kaos") == 0) {
                 gameplan_this_is_kaos = 1;

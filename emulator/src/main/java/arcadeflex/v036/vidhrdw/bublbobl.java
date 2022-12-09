@@ -5,6 +5,8 @@
  */
 package arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.osdependH.*;
 //vidhrdw imports
@@ -22,7 +24,7 @@ public class bublbobl {
     public static UBytePtr bublbobl_objectram = new UBytePtr();
     public static int[] bublbobl_objectram_size = new int[1];
 
-    public static VhConvertColorPromPtr bublbobl_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr bublbobl_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -43,7 +45,7 @@ public class bublbobl {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr bublbobl_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr bublbobl_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
             int sx, sy, xc, yc;

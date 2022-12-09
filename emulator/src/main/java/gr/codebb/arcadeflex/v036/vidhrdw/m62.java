@@ -70,7 +70,7 @@ public class m62
 	  bit 0 -- 2.2kohm resistor  -- RED/GREEN/BLUE
 	
 	***************************************************************************/
-	public static VhConvertColorPromPtr irem_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr irem_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 	
@@ -107,7 +107,7 @@ public class m62
 		sprite_height_prom = new UBytePtr(color_prom,0);	/* we'll need this at run time */
 	} };
 	
-	public static VhConvertColorPromPtr battroad_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr battroad_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 	
@@ -167,7 +167,7 @@ public class m62
 		sprite_height_prom = new UBytePtr(color_prom,0);	/* we'll need this at run time */
 	} };
 	
-	public static VhConvertColorPromPtr spelunk2_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr spelunk2_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
 	
@@ -237,7 +237,7 @@ public class m62
 	
 	
 	
-	public static VhStartPtr ldrun_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr ldrun_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		irem_background_hscroll = 0;
 		irem_background_vscroll = 0;
@@ -263,12 +263,12 @@ public class m62
 		return 0;
 	}
 	
-	public static VhStartPtr kidniki_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr kidniki_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		return irem_vh_start(512,256);
 	} };
 	
-	public static VhStartPtr spelunkr_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr spelunkr_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		return irem_vh_start(512,512);
 	} };
@@ -1081,13 +1081,13 @@ public class m62
 	
 	
 	
-	public static VhUpdatePtr kungfum_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr kungfum_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		kungfum_draw_background(bitmap);
 		draw_sprites(bitmap, kungfum_spritevisiblearea, kungfum_flipspritevisiblearea);
 	} };
 	
-	public static VhUpdatePtr battroad_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr battroad_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		battroad_draw_background(bitmap, 0);
 		draw_priority_sprites(bitmap, 0);
@@ -1096,7 +1096,7 @@ public class m62
 		battroad_draw_text(bitmap);
 	} };
 	
-	public static VhUpdatePtr ldrun_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr ldrun_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		ldrun_draw_background(bitmap, 0);
 		draw_priority_sprites(bitmap, 0);
@@ -1104,31 +1104,31 @@ public class m62
 		draw_priority_sprites(bitmap, 1);
 	} };
 	
-	public static VhUpdatePtr ldrun4_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr ldrun4_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		ldrun4_draw_background(bitmap);
 		draw_sprites(bitmap, Machine.drv.visible_area, Machine.drv.visible_area);
 	} };
 	
-	public static VhUpdatePtr lotlot_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr lotlot_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		lotlot_draw_background(bitmap);
 		draw_sprites(bitmap, Machine.drv.visible_area, Machine.drv.visible_area);
 	} };
 	
-	public static VhUpdatePtr kidniki_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr kidniki_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		kidniki_draw_background(bitmap);
 		draw_sprites(bitmap, Machine.drv.visible_area, Machine.drv.visible_area);
 		kidniki_draw_text(bitmap);
 	} };
-	public static VhUpdatePtr spelunkr_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr spelunkr_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		spelunkr_draw_background(bitmap);
 		draw_sprites(bitmap, Machine.drv.visible_area, Machine.drv.visible_area);
 		spelunkr_draw_text(bitmap);
 	}};
-	public static VhUpdatePtr spelunk2_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr spelunk2_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		spelunk2_draw_background(bitmap);
 		draw_sprites(bitmap, Machine.drv.visible_area, Machine.drv.visible_area);

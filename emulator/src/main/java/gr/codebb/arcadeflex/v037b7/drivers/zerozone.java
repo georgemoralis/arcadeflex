@@ -274,7 +274,7 @@ public class zerozone
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_zerozone = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_zerozone = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x20000, REGION_CPU1 );    /* 128k for 68000 code */
 		ROM_LOAD_EVEN( "zz-4.rom", 0x0000, 0x10000, 0x83718b9b );
 		ROM_LOAD_ODD ( "zz-5.rom", 0x0000, 0x10000, 0x18557f41 );

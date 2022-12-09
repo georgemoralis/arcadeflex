@@ -34,7 +34,7 @@ public class snowbros {
         }
     };
 
-    public static VhUpdatePtr snowbros_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr snowbros_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int x = 0, y = 0, offs;
 

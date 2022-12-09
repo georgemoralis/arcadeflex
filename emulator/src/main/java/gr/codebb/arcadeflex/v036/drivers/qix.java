@@ -3,7 +3,8 @@
  * using automatic conversion tool v0.10
  */
 package gr.codebb.arcadeflex.v036.drivers;
-
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
@@ -685,7 +686,7 @@ public class qix {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_qix = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_qix = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code for the first CPU (Data) */
 
@@ -716,7 +717,7 @@ public class qix {
         }
     };
 
-    static RomLoadPtr rom_qixa = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_qixa = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code for the first CPU (Data) */
 
@@ -748,7 +749,7 @@ public class qix {
         }
     };
 
-    static RomLoadPtr rom_qixb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_qixb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code for the first CPU (Data) */
 
@@ -772,7 +773,7 @@ public class qix {
         }
     };
 
-    static RomLoadPtr rom_qix2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_qix2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code for the first CPU (Data) */
 
@@ -804,7 +805,7 @@ public class qix {
         }
     };
 
-    static RomLoadPtr rom_sdungeon = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sdungeon = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code for the first CPU (Data) */
 
@@ -838,7 +839,7 @@ public class qix {
         }
     };
 
-    static RomLoadPtr rom_elecyoyo = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_elecyoyo = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code for the first CPU (Data) */
 
@@ -871,7 +872,7 @@ public class qix {
         }
     };
 
-    static RomLoadPtr rom_elecyoy2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_elecyoy2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code for the first CPU (Data) */
 
@@ -904,7 +905,7 @@ public class qix {
         }
     };
 
-    static RomLoadPtr rom_kram = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kram = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code for the first CPU (Data) */
 
@@ -937,7 +938,7 @@ public class qix {
         }
     };
 
-    static RomLoadPtr rom_kram2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kram2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code for the first CPU (Data) */
 
@@ -970,7 +971,7 @@ public class qix {
         }
     };
 
-    static RomLoadPtr rom_zookeep = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_zookeep = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code for the first CPU (Data) */
 
@@ -1010,7 +1011,7 @@ public class qix {
         }
     };
 
-    static RomLoadPtr rom_zookeep2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_zookeep2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code for the first CPU (Data) */
 
@@ -1050,7 +1051,7 @@ public class qix {
         }
     };
 
-    static RomLoadPtr rom_zookeep3 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_zookeep3 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code for the first CPU (Data) */
 

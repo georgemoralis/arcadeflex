@@ -1537,7 +1537,7 @@ public class dec0 {
     /**
      * ***************************************************************************
      */
-    static RomLoadPtr rom_hbarrel = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hbarrel = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 6*64k for 68000 code */
 
@@ -1593,7 +1593,7 @@ public class dec0 {
         }
     };
 
-    static RomLoadPtr rom_hbarrelw = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hbarrelw = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 6*64k for 68000 code */
 
@@ -1649,7 +1649,7 @@ public class dec0 {
         }
     };
 
-    static RomLoadPtr rom_baddudes = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_baddudes = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 6*64k for 68000 code, middle 0x20000 unused */
 
@@ -1700,7 +1700,7 @@ public class dec0 {
         }
     };
 
-    static RomLoadPtr rom_drgninja = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_drgninja = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 6*64k for 68000 code, middle 0x20000 unused */
 
@@ -1751,7 +1751,7 @@ public class dec0 {
         }
     };
 
-    static RomLoadPtr rom_birdtry = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_birdtry = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 6*64k for 68000 code */
 
@@ -1803,7 +1803,7 @@ public class dec0 {
         }
     };
 
-    static RomLoadPtr rom_robocop = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_robocop = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);/* 68000 code */
 
@@ -1856,7 +1856,7 @@ public class dec0 {
         }
     };
 
-    static RomLoadPtr rom_robocopu = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_robocopu = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);/* 68000 code */
 
@@ -1909,7 +1909,7 @@ public class dec0 {
         }
     };
 
-    static RomLoadPtr rom_robocpu0 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_robocpu0 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);/* 68000 code */
 
@@ -1962,7 +1962,7 @@ public class dec0 {
         }
     };
 
-    static RomLoadPtr rom_robocopb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_robocopb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);/* 68000 code */
 
@@ -2012,7 +2012,7 @@ public class dec0 {
         }
     };
 
-    static RomLoadPtr rom_hippodrm = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hippodrm = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);/* 4*64k for 68000 code */
 
@@ -2066,7 +2066,7 @@ public class dec0 {
         }
     };
 
-    static RomLoadPtr rom_ffantasy = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ffantasy = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);/* 4*64k for 68000 code */
 
@@ -2120,7 +2120,7 @@ public class dec0 {
         }
     };
 
-    static RomLoadPtr rom_slyspy = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_slyspy = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 68000 code */
 
@@ -2165,7 +2165,7 @@ public class dec0 {
         }
     };
 
-    static RomLoadPtr rom_slyspy2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_slyspy2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 68000 code */
 
@@ -2210,7 +2210,7 @@ public class dec0 {
         }
     };
 
-    static RomLoadPtr rom_secretag = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_secretag = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 68000 code */
 
@@ -2255,7 +2255,7 @@ public class dec0 {
         }
     };
 
-    static RomLoadPtr rom_secretab = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_secretab = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 68000 code */
 
@@ -2300,7 +2300,7 @@ public class dec0 {
         }
     };
 
-    static RomLoadPtr rom_midres = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_midres = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);/* 68000 code */
 
@@ -2347,7 +2347,7 @@ public class dec0 {
         }
     };
 
-    static RomLoadPtr rom_midresu = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_midresu = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);/* 68000 code */
 
@@ -2394,7 +2394,7 @@ public class dec0 {
         }
     };
 
-    static RomLoadPtr rom_midresj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_midresj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);/* 68000 code */
 
@@ -2441,7 +2441,7 @@ public class dec0 {
         }
     };
 
-    static RomLoadPtr rom_bouldash = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bouldash = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 68000 code */
 
@@ -2501,13 +2501,13 @@ public class dec0 {
         }
     }
 
-    public static InitDriverPtr init_dec0 = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_dec0 = new InitDriverHandlerPtr() {
         public void handler() {
             dec0_custom_memory();
         }
     };
 
-    public static InitDriverPtr init_hippodrm = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_hippodrm = new InitDriverHandlerPtr() {
         public void handler() {
             UBytePtr RAM = memory_region(REGION_CPU3);
 
@@ -2527,7 +2527,7 @@ public class dec0 {
         }
     };
 
-    public static InitDriverPtr init_slyspy = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_slyspy = new InitDriverHandlerPtr() {
         public void handler() {
             UBytePtr RAM = memory_region(REGION_CPU2);
 

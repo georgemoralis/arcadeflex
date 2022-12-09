@@ -69,7 +69,7 @@ public class m72 {
             }
         }
     };
-    public static InitMachinePtr m72_init_sound = new InitMachinePtr() {
+    public static InitMachineHandlerPtr m72_init_sound = new InitMachineHandlerPtr() {
         public void handler() {
             setvector_callback.handler(VECTOR_INIT);
         }

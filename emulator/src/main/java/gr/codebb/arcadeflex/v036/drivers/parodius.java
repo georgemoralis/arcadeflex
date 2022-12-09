@@ -58,7 +58,7 @@ public class parodius {
         }
     };
 
-    public static InitMachinePtr parodius_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr parodius_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             UBytePtr RAM = memory_region(REGION_CPU1);
 
@@ -76,7 +76,7 @@ public class parodius {
     static int videobank;
     static UBytePtr ram = new UBytePtr();
 
-    public static InterruptPtr parodius_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr parodius_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (K052109_is_IRQ_enabled() != 0) {
                 return interrupt.handler();
@@ -458,7 +458,7 @@ public class parodius {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_parodius = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_parodius = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x51000, REGION_CPU1);/* code + banked roms + palette RAM */
             ROM_LOAD("955e01.bin", 0x10000, 0x20000, 0x49baa334);
@@ -489,7 +489,7 @@ public class parodius {
      *
      **************************************************************************
      */
-    public static InitDriverPtr init_parodius = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_parodius = new InitDriverHandlerPtr() {
         public void handler() {
             konami_rom_deinterleave_2(REGION_GFX1);
             konami_rom_deinterleave_2(REGION_GFX2);

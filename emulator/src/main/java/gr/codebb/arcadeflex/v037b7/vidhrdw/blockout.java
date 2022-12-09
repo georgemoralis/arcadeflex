@@ -74,7 +74,7 @@ public class blockout {
      *
      **************************************************************************
      */
-    public static VhStartPtr blockout_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr blockout_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             /* Allocate temporary bitmaps */
             if ((tmpbitmap = bitmap_alloc(Machine.drv.screen_width, Machine.drv.screen_height)) == null) {
@@ -92,7 +92,7 @@ public class blockout {
      *
      **************************************************************************
      */
-    public static VhStopPtr blockout_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr blockout_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             tmpbitmap = null;
         }
@@ -157,7 +157,7 @@ public class blockout {
         }
     };
 
-    public static VhUpdatePtr blockout_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr blockout_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             if (palette_recalc() != null) {
                 /* if we ran out of palette entries, rebuild the whole screen */

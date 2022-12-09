@@ -71,7 +71,7 @@ public class srumbler
 	
 	***************************************************************************/
 	
-	public static VhStartPtr srumbler_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr srumbler_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		fg_tilemap = tilemap_create(get_fg_tile_info,TILEMAP_TRANSPARENT, 8, 8,64,32);
 		bg_tilemap = tilemap_create(get_bg_tile_info,TILEMAP_SPLIT,      16,16,64,64);
@@ -193,7 +193,7 @@ public class srumbler
 	}
 	
 	
-	public static VhUpdatePtr srumbler_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr srumbler_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		tilemap_update(ALL_TILEMAPS);
 	

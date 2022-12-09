@@ -25,7 +25,7 @@ public class mexico86 {
     public static int[] mexico86_objectram_size = new int[1];
     static int charbank;
 
-    public static VhConvertColorPromPtr mexico86_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr mexico86_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -76,7 +76,7 @@ public class mexico86 {
 
     };
 
-    public static VhUpdatePtr mexico86_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr mexico86_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
             int sx, sy, xc, yc;
@@ -152,7 +152,7 @@ public class mexico86 {
         }
     };
 
-    public static VhUpdatePtr kikikai_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr kikikai_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
             int sx, sy, xc, yc;

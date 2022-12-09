@@ -188,7 +188,7 @@ public class starwars
         };
 	
 	
-	public static InitMachinePtr esb_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr esb_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		/* Set up the slapstic */
 		slapstic_init (101);
@@ -644,7 +644,7 @@ public class starwars
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_starwar1 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_starwar1 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x12000, REGION_CPU1 );    /* 2 64k ROM spaces */
 		ROM_LOAD( "136021.105",   0x3000, 0x1000, 0x538e7d2f );/* 3000-3fff is 4k vector rom */
 		ROM_LOAD( "136021.114",   0x6000, 0x2000, 0xe75ff867 );  /* ROM 0 bank pages 0 and 1 */
@@ -670,7 +670,7 @@ public class starwars
 		ROM_RELOAD(               0xe000, 0x2000 );/* proper int vecs */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_starwars = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_starwars = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x12000, REGION_CPU1 );    /* 2 64k ROM spaces */
 		ROM_LOAD( "136021.105",   0x3000, 0x1000, 0x538e7d2f );/* 3000-3fff is 4k vector rom */
 		ROM_LOAD( "136021.214",   0x6000, 0x2000, 0x04f1876e );  /* ROM 0 bank pages 0 and 1 */
@@ -696,7 +696,7 @@ public class starwars
 		ROM_RELOAD(               0xe000, 0x2000 );/* proper int vecs */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_esb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_esb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x22000, REGION_CPU1 );    /* 64k for code and a buttload for the banked ROMs */
 		ROM_LOAD( "136031.111",   0x03000, 0x1000, 0xb1f9bd12 );   /* 3000-3fff is 4k vector rom */
 		ROM_LOAD( "136031.101",   0x06000, 0x2000, 0xef1e3ae5 );

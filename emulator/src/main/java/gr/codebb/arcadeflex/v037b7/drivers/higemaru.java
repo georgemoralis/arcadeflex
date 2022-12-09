@@ -21,7 +21,7 @@ import static arcadeflex.v036.sound.ay8910H.*;
 
 public class higemaru {
 
-    public static InterruptPtr higemaru_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr higemaru_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (cpu_getiloops() == 0) {
                 return 0x00cf;
@@ -228,7 +228,7 @@ public class higemaru {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_higemaru = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_higemaru = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x1c000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("hg4", 0x0000, 0x2000, 0xdc67a7f9);

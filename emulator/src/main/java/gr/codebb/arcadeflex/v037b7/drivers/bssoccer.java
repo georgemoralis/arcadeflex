@@ -400,7 +400,7 @@ public class bssoccer
 		}
 	);
 	
-	public static InterruptPtr bssoccer_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr bssoccer_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		switch (cpu_getiloops())
 		{
@@ -501,7 +501,7 @@ public class bssoccer
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_bssoccer = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bssoccer = new RomLoadHandlerPtr(){ public void handler(){ 
 	
 		ROM_REGION( 0x200000, REGION_CPU1 );	/* 68000 Code */
 		ROM_LOAD_EVEN( "02", 0x000000, 0x080000, 0x32871005 );
@@ -529,7 +529,7 @@ public class bssoccer
 	ROM_END(); }}; 
 	
 	
-	public static InitDriverPtr init_bssoccer = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_bssoccer = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM	=	memory_region(REGION_GFX1);
 		int i, len			=	memory_region_length(REGION_GFX1);

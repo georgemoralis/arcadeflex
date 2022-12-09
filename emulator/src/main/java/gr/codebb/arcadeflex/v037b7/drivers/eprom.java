@@ -172,7 +172,7 @@ public class eprom
             }
         };
 	
-	public static InitMachinePtr init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_reset();
 		atarigen_interrupt_reset(update_interrupts);
@@ -519,7 +519,7 @@ public class eprom
 	 *
 	 *************************************/
 	
-	static RomLoadPtr rom_eprom = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_eprom = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0xa0000, REGION_CPU1 );/* 10*64k for 68000 code */
 		ROM_LOAD_EVEN( "136069.50a",   0x00000, 0x10000, 0x08888dec );
 		ROM_LOAD_ODD ( "136069.40a",   0x00000, 0x10000, 0x29cb1e97 );
@@ -560,7 +560,7 @@ public class eprom
 		ROM_LOAD( "1360691.25d",  0x00000, 0x04000, 0x409d818e );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_eprom2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_eprom2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0xa0000, REGION_CPU1 );/* 10*64k for 68000 code */
 		ROM_LOAD_EVEN( "1025.50a",   0x00000, 0x10000, 0xb0c9a476 );
 		ROM_LOAD_ODD ( "1024.40a",   0x00000, 0x10000, 0x4cc2c50c );
@@ -611,7 +611,7 @@ public class eprom
 	 *
 	 *************************************/
 	
-	public static InitDriverPtr init_eprom = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_eprom = new InitDriverHandlerPtr() { public void handler() 
 	{
 		atarigen_eeprom_default = null;
 		atarijsa_init(2, 6, 1, 0x0002);

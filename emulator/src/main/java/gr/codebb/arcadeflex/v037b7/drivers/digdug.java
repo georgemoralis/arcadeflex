@@ -4,6 +4,9 @@
  */
 package gr.codebb.arcadeflex.v037b7.drivers;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -271,7 +274,7 @@ public class digdug {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_digdug = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_digdug = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code for the first CPU  */
 
@@ -317,7 +320,7 @@ public class digdug {
         }
     };
 
-    static RomLoadPtr rom_digdugb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_digdugb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code for the first CPU  */
 
@@ -363,7 +366,7 @@ public class digdug {
         }
     };
 
-    static RomLoadPtr rom_digdugat = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_digdugat = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code for the first CPU  */
 
@@ -409,7 +412,7 @@ public class digdug {
         }
     };
 
-    static RomLoadPtr rom_dzigzag = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dzigzag = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code for the first CPU  */
 

@@ -294,7 +294,7 @@ public class cop01 {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_cop01 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_cop01 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -334,7 +334,7 @@ public class cop01 {
         }
     };
 
-    static RomLoadPtr rom_cop01a = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_cop01a = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */

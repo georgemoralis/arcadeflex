@@ -7,6 +7,9 @@
  */ 
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
@@ -84,14 +87,14 @@ public class crimfght
 	
 	***************************************************************************/
 	
-	public static VhStopPtr crimfght_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr crimfght_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		paletteram=null;
 		K052109_vh_stop();
 		K051960_vh_stop();
 	} };
 	
-	public static VhStartPtr crimfght_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr crimfght_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		paletteram = new UBytePtr(0x400);
 		if (paletteram==null) return 1;
@@ -123,7 +126,7 @@ public class crimfght
 	
 	***************************************************************************/
 	
-	public static VhUpdatePtr crimfght_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr crimfght_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		K052109_tilemap_update();
 	

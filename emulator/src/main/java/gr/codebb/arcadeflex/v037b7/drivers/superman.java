@@ -309,7 +309,7 @@ public class superman {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_superman = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_superman = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);
             /* 512k for 68000 code */

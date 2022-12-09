@@ -42,7 +42,7 @@ public class jrpacman {
      *
      **************************************************************************
      */
-    public static VhConvertColorPromPtr jrpacman_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr jrpacman_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             for (i = 0; i < 32; i++) {
@@ -85,7 +85,7 @@ public class jrpacman {
      *
      **************************************************************************
      */
-    public static VhStartPtr jrpacman_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr jrpacman_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((dirtybuffer = new char[videoram_size[0]]) == null) {
                 return 1;
@@ -109,7 +109,7 @@ public class jrpacman {
      *
      **************************************************************************
      */
-    public static VhStopPtr jrpacman_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr jrpacman_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             dirtybuffer = null;
             bitmap_free(tmpbitmap);
@@ -181,7 +181,7 @@ public class jrpacman {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr jrpacman_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr jrpacman_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int i, offs;
 

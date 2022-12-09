@@ -38,7 +38,7 @@ public class cop01 {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr cop01_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr cop01_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int p_ptr = 0;
@@ -92,7 +92,7 @@ public class cop01 {
      *
      **************************************************************************
      */
-    public static VhStartPtr cop01_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr cop01_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (generic_vh_start.handler() != 0) {
                 return 1;
@@ -114,7 +114,7 @@ public class cop01 {
      *
      **************************************************************************
      */
-    public static VhStopPtr cop01_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr cop01_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(tmpbitmap2);
             generic_vh_stop.handler();
@@ -157,7 +157,7 @@ public class cop01 {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr cop01_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr cop01_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

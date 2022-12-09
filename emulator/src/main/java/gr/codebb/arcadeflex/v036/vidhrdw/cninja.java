@@ -222,7 +222,7 @@ public class cninja
 	} };
 	
 	/******************************************************************************/
-	public static VhUpdatePtr cninja_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr cninja_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int offs;
 		int pf23_control,pf1_control;
@@ -544,12 +544,12 @@ public class cninja
 	
 	/******************************************************************************/
 	
-	public static VhStopPtr cninja_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr cninja_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		cninja_spriteram=null;
 	} };
 	
-	public static VhStartPtr cninja_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr cninja_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		/* The bootleg has some broken scroll registers... */
 		if (strcmp(Machine.gamedrv.name,"stoneage")==0)

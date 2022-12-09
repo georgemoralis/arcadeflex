@@ -14,7 +14,6 @@ import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.plot_pixel;
-import gr.codebb.arcadeflex.v036.mame.driverH.VhUpdatePtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 
 public class berzerk {
@@ -212,8 +211,8 @@ public class berzerk {
      * <p>
      *************************************************************************
      */
-    public static VhUpdatePtr berzerk_vh_screenrefresh
-            = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr berzerk_vh_screenrefresh
+            = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             if (full_refresh != 0) {
                 /* redraw bitmap */

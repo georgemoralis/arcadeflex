@@ -33,7 +33,7 @@ public class pengo {
             0 * 8, 28 * 8 - 1
     );
 
-    public static VhConvertColorPromPtr pacman_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr pacman_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int p_inc = 0;
@@ -69,7 +69,7 @@ public class pengo {
         }
     };
 
-    public static VhConvertColorPromPtr pengo_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr pengo_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int p_inc = 0;
@@ -126,7 +126,7 @@ public class pengo {
      * <p>
      * *************************************************************************
      */
-    public static VhStartPtr pengo_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr pengo_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             gfx_bank = 0;
             xoffsethack = 0;
@@ -135,7 +135,7 @@ public class pengo {
         }
     };
 
-    public static VhStartPtr pacman_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr pacman_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             gfx_bank = 0;
             /* In the Pac Man based games (NOT Pengo) the first two sprites must be offset */
@@ -177,7 +177,7 @@ public class pengo {
      * <p>
      * *************************************************************************
      */
-    public static VhUpdatePtr pengo_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr pengo_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

@@ -278,7 +278,7 @@ public class rocnrope {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_rocnrope = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rocnrope = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);
             /* 64k for code + 64k for decrypted opcodes */
@@ -312,7 +312,7 @@ public class rocnrope {
         }
     };
 
-    static RomLoadPtr rom_rocnropk = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rocnropk = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);
             /* 64k for code + 64k for decrypted opcodes */
@@ -346,7 +346,7 @@ public class rocnrope {
         }
     };
 
-    public static InitDriverPtr init_rocnrope = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_rocnrope = new InitDriverHandlerPtr() {
         public void handler() {
             UBytePtr rom = memory_region(REGION_CPU1);
             int diff = memory_region_length(REGION_CPU1) / 2;
@@ -358,7 +358,7 @@ public class rocnrope {
         }
     };
 
-    public static InitDriverPtr init_rocnropk = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_rocnropk = new InitDriverHandlerPtr() {
         public void handler() {
             konami1_decode();
         }

@@ -280,7 +280,7 @@ public class yiear {
      * Game driver(s)
      * *************************************************************************
      */
-    static RomLoadPtr rom_yiear = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_yiear = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("i08.10d", 0x08000, 0x4000, 0xe2d7458b);
@@ -305,7 +305,7 @@ public class yiear {
         }
     };
 
-    static RomLoadPtr rom_yiear2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_yiear2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("d12_8.bin", 0x08000, 0x4000, 0x49ecd9dd);

@@ -27,7 +27,7 @@ import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
 
 public class battlnts {
 
-    public static InterruptPtr battlnts_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr battlnts_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (K007342_is_INT_enabled() != 0) {
                 return HD6309_INT_IRQ;
@@ -414,7 +414,7 @@ public class battlnts {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_battlnts = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_battlnts = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* code + banked roms */
 
@@ -436,7 +436,7 @@ public class battlnts {
         }
     };
 
-    static RomLoadPtr rom_battlntj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_battlntj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* code + banked roms */
 
@@ -458,7 +458,7 @@ public class battlnts {
         }
     };
 
-    static RomLoadPtr rom_thehustl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_thehustl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* code + banked roms */
 
@@ -480,7 +480,7 @@ public class battlnts {
         }
     };
 
-    static RomLoadPtr rom_thehustj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_thehustj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* code + banked roms */
 

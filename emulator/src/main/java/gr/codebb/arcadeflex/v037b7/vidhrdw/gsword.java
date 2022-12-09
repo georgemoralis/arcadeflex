@@ -35,7 +35,7 @@ public class gsword {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr gsword_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr gsword_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             /* sprite lookup table is not original but it is almost 98% correct */
 
@@ -83,7 +83,7 @@ public class gsword {
         }
     };
 
-    public static VhStartPtr gsword_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr gsword_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((dirtybuffer = new char[gs_videoram_size[0]]) == null) {
                 return 1;
@@ -97,7 +97,7 @@ public class gsword {
         }
     };
 
-    public static VhStopPtr gsword_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr gsword_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             dirtybuffer = null;
             bitmap_free(bitmap_bg);
@@ -218,7 +218,7 @@ public class gsword {
         }
     }
 
-    public static VhUpdatePtr gsword_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr gsword_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int scrollx = 0, scrolly = -(gs_scrolly_ram.read());
 

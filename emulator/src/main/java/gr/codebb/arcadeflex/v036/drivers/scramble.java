@@ -1608,7 +1608,7 @@ public class scramble {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_scramble = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_scramble = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1637,7 +1637,7 @@ public class scramble {
         }
     };
 
-    static RomLoadPtr rom_scrambls = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_scrambls = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1666,7 +1666,7 @@ public class scramble {
         }
     };
 
-    static RomLoadPtr rom_atlantis = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_atlantis = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1693,7 +1693,7 @@ public class scramble {
         }
     };
 
-    static RomLoadPtr rom_atlants2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_atlants2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1722,7 +1722,7 @@ public class scramble {
         }
     };
 
-    static RomLoadPtr rom_theend = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_theend = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1748,7 +1748,7 @@ public class scramble {
         }
     };
 
-    static RomLoadPtr rom_theends = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_theends = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1774,7 +1774,7 @@ public class scramble {
         }
     };
 
-    static RomLoadPtr rom_froggers = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_froggers = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1801,7 +1801,7 @@ public class scramble {
         }
     };
 
-    static RomLoadPtr rom_amidars = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_amidars = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1830,7 +1830,7 @@ public class scramble {
         }
     };
 
-    static RomLoadPtr rom_triplep = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_triplep = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1849,7 +1849,7 @@ public class scramble {
         }
     };
 
-    static RomLoadPtr rom_knockout = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_knockout = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1868,7 +1868,7 @@ public class scramble {
         }
     };
 
-    static RomLoadPtr rom_mariner = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mariner = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);    /* 64k for main CPU */
 
@@ -1889,7 +1889,7 @@ public class scramble {
         }
     };
 
-    static RomLoadPtr rom_ckongs = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ckongs = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1915,7 +1915,7 @@ public class scramble {
         }
     };
 
-    static RomLoadPtr rom_mars = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mars = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1942,7 +1942,7 @@ public class scramble {
         }
     };
 
-    static RomLoadPtr rom_devilfsh = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_devilfsh = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1971,7 +1971,7 @@ public class scramble {
         }
     };
 
-    static RomLoadPtr rom_newsin7 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_newsin7 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1998,7 +1998,7 @@ public class scramble {
         }
     };
 
-    static RomLoadPtr rom_hotshock = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hotshock = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2022,7 +2022,7 @@ public class scramble {
         }
     };
 
-    static RomLoadPtr rom_hunchbks = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hunchbks = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2049,20 +2049,20 @@ public class scramble {
         }
     };
 
-    public static InitDriverPtr init_scrambls = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_scrambls = new InitDriverHandlerPtr() {
         public void handler() {
             install_mem_read_handler(0, 0x8102, 0x8102, scramble_input_port_2_r);
             install_mem_read_handler(0, 0x8202, 0x8202, scramble_protection_r);
         }
     };
 
-    public static InitDriverPtr init_scramble = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_scramble = new InitDriverHandlerPtr() {
         public void handler() {
             install_mem_read_handler(0, 0x8202, 0x8202, scramblk_protection_r);
         }
     };
 
-    public static InitDriverPtr init_hotshock = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_hotshock = new InitDriverHandlerPtr() {
         public void handler() {
             /* protection??? The game jumps into never-neverland here. I think
              it just expects a RET there */
@@ -2070,7 +2070,7 @@ public class scramble {
         }
     };
 
-    public static InitDriverPtr init_froggers = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_froggers = new InitDriverHandlerPtr() {
         public void handler() {
             int A;
             UBytePtr RAM;
@@ -2083,7 +2083,7 @@ public class scramble {
         }
     };
 
-    public static InitDriverPtr init_mars = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_mars = new InitDriverHandlerPtr() {
         public void handler() {
             int i;
             UBytePtr RAM;

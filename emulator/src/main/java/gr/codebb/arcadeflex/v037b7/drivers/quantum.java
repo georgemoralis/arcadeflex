@@ -230,7 +230,7 @@ public class quantum
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_quantum = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_quantum = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x014000, REGION_CPU1 );
 	    ROM_LOAD_EVEN( "136016.201",   0x000000, 0x002000, 0x7e7be63a );
 	    ROM_LOAD_ODD ( "136016.206",   0x000000, 0x002000, 0x2d8f5759 );
@@ -244,7 +244,7 @@ public class quantum
 	    ROM_LOAD_ODD ( "136016.110",   0x010000, 0x002000, 0xacb50363 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_quantum1 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_quantum1 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x014000, REGION_CPU1 );
 	    ROM_LOAD_EVEN( "136016.101",   0x000000, 0x002000, 0x5af0bd5b );
 	    ROM_LOAD_ODD ( "136016.106",   0x000000, 0x002000, 0xf9724666 );
@@ -258,7 +258,7 @@ public class quantum
 	    ROM_LOAD_ODD ( "136016.110",   0x010000, 0x002000, 0xacb50363 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_quantump = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_quantump = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x014000, REGION_CPU1 );
 	    ROM_LOAD_EVEN( "quantump.2e",  0x000000, 0x002000, 0x176d73d3 );
 	    ROM_LOAD_ODD ( "quantump.3e",  0x000000, 0x002000, 0x12fc631f );

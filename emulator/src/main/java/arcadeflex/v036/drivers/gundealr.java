@@ -31,7 +31,7 @@ public class gundealr {
 
     static int input_ports_hack;
 
-    public static InterruptPtr yamyam_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr yamyam_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (cpu_getiloops() == 0) {
                 if (input_ports_hack != 0) {
@@ -123,13 +123,13 @@ public class gundealr {
         }
     };
 
-    public static InitDriverPtr init_gundealr = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_gundealr = new InitDriverHandlerPtr() {
         public void handler() {
             input_ports_hack = 0;
         }
     };
 
-    public static InitDriverPtr init_yamyam = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_yamyam = new InitDriverHandlerPtr() {
         public void handler() {
             input_ports_hack = 1;
             install_mem_write_handler(0, 0xe000, 0xe000, yamyam_protection_w);
@@ -445,7 +445,7 @@ public class gundealr {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_gundealr = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gundealr = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);/* 64k for code + 128k for banks */
 
@@ -461,7 +461,7 @@ public class gundealr {
         }
     };
 
-    static RomLoadPtr rom_gundeala = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gundeala = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);/* 64k for code + 128k for banks */
 
@@ -477,7 +477,7 @@ public class gundealr {
         }
     };
 
-    static RomLoadPtr rom_yamyam = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_yamyam = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);/* 64k for code + 128k for banks */
 
@@ -494,7 +494,7 @@ public class gundealr {
     };
 
     /* only gfx are different, code is the same */
-    static RomLoadPtr rom_wiseguy = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_wiseguy = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);/* 64k for code + 128k for banks */
 

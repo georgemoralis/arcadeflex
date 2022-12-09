@@ -707,7 +707,7 @@ public class marvins {
      * *	Also, some of the background graphics look to be incorrect. *
 	**************************************************************************
      */
-    static RomLoadPtr rom_marvins = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_marvins = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for CPUA code */
 
@@ -747,7 +747,7 @@ public class marvins {
         }
     };
 
-    static RomLoadPtr rom_madcrash = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_madcrash = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for CPUA code */
 
@@ -791,7 +791,7 @@ public class marvins {
         }
     };
 
-    static RomLoadPtr rom_vangrd2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_vangrd2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             ROM_LOAD("p1.9a", 0x0000, 0x2000, 0xbc9eeca5);
@@ -835,13 +835,13 @@ public class marvins {
     /**
      * ****************************************************************************************
      */
-    public static InitDriverPtr init_marvins = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_marvins = new InitDriverHandlerPtr() {
         public void handler() {
             init_sound(0x40);
         }
     };
 
-    public static InitDriverPtr init_madcrash = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_madcrash = new InitDriverHandlerPtr() {
         public void handler() {
             /*
              The following lines patch out the ROM test (which fails - probably
@@ -856,7 +856,7 @@ public class marvins {
         }
     };
 
-    public static InitDriverPtr init_vangrd2 = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_vangrd2 = new InitDriverHandlerPtr() {
         public void handler() {
             init_sound(0x20);
             madcrash_vreg = 0xf1;

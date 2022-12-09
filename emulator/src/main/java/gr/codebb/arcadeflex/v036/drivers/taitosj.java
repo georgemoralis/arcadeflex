@@ -2058,7 +2058,7 @@ public class taitosj
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_spaceskr = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_spaceskr = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x12000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "eb01",         0x0000, 0x1000, 0x92345b05 );
 		ROM_LOAD( "eb02",         0x1000, 0x1000, 0xa3e21420 );
@@ -2085,7 +2085,7 @@ public class taitosj
 		ROM_LOAD( "eb16.22",      0x0000, 0x0100, 0xb833b5ea );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_junglek = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_junglek = new RomLoadHandlerPtr(){ public void handler(){ 
 	    ROM_REGION( 0x12000, REGION_CPU1 );/* 64k for code */
 	    ROM_LOAD( "kn21-1.bin",   0x00000, 0x1000, 0x45f55d30 );
 	    ROM_LOAD( "kn22-1.bin",   0x01000, 0x1000, 0x07cc9a21 );
@@ -2117,7 +2117,7 @@ public class taitosj
 	    ROM_LOAD( "eb16.22",      0x0000, 0x0100, 0xb833b5ea );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_junglkj2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_junglkj2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x12000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "kn41.bin",     0x00000, 0x1000, 0x7e4cd631 );
 		ROM_LOAD( "kn42.bin",     0x01000, 0x1000, 0xbade53af );
@@ -2149,7 +2149,7 @@ public class taitosj
 		ROM_LOAD( "eb16.22",      0x0000, 0x0100, 0xb833b5ea );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_jungleh = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_jungleh = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x12000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "kn41a",        0x00000, 0x1000, 0x6bf118d8 );
 		ROM_LOAD( "kn42.bin",     0x01000, 0x1000, 0xbade53af );
@@ -2181,7 +2181,7 @@ public class taitosj
 		ROM_LOAD( "eb16.22",      0x0000, 0x0100, 0xb833b5ea );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_alpine = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_alpine = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x12000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "rh16.069",     0x0000, 0x1000, 0x6b2a69b7 );
 		ROM_LOAD( "rh17.068",     0x1000, 0x1000, 0xe344b0b7 );
@@ -2206,7 +2206,7 @@ public class taitosj
 		ROM_LOAD( "eb16.22",      0x0000, 0x0100, 0xb833b5ea );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_alpinea = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_alpinea = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x12000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "rh01-1.69",    0x0000, 0x1000, 0x7fbcb635 );
 		ROM_LOAD( "rh02.68",      0x1000, 0x1000, 0xc83f95af );
@@ -2231,7 +2231,7 @@ public class taitosj
 		ROM_LOAD( "eb16.22",      0x0000, 0x0100, 0xb833b5ea );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_timetunl = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_timetunl = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x12000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "un01.69",      0x00000, 0x1000, 0x2e56d946 );
 		ROM_LOAD( "un02.68",      0x01000, 0x1000, 0xf611d852 );
@@ -2261,7 +2261,7 @@ public class taitosj
 		ROM_LOAD( "eb16.22",      0x0000, 0x0100, 0xb833b5ea );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_wwestern = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_wwestern = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x12000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "ww01.bin",     0x0000, 0x1000, 0xbfe10753 );
 		ROM_LOAD( "ww02d.bin",    0x1000, 0x1000, 0x20579e90 );
@@ -2287,7 +2287,7 @@ public class taitosj
 		ROM_LOAD( "ww17",         0x0000, 0x0100, 0x93447d2b );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_wwester1 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_wwester1 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x12000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "ww01.bin",     0x0000, 0x1000, 0xbfe10753 );
 		ROM_LOAD( "ww02",         0x1000, 0x1000, 0xf011103a );
@@ -2313,7 +2313,7 @@ public class taitosj
 		ROM_LOAD( "ww17",         0x0000, 0x0100, 0x93447d2b );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_frontlin = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_frontlin = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x12000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "fl69.u69",     0x00000, 0x1000, 0x93b64599 );
 		ROM_LOAD( "fl68.u68",     0x01000, 0x1000, 0x82dccdfb );
@@ -2348,7 +2348,7 @@ public class taitosj
 		ROM_LOAD( "eb16.22",      0x0000, 0x0100, 0xb833b5ea );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_elevator = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_elevator = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x12000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "ea-ic69.bin",  0x0000, 0x1000, 0x24e277ef );
 		ROM_LOAD( "ea-ic68.bin",  0x1000, 0x1000, 0x13702e39 );
@@ -2381,7 +2381,7 @@ public class taitosj
 		ROM_LOAD( "eb16.22",      0x0000, 0x0100, 0xb833b5ea );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_elevatob = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_elevatob = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x12000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "ea69.bin",     0x0000, 0x1000, 0x66baa214 );
 		ROM_LOAD( "ea-ic68.bin",  0x1000, 0x1000, 0x13702e39 );
@@ -2412,7 +2412,7 @@ public class taitosj
 		ROM_LOAD( "eb16.22",      0x0000, 0x0100, 0xb833b5ea );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_tinstar = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_tinstar = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x12000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "ts.69",        0x0000, 0x1000, 0xa930af60 );
 		ROM_LOAD( "ts.68",        0x1000, 0x1000, 0x7f2714ca );
@@ -2446,7 +2446,7 @@ public class taitosj
 		ROM_LOAD( "eb16.22",      0x0000, 0x0100, 0xb833b5ea );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_waterski = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_waterski = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x12000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "a03-01",       0x0000, 0x1000, 0x322c4c2c );
 		ROM_LOAD( "a03-02",       0x1000, 0x1000, 0x8df176d1 );
@@ -2472,7 +2472,7 @@ public class taitosj
 		ROM_LOAD( "eb16.22",      0x0000, 0x0100, 0xb833b5ea );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_bioatack = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bioatack = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x12000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "aa8-01.69",    0x0000, 0x1000, 0xe5abc211 );
 		ROM_LOAD( "aa8-02.68",    0x1000, 0x1000, 0xb5bfde00 );
@@ -2501,7 +2501,7 @@ public class taitosj
 		ROM_LOAD( "eb16.22",      0x0000, 0x0100, 0xb833b5ea );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_sfposeid = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_sfposeid = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x12000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "a14-01.1",     0x00000, 0x2000, 0xaa779fbb );
 		ROM_LOAD( "a14-02.2",     0x02000, 0x2000, 0xecec9dc3 );
@@ -2526,7 +2526,7 @@ public class taitosj
 		ROM_LOAD( "eb16.22",      0x0000, 0x0100, 0xb833b5ea );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_hwrace = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_hwrace = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x12000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "hw_race.01",   0x0000, 0x1000, 0x8beec11f );
 		ROM_LOAD( "hw_race.02",   0x1000, 0x1000, 0x72ad099d );
@@ -2556,7 +2556,7 @@ public class taitosj
 		ROM_LOAD( "eb16.22",      0x0000, 0x0100, 0xb833b5ea );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_kikstart = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kikstart = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x12000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "a20-01",       0x00000, 0x2000, 0x5810be97 );
 		ROM_LOAD( "a20-02",       0x02000, 0x2000, 0x13e9565d );
@@ -2584,14 +2584,14 @@ public class taitosj
 	
 	
 	
-	public static InitDriverPtr init_alpine = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_alpine = new InitDriverHandlerPtr() { public void handler() 
 	{
 		/* install protection handlers */
 		install_mem_read_handler (0, 0xd40b, 0xd40b, alpine_port_2_r);
 		install_mem_write_handler(0, 0xd50f, 0xd50f, alpine_protection_w);
 	} };
 	
-	public static InitDriverPtr init_alpinea = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_alpinea = new InitDriverHandlerPtr() { public void handler() 
 	{
 		/* install protection handlers */
 		install_mem_read_handler (0, 0xd40b, 0xd40b, alpine_port_2_r);

@@ -47,7 +47,7 @@ public class tecmo {
      *
      **************************************************************************
      */
-    public static VhStartPtr tecmo_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr tecmo_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (generic_vh_start.handler() != 0) {
                 return 1;
@@ -79,21 +79,21 @@ public class tecmo {
         }
     };
 
-    public static VhStartPtr rygar_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr rygar_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             video_type = 0;
             return tecmo_vh_start.handler();
         }
     };
 
-    public static VhStartPtr silkworm_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr silkworm_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             video_type = 1;
             return tecmo_vh_start.handler();
         }
     };
 
-    public static VhStartPtr gemini_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr gemini_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             video_type = 2;
             return tecmo_vh_start.handler();
@@ -107,7 +107,7 @@ public class tecmo {
      *
      **************************************************************************
      */
-    public static VhStopPtr tecmo_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr tecmo_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(tmpbitmap3);
             osd_free_bitmap(tmpbitmap2);
@@ -193,7 +193,7 @@ public class tecmo {
         }
     }
 
-    public static VhUpdatePtr tecmo_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr tecmo_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

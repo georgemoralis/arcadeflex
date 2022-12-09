@@ -1357,7 +1357,7 @@ public class pacman {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_pacman = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pacman = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1385,7 +1385,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_npacmod = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_npacmod = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1413,7 +1413,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_pacmanjp = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pacmanjp = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1443,7 +1443,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_pacmanm = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pacmanm = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1471,7 +1471,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_pacmod = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pacmod = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1499,7 +1499,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_hangly = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hangly = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1527,7 +1527,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_hangly2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hangly2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1557,7 +1557,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_puckman = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_puckman = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1585,7 +1585,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_pacheart = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pacheart = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -1621,7 +1621,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_piranha = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_piranha = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1651,7 +1651,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_pacplus = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pacplus = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1679,7 +1679,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_mspacman = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mspacman = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1709,7 +1709,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_mspacatk = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mspacatk = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1739,7 +1739,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_pacgal = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pacgal = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1770,7 +1770,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_crush = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_crush = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for opcode copy to hack protection */
 
@@ -1798,7 +1798,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_crush2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_crush2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1832,7 +1832,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_crush3 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_crush3 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1866,7 +1866,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_maketrax = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_maketrax = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for opcode copy to hack protection */
 
@@ -1894,7 +1894,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_mbrush = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mbrush = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1926,7 +1926,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_paintrlr = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_paintrlr = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1962,7 +1962,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_ponpoko = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ponpoko = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -1994,7 +1994,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_ponpokov = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ponpokov = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2026,7 +2026,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_eyes = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_eyes = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2054,7 +2054,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_eyes2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_eyes2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2083,7 +2083,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_mrtnt = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mrtnt = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2111,7 +2111,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_lizwiz = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_lizwiz = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2141,7 +2141,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_theglob = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_theglob = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* 64k for code */
 
@@ -2167,7 +2167,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_beastf = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_beastf = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* 64k for code */
 
@@ -2193,7 +2193,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_jumpshot = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_jumpshot = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2221,7 +2221,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_vanvan = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_vanvan = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2244,7 +2244,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_vanvans = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_vanvans = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2267,7 +2267,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_dremshpr = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dremshpr = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2292,7 +2292,7 @@ public class pacman {
         }
     };
 
-    static RomLoadPtr rom_alibaba = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_alibaba = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -2402,7 +2402,7 @@ public class pacman {
         rom.write(0x3aef + diff, 0xb0);
     }
 
-    public static InitDriverPtr init_maketrax = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_maketrax = new InitDriverHandlerPtr() {
         public void handler() {
             /* set up protection handlers */
             install_mem_read_handler(0, 0x5080, 0x50bf, maketrax_special_port2_r);
@@ -2411,7 +2411,7 @@ public class pacman {
             maketrax_rom_decode();
         }
     };
-    public static InitDriverPtr init_ponpoko = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_ponpoko = new InitDriverHandlerPtr() {
         public void handler() {
             int i, j;
             UBytePtr RAM = new UBytePtr();
@@ -2459,7 +2459,7 @@ public class pacman {
         }
     }
 
-    public static InitDriverPtr init_eyes = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_eyes = new InitDriverHandlerPtr() {
         public void handler() {
             int i;
             UBytePtr RAM = new UBytePtr();
@@ -2485,7 +2485,7 @@ public class pacman {
         }
     };
 
-    public static InitDriverPtr init_pacplus = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_pacplus = new InitDriverHandlerPtr() {
         public void handler() {
             pacplus_decode();
         }

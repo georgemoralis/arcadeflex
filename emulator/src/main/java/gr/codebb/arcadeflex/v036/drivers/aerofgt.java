@@ -1066,7 +1066,7 @@ public class aerofgt {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_pspikes = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pspikes = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0xc0000, REGION_CPU1);/* 68000 code */
 
@@ -1095,7 +1095,7 @@ public class aerofgt {
         }
     };
 
-    static RomLoadPtr rom_svolly91 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_svolly91 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0xc0000, REGION_CPU1);/* 68000 code */
 
@@ -1124,7 +1124,7 @@ public class aerofgt {
         }
     };
 
-    static RomLoadPtr rom_turbofrc = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_turbofrc = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0xc0000, REGION_CPU1);/* 68000 code */
 
@@ -1164,7 +1164,7 @@ public class aerofgt {
         }
     };
 
-    static RomLoadPtr rom_aerofgt = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_aerofgt = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);/* 68000 code */
 
@@ -1196,7 +1196,7 @@ public class aerofgt {
         }
     };
 
-    static RomLoadPtr rom_aerofgtb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_aerofgtb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);/* 68000 code */
 
@@ -1231,7 +1231,7 @@ public class aerofgt {
         }
     };
 
-    static RomLoadPtr rom_aerofgtc = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_aerofgtc = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x80000, REGION_CPU1);/* 68000 code */
 
@@ -1267,7 +1267,7 @@ public class aerofgt {
         }
     };
 
-    static RomLoadPtr rom_unkvsys = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_unkvsys = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 68000 code */
 

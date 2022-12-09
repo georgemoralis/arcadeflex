@@ -258,7 +258,7 @@ public class funkybee {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_funkybee = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_funkybee = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -279,7 +279,7 @@ public class funkybee {
         }
     };
 
-    static RomLoadPtr rom_skylancr = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_skylancr = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 

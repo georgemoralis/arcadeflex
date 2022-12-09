@@ -315,7 +315,7 @@ public class arkanoid {
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_arkanoid = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_arkanoid = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "a75_01-1.rom", 0x0000, 0x8000, 0x5bcda3b0 );
 		ROM_LOAD( "a75_11.rom",   0x8000, 0x8000, 0xeafd7191 );
@@ -334,7 +334,7 @@ public class arkanoid {
 		ROM_LOAD( "09.bpr",       0x0400, 0x0200, 0xa7c6c277 );/* blue component */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_arknoidu = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_arknoidu = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "a75-19.bin",   0x0000, 0x8000, 0xd3ad37d7 );
 		ROM_LOAD( "a75-18.bin",   0x8000, 0x8000, 0xcdc08301 );
@@ -353,7 +353,7 @@ public class arkanoid {
 		ROM_LOAD( "09.bpr",       0x0400, 0x0200, 0xa7c6c277 );/* blue component */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_arknoidj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_arknoidj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "a75-21.rom",   0x0000, 0x8000, 0xbf0455fc );
 		ROM_LOAD( "a75-22.rom",   0x8000, 0x8000, 0x3a2688d3 );
@@ -372,7 +372,7 @@ public class arkanoid {
 		ROM_LOAD( "09.bpr",       0x0400, 0x0200, 0xa7c6c277 );/* blue component */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_arkbl2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_arkbl2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "e1.6d",        0x0000, 0x8000, 0xdd4f2b72 );
 		ROM_LOAD( "e2.6f",        0x8000, 0x8000, 0xbbc33ceb );
@@ -391,7 +391,7 @@ public class arkanoid {
 		ROM_LOAD( "09.bpr",       0x0400, 0x0200, 0xa7c6c277 );/* blue component */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_arkbl3 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_arkbl3 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "arkanunk.1",   0x0000, 0x8000, 0xb0f73900 );
 		ROM_LOAD( "arkanunk.2",   0x8000, 0x8000, 0x9827f297 );
@@ -407,7 +407,7 @@ public class arkanoid {
 		ROM_LOAD( "09.bpr",       0x0400, 0x0200, 0xa7c6c277 );/* blue component */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_arkatayt = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_arkatayt = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "arkanoid.1",   0x0000, 0x8000, 0x6e0a2b6f );
 		ROM_LOAD( "arkanoid.2",   0x8000, 0x8000, 0x5a97dd56 );
@@ -423,7 +423,7 @@ public class arkanoid {
 		ROM_LOAD( "09.bpr",       0x0400, 0x0200, 0xa7c6c277 );/* blue component */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_arkblock = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_arkblock = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "block01.bin",  0x0000, 0x8000, 0x5be667e1 );
 		ROM_LOAD( "block02.bin",  0x8000, 0x8000, 0x4f883ef1 );
@@ -439,7 +439,7 @@ public class arkanoid {
 		ROM_LOAD( "09.bpr",       0x0400, 0x0200, 0xa7c6c277 );/* blue component */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_arkbloc2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_arkbloc2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "ark-6.bin",    0x0000, 0x8000, 0x0be015de );
 		ROM_LOAD( "arkgc.2",      0x8000, 0x8000, 0x9f0d4754 );
@@ -455,7 +455,7 @@ public class arkanoid {
 		ROM_LOAD( "09.bpr",       0x0400, 0x0200, 0xa7c6c277 );/* blue component */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_arkangc = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_arkangc = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "arkgc.1",      0x0000, 0x8000, 0xc54232e6 );
 		ROM_LOAD( "arkgc.2",      0x8000, 0x8000, 0x9f0d4754 );

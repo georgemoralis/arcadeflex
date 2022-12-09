@@ -54,7 +54,7 @@ public class popeye {
      *
      **************************************************************************
      */
-    public static VhConvertColorPromPtr popeye_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr popeye_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -145,7 +145,7 @@ public class popeye {
         }
     };
 
-    public static VhConvertColorPromPtr popeyebl_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr popeyebl_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -243,7 +243,7 @@ public class popeye {
      *
      **************************************************************************
      */
-    public static VhStartPtr popeye_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr popeye_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (generic_vh_start.handler() != 0) {
                 return 1;
@@ -272,7 +272,7 @@ public class popeye {
      *
      **************************************************************************
      */
-    public static VhStopPtr popeye_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr popeye_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             bitmap_free(tmpbitmap2);
             dirtybuffer2 = null;
@@ -320,7 +320,7 @@ public class popeye {
      */
     static int lastpos[] = {-1, -1};
 
-    public static VhUpdatePtr popeye_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr popeye_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

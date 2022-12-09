@@ -98,7 +98,7 @@ public class ccastles {
      *
      **************************************************************************
      */
-    public static VhStartPtr ccastles_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr ccastles_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((tmpbitmap = osd_create_bitmap(Machine.drv.screen_width, Machine.drv.screen_height)) == null) {
                 return 1;
@@ -126,7 +126,7 @@ public class ccastles {
      *
      **************************************************************************
      */
-    public static VhStopPtr ccastles_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr ccastles_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(sprite_bm);
             osd_free_bitmap(maskbitmap);
@@ -294,7 +294,7 @@ public class ccastles {
         ccastles_screen_inc_enable.write(1, screen_inc_enable1_save);
     }
 
-    public static VhUpdatePtr ccastles_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr ccastles_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
             UBytePtr spriteaddr;

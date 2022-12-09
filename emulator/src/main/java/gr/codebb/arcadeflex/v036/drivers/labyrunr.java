@@ -44,7 +44,7 @@ public class labyrunr
 {
 
 	
-	public static InterruptPtr labyrunr_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr labyrunr_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (cpu_getiloops() == 0)
 		{
@@ -306,7 +306,7 @@ public class labyrunr
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_labyrunr = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_labyrunr = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x28000, REGION_CPU1 );/* code + banked roms */
 		ROM_LOAD( "771j04.10f", 0x10000, 0x08000, 0x354a41d0 );
 		ROM_CONTINUE(           0x08000, 0x08000 );

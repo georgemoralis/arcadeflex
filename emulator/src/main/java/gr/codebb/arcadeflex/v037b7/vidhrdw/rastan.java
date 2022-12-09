@@ -44,7 +44,7 @@ public class rastan {
     static osd_bitmap tmpbitmap1;
     static osd_bitmap tmpbitmap3;
 
-    public static VhStartPtr rastan_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr rastan_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             /* Allocate a video RAM */
             rastan_dirty1 = new char[rastan_videoram_size[0] / 4];
@@ -76,7 +76,7 @@ public class rastan {
         }
     };
 
-    public static VhStopPtr rastan_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr rastan_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             /* Free temporary bitmaps */
             if (tmpbitmap3 != null) {
@@ -188,7 +188,7 @@ public class rastan {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr rastan_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr rastan_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
             int scrollx, scrolly;
@@ -374,7 +374,7 @@ public class rastan {
         }
     };
 
-    public static VhUpdatePtr rainbow_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr rainbow_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
             int scrollx, scrolly;
@@ -595,7 +595,7 @@ public class rastan {
  /* at address 0x2EA in the code. Apart from   */
  /* physical layout, the main change is that   */
  /* the Y settings are active low              */
-    public static VhUpdatePtr jumping_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr jumping_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
             int scrollx, scrolly;

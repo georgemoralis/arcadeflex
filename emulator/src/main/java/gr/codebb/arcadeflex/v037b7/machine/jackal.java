@@ -17,7 +17,7 @@ public class jackal
 	static UBytePtr jackal_spritebank = null;
 	
 	
-	public static InitMachinePtr jackal_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr jackal_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
                 cpu_setbank(1,new UBytePtr(memory_region(REGION_CPU1),0x4000));
                 jackal_rambank = new UBytePtr(memory_region(REGION_CPU1),0);

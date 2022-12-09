@@ -24,17 +24,13 @@ import static gr.codebb.arcadeflex.v036.mame.driverH.CPU_AUDIO_CPU;
 import static gr.codebb.arcadeflex.v036.mame.driverH.CPU_S2650;
 import static gr.codebb.arcadeflex.v036.mame.driverH.DEFAULT_REAL_60HZ_VBLANK_DURATION;
 import gr.codebb.arcadeflex.v036.mame.driverH.GameDriver;
-import gr.codebb.arcadeflex.v036.mame.driverH.InitDriverPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.InputPortPtr;
-import gr.codebb.arcadeflex.v036.mame.driverH.InterruptPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.MachineCPU;
 import gr.codebb.arcadeflex.v036.mame.driverH.MachineDriver;
 import static gr.codebb.arcadeflex.v036.mame.driverH.ROT0;
-import gr.codebb.arcadeflex.v036.mame.driverH.RomLoadPtr;
 import static gr.codebb.arcadeflex.v036.mame.driverH.VIDEO_MODIFIES_PALETTE;
 import static gr.codebb.arcadeflex.v036.mame.driverH.VIDEO_SUPPORTS_DIRTY;
 import static gr.codebb.arcadeflex.v036.mame.driverH.VIDEO_TYPE_RASTER;
-import gr.codebb.arcadeflex.v036.mame.driverH.VhConvertColorPromPtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
 import arcadeflex.v036.mame.sndintrfH.CustomSound_interface;
 import arcadeflex.v036.mame.sndintrfH.MachineSound;
@@ -151,7 +147,7 @@ public class meadows {
      */
     static int sense_state = 0;
     static int coin1_state = 0;
-    public static InterruptPtr meadows_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr meadows_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             /* preserve the actual cycle count */
             cycles_at_vsync = cycles_currently_ran();
@@ -253,7 +249,7 @@ public class meadows {
      * **********************************************************
      */
     static int sense_state_2 = 0;
-    public static InterruptPtr sound_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr sound_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             /* fake something toggling the sense input line of the S2650 */
             sense_state_2 ^= 1;
@@ -396,7 +392,7 @@ public class meadows {
             = /*this should be done better when we support artwork*/ {
                 0, 0,
                 0, 1,};
-    public static VhConvertColorPromPtr init_palette = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr init_palette = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] game_palette, char[] game_colortable, UBytePtr color_prom) {
             memcpy(game_palette, palette, palette.length);
             memcpy(game_colortable, colortable, colortable.length);
@@ -511,7 +507,7 @@ public class meadows {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_deadeye = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_deadeye = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x08000, REGION_CPU1);
             /* 32K for code */
@@ -543,7 +539,7 @@ public class meadows {
         }
     };
 
-    static RomLoadPtr rom_gypsyjug = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gypsyjug = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x08000, REGION_CPU1);
             /* 32K for code */
@@ -578,7 +574,7 @@ public class meadows {
     };
 
     /* A fake for the missing ball sprites #3 and #4 */
-    public static InitDriverPtr init_gypsyjug = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_gypsyjug = new InitDriverHandlerPtr() {
         public void handler() {
             int i;
             int ball[] = {

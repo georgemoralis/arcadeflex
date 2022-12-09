@@ -4,6 +4,8 @@
  */
 package gr.codebb.arcadeflex.v037b7.drivers;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw._8080bw.*;
 
@@ -31,7 +33,7 @@ public class _8080bw {
                 0x00, 0x00, 0x00, /* BLACK */
                 0xff, 0xff, 0xff, /* WHITE */};
 
-    public static VhConvertColorPromPtr init_palette = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr init_palette = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] game_palette, char[] game_colortable, UBytePtr color_prom) {
             memcpy(game_palette, invaders_palette, invaders_palette.length);
         }
@@ -3622,7 +3624,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_invaders = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_invaders = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3634,7 +3636,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_earthinv = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_earthinv = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3646,7 +3648,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_spaceatt = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spaceatt = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3658,7 +3660,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_sinvzen = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sinvzen = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3674,7 +3676,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_sinvemag = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sinvemag = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3688,7 +3690,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_alieninv = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_alieninv = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3700,7 +3702,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_sitv = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sitv = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3712,7 +3714,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_sicv = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sicv = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3729,7 +3731,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_sisv = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sisv = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3747,7 +3749,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_sisv2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sisv2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3766,7 +3768,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_spceking = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spceking = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3778,7 +3780,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_spcewars = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spcewars = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3794,7 +3796,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_spacewr3 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spacewr3 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3807,7 +3809,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_invaderl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_invaderl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3822,7 +3824,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_jspecter = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_jspecter = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3832,7 +3834,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_invadpt2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_invadpt2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3850,7 +3852,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_invaddlx = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_invaddlx = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3863,7 +3865,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_moonbase = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_moonbase = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3879,7 +3881,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_invad2ct = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_invad2ct = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3893,7 +3895,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_invrvnge = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_invrvnge = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3905,7 +3907,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_invrvnga = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_invrvnga = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3917,7 +3919,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_spclaser = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spclaser = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3929,7 +3931,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_laser = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_laser = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3941,7 +3943,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_spcewarl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spcewarl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3953,7 +3955,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_galxwars = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_galxwars = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3967,7 +3969,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_starw = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_starw = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -3981,7 +3983,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_lrescue = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_lrescue = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4000,7 +4002,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_grescue = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_grescue = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4019,7 +4021,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_desterth = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_desterth = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4039,7 +4041,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_cosmicmo = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_cosmicmo = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4054,7 +4056,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_superinv = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_superinv = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4068,7 +4070,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_rollingc = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rollingc = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4088,7 +4090,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_boothill = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_boothill = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4100,7 +4102,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_schaser = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_schaser = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4122,7 +4124,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_schasrcv = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_schasrcv = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4145,7 +4147,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_spcenctr = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spcenctr = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4161,7 +4163,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_clowns = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_clowns = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4175,7 +4177,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_gmissile = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gmissile = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4187,7 +4189,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_seawolf = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_seawolf = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4199,7 +4201,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_gunfight = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gunfight = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4211,7 +4213,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_280zzzap = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_280zzzap = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4225,7 +4227,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_lupin3 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_lupin3 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4240,7 +4242,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_polaris = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_polaris = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4262,7 +4264,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_polarisa = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_polarisa = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4285,7 +4287,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_lagunar = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_lagunar = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4297,7 +4299,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_m4 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_m4 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4309,7 +4311,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_phantom2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_phantom2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4325,7 +4327,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_dogpatch = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dogpatch = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4337,7 +4339,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_bowler = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bowler = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4350,7 +4352,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_shuffle = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_shuffle = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4362,7 +4364,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_blueshrk = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_blueshrk = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4373,7 +4375,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_einnings = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_einnings = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4386,7 +4388,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_dplay = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dplay = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4398,7 +4400,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_maze = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_maze = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4408,7 +4410,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_tornbase = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tornbase = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4420,7 +4422,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_checkmat = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_checkmat = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4432,7 +4434,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_desertgu = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_desertgu = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4444,7 +4446,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_ozmawars = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ozmawars = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4458,7 +4460,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_solfight = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_solfight = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4472,7 +4474,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_spaceph = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spaceph = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4492,7 +4494,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_ballbomb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ballbomb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4510,7 +4512,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_yosakdon = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_yosakdon = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4525,7 +4527,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_sheriff = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sheriff = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4545,7 +4547,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_bandido = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bandido = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4566,7 +4568,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_helifire = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_helifire = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4587,7 +4589,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_helifira = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_helifira = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4608,7 +4610,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_spacefev = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spacefev = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -4626,7 +4628,7 @@ public class _8080bw {
         }
     };
 
-    static RomLoadPtr rom_sfeverbw = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sfeverbw = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */

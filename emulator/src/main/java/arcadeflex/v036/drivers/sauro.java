@@ -206,7 +206,7 @@ public class sauro {
                 new GfxDecodeInfo(REGION_GFX3, 0, spritelayout, 0, 64),
                 new GfxDecodeInfo(-1) /* end of array */};
 
-    public static InterruptPtr sauron_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr sauron_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             cpu_cause_interrupt(1, Z80_NMI_INT);
             return -1000;
@@ -266,7 +266,7 @@ public class sauro {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_sauro = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sauro = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -302,7 +302,7 @@ public class sauro {
         }
     };
 
-    public static InitDriverPtr init_sauro = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_sauro = new InitDriverHandlerPtr() {
         public void handler() {
             /* This game doesn't like all memory to be initialized to zero, it won't
 		   initialize the high scores */

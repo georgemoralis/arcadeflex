@@ -250,7 +250,7 @@ public class citycon {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_citycon = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_citycon = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
 
@@ -287,7 +287,7 @@ public class citycon {
         }
     };
 
-    static RomLoadPtr rom_citycona = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_citycona = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
 
@@ -324,7 +324,7 @@ public class citycon {
         }
     };
 
-    static RomLoadPtr rom_cruisin = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_cruisin = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
 

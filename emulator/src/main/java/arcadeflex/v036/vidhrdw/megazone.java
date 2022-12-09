@@ -50,7 +50,7 @@ public class megazone {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr megazone_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr megazone_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int p_inc = 0;
@@ -98,7 +98,7 @@ public class megazone {
         }
     };
 
-    public static VhStartPtr megazone_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr megazone_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             dirtybuffer = null;
             tmpbitmap = null;
@@ -117,7 +117,7 @@ public class megazone {
         }
     };
 
-    public static VhStopPtr megazone_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr megazone_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             dirtybuffer = null;
             osd_free_bitmap(tmpbitmap);
@@ -136,7 +136,7 @@ public class megazone {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr megazone_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr megazone_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
             int x, y;

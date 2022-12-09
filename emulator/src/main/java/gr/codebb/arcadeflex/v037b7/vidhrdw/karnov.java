@@ -53,7 +53,7 @@ public class karnov
 	  bit 0 -- 2.2kohm resistor  -- BLUE
 	
 	***************************************************************************/
-	public static VhConvertColorPromPtr karnov_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr karnov_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
                 int p_inc = 0;
@@ -83,7 +83,7 @@ public class karnov
 	
 	/******************************************************************************/
 	
-	public static VhUpdatePtr karnov_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr karnov_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int my,mx,offs,color,tile;
 		int scrollx=karnov_scroll_1.READ_WORD(0);
@@ -187,7 +187,7 @@ public class karnov
 		}
 	} };
 	
-	public static VhUpdatePtr wndrplnt_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr wndrplnt_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int my,mx,offs,color,tile;
 		int scrollx=karnov_scroll_1.READ_WORD(0);
@@ -301,14 +301,14 @@ public class karnov
 	
 	/******************************************************************************/
 	
-	public static VhStopPtr karnov_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr karnov_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		if (dirty_f != null) dirty_f=null;
 		if (karnov_foreground != null) karnov_foreground=null;
 		if (bitmap_f != null) bitmap_free (bitmap_f);
 	} };
 	
-	public static VhStartPtr karnov_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr karnov_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		/* Allocate bitmaps */
 		if ((bitmap_f = bitmap_alloc(512,512)) == null) {

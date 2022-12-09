@@ -29,12 +29,12 @@ public class timeplt {
     static int flipscreen;
     static int sprite_multiplex_hack;
 
-    public static InitDriverPtr init_timeplt = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_timeplt = new InitDriverHandlerPtr() {
         public void handler() {
             sprite_multiplex_hack = 1;
         }
     };
-    public static InitDriverPtr init_psurge = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_psurge = new InitDriverHandlerPtr() {
         public void handler() {
             sprite_multiplex_hack = 0;
         }
@@ -64,7 +64,7 @@ public class timeplt {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr timeplt_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr timeplt_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -135,7 +135,7 @@ public class timeplt {
      *
      **************************************************************************
      */
-    public static VhStartPtr timeplt_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr timeplt_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             bg_tilemap = tilemap_create(
                     get_bg_tile_info,
@@ -238,7 +238,7 @@ public class timeplt {
         }
     }
 
-    public static VhUpdatePtr timeplt_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr timeplt_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             tilemap_update(ALL_TILEMAPS);
 

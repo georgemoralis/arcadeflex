@@ -3,6 +3,8 @@
  */
 package arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.osdependH.*;
 //vidhrdw imports
@@ -26,7 +28,7 @@ public class jailbrek {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
 
-    public static VhConvertColorPromPtr jailbrek_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr jailbrek_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -66,7 +68,7 @@ public class jailbrek {
             }
         }
     };
-    public static VhStartPtr jailbrek_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr jailbrek_vh_start = new VhStartHandlerPtr() {
         public int handler() {
 
             if ((dirtybuffer = new char[videoram_size[0]]) == null) {
@@ -82,7 +84,7 @@ public class jailbrek {
             return 0;
         }
     };
-    public static VhStopPtr jailbrek_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr jailbrek_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
 
             dirtybuffer = null;
@@ -112,7 +114,7 @@ public class jailbrek {
         }
     }
 
-    public static VhUpdatePtr jailbrek_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr jailbrek_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int i;
 

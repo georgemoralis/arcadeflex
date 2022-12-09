@@ -259,7 +259,7 @@ public class solomon {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_solomon = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_solomon = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("slmn_06.bin", 0x00000, 0x4000, 0xe4d421ff);

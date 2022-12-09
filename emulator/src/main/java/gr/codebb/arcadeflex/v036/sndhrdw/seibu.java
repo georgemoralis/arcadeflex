@@ -126,13 +126,13 @@ public class seibu {
      * ************************************************************************
      */
     /* Use this if the sound cpu is cpu 1 */
-    public static InitMachinePtr seibu_sound_init_1 = new InitMachinePtr() {
+    public static InitMachineHandlerPtr seibu_sound_init_1 = new InitMachineHandlerPtr() {
         public void handler() {
             sound_cpu = 1;
             setvector_callback.handler(VECTOR_INIT);
         }
     };
-    public static InitMachinePtr seibu_sound_init_2 = new InitMachinePtr() {
+    public static InitMachineHandlerPtr seibu_sound_init_2 = new InitMachineHandlerPtr() {
         public void handler() {
             /* Use this if the sound cpu is cpu 2 */
             sound_cpu = 2;

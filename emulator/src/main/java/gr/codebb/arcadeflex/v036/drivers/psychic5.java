@@ -46,7 +46,7 @@ public class psychic5
 		}
 	} };
 	
-	public static InterruptPtr psychic5_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr psychic5_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (cpu_getiloops() == 0)
 		   return 0xd7;		/* RST 10h */
@@ -299,7 +299,7 @@ public class psychic5
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_psychic5 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_psychic5 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x20000, REGION_CPU1 );				/* 2*64K for main CPU, Z80 */
 		ROM_LOAD( "p5d",          0x00000, 0x08000, 0x90259249 );
 		ROM_LOAD( "p5e",          0x10000, 0x10000, 0x72298f34 );

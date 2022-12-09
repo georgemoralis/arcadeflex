@@ -63,7 +63,7 @@ public class toki {
     static int msm5205next;
     static int toggle = 0;
 
-    public static vclk_interruptPtr toki_adpcm_int = new vclk_interruptPtr() {
+    public static vclk_InterruptHandlerPtr toki_adpcm_int = new vclk_InterruptHandlerPtr() {
         public void handler(int num) {
             {
                 MSM5205_data_w.handler(0, msm5205next);
@@ -345,7 +345,7 @@ public class toki {
     static MSM5205interface msm5205_interface = new MSM5205interface(
             1, /* 1 chip             */
             384000, /* 384KHz             */
-            new vclk_interruptPtr[]{toki_adpcm_int},/* interrupt function */
+            new vclk_InterruptHandlerPtr[]{toki_adpcm_int},/* interrupt function */
             new int[]{MSM5205_S96_4B}, /* 4KHz               */
             new int[]{60}
     );
@@ -451,7 +451,7 @@ public class toki {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_toki = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_toki = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 6*64k for 68000 code */
 
@@ -492,7 +492,7 @@ public class toki {
         }
     };
 
-    static RomLoadPtr rom_toki2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_toki2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 6*64k for 68000 code */
 
@@ -533,7 +533,7 @@ public class toki {
         }
     };
 
-    static RomLoadPtr rom_toki3 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_toki3 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 6*64k for 68000 code */
 
@@ -574,7 +574,7 @@ public class toki {
         }
     };
 
-    static RomLoadPtr rom_tokiu = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tokiu = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 6*64k for 68000 code */
 
@@ -615,7 +615,7 @@ public class toki {
         }
     };
 
-    static RomLoadPtr rom_tokib = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tokib = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x60000, REGION_CPU1);/* 6*64k for 68000 code */
 
@@ -672,7 +672,7 @@ public class toki {
         }
     };
 
-    public static InitDriverPtr init_tokib = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_tokib = new InitDriverHandlerPtr() {
         public void handler() {
 
             UBytePtr temp = new UBytePtr(65536 * 2);

@@ -206,7 +206,7 @@ public class scregg {
             }
     );
 
-    static RomLoadPtr rom_scregg = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_scregg = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -236,7 +236,7 @@ public class scregg {
         }
     };
 
-    static RomLoadPtr rom_eggs = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_eggs = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */

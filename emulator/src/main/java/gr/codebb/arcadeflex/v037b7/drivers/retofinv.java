@@ -25,7 +25,7 @@ public class retofinv {
 
     static char cpu0_me000 = 0, cpu0_me800_last = 0, cpu2_m6000 = 0;
 
-    public static InitMachinePtr retofinv_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr retofinv_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             cpu0_me800_last = 0;
             cpu2_m6000 = 0;
@@ -466,7 +466,7 @@ public class retofinv {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_retofinv = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_retofinv = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -508,7 +508,7 @@ public class retofinv {
         }
     };
 
-    static RomLoadPtr rom_retofin1 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_retofin1 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -550,7 +550,7 @@ public class retofinv {
         }
     };
 
-    static RomLoadPtr rom_retofin2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_retofin2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 

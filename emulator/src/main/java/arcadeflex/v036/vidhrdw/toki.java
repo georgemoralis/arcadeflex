@@ -80,7 +80,7 @@ public class toki {
      *
      ************************************
      */
-    public static VhStartPtr toki_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr toki_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((frg_dirtybuffer = new char[toki_foreground_videoram_size[0] / 2]) == null) {
                 return 1;
@@ -129,7 +129,7 @@ public class toki {
         }
     };
 
-    public static VhStopPtr toki_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr toki_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(bitmap_frg);
             osd_free_bitmap(bitmap_bg1);
@@ -333,7 +333,7 @@ public class toki {
      *
      ************************************
      */
-    public static VhUpdatePtr toki_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr toki_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int title_on;
             /* title on screen flag */
@@ -466,7 +466,7 @@ public class toki {
             }
         }
     };
-    public static InterruptPtr toki_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr toki_interrupt = new InterruptHandlerPtr() {
         public int handler() {
 
             while (lastline < 256) {

@@ -430,7 +430,7 @@ public class jack {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_jack = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_jack = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -456,7 +456,7 @@ public class jack {
         }
     };
 
-    static RomLoadPtr rom_jack2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_jack2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -482,7 +482,7 @@ public class jack {
         }
     };
 
-    static RomLoadPtr rom_jack3 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_jack3 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -508,7 +508,7 @@ public class jack {
         }
     };
 
-    static RomLoadPtr rom_treahunt = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_treahunt = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -534,7 +534,7 @@ public class jack {
         }
     };
 
-    static RomLoadPtr rom_zzyzzyxx = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_zzyzzyxx = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -561,7 +561,7 @@ public class jack {
         }
     };
 
-    static RomLoadPtr rom_zzyzzyx2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_zzyzzyx2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -588,7 +588,7 @@ public class jack {
         }
     };
 
-    static RomLoadPtr rom_brix = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_brix = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -615,7 +615,7 @@ public class jack {
         }
     };
 
-    static RomLoadPtr rom_freeze = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_freeze = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -641,7 +641,7 @@ public class jack {
         }
     };
 
-    static RomLoadPtr rom_sucasino = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sucasino = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -706,20 +706,20 @@ public class jack {
         }
     }
 
-    public static InitDriverPtr init_jack = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_jack = new InitDriverHandlerPtr() {
         public void handler() {
             timer_rate = 128;
         }
     };
 
-    public static InitDriverPtr init_treahunt = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_treahunt = new InitDriverHandlerPtr() {
         public void handler() {
             timer_rate = 128;
             treahunt_decode();
         }
     };
 
-    public static InitDriverPtr init_zzyzzyxx = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_zzyzzyxx = new InitDriverHandlerPtr() {
         public void handler() {
             timer_rate = 16;
         }

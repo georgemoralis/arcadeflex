@@ -7,6 +7,9 @@
  */
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.osdependH.*;
@@ -62,7 +65,7 @@ public class spy {
      *
      **************************************************************************
      */
-    public static VhStartPtr spy_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr spy_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             layer_colorbase[0] = 48;
             layer_colorbase[1] = 0;
@@ -80,7 +83,7 @@ public class spy {
         }
     };
 
-    public static VhStopPtr spy_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr spy_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             K052109_vh_stop();
             K051960_vh_stop();
@@ -94,7 +97,7 @@ public class spy {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr spy_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr spy_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             K052109_tilemap_update();
 

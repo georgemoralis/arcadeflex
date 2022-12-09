@@ -309,7 +309,7 @@ public class blktiger {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_blktiger = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_blktiger = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x50000, REGION_CPU1);/* 64k for code + banked ROMs images */
             ROM_LOAD("blktiger.5e", 0x00000, 0x08000, 0xa8f98f22);/* CODE */
@@ -345,7 +345,7 @@ public class blktiger {
         }
     };
 
-    static RomLoadPtr rom_bktigerb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bktigerb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x50000, REGION_CPU1);/* 64k for code + banked ROMs images */
             ROM_LOAD("btiger1.f6", 0x00000, 0x08000, 0x9d8464e8);/* CODE */
@@ -381,7 +381,7 @@ public class blktiger {
         }
     };
 
-    static RomLoadPtr rom_blkdrgon = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_blkdrgon = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x50000, REGION_CPU1);/* 64k for code + banked ROMs images */
             ROM_LOAD("blkdrgon.5e", 0x00000, 0x08000, 0x27ccdfbc);/* CODE */
@@ -417,7 +417,7 @@ public class blktiger {
         }
     };
 
-    static RomLoadPtr rom_blkdrgnb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_blkdrgnb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x50000, REGION_CPU1);/* 64k for code + banked ROMs images */
             ROM_LOAD("j1-5e", 0x00000, 0x08000, 0x97e84412);/* CODE */

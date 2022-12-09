@@ -31,7 +31,7 @@ import static arcadeflex.v036.mame.inputH.*;
 
 public class galivan {
 
-    public static InitMachinePtr galivan_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr galivan_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             UBytePtr RAM = memory_region(REGION_CPU1);
 
@@ -924,7 +924,7 @@ public class galivan {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_galivan = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_galivan = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);/* main cpu code */
             ROM_LOAD("gv1.1b", 0x00000, 0x8000, 0x5e480bfc);
@@ -963,7 +963,7 @@ public class galivan {
         }
     };
 
-    static RomLoadPtr rom_galivan2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_galivan2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);
             /* main cpu code */
@@ -1003,7 +1003,7 @@ public class galivan {
         }
     };
 
-    static RomLoadPtr rom_dangar = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dangar = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);
             /* main cpu code */
@@ -1045,7 +1045,7 @@ public class galivan {
         }
     };
 
-    static RomLoadPtr rom_dangar2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dangar2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);
             /* main cpu code */
@@ -1087,7 +1087,7 @@ public class galivan {
         }
     };
 
-    static RomLoadPtr rom_dangarb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dangarb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x14000, REGION_CPU1);
             /* main cpu code */
@@ -1129,7 +1129,7 @@ public class galivan {
         }
     };
 
-    static RomLoadPtr rom_ninjemak = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ninjemak = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);/* main cpu code */
             ROM_LOAD("ninjemak.1", 0x00000, 0x8000, 0x12b0a619);
@@ -1175,7 +1175,7 @@ public class galivan {
         }
     };
 
-    static RomLoadPtr rom_youma = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_youma = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);/* main cpu code */
             ROM_LOAD("ync-1.bin", 0x00000, 0x8000, 0x0552adab);

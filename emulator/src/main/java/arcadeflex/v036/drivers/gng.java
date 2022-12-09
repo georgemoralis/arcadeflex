@@ -469,7 +469,7 @@ public class gng {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_gng = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gng = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);/* 64k for code * 5 pages */
 
@@ -516,7 +516,7 @@ public class gng {
         }
     };
 
-    static RomLoadPtr rom_gnga = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gnga = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);/* 64k for code * 5 pages */
 
@@ -564,7 +564,7 @@ public class gng {
         }
     };
 
-    static RomLoadPtr rom_gngt = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gngt = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);/* 64k for code * 5 pages */
 
@@ -611,7 +611,7 @@ public class gng {
         }
     };
 
-    static RomLoadPtr rom_makaimur = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_makaimur = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);/* 64k for code * 5 pages */
 
@@ -659,7 +659,7 @@ public class gng {
         }
     };
 
-    static RomLoadPtr rom_makaimuc = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_makaimuc = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);/* 64k for code * 5 pages */
 
@@ -707,7 +707,7 @@ public class gng {
         }
     };
 
-    static RomLoadPtr rom_makaimug = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_makaimug = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);/* 64k for code * 5 pages */
 
@@ -754,7 +754,7 @@ public class gng {
         }
     };
 
-    static RomLoadPtr rom_diamond = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_diamond = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x1a000, REGION_CPU1);/* 64k for code * 6 pages (is it really 6?) */
 

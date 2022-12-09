@@ -161,7 +161,7 @@ public class toaplan1 {
         }
     };
 
-    public static InterruptPtr toaplan1_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr toaplan1_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (toaplan1_int_enable != 0) {
                 return MC68000_IRQ_4;
@@ -257,7 +257,7 @@ public class toaplan1 {
         }
     };
 
-    public static InitMachinePtr toaplan1_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr toaplan1_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             dsp_addr_w = dsp_execute = 0;
             main_ram_seg = 0;

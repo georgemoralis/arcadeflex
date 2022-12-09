@@ -26,12 +26,12 @@ import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 
 public class zaxxon {
 
-    public static InitMachinePtr zaxxon_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr zaxxon_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             zaxxon_vid_type = 0;
         }
     };
-    public static InitMachinePtr futspy_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr futspy_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             zaxxon_vid_type = 2;
         }
@@ -165,7 +165,7 @@ public class zaxxon {
      *
      **************************************************************************
      */
-    public static InterruptPtr zaxxon_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr zaxxon_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if ((readinputport(5) & 1) != 0) /* get status of the F2 key */ {
                 return nmi_interrupt.handler();
@@ -719,7 +719,7 @@ public class zaxxon {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_zaxxon = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_zaxxon = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -761,7 +761,7 @@ public class zaxxon {
         }
     };
 
-    static RomLoadPtr rom_zaxxon2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_zaxxon2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -803,7 +803,7 @@ public class zaxxon {
         }
     };
 
-    static RomLoadPtr rom_zaxxonb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_zaxxonb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -845,7 +845,7 @@ public class zaxxon {
         }
     };
 
-    static RomLoadPtr rom_szaxxon = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_szaxxon = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -887,7 +887,7 @@ public class zaxxon {
         }
     };
 
-    static RomLoadPtr rom_futspy = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_futspy = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -929,7 +929,7 @@ public class zaxxon {
         }
     };
 
-    static RomLoadPtr rom_razmataz = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_razmataz = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -978,7 +978,7 @@ public class zaxxon {
         }
     };
 
-    public static InitDriverPtr init_zaxxonb = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_zaxxonb = new InitDriverHandlerPtr() {
         public void handler() {
             /*
              the values vary, but the translation mask is always laid out like this:
@@ -1050,17 +1050,17 @@ public class zaxxon {
             }
         }
     };
-    public static InitDriverPtr init_szaxxon = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_szaxxon = new InitDriverHandlerPtr() {
         public void handler() {
             szaxxon_decode();
         }
     };
-    public static InitDriverPtr init_futspy = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_futspy = new InitDriverHandlerPtr() {
         public void handler() {
             futspy_decode();
         }
     };
-    public static InitDriverPtr init_razmataz = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_razmataz = new InitDriverHandlerPtr() {
         public void handler() {
             nprinces_decode();
         }

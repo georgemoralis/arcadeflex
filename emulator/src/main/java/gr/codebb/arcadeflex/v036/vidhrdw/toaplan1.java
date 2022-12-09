@@ -81,7 +81,7 @@ public class toaplan1 {
     static osd_bitmap tmpbitmap2;
     static osd_bitmap tmpbitmap3;
 
-    public static VhStartPtr rallybik_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr rallybik_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int i;
 
@@ -139,7 +139,7 @@ public class toaplan1 {
         }
     };
 
-    public static VhStopPtr rallybik_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr rallybik_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             int i;
             /*TODO*///	
@@ -157,7 +157,7 @@ public class toaplan1 {
         }
     };
 
-    public static VhStartPtr toaplan1_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr toaplan1_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             tmpbitmap1 = osd_new_bitmap(
                     Machine.drv.screen_width,
@@ -187,7 +187,7 @@ public class toaplan1 {
         }
     };
 
-    public static VhStopPtr toaplan1_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr toaplan1_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             rallybik_vh_stop.handler();
 
@@ -1085,7 +1085,7 @@ public class toaplan1 {
 /*TODO*///		}
 /*TODO*///	}
 /*TODO*///	
-    public static VhUpdatePtr toaplan1_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr toaplan1_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             /*TODO*///		/* discover what data will be drawn */
 /*TODO*///		toaplan1_find_sprites();
@@ -1096,7 +1096,7 @@ public class toaplan1 {
         }
     };
 
-    public static VhUpdatePtr rallybik_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr rallybik_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             /*TODO*///		/* discover what data will be drawn */
 /*TODO*///		rallybik_find_tiles();

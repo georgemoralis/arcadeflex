@@ -43,7 +43,7 @@ public class tp84 {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr tp84_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr tp84_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int p_inc = 0;
@@ -113,7 +113,7 @@ public class tp84 {
      *
      **************************************************************************
      */
-    public static VhStartPtr tp84_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr tp84_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (generic_vh_start.handler() != 0) {
                 return 1;
@@ -142,7 +142,7 @@ public class tp84 {
      *
      **************************************************************************
      */
-    public static VhStopPtr tp84_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr tp84_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             dirtybuffer2 = null;
             osd_free_bitmap(tmpbitmap2);
@@ -194,7 +194,7 @@ public class tp84 {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr tp84_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr tp84_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
             int coloffset;

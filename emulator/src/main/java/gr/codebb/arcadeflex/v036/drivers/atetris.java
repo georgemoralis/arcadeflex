@@ -243,7 +243,7 @@ public class atetris
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_atetris = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_atetris = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x14000, REGION_CPU1 );    /* 80k for code */
 		ROM_LOAD( "1100.45f",     0x0000, 0x10000, 0x2acbdb09 );
 	
@@ -251,7 +251,7 @@ public class atetris
 		ROM_LOAD( "1101.35a",     0x0000, 0x10000, 0x84a1939f );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_atetrisa = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_atetrisa = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x14000, REGION_CPU1 );    /* 80k for code */
 		ROM_LOAD( "d1",           0x0000, 0x10000, 0x2bcab107 );
 	
@@ -259,7 +259,7 @@ public class atetris
 		ROM_LOAD( "1101.35a",     0x0000, 0x10000, 0x84a1939f );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_atetrisb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_atetrisb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x14000, REGION_CPU1 );    /* 80k for code */
 		ROM_LOAD( "tetris.01",    0x0000, 0x10000, 0x944d15f6 );
 	
@@ -272,7 +272,7 @@ public class atetris
 		ROM_LOAD( "tetris.03",    0x0000, 0x0800, 0x26618c0b );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_atetcktl = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_atetcktl = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x14000, REGION_CPU1 );    /* 80k for code */
 		ROM_LOAD( "tetcktl1.rom", 0x0000, 0x10000, 0x9afd1f4a );
 	
@@ -280,7 +280,7 @@ public class atetris
 		ROM_LOAD( "1103.35a",     0x0000, 0x10000, 0xec2a7f93 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_atetckt2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_atetckt2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x14000, REGION_CPU1 );    /* 80k for code */
 		ROM_LOAD( "1102.45f",     0x0000, 0x10000, 0x1bd28902 );
 	
@@ -290,7 +290,7 @@ public class atetris
 	
 	
 	
-	public static InitDriverPtr init_atetris = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_atetris = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM = memory_region(REGION_CPU1);
 	

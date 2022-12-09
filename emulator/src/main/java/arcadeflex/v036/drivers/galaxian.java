@@ -97,13 +97,13 @@ public class galaxian {
         }
     };
 
-    public static InitMachinePtr machine_init_galaxian = new InitMachinePtr() {
+    public static InitMachineHandlerPtr machine_init_galaxian = new InitMachineHandlerPtr() {
         public void handler() {
             install_mem_write_handler(0, 0x6002, 0x6002, galaxian_coin_lockout_w);
         }
     };
 
-    public static InitMachinePtr machine_init_galapx = new InitMachinePtr() {
+    public static InitMachineHandlerPtr machine_init_galapx = new InitMachineHandlerPtr() {
         public void handler() {
             /* for the title screen */
             install_mem_read_handler(0, 0x7800, 0x78ff, galapx_funky_r);
@@ -111,7 +111,7 @@ public class galaxian {
         }
     };
 
-    public static InitMachinePtr machine_init_kingball = new InitMachinePtr() {
+    public static InitMachineHandlerPtr machine_init_kingball = new InitMachineHandlerPtr() {
         public void handler() {
             install_mem_read_handler(0, 0xa000, 0xa000, kingball_IN0_r);
         }
@@ -2386,7 +2386,7 @@ public class galaxian {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_galaxian = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_galaxian = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("galmidw.u", 0x0000, 0x0800, 0x745e2d61);
@@ -2405,7 +2405,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_galmidw = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_galmidw = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("galmidw.u", 0x0000, 0x0800, 0x745e2d61);
@@ -2424,7 +2424,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_superg = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_superg = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("superg.u", 0x0000, 0x0800, 0xe8f3aa67);
@@ -2443,7 +2443,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_galaxb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_galaxb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("superg.u", 0x0000, 0x0800, 0xe8f3aa67);
@@ -2463,7 +2463,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_galapx = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_galapx = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("galx.u", 0x0000, 0x0800, 0x79e4007d);
@@ -2482,7 +2482,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_galap1 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_galap1 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("superg.u", 0x0000, 0x0800, 0xe8f3aa67);
@@ -2501,7 +2501,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_galap4 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_galap4 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("galnamco.u", 0x0000, 0x0800, 0xacfde501);
@@ -2520,7 +2520,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_galturbo = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_galturbo = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("superg.u", 0x0000, 0x0800, 0xe8f3aa67);
@@ -2539,7 +2539,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_swarm = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_swarm = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("swarm1.bin", 0x0000, 0x0800, 0x21eba3d0);
@@ -2558,7 +2558,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_pisces = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pisces = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("pisces.a1", 0x0000, 0x0800, 0x856b8e1f);
@@ -2578,7 +2578,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_uniwars = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_uniwars = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("f07_1a.bin", 0x0000, 0x0800, 0xd975af10);
@@ -2602,7 +2602,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_gteikoku = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gteikoku = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("f07_1a.bin", 0x0000, 0x0800, 0xd975af10);
@@ -2626,7 +2626,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_spacbatt = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_spacbatt = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("f07_1a.bin", 0x0000, 0x0800, 0xd975af10);
@@ -2650,7 +2650,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_warofbug = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_warofbug = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("warofbug.u", 0x0000, 0x0800, 0xb8dfb7e3);
@@ -2669,7 +2669,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_redufo = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_redufo = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("ru1a", 0x0000, 0x0800, 0x5a8e4f37);
@@ -2689,7 +2689,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_pacmanbl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pacmanbl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("blpac1b", 0x0000, 0x0800, 0x6718df42);
@@ -2712,7 +2712,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_devilfsg = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_devilfsg = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -2737,7 +2737,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_zigzag = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_zigzag = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("zz_d1.bin", 0x0000, 0x1000, 0x8cc08d81);
@@ -2757,7 +2757,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_zigzag2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_zigzag2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("z1", 0x0000, 0x1000, 0x4c28349a);
@@ -2777,7 +2777,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_mooncrgx = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mooncrgx = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("1", 0x0000, 0x0800, 0x84cf420b);
@@ -2801,7 +2801,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_scramblb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_scramblb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("scramble.1k", 0x0000, 0x0800, 0x9e025c4a);
@@ -2823,7 +2823,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_jumpbug = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_jumpbug = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("jb1", 0x0000, 0x1000, 0x415aa1b7);
@@ -2848,7 +2848,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_jumpbugb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_jumpbugb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("jb1", 0x0000, 0x1000, 0x415aa1b7);
@@ -2873,7 +2873,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_levers = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_levers = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -2898,7 +2898,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_azurian = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_azurian = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("pgm.1", 0x0000, 0x1000, 0x17a0fca7);
@@ -2915,7 +2915,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_orbitron = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_orbitron = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("orbitron.3", 0x0600, 0x0200, 0x419f9c9b);
@@ -2946,7 +2946,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_checkman = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_checkman = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("cm1", 0x0000, 0x0800, 0xe8cbdd28);
@@ -2971,7 +2971,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_checkmaj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_checkmaj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("cm_1.bin", 0x0000, 0x1000, 0x456a118f);
@@ -2991,7 +2991,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_streakng = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_streakng = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("sk1", 0x0000, 0x1000, 0xc8866ccb);
@@ -3009,7 +3009,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_blkhole = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_blkhole = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("bh1", 0x0000, 0x0800, 0x64998819);
@@ -3029,7 +3029,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_mooncrst = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mooncrst = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("mc1", 0x0000, 0x0800, 0x7d954a7a);
@@ -3053,7 +3053,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_mooncrsg = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mooncrsg = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("epr194", 0x0000, 0x0800, 0x0e5582b1);
@@ -3077,7 +3077,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_smooncrs = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_smooncrs = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("927", 0x0000, 0x0800, 0x55c5b994);
@@ -3101,7 +3101,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_mooncrsb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mooncrsb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("bepr194", 0x0000, 0x0800, 0x6a23ec6d);
@@ -3125,7 +3125,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_mooncrs2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mooncrs2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("f8.bin", 0x0000, 0x0800, 0xd36003e5);
@@ -3155,7 +3155,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_fantazia = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_fantazia = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("f01.bin", 0x0000, 0x0800, 0xd3e23863);
@@ -3181,7 +3181,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_eagle = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_eagle = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("e1", 0x0000, 0x0800, 0x224c9526);
@@ -3211,7 +3211,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_eagle2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_eagle2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("e1.7f", 0x0000, 0x0800, 0x45aab7a3);
@@ -3241,7 +3241,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_moonqsr = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_moonqsr = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
             ROM_LOAD("mq1", 0x0000, 0x0800, 0x132c13ec);
@@ -3265,7 +3265,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_moonal2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_moonal2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("ali1", 0x0000, 0x0400, 0x0dcecab4);
@@ -3292,7 +3292,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_moonal2b = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_moonal2b = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("ali1", 0x0000, 0x0400, 0x0dcecab4);
@@ -3318,7 +3318,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_kingball = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kingball = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("prg1.7f", 0x0000, 0x1000, 0x6cb49046);
@@ -3343,7 +3343,7 @@ public class galaxian {
         }
     };
 
-    static RomLoadPtr rom_kingbalj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_kingbalj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("prg1.7f", 0x0000, 0x1000, 0x6cb49046);
@@ -3368,13 +3368,13 @@ public class galaxian {
         }
     };
 
-    public static InitDriverPtr init_pisces = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_pisces = new InitDriverHandlerPtr() {
         public void handler() {
             install_mem_write_handler(0, 0x6002, 0x6002, pisces_gfxbank_w);
         }
     };
 
-    public static InitDriverPtr init_checkmaj = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_checkmaj = new InitDriverHandlerPtr() {
         public void handler() {
             /* for the title screen */
             install_mem_read_handler(0, 0x3800, 0x3800, checkmaj_protection_r);
@@ -3397,7 +3397,7 @@ public class galaxian {
         return (char) (res & 0xFF);
     }
 
-    public static InitDriverPtr init_mooncrst = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_mooncrst = new InitDriverHandlerPtr() {
         public void handler() {
             int A;
             UBytePtr rom = memory_region(REGION_CPU1);
@@ -3408,13 +3408,13 @@ public class galaxian {
         }
     };
 
-    public static InitDriverPtr init_moonal2 = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_moonal2 = new InitDriverHandlerPtr() {
         public void handler() {
             install_mem_write_handler(0, 0xa000, 0xa002, mwh_nop);
         }
     };
 
-    public static InitDriverPtr init_moonqsr = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_moonqsr = new InitDriverHandlerPtr() {
         public void handler() {
             int A;
             UBytePtr rom = memory_region(REGION_CPU1);
@@ -3428,7 +3428,7 @@ public class galaxian {
         }
     };
 
-    public static InitDriverPtr init_checkman = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_checkman = new InitDriverHandlerPtr() {
         public void handler() {
             /*
 	                     Encryption Table

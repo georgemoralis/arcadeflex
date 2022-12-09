@@ -1268,7 +1268,7 @@ public class snk {
     /**
      * ********************************************************************
      */
-    static RomLoadPtr rom_tnk3 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tnk3 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for cpuA code */
             ROM_LOAD("tnk3-p1.bin", 0x0000, 0x4000, 0x0d2a8ca9);
@@ -1305,7 +1305,7 @@ public class snk {
         }
     };
 
-    static RomLoadPtr rom_tnk3j = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tnk3j = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for cpuA code */
             ROM_LOAD("p1.4e", 0x0000, 0x4000, 0x03aca147);
@@ -1345,7 +1345,7 @@ public class snk {
     /**
      * ********************************************************************
      */
-    static RomLoadPtr rom_athena = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_athena = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for cpuA code */
             ROM_LOAD("up02_p4.rom", 0x0000, 0x4000, 0x900a113c);
@@ -1381,7 +1381,7 @@ public class snk {
     /**
      * ********************************************************************
      */
-    static RomLoadPtr rom_fitegolf = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_fitegolf = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for cpuA code */
             ROM_LOAD("gu2", 0x0000, 0x4000, 0x19be7ad6);
@@ -1417,7 +1417,7 @@ public class snk {
     /**
      * ********************************************************************
      */
-    static RomLoadPtr rom_ikari = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ikari = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* CPU A */
             ROM_LOAD("1.rom", 0x0000, 0x10000, 0x52a8b2dd);
@@ -1458,7 +1458,7 @@ public class snk {
         }
     };
 
-    static RomLoadPtr rom_ikarijp = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ikarijp = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for cpuA code */
             ROM_LOAD("up03_l4.rom", 0x0000, 0x4000, 0xcde006be);
@@ -1502,7 +1502,7 @@ public class snk {
         }
     };
 
-    static RomLoadPtr rom_ikarijpb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ikarijpb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* CPU A */
             ROM_LOAD("ik1", 0x00000, 0x4000, 0x2ef87dce);
@@ -1549,7 +1549,7 @@ public class snk {
     /**
      * ********************************************************************
      */
-    static RomLoadPtr rom_victroad = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_victroad = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* CPU A code */
             ROM_LOAD("p1", 0x0000, 0x10000, 0xe334acef);
@@ -1594,7 +1594,7 @@ public class snk {
         }
     };
 
-    static RomLoadPtr rom_dogosoke = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_dogosoke = new RomLoadHandlerPtr() {
         public void handler() {
             /* Victory Road Japan */
             ROM_REGION(0x10000, REGION_CPU1);/* CPU A code */
@@ -1643,7 +1643,7 @@ public class snk {
     /**
      * ********************************************************************
      */
-    static RomLoadPtr rom_gwar = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gwar = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             ROM_LOAD("7g", 0x00000, 0x10000, 0x5bcfa7dc);
@@ -1690,7 +1690,7 @@ public class snk {
         }
     };
 
-    static RomLoadPtr rom_gwara = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gwara = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             ROM_LOAD("gv3", 0x00000, 0x10000, 0x24936d83);
@@ -1737,7 +1737,7 @@ public class snk {
         }
     };
 
-    static RomLoadPtr rom_gwarj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gwarj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             ROM_LOAD("7y3047", 0x00000, 0x10000, 0x7f8a880c);
@@ -1784,7 +1784,7 @@ public class snk {
         }
     };
 
-    static RomLoadPtr rom_gwarb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gwarb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for cpuA code */
             ROM_LOAD("g01", 0x00000, 0x10000, 0xce1d3c80);
@@ -1834,7 +1834,7 @@ public class snk {
     /**
      * ********************************************************************
      */
-    static RomLoadPtr rom_bermudat = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bermudat = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for cpuA code */
             ROM_LOAD("bt_p1.rom", 0x0000, 0x10000, 0x43dec5e9);
@@ -1885,7 +1885,7 @@ public class snk {
         }
     };
 
-    static RomLoadPtr rom_bermudaj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bermudaj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for cpuA code */
             ROM_LOAD("btj_p01.bin", 0x0000, 0x10000, 0xeda75f36);
@@ -1936,7 +1936,7 @@ public class snk {
         }
     };
 
-    static RomLoadPtr rom_worldwar = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_worldwar = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for cpuA code */
             ROM_LOAD("ww4.bin", 0x0000, 0x10000, 0xbc29d09f);
@@ -1986,7 +1986,7 @@ public class snk {
         }
     };
 
-    static RomLoadPtr rom_bermudaa = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bermudaa = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for cpuA code */
             ROM_LOAD("4", 0x0000, 0x10000, 0x4de39d01);
@@ -2039,7 +2039,7 @@ public class snk {
     /**
      * ********************************************************************
      */
-    static RomLoadPtr rom_psychos = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_psychos = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for cpuA code */
             ROM_LOAD("p7", 0x00000, 0x10000, 0x562809f4);
@@ -2091,7 +2091,7 @@ public class snk {
         }
     };
 
-    static RomLoadPtr rom_psychosj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_psychosj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for cpuA code */
             ROM_LOAD("up03_m4.rom", 0x0000, 0x10000, 0x05dfb409);
@@ -2146,7 +2146,7 @@ public class snk {
     /**
      * ********************************************************************
      */
-    static RomLoadPtr rom_chopper = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_chopper = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for cpuA code */
             ROM_LOAD("kk_01.rom", 0x0000, 0x10000, 0x8fa2f839);
@@ -2194,7 +2194,7 @@ public class snk {
         }
     };
 
-    static RomLoadPtr rom_legofair = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_legofair = new RomLoadHandlerPtr() {
         public void handler() {
             /* ChopperI (Japan) */
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for cpuA code */
@@ -2245,7 +2245,7 @@ public class snk {
     /**
      * ********************************************************************
      */
-    static RomLoadPtr rom_ftsoccer = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ftsoccer = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for cpuA code */
@@ -2294,7 +2294,7 @@ public class snk {
     /**
      * ********************************************************************
      */
-    static RomLoadPtr rom_tdfever = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tdfever = new RomLoadHandlerPtr() {
         public void handler() {
             /* USA set */
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for cpuA code */
@@ -2338,7 +2338,7 @@ public class snk {
         }
     };
 
-    static RomLoadPtr rom_tdfeverj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tdfeverj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for cpuA code */
             ROM_LOAD("up02_c6.rom", 0x0000, 0x10000, 0x88d88ec4);
@@ -3702,7 +3702,7 @@ public class snk {
         /* c580 */ SNK_INP9, /* DSW1 */
         /* c600 */ SNK_INP10 /* DSW2 */};
 
-    public static InitDriverPtr init_ikari = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_ikari = new InitDriverHandlerPtr() {
         public void handler() {
             UBytePtr RAM = memory_region(REGION_CPU1);
             /*  Hack ROM test */
@@ -3723,7 +3723,7 @@ public class snk {
         }
     };
 
-    public static InitDriverPtr init_ikarijp = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_ikarijp = new InitDriverHandlerPtr() {
         public void handler() {
             UBytePtr RAM = memory_region(REGION_CPU1);
             RAM.write(0x190b, 0xc9);
@@ -3737,7 +3737,7 @@ public class snk {
         }
     };
 
-    public static InitDriverPtr init_ikarijpb = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_ikarijpb = new InitDriverHandlerPtr() {
         public void handler() {
             UBytePtr RAM = memory_region(REGION_CPU1);
             RAM.write(0x190b, 0xc9);
@@ -3751,7 +3751,7 @@ public class snk {
         }
     };
 
-    public static InitDriverPtr init_victroad = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_victroad = new InitDriverHandlerPtr() {
         public void handler() {
             UBytePtr RAM = memory_region(REGION_CPU1);
             /* Hack ROM test */
@@ -3772,7 +3772,7 @@ public class snk {
         }
     };
 
-    public static InitDriverPtr init_dogosoke = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_dogosoke = new InitDriverHandlerPtr() {
         public void handler() {
             UBytePtr RAM = memory_region(REGION_CPU1);
             /* Hack ROM test */
@@ -3793,7 +3793,7 @@ public class snk {
         }
     };
 
-    public static InitDriverPtr init_gwar = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_gwar = new InitDriverHandlerPtr() {
         public void handler() {
             snk_sound_busy_bit = 0x01;
             snk_io = ikari_io;
@@ -3803,7 +3803,7 @@ public class snk {
         }
     };
 
-    public static InitDriverPtr init_gwara = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_gwara = new InitDriverHandlerPtr() {
         public void handler() {
             snk_sound_busy_bit = 0x01;
             snk_io = ikari_io;
@@ -3813,7 +3813,7 @@ public class snk {
         }
     };
 
-    public static InitDriverPtr init_chopper = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_chopper = new InitDriverHandlerPtr() {
         public void handler() {
             snk_sound_busy_bit = 0x01;
             snk_io = athena_io;
@@ -3823,7 +3823,7 @@ public class snk {
         }
     };
 
-    public static InitDriverPtr init_bermudat = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_bermudat = new InitDriverHandlerPtr() {
         public void handler() {
             UBytePtr RAM = memory_region(REGION_CPU1);
 
@@ -3840,7 +3840,7 @@ public class snk {
         }
     };
 
-    public static InitDriverPtr init_worldwar = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_worldwar = new InitDriverHandlerPtr() {
         public void handler() {
             snk_sound_busy_bit = 0x01;
             snk_io = ikari_io;
@@ -3850,7 +3850,7 @@ public class snk {
         }
     };
 
-    public static InitDriverPtr init_tdfever = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_tdfever = new InitDriverHandlerPtr() {
         public void handler() {
             snk_sound_busy_bit = 0x08;
             snk_io = tdfever_io;
@@ -3860,7 +3860,7 @@ public class snk {
         }
     };
 
-    public static InitDriverPtr init_ftsoccer = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_ftsoccer = new InitDriverHandlerPtr() {
         public void handler() {
             snk_sound_busy_bit = 0x08;
             snk_io = tdfever_io;
@@ -3870,7 +3870,7 @@ public class snk {
         }
     };
 
-    public static InitDriverPtr init_tnk3 = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_tnk3 = new InitDriverHandlerPtr() {
         public void handler() {
             snk_sound_busy_bit = 0x20;
             snk_io = ikari_io;
@@ -3880,7 +3880,7 @@ public class snk {
         }
     };
 
-    public static InitDriverPtr init_athena = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_athena = new InitDriverHandlerPtr() {
         public void handler() {
             snk_sound_busy_bit = 0x01;
             snk_io = athena_io;
@@ -3890,7 +3890,7 @@ public class snk {
         }
     };
 
-    public static InitDriverPtr init_fitegolf = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_fitegolf = new InitDriverHandlerPtr() {
         public void handler() {
             snk_sound_busy_bit = 0x01;
             snk_io = athena_io;
@@ -3900,7 +3900,7 @@ public class snk {
         }
     };
 
-    public static InitDriverPtr init_psychos = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_psychos = new InitDriverHandlerPtr() {
         public void handler() {
             snk_sound_busy_bit = 0x01;
             snk_io = athena_io;

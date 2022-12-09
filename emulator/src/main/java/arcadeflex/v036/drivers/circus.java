@@ -229,7 +229,7 @@ public class circus {
 
     public static final int ARTWORK_COLORS = 254;
 
-    public static VhConvertColorPromPtr init_palette = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr init_palette = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] game_palette, char[] colortable, UBytePtr color_prom) {
             memcpy(game_palette, palette, sizeof(palette));
         }
@@ -284,7 +284,7 @@ public class circus {
      * Machine drivers
      * *************************************************************************
      */
-    public static InitDriverPtr init_robotbwl = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_robotbwl = new InitDriverHandlerPtr() {
         public void handler() {
             int i;
 
@@ -295,7 +295,7 @@ public class circus {
         }
     };
 
-    public static InterruptPtr ripcord_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr ripcord_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             circus_interrupt = 0;
             if (true) {
@@ -443,7 +443,7 @@ public class circus {
             }
     );
 
-    static RomLoadPtr rom_circus = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_circus = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -469,7 +469,7 @@ public class circus {
         }
     };
 
-    static RomLoadPtr rom_robotbwl = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_robotbwl = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -494,7 +494,7 @@ public class circus {
         }
     };
 
-    static RomLoadPtr rom_crash = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_crash = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -520,7 +520,7 @@ public class circus {
         }
     };
 
-    static RomLoadPtr rom_ripcord = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ripcord = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */

@@ -256,7 +256,7 @@ public class mcr {
      *
      ************************************
      */
-    public static InitMachinePtr mcr_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr mcr_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             System.out.println("mcr_init_machine");
             /* initialize the CTC */
@@ -320,7 +320,7 @@ public class mcr {
      ************************************
      */
 
-    public static InterruptPtr mcr_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr mcr_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             /* once per frame, pulse the CTC line 3 */
             z80ctc_0_trg3_w.handler(0, 1);
@@ -331,7 +331,7 @@ public class mcr {
     };
 
     	
-	public static InterruptPtr mcr68_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr mcr68_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		/* update the 6840 VBLANK clock */
 		if (m6840_state[0].timer==null)

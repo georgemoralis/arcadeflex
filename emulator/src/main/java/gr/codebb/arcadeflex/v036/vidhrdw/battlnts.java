@@ -65,7 +65,7 @@ public class battlnts {
      *
      **************************************************************************
      */
-    public static VhStartPtr battlnts_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr battlnts_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             layer_colorbase[0] = 0;
             layer_colorbase[1] = 0;
@@ -85,7 +85,7 @@ public class battlnts {
         }
     };
 
-    public static VhStopPtr battlnts_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr battlnts_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             K007342_vh_stop();
             K007420_vh_stop();
@@ -99,7 +99,7 @@ public class battlnts {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr battlnts_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr battlnts_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
 
             K007342_tilemap_update();

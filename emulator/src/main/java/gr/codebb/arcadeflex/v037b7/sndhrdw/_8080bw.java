@@ -114,7 +114,7 @@ public class _8080bw {
             invad2ct_sample_names
     );
 
-    public static InitMachinePtr init_machine_invaders = new InitMachinePtr() {
+    public static InitMachineHandlerPtr init_machine_invaders = new InitMachineHandlerPtr() {
         public void handler() {
             install_port_write_handler(0, 0x03, 0x03, invaders_sh_port3_w);
             install_port_write_handler(0, 0x05, 0x05, invaders_sh_port5_w);
@@ -128,7 +128,7 @@ public class _8080bw {
         }
     };
 
-    public static InitMachinePtr init_machine_invad2ct = new InitMachinePtr() {
+    public static InitMachineHandlerPtr init_machine_invad2ct = new InitMachineHandlerPtr() {
         public void handler() {
             init_machine_invaders.handler();
 
@@ -250,7 +250,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    public static InitMachinePtr init_machine_gunfight = new InitMachinePtr() {
+    public static InitMachineHandlerPtr init_machine_gunfight = new InitMachineHandlerPtr() {
         public void handler() {
             install_port_read_handler(0, 0x00, 0x00, gunfight_port_0_r);
             install_port_read_handler(0, 0x01, 0x01, gunfight_port_1_r);
@@ -283,7 +283,7 @@ public class _8080bw {
 
     /* HC 4/14/98 NOTE: *I* THINK there are sounds missing...
 	i dont know for sure... but that is my guess....... */
-    public static InitMachinePtr init_machine_boothill = new InitMachinePtr() {
+    public static InitMachineHandlerPtr init_machine_boothill = new InitMachineHandlerPtr() {
         public void handler() {
            install_port_read_handler(0, 0x00, 0x00, boothill_port_0_r);
            install_port_read_handler(0, 0x01, 0x01, boothill_port_1_r);
@@ -335,7 +335,7 @@ public class _8080bw {
      */
     /* This only does the color swap for the explosion */
  /* We do not have correct samples so sound not done */
-    public static InitMachinePtr init_machine_ballbomb = new InitMachinePtr() {
+    public static InitMachineHandlerPtr init_machine_ballbomb = new InitMachineHandlerPtr() {
         public void handler() {
             install_port_write_handler(0, 0x03, 0x03, ballbomb_sh_port3_w);
             install_port_write_handler(0, 0x05, 0x05, ballbomb_sh_port5_w);
@@ -363,7 +363,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    public static InitMachinePtr init_machine_polaris = new InitMachinePtr() {
+    public static InitMachineHandlerPtr init_machine_polaris = new InitMachineHandlerPtr() {
         public void handler() {
             install_port_write_handler(0, 0x06, 0x06, polaris_sh_port6_w);
         }
@@ -440,7 +440,7 @@ public class _8080bw {
 /*TODO*///		CAP_U(33),
 /*TODO*///		sheriff_74123_1_output_changed_cb
 /*TODO*///        );
-    public static InitMachinePtr init_machine_sheriff = new InitMachinePtr() {
+    public static InitMachineHandlerPtr init_machine_sheriff = new InitMachineHandlerPtr() {
         public void handler() {
             install_port_write_handler(0, 0x04, 0x04, sheriff_sh_port4_w);
             install_port_write_handler(0, 0x05, 0x05, sheriff_sh_port5_w);
@@ -547,7 +547,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    public static InitMachinePtr init_machine_helifire = new InitMachinePtr() {
+    public static InitMachineHandlerPtr init_machine_helifire = new InitMachineHandlerPtr() {
         public void handler() {
             install_port_write_handler(0, 0x06, 0x06, helifire_sh_port6_w);
         }
@@ -568,7 +568,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    public static InitMachinePtr init_machine_seawolf = new InitMachinePtr() {
+    public static InitMachineHandlerPtr init_machine_seawolf = new InitMachineHandlerPtr() {
         public void handler() {
             install_port_read_handler(0, 0x01, 0x01, seawolf_port_1_r);
         }
@@ -583,7 +583,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    public static InitMachinePtr init_machine_desertgu = new InitMachinePtr() {
+    public static InitMachineHandlerPtr init_machine_desertgu = new InitMachineHandlerPtr() {
         public void handler() {
             install_port_read_handler(0, 0x01, 0x01, desertgu_port_1_r);
 
@@ -649,7 +649,7 @@ public class _8080bw {
 /*TODO*///                -0x8000, -0x8000, -0x8000, -0x8000, -0x8000, -0x8000, -0x8000, -0x8000,
 /*TODO*///                -0x8000, -0x8000, -0x8000, -0x8000, -0x8000, -0x8000, -0x8000, -0x8000,};
 
-    public static InitMachinePtr init_machine_schaser = new InitMachinePtr() {
+    public static InitMachineHandlerPtr init_machine_schaser = new InitMachineHandlerPtr() {
         public void handler() {
             install_port_write_handler(0, 0x03, 0x03, schaser_sh_port3_w);
             install_port_write_handler(0, 0x05, 0x05, schaser_sh_port5_w);

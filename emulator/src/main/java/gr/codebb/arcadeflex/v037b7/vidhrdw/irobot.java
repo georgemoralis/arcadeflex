@@ -32,7 +32,7 @@ public class irobot {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
 
-    public static VhConvertColorPromPtr irobot_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr irobot_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int p_inc = 0;
@@ -217,7 +217,7 @@ public class irobot {
      * Start the video hardware emulation.
      **************************************************************************
      */
-    public static VhStartPtr irobot_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr irobot_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             /* Setup 2 bitmaps for the polygon generator */
             if ((polybitmap1 = bitmap_alloc(Machine.drv.screen_width, Machine.drv.screen_height)) == null) {
@@ -249,7 +249,7 @@ public class irobot {
      * Stop the video hardware emulation.
      **************************************************************************
      */
-    public static VhStopPtr irobot_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr irobot_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             bitmap_free(polybitmap1);
             bitmap_free(polybitmap2);
@@ -490,7 +490,7 @@ public class irobot {
      * emulation engine.
      **************************************************************************
      */
-    public static VhUpdatePtr irobot_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr irobot_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int x, y, offs;
 

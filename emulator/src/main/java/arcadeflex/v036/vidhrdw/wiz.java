@@ -56,7 +56,7 @@ public class wiz {
      *
      **************************************************************************
      */
-    public static VhConvertColorPromPtr wiz_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr wiz_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -272,7 +272,7 @@ public class wiz {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr wiz_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr wiz_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int bank;
             rectangle visible_area;
@@ -294,7 +294,7 @@ public class wiz {
         }
     };
 
-    public static VhUpdatePtr stinger_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr stinger_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             draw_background(bitmap, 2 + char_bank[0], 1);
             draw_foreground(bitmap, 1);

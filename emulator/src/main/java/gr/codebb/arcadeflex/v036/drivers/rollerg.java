@@ -58,7 +58,7 @@ public class rollerg
 		cpu_setbank(1,new UBytePtr(RAM,offs));
 	}};
 	
-	public static InitMachinePtr rollerg_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr rollerg_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		konami_cpu_setlines_callback = rollerg_banking;
 	
@@ -357,7 +357,7 @@ public class rollerg
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_rollerg = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_rollerg = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x28000, REGION_CPU1 );/* code + banked roms */
 		ROM_LOAD( "999m02.g7",  0x10000, 0x18000, 0x3df8db93 );
 		ROM_CONTINUE(           0x08000, 0x08000 );
@@ -377,7 +377,7 @@ public class rollerg
 		ROM_LOAD( "999h09.c5",  0x000000, 0x080000, 0xc5188783 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_rollergj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_rollergj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x28000, REGION_CPU1 );/* code + banked roms */
 		ROM_LOAD( "999v02.bin", 0x10000, 0x18000, 0x0dd8c3ac );
 		ROM_CONTINUE(           0x08000, 0x08000 );
@@ -407,7 +407,7 @@ public class rollerg
 	
 	
 	
-	public static InitDriverPtr init_rollerg = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_rollerg = new InitDriverHandlerPtr() { public void handler() 
 	{
 		konami_rom_deinterleave_2(REGION_GFX1);
 	} };

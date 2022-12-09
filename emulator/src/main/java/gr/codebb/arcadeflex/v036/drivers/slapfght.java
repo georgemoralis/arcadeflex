@@ -569,7 +569,7 @@ public class slapfght {
             }
     );
 
-    static RomLoadPtr rom_tigerh = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tigerh = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             ROM_LOAD("0.4", 0x00000, 0x4000, 0x4be73246);
@@ -611,7 +611,7 @@ public class slapfght {
         }
     };
 
-    static RomLoadPtr rom_tigerh2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tigerh2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             ROM_LOAD("b0.5", 0x00000, 0x4000, 0x6ae7e13c);
@@ -653,7 +653,7 @@ public class slapfght {
         }
     };
 
-    static RomLoadPtr rom_tigerhj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tigerhj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             ROM_LOAD("a47_00.bin", 0x00000, 0x4000, 0xcbdbe3cc);
@@ -695,7 +695,7 @@ public class slapfght {
         }
     };
 
-    static RomLoadPtr rom_tigerhb1 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tigerhb1 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             ROM_LOAD("14", 0x00000, 0x4000, 0xca59dd73);
@@ -733,7 +733,7 @@ public class slapfght {
         }
     };
 
-    static RomLoadPtr rom_tigerhb2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tigerhb2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             ROM_LOAD("rom00_09.bin", 0x00000, 0x4000, 0xef738c68);
@@ -771,7 +771,7 @@ public class slapfght {
         }
     };
 
-    static RomLoadPtr rom_slapfigh = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_slapfigh = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);
             ROM_LOAD("sf_r19.bin", 0x00000, 0x8000, 0x674c0e0f);
@@ -812,7 +812,7 @@ public class slapfght {
         }
     };
 
-    static RomLoadPtr rom_slapbtjp = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_slapbtjp = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);
             ROM_LOAD("sf_r19jb.bin", 0x00000, 0x8000, 0x9a7ac8b3);
@@ -849,7 +849,7 @@ public class slapfght {
         }
     };
 
-    static RomLoadPtr rom_slapbtuk = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_slapbtuk = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);
             ROM_LOAD("sf_r19eb.bin", 0x00000, 0x4000, 0x2efe47af);
@@ -887,7 +887,7 @@ public class slapfght {
         }
     };
 
-    static RomLoadPtr rom_alcon = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_alcon = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);
             ROM_LOAD("00", 0x00000, 0x8000, 0x2ba82d60);
@@ -928,7 +928,7 @@ public class slapfght {
         }
     };
 
-    static RomLoadPtr rom_getstar = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_getstar = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);	/* Region 0 - main cpu code */
 
@@ -974,7 +974,7 @@ public class slapfght {
         }
     };
 
-    static RomLoadPtr rom_getstarj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_getstarj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);	/* Region 0 - main cpu code */
 
@@ -1020,7 +1020,7 @@ public class slapfght {
         }
     };
 
-    static RomLoadPtr rom_getstarb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_getstarb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x18000, REGION_CPU1);	/* Region 0 - main cpu code */
 

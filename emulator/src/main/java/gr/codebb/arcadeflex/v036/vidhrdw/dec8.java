@@ -74,7 +74,7 @@ public class dec8
 	  bit 0 -- 2.2kohm resistor  -- BLUE
 	
 	***************************************************************************/
-	public static VhConvertColorPromPtr ghostb_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr ghostb_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i;
                 int p_inc=0;
@@ -421,7 +421,7 @@ public class dec8
 	}
 	
 	/******************************************************************************/
-	public static VhUpdatePtr dec8_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr dec8_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int my,mx,offs,color,tile;
 		int scrollx,scrolly;
@@ -510,7 +510,7 @@ public class dec8
 	}};
 	
 	/******************************************************************************/
-	public static VhUpdatePtr ghostb_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr ghostb_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int my,mx,offs,color,tile,scrollx,scrolly;
 	
@@ -567,7 +567,7 @@ public class dec8
 	}};
 	
 	/******************************************************************************/
-	public static VhUpdatePtr srdarwin_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr srdarwin_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int my,mx,offs,color,tile;
 	
@@ -607,7 +607,7 @@ public class dec8
 	}};
 	
 	/******************************************************************************/
-	public static VhUpdatePtr gondo_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr gondo_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int my,mx,offs,color,tile;
 		int scrollx,scrolly;
@@ -712,7 +712,7 @@ public class dec8
 	}};
 	
 	/******************************************************************************/
-	public static VhUpdatePtr garyoret_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr garyoret_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int my,mx,offs,color,tile;
 		int scrollx,scrolly;
@@ -820,7 +820,7 @@ public class dec8
 	}};
 	
 	/******************************************************************************/
-	public static VhUpdatePtr oscar_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr oscar_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int my,mx,offs,color,tile;
 		int scrollx,scrolly;
@@ -895,7 +895,7 @@ public class dec8
 		/* Top layer */
 		draw_characters(bitmap,0xf0,6);
 	}};
-	public static VhUpdatePtr lastmiss_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr lastmiss_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int my,mx,offs,color,tile;
 		int scrollx,scrolly,i;
@@ -1025,7 +1025,7 @@ public class dec8
 		}
 	} };
 	
-	public static VhStartPtr dec8_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr dec8_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		int i;
 		int[] pen_usage=Machine.gfx[1].pen_usage;
@@ -1054,7 +1054,7 @@ public class dec8
 		return 0;
 	} };
 	
-	public static VhStopPtr dec8_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr dec8_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		osd_free_bitmap(pf1_bitmap);
 		osd_free_bitmap(pf2_bitmap);
@@ -1101,7 +1101,7 @@ public class dec8
 		SET_TILE_INFO(bank,tile,color);
 	} };
 	
-	public static VhStartPtr srdarwin_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr srdarwin_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		background_layer = tilemap_create(
 			get_srdarwin_tile_info,

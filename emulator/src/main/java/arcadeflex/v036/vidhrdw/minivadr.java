@@ -28,7 +28,7 @@ public class minivadr {
                 0x00, 0x00, 0x00, /* black */
                 0xff, 0xff, 0xff /* white */};
 
-    public static VhConvertColorPromPtr minivadr_init_palette = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr minivadr_init_palette = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
 
             //memcpy(game_palette, minivadr_palette, sizeof(minivadr_palette));
@@ -69,7 +69,7 @@ public class minivadr {
         }
     };
 
-    public static VhUpdatePtr minivadr_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr minivadr_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             if (full_refresh != 0) {
                 int offs;

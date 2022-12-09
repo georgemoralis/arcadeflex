@@ -292,7 +292,7 @@ public class gunsmoke {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_gunsmoke = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gunsmoke = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             /* 2*64k for code */
@@ -364,7 +364,7 @@ public class gunsmoke {
         }
     };
 
-    static RomLoadPtr rom_gunsmrom = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gunsmrom = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             /* 2*64k for code */
@@ -436,7 +436,7 @@ public class gunsmoke {
         }
     };
 
-    static RomLoadPtr rom_gunsmokj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gunsmokj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             /* 2*64k for code */
@@ -508,7 +508,7 @@ public class gunsmoke {
         }
     };
 
-    static RomLoadPtr rom_gunsmoka = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gunsmoka = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             /* 2*64k for code */

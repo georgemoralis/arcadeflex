@@ -27,7 +27,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 public class mystston {
 
     static int coin_myst;
-    public static InterruptPtr mystston_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr mystston_interrupt = new InterruptHandlerPtr() {
         public int handler() {
 
             if ((readinputport(0) & 0xc0) != 0xc0) {
@@ -274,7 +274,7 @@ public class mystston {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_mystston = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_mystston = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("ms0", 0x4000, 0x2000, 0x6dacc05f);

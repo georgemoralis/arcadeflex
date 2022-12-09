@@ -24,7 +24,7 @@ import static gr.codebb.arcadeflex.v036.mame.mame.*;
 
 public class yamato {
 
-    public static VhConvertColorPromPtr yamato_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr yamato_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine->gfx[gfxn]->total_colors * Machine->gfx[gfxn]->color_granularity)
@@ -375,7 +375,7 @@ public class yamato {
             }
     );
 
-    static RomLoadPtr rom_yamato = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_yamato = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -418,7 +418,7 @@ public class yamato {
         }
     };
 
-    static RomLoadPtr rom_yamato2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_yamato2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
@@ -461,7 +461,7 @@ public class yamato {
         }
     };
 
-    public static InitDriverPtr init_yamato = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_yamato = new InitDriverHandlerPtr() {
         public void handler() {
             yamato_decode();
         }

@@ -17,9 +17,6 @@ import static common.libc.cstring.*;
 //TODO
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.drawgfx;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.plot_pixel;
-import gr.codebb.arcadeflex.v036.mame.driverH.VhStartPtr;
-import gr.codebb.arcadeflex.v036.mame.driverH.VhStopPtr;
-import gr.codebb.arcadeflex.v036.mame.driverH.VhUpdatePtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static arcadeflex.v036.mame.drawgfxH.TRANSPARENCY_NONE;
 import static arcadeflex.v036.mame.drawgfxH.TRANSPARENCY_PEN;
@@ -48,7 +45,7 @@ public class circus {
      * *************************************************************************
      **************************************************************************
      */
-    public static VhStartPtr circus_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr circus_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int start_pen = 2;
 
@@ -68,7 +65,7 @@ public class circus {
      * *************************************************************************
      **************************************************************************
      */
-    public static VhStopPtr circus_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr circus_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             if (overlay != null) {
                 artwork_free(overlay);
@@ -187,7 +184,7 @@ public class circus {
         draw_line(bitmap, x + 16, y, x + 16, ey, 0);
     }
 
-    public static VhUpdatePtr circus_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr circus_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
             int sx, sy;
@@ -269,7 +266,7 @@ public class circus {
         }
     };
 
-    public static VhUpdatePtr robotbowl_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr robotbowl_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
             int sx, sy;
@@ -360,7 +357,7 @@ public class circus {
         }
     };
 
-    public static VhUpdatePtr crash_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr crash_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
             int sx, sy;

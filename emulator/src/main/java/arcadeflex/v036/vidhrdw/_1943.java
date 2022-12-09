@@ -51,7 +51,7 @@ public class _1943 {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
 
-    public static VhConvertColorPromPtr c1943_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr c1943_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int p_inc = 0;
             for (int i = 0; i < Machine.drv.total_colors; i++) {
@@ -120,7 +120,7 @@ public class _1943 {
         }
     };
 
-    public static VhStartPtr c1943_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr c1943_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((sc2bitmap = osd_create_bitmap(9 * 32, 8 * 32)) == null) {
                 return 1;
@@ -158,7 +158,7 @@ public class _1943 {
         }
     };
 
-    public static VhStopPtr c1943_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr c1943_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(sc2bitmap);
             osd_free_bitmap(sc1bitmap);
@@ -210,7 +210,7 @@ public class _1943 {
      * emulation engine.
      * *************************************************************************
      */
-    public static VhUpdatePtr c1943_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr c1943_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, sx, sy;
             int bg_scrolly, bg_scrollx;

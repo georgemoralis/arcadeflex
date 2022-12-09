@@ -19,11 +19,6 @@ import static arcadeflex.v036.mame.commonH.REGION_PROMS;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.copybitmap;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.plot_pixel;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.plot_pixel2;
-import gr.codebb.arcadeflex.v036.mame.driverH.InitDriverPtr;
-import gr.codebb.arcadeflex.v036.mame.driverH.VhConvertColorPromPtr;
-import gr.codebb.arcadeflex.v036.mame.driverH.VhStartPtr;
-import gr.codebb.arcadeflex.v036.mame.driverH.VhStopPtr;
-import gr.codebb.arcadeflex.v036.mame.driverH.VhUpdatePtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static arcadeflex.v036.mame.drawgfxH.TRANSPARENCY_NONE;
 import arcadeflex.v036.mame.drawgfxH.rectangle;
@@ -46,7 +41,7 @@ public class _8080bw {
     static struct_artwork overlay;
 
     static WriteHandlerPtr videoram_w_p;
-    static VhUpdatePtr vh_screenrefresh_p;
+    static VhUpdateHandlerPtr vh_screenrefresh_p;
 
     static abstract interface plot_pixel_Ptr {
 
@@ -109,7 +104,7 @@ public class _8080bw {
                 new artwork_element(new rectangle(-1, -1, -1, -1), new char[]{0, 0, 0}, (char) 0)
             };
 
-    public static InitDriverPtr init_8080bw = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_8080bw = new InitDriverHandlerPtr() {
         public void handler() {
             videoram_w_p = bw_videoram_w;
             vh_screenrefresh_p = vh_screenrefresh;
@@ -121,49 +116,49 @@ public class _8080bw {
         }
     };
 
-    public static InitDriverPtr init_invaders = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_invaders = new InitDriverHandlerPtr() {
         public void handler() {
             init_8080bw.handler();
             init_overlay = invaders_overlay;
         }
     };
 
-    public static InitDriverPtr init_invdpt2m = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_invdpt2m = new InitDriverHandlerPtr() {
         public void handler() {
             init_8080bw.handler();
             init_overlay = invdpt2m_overlay;
         }
     };
 
-    public static InitDriverPtr init_invrvnge = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_invrvnge = new InitDriverHandlerPtr() {
         public void handler() {
             init_8080bw.handler();
             init_overlay = invrvnge_overlay;
         }
     };
 
-    public static InitDriverPtr init_invad2ct = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_invad2ct = new InitDriverHandlerPtr() {
         public void handler() {
             init_8080bw.handler();
             init_overlay = invad2ct_overlay;
         }
     };
 
-    public static InitDriverPtr init_schaser = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_schaser = new InitDriverHandlerPtr() {
         public void handler() {
             init_8080bw.handler();
             videoram_w_p = schaser_videoram_w;
         }
     };
 
-    public static InitDriverPtr init_rollingc = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_rollingc = new InitDriverHandlerPtr() {
         public void handler() {
             init_8080bw.handler();
             videoram_w_p = rollingc_videoram_w;
         }
     };
 
-    public static InitDriverPtr init_invadpt2 = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_invadpt2 = new InitDriverHandlerPtr() {
         public void handler() {
             init_8080bw.handler();
             videoram_w_p = invadpt2_videoram_w;
@@ -171,7 +166,7 @@ public class _8080bw {
         }
     };
 
-    public static InitDriverPtr init_seawolf = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_seawolf = new InitDriverHandlerPtr() {
         public void handler() {
             init_8080bw.handler();
             vh_screenrefresh_p = seawolf_vh_screenrefresh;
@@ -179,7 +174,7 @@ public class _8080bw {
         }
     };
 
-    public static InitDriverPtr init_blueshrk = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_blueshrk = new InitDriverHandlerPtr() {
         public void handler() {
             init_8080bw.handler();
             vh_screenrefresh_p = blueshrk_vh_screenrefresh;
@@ -187,7 +182,7 @@ public class _8080bw {
         }
     };
 
-    public static InitDriverPtr init_desertgu = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_desertgu = new InitDriverHandlerPtr() {
         public void handler() {
             init_8080bw.handler();
             vh_screenrefresh_p = desertgu_vh_screenrefresh;
@@ -195,7 +190,7 @@ public class _8080bw {
         }
     };
 
-    public static InitDriverPtr init_astinvad = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_astinvad = new InitDriverHandlerPtr() {
         public void handler() {
             init_8080bw.handler();
             videoram_w_p = astinvad_videoram_w;
@@ -203,14 +198,14 @@ public class _8080bw {
         }
     };
 
-    public static InitDriverPtr init_spaceint = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_spaceint = new InitDriverHandlerPtr() {
         public void handler() {
             init_8080bw.handler();
             videoram_w_p = spaceint_videoram_w;
         }
     };
 
-    public static VhStartPtr invaders_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr invaders_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             /* create overlay if one of was specified in init_X */
             if (init_overlay != null) {
@@ -231,7 +226,7 @@ public class _8080bw {
         }
     };
 
-    public static VhStopPtr invaders_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr invaders_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             if (overlay != null) {
                 artwork_free(overlay);
@@ -388,13 +383,13 @@ public class _8080bw {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr invaders_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr invaders_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             vh_screenrefresh_p.handler(bitmap, full_refresh);
         }
     };
 
-    public static VhUpdatePtr vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             if (palette_recalc() != null || redraw_screen != 0 || (full_refresh != 0 && use_tmpbitmap == 0)) {
                 int offs;
@@ -450,7 +445,7 @@ public class _8080bw {
         }
     }
 
-    public static VhUpdatePtr seawolf_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr seawolf_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             /* update the bitmap (and erase old cross) */
 
@@ -460,7 +455,7 @@ public class _8080bw {
         }
     };
 
-    public static VhUpdatePtr blueshrk_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr blueshrk_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             /* update the bitmap (and erase old cross) */
 
@@ -470,7 +465,7 @@ public class _8080bw {
         }
     };
 
-    public static VhUpdatePtr desertgu_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr desertgu_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             /* update the bitmap (and erase old cross) */
 
@@ -482,7 +477,7 @@ public class _8080bw {
         }
     };
 
-    public static VhConvertColorPromPtr invadpt2_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr invadpt2_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 

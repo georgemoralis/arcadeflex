@@ -976,7 +976,7 @@ public class mcr68
 	
 	=================================================================*/
         
-        public static InitMachinePtr zwackery_init_machine = new InitMachinePtr() {
+        public static InitMachineHandlerPtr zwackery_init_machine = new InitMachineHandlerPtr() {
             public void handler() {
             System.out.println("zwackery_init_machine");
 		/* for the most part all MCR/68k games are the same */
@@ -1074,7 +1074,7 @@ public class mcr68
 /*TODO*///	MACHINE_DRIVER_MCR68(xenophob, mcr68,    SOUNDS_GOOD)
 /*TODO*///	MACHINE_DRIVER_MCR68(spyhunt2, mcr68,    TURBO_CHIP_SQUEAK_PLUS_SOUNDS_GOOD)
 /*TODO*///	MACHINE_DRIVER_MCR68(archrivl, mcr68,    WILLIAMS_CVSD)
-        public static InitMachinePtr mcr68_init_machine = new InitMachinePtr() { public void handler() 
+        public static InitMachineHandlerPtr mcr68_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		/* for the most part all MCR/68k games are the same */
 		mcr68_common_init();
@@ -1150,7 +1150,7 @@ public class mcr68
 	 *
 	 *************************************/
 	
-	static RomLoadPtr rom_zwackery = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_zwackery = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "pro0.bin",   0x00000, 0x4000, 0x6fb9731c );
 		ROM_LOAD_ODD ( "pro1.bin",   0x00000, 0x4000, 0x84b92555 );
@@ -1192,7 +1192,7 @@ public class mcr68
 		ROM_LOAD_GFX_ODD ( "tilee.bin",  0x0000, 0x4000, 0xab504dc8 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_xenophob = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_xenophob = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "xeno_pro.3c",  0x00000, 0x10000, 0xf44c2e60 );
 		ROM_LOAD_ODD ( "xeno_pro.3b",  0x00000, 0x10000, 0x01609a3b );
@@ -1216,7 +1216,7 @@ public class mcr68
 		ROM_LOAD( "xeno_fg.10j",  0x30000, 0x10000, 0x6a7a3516 );
 	ROM_END(); }}; 
 	
-/*TODO*///	static RomLoadPtr rom_spyhunt2 = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_spyhunt2 = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x40000, REGION_CPU1 );
 /*TODO*///		ROM_LOAD_EVEN( "sh23c.bin",  0x00000, 0x10000, 0x30b91c90 );
 /*TODO*///		ROM_LOAD_ODD ( "sh23b.bin",  0x00000, 0x10000, 0xf64513c6 );
@@ -1242,7 +1242,7 @@ public class mcr68
 /*TODO*///		ROM_LOAD( "fg3.10j",  0x60000, 0x20000, 0xd3475ff8 );
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_spyhnt2a = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_spyhnt2a = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x40000, REGION_CPU1 );
 /*TODO*///		ROM_LOAD_EVEN( "3c",  0x00000, 0x10000, 0x5b92aadf );
 /*TODO*///		ROM_LOAD_ODD ( "3b",  0x00000, 0x10000, 0x6ed0a25f );
@@ -1268,7 +1268,7 @@ public class mcr68
 /*TODO*///		ROM_LOAD( "fg3.10j",  0x60000, 0x20000, 0xd3475ff8 );
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_blasted = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_blasted = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x40000, REGION_CPU1 );
 /*TODO*///		ROM_LOAD_EVEN( "3c",  0x00000, 0x10000, 0xb243b7df );
 /*TODO*///		ROM_LOAD_ODD ( "3b",  0x00000, 0x10000, 0x627e30d3 );
@@ -1292,7 +1292,7 @@ public class mcr68
 /*TODO*///		ROM_LOAD( "fg3",  0x60000, 0x20000, 0x18e4a130 );
 /*TODO*///	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_archrivl = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_archrivl = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "3c-rev2",  0x00000, 0x10000, 0x60d4b760 );
 		ROM_LOAD_ODD ( "3b-rev2",  0x00000, 0x10000, 0xe0c07a8d );
@@ -1315,7 +1315,7 @@ public class mcr68
 		ROM_LOAD( "10j-rev1",  0x60000, 0x20000, 0xeb3d0344 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_archriv2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_archriv2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "archrivl.4",  0x00000, 0x10000, 0x3c545740 );
 		ROM_LOAD_ODD ( "archrivl.2",  0x00000, 0x10000, 0xbc4df2b9 );
@@ -1338,7 +1338,7 @@ public class mcr68
 		ROM_LOAD( "10j-rev1",  0x60000, 0x20000, 0xeb3d0344 );
 	ROM_END(); }}; 
 	
-/*TODO*///	static RomLoadPtr rom_pigskin = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_pigskin = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x40000, REGION_CPU1 );
 /*TODO*///		ROM_LOAD_EVEN( "pigskin.a5",  0x00000, 0x10000, 0xab61c29b );
 /*TODO*///		ROM_LOAD_ODD ( "pigskin.b5",  0x00000, 0x10000, 0x55a802aa );
@@ -1361,7 +1361,7 @@ public class mcr68
 /*TODO*///		ROM_LOAD( "pigskin.h14", 0x60000, 0x20000, 0x09c87104 );
 /*TODO*///	ROM_END(); }}; 
 /*TODO*///	
-/*TODO*///	static RomLoadPtr rom_trisport = new RomLoadPtr(){ public void handler(){ 
+/*TODO*///	static RomLoadHandlerPtr rom_trisport = new RomLoadHandlerPtr(){ public void handler(){ 
 /*TODO*///		ROM_REGION( 0x40000, REGION_CPU1 );
 /*TODO*///		ROM_LOAD_EVEN( "la3.a5",  0x00000, 0x10000, 0xfe1e9e37 );
 /*TODO*///		ROM_LOAD_ODD ( "la3.b5",  0x00000, 0x10000, 0xf352ec81 );
@@ -1392,7 +1392,7 @@ public class mcr68
 	 *
 	 *************************************/
 	
-	public static InitDriverPtr init_zwackery = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_zwackery = new InitDriverHandlerPtr() { public void handler() 
 	{
 		MCR_CONFIGURE_SOUND(MCR_CHIP_SQUEAK_DELUXE);
 	
@@ -1403,7 +1403,7 @@ public class mcr68
 	} };
 	
 	
-/*TODO*///	static public static InitDriverPtr init_xenophob = new InitDriverPtr() { public void handler() 
+/*TODO*///	static public static InitDriverHandlerPtr init_xenophob = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		MCR_CONFIGURE_SOUND(MCR_SOUNDS_GOOD);
 /*TODO*///	
@@ -1420,7 +1420,7 @@ public class mcr68
 /*TODO*///	} };
 /*TODO*///	
 /*TODO*///	
-/*TODO*///	static public static InitDriverPtr init_spyhunt2 = new InitDriverPtr() { public void handler() 
+/*TODO*///	static public static InitDriverHandlerPtr init_spyhunt2 = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		MCR_CONFIGURE_SOUND(MCR_TURBO_CHIP_SQUEAK | MCR_SOUNDS_GOOD);
 /*TODO*///	
@@ -1439,7 +1439,7 @@ public class mcr68
 /*TODO*///	} };
 /*TODO*///	
 /*TODO*///	
-/*TODO*///	static public static InitDriverPtr init_blasted = new InitDriverPtr() { public void handler() 
+/*TODO*///	static public static InitDriverHandlerPtr init_blasted = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		MCR_CONFIGURE_SOUND(MCR_SOUNDS_GOOD);
 /*TODO*///	
@@ -1462,7 +1462,7 @@ public class mcr68
 /*TODO*///	} };
 	
 	
-	public static InitDriverPtr init_archrivl = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_archrivl = new InitDriverHandlerPtr() { public void handler() 
 	{
 		MCR_CONFIGURE_SOUND(MCR_WILLIAMS_SOUND);
 	
@@ -1494,7 +1494,7 @@ public class mcr68
 	} };
 	
 	
-/*TODO*///	static public static InitDriverPtr init_pigskin = new InitDriverPtr() { public void handler() 
+/*TODO*///	static public static InitDriverHandlerPtr init_pigskin = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		MCR_CONFIGURE_SOUND(MCR_WILLIAMS_SOUND);
 /*TODO*///	
@@ -1516,7 +1516,7 @@ public class mcr68
 /*TODO*///	} };
 /*TODO*///	
 /*TODO*///	
-/*TODO*///	static public static InitDriverPtr init_trisport = new InitDriverPtr() { public void handler() 
+/*TODO*///	static public static InitDriverHandlerPtr init_trisport = new InitDriverHandlerPtr() { public void handler() 
 /*TODO*///	{
 /*TODO*///		MCR_CONFIGURE_SOUND(MCR_WILLIAMS_SOUND);
 /*TODO*///	

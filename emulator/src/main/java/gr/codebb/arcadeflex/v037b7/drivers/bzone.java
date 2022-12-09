@@ -85,7 +85,7 @@ public class bzone
 		return (res);
 	} };
 	
-	public static InterruptPtr bzone_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr bzone_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if ((readinputport(0) & 0x10)!=0)
 			return nmi_interrupt.handler();
@@ -468,7 +468,7 @@ public class bzone
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_bzone = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bzone = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "036414.01",  0x5000, 0x0800, 0xefbc3fa0 );
 		ROM_LOAD( "036413.01",  0x5800, 0x0800, 0x5d9d9111 );
@@ -482,7 +482,7 @@ public class bzone
 		ROM_LOAD( "036421.01",  0x3800, 0x0800, 0x8ea8f939 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_bzone2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_bzone2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "036414a.01", 0x5000, 0x0800, 0x13de36d5 );
 		ROM_LOAD( "036413.01",  0x5800, 0x0800, 0x5d9d9111 );
@@ -496,7 +496,7 @@ public class bzone
 		ROM_LOAD( "036421.01",  0x3800, 0x0800, 0x8ea8f939 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_redbaron = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_redbaron = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "037587.01",  0x4800, 0x0800, 0x60f23983 );
 		ROM_CONTINUE(           0x5800, 0x0800 );

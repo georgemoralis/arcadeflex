@@ -4,6 +4,9 @@
  */
 package gr.codebb.arcadeflex.v037b7.drivers;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -54,7 +57,7 @@ public class ladybug {
      *
      **************************************************************************
      */
-    public static InterruptPtr ladybug_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr ladybug_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if ((readinputport(5) & 1) != 0) /* Left Coin */ {
                 return nmi_interrupt.handler();
@@ -467,7 +470,7 @@ public class ladybug {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_ladybug = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ladybug = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -497,7 +500,7 @@ public class ladybug {
         }
     };
 
-    static RomLoadPtr rom_ladybugb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ladybugb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -527,7 +530,7 @@ public class ladybug {
         }
     };
 
-    static RomLoadPtr rom_snapjack = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_snapjack = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -557,7 +560,7 @@ public class ladybug {
         }
     };
 
-    static RomLoadPtr rom_cavenger = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_cavenger = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 

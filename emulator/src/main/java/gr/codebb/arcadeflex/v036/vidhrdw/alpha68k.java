@@ -105,7 +105,7 @@ public class alpha68k {
     /**
      * ***************************************************************************
      */
-    public static VhUpdatePtr alpha68k_II_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr alpha68k_II_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, mx, my, color, tile, i;
             int[] colmask = new int[0x80];
@@ -345,7 +345,7 @@ public class alpha68k {
             bank_base = data & 0xf;
         }
     };
-    public static VhUpdatePtr alpha68k_V_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr alpha68k_V_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, mx, my, color, tile, i;
             int[] colmask = new int[256];
@@ -438,7 +438,7 @@ public class alpha68k {
             }
         }
     };
-    public static VhUpdatePtr alpha68k_V_sb_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr alpha68k_V_sb_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, mx, my, color, tile, i;
             int[] colmask = new int[256];
@@ -523,7 +523,7 @@ public class alpha68k {
             }
         }
     };
-    public static VhUpdatePtr alpha68k_V_16bit_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr alpha68k_V_16bit_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, mx, my, color, tile;
 
@@ -562,7 +562,7 @@ public class alpha68k {
     /**
      * ***************************************************************************
      */
-    public static VhConvertColorPromPtr alpha68k_I_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr alpha68k_I_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i, bit0, bit1, bit2, bit3;
             int p_inc = 0;
@@ -648,7 +648,7 @@ public class alpha68k {
             }
         }
     }
-    public static VhUpdatePtr alpha68k_I_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr alpha68k_I_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             //	fillbitmap(bitmap,palette_transparent_pen,&Machine.drv.visible_area);
             fillbitmap(bitmap, palette_transparent_pen, Machine.drv.visible_area);
@@ -717,7 +717,7 @@ public class alpha68k {
             }
         }
     }
-    public static VhUpdatePtr kyros_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr kyros_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             fillbitmap(bitmap, 1, Machine.drv.visible_area);
 

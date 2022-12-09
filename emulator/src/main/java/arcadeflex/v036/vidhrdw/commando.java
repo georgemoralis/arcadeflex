@@ -46,7 +46,7 @@ public class commando {
      *
      **************************************************************************
      */
-    public static VhConvertColorPromPtr commando_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr commando_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -79,7 +79,7 @@ public class commando {
      *
      **************************************************************************
      */
-    public static VhStartPtr commando_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr commando_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (generic_vh_start.handler() != 0) {
                 return 1;
@@ -113,7 +113,7 @@ public class commando {
      *
      **************************************************************************
      */
-    public static VhStopPtr commando_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr commando_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(tmpbitmap2);
             dirtybuffer2 = null;
@@ -179,7 +179,7 @@ public class commando {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr commando_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr commando_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

@@ -3,6 +3,8 @@
  */
 package arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 //common imports
@@ -50,7 +52,7 @@ public class snk {
     static int GFX_SPRITES = 2;
     static int GFX_BIGSPRITES = 3;
 
-    public static VhConvertColorPromPtr snk_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr snk_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int num_colors = 1024;
@@ -83,7 +85,7 @@ public class snk {
         }
     };
 
-    public static VhConvertColorPromPtr ikari_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr ikari_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             int p_inc = 0;
@@ -100,7 +102,7 @@ public class snk {
         }
     };
 
-    public static VhStartPtr snk_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr snk_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             dirtybuffer = new char[MAX_VRAM_SIZE];
             if (dirtybuffer != null) {
@@ -116,7 +118,7 @@ public class snk {
         }
     };
 
-    public static VhStopPtr snk_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr snk_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(tmpbitmap);
             tmpbitmap = null;
@@ -251,7 +253,7 @@ public class snk {
         }
     }
 
-    public static VhUpdatePtr tnk3_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr tnk3_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             UBytePtr ram = memory_region(REGION_CPU1);
             int attributes = ram.read(0xc800);
@@ -442,7 +444,7 @@ public class snk {
         }
     }
 
-    public static VhUpdatePtr ikari_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr ikari_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             UBytePtr ram = memory_region(REGION_CPU1);
 
@@ -587,7 +589,7 @@ public class snk {
         }
     }
 
-    public static VhUpdatePtr tdfever_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr tdfever_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             UBytePtr ram = memory_region(REGION_CPU1);
             shadows_visible = NOT(shadows_visible);
@@ -613,7 +615,7 @@ public class snk {
         }
     };
 
-    public static VhUpdatePtr ftsoccer_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr ftsoccer_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             UBytePtr ram = memory_region(REGION_CPU1);
             shadows_visible = NOT(shadows_visible);
@@ -724,7 +726,7 @@ public class snk {
         }
     }
 
-    public static VhUpdatePtr gwar_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr gwar_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             UBytePtr ram = memory_region(REGION_CPU1);
             /*unsigned*/ char bg_attributes, sp_attributes;

@@ -60,7 +60,7 @@ import static arcadeflex.v036.sound.upd7759H.*;
 public class mainevt
 {
 		
-	public static InterruptPtr mainevt_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr mainevt_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (K052109_is_IRQ_enabled()!=0) return M6809_INT_IRQ;
 		else return ignore_interrupt.handler();
@@ -74,7 +74,7 @@ public class mainevt
 		nmi_enable = data;
 	} };
 	
-	public static InterruptPtr dv_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr dv_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		if (nmi_enable!=0) return M6809_INT_NMI;
 		else return ignore_interrupt.handler();
@@ -773,7 +773,7 @@ public class mainevt
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_mainevt = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mainevt = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD( "799c02.k11",   0x10000, 0x08000, 0xe2e7dbd5 );
 		ROM_CONTINUE(             0x08000, 0x08000 );
@@ -802,7 +802,7 @@ public class mainevt
 		ROM_LOAD( "799b06.c22",   0x20000, 0x80000, 0x2c8c47d7 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_mainevt2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_mainevt2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD( "02",           0x10000, 0x08000, 0xc143596b );
 		ROM_CONTINUE(             0x08000, 0x08000 );
@@ -831,7 +831,7 @@ public class mainevt
 		ROM_LOAD( "799b06.c22",   0x20000, 0x80000, 0x2c8c47d7 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_ringohja = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ringohja = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD( "799n02.k11",   0x10000, 0x08000, 0xf9305dd0 );
 		ROM_CONTINUE(             0x08000, 0x08000 );
@@ -860,7 +860,7 @@ public class mainevt
 		ROM_LOAD( "799b06.c22",   0x20000, 0x80000, 0x2c8c47d7 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_devstors = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_devstors = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD( "890-z02.k11",  0x10000, 0x08000, 0xebeb306f );
 		ROM_CONTINUE(             0x08000, 0x08000 );
@@ -885,7 +885,7 @@ public class mainevt
 	 	ROM_LOAD( "dev-f03.rom",  0x00000, 0x80000, 0x19065031 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_devstor2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_devstor2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD( "dev-x02.rom",  0x10000, 0x08000, 0xe58ebb35 );
 		ROM_CONTINUE(             0x08000, 0x08000 );
@@ -910,7 +910,7 @@ public class mainevt
 	 	ROM_LOAD( "dev-f03.rom",  0x00000, 0x80000, 0x19065031 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_devstor3 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_devstor3 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD( "890k02.k11",   0x10000, 0x08000, 0x52f4ccdd );
 		ROM_CONTINUE(             0x08000, 0x08000 );
@@ -935,7 +935,7 @@ public class mainevt
 	 	ROM_LOAD( "dev-f03.rom",  0x00000, 0x80000, 0x19065031 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_garuka = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_garuka = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD( "890w02.bin",   0x10000, 0x08000, 0xb2f6f538 );
 		ROM_CONTINUE(             0x08000, 0x08000 );
@@ -962,7 +962,7 @@ public class mainevt
 	
 	
 	
-	public static InitDriverPtr init_mainevt = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_mainevt = new InitDriverHandlerPtr() { public void handler() 
 	{
 		konami_rom_deinterleave_2(REGION_GFX1);
 		konami_rom_deinterleave_2(REGION_GFX2);

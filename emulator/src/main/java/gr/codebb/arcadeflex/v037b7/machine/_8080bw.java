@@ -55,7 +55,7 @@ public class _8080bw {
     };
 
     static int count;
-    public static InterruptPtr invaders_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr invaders_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             count++;
 

@@ -30,7 +30,7 @@ public class slapfght {
     public static UBytePtr getstar_e803 = new UBytePtr();
 
     /* Perform basic machine initialisation */
-    public static InitMachinePtr slapfight_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr slapfight_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             /* MAIN CPU */
 
@@ -165,7 +165,7 @@ public class slapfght {
     };
 
     /* Generate interrups only if they have been enabled */
-    public static InterruptPtr getstar_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr getstar_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (getstar_sh_intenabled != 0) {
                 return nmi_interrupt.handler();

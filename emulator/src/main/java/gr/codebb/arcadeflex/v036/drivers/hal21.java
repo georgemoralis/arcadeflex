@@ -1,5 +1,7 @@
 package gr.codebb.arcadeflex.v036.drivers;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
@@ -36,7 +38,7 @@ public class hal21 {
     /*TODO*///}
     /*TODO*///
     /*TODO*///
-    public static VhConvertColorPromPtr aso_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+    public static VhConvertColorPromHandlerPtr aso_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
     {
     
     	int i;

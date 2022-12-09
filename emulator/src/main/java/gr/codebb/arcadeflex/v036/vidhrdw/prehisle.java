@@ -46,7 +46,7 @@ public class prehisle {
      * ***************************************************************************
      */
     static int old_base = 0xfffff, old_front = 0xfffff;
-    public static VhUpdatePtr prehisle_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr prehisle_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, mx, my, color, tile, i;
             int[] colmask = new int[0x80];
@@ -266,7 +266,7 @@ public class prehisle {
     /**
      * ***************************************************************************
      */
-    public static VhStartPtr prehisle_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr prehisle_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             pf1_bitmap = osd_create_bitmap(256 + 16, 512);
             pf2_bitmap = osd_create_bitmap(256 + 16, 512);
@@ -274,7 +274,7 @@ public class prehisle {
         }
     };
 
-    public static VhStopPtr prehisle_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr prehisle_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             pf1_bitmap = null;
             pf2_bitmap = null;

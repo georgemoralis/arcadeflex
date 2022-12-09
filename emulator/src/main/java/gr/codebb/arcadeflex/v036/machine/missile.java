@@ -51,7 +51,7 @@ public class missile
 	
 	
 	/********************************************************************************************/
-	public static InitMachinePtr missile_init_machine = new InitMachinePtr() { public void handler() 
+	public static InitMachineHandlerPtr missile_init_machine = new InitMachineHandlerPtr() { public void handler() 
 	{
 		h_pos = v_pos = 0;
 	} };

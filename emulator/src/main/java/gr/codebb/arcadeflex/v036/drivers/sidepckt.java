@@ -454,7 +454,7 @@ public class sidepckt {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_sidepckt = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sidepckt = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
 
@@ -484,7 +484,7 @@ public class sidepckt {
         }
     };
 
-    static RomLoadPtr rom_sidepctj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sidepctj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
 
@@ -514,7 +514,7 @@ public class sidepckt {
         }
     };
 
-    static RomLoadPtr rom_sidepctb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sidepctb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
 

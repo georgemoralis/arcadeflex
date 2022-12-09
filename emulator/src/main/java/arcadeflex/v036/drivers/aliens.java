@@ -47,7 +47,7 @@ public class aliens {
         }
     };
 
-    public static InitMachinePtr aliens_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr aliens_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             UBytePtr RAM = memory_region(REGION_CPU1);
 
@@ -58,7 +58,7 @@ public class aliens {
         }
     };
 
-    public static InitDriverPtr init_aliens = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_aliens = new InitDriverHandlerPtr() {
         public void handler() {
             konami_rom_deinterleave_2(REGION_GFX1);
             konami_rom_deinterleave_2(REGION_GFX2);
@@ -68,7 +68,7 @@ public class aliens {
     static int palette_selected;
     static UBytePtr ram = new UBytePtr();
 
-    public static InterruptPtr aliens_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr aliens_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (K051960_is_IRQ_enabled() != 0) {
                 return interrupt.handler();
@@ -377,7 +377,7 @@ public class aliens {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_aliens = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_aliens = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x38000, REGION_CPU1);/* code + banked roms */
             ROM_LOAD("e24_j02.bin", 0x10000, 0x08000, 0x56c20971);
@@ -412,7 +412,7 @@ public class aliens {
         }
     };
 
-    static RomLoadPtr rom_aliens2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_aliens2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x38000, REGION_CPU1);/* code + banked roms */
             ROM_LOAD("e24_p02.bin", 0x10000, 0x08000, 0x4edd707d);
@@ -447,7 +447,7 @@ public class aliens {
         }
     };
 
-    static RomLoadPtr rom_aliensu = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_aliensu = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x38000, REGION_CPU1);/* code + banked roms */
             ROM_LOAD("e24_n02.bin", 0x10000, 0x08000, 0x24dd612e);
@@ -482,7 +482,7 @@ public class aliens {
         }
     };
 
-    static RomLoadPtr rom_aliensj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_aliensj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x38000, REGION_CPU1);/* code + banked roms */
             ROM_LOAD("875m02.e24", 0x10000, 0x08000, 0x54a774e5);

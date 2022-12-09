@@ -737,11 +737,11 @@ public class armedf
 		new int[] { 255 }         /* (not supported) */
 	);
 	
-	public static InterruptPtr armedf_interrupt = new InterruptPtr() { public int handler() {
+	public static InterruptHandlerPtr armedf_interrupt = new InterruptHandlerPtr() { public int handler() {
 		return (1);
 	} };
 	
-	public static InterruptPtr cclimbr2_interrupt = new InterruptPtr() { public int handler() {
+	public static InterruptHandlerPtr cclimbr2_interrupt = new InterruptHandlerPtr() { public int handler() {
 		return (2);
 	} };
 	
@@ -943,7 +943,7 @@ public class armedf
 	
 	
 	
-	static RomLoadPtr rom_terraf = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_terraf = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 64K*8 for 68000 code */
 		ROM_LOAD_EVEN( "terrafor.014", 0x00000, 0x10000, 0x8e5f557f );
 		ROM_LOAD_ODD(  "terrafor.011", 0x00000, 0x10000, 0x5320162a );
@@ -977,7 +977,7 @@ public class armedf
 		ROM_LOAD( "tf.clr",       0x0000, 0x0100, 0x81244757 );/* ??? */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_terrafu = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_terrafu = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 64K*8 for 68000 code */
 		ROM_LOAD_EVEN( "tf.8",         0x00000, 0x10000, 0xfea6dd64 );
 		ROM_LOAD_ODD(  "tf.3",         0x00000, 0x10000, 0x02f9d05a );
@@ -1011,7 +1011,7 @@ public class armedf
 		ROM_LOAD( "tf.clr",       0x0000, 0x0100, 0x81244757 );/* ??? */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_kodure = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_kodure = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x60000, REGION_CPU1 );/* 64K*8 for 68000 code */
 		ROM_LOAD_EVEN( "kodure8.6e", 0x00000, 0x10000, 0x6bbfb1e6 );
 		ROM_LOAD_ODD(  "kodure3.6h", 0x00000, 0x10000, 0xf9178ec8 );
@@ -1044,7 +1044,7 @@ public class armedf
 		ROM_LOAD( "tf.11j", 0x0000, 0x0100, 0x81244757 );/* ??? */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_armedf = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_armedf = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 68000 code */
 		ROM_LOAD_EVEN( "af_06.rom", 0x00000, 0x10000, 0xc5326603 );
 		ROM_LOAD_ODD(  "af_01.rom", 0x00000, 0x10000, 0x458e9542 );
@@ -1072,7 +1072,7 @@ public class armedf
 		ROM_LOAD( "af_12.rom", 0x20000, 0x20000, 0x23cb6bfe );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_cclimbr2 = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_cclimbr2 = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x80000, REGION_CPU1 );/* 64K*8 for 68000 code */
 		ROM_LOAD_EVEN( "4.bin", 0x00000, 0x10000, 0x7922ea14 );
 		ROM_LOAD_ODD(  "1.bin", 0x00000, 0x10000, 0x2ac7ed67 );

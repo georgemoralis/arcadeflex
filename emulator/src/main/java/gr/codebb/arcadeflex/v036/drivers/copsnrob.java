@@ -4,6 +4,9 @@
  */
 package gr.codebb.arcadeflex.v036.drivers;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -171,7 +174,7 @@ public class copsnrob {
                 0x00, 0x02,
                 0x00, 0x03
             };
-    public static VhConvertColorPromPtr init_palette = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr init_palette = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] game_palette, char[] game_colortable, UBytePtr color_prom) {
             //memcpy(game_palette,palette,sizeof(palette));
             for (int i = 0; i < palette.length; i++) {
@@ -218,7 +221,7 @@ public class copsnrob {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_copsnrob = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_copsnrob = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
 

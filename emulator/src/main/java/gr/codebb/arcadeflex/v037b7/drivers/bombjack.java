@@ -305,7 +305,7 @@ public class bombjack {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_bombjack = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bombjack = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -344,7 +344,7 @@ public class bombjack {
         }
     };
 
-    static RomLoadPtr rom_bombjac2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bombjac2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 

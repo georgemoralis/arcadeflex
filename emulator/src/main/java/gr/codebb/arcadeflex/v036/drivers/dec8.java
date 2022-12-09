@@ -559,7 +559,7 @@ public class dec8 {
         }
     };
     static int toggle = 0;
-    public static vclk_interruptPtr csilver_adpcm_int = new vclk_interruptPtr() {
+    public static vclk_InterruptHandlerPtr csilver_adpcm_int = new vclk_InterruptHandlerPtr() {
         public void handler(int data) {
 
             toggle ^= 1;
@@ -2178,14 +2178,14 @@ public class dec8 {
 	(
 		1,					/* 1 chip             */
 		384000,				/* 384KHz             */
-		new vclk_interruptPtr[] { csilver_adpcm_int },/* interrupt function */
+		new vclk_InterruptHandlerPtr[] { csilver_adpcm_int },/* interrupt function */
 		new int[] { MSM5205_S48_4B },	/* 8KHz               */
 		new int[] { 88 }
 	);
     /******************************************************************************/
 
     static int[] latch_ghostb = new int[4];
-    public static InterruptPtr ghostb_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr ghostb_interrupt = new InterruptHandlerPtr() {
         public int handler() {
 
             int i8751_out = readinputport(4);
@@ -2237,7 +2237,7 @@ public class dec8 {
         }
     };
 
-    public static InterruptPtr gondo_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr gondo_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (nmi_enable != 0) {
                 return M6809_INT_NMI; /* VBL */
@@ -2250,7 +2250,7 @@ public class dec8 {
 
     /* Coins generate NMI's */
     static int latch_oscar = 1;
-    public static InterruptPtr oscar_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr oscar_interrupt = new InterruptHandlerPtr() {
         public int handler() {
 
             if ((readinputport(2) & 0x7) == 0x7) {
@@ -2675,7 +2675,7 @@ public class dec8 {
      * ***************************************************************************
      */
 
-    static RomLoadPtr rom_cobracom = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_cobracom = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);
             ROM_LOAD("el11-5.bin", 0x08000, 0x08000, 0xaf0a8b05);
@@ -2714,7 +2714,7 @@ public class dec8 {
         }
     };
 
-    static RomLoadPtr rom_cobracmj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_cobracmj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x30000, REGION_CPU1);
             ROM_LOAD("eh-11.rom", 0x08000, 0x08000, 0x868637e1);
@@ -2753,7 +2753,7 @@ public class dec8 {
         }
     };
 
-    static RomLoadPtr rom_ghostb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ghostb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x50000, REGION_CPU1);
             ROM_LOAD("dz-01.rom", 0x08000, 0x08000, 0x7c5bb4b1);
@@ -2795,7 +2795,7 @@ public class dec8 {
         }
     };
 
-    static RomLoadPtr rom_ghostb3 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_ghostb3 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x50000, REGION_CPU1);
             ROM_LOAD("dz01-3b", 0x08000, 0x08000, 0xc8cc862a);
@@ -2837,7 +2837,7 @@ public class dec8 {
         }
     };
 
-    static RomLoadPtr rom_meikyuh = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_meikyuh = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);
             ROM_LOAD("dw-01.rom", 0x08000, 0x08000, 0x87610c39);
@@ -2880,7 +2880,7 @@ public class dec8 {
         }
     };
 
-    static RomLoadPtr rom_srdarwin = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_srdarwin = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x28000, REGION_CPU1);
             ROM_LOAD("dy_01.rom", 0x20000, 0x08000, 0x1eeee4ff);
@@ -2918,7 +2918,7 @@ public class dec8 {
         }
     };
 
-    static RomLoadPtr rom_gondo = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_gondo = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);
             ROM_LOAD("dt-00.256", 0x08000, 0x08000, 0xa8cf9118);
@@ -2963,7 +2963,7 @@ public class dec8 {
         }
     };
 
-    static RomLoadPtr rom_makyosen = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_makyosen = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x40000, REGION_CPU1);
             ROM_LOAD("ds00", 0x08000, 0x08000, 0x33bb16fe);
@@ -3008,7 +3008,7 @@ public class dec8 {
         }
     };
 
-    static RomLoadPtr rom_oscar = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_oscar = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             ROM_LOAD("ed10", 0x08000, 0x08000, 0xf9b0d4d4);
@@ -3043,7 +3043,7 @@ public class dec8 {
         }
     };
 
-    static RomLoadPtr rom_oscarj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_oscarj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             ROM_LOAD("du10", 0x08000, 0x08000, 0x120040d8);
@@ -3078,7 +3078,7 @@ public class dec8 {
         }
     };
 
-    static RomLoadPtr rom_lastmiss = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_lastmiss = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             ROM_LOAD("dl03-6", 0x08000, 0x08000, 0x47751a5e);/* Rev 6 roms */
@@ -3117,7 +3117,7 @@ public class dec8 {
         }
     };
 
-    static RomLoadPtr rom_lastmss2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_lastmss2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);
             ROM_LOAD("lm_dl03.rom", 0x08000, 0x08000, 0x357f5f6b);/* Rev 5 roms */
@@ -3156,7 +3156,7 @@ public class dec8 {
         }
     };
 
-    static RomLoadPtr rom_shackled = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_shackled = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x48000, REGION_CPU1);
             ROM_LOAD("dk-02.rom", 0x08000, 0x08000, 0x87f8fa85);
@@ -3198,7 +3198,7 @@ public class dec8 {
         }
     };
 
-    static RomLoadPtr rom_breywood = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_breywood = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x48000, REGION_CPU1);
             ROM_LOAD("7.bin", 0x08000, 0x08000, 0xc19856b9);
@@ -3240,7 +3240,7 @@ public class dec8 {
         }
     };
 
-    static RomLoadPtr rom_csilver = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_csilver = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x48000, REGION_CPU1);
             ROM_LOAD("a4", 0x08000, 0x08000, 0x02dd8cfc);
@@ -3282,7 +3282,7 @@ public class dec8 {
         }
     };
 
-    static RomLoadPtr rom_garyoret = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_garyoret = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x58000, REGION_CPU1);
             ROM_LOAD("dv00", 0x08000, 0x08000, 0xcceaaf05);
@@ -3338,7 +3338,7 @@ public class dec8 {
      * ***************************************************************************
      */
     /* Ghostbusters, Darwin, Oscar use a "Deco 222" custom 6502 for sound. */
-    public static InitDriverPtr init_deco222 = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_deco222 = new InitDriverHandlerPtr() {
         public void handler() {
     	int A,sound_cpu;
     	UBytePtr rom;
@@ -3359,14 +3359,14 @@ public class dec8 {
     		rom.write(A + diff,(rom.read(A) & 0x9f) | ((rom.read(A) & 0x20) << 1) | ((rom.read(A) & 0x40) >> 1));
         }
     };
-    public static InitDriverPtr init_meikyuh = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_meikyuh = new InitDriverHandlerPtr() {
         public void handler() {
             /* Blank out garbage in colour prom to avoid colour overflow */
             UBytePtr RAM = memory_region(REGION_PROMS);
             memset(RAM, 0x20, 0, 0xe0);
         }
     };
-    public static InitDriverPtr init_ghostb = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_ghostb = new InitDriverHandlerPtr() {
         public void handler() {
             init_deco222.handler();
             init_meikyuh.handler();

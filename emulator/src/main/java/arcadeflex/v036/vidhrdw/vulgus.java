@@ -40,7 +40,7 @@ public class vulgus {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr vulgus_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr vulgus_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -101,7 +101,7 @@ public class vulgus {
      *
      **************************************************************************
      */
-    public static VhStartPtr vulgus_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr vulgus_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if (generic_vh_start.handler() != 0) {
                 return 1;
@@ -131,7 +131,7 @@ public class vulgus {
      *
      **************************************************************************
      */
-    public static VhStopPtr vulgus_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr vulgus_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(tmpbitmap2);
             dirtybuffer2 = null;
@@ -177,7 +177,7 @@ public class vulgus {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr vulgus_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr vulgus_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
             int scrollx, scrolly;

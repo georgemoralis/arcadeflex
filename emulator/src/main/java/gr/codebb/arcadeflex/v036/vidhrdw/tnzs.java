@@ -7,6 +7,8 @@
  */ 
 package gr.codebb.arcadeflex.v036.vidhrdw;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
@@ -50,7 +52,7 @@ public class tnzs
 	  form 512 xRRRRRGGGGGBBBBB color values.
 	
 	***************************************************************************/
-	public static VhConvertColorPromPtr arkanoi2_vh_convert_color_prom = new VhConvertColorPromPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
+	public static VhConvertColorPromHandlerPtr arkanoi2_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() { public void handler(char []palette, char []colortable, UBytePtr color_prom) 
 	{
 		int i,col;
                 int p_inc=0;
@@ -70,7 +72,7 @@ public class tnzs
 	  Start the video hardware emulation.
 	
 	***************************************************************************/
-	public static VhStartPtr tnzs_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr tnzs_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		int column,x,y;
 		for (column=0;column<16;column++)
@@ -102,7 +104,7 @@ public class tnzs
 	  Stop the video hardware emulation.
 	
 	***************************************************************************/
-	public static VhStopPtr tnzs_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr tnzs_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		int column;
 	
@@ -256,7 +258,7 @@ public class tnzs
 		}
 	}
 	
-	public static VhUpdatePtr arkanoi2_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr arkanoi2_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int x,y;
 	
@@ -291,7 +293,7 @@ public class tnzs
 								new UBytePtr(tnzs_objram,0x1200)); /* color : d200 */
 	} };
 	
-	public static VhUpdatePtr tnzs_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr tnzs_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int color,code,i,offs,x,y;
 		int[] colmask=new int[32];

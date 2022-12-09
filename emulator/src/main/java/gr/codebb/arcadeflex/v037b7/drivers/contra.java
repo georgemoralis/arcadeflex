@@ -302,7 +302,7 @@ public class contra
 	
 
 	
-	static RomLoadPtr rom_contra = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_contra = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x28000, REGION_CPU1 );/* 64k for code + 96k for banked ROMs */
 		ROM_LOAD( "633e03.18a",   0x20000, 0x08000, 0x7fc0d8cf );
 		ROM_CONTINUE(			  0x08000, 0x08000 );
@@ -326,7 +326,7 @@ public class contra
 		ROM_LOAD( "633f11.20g",   0x0300, 0x0100, 0x14ca5e19 );/* 007121 #1 char lookup table */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_contrab = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_contrab = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x28000, REGION_CPU1 );/* 64k for code + 96k for banked ROMs */
 		ROM_LOAD( "contra.20",    0x20000, 0x08000, 0xd045e1da );
 		ROM_CONTINUE(             0x08000, 0x08000 );
@@ -350,7 +350,7 @@ public class contra
 		ROM_LOAD( "633f11.20g",   0x0300, 0x0100, 0x14ca5e19 );/* 007121 #1 char lookup table */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_contraj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_contraj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x28000, REGION_CPU1 );/* 64k for code + 96k for banked ROMs */
 		ROM_LOAD( "633n03.18a",   0x20000, 0x08000, 0xfedab568 );
 		ROM_CONTINUE(             0x08000, 0x08000 );
@@ -374,7 +374,7 @@ public class contra
 		ROM_LOAD( "633f11.20g",   0x0300, 0x0100, 0x14ca5e19 );/* 007121 #1 char lookup table */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_contrajb = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_contrajb = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x28000, REGION_CPU1 );/* 64k for code + 96k for banked ROMs */
 		ROM_LOAD( "g-2.rom",      0x20000, 0x08000, 0xbdb9196d );
 		ROM_CONTINUE(             0x08000, 0x08000 );
@@ -398,7 +398,7 @@ public class contra
 		ROM_LOAD( "633f11.20g",   0x0300, 0x0100, 0x14ca5e19 );/* 007121 #1 char lookup table */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_gryzor = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gryzor = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x28000, REGION_CPU1 );/* 64k for code + 96k for banked ROMs */
 		ROM_LOAD( "g2",           0x20000, 0x08000, 0x92ca77bd );
 		ROM_CONTINUE(             0x08000, 0x08000 );

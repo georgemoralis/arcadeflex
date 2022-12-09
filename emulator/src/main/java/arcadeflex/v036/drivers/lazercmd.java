@@ -65,7 +65,7 @@ public class lazercmd {
      * ***********************************************************
      */
     static int sense_state = 0;
-    public static InterruptPtr lazercmd_timer = new InterruptPtr() {
+    public static InterruptHandlerPtr lazercmd_timer = new InterruptHandlerPtr() {
         public int handler() {
             if (++timer_count >= 64 * 128) {
                 timer_count = 0;
@@ -411,7 +411,7 @@ public class lazercmd {
         DARK_YELLOW, MUSTARD, /* 4    "      " */
         BLACK, WHITE /* 5    "      " */};
 
-    public static VhConvertColorPromPtr init_palette = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr init_palette = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] game_palette, char[] game_colortable, UBytePtr color_prom) {
             memcpy(game_palette, palette, sizeof(palette));
             memcpy(game_colortable, colortable, sizeof(colortable));
@@ -514,7 +514,7 @@ public class lazercmd {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_lazercmd = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_lazercmd = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x8000, REGION_CPU1);
             /* 32K cpu, 4K for ROM/RAM */
@@ -531,7 +531,7 @@ public class lazercmd {
         }
     };
 
-    static RomLoadPtr rom_medlanes = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_medlanes = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x8000, REGION_CPU1);
             /* 32K cpu, 4K for ROM/RAM */
@@ -552,7 +552,7 @@ public class lazercmd {
         }
     };
 
-    public static InitDriverPtr init_lazercmd = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_lazercmd = new InitDriverHandlerPtr() {
         public void handler() {
             int i, y;
 
@@ -591,7 +591,7 @@ public class lazercmd {
         }
     };
 
-    public static InitDriverPtr init_medlanes = new InitDriverPtr() {
+    public static InitDriverHandlerPtr init_medlanes = new InitDriverHandlerPtr() {
         public void handler() {
             int i, y;
 

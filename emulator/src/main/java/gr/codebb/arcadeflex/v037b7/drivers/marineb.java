@@ -22,14 +22,14 @@ import static arcadeflex.v036.vidhrdw.espial.*;
 
 public class marineb {
 
-    public static InitMachinePtr marineb_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr marineb_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             marineb_active_low_flipscreen = 0;
             espial_init_machine.handler();
         }
     };
 
-    public static InitMachinePtr springer_init_machine = new InitMachinePtr() {
+    public static InitMachineHandlerPtr springer_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             marineb_active_low_flipscreen = 1;
             espial_init_machine.handler();
@@ -669,7 +669,7 @@ public class marineb {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_marineb = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_marineb = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("marineb.1", 0x0000, 0x1000, 0x661d6540);
@@ -692,7 +692,7 @@ public class marineb {
         }
     };
 
-    static RomLoadPtr rom_changes = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_changes = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("changes.1", 0x0000, 0x1000, 0x56f83813);
@@ -714,7 +714,7 @@ public class marineb {
         }
     };
 
-    static RomLoadPtr rom_looper = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_looper = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("changes.1", 0x0000, 0x1000, 0x56f83813);
@@ -736,7 +736,7 @@ public class marineb {
         }
     };
 
-    static RomLoadPtr rom_springer = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_springer = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("springer.1", 0x0000, 0x1000, 0x0794103a);
@@ -762,7 +762,7 @@ public class marineb {
         }
     };
 
-    static RomLoadPtr rom_hoccer = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hoccer = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("hr1.cpu", 0x0000, 0x2000, 0x12e96635);
@@ -783,7 +783,7 @@ public class marineb {
         }
     };
 
-    static RomLoadPtr rom_hoccer2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hoccer2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("hr.1", 0x0000, 0x2000, 0x122d159f);
@@ -804,7 +804,7 @@ public class marineb {
         }
     };
 
-    static RomLoadPtr rom_wanted = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_wanted = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
@@ -827,7 +827,7 @@ public class marineb {
         }
     };
 
-    static RomLoadPtr rom_hopprobo = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_hopprobo = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("hopper01.3k", 0x0000, 0x1000, 0xfd7935c0);

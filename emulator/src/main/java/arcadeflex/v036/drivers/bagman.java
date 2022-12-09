@@ -445,7 +445,7 @@ public class bagman {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_bagman = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bagman = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -476,7 +476,7 @@ public class bagman {
         }
     };
 
-    static RomLoadPtr rom_bagnard = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bagnard = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -507,7 +507,7 @@ public class bagman {
         }
     };
 
-    static RomLoadPtr rom_bagmans = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bagmans = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -538,7 +538,7 @@ public class bagman {
         }
     };
 
-    static RomLoadPtr rom_bagmans2 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_bagmans2 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -569,7 +569,7 @@ public class bagman {
         }
     };
 
-    static RomLoadPtr rom_sbagman = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sbagman = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -610,7 +610,7 @@ public class bagman {
         }
     };
 
-    static RomLoadPtr rom_sbagmans = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_sbagmans = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -651,7 +651,7 @@ public class bagman {
         }
     };
 
-    static RomLoadPtr rom_pickin = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pickin = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 

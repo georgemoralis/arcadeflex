@@ -396,7 +396,7 @@ public class tp84 {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_tp84 = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tp84 = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
@@ -440,7 +440,7 @@ public class tp84 {
         }
     };
 
-    static RomLoadPtr rom_tp84a = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_tp84a = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 

@@ -132,7 +132,7 @@ public class xain
 	//	if (errorlog) fprintf(errorlog,"write %02x to 68705\n",data);
 	} };
 	
-	public static InterruptPtr xainA_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr xainA_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		/* returning nmi on iloops() == 0 will cause lockups because the nmi handler */
 		/* waits for the vblank bit to be clear and there are other places in the code */
@@ -422,7 +422,7 @@ public class xain
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_xsleena = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_xsleena = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x14000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "s-10.7d",      0x08000, 0x8000, 0x370164be );
 		ROM_LOAD( "s-11.7c",      0x04000, 0x4000, 0xd22bf859 );
@@ -473,7 +473,7 @@ public class xain
 		ROM_LOAD( "mb7114e.59",   0x0000, 0x0100, 0xfed32888 );/* timing? (not used) */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_xsleenab = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_xsleenab = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x14000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "1.rom",        0x08000, 0x8000, 0x79f515a7 );
 		ROM_LOAD( "s-11.7c",      0x04000, 0x4000, 0xd22bf859 );
@@ -524,7 +524,7 @@ public class xain
 		ROM_LOAD( "mb7114e.59",   0x0000, 0x0100, 0xfed32888 );/* timing? (not used) */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_solarwar = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_solarwar = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x14000, REGION_CPU1 );/* 64k for code */
 		ROM_LOAD( "p9-0.bin",     0x08000, 0x8000, 0x8ff372a8 );
 		ROM_LOAD( "pa-0.bin",     0x04000, 0x4000, 0x154f946f );
@@ -577,7 +577,7 @@ public class xain
 	
 	
 	
-	public static InitDriverPtr init_xsleena = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_xsleena = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM = memory_region(REGION_CPU1);
 	
@@ -590,7 +590,7 @@ public class xain
 		RAM.write(0xd48d,0x12);
 	} };
 	
-	public static InitDriverPtr init_solarwar = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_solarwar = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM = memory_region(REGION_CPU1);
 	

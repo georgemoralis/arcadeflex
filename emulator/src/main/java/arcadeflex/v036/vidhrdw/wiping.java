@@ -33,7 +33,7 @@ public class wiping {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr wiping_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr wiping_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
 
@@ -91,7 +91,7 @@ public class wiping {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr wiping_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr wiping_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

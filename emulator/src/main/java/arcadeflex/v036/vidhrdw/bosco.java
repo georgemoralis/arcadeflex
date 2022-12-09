@@ -85,7 +85,7 @@ public class bosco {
             0 * 8, 28 * 8 - 1
     );
 
-    public static VhConvertColorPromPtr bosco_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr bosco_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -138,7 +138,7 @@ public class bosco {
         }
     };
 
-    public static VhStartPtr bosco_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr bosco_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int generator;
             int x, y;
@@ -212,7 +212,7 @@ public class bosco {
      *
      **************************************************************************
      */
-    public static VhStopPtr bosco_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr bosco_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             osd_free_bitmap(tmpbitmap1);
             dirtybuffer2 = null;
@@ -277,7 +277,7 @@ public class bosco {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr bosco_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr bosco_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs, sx, sy;
 

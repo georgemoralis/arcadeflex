@@ -32,7 +32,7 @@ import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 public class rockrage {
 
     /* from vidhrdw */
-    public static InterruptPtr rockrage_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr rockrage_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (K007342_is_INT_enabled() != 0) {
                 return HD6309_INT_IRQ;
@@ -342,7 +342,7 @@ public class rockrage {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_rockrage = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rockrage = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* code + banked roms */
             ROM_LOAD("rr-q01.rom", 0x08000, 0x08000, 0x0ddb5ef5);/* fixed ROM */
@@ -371,7 +371,7 @@ public class rockrage {
         }
     };
 
-    static RomLoadPtr rom_rockragj = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_rockragj = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x20000, REGION_CPU1);/* code + banked roms */
             ROM_LOAD("620k01.16c", 0x08000, 0x08000, 0x4f5171f7);/* fixed ROM */

@@ -109,7 +109,7 @@ public class gauntlet
                 0
         );
                 
-	public static VhStartPtr gauntlet_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr gauntlet_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		/* reset statics */
 		//memset(&pf_state, 0, sizeof(pf_state));
@@ -138,7 +138,7 @@ public class gauntlet
 	 *
 	 *************************************/
 	
-	public static VhStopPtr gauntlet_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr gauntlet_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		atarigen_pf_free();
 		atarigen_mo_free();
@@ -226,7 +226,7 @@ public class gauntlet
 	 *
 	 *************************************/
 	
-	public static VhUpdatePtr gauntlet_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr gauntlet_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		/* update the palette, and mark things dirty */
 		if (update_palette() != null)

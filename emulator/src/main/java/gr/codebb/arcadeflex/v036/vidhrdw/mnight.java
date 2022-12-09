@@ -55,7 +55,7 @@ public class mnight
 	static int       bg_enable = 1;
 	static int       sp_overdraw = 0;
 	
-	public static VhStartPtr mnight_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr mnight_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		int i;
 	
@@ -91,7 +91,7 @@ public class mnight
 		return 0;
 	} };
 	
-	public static VhStopPtr mnight_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr mnight_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		osd_free_bitmap(bitmap_bg);
 		osd_free_bitmap(bitmap_sp);
@@ -245,7 +245,7 @@ public class mnight
 	  the main emulation engine.
 	
 	***************************************************************************/
-	public static VhUpdatePtr mnight_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr mnight_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		int scrollx,scrolly;
 	

@@ -320,7 +320,7 @@ public class prehisle
 	
 	/******************************************************************************/
 	
-	static RomLoadPtr rom_prehisle = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_prehisle = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "gt.2", 0x00000, 0x20000, 0x7083245a );
 		ROM_LOAD_ODD ( "gt.3", 0x00000, 0x20000, 0x6d8cdf58 );
@@ -348,7 +348,7 @@ public class prehisle
 		ROM_LOAD( "gt.4",  0x000000, 0x20000, 0x85dfb9ec );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_prehislu = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_prehislu = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "gt-u2.2h", 0x00000, 0x20000, 0xa14f49bb );
 		ROM_LOAD_ODD ( "gt-u3.3h", 0x00000, 0x20000, 0xf165757e );
@@ -376,7 +376,7 @@ public class prehisle
 		ROM_LOAD( "gt.4",  0x000000, 0x20000, 0x85dfb9ec );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_gensitou = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_gensitou = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x40000, REGION_CPU1 );
 		ROM_LOAD_EVEN( "gt2j.bin", 0x00000, 0x20000, 0xa2da0b6b );
 		ROM_LOAD_ODD ( "gt3j.bin", 0x00000, 0x20000, 0xc1a0ae8e );
@@ -418,7 +418,7 @@ public class prehisle
 		return ret;
 	} };
 	
-	public static InitDriverPtr init_prehisle = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_prehisle = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_mem_read_handler(0, 0x70024, 0x70025, world_cycle_r);
 	} };
@@ -435,7 +435,7 @@ public class prehisle
 		return ret;
 	} };
 	
-	public static InitDriverPtr init_prehislu = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_prehislu = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_mem_read_handler(0, 0x70024, 0x70025, usa_cycle_r);
 	} };
@@ -452,7 +452,7 @@ public class prehisle
 		return ret;
 	} };
 	
-	public static InitDriverPtr init_gensitou = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_gensitou = new InitDriverHandlerPtr() { public void handler() 
 	{
 		install_mem_read_handler(0, 0x70024, 0x70025, jap_cycle_r);
 	} };

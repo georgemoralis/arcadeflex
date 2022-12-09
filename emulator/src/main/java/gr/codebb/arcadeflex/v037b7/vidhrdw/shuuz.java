@@ -153,7 +153,7 @@ public class shuuz
                 1					/* non-scrolling */
         );    
 	
-	public static VhStartPtr shuuz_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr shuuz_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 
 	
@@ -179,7 +179,7 @@ public class shuuz
 	 *
 	 *************************************/
 	
-	public static VhStopPtr shuuz_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr shuuz_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 		atarigen_pf_free();
 		atarigen_mo_free();
@@ -238,7 +238,7 @@ public class shuuz
 	 *
 	 *************************************/
 	
-	public static VhUpdatePtr shuuz_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr shuuz_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 /*TODO*///	#if DEBUG_VIDEO
 /*TODO*///		debug();

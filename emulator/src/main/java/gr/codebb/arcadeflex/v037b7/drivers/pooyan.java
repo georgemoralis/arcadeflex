@@ -4,6 +4,9 @@
  */
 package gr.codebb.arcadeflex.v037b7.drivers;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -219,7 +222,7 @@ public class pooyan {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_pooyan = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pooyan = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("1.4a", 0x0000, 0x2000, 0xbb319c63);
@@ -247,7 +250,7 @@ public class pooyan {
         }
     };
 
-    static RomLoadPtr rom_pooyans = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pooyans = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("ic22_a4.cpu", 0x0000, 0x2000, 0x916ae7d7);
@@ -275,7 +278,7 @@ public class pooyan {
         }
     };
 
-    static RomLoadPtr rom_pootan = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pootan = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
             ROM_LOAD("poo_ic22.bin", 0x0000, 0x2000, 0x41b23a24);

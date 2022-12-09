@@ -288,7 +288,7 @@ public class aeroboto
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_formatz = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_formatz = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );    /* 64k for main CPU */
 		ROM_LOAD( "format_z.8",   0x4000, 0x4000, 0x81a2416c );
 		ROM_LOAD( "format_z.7",   0x8000, 0x4000, 0x986e6052 );
@@ -314,7 +314,7 @@ public class aeroboto
 		ROM_LOAD( "10c",          0x0200, 0x0100, 0x00000000 );
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_aeroboto = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_aeroboto = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x10000, REGION_CPU1 );    /* 64k for main CPU */
 		ROM_LOAD( "aeroboto.8",   0x4000, 0x4000, 0x4d3fc049 );
 		ROM_LOAD( "aeroboto.7",   0x8000, 0x4000, 0x522f51c1 );

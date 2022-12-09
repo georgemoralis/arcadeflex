@@ -138,7 +138,7 @@ public class flkatck
 	
 	***************************************************************************/
 	
-	public static VhStartPtr flkatck_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr flkatck_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		k007121_tilemap[0] = tilemap_create(get_tile_info_A, TILEMAP_OPAQUE, 8,8, 32, 32 );
 		k007121_tilemap[1] = tilemap_create(get_tile_info_B, TILEMAP_OPAQUE, 8,8, 32, 32 );
@@ -159,7 +159,7 @@ public class flkatck
 		return 1;
 	} };
 	
-	public static VhStopPtr flkatck_vh_stop = new VhStopPtr() { public void handler() 
+	public static VhStopHandlerPtr flkatck_vh_stop = new VhStopHandlerPtr() { public void handler() 
 	{
 	} };
 	
@@ -176,7 +176,7 @@ public class flkatck
 	
 	***************************************************************************/
 	
-	public static VhUpdatePtr flkatck_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr flkatck_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 	/*#if 0
 	usrintf_showmessage("%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x  %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x",

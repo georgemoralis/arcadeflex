@@ -348,13 +348,13 @@ public class ginganin
 	
 	
 	
-	public static InterruptPtr ginganin_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr ginganin_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		return 1;	/* ? (vectors 1-7 cointain the same address) */
 	} };
 	
 	/* Modified by Takahiro Nogi. 1999/09/27 */
-	public static InterruptPtr ginganin_sound_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr ginganin_sound_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		/* MC6840 Emulation by Takahiro Nogi. 1999/09/27
 		(This routine hasn't been completed yet.) */
@@ -457,7 +457,7 @@ public class ginganin
 	
 	***************************************************************************/
 	
-	static RomLoadPtr rom_ginganin = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_ginganin = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x20000, REGION_CPU1 );/* main cpu */
 		ROM_LOAD_EVEN( "gn_02.bin", 0x00000, 0x10000, 0x4a4e012f );
 		ROM_LOAD_ODD(  "gn_01.bin", 0x00000, 0x10000, 0x30256fcb );
@@ -494,7 +494,7 @@ public class ginganin
 	
 	
 	
-	public static InitDriverPtr init_ginganin = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_ginganin = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr RAM;
 	

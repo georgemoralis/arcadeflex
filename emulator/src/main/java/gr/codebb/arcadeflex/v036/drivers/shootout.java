@@ -275,7 +275,7 @@ public class shootout
 		new WriteYmHandlerPtr[] { shootout_snd2_irq }
 	);
 	static int coin = 0;
-	public static InterruptPtr shootout_interrupt = new InterruptPtr() { public int handler() 
+	public static InterruptHandlerPtr shootout_interrupt = new InterruptHandlerPtr() { public int handler() 
 	{
 		
 	
@@ -371,7 +371,7 @@ public class shootout
 	);
 	
 	
-	static RomLoadPtr rom_shootout = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_shootout = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 2*0x20000, REGION_CPU1 );/* 128k for code + 128k for decrypted opcodes */
 		ROM_LOAD( "cu00.b1",        0x08000, 0x8000, 0x090edeb6 );/* opcodes encrypted */
 		/* banked at 0x4000-0x8000 */
@@ -403,7 +403,7 @@ public class shootout
 		ROM_LOAD( "gb09.k6",        0x0100, 0x0100, 0xaa090565 );/* unknown */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_shootouj = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_shootouj = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 0x20000, REGION_CPU1 );/* 2 * 128k for code  */
 		ROM_LOAD( "cg02.bin",    0x08000, 0x8000, 0x8fc5d632 );
 		ROM_LOAD( "cg00.bin",    0x10000, 0x8000, 0xef6ced1e );
@@ -428,7 +428,7 @@ public class shootout
 		ROM_LOAD( "gb09.k6",        0x0100, 0x0100, 0xaa090565 );/* unknown */
 	ROM_END(); }}; 
 	
-	static RomLoadPtr rom_shootoub = new RomLoadPtr(){ public void handler(){ 
+	static RomLoadHandlerPtr rom_shootoub = new RomLoadHandlerPtr(){ public void handler(){ 
 		ROM_REGION( 2 * 0x20000, REGION_CPU1 );/* 128k for code  */
 		ROM_LOAD( "shootout.006", 0x08000, 0x8000, 0x2c054888 );
 		ROM_LOAD( "shootout.008", 0x10000, 0x8000, 0x9651b656 );
@@ -453,7 +453,7 @@ public class shootout
 		ROM_LOAD( "gb09.k6",        0x0100, 0x0100, 0xaa090565 );/* unknown */
 	ROM_END(); }}; 
 	
-	public static InitDriverPtr init_shootout = new InitDriverPtr() { public void handler() 
+	public static InitDriverHandlerPtr init_shootout = new InitDriverHandlerPtr() { public void handler() 
 	{
 		UBytePtr rom = memory_region(REGION_CPU1);
 		int diff = memory_region_length(REGION_CPU1) / 2;

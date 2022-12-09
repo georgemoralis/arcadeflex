@@ -197,12 +197,12 @@ public class toaplan2 {
         spriteram_next[controller] = null;
         spriteram_new[controller] = null;
     }
-    public static VhStopPtr toaplan2_0_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr toaplan2_0_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             toaplan2_vh_stop(0);
         }
     };
-    public static VhStopPtr toaplan2_1_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr toaplan2_1_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             toaplan2_vh_stop(1);
             toaplan2_vh_stop(0);
@@ -327,12 +327,12 @@ public class toaplan2 {
             return error_level;
         }
     };
-    public static VhStartPtr toaplan2_0_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr toaplan2_0_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             return toaplan2_vh_start.handler(0);
         }
     };
-    public static VhStartPtr toaplan2_1_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr toaplan2_1_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             int error_level = 0;
             error_level |= toaplan2_vh_start.handler(0);
@@ -897,7 +897,7 @@ public class toaplan2 {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr toaplan2_0_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr toaplan2_0_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int priority;
 
@@ -929,7 +929,7 @@ public class toaplan2 {
             }
         }
     };
-    public static VhUpdatePtr toaplan2_1_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr toaplan2_1_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int priority;
 
@@ -974,7 +974,7 @@ public class toaplan2 {
             }
         }
     };
-    public static VhUpdatePtr batsugun_1_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr batsugun_1_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int priority;
 

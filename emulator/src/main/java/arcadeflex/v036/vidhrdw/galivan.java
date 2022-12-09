@@ -53,7 +53,7 @@ public class galivan {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr galivan_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr galivan_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -186,7 +186,7 @@ public class galivan {
      *
      **************************************************************************
      */
-    public static VhStartPtr galivan_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr galivan_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             bg_tilemap = tilemap_create(get_bg_tile_info,
                     TILEMAP_OPAQUE,
@@ -207,7 +207,7 @@ public class galivan {
         }
     };
 
-    public static VhStartPtr ninjemak_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr ninjemak_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             bg_tilemap = tilemap_create(ninjemak_get_bg_tile_info,
                     TILEMAP_OPAQUE,
@@ -396,7 +396,7 @@ public class galivan {
         }
     }
 
-    public static VhUpdatePtr galivan_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr galivan_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             tilemap_set_scrollx(bg_tilemap, 0, scrollx[0] + 256 * (scrollx[1] & 0x07));
             tilemap_set_scrolly(bg_tilemap, 0, scrolly[0] + 256 * (scrolly[1] & 0x07));
@@ -417,7 +417,7 @@ public class galivan {
             tilemap_draw(bitmap, char_tilemap, 1);
         }
     };
-    public static VhUpdatePtr ninjemak_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr ninjemak_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             /* (scrollx[1] & 0x40) does something */
             tilemap_set_scrollx(bg_tilemap, 0, scrollx[0] + 256 * (scrollx[1] & 0x1f));

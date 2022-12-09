@@ -68,7 +68,7 @@ public class yard {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr yard_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr yard_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -165,7 +165,7 @@ public class yard {
      *
      **************************************************************************
      */
-    public static VhStartPtr yard_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr yard_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             if ((dirtybuffer = new char[videoram_size[0]]) == null) {
                 return 1;
@@ -194,7 +194,7 @@ public class yard {
      *
      **************************************************************************
      */
-    public static VhStopPtr yard_vh_stop = new VhStopPtr() {
+    public static VhStopHandlerPtr yard_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             dirtybuffer = null;
             osd_free_bitmap(tmpbitmap);
@@ -250,7 +250,7 @@ public class yard {
      *
      **************************************************************************
      */
-    public static VhUpdatePtr yard_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr yard_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int offs;
 

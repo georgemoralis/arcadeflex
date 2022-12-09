@@ -4,6 +4,9 @@
  */
 package gr.codebb.arcadeflex.v037b7.drivers;
 
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -22,7 +25,7 @@ public class pingpong {
 
     static UBytePtr intenable = new UBytePtr();
 
-    public static InterruptPtr pingpong_interrupt = new InterruptPtr() {
+    public static InterruptHandlerPtr pingpong_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (cpu_getiloops() == 0) {
                 if ((intenable.read() & 0x04) != 0) {
@@ -234,7 +237,7 @@ public class pingpong {
      *
      **************************************************************************
      */
-    static RomLoadPtr rom_pingpong = new RomLoadPtr() {
+    static RomLoadHandlerPtr rom_pingpong = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 

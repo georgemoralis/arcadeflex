@@ -113,7 +113,7 @@ public class bionicc
 	
 	***************************************************************************/
 	
-	public static VhStartPtr bionicc_vh_start = new VhStartPtr() { public int handler() 
+	public static VhStartHandlerPtr bionicc_vh_start = new VhStartHandlerPtr() { public int handler() 
 	{
 		tx_tilemap = tilemap_create(
 		get_tx_tile_info,
@@ -320,7 +320,7 @@ public class bionicc
 		}
 	}
 	
-	public static VhUpdatePtr bionicc_vh_screenrefresh = new VhUpdatePtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
+	public static VhUpdateHandlerPtr bionicc_vh_screenrefresh = new VhUpdateHandlerPtr() { public void handler(osd_bitmap bitmap,int full_refresh) 
 	{
 		//fg_preupdate(); 
                 tilemap_update(fg_tilemap);

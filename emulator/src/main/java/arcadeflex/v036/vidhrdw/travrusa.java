@@ -52,7 +52,7 @@ public class travrusa {
     static int TOTAL_COLORS(int gfxn) {
         return Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity;
     }
-    public static VhConvertColorPromPtr travrusa_vh_convert_color_prom = new VhConvertColorPromPtr() {
+    public static VhConvertColorPromHandlerPtr travrusa_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
             //#define TOTAL_COLORS(gfxn) (Machine.gfx[gfxn].total_colors * Machine.gfx[gfxn].color_granularity)
@@ -153,7 +153,7 @@ public class travrusa {
      *
      **************************************************************************
      */
-    public static VhStartPtr travrusa_vh_start = new VhStartPtr() {
+    public static VhStartHandlerPtr travrusa_vh_start = new VhStartHandlerPtr() {
         public int handler() {
             bg_tilemap = tilemap_create(
                     get_bg_tile_info,
@@ -275,7 +275,7 @@ public class travrusa {
         }
     }
 
-    public static VhUpdatePtr travrusa_vh_screenrefresh = new VhUpdatePtr() {
+    public static VhUpdateHandlerPtr travrusa_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             tilemap_update(ALL_TILEMAPS);
 
