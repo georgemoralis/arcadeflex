@@ -419,7 +419,7 @@ public class lastduel
 		tilemap_draw(bitmap,fix_tilemap,0);
 	} };
 	
-	public static VhEofCallbackPtr lastduel_eof_callback = new VhEofCallbackPtr() {
+	public static VhEofCallbackHandlerPtr lastduel_eof_callback = new VhEofCallbackHandlerPtr() {
         public void handler() {
 		/* Spriteram is always 1 frame ahead, suggesting buffering.  I can't find
 			a register to control this so I assume it happens automatically

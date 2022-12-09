@@ -304,7 +304,7 @@ public class segar {
      * Input Ports
      * *************************************************************************
      */
-    static InputPortPtr input_ports_astrob = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_astrob = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -417,7 +417,7 @@ public class segar {
         }
     };
 
-    static InputPortPtr input_ports_astrob2 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_astrob2 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -530,7 +530,7 @@ public class segar {
         }
     };
 
-    static InputPortPtr input_ports_astrob1 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_astrob1 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -643,7 +643,7 @@ public class segar {
         }
     };
 
-    static InputPortPtr input_ports_005 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_005 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -758,7 +758,7 @@ public class segar {
         }
     };
 
-    static InputPortPtr input_ports_monsterb = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_monsterb = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -870,7 +870,7 @@ public class segar {
         }
     };
 
-    static InputPortPtr input_ports_spaceod = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_spaceod = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -983,7 +983,7 @@ public class segar {
         }
     };
 
-    static InputPortPtr input_ports_pignewt = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pignewt = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1097,7 +1097,7 @@ public class segar {
         }
     };
 
-    static InputPortPtr input_ports_pignewta = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pignewta = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1208,7 +1208,7 @@ public class segar {
         }
     };
 
-    static InputPortPtr input_ports_sindbadm = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_sindbadm = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

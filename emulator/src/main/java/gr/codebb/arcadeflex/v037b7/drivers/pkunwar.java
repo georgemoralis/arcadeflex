@@ -50,7 +50,7 @@ public class pkunwar {
                 new IOWritePort(0x00, 0x00, pkunwar_flipscreen_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_pkunwar = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pkunwar = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

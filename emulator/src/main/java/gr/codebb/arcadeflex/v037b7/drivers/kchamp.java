@@ -229,7 +229,7 @@ public class kchamp {
                 new IOWritePort(0x05, 0x05, kc_sound_control_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_kchampvs = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_kchampvs = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -299,7 +299,7 @@ public class kchamp {
      * ******************
      * 1 Player Version * ******************
      */
-    static InputPortPtr input_ports_kchamp = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_kchamp = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

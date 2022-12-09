@@ -4,7 +4,9 @@
  */
 package arcadeflex.v036.sound;
 
-import gr.codebb.arcadeflex.v036.mame.driverH.*;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.MAX_3812;
 import gr.codebb.arcadeflex.v037b7.sound._3812intfH.YM3812interface;
 

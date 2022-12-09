@@ -68,7 +68,7 @@ public class tutankhm
 	};
 	
 	
-	static InputPortPtr input_ports_tutankhm = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_tutankhm = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* DSW2 */
 		PORT_DIPNAME( 0x03, 0x03, DEF_STR( "Lives") );
 		PORT_DIPSETTING(    0x03, "3" );

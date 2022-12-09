@@ -234,7 +234,7 @@ public class sidepckt {
     /**
      * ***************************************************************************
      */
-    static InputPortPtr input_ports_sidepckt = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_sidepckt = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();  /* 0x3000 */
 

@@ -98,7 +98,7 @@ public class bagman {
                 new IOWritePort(0x09, 0x09, AY8910_write_port_0_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_bagman = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_bagman = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -155,7 +155,7 @@ public class bagman {
 
     /* EXACTLY the same as bagman, the only difference is that
      Languade dip is replaced by Demo Sounds */
-    static InputPortPtr input_ports_bagmans = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_bagmans = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -212,7 +212,7 @@ public class bagman {
 
     /* EXACTLY the same as bagman, the only difference is that the START1 button */
  /* also acts as the shoot button. */
-    static InputPortPtr input_ports_sbagman = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_sbagman = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -271,7 +271,7 @@ public class bagman {
         }
     };
 
-    static InputPortPtr input_ports_pickin = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pickin = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

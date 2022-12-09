@@ -263,7 +263,7 @@ public class lazercmd {
                 new IOReadPort(S2650_DATA_PORT, S2650_DATA_PORT, lazercmd_data_port_r),
                 new IOReadPort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_lazercmd = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_lazercmd = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 player 1 controls */
@@ -320,7 +320,7 @@ public class lazercmd {
         }
     };
 
-    static InputPortPtr input_ports_medlanes = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_medlanes = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 player 1 controls */

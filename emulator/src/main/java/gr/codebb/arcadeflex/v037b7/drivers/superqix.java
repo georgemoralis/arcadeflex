@@ -60,7 +60,7 @@ public class superqix {
                 new IOWritePort(0x8800, 0xf7ff, superqix_bitmapram2_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_superqix = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_superqix = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

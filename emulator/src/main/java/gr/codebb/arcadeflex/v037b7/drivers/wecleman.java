@@ -1061,7 +1061,7 @@ public class wecleman
 									WEC Le Mans 24
 	***************************************************************************/
 	
-	static InputPortPtr input_ports_wecleman = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_wecleman = new InputPortHandlerPtr(){ public void handler() { 
 	
 		PORT_START();       /* IN0 - Controls and Coins - $140011.b */
 		CONTROLS_AND_COINS(IP_ACTIVE_HIGH);
@@ -1160,7 +1160,7 @@ public class wecleman
 									Hot Chase
 	***************************************************************************/
 	
-	static InputPortPtr input_ports_hotchase = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_hotchase = new InputPortHandlerPtr(){ public void handler() { 
 	
 		PORT_START();       /* IN0 - Controls and Coins - $140011.b */
 		CONTROLS_AND_COINS(IP_ACTIVE_LOW);

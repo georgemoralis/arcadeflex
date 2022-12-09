@@ -155,7 +155,7 @@ public class toki {
                 new MemoryWriteAddress(0xf000, 0xf7ff, MWA_RAM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_toki = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_toki = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 

@@ -68,7 +68,7 @@ public class pingpong {
                 new MemoryWriteAddress(0xA600, 0xA600, watchdog_reset_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_pingpong = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pingpong = new InputPortHandlerPtr() {
         public void handler() {
 
             PORT_START();

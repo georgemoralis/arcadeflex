@@ -224,7 +224,7 @@ public class tumblep {
     /**
      * ***************************************************************************
      */
-    static InputPortPtr input_ports_tumblep = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_tumblep = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* Player 1 controls */
 

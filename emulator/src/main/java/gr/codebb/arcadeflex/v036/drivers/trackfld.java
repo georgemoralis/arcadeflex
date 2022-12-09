@@ -75,7 +75,7 @@ public class trackfld
 	static int[] nvram_size=new int[1];
 	static int we_flipped_the_switch;
 	
-        public static nvramPtr nvram_handler = new nvramPtr(){ public void handler(Object file,int read_or_write)
+        public static nvramHandlerPtr nvram_handler = new nvramHandlerPtr(){ public void handler(Object file,int read_or_write)
         {
 	/*	if (read_or_write)
 		{
@@ -237,7 +237,7 @@ public class trackfld
 	
 	
 	
-	static InputPortPtr input_ports_trackfld = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_trackfld = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );

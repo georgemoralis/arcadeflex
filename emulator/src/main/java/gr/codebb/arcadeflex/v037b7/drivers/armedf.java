@@ -337,7 +337,7 @@ public class armedf
 		new IOWritePort( -1 )	/* end of table */
 	};
 	
-	static InputPortPtr input_ports_armedf = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_armedf = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY);
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY);
@@ -420,7 +420,7 @@ public class armedf
 		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_terraf = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_terraf = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY);
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY);
@@ -501,7 +501,7 @@ public class armedf
 		PORT_DIPSETTING(    0x00, "Unlimited" );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_kodure = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_kodure = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY);
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY);
@@ -585,7 +585,7 @@ public class armedf
 		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_cclimbr2 = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_cclimbr2 = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICKLEFT_UP     | IPF_8WAY | IPF_PLAYER1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICKLEFT_DOWN   | IPF_8WAY | IPF_PLAYER1 );

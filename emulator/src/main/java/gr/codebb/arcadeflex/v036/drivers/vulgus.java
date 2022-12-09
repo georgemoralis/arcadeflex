@@ -79,7 +79,7 @@ public class vulgus {
                 new MemoryWriteAddress(0xc001, 0xc001, AY8910_write_port_1_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_vulgus = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_vulgus = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN0 */
 

@@ -280,7 +280,7 @@ public class parodius {
      *
      **************************************************************************
      */
-    static InputPortPtr input_ports_parodius = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_parodius = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* PLAYER 1 INPUTS */

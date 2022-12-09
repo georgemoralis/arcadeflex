@@ -282,7 +282,7 @@ public class tnzs
 	
 	
 	
-	static InputPortPtr input_ports_extrmatn = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_extrmatn = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* DSW A */
 		PORT_DIPNAME( 0x01, 0x01, DEF_STR( "Unknown") );
 		PORT_DIPSETTING(    0x01, DEF_STR( "Off") );
@@ -362,7 +362,7 @@ public class tnzs
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_arkanoi2 = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_arkanoi2 = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* DSW1 - IN2 */
 		PORT_DIPNAME( 0x01, 0x00, DEF_STR( "Cabinet") );
 		PORT_DIPSETTING(    0x00, DEF_STR( "Upright") );
@@ -434,7 +434,7 @@ public class tnzs
 		PORT_BIT   ( 0xf000, IP_ACTIVE_LOW,  IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_ark2us = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_ark2us = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* DSW1 - IN2 */
 		PORT_DIPNAME( 0x01, 0x00, DEF_STR( "Cabinet") );
 		PORT_DIPSETTING(    0x00, DEF_STR( "Upright") );
@@ -506,7 +506,7 @@ public class tnzs
 		PORT_BIT   ( 0xf000, IP_ACTIVE_LOW,  IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_plumppop = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_plumppop = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* DSW A */
 		PORT_DIPNAME( 0x01, 0x01, DEF_STR( "Unknown") );
 		PORT_DIPSETTING(    0x01, DEF_STR( "Off") );
@@ -591,7 +591,7 @@ public class tnzs
 		PORT_ANALOG( 0xffff, 0x0000, IPT_DIAL | IPF_PLAYER2, 70, 15, 0, 0 );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_drtoppel = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_drtoppel = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* DSW A */
 		PORT_DIPNAME( 0x01, 0x00, DEF_STR( "Cabinet") );
 		PORT_DIPSETTING(    0x00, DEF_STR( "Upright") );
@@ -668,7 +668,7 @@ public class tnzs
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_chukatai = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_chukatai = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* DSW A */
 		PORT_DIPNAME( 0x01, 0x00, DEF_STR( "Cabinet") );
 		PORT_DIPSETTING(    0x00, DEF_STR( "Upright") );
@@ -753,7 +753,7 @@ public class tnzs
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_tnzs = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_tnzs = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* DSW A */
 		PORT_DIPNAME( 0x01, 0x00, DEF_STR( "Cabinet") );
 		PORT_DIPSETTING(    0x00, DEF_STR( "Upright") );
@@ -830,7 +830,7 @@ public class tnzs
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_tnzsb = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_tnzsb = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* DSW A */
 		PORT_DIPNAME( 0x01, 0x00, DEF_STR( "Cabinet") );
 		PORT_DIPSETTING(    0x00, DEF_STR( "Upright") );
@@ -907,7 +907,7 @@ public class tnzs
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_tnzs2 = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_tnzs2 = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* DSW A */
 		PORT_DIPNAME( 0x01, 0x00, DEF_STR( "Cabinet") );
 		PORT_DIPSETTING(    0x00, DEF_STR( "Upright") );
@@ -984,7 +984,7 @@ public class tnzs
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_insectx = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_insectx = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* DSW A */
 		PORT_DIPNAME( 0x01, 0x00, DEF_STR( "Cabinet") );
 		PORT_DIPSETTING(    0x00, DEF_STR( "Upright") );
@@ -1063,7 +1063,7 @@ public class tnzs
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_kageki = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_kageki = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* DSW A */
 		PORT_DIPNAME( 0x01, 0x00, DEF_STR( "Cabinet") );
 		PORT_DIPSETTING(    0x00, DEF_STR( "Upright") );

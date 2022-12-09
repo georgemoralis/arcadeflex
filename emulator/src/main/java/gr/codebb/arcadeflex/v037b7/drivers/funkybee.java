@@ -63,7 +63,7 @@ public class funkybee {
                 new IOWritePort(0x01, 0x01, AY8910_write_port_0_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_funkybee = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_funkybee = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN0 */
 
@@ -120,7 +120,7 @@ public class funkybee {
         }
     };
 
-    static InputPortPtr input_ports_skylancr = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_skylancr = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN0 */
 

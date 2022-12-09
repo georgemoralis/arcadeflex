@@ -93,7 +93,7 @@ public class _88games
 	static UBytePtr nvram=new UBytePtr();
 	static int[] nvram_size=new int[1];
 	
-	public static nvramPtr nvram_handler = new nvramPtr(){ public void handler(Object file,int read_or_write)
+	public static nvramHandlerPtr nvram_handler = new nvramHandlerPtr(){ public void handler(Object file,int read_or_write)
         {
 		if (read_or_write!=0)
 			osd_fwrite(file,nvram,nvram_size[0]);
@@ -263,7 +263,7 @@ public class _88games
 	
 	***************************************************************************/
 	
-	static InputPortPtr input_ports_88games = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_88games = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );

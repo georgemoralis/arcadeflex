@@ -2384,7 +2384,7 @@ public class snk {
     /**
      * ********************************************************************
      */
-    static InputPortPtr input_ports_ikari = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ikari = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);/* sound CPU status */
@@ -2472,7 +2472,7 @@ public class snk {
         }
     };
 
-    static InputPortPtr input_ports_ikarijp = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ikarijp = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
@@ -2560,7 +2560,7 @@ public class snk {
         }
     };
 
-    static InputPortPtr input_ports_victroad = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_victroad = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -2649,7 +2649,7 @@ public class snk {
         }
     };
 
-    static InputPortPtr input_ports_gwar = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_gwar = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -2739,7 +2739,7 @@ public class snk {
         }
     };
 
-    static InputPortPtr input_ports_athena = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_athena = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -2825,7 +2825,7 @@ public class snk {
         }
     };
 
-    static InputPortPtr input_ports_tnk3 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_tnk3 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN2);
@@ -2914,7 +2914,7 @@ public class snk {
         }
     };
 
-    static InputPortPtr input_ports_bermudat = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_bermudat = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);/* sound CPU status */
@@ -2999,7 +2999,7 @@ public class snk {
         }
     };
 
-    static InputPortPtr input_ports_bermudaa = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_bermudaa = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);/* sound CPU status */
@@ -3083,7 +3083,7 @@ public class snk {
     };
 
     /* Same as Bermudaa, but has different Bonus Life */
-    static InputPortPtr input_ports_worldwar = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_worldwar = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);/* sound CPU status */
@@ -3166,7 +3166,7 @@ public class snk {
         }
     };
 
-    static InputPortPtr input_ports_psychos = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_psychos = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -3251,7 +3251,7 @@ public class snk {
         }
     };
 
-    static InputPortPtr input_ports_legofair = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_legofair = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -3337,7 +3337,7 @@ public class snk {
         }
     };
 
-    static InputPortPtr input_ports_fitegolf = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_fitegolf = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -3422,7 +3422,7 @@ public class snk {
         }
     };
 
-    static InputPortPtr input_ports_ftsoccer = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ftsoccer = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -3539,7 +3539,7 @@ public class snk {
         }
     };
 
-    static InputPortPtr input_ports_tdfever = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_tdfever = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_SERVICE1);

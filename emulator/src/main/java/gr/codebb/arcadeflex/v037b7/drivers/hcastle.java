@@ -149,7 +149,7 @@ public class hcastle {
     /**
      * **************************************************************************
      */
-    static InputPortPtr input_ports_hcastle = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_hcastle = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

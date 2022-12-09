@@ -145,7 +145,7 @@ public class ssi
 	
 	
 	
-	static InputPortPtr input_ports_ssi = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_ssi = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER1 );
@@ -222,7 +222,7 @@ public class ssi
 		PORT_DIPSETTING(    0x40, DEF_STR( "Yes") );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_majest12 = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_majest12 = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER1 );

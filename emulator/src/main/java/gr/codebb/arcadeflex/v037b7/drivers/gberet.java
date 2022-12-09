@@ -123,7 +123,7 @@ public class gberet {
                 new MemoryWriteAddress(0xf800, 0xffff, MWA_ROM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_gberet = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_gberet = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -239,7 +239,7 @@ public class gberet {
     };
 
     /* IN2 is different and IN1 and DSW0 are swapped */
-    static InputPortPtr input_ports_gberetb = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_gberetb = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -354,7 +354,7 @@ public class gberet {
         }
     };
 
-    static InputPortPtr input_ports_mrgoemon = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_mrgoemon = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

@@ -97,7 +97,7 @@ public class bogeyman {
     /**
      * ***************************************************************************
      */
-    static InputPortPtr input_ports_bogeyman = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_bogeyman = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON1);

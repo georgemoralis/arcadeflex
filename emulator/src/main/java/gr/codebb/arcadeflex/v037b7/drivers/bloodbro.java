@@ -179,7 +179,7 @@ public class bloodbro {
     /**
      * ***************************************************************************
      */
-    static InputPortPtr input_ports_bloodbro = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_bloodbro = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -271,7 +271,7 @@ public class bloodbro {
     /**
      * ** West Story Input Ports ******************************************
      */
-    static InputPortPtr input_ports_weststry = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_weststry = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 

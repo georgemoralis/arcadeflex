@@ -199,7 +199,7 @@ public class bublbobl {
                 new MemoryWriteAddress(0xe000, 0xefff, MWA_ROM), /* space for diagnostic ROM? */
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_bublbobl = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_bublbobl = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN0 */
 
@@ -280,7 +280,7 @@ public class bublbobl {
         }
     };
 
-    static InputPortPtr input_ports_boblbobl = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_boblbobl = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* DSW0 */
 
@@ -354,7 +354,7 @@ public class bublbobl {
         }
     };
 
-    static InputPortPtr input_ports_sboblbob = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_sboblbob = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* DSW0 */
 
@@ -428,7 +428,7 @@ public class bublbobl {
         }
     };
 
-    static InputPortPtr input_ports_tokio = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_tokio = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* DSW0 */
 

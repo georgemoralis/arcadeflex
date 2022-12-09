@@ -138,7 +138,7 @@ public class bzone
 	};
 	
 	
-	static InputPortPtr input_ports_bzone = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_bzone = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT ( 0x01, IP_ACTIVE_LOW, IPT_COIN1);
 		PORT_BIT ( 0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -255,7 +255,7 @@ public class bzone
 	};
 	
 	
-	static InputPortPtr input_ports_redbaron = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_redbaron = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT ( 0x01, IP_ACTIVE_LOW, IPT_COIN1);
 		PORT_BIT ( 0x02, IP_ACTIVE_LOW, IPT_COIN2);

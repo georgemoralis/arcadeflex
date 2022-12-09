@@ -90,7 +90,7 @@ public class cclimber {
                 new IOWritePort(0x09, 0x09, AY8910_write_port_0_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_cclimber = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_cclimber = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -158,7 +158,7 @@ public class cclimber {
 
     /* several differences with cclimber: note that IN2 bits are ACTIVE_LOW, while in */
  /* cclimber they are ACTIVE_HIGH. */
-    static InputPortPtr input_ports_ckong = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ckong = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -218,7 +218,7 @@ public class cclimber {
         }
     };
 
-    static InputPortPtr input_ports_rpatrolb = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_rpatrolb = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1034,7 +1034,7 @@ public class cclimber {
                 new IOWritePort(0x81, 0x81, AY8910_control_port_1_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_swimmer = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_swimmer = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1123,7 +1123,7 @@ public class cclimber {
         }
     };
 
-    static InputPortPtr input_ports_guzzler = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_guzzler = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

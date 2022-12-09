@@ -375,7 +375,7 @@ public class tmnt {
             "0100110000000" /* unlock command */
     );
 
-    public static nvramPtr nvram_handler = new nvramPtr() {
+    public static nvramHandlerPtr nvram_handler = new nvramHandlerPtr() {
         public void handler(Object file, int read_or_write) {
             if (read_or_write != 0) {
                 EEPROM_save(file);
@@ -459,7 +459,7 @@ public class tmnt {
             "0100000000000",/* lock command */
             "0100110000000" /* unlock command */
     );
-    public static nvramPtr thndrx2_nvram_handler = new nvramPtr() {
+    public static nvramHandlerPtr thndrx2_nvram_handler = new nvramHandlerPtr() {
         public void handler(Object file, int read_or_write) {
             if (read_or_write != 0) {
                 EEPROM_save(file);
@@ -1053,7 +1053,7 @@ public class tmnt {
                 new MemoryWriteAddress(0xfa00, 0xfa00, sound_arm_nmi),
                 new MemoryWriteAddress(0xfc00, 0xfc2f, K053260_WriteReg),
                 new MemoryWriteAddress(-1) /* end of table */};
-    static InputPortPtr input_ports_mia = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_mia = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* COINS */
 
@@ -1165,7 +1165,7 @@ public class tmnt {
             INPUT_PORTS_END();
         }
     };
-    static InputPortPtr input_ports_tmnt = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_tmnt = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* COINS */
 
@@ -1288,7 +1288,7 @@ public class tmnt {
         }
     };
 
-    static InputPortPtr input_ports_tmnt2p = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_tmnt2p = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* COINS */
 
@@ -1424,7 +1424,7 @@ public class tmnt {
         }
     };
 
-    static InputPortPtr input_ports_punkshot = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_punkshot = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* DSW1/DSW2 */
 
@@ -1545,7 +1545,7 @@ public class tmnt {
         }
     };
 
-    static InputPortPtr input_ports_punksht2 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_punksht2 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* DSW1/DSW2 */
 
@@ -1646,7 +1646,7 @@ public class tmnt {
             INPUT_PORTS_END();
         }
     };
-    static InputPortPtr input_ports_ssridr4p = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ssridr4p = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -1722,7 +1722,7 @@ public class tmnt {
         }
     };
 
-    static InputPortPtr input_ports_ssriders = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ssriders = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -1776,7 +1776,7 @@ public class tmnt {
         }
     };
 
-    static InputPortPtr input_ports_tmnt2a = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_tmnt2a = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -1851,7 +1851,7 @@ public class tmnt {
             INPUT_PORTS_END();
         }
     };
-    static InputPortPtr input_ports_lgtnfght = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_lgtnfght = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
@@ -1962,7 +1962,7 @@ public class tmnt {
         }
     };
 
-    static InputPortPtr input_ports_detatwin = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_detatwin = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -2009,7 +2009,7 @@ public class tmnt {
         }
     };
 
-    static InputPortPtr input_ports_glfgreat = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_glfgreat = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -2138,7 +2138,7 @@ public class tmnt {
         }
     };
 
-    static InputPortPtr input_ports_thndrx2 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_thndrx2 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x0001, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER1);

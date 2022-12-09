@@ -166,7 +166,7 @@ public class centiped
 	/* The input ports are identical for the real one and the bootleg one, except
 	   that one of the languages is Italian in the bootleg one instead of Spanish */										
 																					
-	static InputPortPtr input_ports_centiped = new InputPortPtr(){ public void handler() { 										
+	static InputPortHandlerPtr input_ports_centiped = new InputPortHandlerPtr(){ public void handler() { 										
 		PORT_START(); 	/* IN0 */														
 		/* The lower 4 bits and bit 7 are for trackball x input. */					
 		/* They are handled by fake input port 6 and a custom routine. */			
@@ -252,7 +252,7 @@ public class centiped
 		PORT_ANALOGX( 0xff, 0x00, IPT_TRACKBALL_X | IPF_REVERSE, 50, 10, 0, 0, IP_KEY_NONE, IP_KEY_NONE, IP_JOY_NONE, IP_JOY_NONE );	
 	INPUT_PORTS_END(); }}; 
 
-	static InputPortPtr input_ports_centipdb = new InputPortPtr(){ public void handler() { 										
+	static InputPortHandlerPtr input_ports_centipdb = new InputPortHandlerPtr(){ public void handler() { 										
 		PORT_START(); 	/* IN0 */														
 		/* The lower 4 bits and bit 7 are for trackball x input. */					
 		/* They are handled by fake input port 6 and a custom routine. */			

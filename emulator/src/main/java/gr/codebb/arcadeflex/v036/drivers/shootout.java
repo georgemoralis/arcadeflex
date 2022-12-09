@@ -136,7 +136,7 @@ public class shootout
 	
 	/*******************************************************************************/
 	
-	static InputPortPtr input_ports_shootout = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_shootout = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* DSW1 */
 		PORT_DIPNAME( 0x03, 0x00, DEF_STR( "Coin_A") );
 		PORT_DIPSETTING(    0x03, DEF_STR( "2C_1C") );

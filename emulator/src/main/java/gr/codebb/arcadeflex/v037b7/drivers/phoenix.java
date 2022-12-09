@@ -47,7 +47,7 @@ public class phoenix {
                 new MemoryWriteAddress(0x6800, 0x6bff, pleiads_sound_control_b_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_phoenix = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_phoenix = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -86,7 +86,7 @@ public class phoenix {
         }
     };
 
-    static InputPortPtr input_ports_phoenixa = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_phoenixa = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -126,7 +126,7 @@ public class phoenix {
         }
     };
 
-    static InputPortPtr input_ports_phoenixt = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_phoenixt = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -165,7 +165,7 @@ public class phoenix {
         }
     };
 
-    static InputPortPtr input_ports_phoenix3 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_phoenix3 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -203,7 +203,7 @@ public class phoenix {
         }
     };
 
-    static InputPortPtr input_ports_pleiads = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pleiads = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

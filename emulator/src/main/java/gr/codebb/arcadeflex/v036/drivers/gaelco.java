@@ -86,7 +86,7 @@ public class gaelco
 	};
 	
 	
-	static InputPortPtr input_ports_splash = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_splash = new InputPortHandlerPtr(){ public void handler() { 
 	
 	PORT_START(); 	/* DSW #1 (if DIPSW #1 == 0, free play) */
 		PORT_DIPNAME( 0x0f, 0x0f, DEF_STR( "Coin_A") );

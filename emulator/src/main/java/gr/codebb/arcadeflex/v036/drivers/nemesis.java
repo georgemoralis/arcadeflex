@@ -588,7 +588,7 @@ public class nemesis
 		
 	
 	
-	static InputPortPtr input_ports_nemesis = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_nemesis = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_COIN2 );
@@ -694,7 +694,7 @@ public class nemesis
 	INPUT_PORTS_END(); }}; 
 	
 	
-	static InputPortPtr input_ports_nemesuk = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_nemesuk = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_COIN2 );
@@ -801,7 +801,7 @@ public class nemesis
 	
 	
 	/* This needs to be sorted */
-	static InputPortPtr input_ports_konamigt = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_konamigt = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_COIN2 );
@@ -909,7 +909,7 @@ public class nemesis
 	
 	
 	/* This needs to be sorted */
-	static InputPortPtr input_ports_rf2 = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_rf2 = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_COIN2 );
@@ -1016,7 +1016,7 @@ public class nemesis
 	INPUT_PORTS_END(); }}; 
 	
 	
-	static InputPortPtr input_ports_gwarrior = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_gwarrior = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -1122,7 +1122,7 @@ public class nemesis
 	INPUT_PORTS_END(); }}; 
 	
 	
-	static InputPortPtr input_ports_twinbee = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_twinbee = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -1229,7 +1229,7 @@ public class nemesis
 	INPUT_PORTS_END(); }}; 
 	
 	
-	static InputPortPtr input_ports_gradius = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_gradius = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -1335,7 +1335,7 @@ public class nemesis
 	INPUT_PORTS_END(); }}; 
 	
 	
-	static InputPortPtr input_ports_salamand = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_salamand = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_COIN2 );
@@ -1427,7 +1427,7 @@ public class nemesis
 	INPUT_PORTS_END(); }}; 
 	
 	
-	static InputPortPtr input_ports_lifefrcj = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_lifefrcj = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_COIN2 );

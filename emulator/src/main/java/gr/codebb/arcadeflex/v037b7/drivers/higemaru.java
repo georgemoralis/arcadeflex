@@ -59,7 +59,7 @@ public class higemaru {
                 new MemoryWriteAddress(0xe000, 0xefff, MWA_RAM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_higemaru = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_higemaru = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

@@ -180,7 +180,7 @@ public class rollerg
 	
 	***************************************************************************/
 	
-	static InputPortPtr input_ports_rollerg = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_rollerg = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER1 );

@@ -480,7 +480,7 @@ public class renegade {
         new MemoryWriteAddress(-1)
     };
 
-    static InputPortPtr input_ports_renegade = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_renegade = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

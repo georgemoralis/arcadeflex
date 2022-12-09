@@ -172,7 +172,7 @@ public class pacland
 	
 	
 	
-	static InputPortPtr input_ports_pacland = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_pacland = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* DSWA */
 		PORT_DIPNAME( 0x03, 0x00, DEF_STR( "Coin_B") );
 		PORT_DIPSETTING(    0x03, DEF_STR( "3C_1C") );

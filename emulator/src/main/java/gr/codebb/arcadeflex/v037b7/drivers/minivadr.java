@@ -32,7 +32,7 @@ public class minivadr {
                 new MemoryWriteAddress(0xe008, 0xe008, MWA_NOP), // ???
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_minivadr = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_minivadr = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT);

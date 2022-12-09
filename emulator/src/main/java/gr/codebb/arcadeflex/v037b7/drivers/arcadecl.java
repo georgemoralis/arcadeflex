@@ -247,7 +247,7 @@ public class arcadecl
 	 *
 	 *************************************/
 	
-	static InputPortPtr input_ports_arcadecl = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_arcadecl = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* 640000 */
 		PORT_BIT( 0x00ff, IP_ACTIVE_LOW, IPT_UNUSED );
 		PORT_BIT( 0x0100, IP_ACTIVE_LOW, IPT_START1 );
@@ -301,7 +301,7 @@ public class arcadecl
 	INPUT_PORTS_END(); }}; 
 	
 	
-	static InputPortPtr input_ports_sparkz = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_sparkz = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* 640000 */
 		PORT_BIT( 0x00ff, IP_ACTIVE_LOW, IPT_UNUSED );
 		PORT_BIT( 0x0100, IP_ACTIVE_LOW, IPT_START1 );

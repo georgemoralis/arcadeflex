@@ -314,7 +314,7 @@ public class rampart
 	//coin1: was 640013,0; rampart 640003,2
 	//coin2: was 640013,1; rampart 640003,1
 	
-	static InputPortPtr input_ports_rampart = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_rampart = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_UNUSED );
 		PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER3 );
@@ -366,7 +366,7 @@ public class rampart
 	INPUT_PORTS_END(); }}; 
 	
 	
-	static InputPortPtr input_ports_ramprt2p = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_ramprt2p = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_UNUSED );
 		PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER3 );

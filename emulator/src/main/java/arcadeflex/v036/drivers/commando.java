@@ -81,7 +81,7 @@ public class commando {
                 new MemoryWriteAddress(0x8003, 0x8003, YM2203_write_port_1_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_commando = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_commando = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -174,7 +174,7 @@ public class commando {
     };
 
     /* service mode replaces demo sounds, different bonus */
-    static InputPortPtr input_ports_commandu = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_commandu = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

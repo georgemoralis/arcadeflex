@@ -86,7 +86,7 @@ public class rallyx {
                 new IOWritePort(0, 0, interrupt_vector_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_rallyx = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_rallyx = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -139,7 +139,7 @@ public class rallyx {
         }
     };
 
-    static InputPortPtr input_ports_nrallyx = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_nrallyx = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

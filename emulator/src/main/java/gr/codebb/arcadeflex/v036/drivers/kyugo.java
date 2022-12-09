@@ -279,7 +279,7 @@ public class kyugo {
      *
      **************************************************************************
      */
-    static InputPortPtr input_ports_gyrodine = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_gyrodine = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* DSW1 */
 
@@ -370,7 +370,7 @@ public class kyugo {
         }
     };
 
-    static InputPortPtr input_ports_sonofphx = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_sonofphx = new InputPortHandlerPtr() {
         public void handler() { 	/* sonofphx, srdmissn, airwolf? */
 
             PORT_START();       /* DSW1 */
@@ -462,7 +462,7 @@ public class kyugo {
         }
     };
 
-    static InputPortPtr input_ports_flashgal = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_flashgal = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* DSW1 */
 

@@ -1020,7 +1020,7 @@ public class toaplan2 {
         }
     };
 
-    public static VhEofCallbackPtr toaplan2_0_eof_callback = new VhEofCallbackPtr() {
+    public static VhEofCallbackHandlerPtr toaplan2_0_eof_callback = new VhEofCallbackHandlerPtr() {
         public void handler() {
             /**
              * Shift sprite RAM buffers *** Used to fix sprite lag *
@@ -1029,7 +1029,7 @@ public class toaplan2 {
             memcpy(spriteram_next[0], spriteram_new[0], TOAPLAN2_SPRITERAM_SIZE);
         }
     };
-    public static VhEofCallbackPtr toaplan2_1_eof_callback = new VhEofCallbackPtr() {
+    public static VhEofCallbackHandlerPtr toaplan2_1_eof_callback = new VhEofCallbackHandlerPtr() {
         public void handler() {
             /**
              * Shift sprite RAM buffers *** Used to fix sprite lag *

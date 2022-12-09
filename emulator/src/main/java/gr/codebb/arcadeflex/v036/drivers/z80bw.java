@@ -50,7 +50,7 @@ public class z80bw {
                 new IOWritePort(0x05, 0x05, astinvad_sh_port_5_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_astinvad = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_astinvad = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* FAKE - select cabinet type */
@@ -180,7 +180,7 @@ public class z80bw {
             = {
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_spaceint = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_spaceint = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* FAKE - select cabinet type */

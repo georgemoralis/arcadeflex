@@ -99,7 +99,7 @@ public class appoooh {
                 new IOWritePort(0x05, 0x05, appoooh_scroll_w), /* unknown */
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_appoooh = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_appoooh = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

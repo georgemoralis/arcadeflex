@@ -102,7 +102,7 @@ public class amidar {
                 new IOWritePort(0x20, 0x20, AY8910_write_port_1_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_amidar = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_amidar = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -196,7 +196,7 @@ public class amidar {
         }
     };
 
-    static InputPortPtr input_ports_amidaro = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_amidaro = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -291,7 +291,7 @@ public class amidar {
     };
 
     /* absolutely identical to amidar, the only difference is the BONUS dip switch */
-    static InputPortPtr input_ports_amidarjp = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_amidarjp = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -387,7 +387,7 @@ public class amidar {
 
     /* similar to Amidar, dip switches are different and port 3, which in Amidar */
  /* selects coins per credit, is not used. */
-    static InputPortPtr input_ports_turtles = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_turtles = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -443,7 +443,7 @@ public class amidar {
     };
 
     /* same as Turtles, but dip switches are different. */
-    static InputPortPtr input_ports_turpin = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_turpin = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -499,7 +499,7 @@ public class amidar {
     };
 
     /* similar to Turtles, lives are different */
-    static InputPortPtr input_ports_600 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_600 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

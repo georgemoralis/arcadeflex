@@ -122,7 +122,7 @@ public class mnight {
                 new IOWritePort(0x0081, 0x0081, YM2203_write_port_1_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_mnight = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_mnight = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* Player 1 controls */
@@ -215,7 +215,7 @@ public class mnight {
         }
     };
 
-    static InputPortPtr input_ports_arkarea = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_arkarea = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* Player 1 controls */

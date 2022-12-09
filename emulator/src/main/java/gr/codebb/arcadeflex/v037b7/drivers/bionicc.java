@@ -197,7 +197,7 @@ public class bionicc
 	
 	
 	
-	static InputPortPtr input_ports_bionicc = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_bionicc = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();
 	PORT_BIT( 0x0f, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_START2 );

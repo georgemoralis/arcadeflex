@@ -1114,21 +1114,21 @@ public class toaplan1 {
      * automatically every frame, at the end of vblank
      * **************************************************************************
      */
-    public static VhEofCallbackPtr toaplan1_eof_callback = new VhEofCallbackPtr() {
+    public static VhEofCallbackHandlerPtr toaplan1_eof_callback = new VhEofCallbackHandlerPtr() {
         public void handler() {
             memcpy(toaplan1_buffered_videoram1, toaplan1_videoram1, VIDEORAM1_SIZE);
             memcpy(toaplan1_buffered_videoram2, toaplan1_videoram2, VIDEORAM2_SIZE);
         }
     };
 
-    public static VhEofCallbackPtr rallybik_eof_callback = new VhEofCallbackPtr() {
+    public static VhEofCallbackHandlerPtr rallybik_eof_callback = new VhEofCallbackHandlerPtr() {
         public void handler() {
             buffer_spriteram_w.handler(0, 0);
 
         }
     };
 
-    public static VhEofCallbackPtr samesame_eof_callback = new VhEofCallbackPtr() {
+    public static VhEofCallbackHandlerPtr samesame_eof_callback = new VhEofCallbackHandlerPtr() {
         public void handler() {
             memcpy(toaplan1_buffered_videoram1, toaplan1_videoram1, VIDEORAM1_SIZE);
             memcpy(toaplan1_buffered_videoram2, toaplan1_videoram2, VIDEORAM2_SIZE);

@@ -294,7 +294,7 @@ public class marvins {
                 new MemoryWriteAddress(-1)
             };
 
-    static InputPortPtr input_ports_marvins = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_marvins = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_UNKNOWN);
@@ -382,7 +382,7 @@ public class marvins {
         }
     };
 
-    static InputPortPtr input_ports_vangrd2 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_vangrd2 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_COIN1);
@@ -471,7 +471,7 @@ public class marvins {
         }
     };
 
-    static InputPortPtr input_ports_madcrash = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_madcrash = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_COIN1);

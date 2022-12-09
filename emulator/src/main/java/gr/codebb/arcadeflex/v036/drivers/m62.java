@@ -381,7 +381,7 @@ public class m62 {
                 new IOWritePort(0x85, 0x85, kidniki_bankswitch_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_kungfum = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_kungfum = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -501,7 +501,7 @@ public class m62 {
         }
     };
 
-    static InputPortPtr input_ports_battroad = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_battroad = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -619,7 +619,7 @@ public class m62 {
         }
     };
 
-    static InputPortPtr input_ports_ldrun = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ldrun = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -737,7 +737,7 @@ public class m62 {
         }
     };
 
-    static InputPortPtr input_ports_ldrun2 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ldrun2 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -856,7 +856,7 @@ public class m62 {
         }
     };
 
-    static InputPortPtr input_ports_ldrun3 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ldrun3 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -975,7 +975,7 @@ public class m62 {
         }
     };
 
-    static InputPortPtr input_ports_ldrun4 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ldrun4 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -1095,7 +1095,7 @@ public class m62 {
         }
     };
 
-    static InputPortPtr input_ports_lotlot = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_lotlot = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -1193,7 +1193,7 @@ public class m62 {
         }
     };
 
-    static InputPortPtr input_ports_kidniki = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_kidniki = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
@@ -1288,7 +1288,7 @@ public class m62 {
         }
     };
 
-    static InputPortPtr input_ports_spelunkr = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_spelunkr = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -1387,7 +1387,7 @@ public class m62 {
         }
     };
 
-    static InputPortPtr input_ports_spelunk2 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_spelunk2 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 

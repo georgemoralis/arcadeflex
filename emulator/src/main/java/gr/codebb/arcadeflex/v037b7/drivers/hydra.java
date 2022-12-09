@@ -163,7 +163,7 @@ public class hydra
 	 *
 	 *************************************/
 	
-	static InputPortPtr input_ports_hydra = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_hydra = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* fc0000 */
 		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_BUTTON5 );
 		PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_BUTTON2 );
@@ -191,7 +191,7 @@ public class hydra
 	INPUT_PORTS_END(); }}; 
 	
 	
-	static InputPortPtr input_ports_pitfight = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_pitfight = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* fc0000 */
 		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_PLAYER1 );
 		PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_PLAYER1 );

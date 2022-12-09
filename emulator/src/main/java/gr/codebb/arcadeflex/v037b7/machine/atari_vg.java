@@ -64,7 +64,7 @@ public class atari_vg
 	} };
 	
 	
-	public static nvramPtr atari_vg_earom_handler  = new nvramPtr() { public void handler(Object file, int read_or_write) 
+	public static nvramHandlerPtr atari_vg_earom_handler  = new nvramHandlerPtr() { public void handler(Object file, int read_or_write) 
 	{
 		if (read_or_write != 0)
 			osd_fwrite(file,earom,EAROM_SIZE);

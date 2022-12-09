@@ -223,7 +223,7 @@ public class ultraman
 	};
 	
 	
-	static InputPortPtr input_ports_ultraman = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_ultraman = new InputPortHandlerPtr(){ public void handler() { 
 	
 		PORT_START(); 	/* Coins + Service */
 		PORT_BIT( 0x0f, IP_ACTIVE_LOW, IPT_UNKNOWN );

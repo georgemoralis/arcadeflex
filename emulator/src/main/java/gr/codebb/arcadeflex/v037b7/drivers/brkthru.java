@@ -148,7 +148,7 @@ public class brkthru {
         }
     };
 
-    static InputPortPtr input_ports_brkthru = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_brkthru = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -220,7 +220,7 @@ public class brkthru {
         }
     };
 
-    static InputPortPtr input_ports_darwin = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_darwin = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

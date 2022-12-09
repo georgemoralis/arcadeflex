@@ -95,7 +95,7 @@ public class zodiack {
                 new IOWritePort(0x01, 0x01, AY8910_write_port_0_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_zodiac = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_zodiac = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW0 */ /* never read in this game */
@@ -157,7 +157,7 @@ public class zodiack {
         }
     };
 
-    static InputPortPtr input_ports_dogfight = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_dogfight = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW0 */
@@ -249,7 +249,7 @@ public class zodiack {
         }
     };
 
-    static InputPortPtr input_ports_moguchan = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_moguchan = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW0 */
@@ -314,7 +314,7 @@ public class zodiack {
         }
     };
 
-    static InputPortPtr input_ports_percuss = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_percuss = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW0 */

@@ -1735,7 +1735,7 @@ public class neogeo {
             }
         }
     };
-    public static nvramPtr neogeo_nvram_handler = new nvramPtr() {
+    public static nvramHandlerPtr neogeo_nvram_handler = new nvramHandlerPtr() {
         public void handler(Object file, int read_or_write) {
             if (read_or_write != 0) {
                 /* Save the SRAM settings */

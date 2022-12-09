@@ -27,7 +27,7 @@ public class qix {
     static UBytePtr nvram = new UBytePtr();
     static int[] nvram_size = new int[1];
 
-    public static nvramPtr nvram_handler = new nvramPtr() {
+    public static nvramHandlerPtr nvram_handler = new nvramHandlerPtr() {
         public void handler(Object file, int read_or_write) {
             if (read_or_write!=0) {
                 osd_fwrite(file, nvram, nvram_size[0]);
@@ -190,7 +190,7 @@ public class qix {
                 new MemoryWriteAddress(0x0080, 0x07ff, MWA_ROM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_qix = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_qix = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* PIA 0 Port A (PLAYER 1) */
@@ -255,7 +255,7 @@ public class qix {
         }
     };
 
-    static InputPortPtr input_ports_sdungeon = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_sdungeon = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* PIA 0 Port A (PLAYER 1) */
@@ -320,7 +320,7 @@ public class qix {
         }
     };
 
-    static InputPortPtr input_ports_elecyoyo = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_elecyoyo = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* PIA 0 Port A (PLAYER 1) */
@@ -385,7 +385,7 @@ public class qix {
         }
     };
 
-    static InputPortPtr input_ports_kram = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_kram = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* PIA 0 Port A (PLAYER 1) */
@@ -450,7 +450,7 @@ public class qix {
         }
     };
 
-    static InputPortPtr input_ports_zookeep = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_zookeep = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* PIA 0 Port A (PLAYER 1) */

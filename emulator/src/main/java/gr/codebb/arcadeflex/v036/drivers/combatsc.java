@@ -311,7 +311,7 @@ public class combatsc
 	};
 	
 	
-	static InputPortPtr input_ports_combasc = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_combasc = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER1 );
@@ -419,7 +419,7 @@ public class combatsc
 		PORT_BIT( 0xff, IP_ACTIVE_LOW, IPT_UNUSED );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_combasct = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_combasct = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER1 );
@@ -522,7 +522,7 @@ public class combatsc
 		PORT_ANALOG( 0xff, 0x00, IPT_TRACKBALL_X | IPF_PLAYER2, 10, 10, 0, 0 );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_combascb = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_combascb = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER1 );

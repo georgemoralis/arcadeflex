@@ -136,7 +136,7 @@ public class lwings {
                 new MemoryWriteAddress(0x0000, 0x7fff, MWA_ROM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_sectionz = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_sectionz = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -240,7 +240,7 @@ public class lwings {
         }
     };
 
-    static InputPortPtr input_ports_lwings = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_lwings = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -346,7 +346,7 @@ public class lwings {
         }
     };
 
-    static InputPortPtr input_ports_trojan = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_trojan = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -449,7 +449,7 @@ public class lwings {
     };
 
     /* Trojan with level selection - starting level dip switches not used */
-    static InputPortPtr input_ports_trojanls = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_trojanls = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1249,7 +1249,7 @@ public class lwings {
             }
     );
 
-    static InputPortPtr input_ports_avengers = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_avengers = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

@@ -243,7 +243,7 @@ public class relief
 	 *
 	 *************************************/
 	
-	static InputPortPtr input_ports_relief = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_relief = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* 260000 */
 		PORT_BIT(  0x00ff, IP_ACTIVE_LOW, IPT_UNUSED );
 		PORT_BIT(  0x0100, IP_ACTIVE_LOW, IPT_BUTTON4 | IPF_PLAYER1 );

@@ -83,7 +83,7 @@ public class sonson {
                 new MemoryWriteAddress(0xe000, 0xffff, MWA_ROM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_sonson = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_sonson = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

@@ -127,7 +127,7 @@ public class slapfght {
                 new MemoryWriteAddress(0xc810, 0xcfff, MWA_RAM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_tigerh = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_tigerh = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN0 */
 
@@ -206,7 +206,7 @@ public class slapfght {
         }
     };
 
-    static InputPortPtr input_ports_slapfigh = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_slapfigh = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN0 */
 
@@ -282,7 +282,7 @@ public class slapfght {
         }
     };
 
-    static InputPortPtr input_ports_getstar = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_getstar = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN0 */
 

@@ -193,7 +193,7 @@ public class blstroid
 	 *
 	 *************************************/
 	
-	static InputPortPtr input_ports_blstroid = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_blstroid = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* ff9800 */
 		PORT_ANALOG( 0x00ff, 0, IPT_DIAL | IPF_PLAYER1, 60, 10, 0, 0 );
 		PORT_BIT( 0xff00, IP_ACTIVE_LOW, IPT_UNUSED );

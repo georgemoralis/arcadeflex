@@ -99,7 +99,7 @@ public class jrpacman {
                 new IOWritePort(0, 0, interrupt_vector_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_jrpacman = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_jrpacman = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

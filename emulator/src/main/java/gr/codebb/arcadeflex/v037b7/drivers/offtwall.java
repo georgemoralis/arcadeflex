@@ -315,7 +315,7 @@ public class offtwall
 	 *
 	 *************************************/
 	
-	static InputPortPtr input_ports_offtwall = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_offtwall = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* 260000 */
 		PORT_BIT(  0x0001, IP_ACTIVE_LOW, IPT_BUTTON4 | IPF_PLAYER2 );
 		PORT_BIT(  0x0002, IP_ACTIVE_LOW, IPT_START2 );

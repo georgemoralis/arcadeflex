@@ -229,7 +229,7 @@ public class skullxbo
 	 *
 	 *************************************/
 	
-	static InputPortPtr input_ports_skullxbo = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_skullxbo = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* ff5800 */
 		PORT_BIT( 0x00ff, IP_ACTIVE_LOW, IPT_UNUSED );
 		PORT_BIT( 0x0100, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER1 );

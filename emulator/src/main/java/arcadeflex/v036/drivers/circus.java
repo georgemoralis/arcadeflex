@@ -74,7 +74,7 @@ public class circus {
                 new MemoryWriteAddress(0xf000, 0xffff, MWA_ROM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_circus = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_circus = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -113,7 +113,7 @@ public class circus {
         }
     };
 
-    static InputPortPtr input_ports_robotbwl = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_robotbwl = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -152,7 +152,7 @@ public class circus {
         }
     };
 
-    static InputPortPtr input_ports_crash = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_crash = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -185,7 +185,7 @@ public class circus {
         }
     };
 
-    static InputPortPtr input_ports_ripcord = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ripcord = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

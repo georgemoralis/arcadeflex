@@ -73,7 +73,7 @@ public class exedexes {
                 new MemoryWriteAddress(0x8003, 0x8003, SN76496_1_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_exedexes = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_exedexes = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

@@ -122,7 +122,7 @@ public class blktiger {
                 new MemoryWriteAddress(0xe003, 0xe003, YM2203_write_port_1_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_blktiger = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_blktiger = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

@@ -1624,7 +1624,7 @@ public class cps1 {
 
         }
     };
-    public static VhEofCallbackPtr cps1_eof_callback = new VhEofCallbackPtr() {
+    public static VhEofCallbackHandlerPtr cps1_eof_callback = new VhEofCallbackHandlerPtr() {
         public void handler() {
             /* Get video memory base registers */
             cps1_get_video_base();

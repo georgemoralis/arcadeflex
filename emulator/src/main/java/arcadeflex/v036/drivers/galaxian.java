@@ -490,7 +490,7 @@ public class galaxian {
                 new MemoryWriteAddress(0x7007, 0x7007, galaxian_flipy_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_galaxian = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_galaxian = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -537,7 +537,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_superg = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_superg = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -584,7 +584,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_pisces = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pisces = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -639,7 +639,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_warofbug = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_warofbug = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -684,7 +684,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_redufo = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_redufo = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -731,7 +731,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_pacmanbl = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pacmanbl = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -778,7 +778,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_devilfsg = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_devilfsg = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -826,7 +826,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_zigzag = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_zigzag = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -871,7 +871,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_mooncrgx = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_mooncrgx = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -915,7 +915,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_scramblb = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_scramblb = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -973,7 +973,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_jumpbug = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_jumpbug = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1029,7 +1029,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_levers = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_levers = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1090,7 +1090,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_azurian = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_azurian = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1140,7 +1140,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_orbitron = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_orbitron = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1187,7 +1187,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_checkmaj = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_checkmaj = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1234,7 +1234,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_swarm = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_swarm = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1281,7 +1281,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_streakng = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_streakng = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1327,7 +1327,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_blkhole = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_blkhole = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1374,7 +1374,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_mooncrst = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_mooncrst = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1421,7 +1421,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_eagle = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_eagle = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1469,7 +1469,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_eagle2 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_eagle2 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1516,7 +1516,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_moonqsr = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_moonqsr = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1562,7 +1562,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_checkman = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_checkman = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1608,7 +1608,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_moonal2 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_moonal2 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1655,7 +1655,7 @@ public class galaxian {
         }
     };
 
-    static InputPortPtr input_ports_kingball = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_kingball = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN1 */

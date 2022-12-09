@@ -112,7 +112,7 @@ public class cop01 {
                 new IOWritePort(0x05, 0x05, AY8910_write_port_2_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_cop01 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_cop01 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

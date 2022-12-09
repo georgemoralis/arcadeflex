@@ -390,7 +390,7 @@ public class dec0 {
     /**
      * ***************************************************************************
      */
-    static InputPortPtr input_ports_hbarrel = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_hbarrel = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();  /* Player 1 controls */
 
@@ -490,7 +490,7 @@ public class dec0 {
         }
     };
 
-    static InputPortPtr input_ports_baddudes = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_baddudes = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();  /* Player 1 controls */
 
@@ -592,7 +592,7 @@ public class dec0 {
         }
     };
 
-    static InputPortPtr input_ports_robocop = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_robocop = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();  /* Player 1 controls */
 
@@ -685,7 +685,7 @@ public class dec0 {
         }
     };
 
-    static InputPortPtr input_ports_hippodrm = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_hippodrm = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();  /* Player 1 controls */
 
@@ -780,7 +780,7 @@ public class dec0 {
         }
     };
 
-    static InputPortPtr input_ports_slyspy = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_slyspy = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();  /* Player 1 controls */
 
@@ -870,7 +870,7 @@ public class dec0 {
         }
     };
 
-    static InputPortPtr input_ports_midres = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_midres = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();  /* Player 1 controls */
 
@@ -967,7 +967,7 @@ public class dec0 {
         }
     };
 
-    static InputPortPtr input_ports_bouldash = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_bouldash = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();  /* Player 1 controls */
 

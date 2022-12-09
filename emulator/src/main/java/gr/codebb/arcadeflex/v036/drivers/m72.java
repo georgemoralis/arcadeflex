@@ -792,7 +792,7 @@ public class m72
 	
 		
 	
-	static InputPortPtr input_ports_rtype = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_rtype = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY );
@@ -888,7 +888,7 @@ public class m72
 		PORT_SERVICE( 0x80, IP_ACTIVE_LOW );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_rtypeu = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_rtypeu = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY );
@@ -985,7 +985,7 @@ public class m72
 	INPUT_PORTS_END(); }}; 
 	
 	
-	static InputPortPtr input_ports_bchopper = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_bchopper = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY );
@@ -1081,7 +1081,7 @@ public class m72
 		PORT_SERVICE( 0x80, IP_ACTIVE_LOW );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_nspirit = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_nspirit = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY );
@@ -1177,7 +1177,7 @@ public class m72
 		PORT_SERVICE( 0x80, IP_ACTIVE_LOW );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_imgfight = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_imgfight = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY );
@@ -1273,7 +1273,7 @@ public class m72
 		PORT_SERVICE( 0x80, IP_ACTIVE_LOW );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_loht = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_loht = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY );
@@ -1368,7 +1368,7 @@ public class m72
 		PORT_SERVICE( 0x80, IP_ACTIVE_LOW );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_xmultipl = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_xmultipl = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY );
@@ -1465,7 +1465,7 @@ public class m72
 		PORT_SERVICE( 0x80, IP_ACTIVE_LOW );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_dbreed = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_dbreed = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY );
@@ -1561,7 +1561,7 @@ public class m72
 		PORT_SERVICE( 0x80, IP_ACTIVE_LOW );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_rtype2 = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_rtype2 = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY );
@@ -1658,7 +1658,7 @@ public class m72
 		PORT_SERVICE( 0x80, IP_ACTIVE_LOW );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_hharry = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_hharry = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY );
@@ -1764,7 +1764,7 @@ public class m72
 		PORT_DIPSETTING(    0x00, DEF_STR( "1C_6C") ); */
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_gallop = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_gallop = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY );
@@ -1871,7 +1871,7 @@ public class m72
 		PORT_DIPSETTING(    0x00, DEF_STR( "1C_6C") ); */
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_poundfor = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_poundfor = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY );

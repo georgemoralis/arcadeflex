@@ -97,7 +97,7 @@ public class locomotn {
                 new MemoryWriteAddress(0x8820, 0x883f, MWA_RAM, rallyx_radary),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_locomotn = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_locomotn = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN0 */
 
@@ -185,7 +185,7 @@ public class locomotn {
         }
     };
 
-    static InputPortPtr input_ports_jungler = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_jungler = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN0 */
 
@@ -244,7 +244,7 @@ public class locomotn {
         }
     };
 
-    static InputPortPtr input_ports_commsega = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_commsega = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN0 */
 

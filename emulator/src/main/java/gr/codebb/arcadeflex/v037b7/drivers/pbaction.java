@@ -83,7 +83,7 @@ public class pbaction {
                 new IOWritePort(0x31, 0x31, AY8910_write_port_2_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_pbaction = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pbaction = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

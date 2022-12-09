@@ -73,7 +73,7 @@ public class cheekyms
 	} };
 	
 	
-	static InputPortPtr input_ports_cheekyms = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_cheekyms = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_DIPNAME( 0x03, 0x01, DEF_STR( "Lives") );
 		PORT_DIPSETTING(    0x00, "2" );

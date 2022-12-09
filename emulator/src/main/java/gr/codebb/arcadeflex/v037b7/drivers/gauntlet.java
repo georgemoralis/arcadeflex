@@ -557,7 +557,7 @@ public class gauntlet
 	 *
 	 *************************************/
 	
-	static InputPortPtr input_ports_gauntlet = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_gauntlet = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* 803000 */
 		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_START1 );
 		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER1 );
@@ -625,7 +625,7 @@ public class gauntlet
 	INPUT_PORTS_END(); }}; 
 	
 	
-	static InputPortPtr input_ports_vindctr2 = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_vindctr2 = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* 803000 */
 		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER1 );
 		PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_BUTTON3 | IPF_PLAYER1 );

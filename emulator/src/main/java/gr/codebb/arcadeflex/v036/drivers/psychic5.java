@@ -115,7 +115,7 @@ public class psychic5
 		new IOWritePort( -1 )
 	};
 	
-	static InputPortPtr input_ports_psychic5 = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_psychic5 = new InputPortHandlerPtr(){ public void handler() { 
 	    PORT_START(); 
 	    PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_START1 );
 	    PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_START2 );

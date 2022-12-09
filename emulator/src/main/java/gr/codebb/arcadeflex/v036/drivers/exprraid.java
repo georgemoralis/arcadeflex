@@ -163,7 +163,7 @@ public class exprraid
 	    new MemoryWriteAddress( -1 )  /* end of table */
 	};
 	
-	static InputPortPtr input_ports_exprraid = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_exprraid = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();  /* IN 0 - 0x3800 */
 		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_VBLANK );
 	

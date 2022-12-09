@@ -63,7 +63,7 @@ public class starwars
 	static UBytePtr nvram=new UBytePtr();
 	static int[] nvram_size=new int[1];
 	
-	public static nvramPtr nvram_handler  = new nvramPtr() {
+	public static nvramHandlerPtr nvram_handler  = new nvramHandlerPtr() {
             @Override
             public void handler(Object file, int read_or_write) 
             {
@@ -348,7 +348,7 @@ public class starwars
 		new MemoryWriteAddress( -1 )	/* end of table */
 	};
 	
-	static InputPortPtr input_ports_starwars = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_starwars = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT ( 0x01, IP_ACTIVE_LOW, IPT_COIN2 );
 		PORT_BIT ( 0x02, IP_ACTIVE_LOW, IPT_COIN1 );
@@ -425,7 +425,7 @@ public class starwars
 	INPUT_PORTS_END(); }}; 
 	
 	
-	static InputPortPtr input_ports_esb = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_esb = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT ( 0x01, IP_ACTIVE_LOW, IPT_COIN2 );
 		PORT_BIT ( 0x02, IP_ACTIVE_LOW, IPT_COIN1 );

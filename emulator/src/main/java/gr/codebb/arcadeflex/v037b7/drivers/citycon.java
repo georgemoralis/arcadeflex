@@ -66,7 +66,7 @@ public class citycon {
                 new MemoryWriteAddress(0x8000, 0xffff, MWA_ROM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_citycon = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_citycon = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 

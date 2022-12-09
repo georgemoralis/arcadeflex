@@ -340,7 +340,7 @@ public class atarigen
 	 *
 	 */
 	
-	public static nvramPtr atarigen_nvram_handler  = new nvramPtr() { public void handler(Object file, int read_or_write) 
+	public static nvramHandlerPtr atarigen_nvram_handler  = new nvramHandlerPtr() { public void handler(Object file, int read_or_write) 
 	{
 		if (read_or_write != 0)
 			osd_fwrite(file, atarigen_eeprom, atarigen_eeprom_size[0]);

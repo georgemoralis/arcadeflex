@@ -98,7 +98,7 @@ public class galspnbl {
                 new MemoryWriteAddress(0xfc00, 0xfc00, MWA_NOP), /* irq ack ?? */
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_hotpinbl = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_hotpinbl = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -185,7 +185,7 @@ public class galspnbl {
         }
     };
 
-    static InputPortPtr input_ports_galspnbl = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_galspnbl = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);

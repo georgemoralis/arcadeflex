@@ -107,7 +107,7 @@ public class mystston {
                 new MemoryWriteAddress(0x4000, 0xffff, MWA_ROM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_mystston = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_mystston = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

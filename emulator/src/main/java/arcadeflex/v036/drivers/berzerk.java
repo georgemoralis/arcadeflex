@@ -16,13 +16,11 @@ import static arcadeflex.v036.mame.commonH.ROM_REGION;
 import static gr.codebb.arcadeflex.v036.mame.driverH.CPU_Z80;
 import static gr.codebb.arcadeflex.v036.mame.driverH.DEFAULT_60HZ_VBLANK_DURATION;
 import gr.codebb.arcadeflex.v036.mame.driverH.GameDriver;
-import gr.codebb.arcadeflex.v036.mame.driverH.InputPortPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.MachineCPU;
 import gr.codebb.arcadeflex.v036.mame.driverH.MachineDriver;
 import static gr.codebb.arcadeflex.v036.mame.driverH.ROT0;
 import static gr.codebb.arcadeflex.v036.mame.driverH.VIDEO_SUPPORTS_DIRTY;
 import static gr.codebb.arcadeflex.v036.mame.driverH.VIDEO_TYPE_RASTER;
-import gr.codebb.arcadeflex.v036.mame.driverH.nvramPtr;
 import static arcadeflex.v036.mame.inputH.KEYCODE_F1;
 import static arcadeflex.v036.mame.inputH.KEYCODE_F2;
 import static arcadeflex.v036.mame.inputH.KEYCODE_F4;
@@ -87,8 +85,8 @@ public class berzerk {
     static UBytePtr nvram = new UBytePtr();
     static int[] nvram_size = new int[1];
 
-    public static nvramPtr berzerk_nvram_handler
-            = new nvramPtr() {
+    public static nvramHandlerPtr berzerk_nvram_handler
+            = new nvramHandlerPtr() {
         public void handler(Object file, int read_or_write) {
             if (read_or_write != 0) {
                 osd_fwrite(file, nvram, nvram_size[0]);
@@ -160,8 +158,8 @@ public class berzerk {
         new IOWritePort(0x50, 0x57, IOWP_NOP), /* Second sound board but not used */
         new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_berzerk
-            = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_berzerk
+            = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -307,8 +305,8 @@ public class berzerk {
         }
     };
 
-    static InputPortPtr input_ports_frenzy
-            = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_frenzy
+            = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

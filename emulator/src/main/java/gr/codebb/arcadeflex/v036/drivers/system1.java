@@ -281,7 +281,7 @@ public class system1 {
                 new MemoryWriteAddress(0xc000, 0xc003, SN76496_1_w), /* in sequence */
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_starjack = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_starjack = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -379,7 +379,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_starjacs = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_starjacs = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -476,7 +476,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_regulus = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_regulus = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -575,7 +575,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_upndown = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_upndown = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -673,7 +673,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_mrviking = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_mrviking = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -771,7 +771,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_swat = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_swat = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -870,7 +870,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_flicky = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_flicky = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -967,7 +967,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_bullfgtj = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_bullfgtj = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -1065,7 +1065,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_pitfall2 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pitfall2 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -1164,7 +1164,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_pitfallu = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pitfallu = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -1262,7 +1262,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_seganinj = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_seganinj = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -1361,7 +1361,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_imsorry = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_imsorry = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -1459,7 +1459,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_teddybb = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_teddybb = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -1557,7 +1557,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_hvymetal = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_hvymetal = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -1655,7 +1655,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_myhero = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_myhero = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -1753,7 +1753,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_chplft = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_chplft = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -1852,7 +1852,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_4dwarrio = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_4dwarrio = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -1951,7 +1951,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_brain = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_brain = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -2050,7 +2050,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_wboy = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_wboy = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -2154,7 +2154,7 @@ public class system1 {
     };
 
     /* same as wboy, additional Energy Consumption switch */
-    static InputPortPtr input_ports_wbdeluxe = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_wbdeluxe = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -2259,7 +2259,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_wboyu = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_wboyu = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -2353,7 +2353,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_blockgal = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_blockgal = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -2429,7 +2429,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_tokisens = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_tokisens = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 
@@ -2528,7 +2528,7 @@ public class system1 {
         }
     };
 
-    static InputPortPtr input_ports_wbml = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_wbml = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();   /* IN1 */
 

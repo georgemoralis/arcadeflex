@@ -151,7 +151,7 @@ public class pcktgal {
     /**
      * ************************************************************************
      */
-    static InputPortPtr input_ports_pcktgal = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pcktgal = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);

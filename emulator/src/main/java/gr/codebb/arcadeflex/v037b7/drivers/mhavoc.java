@@ -39,7 +39,7 @@ public class mhavoc
 	static UBytePtr nvram=new UBytePtr();
 	static int[] nvram_size=new int[1];
 	
-	public static nvramPtr nvram_handler  = new nvramPtr() { public void handler(Object file, int read_or_write)
+	public static nvramHandlerPtr nvram_handler  = new nvramHandlerPtr() { public void handler(Object file, int read_or_write)
 	{
 		if (read_or_write != 0)
 			osd_fwrite(file,nvram,nvram_size[0]);
@@ -135,7 +135,7 @@ public class mhavoc
 		new MemoryWriteAddress( -1 )	/* end of table */
 	};
 	
-	static InputPortPtr input_ports_mhavoc = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_mhavoc = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 - alpha (player_1 = 0) */
 		PORT_BIT ( 0x0f, IP_ACTIVE_HIGH, IPT_UNKNOWN );
 		/* PORT_BIT ( 0x10, IP_ACTIVE_LOW, IPT_SERVICE, "Diag Step", KEYCODE_T, IP_JOY_NONE );*/
@@ -206,7 +206,7 @@ public class mhavoc
 		PORT_SERVICE( 0x80, IP_ACTIVE_LOW );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_mhavocp = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_mhavocp = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 - alpha (player_1 = 0) */
 		PORT_BIT ( 0x0f, IP_ACTIVE_HIGH, IPT_UNKNOWN );
 		/* PORT_BIT ( 0x10, IP_ACTIVE_LOW, IPT_SERVICE, "Diag Step", KEYCODE_T, IP_JOY_NONE );*/

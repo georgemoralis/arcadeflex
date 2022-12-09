@@ -178,7 +178,7 @@ public class cps2 {
             }
     );
 
-    static InputPortPtr input_ports_cps2 = new InputPortPtr(){ public void handler() { 
+    static InputPortHandlerPtr input_ports_cps2 = new InputPortHandlerPtr(){ public void handler() { 
             PORT_START();       /* IN0 */
             PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_BUTTON5 | IPF_PLAYER1 );
             PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_BUTTON5 | IPF_PLAYER2 );

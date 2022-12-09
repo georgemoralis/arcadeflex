@@ -647,7 +647,7 @@ public class atarisy1
 	 *
 	 *************************************/
 	
-	static InputPortPtr input_ports_marble = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_marble = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();   /* F20000 */
 	    PORT_ANALOG( 0xff, 0x00, IPT_TRACKBALL_X | IPF_REVERSE | IPF_PLAYER1, 30, 30, 0, 0 );
 	
@@ -682,7 +682,7 @@ public class atarisy1
 	INPUT_PORTS_END(); }}; 
 	
 	
-	static InputPortPtr input_ports_peterpak = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_peterpak = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* F40000 */
 		PORT_BIT( 0x0f, IP_ACTIVE_HIGH, IPT_UNUSED );
 		PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP );
@@ -722,7 +722,7 @@ public class atarisy1
 	INPUT_PORTS_END(); }}; 
 	
 	
-	static InputPortPtr input_ports_indytemp = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_indytemp = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* F40000 */
 		PORT_BIT( 0x0f, IP_ACTIVE_HIGH, IPT_UNUSED );
 		PORT_BIT( 0x10, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP );
@@ -762,7 +762,7 @@ public class atarisy1
 	INPUT_PORTS_END(); }}; 
 	
 	
-	static InputPortPtr input_ports_roadrunn = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_roadrunn = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* F40000 */
 		PORT_ANALOG( 0xff, 0x80, IPT_AD_STICK_X | IPF_REVERSE | IPF_PLAYER1, 100, 10, 0x10, 0xf0 );
 	
@@ -798,7 +798,7 @@ public class atarisy1
 	INPUT_PORTS_END(); }}; 
 	
 	
-	static InputPortPtr input_ports_roadblst = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_roadblst = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* F20000 */
 		PORT_ANALOG( 0xff, 0x40, IPT_DIAL | IPF_REVERSE, 25, 10, 0x00, 0x7f );
 	

@@ -245,7 +245,7 @@ public class gbusters
 	
 	***************************************************************************/
 	
-	static InputPortPtr input_ports_gbusters = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_gbusters = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* DSW #1 */
 		PORT_DIPNAME( 0x0f, 0x0f, DEF_STR( "Coin_A") );
 		PORT_DIPSETTING(    0x02, DEF_STR( "4C_1C") );

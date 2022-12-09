@@ -295,7 +295,7 @@ public class mainevt
 	
 	/*****************************************************************************/
 	
-	static InputPortPtr input_ports_mainevt = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_mainevt = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -415,7 +415,7 @@ public class mainevt
 		PORT_BIT( 0xf0, IP_ACTIVE_LOW, IPT_UNUSED );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_ringohja = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_ringohja = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -526,7 +526,7 @@ public class mainevt
 		PORT_BIT( 0xf0, IP_ACTIVE_LOW, IPT_UNUSED );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_devstors = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_devstors = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );

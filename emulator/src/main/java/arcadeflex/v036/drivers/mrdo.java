@@ -66,7 +66,7 @@ public class mrdo {
                 new MemoryWriteAddress(0xf800, 0xffff, mrdo_scrolly_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_mrdo = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_mrdo = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

@@ -118,7 +118,7 @@ public class ironhors {
                 new MemoryWriteAddress(0x8001, 0x8001, YM2203_write_port_0_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_ironhors = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ironhors = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -238,7 +238,7 @@ public class ironhors {
         }
     };
 
-    static InputPortPtr input_ports_dairesya = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_dairesya = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

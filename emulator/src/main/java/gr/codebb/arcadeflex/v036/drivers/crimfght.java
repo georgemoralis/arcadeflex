@@ -179,7 +179,7 @@ public class crimfght
 	
 	***************************************************************************/
 	
-	static InputPortPtr input_ports_crimfght = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_crimfght = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* DSW #1 */
 		PORT_DIPNAME( 0x0f, 0x0f, DEF_STR( "Coinage") );
 		PORT_DIPSETTING(    0x02, DEF_STR( "4C_1C") );
@@ -305,7 +305,7 @@ public class crimfght
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_SERVICE4 );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_crimfgtj = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_crimfgtj = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* DSW #1 */
 		PORT_DIPNAME( 0x0f, 0x0f, DEF_STR( "Coinage") );
 		PORT_DIPSETTING(    0x02, DEF_STR( "4C_1C") );

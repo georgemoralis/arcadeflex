@@ -196,7 +196,7 @@ public class bottom9
 	
 	
 	
-	static InputPortPtr input_ports_bottom9 = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_bottom9 = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_START1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER1 );

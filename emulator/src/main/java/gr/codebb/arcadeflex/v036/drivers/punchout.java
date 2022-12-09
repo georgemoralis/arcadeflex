@@ -38,7 +38,7 @@ public class punchout
 	static UBytePtr nvram=new UBytePtr();
 	static int[] nvram_size=new int[1];
 	
-	public static nvramPtr nvram_handler = new nvramPtr(){ public void handler(Object file,int read_or_write)
+	public static nvramHandlerPtr nvram_handler = new nvramHandlerPtr(){ public void handler(Object file,int read_or_write)
         {
 		/*if (read_or_write)
 			osd_fwrite(file,nvram,nvram_size);
@@ -417,7 +417,7 @@ public class punchout
 	
 	
 	
-	static InputPortPtr input_ports_punchout = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_punchout = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_BUTTON1 );
 		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_UNKNOWN );
@@ -488,7 +488,7 @@ public class punchout
 	INPUT_PORTS_END(); }}; 
 	
 	/* same as punchout with additional duck button */
-	static InputPortPtr input_ports_spnchout = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_spnchout = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_BUTTON1 );
 		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_UNKNOWN );
@@ -558,7 +558,7 @@ public class punchout
 		PORT_START(); 
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_armwrest = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_armwrest = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_UNKNOWN );
 		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_UNKNOWN );

@@ -74,7 +74,7 @@ public class stfight {
                 new MemoryWriteAddress(0xf800, 0xffff, MWA_RAM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_stfight = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_stfight = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* PLAYER 1 */
 

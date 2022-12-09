@@ -97,7 +97,7 @@ public class arkanoid {
     /*TODO*///	{ -1 }	/* end of table */
         };
 
-	static InputPortPtr input_ports_arkanoid = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_arkanoid = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_START1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_START2 );
@@ -148,7 +148,7 @@ public class arkanoid {
 	/* 'Block' uses the these ones as well.	The Tayto bootleg is different			 */
 	/*  in coinage and # of lives.                    								 */
 	
-	static InputPortPtr input_ports_arknoidj = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_arknoidj = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_START1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_START2 );

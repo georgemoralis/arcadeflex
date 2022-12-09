@@ -66,7 +66,7 @@ public class rocnrope {
                 new MemoryWriteAddress(0x6000, 0xffff, MWA_ROM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_rocnrope = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_rocnrope = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

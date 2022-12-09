@@ -152,7 +152,7 @@ public class skydiver {
                 new MemoryWriteAddress(0x2800, 0x3fff, MWA_ROM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_skydiver = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_skydiver = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* fake port, gets mapped to Sky Diver ports */

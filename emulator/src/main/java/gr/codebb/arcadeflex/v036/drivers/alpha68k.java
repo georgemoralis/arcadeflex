@@ -485,7 +485,7 @@ public class alpha68k
 	
 	/******************************************************************************/
 
-	static InputPortPtr input_ports_sstingry = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_sstingry = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* Player 1 controls */
 		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP    | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN  | IPF_8WAY );
@@ -521,7 +521,7 @@ public class alpha68k
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_timesold = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_timesold = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* Player 1 controls */ 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY );
@@ -595,7 +595,7 @@ public class alpha68k
 		PORT_ANALOGX( 0xff, 0x00, IPT_DIAL | IPF_REVERSE | IPF_PLAYER2, 25, 8, 0, 0, KEYCODE_N, KEYCODE_M, 0, 0 );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_skysoldr = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_skysoldr = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* Player 1 controls */ 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY );
@@ -669,7 +669,7 @@ public class alpha68k
 		PORT_BIT( 0xff, IP_ACTIVE_LOW, IPT_UNUSED );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_goldmedl = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_goldmedl = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* 3 buttons per player, no joystick */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER1 );
@@ -745,7 +745,7 @@ public class alpha68k
 	INPUT_PORTS_END(); }}; 
 	
 	
-	static InputPortPtr input_ports_skyadvnt = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_skyadvnt = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* Player 1 controls */ 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY );
@@ -829,7 +829,7 @@ public class alpha68k
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_gangwars = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_gangwars = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* Player 1 controls */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY );
@@ -914,7 +914,7 @@ public class alpha68k
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_sbasebal = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_sbasebal = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* Player 1 controls */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY );

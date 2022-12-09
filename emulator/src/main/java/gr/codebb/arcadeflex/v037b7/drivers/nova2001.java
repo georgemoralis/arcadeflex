@@ -49,7 +49,7 @@ public class nova2001 {
                 new MemoryWriteAddress(0xe000, 0xe7ff, MWA_RAM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_nova2001 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_nova2001 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);

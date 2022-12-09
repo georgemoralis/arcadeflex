@@ -347,7 +347,7 @@ public class bionicc
                 tilemap_draw(bitmap,tx_tilemap,0);
 	} };
 	
-	public static VhEofCallbackPtr bionicc_eof_callback = new VhEofCallbackPtr() { public void handler() 
+	public static VhEofCallbackHandlerPtr bionicc_eof_callback = new VhEofCallbackHandlerPtr() { public void handler() 
 	{
 		buffer_spriteram_w.handler(0,0);
 	} };

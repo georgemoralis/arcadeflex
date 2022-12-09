@@ -176,7 +176,7 @@ public class zaxxon {
         }
     };
 
-    static InputPortPtr input_ports_zaxxon = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_zaxxon = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -296,7 +296,7 @@ public class zaxxon {
         }
     };
 
-    static InputPortPtr input_ports_futspy = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_futspy = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -413,7 +413,7 @@ public class zaxxon {
         }
     };
 
-    static InputPortPtr input_ports_razmataz = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_razmataz = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

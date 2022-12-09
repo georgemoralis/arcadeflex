@@ -239,7 +239,7 @@ public class scobra {
                 new IOWritePort(0x80, 0x80, AY8910_write_port_0_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_scobra = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_scobra = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -290,7 +290,7 @@ public class scobra {
     };
 
     /* identical to scobra apart from the number of lives */
-    static InputPortPtr input_ports_scobrak = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_scobrak = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -340,7 +340,7 @@ public class scobra {
         }
     };
 
-    static InputPortPtr input_ports_stratgyx = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_stratgyx = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -399,7 +399,7 @@ public class scobra {
         }
     };
 
-    static InputPortPtr input_ports_armorcar = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_armorcar = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -455,7 +455,7 @@ public class scobra {
         }
     };
 
-    static InputPortPtr input_ports_moonwar2 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_moonwar2 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -508,7 +508,7 @@ public class scobra {
         }
     };
 
-    static InputPortPtr input_ports_monwar2a = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_monwar2a = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -561,7 +561,7 @@ public class scobra {
         }
     };
 
-    static InputPortPtr input_ports_spdcoin = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_spdcoin = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -627,7 +627,7 @@ public class scobra {
         }
     };
 
-    static InputPortPtr input_ports_darkplnt = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_darkplnt = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -677,7 +677,7 @@ public class scobra {
         }
     };
 
-    static InputPortPtr input_ports_tazmania = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_tazmania = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -734,7 +734,7 @@ public class scobra {
     };
 
     /* Cocktail mode is N/A */
-    static InputPortPtr input_ports_calipso = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_calipso = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -785,7 +785,7 @@ public class scobra {
     };
 
     /* Cocktail mode not working due to bug */
-    static InputPortPtr input_ports_anteater = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_anteater = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -841,7 +841,7 @@ public class scobra {
         }
     };
 
-    static InputPortPtr input_ports_rescue = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_rescue = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -903,7 +903,7 @@ public class scobra {
         }
     };
 
-    static InputPortPtr input_ports_minefld = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_minefld = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -966,7 +966,7 @@ public class scobra {
     };
 
     /* Cocktail mode is N/A */
-    static InputPortPtr input_ports_losttomb = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_losttomb = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1028,7 +1028,7 @@ public class scobra {
     };
 
     /* Cocktail mode is N/A */
-    static InputPortPtr input_ports_superbon = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_superbon = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1095,7 +1095,7 @@ public class scobra {
         }
     };
 
-    static InputPortPtr input_ports_hustler = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_hustler = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

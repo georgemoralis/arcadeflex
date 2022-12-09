@@ -57,7 +57,7 @@ public class bankp {
                 new IOWritePort(0x07, 0x07, bankp_out_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_bankp = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_bankp = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

@@ -117,7 +117,7 @@ public class quantum
 	
 	
 	
-	static InputPortPtr input_ports_quantum = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_quantum = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		/* YHALT here MUST BE ALWAYS 0  */
 		PORT_BIT( 0x01, IP_ACTIVE_HIGH,IPT_UNKNOWN );/* vg YHALT */

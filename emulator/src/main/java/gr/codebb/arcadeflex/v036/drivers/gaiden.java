@@ -187,7 +187,7 @@ public class gaiden
 	
 	
 	
-	static InputPortPtr input_ports_gaiden = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_gaiden = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* PLAYER 1 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_PLAYER1 | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER1 | IPF_8WAY );
@@ -269,7 +269,7 @@ public class gaiden
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_COIN2 );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_tknight = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_tknight = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* PLAYER 1 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_PLAYER1 | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_PLAYER1 | IPF_8WAY );

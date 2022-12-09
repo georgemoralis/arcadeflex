@@ -65,7 +65,7 @@ public class mpatrol {
                 new IOWritePort(0xc0, 0xc0, mpatrol_bgcontrol_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_mpatrol = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_mpatrol = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -184,7 +184,7 @@ public class mpatrol {
     };
 
     /* Identical to mpatrol, the only difference is the number of lives */
-    static InputPortPtr input_ports_mpatrolw = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_mpatrolw = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

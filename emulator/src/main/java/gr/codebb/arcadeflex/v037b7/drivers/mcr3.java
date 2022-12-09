@@ -396,7 +396,7 @@ public class mcr3
      *
      ************************************
      */
-    public static nvramPtr mcr3_nvram_handler = new nvramPtr() {
+    public static nvramHandlerPtr mcr3_nvram_handler = new nvramHandlerPtr() {
         public void handler(Object file, int read_or_write) {
             UBytePtr ram = memory_region(REGION_CPU1);
             if (read_or_write != 0) {
@@ -407,7 +407,7 @@ public class mcr3
         }
     };
 
-    public static nvramPtr spyhunt_nvram_handler = new nvramPtr() {
+    public static nvramHandlerPtr spyhunt_nvram_handler = new nvramHandlerPtr() {
         public void handler(Object file, int read_or_write) {
             UBytePtr ram = memory_region(REGION_CPU1);
 
@@ -513,7 +513,7 @@ public class mcr3
      *
      ************************************
      */
-    static InputPortPtr input_ports_tapper = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_tapper = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -565,7 +565,7 @@ public class mcr3
         }
     };
 
-    static InputPortPtr input_ports_timber = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_timber = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -616,7 +616,7 @@ public class mcr3
         }
     };
 
-    static InputPortPtr input_ports_dotron = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_dotron = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -669,7 +669,7 @@ public class mcr3
         }
     };
 
-    static InputPortPtr input_ports_destderb = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_destderb = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -733,7 +733,7 @@ public class mcr3
         }
     };
 
-    static InputPortPtr input_ports_sarge = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_sarge = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -798,7 +798,7 @@ public class mcr3
         }
     };
 
-    static InputPortPtr input_ports_rampage = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_rampage = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -872,7 +872,7 @@ public class mcr3
         }
     };
 
-    static InputPortPtr input_ports_powerdrv = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_powerdrv = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -935,7 +935,7 @@ public class mcr3
         }
     };
 
-    static InputPortPtr input_ports_maxrpm = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_maxrpm = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1003,7 +1003,7 @@ public class mcr3
         }
     };
 
-    static InputPortPtr input_ports_spyhunt = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_spyhunt = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1060,7 +1060,7 @@ public class mcr3
         }
     };
 
-    static InputPortPtr input_ports_turbotag = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_turbotag = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1115,7 +1115,7 @@ public class mcr3
         }
     };
 
-    static InputPortPtr input_ports_crater = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_crater = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

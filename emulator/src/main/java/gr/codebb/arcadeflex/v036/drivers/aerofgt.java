@@ -308,7 +308,7 @@ public class aerofgt {
                 new IOWritePort(0x08, 0x08, pending_command_clear_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_pspikes = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pspikes = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x0001, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER2);
@@ -386,7 +386,7 @@ public class aerofgt {
         }
     };
 
-    static InputPortPtr input_ports_turbofrc = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_turbofrc = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x0001, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
@@ -478,7 +478,7 @@ public class aerofgt {
         }
     };
 
-    static InputPortPtr input_ports_aerofgtb = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_aerofgtb = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x0001, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
@@ -564,7 +564,7 @@ public class aerofgt {
         }
     };
 
-    static InputPortPtr input_ports_aerofgt = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_aerofgt = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x0001, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);

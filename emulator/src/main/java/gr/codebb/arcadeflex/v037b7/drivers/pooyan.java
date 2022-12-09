@@ -48,7 +48,7 @@ public class pooyan {
                 new MemoryWriteAddress(0xa187, 0xa187, pooyan_flipscreen_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_pooyan = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pooyan = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

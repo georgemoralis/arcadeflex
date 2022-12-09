@@ -176,7 +176,7 @@ public class bladestl {
      *
      **************************************************************************
      */
-    static InputPortPtr input_ports_bladestl = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_bladestl = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW #1 */
@@ -299,7 +299,7 @@ public class bladestl {
         }
     };
 
-    static InputPortPtr input_ports_bladstle = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_bladstle = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW #1 */

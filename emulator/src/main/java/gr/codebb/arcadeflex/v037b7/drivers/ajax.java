@@ -162,7 +162,7 @@ public class ajax
 	};
 	
 	
-	static InputPortPtr input_ports_ajax = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_ajax = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* DSW #1 */
 		PORT_DIPNAME( 0x0f, 0x0f, DEF_STR( "Coin_A") );
 		PORT_DIPSETTING(    0x02, DEF_STR( "4C_1C") );

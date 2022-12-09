@@ -77,7 +77,7 @@ public class marineb {
                 new IOWritePort(0x03, 0x03, AY8910_write_port_1_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_marineb = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_marineb = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -134,7 +134,7 @@ public class marineb {
         }
     };
 
-    static InputPortPtr input_ports_changes = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_changes = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -188,7 +188,7 @@ public class marineb {
         }
     };
 
-    static InputPortPtr input_ports_hoccer = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_hoccer = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -244,7 +244,7 @@ public class marineb {
         }
     };
 
-    static InputPortPtr input_ports_wanted = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_wanted = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

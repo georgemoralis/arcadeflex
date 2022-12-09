@@ -172,7 +172,7 @@ public class gundealr {
                 new IOWritePort(0x01, 0x01, YM2203_write_port_0_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_gundealr = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_gundealr = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW0 */
@@ -270,7 +270,7 @@ public class gundealr {
         }
     };
 
-    static InputPortPtr input_ports_yamyam = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_yamyam = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW0 */

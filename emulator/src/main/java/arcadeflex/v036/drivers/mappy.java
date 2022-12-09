@@ -123,7 +123,7 @@ public class mappy {
                 new MemoryWriteAddress(-1) /* end of table */};
 
     /* input from the outside world */
-    static InputPortPtr input_ports_mappy = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_mappy = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW0 */
@@ -238,7 +238,7 @@ public class mappy {
         }
     };
 
-    static InputPortPtr input_ports_digdug2 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_digdug2 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW0 */
@@ -339,7 +339,7 @@ public class mappy {
         }
     };
 
-    static InputPortPtr input_ports_motos = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_motos = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW0 */
@@ -416,7 +416,7 @@ public class mappy {
         }
     };
 
-    static InputPortPtr input_ports_todruaga = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_todruaga = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW0 */

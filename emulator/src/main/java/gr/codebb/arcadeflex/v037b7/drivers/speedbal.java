@@ -102,7 +102,7 @@ public class speedbal {
                 new IOWritePort(0x01, 0x01, YM3812_write_port_0_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_speedbal = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_speedbal = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW2 */

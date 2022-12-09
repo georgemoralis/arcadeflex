@@ -63,7 +63,7 @@ public class timeplt {
                 new MemoryWriteAddress(0xc30a, 0xc30c, timeplt_coin_counter_w), /* c30b is not used */
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_timeplt = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_timeplt = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -168,7 +168,7 @@ public class timeplt {
         }
     };
 
-    static InputPortPtr input_ports_psurge = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_psurge = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

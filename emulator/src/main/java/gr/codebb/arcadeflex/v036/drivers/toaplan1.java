@@ -495,7 +495,7 @@ public class toaplan1 {
      * Input Port definitions
      * ***************************************************************************
      */
-    static InputPortPtr input_ports_rallybik = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_rallybik = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* VBlank */
@@ -584,7 +584,7 @@ public class toaplan1 {
         }
     };
 
-    static InputPortPtr input_ports_truxton = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_truxton = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* VBlank */
@@ -700,7 +700,7 @@ public class toaplan1 {
         }
     };
 
-    static InputPortPtr input_ports_hellfire = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_hellfire = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* VBlank */
@@ -802,7 +802,7 @@ public class toaplan1 {
         }
     };
 
-    static InputPortPtr input_ports_zerowing = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_zerowing = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* VBlank */
@@ -904,7 +904,7 @@ public class toaplan1 {
         }
     };
 
-    static InputPortPtr input_ports_demonwld = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_demonwld = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* VBlank */
@@ -1006,7 +1006,7 @@ public class toaplan1 {
         }
     };
 
-    static InputPortPtr input_ports_samesame = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_samesame = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* VBlank */
@@ -1123,7 +1123,7 @@ public class toaplan1 {
         }
     };
 
-    static InputPortPtr input_ports_fireshrk = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_fireshrk = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* VBlank */
@@ -1224,7 +1224,7 @@ public class toaplan1 {
         }
     };
 
-    static InputPortPtr input_ports_outzone = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_outzone = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* VBlank */
@@ -1325,7 +1325,7 @@ public class toaplan1 {
         }
     };
 
-    static InputPortPtr input_ports_vimana = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_vimana = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* VBlank */
@@ -1433,7 +1433,7 @@ public class toaplan1 {
         }
     };
 
-    static InputPortPtr input_ports_vimanan = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_vimanan = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* VBlank */

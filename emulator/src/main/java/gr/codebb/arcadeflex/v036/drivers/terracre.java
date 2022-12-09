@@ -148,7 +148,7 @@ public class terracre
 	};
 	
 	
-	static InputPortPtr input_ports_terracre = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_terracre = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* Player 1 controls */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY );

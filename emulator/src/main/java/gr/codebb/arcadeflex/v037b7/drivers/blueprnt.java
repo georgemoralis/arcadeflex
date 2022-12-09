@@ -103,7 +103,7 @@ public class blueprnt {
                 new MemoryWriteAddress(0x8001, 0x8001, AY8910_write_port_1_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_blueprnt = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_blueprnt = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -181,7 +181,7 @@ public class blueprnt {
         }
     };
 
-    static InputPortPtr input_ports_saturn = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_saturn = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

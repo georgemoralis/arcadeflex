@@ -24,7 +24,6 @@ import static gr.codebb.arcadeflex.v036.mame.driverH.CPU_AUDIO_CPU;
 import static gr.codebb.arcadeflex.v036.mame.driverH.CPU_S2650;
 import static gr.codebb.arcadeflex.v036.mame.driverH.DEFAULT_REAL_60HZ_VBLANK_DURATION;
 import gr.codebb.arcadeflex.v036.mame.driverH.GameDriver;
-import gr.codebb.arcadeflex.v036.mame.driverH.InputPortPtr;
 import gr.codebb.arcadeflex.v036.mame.driverH.MachineCPU;
 import gr.codebb.arcadeflex.v036.mame.driverH.MachineDriver;
 import static gr.codebb.arcadeflex.v036.mame.driverH.ROT0;
@@ -300,7 +299,7 @@ public class meadows {
                 new MemoryReadAddress(0x0e00, 0x0eff, MRA_RAM),
                 new MemoryReadAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_meadows = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_meadows = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 buttons */

@@ -213,7 +213,7 @@ public class ginganin
 	
 	/*	Input Ports:	[0] Controls	[1] DSWs */
 	
-	static InputPortPtr input_ports_ginganin = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_ginganin = new InputPortHandlerPtr(){ public void handler() { 
 	
 		PORT_START(); 	// IN0 - Controls - Read from 70000.w
 		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY );

@@ -191,7 +191,7 @@ public class taitosj
 	};
 	
 
-	static InputPortPtr input_ports_spaceskr = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_spaceskr = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
@@ -321,7 +321,7 @@ public class taitosj
 		PORT_DIPSETTING(    0x00, "A only" );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_junglek = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_junglek = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
@@ -449,7 +449,7 @@ public class taitosj
 		PORT_DIPSETTING(    0x00, "A only" );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_alpine = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_alpine = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY | IPF_COCKTAIL );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY | IPF_COCKTAIL );
@@ -574,7 +574,7 @@ public class taitosj
 		PORT_DIPSETTING(    0x00, "A only" );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_alpinea = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_alpinea = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY | IPF_COCKTAIL );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY | IPF_COCKTAIL );
@@ -697,7 +697,7 @@ public class taitosj
 		PORT_DIPSETTING(    0x00, "A only" );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_timetunl = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_timetunl = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN );
@@ -829,7 +829,7 @@ public class taitosj
 		PORT_DIPSETTING(    0x00, "A only" );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_wwestern = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_wwestern = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICKRIGHT_LEFT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICKRIGHT_RIGHT | IPF_8WAY );
@@ -960,7 +960,7 @@ public class taitosj
 		PORT_DIPSETTING(    0x00, "A only" );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_frontlin = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_frontlin = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICKRIGHT_LEFT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICKRIGHT_RIGHT | IPF_8WAY );
@@ -1093,7 +1093,7 @@ public class taitosj
 		PORT_DIPSETTING(    0x00, "A only" );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_elevator = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_elevator = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_4WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY );
@@ -1223,7 +1223,7 @@ public class taitosj
 		PORT_DIPSETTING(    0x00, "A only" );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_tinstar = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_tinstar = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICKRIGHT_LEFT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICKRIGHT_RIGHT | IPF_8WAY );
@@ -1359,7 +1359,7 @@ public class taitosj
 		PORT_DIPSETTING(    0x00, "A only" );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_waterski = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_waterski = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY );
@@ -1491,7 +1491,7 @@ public class taitosj
 		PORT_DIPSETTING(    0x00, "A only" );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_bioatack = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_bioatack = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
@@ -1619,7 +1619,7 @@ public class taitosj
 		PORT_DIPSETTING(    0x00, "A only" );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_sfposeid = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_sfposeid = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
@@ -1751,7 +1751,7 @@ public class taitosj
 		PORT_DIPSETTING(    0x00, "A only" );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_hwrace = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_hwrace = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );

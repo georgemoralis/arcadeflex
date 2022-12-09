@@ -153,7 +153,7 @@ public class xybots
 	 *
 	 *************************************/
 	
-	static InputPortPtr input_ports_xybots = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_xybots = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* ffe100 */
 		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_START2 );
 		PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2 );

@@ -149,7 +149,7 @@ public class simpsons {
      *
      **************************************************************************
      */
-    static InputPortPtr input_ports_simpsons = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_simpsons = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();  /* IN0 - Player 1 */
 
@@ -214,7 +214,7 @@ public class simpsons {
         }
     };
 
-    static InputPortPtr input_ports_simpsn2p = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_simpsn2p = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();  /* IN0 - Player 1 */
 

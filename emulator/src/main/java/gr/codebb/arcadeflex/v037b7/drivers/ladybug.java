@@ -69,7 +69,7 @@ public class ladybug {
         }
     };
 
-    static InputPortPtr input_ports_ladybug = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ladybug = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -175,7 +175,7 @@ public class ladybug {
         }
     };
 
-    static InputPortPtr input_ports_snapjack = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_snapjack = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -283,7 +283,7 @@ public class ladybug {
         }
     };
 
-    static InputPortPtr input_ports_cavenger = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_cavenger = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

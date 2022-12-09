@@ -109,7 +109,7 @@ public class astrof {
         }
     };
 
-    static InputPortPtr input_ports_astrof = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_astrof = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -167,7 +167,7 @@ public class astrof {
         }
     };
 
-    static InputPortPtr input_ports_tomahawk = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_tomahawk = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 

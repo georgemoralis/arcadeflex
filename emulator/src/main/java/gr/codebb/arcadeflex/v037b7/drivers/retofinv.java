@@ -236,7 +236,7 @@ public class retofinv {
                 new MemoryWriteAddress(0xa000, 0xa000, SN76496_1_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_retofinv = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_retofinv = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

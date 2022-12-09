@@ -101,7 +101,7 @@ public class vendetta {
             "0100110000000" /* unlock command */
     );
 
-    public static nvramPtr nvram_handler = new nvramPtr() {
+    public static nvramHandlerPtr nvram_handler = new nvramHandlerPtr() {
         public void handler(Object file, int read_or_write) {
             if (read_or_write != 0) {
                 EEPROM_save(file);
@@ -335,7 +335,7 @@ public class vendetta {
      *
      **************************************************************************
      */
-    static InputPortPtr input_ports_vendetta = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_vendetta = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER1);

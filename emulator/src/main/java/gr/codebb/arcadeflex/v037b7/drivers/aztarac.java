@@ -119,7 +119,7 @@ public class aztarac
 	
 	
 	
-	static InputPortPtr input_ports_aztarac = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_aztarac = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();  /* IN0 */
 		PORT_ANALOG( 0x1f, 0xf, IPT_AD_STICK_X | IPF_CENTER, 100, 1, 0, 0x1e );
 	

@@ -278,7 +278,7 @@ public class gsword {
                 new IOWritePort(-1)
             };
 
-    static InputPortPtr input_ports_gsword = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_gsword = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 (8741-2 port1?) */
 

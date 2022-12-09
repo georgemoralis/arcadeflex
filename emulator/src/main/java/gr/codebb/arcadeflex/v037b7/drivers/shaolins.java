@@ -74,7 +74,7 @@ public class shaolins {
                 new MemoryWriteAddress(0x6000, 0xffff, MWA_ROM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_shaolins = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_shaolins = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

@@ -84,7 +84,7 @@ public class galaga {
                 new MemoryWriteAddress(0x0000, 0x1fff, MWA_ROM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_galaga = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_galaga = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW0 */
@@ -176,7 +176,7 @@ public class galaga {
     };
 
     /* same as galaga, dip switches are slightly different */
-    static InputPortPtr input_ports_galaganm = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_galaganm = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW0 */

@@ -214,7 +214,7 @@ public class gladiatr {
     static UBytePtr nvram = new UBytePtr();
     static int[] nvram_size = new int[1];
 
-    public static nvramPtr nvram_handler = new nvramPtr() {
+    public static nvramHandlerPtr nvram_handler = new nvramHandlerPtr() {
         public void handler(Object file, int read_or_write) {
             /*if (read_or_write!=0)
              {
@@ -321,7 +321,7 @@ public class gladiatr {
                 new IOWritePort(0xe0, 0xe0, glad_cpu_sound_command_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_gladiatr = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_gladiatr = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 		/* DSW1 (8741-0 parallel port)*/
 

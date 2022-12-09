@@ -99,7 +99,7 @@ public class kangaroo {
                 new IOWritePort(0x8000, 0x8000, AY8910_control_port_0_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_fnkyfish = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_fnkyfish = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -168,7 +168,7 @@ public class kangaroo {
         }
     };
 
-    static InputPortPtr input_ports_kangaroo = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_kangaroo = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

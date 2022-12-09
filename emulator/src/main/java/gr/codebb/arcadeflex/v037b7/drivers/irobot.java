@@ -35,7 +35,7 @@ public class irobot {
     static UBytePtr nvram = new UBytePtr();
     static int[] nvram_size = new int[1];
 
-    public static nvramPtr nvram_handler = new nvramPtr() {
+    public static nvramHandlerPtr nvram_handler = new nvramHandlerPtr() {
         public void handler(Object file, int read_or_write) {
             if (read_or_write != 0) {
                 osd_fwrite(file, nvram, nvram_size[0]);
@@ -103,7 +103,7 @@ public class irobot {
                 new MemoryWriteAddress(0x4000, 0xffff, MWA_ROM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_irobot = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_irobot = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

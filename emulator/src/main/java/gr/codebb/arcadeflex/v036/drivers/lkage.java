@@ -185,7 +185,7 @@ public class lkage
 	
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_lkage = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_lkage = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* DSW1 */
 		PORT_DIPNAME( 0x03, 0x03, DEF_STR( "Bonus_Life") );
 		PORT_DIPSETTING(    0x03, "10000" );/* unconfirmed */

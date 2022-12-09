@@ -63,7 +63,7 @@ public class mitchell {
     static int nvram_size;
     static int init_eeprom_count;
 
-    public static nvramPtr nvram_handler = new nvramPtr() {
+    public static nvramHandlerPtr nvram_handler = new nvramHandlerPtr() {
         public void handler(Object file, int read_or_write) {
             if (read_or_write != 0) {
                 EEPROM_save(file);					/* EEPROM */
@@ -333,7 +333,7 @@ public class mitchell {
                 new IOWritePort(0x10, 0x10, eeprom_clock_w),
                 new IOWritePort(0x18, 0x18, eeprom_serial_w),
                 new IOWritePort(-1) /* end of table */};
-    static InputPortPtr input_ports_mgakuen = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_mgakuen = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* DSW */
 
@@ -522,7 +522,7 @@ public class mitchell {
         }
     };
 
-    static InputPortPtr input_ports_marukin = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_marukin = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* DSW */
 
@@ -662,7 +662,7 @@ public class mitchell {
         }
     };
 
-    static InputPortPtr input_ports_pkladies = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pkladies = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* DSW */
 
@@ -804,7 +804,7 @@ public class mitchell {
         }
     };
 
-    static InputPortPtr input_ports_pang = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pang = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* DSW */
 
@@ -858,7 +858,7 @@ public class mitchell {
         }
     };
 
-    static InputPortPtr input_ports_qtono1 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_qtono1 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* DSW */
 
@@ -910,7 +910,7 @@ public class mitchell {
         }
     };
 
-    static InputPortPtr input_ports_block = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_block = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* DSW */
 

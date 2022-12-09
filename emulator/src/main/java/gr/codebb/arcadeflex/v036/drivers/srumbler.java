@@ -148,7 +148,7 @@ public class srumbler
 	};
 	
 	
-	static InputPortPtr input_ports_srumbler = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_srumbler = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_START1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_START2 );

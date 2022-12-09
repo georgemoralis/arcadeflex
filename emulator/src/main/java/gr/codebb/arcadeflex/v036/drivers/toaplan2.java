@@ -861,7 +861,7 @@ public class toaplan2
 	
 
 	
-	static InputPortPtr input_ports_tekipaki = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_tekipaki = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* (0) VBlank */
 		PORT_BIT( 0x0001, IP_ACTIVE_HIGH, IPT_VBLANK );
 		PORT_BIT( 0xfffe, IP_ACTIVE_HIGH, IPT_UNKNOWN );
@@ -970,7 +970,7 @@ public class toaplan2
 		PORT_BIT( 0xf0, IP_ACTIVE_HIGH, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_ghox = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_ghox = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* (0) VBlank */
 		PORT_BIT( 0x0001, IP_ACTIVE_HIGH, IPT_VBLANK );
 		PORT_BIT( 0xfffe, IP_ACTIVE_HIGH, IPT_UNKNOWN );
@@ -1094,7 +1094,7 @@ public class toaplan2
 		PORT_ANALOG( 0xff, 0x00, IPT_DIAL_V | IPF_PLAYER2, 15, 0, 0, 0xff );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_dogyuun = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_dogyuun = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* (0) VBlank */
 		PORT_BIT( 0x0001, IP_ACTIVE_HIGH, IPT_VBLANK );
 		PORT_BIT( 0xfffe, IP_ACTIVE_HIGH, IPT_UNKNOWN );
@@ -1176,7 +1176,7 @@ public class toaplan2
 		PORT_DIPSETTING(		0x0000, DEF_STR( "Yes") );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_kbash = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_kbash = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* (0) VBlank */
 		PORT_BIT( 0x0001, IP_ACTIVE_HIGH, IPT_VBLANK );
 		PORT_BIT( 0xfffe, IP_ACTIVE_HIGH, IPT_UNKNOWN );
@@ -1284,7 +1284,7 @@ public class toaplan2
 		PORT_BIT( 0xfff0, IP_ACTIVE_HIGH, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_pipibibs = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_pipibibs = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* (0) VBlank */
 		PORT_BIT( 0x0001, IP_ACTIVE_HIGH, IPT_VBLANK );
 		PORT_BIT( 0xfffe, IP_ACTIVE_HIGH, IPT_UNKNOWN );
@@ -1389,7 +1389,7 @@ public class toaplan2
 		PORT_BIT( 0xf8, IP_ACTIVE_HIGH, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_whoopee = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_whoopee = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* (0) VBlank */
 		PORT_BIT( 0x0001, IP_ACTIVE_HIGH, IPT_VBLANK );
 		PORT_BIT( 0xfffe, IP_ACTIVE_HIGH, IPT_UNKNOWN );
@@ -1494,7 +1494,7 @@ public class toaplan2
 		PORT_BIT( 0xf8, IP_ACTIVE_HIGH, IPT_UNKNOWN );/* bit 0x10 sound ready */
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_vfive = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_vfive = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* (0) VBlank */
 		PORT_BIT( 0x0001, IP_ACTIVE_HIGH, IPT_VBLANK );
 		PORT_BIT( 0xfffe, IP_ACTIVE_HIGH, IPT_UNKNOWN );
@@ -1576,7 +1576,7 @@ public class toaplan2
 		PORT_DIPSETTING(		0x0000, DEF_STR( "Yes") );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_batsugun = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_batsugun = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* (0) VBlank */
 		PORT_BIT( 0x0001, IP_ACTIVE_HIGH, IPT_VBLANK );
 		PORT_BIT( 0xfffe, IP_ACTIVE_HIGH, IPT_UNKNOWN );
@@ -1657,7 +1657,7 @@ public class toaplan2
 		PORT_DIPSETTING(		0x0000, DEF_STR( "Yes") );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_snowbro2 = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_snowbro2 = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* (0) VBlank */
 		PORT_BIT( 0x0001, IP_ACTIVE_HIGH, IPT_VBLANK );
 		PORT_BIT( 0xfffe, IP_ACTIVE_HIGH, IPT_UNKNOWN );

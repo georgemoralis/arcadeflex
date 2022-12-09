@@ -189,7 +189,7 @@ public class fastfred {
                 new MemoryWriteAddress(0x6001, 0x6001, AY8910_write_port_1_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_fastfred = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_fastfred = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN1 */
 
@@ -247,7 +247,7 @@ public class fastfred {
         }
     };
 
-    static InputPortPtr input_ports_flyboy = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_flyboy = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN1 */
 
@@ -298,7 +298,7 @@ public class fastfred {
         }
     };
 
-    static InputPortPtr input_ports_jumpcoas = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_jumpcoas = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* DSW 0 */
 

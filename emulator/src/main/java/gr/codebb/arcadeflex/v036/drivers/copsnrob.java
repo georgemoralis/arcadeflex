@@ -54,7 +54,7 @@ public class copsnrob {
                 new MemoryWriteAddress(0xfff8, 0xffff, MWA_ROM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_copsnrob = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_copsnrob = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN0 */
 

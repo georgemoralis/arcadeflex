@@ -150,7 +150,7 @@ public class wc90 {
                 new MemoryWriteAddress(0xf803, 0xf803, YM2203_write_port_1_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_wc90 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_wc90 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 bit 0-5 */

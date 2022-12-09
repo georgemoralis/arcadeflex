@@ -183,7 +183,7 @@ public class pacman {
                 new IOReadPort(0x00, 0xff, theglob_decrypt_rom), /* Switch protection logic */
                 new IOReadPort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_pacman = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pacman = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -256,7 +256,7 @@ public class pacman {
     };
     /* Ms. Pac-Man input ports are identical to Pac-Man, the only difference is */
  /* the missing Ghost Names dip switch. */
-    static InputPortPtr input_ports_mspacman = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_mspacman = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -326,7 +326,7 @@ public class pacman {
         }
     };
 
-    static InputPortPtr input_ports_maketrax = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_maketrax = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -387,7 +387,7 @@ public class pacman {
         }
     };
 
-    static InputPortPtr input_ports_mbrush = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_mbrush = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -447,7 +447,7 @@ public class pacman {
             INPUT_PORTS_END();
         }
     };
-    static InputPortPtr input_ports_paintrlr = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_paintrlr = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -507,7 +507,7 @@ public class pacman {
             INPUT_PORTS_END();
         }
     };
-    static InputPortPtr input_ports_ponpoko = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ponpoko = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -601,7 +601,7 @@ public class pacman {
         }
     };
 
-    static InputPortPtr input_ports_eyes = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_eyes = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -662,7 +662,7 @@ public class pacman {
         }
     };
 
-    static InputPortPtr input_ports_mrtnt = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_mrtnt = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -721,7 +721,7 @@ public class pacman {
         }
     };
 
-    static InputPortPtr input_ports_lizwiz = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_lizwiz = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -780,7 +780,7 @@ public class pacman {
         }
     };
 
-    static InputPortPtr input_ports_theglob = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_theglob = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -845,7 +845,7 @@ public class pacman {
         }
     };
 
-    static InputPortPtr input_ports_vanvan = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_vanvan = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -930,7 +930,7 @@ public class pacman {
         }
     };
 
-    static InputPortPtr input_ports_vanvans = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_vanvans = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1014,7 +1014,7 @@ public class pacman {
         }
     };
 
-    static InputPortPtr input_ports_dremshpr = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_dremshpr = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1077,7 +1077,7 @@ public class pacman {
         }
     };
 
-    static InputPortPtr input_ports_alibaba = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_alibaba = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

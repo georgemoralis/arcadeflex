@@ -291,7 +291,7 @@ public class asteroid
 		new MemoryWriteAddress( -1 )  /* end of table */
 	};
 	
-	static InputPortPtr input_ports_asteroid = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_asteroid = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();  /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_UNKNOWN );
 		/* Bit 2 and 3 are handled in the machine dependent part. */
@@ -339,7 +339,7 @@ public class asteroid
 		PORT_DIPSETTING (   0x00, DEF_STR( "Free_Play") );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_asteroib = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_asteroib = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();  /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN );/* resets */
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN );/* resets */
@@ -390,7 +390,7 @@ public class asteroid
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_BUTTON3 );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_astdelux = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_astdelux = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();  /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_UNKNOWN );
 		/* Bit 2 and 3 are handled in the machine dependent part. */
@@ -458,7 +458,7 @@ public class asteroid
 		PORT_DIPSETTING (   0xe0, "None" );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_llander = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_llander = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();  /* IN0 */
 		/* Bit 0 is VG_HALT, handled in the machine dependant part */
 		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_UNKNOWN );
@@ -507,7 +507,7 @@ public class asteroid
 		PORT_ANALOGX( 0xff, 0x00, IPT_PADDLE|IPF_REVERSE, 100, 10, 0, 255, KEYCODE_UP, KEYCODE_DOWN, JOYCODE_1_UP, JOYCODE_1_DOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_llander1 = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_llander1 = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();  /* IN0 */
 		/* Bit 0 is VG_HALT, handled in the machine dependant part */
 		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_UNKNOWN );

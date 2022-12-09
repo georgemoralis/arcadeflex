@@ -81,7 +81,7 @@ public class ladyfrog
 	
 	
 	
-	static InputPortPtr input_ports_ladyfrog = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_ladyfrog = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 	INPUT_PORTS_END(); }}; 
 	

@@ -340,7 +340,7 @@ public class m92
 	
 	/******************************************************************************/
 	
-	static InputPortPtr input_ports_bmaster = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_bmaster = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();	
 	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER1 ); 
 	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER1 ); 
@@ -454,7 +454,7 @@ public class m92
 		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_gunforce = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_gunforce = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();	
 	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER1 ); 
 	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER1 ); 
@@ -544,7 +544,7 @@ public class m92
 	PORT_BIT( 0xff, IP_ACTIVE_LOW, IPT_UNUSED );	/* Game manual only mentions 2 dips */
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_lethalth = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_lethalth = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();	
 	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER1 ); 
 	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER1 ); 
@@ -657,7 +657,7 @@ public class m92
 		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_hook = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_hook = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();	
 	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER1 ); 
 	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER1 ); 
@@ -790,7 +790,7 @@ public class m92
 		PORT_DIPSETTING(    0x00, DEF_STR( "Free_Play") );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_majtitl2 = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_majtitl2 = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();	
 	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER1 ); 
 	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER1 ); 
@@ -905,7 +905,7 @@ public class m92
 		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_mysticri = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_mysticri = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();	
 	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER1 ); 
 	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER1 ); 
@@ -1019,7 +1019,7 @@ public class m92
 		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_uccops = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_uccops = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();	
 	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER1 ); 
 	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER1 ); 
@@ -1140,7 +1140,7 @@ public class m92
 		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_rtypeleo = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_rtypeleo = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();	
 	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER1 ); 
 	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER1 ); 
@@ -1230,7 +1230,7 @@ public class m92
 	PORT_BIT( 0xff, IP_ACTIVE_LOW, IPT_UNUSED );	/* Game manual only mentions 2 dips */
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_inthunt = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_inthunt = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();	
 	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER1 ); 
 	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER1 ); 
@@ -1349,7 +1349,7 @@ public class m92
 		PORT_DIPSETTING(    0x00, DEF_STR( "Free_Play") );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_nbbatman = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_nbbatman = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();	
 	PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER1 ); 
 	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER1 ); 
@@ -1464,7 +1464,7 @@ public class m92
 		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_psoldier = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_psoldier = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER1 );
 		PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER1 );

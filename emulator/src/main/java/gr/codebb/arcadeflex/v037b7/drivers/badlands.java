@@ -412,7 +412,7 @@ public class badlands
 	 *
 	 *************************************/
 	
-	static InputPortPtr input_ports_badlands = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_badlands = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* fe4000 */
 		PORT_BIT( 0x000f, IP_ACTIVE_LOW, IPT_UNUSED );
 		PORT_BIT( 0x0010, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER1 );

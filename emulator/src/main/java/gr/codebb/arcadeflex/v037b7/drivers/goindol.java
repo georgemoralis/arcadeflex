@@ -87,7 +87,7 @@ public class goindol
 	};
 	
 	
-	static InputPortPtr input_ports_goindol = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_goindol = new InputPortHandlerPtr(){ public void handler() { 
 	
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY );
@@ -164,7 +164,7 @@ public class goindol
 	INPUT_PORTS_END(); }}; 
 	
 	
-	static InputPortPtr input_ports_homo = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_homo = new InputPortHandlerPtr(){ public void handler() { 
 	
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY );

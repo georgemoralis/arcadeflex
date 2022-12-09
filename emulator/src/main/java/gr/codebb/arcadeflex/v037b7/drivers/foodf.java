@@ -125,7 +125,7 @@ public class foodf
 	};
 	
 	
-	static InputPortPtr input_ports_foodf = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_foodf = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_ANALOG( 0xff, 0x7f, IPT_AD_STICK_X | IPF_PLAYER1 | IPF_REVERSE, 100, 10, 0, 255 );
 	

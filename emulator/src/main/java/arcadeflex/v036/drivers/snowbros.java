@@ -132,7 +132,7 @@ public class snowbros {
                 new IOWritePort(0x04, 0x04, soundlatch_w), /* goes back to the main CPU, checked during boot */
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_snowbros = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_snowbros = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* 500001 */

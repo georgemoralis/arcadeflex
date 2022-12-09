@@ -791,7 +791,7 @@ public class twincobr {
         }
     };
 
-    public static VhEofCallbackPtr twincobr_eof_callback = new VhEofCallbackPtr() {
+    public static VhEofCallbackHandlerPtr twincobr_eof_callback = new VhEofCallbackHandlerPtr() {
         public void handler() {
             /*  Spriteram is always 1 frame ahead, suggesting spriteram buffering.
              There are no CPU output registers that control this so we

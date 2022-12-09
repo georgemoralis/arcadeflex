@@ -210,7 +210,7 @@ public class yamato {
                 new IOWritePort(0x03, 0x03, AY8910_write_port_1_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_yamato = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_yamato = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN0 */
 

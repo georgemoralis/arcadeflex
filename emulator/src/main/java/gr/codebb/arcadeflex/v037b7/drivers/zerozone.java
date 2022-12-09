@@ -115,7 +115,7 @@ public class zerozone
 		new MemoryWriteAddress( -1 )  /* end of table */
 	};
 	
-	static InputPortPtr input_ports_zerozone = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_zerozone = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );

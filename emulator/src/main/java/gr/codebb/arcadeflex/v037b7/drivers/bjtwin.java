@@ -74,7 +74,7 @@ public class bjtwin
 	};
 	
 	
-	static InputPortPtr input_ports_bjtwin = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_bjtwin = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );

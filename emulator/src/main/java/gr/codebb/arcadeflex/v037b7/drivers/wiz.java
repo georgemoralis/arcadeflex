@@ -94,7 +94,7 @@ public class wiz {
                 new MemoryWriteAddress(0x7000, 0x7000, interrupt_enable_w), /* Wiz */
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_wiz = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_wiz = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN1 */
@@ -173,7 +173,7 @@ public class wiz {
         }
     };
 
-    static InputPortPtr input_ports_stinger = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_stinger = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -257,7 +257,7 @@ public class wiz {
         }
     };
 
-    static InputPortPtr input_ports_scion = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_scion = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

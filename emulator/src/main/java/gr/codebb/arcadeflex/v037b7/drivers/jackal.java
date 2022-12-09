@@ -109,7 +109,7 @@ public class jackal {
                 new MemoryWriteAddress(0x8000, 0xffff, MWA_ROM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_jackal = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_jackal = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* DSW1 */
 

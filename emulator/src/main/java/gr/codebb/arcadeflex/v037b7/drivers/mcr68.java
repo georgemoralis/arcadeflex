@@ -494,7 +494,7 @@ public class mcr68
 	 *
 	 *************************************/
 	
-	static InputPortPtr input_ports_zwackery = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_zwackery = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_START1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_START2 );
@@ -551,7 +551,7 @@ public class mcr68
 	INPUT_PORTS_END(); }}; 
 	
 	
-/*TODO*///	static InputPortPtr input_ports_xenophob = new InputPortPtr(){ public void handler() { 
+/*TODO*///	static InputPortHandlerPtr input_ports_xenophob = new InputPortHandlerPtr(){ public void handler() { 
 /*TODO*///		PORT_START(); 
 /*TODO*///		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_COIN1 );
 /*TODO*///		PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -610,7 +610,7 @@ public class mcr68
 /*TODO*///	INPUT_PORTS_END(); }}; 
 /*TODO*///	
 /*TODO*///	
-/*TODO*///	static InputPortPtr input_ports_spyhunt2 = new InputPortPtr(){ public void handler() { 
+/*TODO*///	static InputPortHandlerPtr input_ports_spyhunt2 = new InputPortHandlerPtr(){ public void handler() { 
 /*TODO*///		PORT_START(); 
 /*TODO*///		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_COIN1 );
 /*TODO*///		PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -678,7 +678,7 @@ public class mcr68
 /*TODO*///	INPUT_PORTS_END(); }}; 
 /*TODO*///	
 /*TODO*///	
-/*TODO*///	static InputPortPtr input_ports_blasted = new InputPortPtr(){ public void handler() { 
+/*TODO*///	static InputPortHandlerPtr input_ports_blasted = new InputPortHandlerPtr(){ public void handler() { 
 /*TODO*///		PORT_START(); 
 /*TODO*///		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_COIN1 );
 /*TODO*///		PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -731,7 +731,7 @@ public class mcr68
 /*TODO*///	INPUT_PORTS_END(); }}; 
 	
 	
-	static InputPortPtr input_ports_archrivl = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_archrivl = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -788,7 +788,7 @@ public class mcr68
 		PORT_BIT( 0x0080, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2 );
 	INPUT_PORTS_END(); }}; 
 	
-/*TODO*///	static InputPortPtr input_ports_pigskin = new InputPortPtr(){ public void handler() { 
+/*TODO*///	static InputPortHandlerPtr input_ports_pigskin = new InputPortHandlerPtr(){ public void handler() { 
 /*TODO*///		PORT_START(); 
 /*TODO*///		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_COIN1 );
 /*TODO*///		PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -852,7 +852,7 @@ public class mcr68
 /*TODO*///	INPUT_PORTS_END(); }}; 
 /*TODO*///	
 /*TODO*///	
-/*TODO*///	static InputPortPtr input_ports_trisport = new InputPortPtr(){ public void handler() { 
+/*TODO*///	static InputPortHandlerPtr input_ports_trisport = new InputPortHandlerPtr(){ public void handler() { 
 /*TODO*///		PORT_START(); 
 /*TODO*///		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_COIN1 );
 /*TODO*///		PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_COIN2 );

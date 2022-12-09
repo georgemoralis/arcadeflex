@@ -253,7 +253,7 @@ public class kingobox {
                 new IOWritePort(0x03, 0x03, AY8910_control_port_0_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_kingofb = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_kingofb = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW0 - 0xfc01 */
@@ -353,7 +353,7 @@ public class kingobox {
     };
 
     /* Ring King */
-    static InputPortPtr input_ports_ringking = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ringking = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW0 - 0xe000 */

@@ -125,7 +125,7 @@ public class galpanic {
                 new MemoryWriteAddress(0xf80000, 0xf80001, oki_msb_w), /* newfant */
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_galpanic = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_galpanic = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_DIPNAME(0x0001, 0x0001, DEF_STR("Unknown"));
@@ -207,7 +207,7 @@ public class galpanic {
         }
     };
 
-    static InputPortPtr input_ports_newfant = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_newfant = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_DIPNAME(0x0001, 0x0001, DEF_STR("Unknown"));
@@ -287,7 +287,7 @@ public class galpanic {
         }
     };
 
-    static InputPortPtr input_ports_missw96 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_missw96 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_DIPNAME(0x0001, 0x0001, DEF_STR("Unknown"));

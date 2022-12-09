@@ -99,7 +99,7 @@ public class xmen
 		"0100110000000" /* unlock command */
         );
 	
-	public static nvramPtr nvram_handler = new nvramPtr() {
+	public static nvramHandlerPtr nvram_handler = new nvramHandlerPtr() {
         public void handler(Object file, int read_or_write) {
 		if (read_or_write!=0)
 			EEPROM_save(file);
@@ -250,7 +250,7 @@ public class xmen
 	
 	
 	
-	static InputPortPtr input_ports_xmen = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_xmen = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN1 */
 		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER2 );
 		PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER2 );
@@ -300,7 +300,7 @@ public class xmen
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN );/* unused? */
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_xmen2p = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_xmen2p = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN1 */
 		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER2 );
 		PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY | IPF_PLAYER2 );

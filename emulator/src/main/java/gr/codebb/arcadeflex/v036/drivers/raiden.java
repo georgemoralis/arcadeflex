@@ -189,7 +189,7 @@ public class raiden {
     /**
      * ***************************************************************************
      */
-    static InputPortPtr input_ports_raiden = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_raiden = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -350,7 +350,7 @@ public class raiden {
 
         }
     };
-    public static VhEofCallbackPtr raiden_eof_callback = new VhEofCallbackPtr() {
+    public static VhEofCallbackHandlerPtr raiden_eof_callback = new VhEofCallbackHandlerPtr() {
         public void handler() {
             buffer_spriteram_w.handler(0, 0);/* Could be a memory location instead */
 

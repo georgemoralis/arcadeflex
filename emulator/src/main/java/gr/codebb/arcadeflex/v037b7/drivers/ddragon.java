@@ -317,7 +317,7 @@ public class ddragon
 		new MemoryWriteAddress( -1 )	/* end of table */
 	};
 	
-	static InputPortPtr input_ports_dd1 = new InputPortPtr() {
+	static InputPortHandlerPtr input_ports_dd1 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
@@ -398,7 +398,7 @@ public class ddragon
         }
     };
 
-    static InputPortPtr input_ports_dd2 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_dd2 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);

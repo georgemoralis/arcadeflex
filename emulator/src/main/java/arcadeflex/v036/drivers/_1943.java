@@ -91,7 +91,7 @@ public class _1943 {
                 new MemoryWriteAddress(0xe003, 0xe003, YM2203_write_port_1_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_1943 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_1943 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

@@ -226,7 +226,7 @@ public class xain
 	
 	
 	
-	static InputPortPtr input_ports_xsleena = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_xsleena = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY );

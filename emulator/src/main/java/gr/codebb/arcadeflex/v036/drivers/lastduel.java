@@ -477,7 +477,7 @@ public class lastduel
 	
 	/******************************************************************************/
 	
-	static InputPortPtr input_ports_lastduel = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_lastduel = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT  | IPF_8WAY | IPF_COCKTAIL );
@@ -584,7 +584,7 @@ public class lastduel
 		PORT_DIPSETTING(    0x00, DEF_STR( "On") );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_madgear = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_madgear = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNUSED );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNUSED );

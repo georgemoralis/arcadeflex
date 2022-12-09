@@ -395,7 +395,7 @@ public class cninja {
     /**
      * *******************************************************************************
      */
-    static InputPortPtr input_ports_cninja = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_cninja = new InputPortHandlerPtr() {
         public void handler() {
 
             PORT_START();
@@ -478,7 +478,7 @@ public class cninja {
         }
     };
 
-    static InputPortPtr input_ports_cninjau = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_cninjau = new InputPortHandlerPtr() {
         public void handler() {
 
             PORT_START();

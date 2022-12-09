@@ -96,7 +96,7 @@ public class jack {
                 new IOWritePort(0x40, 0x40, AY8910_write_port_0_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_jack = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_jack = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW1 */
@@ -189,7 +189,7 @@ public class jack {
         }
     };
 
-    static InputPortPtr input_ports_zzyzzyxx = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_zzyzzyxx = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW1 */
@@ -276,7 +276,7 @@ public class jack {
         }
     };
 
-    static InputPortPtr input_ports_freeze = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_freeze = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW1 */

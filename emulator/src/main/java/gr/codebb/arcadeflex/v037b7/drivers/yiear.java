@@ -70,7 +70,7 @@ public class yiear {
                 new MemoryWriteAddress(0x8000, 0xffff, MWA_ROM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_yiear = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_yiear = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

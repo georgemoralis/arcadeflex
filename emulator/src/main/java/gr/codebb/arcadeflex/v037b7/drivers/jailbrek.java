@@ -85,7 +85,7 @@ public class jailbrek {
                 new MemoryWriteAddress(0x8000, 0xffff, MWA_ROM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_jailbrek = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_jailbrek = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW0  - $3303 */

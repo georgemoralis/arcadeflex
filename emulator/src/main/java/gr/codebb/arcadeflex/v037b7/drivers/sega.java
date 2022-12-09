@@ -133,7 +133,7 @@ public class sega {
 
     /* This fake input port is used for DIP Switch 2
 	   for all games except Eliminato 4 players */
-    static InputPortPtr input_ports_spacfury = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_spacfury = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 - port 0xf8 */
@@ -235,7 +235,7 @@ public class sega {
         }
     };
 
-    static InputPortPtr input_ports_zektor = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_zektor = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 - port 0xf8 */
@@ -338,7 +338,7 @@ public class sega {
         }
     };
 
-    static InputPortPtr input_ports_startrek = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_startrek = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 - port 0xf8 */
@@ -443,7 +443,7 @@ public class sega {
         }
     };
 
-    static InputPortPtr input_ports_tacscan = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_tacscan = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 - port 0xf8 */
@@ -546,7 +546,7 @@ public class sega {
         }
     };
 
-    static InputPortPtr input_ports_elim2 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_elim2 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 - port 0xf8 */
@@ -649,7 +649,7 @@ public class sega {
         }
     };
 
-    static InputPortPtr input_ports_elim4 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_elim4 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 - port 0xf8 */

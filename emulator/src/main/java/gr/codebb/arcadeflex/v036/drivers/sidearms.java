@@ -179,7 +179,7 @@ public class sidearms {
                 new MemoryWriteAddress(0xf003, 0xf003, YM2203_write_port_1_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_sidearms = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_sidearms = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN0 */
 
@@ -277,7 +277,7 @@ public class sidearms {
         }
     };
 
-    static InputPortPtr input_ports_turtship = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_turtship = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN0 */
 
@@ -366,7 +366,7 @@ public class sidearms {
         }
     };
 
-    static InputPortPtr input_ports_dyger = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_dyger = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN0 */
 

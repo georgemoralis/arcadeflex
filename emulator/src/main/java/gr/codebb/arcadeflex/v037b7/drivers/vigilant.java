@@ -168,7 +168,7 @@ public class vigilant {
                 new IOWritePort(0x83, 0x83, m72_sound_irq_ack_w), /* IRQ clear */
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_vigilant = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_vigilant = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
@@ -259,7 +259,7 @@ public class vigilant {
         }
     };
 
-    static InputPortPtr input_ports_kikcubic = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_kikcubic = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY);

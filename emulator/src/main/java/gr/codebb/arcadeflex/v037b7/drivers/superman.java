@@ -111,7 +111,7 @@ public class superman {
                 new MemoryWriteAddress(0xf200, 0xf200, taito68k_sound_bankswitch_w), /* bankswitch? */
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_superman = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_superman = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW A */

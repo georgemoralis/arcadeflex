@@ -101,7 +101,7 @@ public class _8080bw {
                 new IOWritePort(0x04, 0x04, invaders_shift_amount_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_invaders = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_invaders = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -200,7 +200,7 @@ public class _8080bw {
      * ****************************************************
      */
     /* same as Invaders with a test mode switch */
-    static InputPortPtr input_ports_sitv = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_sitv = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* TEST MODE */
@@ -260,7 +260,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_invadpt2 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_invadpt2 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -359,7 +359,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_earthinv = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_earthinv = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -421,7 +421,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_spaceatt = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_spaceatt = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -485,7 +485,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_invrvnge = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_invrvnge = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -545,7 +545,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_invad2ct = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_invad2ct = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_SERVICE(0x01, IP_ACTIVE_LOW);
@@ -648,7 +648,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_spclaser = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_spclaser = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -711,7 +711,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_spacewr3 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_spacewr3 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -772,7 +772,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_galxwars = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_galxwars = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -834,7 +834,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_lrescue = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_lrescue = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -894,7 +894,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_cosmicmo = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_cosmicmo = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -977,7 +977,7 @@ public class _8080bw {
                 new MemoryWriteAddress(0xe400, 0xffff, MWA_RAM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_rollingc = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_rollingc = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1117,7 +1117,7 @@ public class _8080bw {
  /* BUT a coffee table version was never manufactured and support was   */
  /* probably never completed.                                           */
  /* e.g. cocktail players button will give 6 credits!                   */
-    static InputPortPtr input_ports_sheriff = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_sheriff = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* 00 Main Controls */
@@ -1184,7 +1184,7 @@ public class _8080bw {
         }
     };
 
-    static InputPortPtr input_ports_bandido = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_bandido = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* 00 Main Controls */
@@ -1316,7 +1316,7 @@ public class _8080bw {
             = {
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_spcenctr = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_spcenctr = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1402,7 +1402,7 @@ public class _8080bw {
                 new IOReadPort(0x03, 0x03, boothill_shift_data_r),
                 new IOReadPort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_gunfight = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_gunfight = new InputPortHandlerPtr() {
         public void handler() {
             /* Gun position uses bits 4-6, handled using fake paddles */
             PORT_START();
@@ -1513,7 +1513,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_m4 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_m4 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1594,7 +1594,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_boothill = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_boothill = new InputPortHandlerPtr() {
         public void handler() {
             /* Gun position uses bits 4-6, handled using fake paddles */
             PORT_START();
@@ -1701,7 +1701,7 @@ public class _8080bw {
                 new MemoryWriteAddress(0xc400, 0xdfff, schaser_colorram_w, colorram),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_schaser = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_schaser = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1809,7 +1809,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_schasrcv = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_schasrcv = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1871,7 +1871,7 @@ public class _8080bw {
     /*
 	 * Clowns (EPROM version)
      */
-    static InputPortPtr input_ports_clowns = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_clowns = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -1952,7 +1952,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_gmissile = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_gmissile = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -2008,7 +2008,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_280zzzap = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_280zzzap = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -2086,7 +2086,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_lupin3 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_lupin3 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -2187,7 +2187,7 @@ public class _8080bw {
 //                new MemoryWriteAddress(0xc200, 0xddff, helifire_colorram_w, colorram),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_helifire = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_helifire = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* 00 Main Controls */
@@ -2253,7 +2253,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_spacefev = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_spacefev = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* 00 Main Controls */
@@ -2300,7 +2300,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_polaris = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_polaris = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -2390,7 +2390,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_lagunar = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_lagunar = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -2443,7 +2443,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_phantom2 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_phantom2 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -2490,7 +2490,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_dogpatch = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_dogpatch = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -2551,7 +2551,7 @@ public class _8080bw {
                 new IOReadPort(0x06, 0x06, input_port_3_r), /* ball horz */
                 new IOReadPort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_bowler = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_bowler = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN2 */
@@ -2643,7 +2643,7 @@ public class _8080bw {
                 new IOReadPort(0x06, 0x06, input_port_3_r), /* ball horz */
                 new IOReadPort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_shuffle = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_shuffle = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW0 */
@@ -2734,7 +2734,7 @@ public class _8080bw {
                 new IOReadPort(0x03, 0x03, invaders_shift_data_r),
                 new IOReadPort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_seawolf = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_seawolf = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -2806,7 +2806,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_blueshrk = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_blueshrk = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -2866,7 +2866,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_desertgu = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_desertgu = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -2940,7 +2940,7 @@ public class _8080bw {
 	 * while the upright version ties the pairs of inputs together through
 	 * jumpers in the wiring harness.
      */
-    static InputPortPtr input_ports_einnings = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_einnings = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -2998,7 +2998,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_maze = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_maze = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -3061,7 +3061,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_tornbase = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_tornbase = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -3161,7 +3161,7 @@ public class _8080bw {
             = {
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_checkmat = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_checkmat = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0  */
@@ -3259,7 +3259,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_ozmawars = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ozmawars = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -3312,7 +3312,7 @@ public class _8080bw {
         }
     };
 
-    static InputPortPtr input_ports_spaceph = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_spaceph = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -3368,7 +3368,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_sinvemag = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_sinvemag = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -3430,7 +3430,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_jspecter = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_jspecter = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -3496,7 +3496,7 @@ public class _8080bw {
     /**
      * ****************************************************
      */
-    static InputPortPtr input_ports_ballbomb = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ballbomb = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -3571,7 +3571,7 @@ public class _8080bw {
             null
     );
 
-    static InputPortPtr input_ports_spceking = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_spceking = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

@@ -135,7 +135,7 @@ public class docastle {
                 new MemoryWriteAddress(-1) /* end of table */};
 
     /* Coinage used for all games */
-    static InputPortPtr input_ports_docastle = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_docastle = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -242,7 +242,7 @@ public class docastle {
         }
     };
 
-    static InputPortPtr input_ports_dorunrun = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_dorunrun = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -342,7 +342,7 @@ public class docastle {
         }
     };
 
-    static InputPortPtr input_ports_dowild = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_dowild = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -449,7 +449,7 @@ public class docastle {
         }
     };
 
-    static InputPortPtr input_ports_jjack = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_jjack = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -554,7 +554,7 @@ public class docastle {
         }
     };
 
-    static InputPortPtr input_ports_kickridr = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_kickridr = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

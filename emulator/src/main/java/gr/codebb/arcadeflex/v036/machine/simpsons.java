@@ -63,7 +63,7 @@ public class simpsons
 		"0100000000000",/* lock command */
 		"0100110000000" /* unlock command */
     );
-	public static nvramPtr simpsons_nvram_handler = new nvramPtr(){ public void handler(Object file,int read_or_write)
+	public static nvramHandlerPtr simpsons_nvram_handler = new nvramHandlerPtr(){ public void handler(Object file,int read_or_write)
     {
 		if (read_or_write != 0)
 			EEPROM_save(file);

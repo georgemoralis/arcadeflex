@@ -120,7 +120,7 @@ public class rainbow {
                 new MemoryWriteAddress(0x3c0000, 0x3c0003, MWA_NOP),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_rainbow = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_rainbow = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DIP SWITCH A */
@@ -387,7 +387,7 @@ public class rainbow {
                 /*new MemoryWriteAddress( 0xbc00, 0xbc00, jumping_bankswitch_w ),*/ /*looks like a bankswitch, but sound works with or without it*/
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_jumping = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_jumping = new InputPortHandlerPtr() {
         public void handler() {
 
             PORT_START();

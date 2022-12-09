@@ -564,7 +564,7 @@ public class neogeo
 	
 	/******************************************************************************/
 	
-	static InputPortPtr input_ports_neogeo = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_neogeo = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN );
@@ -653,7 +653,7 @@ public class neogeo
 		PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_BUTTON8 | IPF_CHEAT | IPF_PLAYER2 );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_irrmaze = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_irrmaze = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 multiplexed */
 		PORT_ANALOG( 0xff, 0x7f, IPT_TRACKBALL_X | IPF_REVERSE, 10, 20, 0, 0 );
 	

@@ -55,7 +55,7 @@ public class pengo {
                 new MemoryWriteAddress(0x9070, 0x9070, MWA_NOP),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_pengo = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pengo = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

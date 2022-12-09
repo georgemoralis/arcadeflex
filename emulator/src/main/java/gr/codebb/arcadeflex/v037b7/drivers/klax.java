@@ -205,7 +205,7 @@ public class klax
 	 *
 	 *************************************/
 	
-	static InputPortPtr input_ports_klax = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_klax = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_COIN2 );

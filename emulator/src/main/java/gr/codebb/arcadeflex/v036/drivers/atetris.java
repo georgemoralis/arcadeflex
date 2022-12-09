@@ -62,7 +62,7 @@ public class atetris
 	static UBytePtr nvram=new UBytePtr();
 	static int[] nvram_size=new int[1];
 	
-	public static nvramPtr nvram_handler = new nvramPtr(){ public void handler(Object file,int read_or_write)
+	public static nvramHandlerPtr nvram_handler = new nvramHandlerPtr(){ public void handler(Object file,int read_or_write)
         {
 		if (read_or_write!=0)
 			osd_fwrite(file,nvram,nvram_size[0]);
@@ -106,7 +106,7 @@ public class atetris
 	};
 	
 	
-	static InputPortPtr input_ports_atetris = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_atetris = new InputPortHandlerPtr(){ public void handler() { 
 		// These ports are read via the Pokeys
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_COIN2 );
@@ -132,7 +132,7 @@ public class atetris
 	
 	
 	// Same as the regular one except they added a Flip Controls switch
-	static InputPortPtr input_ports_atetcktl = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_atetcktl = new InputPortHandlerPtr(){ public void handler() { 
 		// These ports are read via the Pokeys
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_HIGH, IPT_COIN2 );

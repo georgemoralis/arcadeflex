@@ -81,7 +81,7 @@ public class digdug {
                 new MemoryWriteAddress(-1) /* end of table */};
 
     /* input from the outside world */
-    static InputPortPtr input_ports_digdug = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_digdug = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW0 */

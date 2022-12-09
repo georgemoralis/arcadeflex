@@ -410,7 +410,7 @@ public class taitof2 {
                 new MemoryWriteAddress(0xf200, 0xf200, bankswitch_w), /* ?? */
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_liquidk = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_liquidk = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN0 */
 
@@ -496,7 +496,7 @@ public class taitof2 {
         }
     };
 
-    static InputPortPtr input_ports_finalb = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_finalb = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN0 */
 
@@ -583,7 +583,7 @@ public class taitof2 {
         }
     };
 
-    static InputPortPtr input_ports_growl = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_growl = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN0 */
 
@@ -700,7 +700,7 @@ public class taitof2 {
         }
     };
 
-    static InputPortPtr input_ports_megab = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_megab = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();  /* DSW A */
 

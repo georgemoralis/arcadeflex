@@ -47,7 +47,7 @@ public class travrusa {
                 new MemoryWriteAddress(0xe000, 0xefff, MWA_RAM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_travrusa = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_travrusa = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -147,7 +147,7 @@ public class travrusa {
     };
 
     /* same as travrusa, no "Title" switch */
-    static InputPortPtr input_ports_motorace = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_motorace = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

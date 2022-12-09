@@ -240,7 +240,7 @@ public class wardner {
      * button when in the cross-hatch screen.
 	****************************************************************************
      */
-    static InputPortPtr input_ports_wardner = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_wardner = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 				/* test button doesnt seem to do anything ? */
 
@@ -336,7 +336,7 @@ public class wardner {
         }
     };
 
-    static InputPortPtr input_ports_pyros = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pyros = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 				/* test button doesnt seem to do anything ? */
 
@@ -431,7 +431,7 @@ public class wardner {
         }
     };
 
-    static InputPortPtr input_ports_wardnerj = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_wardnerj = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 				/* test button doesnt seem to do anything ? */
 

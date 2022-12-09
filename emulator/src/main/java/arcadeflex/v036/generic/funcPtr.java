@@ -42,6 +42,16 @@ public class funcPtr {
         public abstract void handler();
     }
 
+    public static abstract interface InputPortHandlerPtr {
+
+        public abstract void handler();
+    }
+
+    public static abstract interface nvramHandlerPtr {
+
+        public abstract void handler(Object file, int read_or_write);
+    }
+
     /**
      * Video related
      */
@@ -65,6 +75,11 @@ public class funcPtr {
         public abstract void handler(osd_bitmap bitmap, int full_refresh);
     }
 
+    public static abstract interface VhEofCallbackHandlerPtr {
+
+        public abstract void handler();
+    }
+
     /**
      * Sound related
      */
@@ -81,6 +96,11 @@ public class funcPtr {
     public static abstract interface ShUpdateHandlerPtr {
 
         public abstract void handler();
+    }
+
+    public static abstract interface WriteYmHandlerPtr {
+
+        public abstract void handler(int linestate);
     }
 
     /**

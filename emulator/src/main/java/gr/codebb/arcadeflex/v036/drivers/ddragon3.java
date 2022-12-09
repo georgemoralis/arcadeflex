@@ -283,7 +283,7 @@ public class ddragon3 {
     /**
      * ************************************************************************
      */
-    static InputPortPtr input_ports_ddrago3b = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ddrago3b = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
@@ -377,7 +377,7 @@ public class ddragon3 {
         }
     };
 
-    static InputPortPtr input_ports_ddragon3 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ddragon3 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();  /* 180000 (P1 Controls) */
 
@@ -477,7 +477,7 @@ public class ddragon3 {
         }
     };
 
-    static InputPortPtr input_ports_ctribe = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ctribe = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);

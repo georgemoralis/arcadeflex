@@ -206,7 +206,7 @@ public class tp84 {
                 new MemoryWriteAddress(0xc004, 0xc004, SN76496_2_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_tp84 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_tp84 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

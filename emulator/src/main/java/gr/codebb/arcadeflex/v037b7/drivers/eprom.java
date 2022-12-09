@@ -343,7 +343,7 @@ public class eprom
 	 *
 	 *************************************/
 	
-	static InputPortPtr input_ports_eprom = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_eprom = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* 26000 */
 		PORT_BIT( 0x00ff, IP_ACTIVE_LOW, IPT_UNUSED );
 		PORT_BIT( 0x0100, IP_ACTIVE_LOW, IPT_START1 );

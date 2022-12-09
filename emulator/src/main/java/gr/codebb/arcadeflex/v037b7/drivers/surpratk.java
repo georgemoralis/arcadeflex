@@ -165,7 +165,7 @@ public class surpratk {
      *
      **************************************************************************
      */
-    static InputPortPtr input_ports_surpratk = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_surpratk = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* PLAYER 1 INPUTS */

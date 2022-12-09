@@ -85,7 +85,7 @@ public class gng {
                 new MemoryWriteAddress(0x0000, 0x7fff, MWA_ROM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_gng = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_gng = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -183,7 +183,7 @@ public class gng {
     };
 
     /* identical to gng, but the "unknown" dip switch is Invulnerability */
-    static InputPortPtr input_ports_makaimur = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_makaimur = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -280,7 +280,7 @@ public class gng {
         }
     };
 
-    static InputPortPtr input_ports_diamond = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_diamond = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

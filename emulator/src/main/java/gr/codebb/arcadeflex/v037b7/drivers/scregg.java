@@ -50,7 +50,7 @@ public class scregg {
                 new MemoryWriteAddress(0x3000, 0x7fff, MWA_ROM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_scregg = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_scregg = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

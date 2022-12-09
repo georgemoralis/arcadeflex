@@ -107,7 +107,7 @@ public class frogger {
                 new IOWritePort(0x40, 0x40, AY8910_write_port_0_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_frogger = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_frogger = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -160,7 +160,7 @@ public class frogger {
         }
     };
 
-    static InputPortPtr input_ports_froggrmc = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_froggrmc = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

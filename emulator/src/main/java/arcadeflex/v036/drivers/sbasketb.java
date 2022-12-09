@@ -85,7 +85,7 @@ public class sbasketb {
                 new MemoryWriteAddress(0xe002, 0xe002, konami_SN76496_0_w), /* This address triggers the SN chip to read the data port. */
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_sbasketb = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_sbasketb = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

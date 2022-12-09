@@ -98,7 +98,7 @@ public class bombjack {
                 new IOWritePort(0x81, 0x81, AY8910_write_port_2_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_bombjack = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_bombjack = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

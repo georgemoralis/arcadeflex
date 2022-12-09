@@ -174,7 +174,7 @@ public class galivan {
                 new IOWritePort(0x02, 0x03, DAC_data_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_galivan = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_galivan = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -263,7 +263,7 @@ public class galivan {
     };
 
     /* the last two dip switches are different in each version */
-    static InputPortPtr input_ports_dangar = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_dangar = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -351,7 +351,7 @@ public class galivan {
     };
 
     /* the last two dip switches are different in each version */
-    static InputPortPtr input_ports_dangar2 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_dangar2 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -440,7 +440,7 @@ public class galivan {
     };
 
     /* the last two dip switches are different in each version */
-    static InputPortPtr input_ports_dangarb = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_dangarb = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -528,7 +528,7 @@ public class galivan {
         }
     };
 
-    static InputPortPtr input_ports_ninjemak = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ninjemak = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -641,7 +641,7 @@ public class galivan {
         }
     };
 
-    static InputPortPtr input_ports_youma = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_youma = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

@@ -387,7 +387,7 @@ public class airbustr {
 		[0] Player 1		[1] Player 2
 		[2] Service
 		[3] Dsw 1			[4] Dsw 2	*/
-    static InputPortPtr input_ports_airbustr = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_airbustr = new InputPortHandlerPtr() {
         public void handler() {
 
             PORT_START(); 	// IN0 - Player 1

@@ -274,7 +274,7 @@ public class rockola {
     };
 
     /* Derived from Zarzon. Might not reflect the actual hardware. */
-    static InputPortPtr input_ports_sasuke = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_sasuke = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -329,7 +329,7 @@ public class rockola {
         }
     };
 
-    static InputPortPtr input_ports_satansat = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_satansat = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -383,7 +383,7 @@ public class rockola {
         }
     };
 
-    static InputPortPtr input_ports_vanguard = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_vanguard = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -454,7 +454,7 @@ public class rockola {
         }
     };
 
-    static InputPortPtr input_ports_fantasy = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_fantasy = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -525,7 +525,7 @@ public class rockola {
         }
     };
 
-    static InputPortPtr input_ports_pballoon = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pballoon = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -596,7 +596,7 @@ public class rockola {
         }
     };
 
-    static InputPortPtr input_ports_nibbler = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_nibbler = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

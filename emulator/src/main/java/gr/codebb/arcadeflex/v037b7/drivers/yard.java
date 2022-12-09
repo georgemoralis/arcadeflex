@@ -48,7 +48,7 @@ public class yard {
                 new MemoryWriteAddress(0xe000, 0xefff, MWA_RAM),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_yard = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_yard = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -167,7 +167,7 @@ public class yard {
 
     /* exactly the same as yard, only difference is the Allow Continue dip switch */
  /* Also, the Cabinet dip switch doesn't seem to work. */
-    static InputPortPtr input_ports_vsyard = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_vsyard = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

@@ -352,7 +352,7 @@ public class sf1
 	};
 	
 	
-	static InputPortPtr input_ports_sf1jp = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_sf1jp = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_DIPNAME( 0x0007, 0x0007, DEF_STR( "Coin_A") );
 		PORT_DIPSETTING(      0x0000, DEF_STR( "4C_1C") );
@@ -501,7 +501,7 @@ public class sf1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_sf1us = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_sf1us = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_DIPNAME( 0x0007, 0x0007, DEF_STR( "Coin_A") );
 		PORT_DIPSETTING(      0x0000, DEF_STR( "4C_1C") );
@@ -631,7 +631,7 @@ public class sf1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_BUTTON5 | IPF_PLAYER2 );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_sf1 = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_sf1 = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 
 		PORT_DIPNAME( 0x0007, 0x0007, DEF_STR( "Coin_A") );
 		PORT_DIPSETTING(      0x0000, DEF_STR( "4C_1C") );

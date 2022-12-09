@@ -153,7 +153,7 @@ public class dynduke {
     /**
      * ***************************************************************************
      */
-    static InputPortPtr input_ports_dynduke = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_dynduke = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -326,7 +326,7 @@ public class dynduke {
             /* VBL */
         }
     };
-    public static VhEofCallbackPtr dynduke_eof_callback = new VhEofCallbackPtr() {
+    public static VhEofCallbackHandlerPtr dynduke_eof_callback = new VhEofCallbackHandlerPtr() {
         public void handler() {
             buffer_spriteram_w.handler(0, 0);/* Could be a memory location instead */
 

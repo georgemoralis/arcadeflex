@@ -99,7 +99,7 @@ public class mikie {
                 new MemoryWriteAddress(-1)
             };
 
-    static InputPortPtr input_ports_mikie = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_mikie = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

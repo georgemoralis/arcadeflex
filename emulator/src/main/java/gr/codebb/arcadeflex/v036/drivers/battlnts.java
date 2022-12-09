@@ -117,7 +117,7 @@ public class battlnts {
      *
      **************************************************************************
      */
-    static InputPortPtr input_ports_battlnts = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_battlnts = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* DSW #1 */
 
@@ -222,7 +222,7 @@ public class battlnts {
         }
     };
 
-    static InputPortPtr input_ports_thehustj = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_thehustj = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* DSW #1 */
 

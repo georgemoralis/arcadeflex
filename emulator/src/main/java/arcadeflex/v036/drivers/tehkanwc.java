@@ -292,7 +292,7 @@ public class tehkanwc {
                 new IOWritePort(0x03, 0x03, AY8910_control_port_1_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_tehkanwc = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_tehkanwc = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW1 - Active LOW */
@@ -435,7 +435,7 @@ public class tehkanwc {
         }
     };
 
-    static InputPortPtr input_ports_gridiron = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_gridiron = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW1 - Active LOW */
@@ -571,7 +571,7 @@ public class tehkanwc {
         }
     };
 
-    static InputPortPtr input_ports_teedoff = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_teedoff = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW1 - Active LOW */

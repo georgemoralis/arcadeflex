@@ -188,7 +188,7 @@ public class tecmo {
                 new MemoryWriteAddress(0xf000, 0xf000, MWA_NOP), /* NMI acknowledge? */
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_rygar = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_rygar = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 bits 0-3 */
 
@@ -291,7 +291,7 @@ public class tecmo {
         }
     };
 
-    static InputPortPtr input_ports_gemini = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_gemini = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 bits 0-3 */
 
@@ -397,7 +397,7 @@ public class tecmo {
         }
     };
 
-    static InputPortPtr input_ports_silkworm = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_silkworm = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 bit 0-3 */
 

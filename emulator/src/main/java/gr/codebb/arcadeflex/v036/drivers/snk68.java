@@ -255,7 +255,7 @@ public class snk68 {
     /**
      * ***************************************************************************
      */
-    static InputPortPtr input_ports_pow = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_pow = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* Player 1 controls */
 
@@ -341,7 +341,7 @@ public class snk68 {
     };
 
     /* Identical to pow, but the Language dip switch has no effect */
-    static InputPortPtr input_ports_powj = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_powj = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* Player 1 controls */
 
@@ -426,7 +426,7 @@ public class snk68 {
         }
     };
 
-    static InputPortPtr input_ports_searchar = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_searchar = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* Player 1 controls */
 
@@ -520,7 +520,7 @@ public class snk68 {
         }
     };
 
-    static InputPortPtr input_ports_streetsm = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_streetsm = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* Player 1 controls */
 
@@ -615,7 +615,7 @@ public class snk68 {
     };
 
     /* Same as streetsm, but Coinage is different */
-    static InputPortPtr input_ports_streetsj = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_streetsj = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* Player 1 controls */
 
@@ -709,7 +709,7 @@ public class snk68 {
         }
     };
 
-    static InputPortPtr input_ports_ikari3 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ikari3 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* Player 1 controls, maybe all are active_high? */
 

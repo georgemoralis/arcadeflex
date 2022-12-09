@@ -126,7 +126,7 @@ public class congo {
     };
 
     /* almost the same as Zaxxon; UP and DOWN are inverted, and the joystick is 4 way. */
-    static InputPortPtr input_ports_congo = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_congo = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -237,7 +237,7 @@ public class congo {
 
     /* Same as Congo Bongo, except the Demo Sounds dip, that here turns the
 	   sound off in the whole game. */
-    static InputPortPtr input_ports_tiptop = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_tiptop = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

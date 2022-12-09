@@ -133,7 +133,7 @@ public class rastan {
                 new MemoryWriteAddress(0xd000, 0xd000, rastan_d000_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_rastan = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_rastan = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -224,7 +224,7 @@ public class rastan {
     };
 
     /* same as rastan, coinage is different */
-    static InputPortPtr input_ports_rastsaga = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_rastsaga = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

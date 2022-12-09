@@ -1414,7 +1414,7 @@ public class system16 {
      * ************************************************************************
      */
 
-    static InputPortPtr input_ports_alexkidd = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_alexkidd = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON3);
@@ -1759,7 +1759,7 @@ public class system16 {
 	
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_aliensyn = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_aliensyn = new InputPortHandlerPtr(){ public void handler() { 
 		SYS16_JOY1();
 		SYS16_JOY2();
 		SYS16_SERVICE();
@@ -2061,7 +2061,7 @@ public class system16 {
     /**
      * ************************************************************************
      */
-    static InputPortPtr input_ports_altbeast = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_altbeast = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON3);
@@ -2500,7 +2500,7 @@ public class system16 {
 	
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_astorm = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_astorm = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();  /* player 1 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_BUTTON1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_BUTTON2 );
@@ -2722,7 +2722,7 @@ public class system16 {
     /**
      * ************************************************************************
      */
-    static InputPortPtr input_ports_atomicp = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_atomicp = new InputPortHandlerPtr() {
         public void handler() {
 
             PORT_START();
@@ -3034,7 +3034,7 @@ public class system16 {
 	
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_aurail = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_aurail = new InputPortHandlerPtr(){ public void handler() { 
 		SYS16_JOY1();
 		SYS16_JOY2();
 		SYS16_SERVICE();
@@ -3314,7 +3314,7 @@ public class system16 {
 	} };
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_bayroute = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_bayroute = new InputPortHandlerPtr(){ public void handler() { 
 		SYS16_JOY1();
 		SYS16_JOY2();
 		SYS16_SERVICE();
@@ -3606,7 +3606,7 @@ public class system16 {
 	
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_bodyslam = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_bodyslam = new InputPortHandlerPtr(){ public void handler() { 
 		SYS16_JOY1();
 		SYS16_JOY2();
 		SYS16_SERVICE();
@@ -3858,7 +3858,7 @@ public class system16 {
      * ************************************************************************
      */
 
-    static InputPortPtr input_ports_dduxbl = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_dduxbl = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON3);
@@ -4128,7 +4128,7 @@ public class system16 {
 	
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_eswat = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_eswat = new InputPortHandlerPtr(){ public void handler() { 
 		SYS16_JOY1();
 		SYS16_JOY2();
 		SYS16_SERVICE();
@@ -4410,7 +4410,7 @@ public class system16 {
 	} };
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_fantzone = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_fantzone = new InputPortHandlerPtr(){ public void handler() { 
 		SYS16_JOY1();
 		SYS16_JOY2();
 		SYS16_SERVICE();
@@ -4680,7 +4680,7 @@ public class system16 {
      * ************************************************************************
      */
 
-    static InputPortPtr input_ports_fpoint = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_fpoint = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -5043,7 +5043,7 @@ public class system16 {
     /**
      * ************************************************************************
      */
-    static InputPortPtr input_ports_goldnaxe = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_goldnaxe = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON3);
@@ -5562,7 +5562,7 @@ public class system16 {
      * ************************************************************************
      */
 
-    static InputPortPtr input_ports_hwchamp = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_hwchamp = new InputPortHandlerPtr() {
         public void handler() {
 
             PORT_START();
@@ -5876,7 +5876,7 @@ public class system16 {
 	
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_mjleague = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_mjleague = new InputPortHandlerPtr(){ public void handler() { 
 	
 	PORT_START();  /* player 1 button fake */
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_BUTTON1 );
@@ -6231,7 +6231,7 @@ public class system16 {
 	
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_moonwalk = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_moonwalk = new InputPortHandlerPtr(){ public void handler() { 
 	
 	PORT_START();  /* player 1 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_BUTTON1 );
@@ -6616,7 +6616,7 @@ public class system16 {
 	
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_passsht = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_passsht = new InputPortHandlerPtr(){ public void handler() { 
 	PORT_START();  /* joy 1 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_BUTTON3 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_BUTTON1 );
@@ -6665,7 +6665,7 @@ public class system16 {
 		PORT_DIPSETTING(    0x00, "Hardest" );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_passht4b = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_passht4b = new InputPortHandlerPtr(){ public void handler() { 
 	PORT_START();  /* joy 1 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY );
@@ -6999,7 +6999,7 @@ public class system16 {
 	} };
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_quartet = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_quartet = new InputPortHandlerPtr(){ public void handler() { 
 		// Player 1
 		PORT_START(); 
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN  | IPF_8WAY  );
@@ -7238,7 +7238,7 @@ public class system16 {
 /*TODO*///	} };
 /*TODO*///	/***************************************************************************/
 /*TODO*///	
-/*TODO*///	static InputPortPtr input_ports_quartet2 = new InputPortPtr(){ public void handler() { 
+/*TODO*///	static InputPortHandlerPtr input_ports_quartet2 = new InputPortHandlerPtr(){ public void handler() { 
 /*TODO*///		SYS16_JOY1_SWAPPEDBUTTONS
 /*TODO*///		SYS16_JOY2_SWAPPEDBUTTONS
 /*TODO*///		SYS16_SERVICE
@@ -7391,7 +7391,7 @@ public class system16 {
 	
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_riotcity = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_riotcity = new InputPortHandlerPtr(){ public void handler() { 
 		SYS16_JOY1();
 		SYS16_JOY2();
 		SYS16_SERVICE();
@@ -7652,7 +7652,7 @@ public class system16 {
     /**
      * ************************************************************************
      */
-    static InputPortPtr input_ports_sdi = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_sdi = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW1 */
@@ -7932,7 +7932,7 @@ public class system16 {
 	
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_shdancer = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_shdancer = new InputPortHandlerPtr(){ public void handler() { 
 	PORT_START();  /* player 1 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_BUTTON1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_BUTTON2 );
@@ -8416,7 +8416,7 @@ public class system16 {
     /**
      * ************************************************************************
      */
-    static InputPortPtr input_ports_shinobi = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_shinobi = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON3);
@@ -8852,7 +8852,7 @@ public class system16 {
      * ************************************************************************
      */
 
-    static InputPortPtr input_ports_tetris = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_tetris = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON3);
@@ -9088,7 +9088,7 @@ public class system16 {
 	} };
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_timscanr = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_timscanr = new InputPortHandlerPtr(){ public void handler() { 
 		SYS16_JOY1();
 		SYS16_JOY2();
 		SYS16_SERVICE();
@@ -9296,7 +9296,7 @@ public class system16 {
 	} };
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_toryumon = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_toryumon = new InputPortHandlerPtr(){ public void handler() { 
 		SYS16_JOY1();
 		SYS16_JOY2();
 		SYS16_SERVICE();
@@ -9508,7 +9508,7 @@ public class system16 {
 	} };
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_tturf = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_tturf = new InputPortHandlerPtr(){ public void handler() { 
 		SYS16_JOY1();
 		SYS16_JOY2();
 		SYS16_SERVICE();
@@ -9844,7 +9844,7 @@ public class system16 {
     /**
      * ************************************************************************
      */
-    static InputPortPtr input_ports_wb3 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_wb3 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON3);
@@ -10216,7 +10216,7 @@ public class system16 {
 	} };
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_wrestwar = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_wrestwar = new InputPortHandlerPtr(){ public void handler() { 
 		SYS16_JOY1();
 		SYS16_JOY2();
 		SYS16_SERVICE();
@@ -10566,7 +10566,7 @@ public class system16 {
 	} };
 /*TODO*///	/***************************************************************************/
 	
-	static InputPortPtr input_ports_hangon = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_hangon = new InputPortHandlerPtr(){ public void handler() { 
 	PORT_START(); 	/* Steering */
 		PORT_ANALOG( 0xff, 0x7f, IPT_AD_STICK_X | IPF_REVERSE | IPF_CENTER , 100, 3, 0x48, 0xb7 );
 	
@@ -10937,7 +10937,7 @@ public class system16 {
 	} };
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_sharrier = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_sharrier = new InputPortHandlerPtr(){ public void handler() { 
 		SYS16_JOY1();
 		SYS16_JOY2();
 	
@@ -11314,7 +11314,7 @@ public class system16 {
 	} };
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_shangon = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_shangon = new InputPortHandlerPtr(){ public void handler() { 
 	PORT_START(); 	/* Steering */
 		PORT_ANALOG( 0xff, 0x7f, IPT_AD_STICK_X | IPF_REVERSE | IPF_CENTER , 100, 3, 0x42, 0xbd );
 	
@@ -11978,7 +11978,7 @@ public class system16 {
 	
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_outrun = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_outrun = new InputPortHandlerPtr(){ public void handler() { 
 	PORT_START(); 	/* Steering */
 		PORT_ANALOG( 0xff, 0x80, IPT_AD_STICK_X | IPF_CENTER, 100, 3, 0x48, 0xb8 );
 	//	PORT_ANALOG( 0xff, 0x7f, IPT_PADDLE , 70, 3, 0x48, 0xb8 );
@@ -12750,7 +12750,7 @@ public class system16 {
 	
 	/***************************************************************************/
 	
-	static InputPortPtr input_ports_enduror = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_enduror = new InputPortHandlerPtr(){ public void handler() { 
 	PORT_START(); 	/* handle right left */
 		PORT_ANALOG( 0xff, 0x7f, IPT_AD_STICK_X | IPF_REVERSE | IPF_CENTER, 100, 4, 0x0, 0xff );
 	
@@ -12925,7 +12925,7 @@ public class system16 {
 	//	sys16_sprite_decode( 4,0x040000 );
 	} };
 	
-	static InputPortPtr input_ports_s16dummy = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_s16dummy = new InputPortHandlerPtr(){ public void handler() { 
 	INPUT_PORTS_END(); }}; 
 	
 /*TODO*///	MACHINE_DRIVER( machine_driver_s16dummy, \

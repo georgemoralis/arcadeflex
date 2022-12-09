@@ -172,7 +172,7 @@ public class namcos1
 	static UBytePtr nvram;
 	static int[] nvram_size = new int[1];
 	
-	public static nvramPtr nvram_handler  = new nvramPtr() { public void handler(Object file, int read_or_write) 
+	public static nvramHandlerPtr nvram_handler  = new nvramHandlerPtr() { public void handler(Object file, int read_or_write) 
 	{
 		if (read_or_write != 0)
 			osd_fwrite(file,nvram,nvram_size[0]);
@@ -464,7 +464,7 @@ public class namcos1
 	
 	
 	/* Standard Namco System 1 input port definition */
-	static InputPortPtr input_ports_ns1 = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_ns1 = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 		/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT );
@@ -511,7 +511,7 @@ public class namcos1
 	INPUT_PORTS_END(); }}; 
 	
 /*TODO*///	/* Dragon Spirit input port definition - dip switches are different */
-/*TODO*///	static InputPortPtr input_ports_dspirit = new InputPortPtr(){ public void handler() { 
+/*TODO*///	static InputPortHandlerPtr input_ports_dspirit = new InputPortHandlerPtr(){ public void handler() { 
 /*TODO*///		PORT_START(); 		/* IN0 */
 /*TODO*///		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT );
 /*TODO*///		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT );
@@ -550,7 +550,7 @@ public class namcos1
 /*TODO*///	INPUT_PORTS_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Quester input port definition - paddle controls */
-/*TODO*///	static InputPortPtr input_ports_quester = new InputPortPtr(){ public void handler() { 
+/*TODO*///	static InputPortHandlerPtr input_ports_quester = new InputPortHandlerPtr(){ public void handler() { 
 /*TODO*///		PORT_START(); 		/* IN0 */
 /*TODO*///		PORT_BIT( 0x0f, IP_ACTIVE_LOW, IPT_UNUSED );	/* paddle */
 /*TODO*///		PORT_BIT( 0x10, IP_ACTIVE_LOW, IPT_BUTTON1 );
@@ -597,7 +597,7 @@ public class namcos1
 /*TODO*///	INPUT_PORTS_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Face Off input port definition - 4 player controls */
-/*TODO*///	static InputPortPtr input_ports_faceoff = new InputPortPtr(){ public void handler() { 
+/*TODO*///	static InputPortHandlerPtr input_ports_faceoff = new InputPortHandlerPtr(){ public void handler() { 
 /*TODO*///		PORT_START(); 		/* IN0 */
 /*TODO*///		PORT_BIT( 0x7f, IP_ACTIVE_LOW, IPT_UNUSED );
 /*TODO*///		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START1 );
@@ -664,7 +664,7 @@ public class namcos1
 /*TODO*///	INPUT_PORTS_END(); }}; 
 /*TODO*///	
 /*TODO*///	/* Beraboh Man input port definition - controls are different */
-/*TODO*///	static InputPortPtr input_ports_berabohm = new InputPortPtr(){ public void handler() { 
+/*TODO*///	static InputPortHandlerPtr input_ports_berabohm = new InputPortHandlerPtr(){ public void handler() { 
 /*TODO*///		PORT_START(); 		/* IN0 */
 /*TODO*///		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT );
 /*TODO*///		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT );

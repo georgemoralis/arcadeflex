@@ -350,7 +350,7 @@ public class scramble {
                 new IOWritePort(0x80, 0x80, AY8910_control_port_0_w),
                 new IOWritePort(-1) /* end of table */};
 
-    static InputPortPtr input_ports_scramble = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_scramble = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -398,7 +398,7 @@ public class scramble {
         }
     };
 
-    static InputPortPtr input_ports_atlantis = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_atlantis = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -444,7 +444,7 @@ public class scramble {
     };
 
     /* same as scramble, dip switches are different */
-    static InputPortPtr input_ports_theend = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_theend = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -492,7 +492,7 @@ public class scramble {
         }
     };
 
-    static InputPortPtr input_ports_froggers = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_froggers = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -542,7 +542,7 @@ public class scramble {
         }
     };
 
-    static InputPortPtr input_ports_amidars = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_amidars = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -595,7 +595,7 @@ public class scramble {
         }
     };
 
-    static InputPortPtr input_ports_triplep = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_triplep = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -643,7 +643,7 @@ public class scramble {
         }
     };
 
-    static InputPortPtr input_ports_ckongs = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ckongs = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();       /* IN0 */
 
@@ -702,7 +702,7 @@ public class scramble {
         }
     };
 
-    static InputPortPtr input_ports_mars = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_mars = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -758,7 +758,7 @@ public class scramble {
         }
     };
 
-    static InputPortPtr input_ports_devilfsh = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_devilfsh = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -809,7 +809,7 @@ public class scramble {
         }
     };
 
-    static InputPortPtr input_ports_newsin7 = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_newsin7 = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -860,7 +860,7 @@ public class scramble {
         }
     };
 
-    static InputPortPtr input_ports_hotshock = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_hotshock = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 
@@ -948,7 +948,7 @@ public class scramble {
         }
     };
 
-    static InputPortPtr input_ports_hunchbks = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_hunchbks = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
 

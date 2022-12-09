@@ -628,7 +628,7 @@ public class kaneko16
 	//					[2] Coins			[3] ?
 	//					[4] DSW	1			[5] DSW 2
 	
-	static InputPortPtr input_ports_berlwall = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_berlwall = new InputPortHandlerPtr(){ public void handler() { 
 	
 		PORT_START(); 	// IN0 - Player 1 - 680000.w
 		PORT_BIT(  0x0100, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER1 );
@@ -731,7 +731,7 @@ public class kaneko16
 	//					[2] Coins			[3] ?
 	//					[4] DSW	1			[5] DSW 2
 	
-	static InputPortPtr input_ports_berlwalt = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_berlwalt = new InputPortHandlerPtr(){ public void handler() { 
 	
 		PORT_START(); 	// IN0 - Player 1 - 680000.w
 		PORT_BIT(  0x0100, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER1 );
@@ -832,7 +832,7 @@ public class kaneko16
 	//					[2] Coins			[3] ?
 	//					[4] DSW				[5] Driving Wheel
 	
-	static InputPortPtr input_ports_gtmr = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_gtmr = new InputPortHandlerPtr(){ public void handler() { 
 	
 		PORT_START(); 	// IN0 - Player 1 - b00000.w
 		PORT_BIT(  0x0100, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER1 );
@@ -913,7 +913,7 @@ public class kaneko16
 	//					[2] Coins			[3] ?
 	//					[4] DSW
 	
-	static InputPortPtr input_ports_shogwarr = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_shogwarr = new InputPortHandlerPtr(){ public void handler() { 
 	
 		PORT_START(); 	// IN0 - - b80000.w
 		PORT_BIT(  0x0100, IP_ACTIVE_LOW, IPT_JOYSTICK_UP    | IPF_8WAY | IPF_PLAYER1 );

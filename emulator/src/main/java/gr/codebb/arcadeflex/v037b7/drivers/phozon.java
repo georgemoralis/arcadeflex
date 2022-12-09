@@ -97,7 +97,7 @@ public class phozon {
                 new MemoryWriteAddress(-1) /* end of table */};
 
     /* The dipswitches and player inputs are not memory mapped, they are handled by an I/O chip. */
-    static InputPortPtr input_ports_phozon = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_phozon = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW0 */

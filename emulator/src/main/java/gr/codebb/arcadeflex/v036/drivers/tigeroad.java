@@ -256,7 +256,7 @@ public class tigeroad
 	
 	
 	
-	static InputPortPtr input_ports_tigeroad = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_tigeroad = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();   /* IN0 */
 		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
 		PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY );
@@ -332,7 +332,7 @@ public class tigeroad
 		PORT_DIPSETTING(      0x8000, DEF_STR( "Yes") );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_toramich = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_toramich = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();   /* IN0 */
 		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
 		PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY );
@@ -409,7 +409,7 @@ public class tigeroad
 		PORT_DIPSETTING(      0x8000, DEF_STR( "Yes") );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_f1dream = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_f1dream = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();   /* IN0 */
 		PORT_BIT( 0x0001, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY );
 		PORT_BIT( 0x0002, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY );

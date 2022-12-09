@@ -102,7 +102,7 @@ public class sauro {
                 new MemoryWriteAddress(0xe00e, 0xe00f, MWA_NOP),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_sauro = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_sauro = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

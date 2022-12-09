@@ -105,7 +105,7 @@ public class tempest {
                     new MemoryWriteAddress(-1)	/* end of table */
             };
 
-    static InputPortPtr input_ports_tempest = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_tempest = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* IN0 */
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN3);

@@ -204,7 +204,7 @@ public class skykid
 		new IOWritePort( -1 )	/* end of table */
 	};
 	
-	static InputPortPtr input_ports_skykid = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_skykid = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* DSW A */
 		PORT_SERVICE( 0x01, IP_ACTIVE_HIGH );
 		PORT_DIPNAME( 0x06, 0x00, DEF_STR( "Coin_A") );
@@ -293,7 +293,7 @@ public class skykid
 		PORT_BIT( 0x80, IP_ACTIVE_HIGH, IPT_UNUSED );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_drgnbstr = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_drgnbstr = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* DSW A */
 		PORT_SERVICE( 0x01, IP_ACTIVE_HIGH );
 		PORT_DIPNAME( 0x06, 0x00, DEF_STR( "Coin_A") );

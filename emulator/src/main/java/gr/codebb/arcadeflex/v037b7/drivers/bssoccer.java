@@ -232,7 +232,7 @@ public class bssoccer
 	***************************************************************************/
 	
 	
-	static InputPortPtr input_ports_bssoccer = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_bssoccer = new InputPortHandlerPtr(){ public void handler() { 
 	
 		PORT_START(); 	// IN0 - Player 1
 		//JOY(1)

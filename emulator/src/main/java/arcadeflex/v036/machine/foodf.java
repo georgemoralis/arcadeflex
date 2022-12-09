@@ -56,7 +56,7 @@ public class foodf {
         }
     };
 
-    public static nvramPtr foodf_nvram_handler = new nvramPtr() {
+    public static nvramHandlerPtr foodf_nvram_handler = new nvramHandlerPtr() {
         public void handler(Object file, int read_or_write) {
             if (read_or_write != 0) {
                 osd_fwrite(file, new UBytePtr(nvram), 128);

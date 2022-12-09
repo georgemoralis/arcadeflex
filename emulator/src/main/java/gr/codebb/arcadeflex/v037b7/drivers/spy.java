@@ -171,7 +171,7 @@ public class spy {
                 new MemoryWriteAddress(0xc001, 0xc001, YM3812_write_port_0_w),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_spy = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_spy = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);

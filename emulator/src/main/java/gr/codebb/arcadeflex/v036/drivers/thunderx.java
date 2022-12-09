@@ -387,7 +387,7 @@ public class thunderx
 	
 	***************************************************************************/
 	
-	static InputPortPtr input_ports_scontra = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_scontra = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* COINSW */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -491,7 +491,7 @@ public class thunderx
 		PORT_BIT( 0xf0, IP_ACTIVE_LOW, IPT_UNUSED );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_thunderx = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_thunderx = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START(); 	/* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );

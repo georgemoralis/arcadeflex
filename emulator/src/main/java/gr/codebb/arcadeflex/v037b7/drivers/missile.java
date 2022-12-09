@@ -38,7 +38,7 @@ public class missile {
                 new MemoryWriteAddress(0x5000, 0xffff, missile_video2_w, missile_video2ram),
                 new MemoryWriteAddress(-1) /* end of table */};
 
-    static InputPortPtr input_ports_missile = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_missile = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */
@@ -130,7 +130,7 @@ public class missile {
         }
     };
 
-    static InputPortPtr input_ports_suprmatk = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_suprmatk = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* IN0 */

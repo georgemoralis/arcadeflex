@@ -272,7 +272,7 @@ public class cps1
 		"0111"	/* erase command */
 	);
 	
-	public static nvramPtr qsound_nvram_handler  = new nvramPtr() { public void handler(Object file, int read_or_write) 
+	public static nvramHandlerPtr qsound_nvram_handler  = new nvramHandlerPtr() { public void handler(Object file, int read_or_write) 
 	{
 		if (read_or_write != 0)
 			EEPROM_save(file);
@@ -285,7 +285,7 @@ public class cps1
 		}
 	} };
 	
-	public static nvramPtr pang3_nvram_handler  = new nvramPtr() { public void handler(Object file, int read_or_write) 
+	public static nvramHandlerPtr pang3_nvram_handler  = new nvramHandlerPtr() { public void handler(Object file, int read_or_write) 
 	{
 		if (read_or_write != 0)
 			EEPROM_save(file);
@@ -407,7 +407,7 @@ public class cps1
 	
 	
 	
-	static InputPortPtr input_ports_forgottn = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_forgottn = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -519,7 +519,7 @@ public class cps1
 		PORT_ANALOGX( 0x0fff, 0x0000, IPT_DIAL | IPF_PLAYER2, 100, 20, 0, 0, KEYCODE_N, KEYCODE_M, 0, 0 );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_ghouls = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_ghouls = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -623,7 +623,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_strider = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_strider = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_UNKNOWN );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_UNKNOWN );
@@ -727,7 +727,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_dwj = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_dwj = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -832,7 +832,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_willow = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_willow = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -937,7 +937,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_unsquad = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_unsquad = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -1043,7 +1043,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_ffight = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_ffight = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -1146,7 +1146,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_1941 = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_1941 = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -1250,7 +1250,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_mercs = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_mercs = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -1366,7 +1366,7 @@ public class cps1
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START3 );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_mtwins = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_mtwins = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -1471,7 +1471,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_msword = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_msword = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -1576,7 +1576,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_cawing = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_cawing = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -1681,7 +1681,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_nemo = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_nemo = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -1785,7 +1785,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_sf2 = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_sf2 = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -1900,7 +1900,7 @@ public class cps1
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_sf2j = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_sf2j = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -2015,7 +2015,7 @@ public class cps1
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_3wonders = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_3wonders = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -2115,7 +2115,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_kod = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_kod = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -2230,7 +2230,7 @@ public class cps1
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START3 );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_captcomm = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_captcomm = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -2333,7 +2333,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_knights = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_knights = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -2448,7 +2448,7 @@ public class cps1
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START3 );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_varth = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_varth = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -2552,7 +2552,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_cworld2j = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_cworld2j = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -2644,7 +2644,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_BUTTON4 | IPF_PLAYER2 );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_wof = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_wof = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -2696,7 +2696,7 @@ public class cps1
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START3 );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_dino = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_dino = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -2748,7 +2748,7 @@ public class cps1
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START3 );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_punisher = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_punisher = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -2790,7 +2790,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_slammast = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_slammast = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -2852,7 +2852,7 @@ public class cps1
 		PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START4 );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_pnickj = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_pnickj = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -2955,7 +2955,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_qad = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_qad = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -3054,7 +3054,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_BUTTON4 | IPF_PLAYER2 );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_qadj = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_qadj = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -3160,7 +3160,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_BUTTON4 | IPF_PLAYER2 );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_qtono2 = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_qtono2 = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -3266,7 +3266,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_BUTTON4 | IPF_PLAYER2 );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_pang3 = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_pang3 = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -3307,7 +3307,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_megaman = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_megaman = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_COIN1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_COIN2 );
@@ -3416,7 +3416,7 @@ public class cps1
 		PORT_BIT( 0x8000, IP_ACTIVE_LOW, IPT_UNKNOWN );
 	INPUT_PORTS_END(); }}; 
 	
-	static InputPortPtr input_ports_sfzch = new InputPortPtr(){ public void handler() { 
+	static InputPortHandlerPtr input_ports_sfzch = new InputPortHandlerPtr(){ public void handler() { 
 		PORT_START();       /* IN0 */
 		PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_BUTTON5 | IPF_PLAYER1 );
 		PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_BUTTON5 | IPF_PLAYER2 );

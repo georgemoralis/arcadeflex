@@ -37,7 +37,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 public class dec8 {
 
     /* Only used by ghostb, gondo, garyoret, other games can control buffering */
-    public static VhEofCallbackPtr dec8_eof_callback = new VhEofCallbackPtr() {
+    public static VhEofCallbackHandlerPtr dec8_eof_callback = new VhEofCallbackHandlerPtr() {
         public void handler() {
             buffer_spriteram_w.handler(0, 0);
         }
@@ -1166,7 +1166,7 @@ public class dec8 {
     /**
      * ***************************************************************************
      */
-    static InputPortPtr input_ports_cobracom = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_cobracom = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();  /* Player 1 controls */
 
@@ -1254,7 +1254,7 @@ public class dec8 {
         }
     };
 
-    static InputPortPtr input_ports_ghostb = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_ghostb = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* Player 1 controls */
 
@@ -1342,7 +1342,7 @@ public class dec8 {
         }
     };
 
-    static InputPortPtr input_ports_meikyuh = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_meikyuh = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* Player 1 controls */
 
@@ -1427,7 +1427,7 @@ public class dec8 {
         }
     };
 
-    static InputPortPtr input_ports_srdarwin = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_srdarwin = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
@@ -1496,7 +1496,7 @@ public class dec8 {
         }
     };
 
-    static InputPortPtr input_ports_gondo = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_gondo = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* Player 1 controls */
 
@@ -1593,7 +1593,7 @@ public class dec8 {
         }
     };
 
-    static InputPortPtr input_ports_oscar = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_oscar = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* Player 1 controls */
 
@@ -1680,7 +1680,7 @@ public class dec8 {
         }
     };
 
-    static InputPortPtr input_ports_lastmiss = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_lastmiss = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* Player 1 controls */
 
@@ -1759,7 +1759,7 @@ public class dec8 {
         }
     };
 
-    static InputPortPtr input_ports_shackled = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_shackled = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* Player 1 controls */
 
@@ -1838,7 +1838,7 @@ public class dec8 {
         }
     };
 
-    static InputPortPtr input_ports_csilver = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_csilver = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* Player 1 controls */
 
@@ -1916,7 +1916,7 @@ public class dec8 {
         }
     };
 
-    static InputPortPtr input_ports_garyoret = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_garyoret = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START(); 	/* Player 1 controls */
 

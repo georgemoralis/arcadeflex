@@ -138,7 +138,7 @@ public class rockrage {
      *
      **************************************************************************
      */
-    static InputPortPtr input_ports_rockrage = new InputPortPtr() {
+    static InputPortHandlerPtr input_ports_rockrage = new InputPortHandlerPtr() {
         public void handler() {
             PORT_START();
             /* DSW #1 */
