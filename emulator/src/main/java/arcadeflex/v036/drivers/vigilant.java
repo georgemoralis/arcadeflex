@@ -1,31 +1,34 @@
 /**
- * ported to 0.37b7
  * ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+package arcadeflex.v036.drivers;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
 import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static arcadeflex.v036.vidhrdw.vigilant.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import arcadeflex.v036.mame.sndintrfH.MachineSound;
-import static arcadeflex.v036.mame.sndintrfH.SOUND_DAC;
-import static arcadeflex.v036.mame.sndintrfH.SOUND_YM2151;
+import static arcadeflex.v036.mame.sndintrfH.*;
+//sndhrdw imports
+import static arcadeflex.v036.sndhrdw.m72.*;
+//sound imports
 import static arcadeflex.v036.sound.dacH.*;
 import static arcadeflex.v036.sound._2151intf.*;
 import static arcadeflex.v036.sound._2151intfH.*;
-import static arcadeflex.v036.sndhrdw.m72.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.vigilant.*;
+import static arcadeflex.v036.vidhrdw.generic.*;
+//TODO
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
+import static gr.codebb.arcadeflex.v036.mame.common.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 
 public class vigilant {
@@ -336,7 +339,7 @@ public class vigilant {
             PORT_DIPNAME(0x08, 0x00, DEF_STR("Demo_Sounds"));
             PORT_DIPSETTING(0x08, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_BITX(0x10, 0x10, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Invulnerability", IP_KEY_NONE, IP_JOY_NONE);
+            PORT_DIPNAME(0x10, 0x10, DEF_STR("Unknown"));
             PORT_DIPSETTING(0x10, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
             PORT_DIPNAME(0x20, 0x00, "Level Select");

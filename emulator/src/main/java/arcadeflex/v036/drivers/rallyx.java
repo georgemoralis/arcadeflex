@@ -1,26 +1,31 @@
 /*
- * ported to v0.37b7
+ * ported to v0.36
  * using automatic conversion tool v0.01
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+package arcadeflex.v036.drivers;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.inptportH.*;
+//sound imports
+import static arcadeflex.v036.sound.samplesH.*;
+import static arcadeflex.v036.sound.samples.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.rallyx.*;
+//TODO
 import static gr.codebb.arcadeflex.v036.sound.namcoH.*;
 import static gr.codebb.arcadeflex.v036.sound.namco.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.mame.inptportH.*;
-import static arcadeflex.v036.sound.samplesH.*;
-import static arcadeflex.v036.sound.samples.*;
-import static arcadeflex.v036.vidhrdw.rallyx.*;
+import static gr.codebb.arcadeflex.v036.platform.input.osd_led_w;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 
 public class rallyx {
 
@@ -30,11 +35,6 @@ public class rallyx {
         }
     };
 
-    public static WriteHandlerPtr rallyx_leds_w = new WriteHandlerPtr() {
-        public void handler(int offset, int data) {
-            //set_led_status(offset, data & 1);
-        }
-    };
     static int last;
     public static WriteHandlerPtr rallyx_play_sound_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
@@ -73,7 +73,7 @@ public class rallyx {
                 new MemoryWriteAddress(0xa180, 0xa180, rallyx_play_sound_w),
                 new MemoryWriteAddress(0xa181, 0xa181, interrupt_enable_w),
                 new MemoryWriteAddress(0xa183, 0xa183, rallyx_flipscreen_w),
-                new MemoryWriteAddress(0xa184, 0xa185, rallyx_leds_w),
+                new MemoryWriteAddress(0xa184, 0xa185, osd_led_w),
                 new MemoryWriteAddress(0xa186, 0xa186, rallyx_coin_lockout_w),
                 new MemoryWriteAddress(0xa187, 0xa187, coin_counter_w),
                 new MemoryWriteAddress(0x8014, 0x801f, MWA_RAM, spriteram, spriteram_size), /* these are here just to initialize */

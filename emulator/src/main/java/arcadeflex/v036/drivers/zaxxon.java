@@ -1,28 +1,34 @@
 /**
- * ported to 0.37b7
  * ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+package arcadeflex.v036.drivers;
 //generic imports
+
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
 import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.inputH.*;
-import static arcadeflex.v036.vidhrdw.zaxxon.*;
-import static arcadeflex.v036.sound.samplesH.*;
-import static gr.codebb.arcadeflex.v036.machine.segacrpt.*;
+//sndhrdw imports
 import static arcadeflex.v036.sndhrdw.zaxxon.*;
+//sound imports
+import static arcadeflex.v036.sound.samplesH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.zaxxon.*;
+//common imports
+import static common.libc.cstdlib.*;
+//TODO
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
+import static gr.codebb.arcadeflex.v036.mame.common.*;
+import static gr.codebb.arcadeflex.v036.machine.segacrpt.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static common.libc.cstdlib.rand;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 
 public class zaxxon {
@@ -529,7 +535,7 @@ public class zaxxon {
         }
     };
 
-    static GfxLayout zaxxon_charlayout1 = new GfxLayout(
+    public static GfxLayout zaxxon_charlayout1 = new GfxLayout(
             8, 8, /* 8*8 characters */
             256, /* 256 characters */
             3, /* 3 bits per pixel (actually 2, the third plane is 0) */
@@ -539,7 +545,7 @@ public class zaxxon {
             8 * 8 /* every char takes 8 consecutive bytes */
     );
 
-    static GfxLayout zaxxon_charlayout2 = new GfxLayout(
+    public static GfxLayout zaxxon_charlayout2 = new GfxLayout(
             8, 8, /* 8*8 characters */
             1024, /* 1024 characters */
             3, /* 3 bits per pixel */

@@ -1,25 +1,27 @@
 /**
- * ported to 0.37b7
  * ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+package arcadeflex.v036.drivers;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-
+//mame imports
 import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static arcadeflex.v036.vidhrdw.travrusa.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
+//sndhrdw imports
 import static arcadeflex.v036.sndhrdw.irem.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.travrusa.*;
+//TODO
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
+import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
 
 public class travrusa {
 
@@ -235,7 +237,7 @@ public class travrusa {
             PORT_BITX(0x10, 0x10, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Stop Mode", IP_KEY_NONE, IP_JOY_NONE);
             PORT_DIPSETTING(0x10, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x20, 0x20, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x20, 0x20, "Unknown");
             PORT_DIPSETTING(0x20, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
             PORT_BITX(0x40, 0x40, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Invulnerability", IP_KEY_NONE, IP_JOY_NONE);

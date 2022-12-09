@@ -1,27 +1,31 @@
 /**
- * ported to 0.37b7
  * ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+package arcadeflex.v036.drivers;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//machine imports
+import static arcadeflex.v036.machine.stfight.*;
+//mame imports
 import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static arcadeflex.v036.vidhrdw.stfight.*;
+//soud imports
 import static arcadeflex.v036.sound._2203intf.*;
 import static arcadeflex.v036.sound._2203intfH.*;
 import static arcadeflex.v036.sound.MSM5205H.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.stfight.*;
+//TODO
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static arcadeflex.v036.machine.stfight.*;
 
 public class stfight {
 
-	// vidhrdw
     static MemoryReadAddress readmem_cpu1[]
             = {
                 new MemoryReadAddress(0x0000, 0x7fff, MRA_ROM),
@@ -76,7 +80,8 @@ public class stfight {
 
     static InputPortHandlerPtr input_ports_stfight = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* PLAYER 1 */
+            PORT_START();
+            /* PLAYER 1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
@@ -87,7 +92,8 @@ public class stfight {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNUSED);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* PLAYER 2 */
+            PORT_START();
+            /* PLAYER 2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
@@ -98,13 +104,15 @@ public class stfight {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNUSED);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* START BUTTONS */
+            PORT_START();
+            /* START BUTTONS */
 
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0xe7, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x07, 0x00, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("5C_1C"));
@@ -128,7 +136,8 @@ public class stfight {
             PORT_DIPSETTING(0x80, "Red");
             PORT_DIPSETTING(0x00, "Blue");
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -152,7 +161,8 @@ public class stfight {
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x80, DEF_STR("On"));
 
-            PORT_START(); 	/* COIN MECH */
+            PORT_START();
+            /* COIN MECH */
 
             PORT_BIT_IMPULSE(0x01, IP_ACTIVE_LOW, IPT_COIN1, 2);
             PORT_BIT_IMPULSE(0x02, IP_ACTIVE_LOW, IPT_COIN2, 2);
@@ -193,7 +203,7 @@ public class stfight {
      *      - so we need to create two separate layout structs
      *        to handle them properly with tilemaps
      */
-    /* background tiles */
+ /* background tiles */
     static GfxLayout bglayout = new GfxLayout(
             16, 16, /* 16*16 pixels */
             512, /* 512 tiles */

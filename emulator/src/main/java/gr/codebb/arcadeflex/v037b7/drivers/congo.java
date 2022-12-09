@@ -14,7 +14,6 @@ import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.inputH.*;
 import static arcadeflex.v036.vidhrdw.zaxxon.*;
@@ -23,7 +22,7 @@ import static arcadeflex.v036.sound.sn76496H.*;
 import static arcadeflex.v036.sound.sn76496.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.sound.samples.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.zaxxon.*;
+import static arcadeflex.v036.drivers.zaxxon.*;
 
 public class congo {
 
