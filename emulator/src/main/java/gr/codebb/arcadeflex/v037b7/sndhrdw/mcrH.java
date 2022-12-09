@@ -1,7 +1,7 @@
 package gr.codebb.arcadeflex.v037b7.sndhrdw;
 
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.mcr.mcr_sound_config;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.mcr.ssio_readmem;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.mcr.ssio_writemem;
 import static arcadeflex.v036.mame.sndintrfH.*;

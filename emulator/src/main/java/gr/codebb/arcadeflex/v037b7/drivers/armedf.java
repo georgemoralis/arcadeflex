@@ -24,7 +24,7 @@ package gr.codebb.arcadeflex.v037b7.drivers;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.armedf.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;

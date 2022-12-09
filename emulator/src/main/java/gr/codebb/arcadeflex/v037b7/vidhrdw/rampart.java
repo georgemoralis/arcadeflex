@@ -37,7 +37,7 @@ package gr.codebb.arcadeflex.v037b7.vidhrdw;
 import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;

@@ -21,7 +21,7 @@ import gr.codebb.arcadeflex.v036.cpu.h6280.h6280;
 import static gr.codebb.arcadeflex.v036.cpu.h6280.h6280H.*;
 import java.util.ArrayList;
 import static arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;

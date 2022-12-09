@@ -19,7 +19,7 @@ import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.M6809_INT_FIRQ;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;

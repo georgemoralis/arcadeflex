@@ -8,7 +8,7 @@ import static arcadeflex.v036.cpu.z80.z80H.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptport.*;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;

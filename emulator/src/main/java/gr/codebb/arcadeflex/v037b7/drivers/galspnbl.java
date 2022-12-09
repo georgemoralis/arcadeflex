@@ -6,7 +6,7 @@ package gr.codebb.arcadeflex.v037b7.drivers;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_r;

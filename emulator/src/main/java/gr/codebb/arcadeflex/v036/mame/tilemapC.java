@@ -6,7 +6,7 @@ import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static common.libc.cstring.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import gr.codebb.arcadeflex.v036.mame.tilemapH.tilemap;
 import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;

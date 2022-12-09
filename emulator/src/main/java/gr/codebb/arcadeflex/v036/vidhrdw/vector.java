@@ -26,7 +26,7 @@ import static arcadeflex.v036.generic.funcPtr.*;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import static common.libc.cstdlib.rand;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.mame.options;
 import arcadeflex.v036.mame.osdependH.osd_bitmap;

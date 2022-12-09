@@ -17,7 +17,7 @@ package gr.codebb.arcadeflex.v037b7.vidhrdw;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;

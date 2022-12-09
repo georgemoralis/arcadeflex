@@ -13,7 +13,7 @@ import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.M6809_IRQ_LINE;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;

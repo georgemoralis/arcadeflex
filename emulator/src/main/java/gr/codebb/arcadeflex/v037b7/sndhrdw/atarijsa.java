@@ -43,7 +43,7 @@ import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.sound._2151intf.*;

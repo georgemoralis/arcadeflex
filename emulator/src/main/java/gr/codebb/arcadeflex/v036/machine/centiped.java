@@ -17,7 +17,7 @@
 package gr.codebb.arcadeflex.v036.machine;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.inptport.*;
 public class centiped
 {

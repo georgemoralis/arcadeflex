@@ -16,7 +16,7 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 package gr.codebb.arcadeflex.v036.mame;
 
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 
 //drivers imports
 import static arcadeflex.v036.drivers.pacman.*;

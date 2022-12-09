@@ -11,7 +11,7 @@ import static arcadeflex.v036.vidhrdw._8080bw.*;
 //TODO
 import static gr.codebb.arcadeflex.v036.cpu.i8039.i8039H.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.sound.samplesH.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;

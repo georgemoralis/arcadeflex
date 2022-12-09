@@ -3,7 +3,7 @@ package gr.codebb.arcadeflex.v037b7.cpu.i8085;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.i8085.i8085H.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.i8085.i8085cpuH.*;

@@ -1,16 +1,19 @@
-package gr.codebb.arcadeflex.v036.mame;
+/*
+ * ported to v0.36
+ * 
+ */
+package arcadeflex.v036.mame;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-
-import static gr.codebb.arcadeflex.v036.platform.libc_old.CopyArray;
-import static arcadeflex.v036.mame.osdependH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+//mame imports
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+//TODO
+import static gr.codebb.arcadeflex.v036.platform.libc_old.CopyArray;
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 
 public class driverH {
 
@@ -73,7 +76,6 @@ public class driverH {
 
     }
 
-    ///This part below is the original converted driver.h file
     public static class MachineCPU {
 
         public MachineCPU(int ct, int cc, MemoryReadAddress[] mr, MemoryWriteAddress[] mw, IOReadPort[] pr, IOWritePort[] pw, InterruptHandlerPtr vb, int vbf, InterruptHandlerPtr ti, int tif, Object reset) {
@@ -90,8 +92,7 @@ public class driverH {
             reset_param = reset;
         }
 
-        ;
-                public MachineCPU(int ct, int cc, MemoryReadAddress[] mr, MemoryWriteAddress[] mw, IOReadPort[] pr, IOWritePort[] pw, InterruptHandlerPtr vb, int vbf, InterruptHandlerPtr ti, int tif) {
+        public MachineCPU(int ct, int cc, MemoryReadAddress[] mr, MemoryWriteAddress[] mw, IOReadPort[] pr, IOWritePort[] pw, InterruptHandlerPtr vb, int vbf, InterruptHandlerPtr ti, int tif) {
             this(ct, cc, mr, mw, pr, pw, vb, vbf, ti, tif, null);
         }
 
@@ -100,8 +101,7 @@ public class driverH {
             this(ct, cc, mr, mw, pr, pw, vb, vbf, null, 0, null);
         }
 
-        ;
-		public MachineCPU() {
+        public MachineCPU() {
             this(0, 0, null, null, null, null, null, 0, null, 0, null);
         }
 
@@ -213,15 +213,11 @@ public class driverH {
 
     public static final int CPU_FLAGS_MASK = 0xff00;
 
-    public static final int MAX_CPU = 8;
-    /* MAX_CPU is the maximum number of CPUs which cpuintrf.c */
+    public static final int MAX_CPU = 8;/* MAX_CPU is the maximum number of CPUs which cpuintrf.c */
  /* can run at the same time. Currently, 8 is enough. */
 
-    public static final int MAX_SOUND = 5;
-
-    /* MAX_SOUND is the maximum number of sound subsystems */
+    public static final int MAX_SOUND = 5;/* MAX_SOUND is the maximum number of sound subsystems */
  /* which can run at the same time. Currently, 5 is enough. */
-
     public static class MachineDriver {
 
         public MachineDriver() {
@@ -362,100 +358,27 @@ public class driverH {
     /* flags for sound_attributes */
     public static final int SOUND_SUPPORTS_STEREO = 0x0001;
 
-    /*TODO*///struct GameDriver
-    /*TODO*///{
-    /*TODO*///	const char *source_file;	/* set this to __FILE__ */
-    /*TODO*///	const struct GameDriver *clone_of;	/* if this is a clone, point to */
-    /*TODO*///										/* the main version of the game */
-    /*TODO*///	const char *name;
-    /*TODO*///	const char *description;
-    /*TODO*///	const char *year;
-    /*TODO*///	const char *manufacturer;
-    /*TODO*///	const struct MachineDriver *drv;
-    /*TODO*///	const struct InputPortTiny *input_ports;
-    /*TODO*///	void (*driver_init)(void);	/* optional function to be called during initialization */
-    /*TODO*///								/* This is called ONCE, unlike Machine->init_machine */
-    /*TODO*///								/* which is called every time the game is reset. */
-    /*TODO*///
-    /*TODO*///	const struct RomModule *rom;
-    /*TODO*///
-    /*TODO*///	UINT32 flags;	/* orientation and other flags; see defines below */
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
-    /*TODO*///
     /* values for the flags field */
     public static final int ORIENTATION_MASK = 0x0007;
-    public static final int ORIENTATION_FLIP_X = 0x0001;
-    /* mirror everything in the X direction */
-    public static final int ORIENTATION_FLIP_Y = 0x0002;
-    /* mirror everything in the Y direction */
-    public static final int ORIENTATION_SWAP_XY = 0x0004;
-    /* mirror along the top-left/bottom-right diagonal */
+    public static final int ORIENTATION_FLIP_X = 0x0001;/* mirror everything in the X direction */
+    public static final int ORIENTATION_FLIP_Y = 0x0002;/* mirror everything in the Y direction */
+    public static final int ORIENTATION_SWAP_XY = 0x0004;/* mirror along the top-left/bottom-right diagonal */
 
     public static final int GAME_NOT_WORKING = 0x0008;
-    public static final int GAME_WRONG_COLORS = 0x0010;
-    /* colors are totally wrong */
-    public static final int GAME_IMPERFECT_COLORS = 0x0020;
-    /* colors are not 100% accurate, but close */
-    public static final int GAME_NO_SOUND = 0x0040;
-    /* sound is missing */
-    public static final int GAME_IMPERFECT_SOUND = 0x0080;
-    /* sound is known to be wrong */
-    public static final int GAME_REQUIRES_16BIT = 0x0100;
-    /* cannot fit in 256 colors */
-    public static final int GAME_NO_COCKTAIL = 0x0200;
-    /* screen flip support is missing */
-    public static final int NOT_A_DRIVER = 0x4000;
-    /* set by the fake "root" driver_ and by "containers" */
- /* e.g. driver_neogeo. */
+    public static final int GAME_WRONG_COLORS = 0x0010;/* colors are totally wrong */
+    public static final int GAME_IMPERFECT_COLORS = 0x0020;/* colors are not 100% accurate, but close */
+    public static final int GAME_NO_SOUND = 0x0040;/* sound is missing */
+    public static final int GAME_IMPERFECT_SOUND = 0x0080;/* sound is known to be wrong */
+    public static final int GAME_REQUIRES_16BIT = 0x0100;/* cannot fit in 256 colors */
+    public static final int GAME_NO_COCKTAIL = 0x0200;/* screen flip support is missing */
+    public static final int NOT_A_DRIVER = 0x4000;/* set by the fake "root" driver_ and by "containers" */
 
- /*TODO*///
-    /*TODO*///#define GAME(YEAR,NAME,PARENT,MACHINE,INPUT,INIT,MONITOR,COMPANY,FULLNAME)	\
-    /*TODO*///extern struct GameDriver driver_##PARENT;	\
-    /*TODO*///struct GameDriver driver_##NAME =			\
-    /*TODO*///{											\
-    /*TODO*///	__FILE__,								\
-    /*TODO*///	&driver_##PARENT,						\
-    /*TODO*///	#NAME,									\
-    /*TODO*///	FULLNAME,								\
-    /*TODO*///	#YEAR,									\
-    /*TODO*///	COMPANY,								\
-    /*TODO*///	&machine_driver_##MACHINE,				\
-    /*TODO*///	input_ports_##INPUT,					\
-    /*TODO*///	init_##INIT,							\
-    /*TODO*///	rom_##NAME,								\
-    /*TODO*///	MONITOR,								\
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///#define GAMEX(YEAR,NAME,PARENT,MACHINE,INPUT,INIT,MONITOR,COMPANY,FULLNAME,FLAGS)	\
-    /*TODO*///extern struct GameDriver driver_##PARENT;	\
-    /*TODO*///struct GameDriver driver_##NAME =			\
-    /*TODO*///{											\
-    /*TODO*///	__FILE__,								\
-    /*TODO*///	&driver_##PARENT,						\
-    /*TODO*///	#NAME,									\
-    /*TODO*///	FULLNAME,								\
-    /*TODO*///	#YEAR,									\
-    /*TODO*///	COMPANY,								\
-    /*TODO*///	&machine_driver_##MACHINE,				\
-    /*TODO*///	input_ports_##INPUT,					\
-    /*TODO*///	init_##INIT,							\
-    /*TODO*///	rom_##NAME,								\
-    /*TODO*///	(MONITOR)|(FLAGS),						\
-    /*TODO*///};
-    /*TODO*///
-    /*TODO*///
 
-    /* monitor parameters to be used with the GAME() macro */
+ /* monitor parameters to be used with the GAME() macro */
     public static final int ROT0 = 0x0000;
-    public static final int ROT90 = (ORIENTATION_SWAP_XY | ORIENTATION_FLIP_X);
-    /* rotate clockwise 90 degrees */
-    public static final int ROT180 = (ORIENTATION_FLIP_X | ORIENTATION_FLIP_Y);
-    /* rotate 180 degrees */
-    public static final int ROT270 = (ORIENTATION_SWAP_XY | ORIENTATION_FLIP_Y);
-    /* rotate counter-clockwise 90 degrees */
+    public static final int ROT90 = (ORIENTATION_SWAP_XY | ORIENTATION_FLIP_X);/* rotate clockwise 90 degrees */
+    public static final int ROT180 = (ORIENTATION_FLIP_X | ORIENTATION_FLIP_Y);/* rotate 180 degrees */
+    public static final int ROT270 = (ORIENTATION_SWAP_XY | ORIENTATION_FLIP_Y);/* rotate counter-clockwise 90 degrees */
     public static final int ROT0_16BIT = (ROT0 | GAME_REQUIRES_16BIT);
     public static final int ROT90_16BIT = (ROT90 | GAME_REQUIRES_16BIT);
     public static final int ROT180_16BIT = (ROT180 | GAME_REQUIRES_16BIT);

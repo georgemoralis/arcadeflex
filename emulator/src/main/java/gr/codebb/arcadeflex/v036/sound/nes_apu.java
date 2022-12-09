@@ -16,7 +16,7 @@ import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 import static gr.codebb.arcadeflex.v036.sound.nes_apuH.MAX_NESPSG;
 import static gr.codebb.arcadeflex.v036.sound.nes_apuH.NESinterface;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 
 public class nes_apu extends snd_interface {

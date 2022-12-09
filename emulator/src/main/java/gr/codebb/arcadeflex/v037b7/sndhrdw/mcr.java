@@ -17,7 +17,7 @@ import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.v036.cpu.m6800.m6800H.M6800_IRQ_LINE;
 import static gr.codebb.arcadeflex.v036.machine._6812piaH.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.mcrH.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
 import static arcadeflex.v036.sound.ay8910.*;

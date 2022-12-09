@@ -6,7 +6,7 @@ import static arcadeflex.v036.mame.usrintrfH.*;
 //TODO
 import static common.libc.cstring.*;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
@@ -15,7 +15,7 @@ import static gr.codebb.arcadeflex.v036.platform.video.*;
 import static arcadeflex.v036.mame.inputH.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.input.*;
-import static gr.codebb.arcadeflex.v036.mame.version.*;
+import static arcadeflex.v036.mame.version.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.inptport.*;

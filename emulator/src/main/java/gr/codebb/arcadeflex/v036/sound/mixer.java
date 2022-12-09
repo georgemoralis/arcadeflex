@@ -7,7 +7,7 @@ import static gr.codebb.arcadeflex.v036.platform.libc_old.sprintf;
 import static gr.codebb.arcadeflex.v036.platform.sound.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 
 public class mixer {

@@ -10,7 +10,7 @@ import static arcadeflex.v036.mame.cpuintrfH.*;
 //TODO
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.inptport.*;
 
 public class phozon {

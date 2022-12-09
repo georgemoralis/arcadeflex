@@ -18,7 +18,7 @@ import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static arcadeflex.v036.mame.osdependH.*;
 import static arcadeflex.v036.mame.drawgfxH.*;

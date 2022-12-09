@@ -2,7 +2,7 @@ package gr.codebb.arcadeflex.v037b7.cpu.i8085;
 
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.i8085.i8085H.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.i8085.i8085cpuH.*;
 

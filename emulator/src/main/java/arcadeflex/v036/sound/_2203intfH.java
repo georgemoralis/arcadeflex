@@ -9,7 +9,7 @@ import static arcadeflex.v036.generic.funcPtr.*;
 //sound imports
 import static arcadeflex.v036.sound.ay8910H.*;
 //TODO
-import gr.codebb.arcadeflex.v036.mame.driverH.*;
+import arcadeflex.v036.mame.driverH.*;
 
 public class _2203intfH {
 

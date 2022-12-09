@@ -6,7 +6,7 @@ package gr.codebb.arcadeflex.v037b7.cpu.m6805;
 import static gr.codebb.arcadeflex.v037b7.cpu.m6805.m6805H.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 
 public class m68705 extends m6805 {
 

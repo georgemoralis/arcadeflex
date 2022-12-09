@@ -11,9 +11,9 @@ import static common.libc.cstring.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.ORIENTATION_SWAP_XY;
-import static gr.codebb.arcadeflex.v036.mame.driverH.VIDEO_MODIFIES_PALETTE;
-import static gr.codebb.arcadeflex.v036.mame.driverH.VIDEO_TYPE_VECTOR;
+import static arcadeflex.v036.mame.driverH.ORIENTATION_SWAP_XY;
+import static arcadeflex.v036.mame.driverH.VIDEO_MODIFIES_PALETTE;
+import static arcadeflex.v036.mame.driverH.VIDEO_TYPE_VECTOR;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;

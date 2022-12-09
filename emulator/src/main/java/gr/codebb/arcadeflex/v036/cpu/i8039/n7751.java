@@ -24,7 +24,7 @@ package gr.codebb.arcadeflex.v036.cpu.i8039;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 //TODO
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.cpu.i8039.i8039H.*;
 
 public class n7751 extends i8039 {

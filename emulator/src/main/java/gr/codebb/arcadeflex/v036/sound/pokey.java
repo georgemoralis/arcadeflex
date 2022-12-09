@@ -9,7 +9,7 @@ import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokeyH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.sound.streams.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_get_pc;
 import static arcadeflex.v036.mame.timer.*;

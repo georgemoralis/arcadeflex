@@ -25,7 +25,7 @@ import static arcadeflex.v036.mame.commonH.REGION_GFX1;
 import static arcadeflex.v036.mame.commonH.ROM_END;
 import static arcadeflex.v036.mame.commonH.ROM_LOAD;
 import static arcadeflex.v036.mame.commonH.ROM_REGION;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.inputH.KEYCODE_X;
 import static arcadeflex.v036.mame.inputH.KEYCODE_Z;
 import arcadeflex.v036.mame.sndintrfH.MachineSound;

@@ -10,7 +10,7 @@ package gr.codebb.arcadeflex.v036.vidhrdw;
 import static arcadeflex.v036.generic.funcPtr.*;
 import static common.libc.cstring.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;

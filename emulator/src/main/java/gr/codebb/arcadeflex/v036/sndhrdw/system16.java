@@ -11,7 +11,7 @@ package gr.codebb.arcadeflex.v036.sndhrdw;
 import static arcadeflex.v036.generic.funcPtr.*;
 import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.cpu.i8039.i8039H.*;
 import static arcadeflex.v036.mame.commonH.REGION_SOUND1;

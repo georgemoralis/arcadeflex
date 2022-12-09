@@ -1,7 +1,7 @@
 package gr.codebb.arcadeflex.v037b7.drivers;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
@@ -24,7 +24,7 @@ import static gr.codebb.arcadeflex.v037b7.sound.qsound.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.machine.kabuki.*;
 import static gr.codebb.arcadeflex.v036.machine.eeprom.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.cps1.cps1_gfxdecodeinfo;

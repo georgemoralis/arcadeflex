@@ -6,7 +6,7 @@ package gr.codebb.arcadeflex.v036.cpu.hd6309;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 //TODO
 import gr.codebb.arcadeflex.v036.cpu.m6809.m6809;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
 

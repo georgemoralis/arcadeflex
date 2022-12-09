@@ -13,7 +13,7 @@ import static common.libc.expressions.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;

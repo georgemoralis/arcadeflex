@@ -62,7 +62,7 @@ import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.skullxbo.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;

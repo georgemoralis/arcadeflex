@@ -12,7 +12,7 @@ import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.mame.mameH.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.osdependH.*;
 import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;

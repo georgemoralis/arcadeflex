@@ -13,7 +13,7 @@ import gr.codebb.arcadeflex.common.PtrLib.ShortPtr;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static common.libc.cstring.memset;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;

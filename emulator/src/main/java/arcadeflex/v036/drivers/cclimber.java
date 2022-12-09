@@ -17,7 +17,7 @@ import static arcadeflex.v036.sound.ay8910H.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.cclimber.*;
 //TODO
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;

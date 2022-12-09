@@ -17,7 +17,7 @@ import static arcadeflex.v036.generic.funcPtr.*;
 import gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.namcoH.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.sound.streams.*;

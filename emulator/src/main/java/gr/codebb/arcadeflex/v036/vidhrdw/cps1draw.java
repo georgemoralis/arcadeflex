@@ -8,7 +8,7 @@ package gr.codebb.arcadeflex.v036.vidhrdw;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.expressions.NOT;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.drawgfxH.*;

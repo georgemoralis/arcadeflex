@@ -49,7 +49,7 @@ import static gr.codebb.arcadeflex.common.PtrLib.*;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static arcadeflex.v036.mame.drawgfxH.*;

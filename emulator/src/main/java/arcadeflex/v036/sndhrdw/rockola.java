@@ -8,7 +8,7 @@ package arcadeflex.v036.sndhrdw;
 import static arcadeflex.v036.generic.funcPtr.*;
 
 import gr.codebb.arcadeflex.common.PtrLib.BytePtr;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;

@@ -25,7 +25,7 @@ import gr.codebb.arcadeflex.v036.platform.MainStream;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.cstdlib.rand;
 import static gr.codebb.arcadeflex.v036.mame.mameH.*;
-import static gr.codebb.arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
