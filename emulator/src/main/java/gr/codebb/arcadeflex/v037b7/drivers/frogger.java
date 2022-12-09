@@ -23,7 +23,7 @@ import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static arcadeflex.v036.sndhrdw.frogger.*;
-
+import static arcadeflex.v036.mame.common.*;
 public class frogger {
 
     public static WriteHandlerPtr frogger_counterb_w = new WriteHandlerPtr() {

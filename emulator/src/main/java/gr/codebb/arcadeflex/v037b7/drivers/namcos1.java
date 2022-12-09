@@ -130,6 +130,7 @@ package gr.codebb.arcadeflex.v037b7.drivers;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6800.hd63701.hd63701_internal_registers_r;
 import static gr.codebb.arcadeflex.v036.cpu.m6800.hd63701.hd63701_internal_registers_w;
 import static arcadeflex.v036.mame.commonH.*;

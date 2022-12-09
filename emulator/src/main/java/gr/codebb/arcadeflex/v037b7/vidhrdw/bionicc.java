@@ -30,6 +30,7 @@ The output selects the active layer, it can be:
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static arcadeflex.v036.vidhrdw.generic.*;

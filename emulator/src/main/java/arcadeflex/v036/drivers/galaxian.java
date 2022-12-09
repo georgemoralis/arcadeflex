@@ -12,6 +12,7 @@ import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.drivers.pacman.*;
 //mame imports
 import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.common.*;
 //sndhrdw imports
 import static arcadeflex.v036.sndhrdw.galaxian.*;
 //sound imports

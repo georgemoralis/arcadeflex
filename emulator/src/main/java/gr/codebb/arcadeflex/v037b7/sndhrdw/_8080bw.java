@@ -6,6 +6,8 @@ package gr.codebb.arcadeflex.v037b7.sndhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.common.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw._8080bw.*;
 //TODO

@@ -729,38 +729,6 @@ public class common {
 /*TODO*/ //            }
  /*TODO*/ //   }
 
-
-    /* LBO 042898 - added coin counters */
-    public static WriteHandlerPtr coin_counter_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-    {
-            if (offset >= COIN_COUNTERS) return;
-            /* Count it only if the data has changed from 0 to non-zero */
-            if (data!=0 && (lastcoin[offset] == 0))
-            {
-                    coins[offset] ++;
-            }
-            lastcoin[offset] = data;
-    }};
-    public static WriteHandlerPtr coin_lockout_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-    {
-            if (offset >= COIN_COUNTERS) return;
-
-            coinlockedout[offset] = data;
-    }};
-
-    /* Locks out all the coin inputs */
-    public static WriteHandlerPtr coin_lockout_global_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-    {
-            int i;
-
-            for (i = 0; i < COIN_COUNTERS; i++)
-            {
-                    coin_lockout_w.handler(i, data);
-            }
-    }};
-
-
-
 /*TODO*/ //    int snapno;
 
 /*TODO*/ //    void save_screen_snapshot(void)

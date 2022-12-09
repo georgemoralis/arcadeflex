@@ -16,6 +16,7 @@ ask.  - Mike Balfour (mab22@po.cwru.edu)
 package gr.codebb.arcadeflex.v036.machine;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;

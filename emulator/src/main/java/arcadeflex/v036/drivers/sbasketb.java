@@ -8,6 +8,7 @@ package arcadeflex.v036.drivers;
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.common.*;
 //sndhrdw imports
 import static arcadeflex.v036.sndhrdw.trackfld.*;
 //sound imports

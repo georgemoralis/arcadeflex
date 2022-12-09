@@ -8,6 +8,7 @@
 package gr.codebb.arcadeflex.v036.vidhrdw;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+import static arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static arcadeflex.v036.mame.drawgfxH.*;

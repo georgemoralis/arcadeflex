@@ -11,6 +11,9 @@ import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.common.*;
 //sound imports
 import static arcadeflex.v036.sound._2151intf.*;
 import static arcadeflex.v036.sound._2151intfH.*;
@@ -20,9 +23,7 @@ import static arcadeflex.v036.sound.k007232H.*;
 import static arcadeflex.v036.vidhrdw.aliens.*;
 //TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
-import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_r;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_w;

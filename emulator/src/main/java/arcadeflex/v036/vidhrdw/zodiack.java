@@ -6,6 +6,10 @@ package arcadeflex.v036.vidhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.galaxian.*;
@@ -13,13 +17,9 @@ import static arcadeflex.v036.vidhrdw.galaxian.*;
 import static common.libc.cstring.*;
 import static common.libc.expressions.*;
 //TODO
-import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.zodiack.*;
 
 public class zodiack {

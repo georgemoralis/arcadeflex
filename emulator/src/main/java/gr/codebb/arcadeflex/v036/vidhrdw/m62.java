@@ -15,6 +15,7 @@
 package gr.codebb.arcadeflex.v036.vidhrdw;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+import static arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.cstring.*;
 import static common.libc.expressions.NOT;
