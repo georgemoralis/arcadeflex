@@ -1,26 +1,29 @@
 /**
- * ported to 0.37b7
  * ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+package arcadeflex.v036.drivers;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//drivers imports
 import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static arcadeflex.v036.vidhrdw.citycon.*;
-import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.inptportH.*;
+//sound imports
 import static arcadeflex.v036.sound._2203intf.*;
 import static arcadeflex.v036.sound._2203intfH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.citycon.*;
+//TODO
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
+import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-
 
 public class citycon {
 
@@ -68,7 +71,8 @@ public class citycon {
 
     static InputPortHandlerPtr input_ports_citycon = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
@@ -193,7 +197,7 @@ public class citycon {
                 new GfxDecodeInfo(-1) /* end of array */};
 
     /* actually there is one AY8910 and one YM2203, but the sound core doesn't */
-    /* support that so we use 2 YM2203 */
+ /* support that so we use 2 YM2203 */
     static YM2203interface ym2203_interface = new YM2203interface(
             2, /* 2 chips */
             1250000, /* 1.25 MHz */
@@ -252,7 +256,8 @@ public class citycon {
      */
     static RomLoadHandlerPtr rom_citycon = new RomLoadHandlerPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("c10", 0x4000, 0x4000, 0xae88b53c);
             ROM_LOAD("c11", 0x8000, 0x8000, 0x139eb1aa);
@@ -289,7 +294,8 @@ public class citycon {
 
     static RomLoadHandlerPtr rom_citycona = new RomLoadHandlerPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("c10", 0x4000, 0x4000, 0xae88b53c);
             ROM_LOAD("c11b", 0x8000, 0x8000, 0xd64af468);
@@ -326,7 +332,8 @@ public class citycon {
 
     static RomLoadHandlerPtr rom_cruisin = new RomLoadHandlerPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("cr10", 0x4000, 0x4000, 0xcc7c52f3);
             ROM_LOAD("cr11", 0x8000, 0x8000, 0x5422f276);

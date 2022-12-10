@@ -1,26 +1,29 @@
 /**
- * ported to 0.37b7
  * ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+package arcadeflex.v036.drivers;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
 import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
-import static arcadeflex.v036.vidhrdw.ironhors.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
 import static arcadeflex.v036.sound._2203intf.*;
 import static arcadeflex.v036.sound._2203intfH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.ironhors.*;
+//TODO
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
+import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
+import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class ironhors {
 

@@ -1,25 +1,28 @@
 /**
- * ported to v0.37b7
  * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+package arcadeflex.v036.drivers;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
 import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.vidhrdw.funkybee.*;
+//sound imports
 import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;
+//funkybee imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.funkybee.*;
+//TODO
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 
 public class funkybee {
 
@@ -66,7 +69,8 @@ public class funkybee {
 
     static InputPortHandlerPtr input_ports_funkybee = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_COIN2);
@@ -76,7 +80,8 @@ public class funkybee {
             PORT_DIPSETTING(0x20, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY);
@@ -85,7 +90,8 @@ public class funkybee {
             PORT_BIT(0x10, IP_ACTIVE_HIGH, IPT_BUTTON1);
             PORT_BIT(0xe0, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START(); 		/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
@@ -94,7 +100,8 @@ public class funkybee {
             PORT_BIT(0x10, IP_ACTIVE_HIGH, IPT_BUTTON1 | IPF_COCKTAIL);
             PORT_BIT(0xe0, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START();       /* DSW */
+            PORT_START();
+            /* DSW */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x03, DEF_STR("1C_1C"));
@@ -123,7 +130,8 @@ public class funkybee {
 
     static InputPortHandlerPtr input_ports_skylancr = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_COIN2);
@@ -133,7 +141,8 @@ public class funkybee {
             PORT_DIPSETTING(0x20, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY);
@@ -142,7 +151,8 @@ public class funkybee {
             PORT_BIT(0x10, IP_ACTIVE_HIGH, IPT_BUTTON1);
             PORT_BIT(0xe0, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START(); 		/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
@@ -151,7 +161,8 @@ public class funkybee {
             PORT_BIT(0x10, IP_ACTIVE_HIGH, IPT_BUTTON1 | IPF_COCKTAIL);
             PORT_BIT(0xe0, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START();       /* DSW */
+            PORT_START();
+            /* DSW */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x03, DEF_STR("1C_1C"));

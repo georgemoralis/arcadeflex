@@ -1,23 +1,28 @@
 /**
- * ported to v0.37b7
  * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+package arcadeflex.v036.drivers;
+
+//cpu imports
+import static arcadeflex.v036.cpu.z80.z80H.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
 import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static arcadeflex.v036.vidhrdw.mpatrol.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
+//sndhrdw imports
 import static arcadeflex.v036.sndhrdw.irem.*;
-import static arcadeflex.v036.cpu.z80.z80H.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.mpatrol.*;
+//TODO
+import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 
 public class mpatrol {
 
@@ -25,7 +30,7 @@ public class mpatrol {
  /* if a read from this address doesn't return the value it expects. */
     public static ReadHandlerPtr mpatrol_protection_r = new ReadHandlerPtr() {
         public int handler(int offset) {
-            //logerror("%04x: read protection\n",cpu_get_pc());
+            //if (errorlog) fprintf(errorlog,"%04x: read protection\n",cpu_get_pc());
             return cpu_get_reg(Z80_DE) & 0xff;
         }
     };
