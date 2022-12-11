@@ -22,7 +22,7 @@ import static arcadeflex.v036.sndhrdw.irem.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.mpatrol.*;
 //TODO
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 
 public class mpatrol {

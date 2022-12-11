@@ -2,7 +2,7 @@ package gr.codebb.arcadeflex.v037b7.cpu.i8085;
 
 import static gr.codebb.arcadeflex.v037b7.cpu.i8085.i8085.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 
 public class i8085cpuH {
 

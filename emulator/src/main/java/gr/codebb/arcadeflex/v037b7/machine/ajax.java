@@ -27,7 +27,7 @@ import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static arcadeflex.v036.cpu.z80.z80H.Z80_IRQ_INT;

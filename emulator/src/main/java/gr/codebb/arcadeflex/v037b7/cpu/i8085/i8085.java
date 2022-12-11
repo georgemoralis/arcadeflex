@@ -9,7 +9,7 @@ import static gr.codebb.arcadeflex.v037b7.cpu.i8085.i8085H.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.i8085.i8085cpuH.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.i8085.i8085daaH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 
 
 public class i8085 extends cpu_interface {

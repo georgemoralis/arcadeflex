@@ -26,7 +26,7 @@ import static gr.codebb.arcadeflex.v036.sound.namcoH.*;
 import static gr.codebb.arcadeflex.v036.sound.namco.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.platform.input.osd_led_w;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 
 public class rallyx {
 

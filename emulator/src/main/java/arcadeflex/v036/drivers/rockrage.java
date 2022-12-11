@@ -25,7 +25,7 @@ import static arcadeflex.v036.sound._2151intfH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.rockrage.*;
 //TODO
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;

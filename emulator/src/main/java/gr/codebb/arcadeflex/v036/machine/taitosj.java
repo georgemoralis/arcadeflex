@@ -29,7 +29,7 @@ import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_readmem16;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_writemem16;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.memorycontextswap;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
 

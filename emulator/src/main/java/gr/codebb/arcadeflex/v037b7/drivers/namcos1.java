@@ -142,7 +142,7 @@ import static gr.codebb.arcadeflex.v036.sound.namco.*;
 import static gr.codebb.arcadeflex.v037b7.machine.namcos1.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptport.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.sound.dac.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6800.hd63701.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.M6809_FIRQ_LINE;

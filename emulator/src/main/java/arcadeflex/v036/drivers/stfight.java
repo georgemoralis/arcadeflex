@@ -21,7 +21,7 @@ import static arcadeflex.v036.sound.MSM5205H.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.stfight.*;
 //TODO
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 
 public class stfight {

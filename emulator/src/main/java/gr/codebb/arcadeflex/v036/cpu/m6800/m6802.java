@@ -4,7 +4,7 @@ import arcadeflex.v036.mame.cpuintrfH.cpu_interface;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6800.m6800H.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;

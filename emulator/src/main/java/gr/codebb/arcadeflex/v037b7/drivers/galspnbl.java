@@ -18,7 +18,7 @@ import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.cpu.z80.z80H.Z80_NMI_INT;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intf.*;
 import gr.codebb.arcadeflex.v037b7.sound._3812intfH.YM3812interface;

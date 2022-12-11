@@ -17,7 +17,7 @@ import static arcadeflex.v036.mame.drawgfxH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.foodf.*;
 //TODO
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokeyH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokey.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;

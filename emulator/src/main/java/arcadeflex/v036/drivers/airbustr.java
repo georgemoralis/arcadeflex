@@ -26,7 +26,7 @@ import static arcadeflex.v036.vidhrdw.generic.*;
 //common imports
 import static common.libc.cstdlib.*;
 //TODO
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;

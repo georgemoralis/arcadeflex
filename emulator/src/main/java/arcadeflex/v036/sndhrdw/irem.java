@@ -16,7 +16,7 @@ import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;
 import static arcadeflex.v036.sound.MSM5205.*;
 import static arcadeflex.v036.sound.MSM5205H.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6800.m6803.*;
 
 public class irem {

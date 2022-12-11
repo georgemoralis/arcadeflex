@@ -43,9 +43,9 @@ import arcadeflex.v036.mame.drawgfxH.GfxLayout;
 import arcadeflex.v036.mame.drawgfxH.rectangle;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
-import gr.codebb.arcadeflex.v037b7.mame.memoryH.MemoryReadAddress;
-import gr.codebb.arcadeflex.v037b7.mame.memoryH.MemoryWriteAddress;
+import static arcadeflex.v036.mame.memoryH.*;
+import arcadeflex.v036.mame.memoryH.MemoryReadAddress;
+import arcadeflex.v036.mame.memoryH.MemoryWriteAddress;
 import arcadeflex.v036.sound.dacH.DACinterface;
 
 public class meadows {

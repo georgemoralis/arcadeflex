@@ -25,7 +25,7 @@ import static arcadeflex.v036.sound._2151intfH.*;
 import static arcadeflex.v036.vidhrdw.vigilant.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;

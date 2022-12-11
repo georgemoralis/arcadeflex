@@ -7,7 +7,7 @@ import static arcadeflex.v036.mame.cpuintrfH.*;
 //TODO
 import gr.codebb.arcadeflex.v036.cpu.m6809.m6809;
 import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
 
 public class hd6309 extends m6809

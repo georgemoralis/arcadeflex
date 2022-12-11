@@ -9,13 +9,14 @@ import arcadeflex.v036.mame.cpuintrfH;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.cpu.nec.necH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.cpu.nec.necmodrmH.*;
 import static gr.codebb.arcadeflex.v036.cpu.nec.necinstrH.*;
 import static gr.codebb.arcadeflex.v036.cpu.nec.neceaH.*;
+import static gr.codebb.arcadeflex.v036.mame.memoryH.change_pc20;
 
 public class v30 extends cpuintrfH.cpu_interface {
 

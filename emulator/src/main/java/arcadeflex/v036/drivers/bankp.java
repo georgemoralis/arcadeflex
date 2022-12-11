@@ -12,6 +12,7 @@ import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.inptportH.*;
 //sound imports
 import static arcadeflex.v036.sound.sn76496H.*;
@@ -19,8 +20,6 @@ import static arcadeflex.v036.sound.sn76496.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.bankp.*;
-//TODO
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 
 public class bankp {
 

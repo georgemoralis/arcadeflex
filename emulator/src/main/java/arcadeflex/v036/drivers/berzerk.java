@@ -68,7 +68,7 @@ import static arcadeflex.v036.mame.inptportH.PORT_BITX;
 import static arcadeflex.v036.mame.inptportH.PORT_DIPNAME;
 import static arcadeflex.v036.mame.inptportH.PORT_DIPSETTING;
 import static arcadeflex.v036.mame.inptportH.PORT_START;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.sndhrdw.berzerk.berzerk_sh_start;
 import static arcadeflex.v036.sndhrdw.berzerk.berzerk_sh_update;
 import static arcadeflex.v036.sndhrdw.berzerk.berzerk_sound_control_a_w;

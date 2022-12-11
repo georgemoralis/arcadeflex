@@ -17,15 +17,13 @@ import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.inptportH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 //sound imports
 import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.bagman.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
-//TODO
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 
 public class bagman {
 

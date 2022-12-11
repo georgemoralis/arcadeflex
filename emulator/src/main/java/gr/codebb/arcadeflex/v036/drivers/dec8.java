@@ -10,7 +10,7 @@ import static arcadeflex.v036.mame.cpuintrf.*;
 import static common.libc.cstring.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;

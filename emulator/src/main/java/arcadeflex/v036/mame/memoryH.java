@@ -1,13 +1,11 @@
 /**
- * ported to 0.37b7
+ * ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.mame;
+package arcadeflex.v036.mame;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.cpu_setOPbase20;
-import static gr.codebb.arcadeflex.v036.mame.memory.cpu_setOPbase24;
 import gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 
@@ -15,17 +13,6 @@ public class memoryH {
 
     public static final int MAX_BANKS = 16;
 
-    /**
-     * *************************************************************************
-     * /*TODO
-     *///	Core memory read/write/opbase handler types.
-/*TODO*///***************************************************************************/
-/*TODO*///
-/*TODO*///typedef UINT32 offs_t;
-/*TODO*///typedef UINT32 data_t;
-/*TODO*///
-/*TODO*///typedef data_t (*mem_read_handler)(offs_t offset);
-/*TODO*///typedef void (*mem_write_handler)(offs_t offset,data_t data);
     public static abstract interface opbase_handlerPtr {
 
         public abstract int handler(int address);
@@ -85,46 +72,26 @@ public class memoryH {
         /* see special values below */
     }
 
-    /*TODO*///#define MEMORY_TABLE_END { ~0 }
-    public static final int MRA_NOP = 0;
-    /* don't care, return 0 */
-    public static final int MRA_RAM = -1;
-    /* plain RAM location (return its contents) */
-    public static final int MRA_ROM = -2;
-    /* plain ROM location (return its contents) */
-    public static final int MRA_BANK1 = -10;
-    /* bank memory */
-    public static final int MRA_BANK2 = -11;
-    /* bank memory */
-    public static final int MRA_BANK3 = -12;
-    /* bank memory */
-    public static final int MRA_BANK4 = -13;
-    /* bank memory */
-    public static final int MRA_BANK5 = -14;
-    /* bank memory */
-    public static final int MRA_BANK6 = -15;
-    /* bank memory */
-    public static final int MRA_BANK7 = -16;
-    /* bank memory */
-    public static final int MRA_BANK8 = -17;
-    /* bank memory */
-    public static final int MRA_BANK9 = -18;
-    /* bank memory */
-    public static final int MRA_BANK10 = -19;
-    /* bank memory */
-    public static final int MRA_BANK11 = -20;
-    /* bank memory */
-    public static final int MRA_BANK12 = -21;
-    /* bank memory */
-    public static final int MRA_BANK13 = -22;
-    /* bank memory */
-    public static final int MRA_BANK14 = -23;
-    /* bank memory */
-    public static final int MRA_BANK15 = -24;
-    /* bank memory */
-    public static final int MRA_BANK16 = -25;
+    public static final int MRA_NOP = 0;/* don't care, return 0 */
+    public static final int MRA_RAM = -1;/* plain RAM location (return its contents) */
+    public static final int MRA_ROM = -2;/* plain ROM location (return its contents) */
+    public static final int MRA_BANK1 = -10;/* bank memory */
+    public static final int MRA_BANK2 = -11;/* bank memory */
+    public static final int MRA_BANK3 = -12;/* bank memory */
+    public static final int MRA_BANK4 = -13;/* bank memory */
+    public static final int MRA_BANK5 = -14;/* bank memory */
+    public static final int MRA_BANK6 = -15;/* bank memory */
+    public static final int MRA_BANK7 = -16;/* bank memory */
+    public static final int MRA_BANK8 = -17;/* bank memory */
+    public static final int MRA_BANK9 = -18;/* bank memory */
+    public static final int MRA_BANK10 = -19;/* bank memory */
+    public static final int MRA_BANK11 = -20;/* bank memory */
+    public static final int MRA_BANK12 = -21;/* bank memory */
+    public static final int MRA_BANK13 = -22;/* bank memory */
+    public static final int MRA_BANK14 = -23;/* bank memory */
+    public static final int MRA_BANK15 = -24;/* bank memory */
+    public static final int MRA_BANK16 = -25;/* bank memory */
 
-    /* bank memory */
     public static class MemoryWriteAddress {
 
         public MemoryWriteAddress(int start, int end, int handler, UBytePtr base, int[] size) {
@@ -176,59 +143,37 @@ public class memoryH {
         }
         public int start, end;
         public int handler;
-        public WriteHandlerPtr _handler;
-        /* see special values below */
-        public UBytePtr base;
-        /* optional (see explanation above) */
-        public int[] size;
-        /* optional (see explanation above) */
+        public WriteHandlerPtr _handler;/* see special values below */
+        public UBytePtr base;/* optional (see explanation above) */
+        public int[] size;/* optional (see explanation above) */
     }
 
-    public static final int MWA_NOP = 0;
-    /* do nothing */
-    public static final int MWA_RAM = -1;
-    /* plain RAM location (store the value) */
-    public static final int MWA_ROM = -2;
-    /* plain ROM location (do nothing) */
+    public static final int MWA_NOP = 0;/* do nothing */
+    public static final int MWA_RAM = -1;/* plain RAM location (store the value) */
+    public static final int MWA_ROM = -2;/* plain ROM location (do nothing) */
  /*
    If the CPU opcodes are encrypted, they are fetched from a different memory space.
    In such a case, if the program dynamically creates code in RAM and executes it,
    it won't work unless you use MWA_RAMROM to affect both memory spaces.
      */
     public static final int MWA_RAMROM = -3;
-    public static final int MWA_BANK1 = -10;
-    /* bank memory */
-    public static final int MWA_BANK2 = -11;
-    /* bank memory */
-    public static final int MWA_BANK3 = -12;
-    /* bank memory */
-    public static final int MWA_BANK4 = -13;
-    /* bank memory */
-    public static final int MWA_BANK5 = -14;
-    /* bank memory */
-    public static final int MWA_BANK6 = -15;
-    /* bank memory */
-    public static final int MWA_BANK7 = -16;
-    /* bank memory */
-    public static final int MWA_BANK8 = -17;
-    /* bank memory */
-    public static final int MWA_BANK9 = -18;
-    /* bank memory */
-    public static final int MWA_BANK10 = -19;
-    /* bank memory */
-    public static final int MWA_BANK11 = -20;
-    /* bank memory */
-    public static final int MWA_BANK12 = -21;
-    /* bank memory */
-    public static final int MWA_BANK13 = -22;
-    /* bank memory */
-    public static final int MWA_BANK14 = -23;
-    /* bank memory */
-    public static final int MWA_BANK15 = -24;
-    /* bank memory */
-    public static final int MWA_BANK16 = -25;
+    public static final int MWA_BANK1 = -10;/* bank memory */
+    public static final int MWA_BANK2 = -11;/* bank memory */
+    public static final int MWA_BANK3 = -12;/* bank memory */
+    public static final int MWA_BANK4 = -13;/* bank memory */
+    public static final int MWA_BANK5 = -14;/* bank memory */
+    public static final int MWA_BANK6 = -15;/* bank memory */
+    public static final int MWA_BANK7 = -16;/* bank memory */
+    public static final int MWA_BANK8 = -17;/* bank memory */
+    public static final int MWA_BANK9 = -18;/* bank memory */
+    public static final int MWA_BANK10 = -19;/* bank memory */
+    public static final int MWA_BANK11 = -20;/* bank memory */
+    public static final int MWA_BANK12 = -21;/* bank memory */
+    public static final int MWA_BANK13 = -22;/* bank memory */
+    public static final int MWA_BANK14 = -23;/* bank memory */
+    public static final int MWA_BANK15 = -24;/* bank memory */
+    public static final int MWA_BANK16 = -25;/* bank memory */
 
-    /* bank memory */
     /**
      * *************************************************************************
      *
@@ -261,8 +206,7 @@ public class memoryH {
         }
         public int start, end;
         public int handler;
-        public ReadHandlerPtr _handler;
-        /* see special values below */
+        public ReadHandlerPtr _handler;/* see special values below */
     }
     /* don't care, return 0 */
     public static final int IORP_NOP = 0;
@@ -290,11 +234,9 @@ public class memoryH {
         }
         public int start, end;
         public int handler;
-        public WriteHandlerPtr _handler;
-        /* see special values below */
+        public WriteHandlerPtr _handler;/* see special values below */
     }
-    public static final int IOWP_NOP = 0;
-    /* do nothing */
+    public static final int IOWP_NOP = 0;/* do nothing */
 
     /**
      * *************************************************************************
@@ -309,10 +251,9 @@ public class memoryH {
 
     public static class ExtMemory {
 
-        int start, end, region;
-        UBytePtr data;
+        public int start, end, region;
+        public UBytePtr data;
     }
-
     /**
      * *************************************************************************
      *
@@ -325,55 +266,36 @@ public class memoryH {
      */
 
     /* memory element block size */
-    public static final int MH_SBITS = 8;
-    /* sub element bank size */
-    public static final int MH_PBITS = 8;
-    /* port current element size */
-    public static final int MH_ELEMAX = 64;
-    /* sub elements limit */
-    public static final int MH_HARDMAX = 64;
-    /* hardware functions limit */
+    public static final int MH_SBITS = 8;/* sub element bank size */
+    public static final int MH_PBITS = 8;/* port current element size */
+    public static final int MH_ELEMAX = 64;/* sub elements limit */
+    public static final int MH_HARDMAX = 64;/* hardware functions limit */
 
  /* 16 bits address */
     public static final int ABITS1_16 = 12;
     public static final int ABITS2_16 = 4;
-    public static final int ABITS_MIN_16 = 0;
-
-    /* minimum memory block is 1 byte */
+    public static final int ABITS_MIN_16 = 0;/* minimum memory block is 1 byte */
  /*TODO*////* 16 bits address (little endian word access) */
 /*TODO*///#define ABITS1_16LEW	12
 /*TODO*///#define ABITS2_16LEW	3
-/*TODO*///#define ABITS_MIN_16LEW 1			/* minimum memory block is 2 bytes */
+/*TODO*///#define ABITS_MIN_16LEW	1			/* minimum memory block is 2 bytes */
 /*TODO*////* 16 bits address (big endian word access) */
 /*TODO*///#define ABITS1_16BEW	12
 /*TODO*///#define ABITS2_16BEW	3
-/*TODO*///#define ABITS_MIN_16BEW 1			/* minimum memory block is 2 bytes */
-/*TODO*////* 20 bits address */
+/*TODO*///#define ABITS_MIN_16BEW	1			/* minimum memory block is 2 bytes */
+/* 20 bits address */
     public static final int ABITS1_20 = 12;
     public static final int ABITS2_20 = 8;
-    public static final int ABITS_MIN_20 = 0;
-    /* minimum memory block is 1 byte */
+    public static final int ABITS_MIN_20 = 0;/* minimum memory block is 1 byte */
  /* 21 bits address */
     public static final int ABITS1_21 = 13;
     public static final int ABITS2_21 = 8;
-    public static final int ABITS_MIN_21 = 0;
-
-    /* minimum memory block is 1 byte */
- /*TODO*////* 24 bits address (word access - byte granularity) */
-    public static final int ABITS1_24 = 16;
+    public static final int ABITS_MIN_21 = 0;/* minimum memory block is 1 byte */
+ /* 24 bits address (word access) */
+    public static final int ABITS1_24 = 15;
     public static final int ABITS2_24 = 8;
-    public static final int ABITS_MIN_24 = 0;
-
-    /* minimum memory block is 1 byte */
- /*TODO*////* 24 bits address (big endian - word access) */
-/*TODO*///#define ABITS1_24BEW	15
-/*TODO*///#define ABITS2_24BEW	8
-/*TODO*///#define ABITS_MIN_24BEW 1			/* minimum memory block is 2 bytes */
-/*TODO*////* 26 bits address (little endian - dword access) */
-/*TODO*///#define ABITS1_26LEW	14
-/*TODO*///#define ABITS2_26LEW	10
-/*TODO*///#define ABITS_MIN_26LEW 2			/* minimum memory block is 4 bytes */
-/*TODO*////* 29 bits address (dword access) */
+    public static final int ABITS_MIN_24 = 1;/* minimum memory block is 2 bytes */
+ /*TODO*////* 29 bits address (dword access) */
 /*TODO*///#define ABITS1_29		19
 /*TODO*///#define ABITS2_29		8
 /*TODO*///#define ABITS_MIN_29	2			/* minimum memory block is 4 bytes */
@@ -381,13 +303,9 @@ public class memoryH {
 /*TODO*///#define ABITS1_32		23
 /*TODO*///#define ABITS2_32		8
 /*TODO*///#define ABITS_MIN_32	1			/* minimum memory block is 2 bytes */
-/*TODO*////* 32 bits address (little endian dword access) */
-/*TODO*///#define ABITS1_32LEW	23
-/*TODO*///#define ABITS2_32LEW	8
-/*TODO*///#define ABITS_MIN_32LEW 1			/* minimum memory block is 2 bytes */
-/*TODO*////* mask bits */
+    /* mask bits */
     public static int MHMASK(int abits) {
-        /*TODO*///probably return unsigned??(shadow)
+
         return (0xffffffff >>> (32 - abits));
     }
 
@@ -395,46 +313,26 @@ public class memoryH {
 /*TODO*///
 /*TODO*////***************************************************************************
 /*TODO*///
-/*TODO*///	Global variables
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///
-/*TODO*///typedef unsigned char MHELE;
-/*TODO*///
-/*TODO*///extern MHELE ophw;						/* opcode handler */
-/*TODO*///extern MHELE *cur_mrhard;				/* current set of read handlers */
-/*TODO*///extern MHELE *cur_mwhard;				/* current set of write handlers */
-/*TODO*///
-/*TODO*///extern unsigned char *OP_RAM;			/* opcode RAM base */
-/*TODO*///extern unsigned char *OP_ROM;			/* opcode ROM base */
-/*TODO*///extern unsigned char *cpu_bankbase[];	/* array of bank bases */
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
 /*TODO*///	Macros
 /*TODO*///
 /*TODO*///***************************************************************************/
 /*TODO*///
-/*TODO*////* ----- 16-bit memory accessing ----- */
-/*TODO*///#define READ_WORD(a)		  (*(UINT16 *)(a))
-/*TODO*///#define WRITE_WORD(a,d) 	  (*(UINT16 *)(a) = (d))
-/*TODO*///#define COMBINE_WORD(w,d)	  (((w) & ((d) >> 16)) | ((d) & 0xffff))
+    /* ----- 16-bit memory accessing ----- */
+ /*TODO*///#define COMBINE_WORD(w,d)     (((w) & ((d) >> 16)) | ((d) & 0xffff))
 /*TODO*///#define COMBINE_WORD_MEM(a,d) (WRITE_WORD((a), (READ_WORD(a) & ((d) >> 16)) | (d)))
-/*TODO*///
+
     /* ----- opcode reading ----- */
     public static char cpu_readop(int A) {
         return OP_ROM.read(A);
     }
 
-    /*TODO*///#define cpu_readop16(A) 	READ_WORD(&OP_ROM[A])
+    /*TODO*///#define cpu_readop16(A)		READ_WORD(&OP_ROM[A])
     public static char cpu_readop_arg(int A) {
         return OP_RAM.read(A);
     }
 
-    /*TODO*///#define cpu_readop_arg16(A) READ_WORD(&OP_RAM[A])
-
+    /*TODO*///#define cpu_readop_arg16(A)	READ_WORD(&OP_RAM[A])
+/*TODO*///
     /* ----- bank switching for CPU cores ----- */
     public static void change_pc_generic(int pc, int abits2, int abitsmin, int shift, setopbase setop) {
         if (u8_cur_mrhard[pc >>> (abits2 + abitsmin + shift)] != u8_ophw) {
@@ -450,25 +348,18 @@ public class memoryH {
         change_pc_generic(pc, ABITS2_16, ABITS_MIN_16, 0, cpu_setOPbase16);
     }
 
-    /*TODO*///#define change_pc16bew(pc)	 change_pc_generic(pc, ABITS2_16BEW, ABITS_MIN_16BEW, 0, cpu_setOPbase16bew)
-/*TODO*///#define change_pc16lew(pc)	 change_pc_generic(pc, ABITS2_16LEW, ABITS_MIN_16LEW, 0, cpu_setOPbase16lew)
-    public static void change_pc20(int pc) {
-        change_pc_generic(pc, ABITS2_20, ABITS_MIN_20, 0, cpu_setOPbase20);
+    /*TODO*///#define change_pc16bew(pc)	change_pc_generic(pc, ABITS2_16BEW, ABITS_MIN_16BEW, 0, cpu_setOPbase16bew)
+/*TODO*///#define change_pc16lew(pc)	change_pc_generic(pc, ABITS2_16LEW, ABITS_MIN_16LEW, 0, cpu_setOPbase16lew)
+/*TODO*///#define change_pc20(pc)		change_pc_generic(pc, ABITS2_20, ABITS_MIN_20, 0, cpu_setOPbase20)
+/*TODO*///#define change_pc21(pc)		change_pc_generic(pc, ABITS2_21, ABITS_MIN_21, 0, cpu_setOPbase21)
+/*TODO*///#define change_pc24(pc)		change_pc_generic(pc, ABITS2_24, ABITS_MIN_24, 0, cpu_setOPbase24)
+/*TODO*///#define change_pc29(pc)		change_pc_generic(pc, ABITS2_29, ABITS_MIN_29, 3, cpu_setOPbase29)
+/*TODO*///#define change_pc32(pc)		change_pc_generic(pc, ABITS2_32, ABITS_MIN_32, 0, cpu_setOPbase32)
+/*TODO*///
+/* ----- for use OPbaseOverride driver, request override callback to next cpu_setOPbase ----- */
+    public static void catch_nextBranch() {
+        u8_ophw = 0xff;
     }
-
-    /*TODO*///#define change_pc21(pc) 	 change_pc_generic(pc, ABITS2_21, ABITS_MIN_21, 0, cpu_setOPbase21)
-    public static void change_pc24(int pc) {
-        change_pc_generic(pc, ABITS2_24, ABITS_MIN_24, 0, cpu_setOPbase24);
-    }
-
-    /*TODO*///#define change_pc24bew(pc)	 change_pc_generic(pc, ABITS2_24BEW, ABITS_MIN_24BEW, 0, cpu_setOPbase24bew)
-/*TODO*///#define change_pc26lew(pc)	 change_pc_generic(pc, ABITS2_26LEW, ABITS_MIN_26LEW, 0, cpu_setOPbase26lew)
-/*TODO*///#define change_pc29(pc)      change_pc_generic(pc, ABITS2_29, ABITS_MIN_29, 3, cpu_setOPbase29)
-/*TODO*///#define change_pc32(pc) 	 change_pc_generic(pc, ABITS2_32, ABITS_MIN_32, 0, cpu_setOPbase32)
-/*TODO*///#define change_pc32lew(pc)	 change_pc_generic(pc, ABITS2_32LEW, ABITS_MIN_32LEW, 0, cpu_setOPbase32lew)
-
-    /* ----- for use OPbaseOverride driver, request override callback to next cpu_setOPbase ----- */
-    public static void catch_nextBranch(){ u8_ophw = 0xff; }
 
     /* -----  bank switching macro ----- */
     public static void cpu_setbank(int bank, UBytePtr _base) {
@@ -480,4 +371,5 @@ public class memoryH {
             }
         }
     }
+
 }

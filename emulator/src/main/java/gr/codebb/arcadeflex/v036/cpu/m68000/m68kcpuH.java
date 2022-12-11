@@ -7,7 +7,7 @@ import static gr.codebb.arcadeflex.v036.cpu.m68000.m68kH.*;
 import static gr.codebb.arcadeflex.v036.cpu.m68000.m68kcpu.*;
 import static gr.codebb.arcadeflex.v036.cpu.m68000.m68kmameH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.change_pc24;
+import static gr.codebb.arcadeflex.v036.mame.memoryH.change_pc24;
 
 public class m68kcpuH {
     /*TODO*////* Check if we have certain storage sizes */

@@ -16,6 +16,7 @@ import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 //sndhrdw imports
 import static arcadeflex.v036.sndhrdw.scramble.*;
 //sound imports
@@ -25,9 +26,7 @@ import static arcadeflex.v036.sound.ay8910H.*;
 import static arcadeflex.v036.vidhrdw.amidar.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 
 public class amidar {

@@ -20,7 +20,7 @@ import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
-import static gr.codebb.arcadeflex.v037b7.mame.memoryH.cpu_setbank;
+import static arcadeflex.v036.mame.memoryH.cpu_setbank;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 
 public class superqix {
