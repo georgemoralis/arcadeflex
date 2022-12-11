@@ -45,78 +45,7 @@ import gr.codebb.arcadeflex.v037b7.sound._2612intf;
 import gr.codebb.arcadeflex.v037b7.sound.rf5c68;
 
 public class sndintrf {
-    static int cleared_value = 0x00;
-    
-    static int latch,read_debug;
 
-    public static TimerCallbackHandlerPtr soundlatch_callback = new TimerCallbackHandlerPtr(){ public void handler(int param){
-        if (errorlog!=null && read_debug == 0 && latch != param)
-    	fprintf(errorlog,"Warning: sound latch written before being read. Previous: %02x, new: %02x\n",latch,param);
-    	latch = param;
-    	read_debug = 0;
-    }};
-    public static WriteHandlerPtr soundlatch_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-    {
-
-    	/* make all the CPUs synchronize, and only AFTER that write the new command to the latch */
-    	timer_set(TIME_NOW,data,soundlatch_callback);
-    }};
-    public static ReadHandlerPtr soundlatch_r = new ReadHandlerPtr() { public int handler(int offset)
-    {
-        read_debug = 1;
-        return latch;
-    }};
-    public static WriteHandlerPtr soundlatch_clear_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-    {
-        latch = cleared_value;
-    }};
-    
-    static int latch2,read_debug2;
-    
-    public static TimerCallbackHandlerPtr soundlatch2_callback = new TimerCallbackHandlerPtr(){ public void handler(int param){
-        if (errorlog!=null && read_debug2 == 0 && latch2 != param)
-    	fprintf(errorlog,"Warning: sound latch 2 written before being read. Previous: %02x, new: %02x\n",latch2,param);
-    	latch2 = param;
-    	read_debug2 = 0;
-    }};
-    public static WriteHandlerPtr soundlatch2_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-    {
-
-    	/* make all the CPUs synchronize, and only AFTER that write the new command to the latch */
-    	timer_set(TIME_NOW,data,soundlatch2_callback);
-    }};
-    public static ReadHandlerPtr soundlatch2_r = new ReadHandlerPtr() { public int handler(int offset)
-    {
-        read_debug2 = 1;
-        return latch2;
-    }};
-    /*TODO*////*TODO*///void soundlatch2_clear_w(int offset, int data)
-    /*TODO*////*TODO*///{
-    /*TODO*////*TODO*///	latch2 = cleared_value;
-    /*TODO*////*TODO*///}
-    /*TODO*////*TODO*///
-    /*TODO*////*TODO*///
-    static int latch3,read_debug3;
-    
-    static TimerCallbackHandlerPtr soundlatch3_callback = new TimerCallbackHandlerPtr(){ public void handler(int param){
-        if (errorlog!=null && read_debug3 == 0 && latch3 != param)
-            fprintf(errorlog,"Warning: sound latch 3 written before being read. Previous: %02x, new: %02x\n",latch3,param);
-    	latch3 = param;
-    	read_debug3 = 0;
-    }};
-    
-    public static WriteHandlerPtr soundlatch3_w = new WriteHandlerPtr() { public void handler(int offset, int data)
-    {
-    	/* make all the CPUs synchronize, and only AFTER that write the new command to the latch */
-    	timer_set(TIME_NOW,data,soundlatch3_callback);
-    }};
-    
-    public static ReadHandlerPtr soundlatch3_r = new ReadHandlerPtr() { public int handler(int offset)
-    {
-    	read_debug3 = 1;
-    	return latch3;
-    }};
-    
     /*TODO*////*TODO*///void soundlatch3_clear_w(int offset, int data)
     /*TODO*////*TODO*///{
     /*TODO*////*TODO*///	latch3 = cleared_value;

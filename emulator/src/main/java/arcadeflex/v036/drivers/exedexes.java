@@ -10,6 +10,7 @@ import static arcadeflex.v036.drivers._1942.*;
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
+import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 //sound imports
 import static arcadeflex.v036.sound.ay8910.*;

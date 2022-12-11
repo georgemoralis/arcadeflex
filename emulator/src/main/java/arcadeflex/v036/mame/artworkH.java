@@ -5,8 +5,7 @@ package arcadeflex.v036.mame;
 
 //mame imports
 import static arcadeflex.v036.mame.osdependH.*;
-//TODO
-import arcadeflex.v036.mame.drawgfxH.rectangle;
+import static arcadeflex.v036.mame.drawgfxH.*;
 
 public class artworkH {
 

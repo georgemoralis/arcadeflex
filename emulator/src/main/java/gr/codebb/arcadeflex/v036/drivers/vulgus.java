@@ -14,10 +14,10 @@ import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.drivers._1942.*;
 import static arcadeflex.v036.vidhrdw.vulgus.*;
 

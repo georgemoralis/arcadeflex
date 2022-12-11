@@ -46,6 +46,7 @@ import static arcadeflex.v036.sound._2203intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
 import gr.codebb.arcadeflex.v037b7.sound.okim6295H.OKIM6295interface;
 import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 
 public class madmotor

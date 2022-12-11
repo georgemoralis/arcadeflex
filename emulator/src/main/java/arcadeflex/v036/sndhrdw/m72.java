@@ -10,11 +10,11 @@ import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
+import static arcadeflex.v036.mame.sndintrf.*;
 //TODO
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_irq_line_vector_w;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_w;
 import static arcadeflex.v036.sound.dac.DAC_signed_data_w;
 
 public class m72 {

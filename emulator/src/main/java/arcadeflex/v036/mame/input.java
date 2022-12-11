@@ -4,12 +4,15 @@
  */
 package arcadeflex.v036.mame;
 
-import static common.libc.cstring.*;
+//mame imports
 import static arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.platform.input.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static arcadeflex.v036.mame.inptport.*;
+//common imports
+import static common.libc.cstring.*;
+//TODO
+import static gr.codebb.arcadeflex.v036.platform.input.*;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 
 public class input {

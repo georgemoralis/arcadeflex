@@ -9,6 +9,7 @@ import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrf.*;
 //sndhrdw imports
 import static arcadeflex.v036.sndhrdw.cclimber.*;
 //sound imports
