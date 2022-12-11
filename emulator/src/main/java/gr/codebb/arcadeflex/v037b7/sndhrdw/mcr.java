@@ -13,6 +13,7 @@
 package gr.codebb.arcadeflex.v037b7.sndhrdw;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.v036.cpu.m6800.m6800H.M6800_IRQ_LINE;
 import static gr.codebb.arcadeflex.v036.machine._6812piaH.*;

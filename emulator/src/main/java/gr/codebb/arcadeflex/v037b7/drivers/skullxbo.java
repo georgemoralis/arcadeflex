@@ -58,6 +58,7 @@ RAM                                FF4000-FFFFFF  R/W
 package gr.codebb.arcadeflex.v037b7.drivers;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static gr.codebb.arcadeflex.v036.mame.common.*;

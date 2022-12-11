@@ -15,6 +15,7 @@ package gr.codebb.arcadeflex.v036.machine;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;

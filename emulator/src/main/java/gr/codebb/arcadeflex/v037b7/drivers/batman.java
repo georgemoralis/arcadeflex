@@ -14,7 +14,7 @@ package gr.codebb.arcadeflex.v037b7.drivers;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static common.libc.cstring.memcpy;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
@@ -32,7 +32,6 @@ import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 
-import static gr.codebb.arcadeflex.v037b7.sndhrdw.atarijsaH.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.atarijsa.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.batman.*;
 

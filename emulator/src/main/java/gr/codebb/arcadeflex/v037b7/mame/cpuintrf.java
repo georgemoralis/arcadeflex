@@ -51,6 +51,8 @@ import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
 import gr.codebb.arcadeflex.v037b7.cpu.i8085.i8080;
 import gr.codebb.arcadeflex.v037b7.cpu.i8085.i8085;
 import arcadeflex.v036.cpu.s2650.s2650;
+import static arcadeflex.v036.mame.cpuintrf.cpu_timedintcallback;
+import static arcadeflex.v036.mame.cpuintrf.cpu_vblankintcallback;
 
 public class cpuintrf {
 
@@ -80,7 +82,7 @@ public class cpuintrf {
         public int[] filler;//UINT8 filler[CPUINFO_ALIGN];	/* make the array aligned to next power of 2 */
     }
 
-    static ArrayList<cpuinfo> cpu = new ArrayList<cpuinfo>();
+    public static ArrayList<cpuinfo> cpu = new ArrayList<cpuinfo>();
 
     public static int activecpu, totalcpu;
     static int cycles_running;/* number of cycles that the CPU emulation was requested to run (needed by cpu_getfcount) */
@@ -596,16 +598,7 @@ public class cpuintrf {
         have_to_reset = 1;
     }
 
-    /**
-     * *************************************************************************
-     *
-     * Use this function to reset a specified CPU immediately
-     *
-     **************************************************************************
-     */
-    public static void cpu_set_reset_line(int cpunum, int state) {
-        timer_set(TIME_NOW, (cpunum & 7) | (state << 3), cpu_resetcallback);
-    }
+
 
     /**
      * *************************************************************************
@@ -1005,88 +998,6 @@ public class cpuintrf {
         }
         //LOG(("cpu_irq_line_vector_w CPU#%d irqline %d > max irq lines\n", cpunum, irqline));
     }
-    /**
-     * *************************************************************************
-     * Use these functions to set the vector (data) for a irq line (offset) of
-     * CPU #0 to #3
-     * *************************************************************************
-     */
-    public static WriteHandlerPtr cpu_0_irq_line_vector_w = new WriteHandlerPtr() {
-        public void handler(int offset, int data) {
-            cpu_irq_line_vector_w(0, offset, data);
-        }
-    };
-    public static WriteHandlerPtr cpu_1_irq_line_vector_w = new WriteHandlerPtr() {
-        public void handler(int offset, int data) {
-            cpu_irq_line_vector_w(1, offset, data);
-        }
-    };
-    public static WriteHandlerPtr cpu_2_irq_line_vector_w = new WriteHandlerPtr() {
-        public void handler(int offset, int data) {
-            cpu_irq_line_vector_w(2, offset, data);
-        }
-    };
-    public static WriteHandlerPtr cpu_3_irq_line_vector_w = new WriteHandlerPtr() {
-        public void handler(int offset, int data) {
-            cpu_irq_line_vector_w(3, offset, data);
-        }
-    };
-    public static WriteHandlerPtr cpu_4_irq_line_vector_w = new WriteHandlerPtr() {
-        public void handler(int offset, int data) {
-            cpu_irq_line_vector_w(4, offset, data);
-        }
-    };
-    public static WriteHandlerPtr cpu_5_irq_line_vector_w = new WriteHandlerPtr() {
-        public void handler(int offset, int data) {
-            cpu_irq_line_vector_w(5, offset, data);
-        }
-    };
-    public static WriteHandlerPtr cpu_6_irq_line_vector_w = new WriteHandlerPtr() {
-        public void handler(int offset, int data) {
-            cpu_irq_line_vector_w(6, offset, data);
-        }
-    };
-    public static WriteHandlerPtr cpu_7_irq_line_vector_w = new WriteHandlerPtr() {
-        public void handler(int offset, int data) {
-            cpu_irq_line_vector_w(7, offset, data);
-        }
-    };
-
-    /**
-     * *************************************************************************
-     * Use this function to set the state the NMI line of a CPU
-     * *************************************************************************
-     */
-    public static void cpu_set_nmi_line(int cpunum, int state) {
-        /* don't trigger interrupts on suspended CPUs */
-        if (cpu_getstatus(cpunum) == 0) {
-            return;
-        }
-
-        logerror("cpu_set_nmi_line(%d,%d)\n", cpunum, state);
-        timer_set(TIME_NOW, (cpunum & 7) | (state << 3), cpu_manualnmicallback);
-    }
-
-    /**
-     * *************************************************************************
-     * Use this function to set the state of an IRQ line of a CPU The meaning of
-     * irqline varies between the different CPU types
-     * *************************************************************************
-     */
-    public static void cpu_set_irq_line(int cpunum, int irqline, int state) {
-        /* don't trigger interrupts on suspended CPUs */
-        if (cpu_getstatus(cpunum) == 0) {
-            return;
-        }
-
-        logerror("cpu_set_irq_line(%d,%d,%d)\n", cpunum, irqline, state);
-        timer_set(TIME_NOW, (irqline & 7) | ((cpunum & 7) << 3) | (state << 6), cpu_manualirqcallback);
-    }
-
-
-
-
-
 
     public static InterruptHandlerPtr m68_level1_irq = new InterruptHandlerPtr() {
         public int handler() {
@@ -1369,7 +1280,7 @@ public class cpuintrf {
 /*TODO*///	cpu_internal_interrupt(cpunum, type);
 /*TODO*///}
 /*TODO*///
-    static void cpu_generate_interrupt(int cpunum, InterruptHandlerPtr func, int num) {
+    public static void cpu_generate_interrupt(int cpunum, InterruptHandlerPtr func, int num) {
         int oldactive = activecpu;
 
         /* don't trigger interrupts on suspended CPUs */
@@ -1794,7 +1705,7 @@ public class cpuintrf {
 
     }
 
-    static void cpu_clear_interrupts(int cpunum) {
+    public static void cpu_clear_interrupts(int cpunum) {
         int oldactive = activecpu;
         int i;
 
@@ -1823,7 +1734,7 @@ public class cpuintrf {
         }
     }
 
-    static void cpu_reset_cpu(int cpunum) {
+    public static void cpu_reset_cpu(int cpunum) {
         int oldactive = activecpu;
 
         /* swap to the CPU's context */
@@ -1847,73 +1758,6 @@ public class cpuintrf {
             memorycontextswap(activecpu);
         }
     }
-
-    /**
-     * *************************************************************************
-     * Interrupt callback. This is called once per CPU interrupt by either the
-     * VBLANK handler or by the CPU's own timer directly, depending on whether
-     * or not the CPU's interrupts are synced to VBLANK.
-     * *************************************************************************
-     */
-    public static void cpu_vblankintcallback(int param) {
-        if (Machine.drv.cpu[param].vblank_interrupt != null) {
-            cpu_generate_interrupt(param, Machine.drv.cpu[param].vblank_interrupt, 0);
-        }
-
-        /* update the counters */
-        cpu.get(param).iloops--;
-    }
-
-    public static TimerCallbackHandlerPtr cpu_timedintcallback = new TimerCallbackHandlerPtr() {
-        public void handler(int param) {
-            /* bail if there is no routine */
-            if (Machine.drv.cpu[param].timed_interrupt == null) {
-                return;
-            }
-
-            /* generate the interrupt */
-            cpu_generate_interrupt(param, Machine.drv.cpu[param].timed_interrupt, 0);
-        }
-    };
-
-    public static TimerCallbackHandlerPtr cpu_manualintcallback = new TimerCallbackHandlerPtr() {
-        public void handler(int param) {
-            int intnum = param >> 3;
-            int cpunum = param & 7;
-
-            /* generate the interrupt */
-            cpu_generate_interrupt(cpunum, null, intnum);
-        }
-    };
-
-    public static TimerCallbackHandlerPtr cpu_clearintcallback = new TimerCallbackHandlerPtr() {
-        public void handler(int param) {
-            /* clear the interrupts */
-            cpu_clear_interrupts(param);
-        }
-    };
-
-    public static TimerCallbackHandlerPtr cpu_resetcallback = new TimerCallbackHandlerPtr() {
-        public void handler(int param) {
-            int state = param >> 3;
-            int cpunum = param & 7;
-
-            /* reset the CPU */
-            if (state == PULSE_LINE) {
-                cpu_reset_cpu(cpunum);
-            } else if (state == ASSERT_LINE) {
-                /* ASG - do we need this?		cpu_reset_cpu(cpunum);*/
-                timer_suspendcpu(cpunum, 1, SUSPEND_REASON_RESET);/* halt cpu */
-
-            } else if (state == CLEAR_LINE) {
-                if (timer_iscpususpended(cpunum, SUSPEND_REASON_RESET) != 0) {
-                    cpu_reset_cpu(cpunum);
-                }
-                timer_suspendcpu(cpunum, 0, SUSPEND_REASON_RESET);/* restart cpu */
-
-            }
-        }
-    };
 
     public static TimerCallbackHandlerPtr cpu_haltcallback = new TimerCallbackHandlerPtr() {
         public void handler(int param) {

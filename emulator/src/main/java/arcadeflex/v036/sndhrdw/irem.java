@@ -7,9 +7,9 @@ package arcadeflex.v036.sndhrdw;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 //TODO
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;

@@ -126,6 +126,7 @@ import static arcadeflex.v036.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.atarijsa.*;

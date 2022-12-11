@@ -60,8 +60,7 @@ public class bankp {
 
     static InputPortHandlerPtr input_ports_bankp = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();
-            /* IN0 */
+            PORT_START();/* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_UNKNOWN);/* probably unused */
 
@@ -74,8 +73,7 @@ public class bankp {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_BUTTON2);
 
-            PORT_START();
-            /* IN1 */
+            PORT_START();/* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_UNKNOWN);/* probably unused */
 
@@ -88,16 +86,14 @@ public class bankp {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_START2);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_BUTTON2 | IPF_COCKTAIL);
 
-            PORT_START();
-            /* IN2 */
+            PORT_START();/* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_BUTTON3);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_BUTTON3 | IPF_COCKTAIL);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_COIN3);
             PORT_BIT(0xf8, IP_ACTIVE_HIGH, IPT_UNKNOWN);/* probably unused */
 
-            PORT_START();
-            /* DSW */
+            PORT_START();/* DSW */
 
             PORT_DIPNAME(0x03, 0x00, "Coin A/B");
             PORT_DIPSETTING(0x03, DEF_STR("3C_1C"));
@@ -217,14 +213,9 @@ public class bankp {
             ROM_LOAD("epr6167.bin", 0xa000, 0x2000, 0x3fa337e1);
 
             ROM_REGION(0x0220, REGION_PROMS);
-            ROM_LOAD("pr6177.clr", 0x0000, 0x020, 0xeb70c5ae);
-            /* palette */
-
-            ROM_LOAD("pr6178.clr", 0x0020, 0x100, 0x0acca001);
-            /* charset #1 lookup table */
-
-            ROM_LOAD("pr6179.clr", 0x0120, 0x100, 0xe53bafdb);
-            /* charset #2 lookup table */
+            ROM_LOAD("pr6177.clr", 0x0000, 0x020, 0xeb70c5ae);/* palette */
+            ROM_LOAD("pr6178.clr", 0x0020, 0x100, 0x0acca001);/* charset #1 lookup table */
+            ROM_LOAD("pr6179.clr", 0x0120, 0x100, 0xe53bafdb);/* charset #2 lookup table */
 
             ROM_END();
         }

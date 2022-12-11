@@ -17,6 +17,7 @@ import static arcadeflex.v036.generic.funcPtr.*;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static common.libc.cstring.memcpy;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.driverH.*;

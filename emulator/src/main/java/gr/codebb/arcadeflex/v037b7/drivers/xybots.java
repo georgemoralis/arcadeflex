@@ -47,6 +47,7 @@ import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.atarijsa.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.atarijsaH.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
 

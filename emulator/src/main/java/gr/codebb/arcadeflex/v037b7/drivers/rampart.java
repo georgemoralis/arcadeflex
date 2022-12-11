@@ -16,6 +16,7 @@ package gr.codebb.arcadeflex.v037b7.drivers;
 import static arcadeflex.v036.generic.funcPtr.*;
 import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static common.libc.cstring.memcpy;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;

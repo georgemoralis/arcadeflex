@@ -15,6 +15,7 @@ Additional tweaking by Jarek Burczynski
 package gr.codebb.arcadeflex.v037b7.drivers;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.cpu.m68000.m68000H.MC68000_IRQ_1;

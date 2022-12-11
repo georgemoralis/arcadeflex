@@ -80,6 +80,7 @@ import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.inputH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.arcadecl.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;

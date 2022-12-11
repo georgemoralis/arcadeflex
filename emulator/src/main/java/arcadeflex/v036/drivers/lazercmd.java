@@ -9,6 +9,7 @@ import static arcadeflex.v036.cpu.s2650.s2650H.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.lazercmd.*;

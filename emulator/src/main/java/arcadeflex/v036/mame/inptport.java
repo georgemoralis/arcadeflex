@@ -5,6 +5,8 @@ package arcadeflex.v036.mame;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.cpuintrf.*;
 
 import java.util.HashMap;
 import static arcadeflex.v036.mame.inptportH.*;

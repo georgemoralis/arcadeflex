@@ -12,7 +12,6 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_get_pc;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_set_reset_line;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_spin;
 import static arcadeflex.v036.mame.cpuintrfH.ASSERT_LINE;
 import static arcadeflex.v036.mame.cpuintrfH.CLEAR_LINE;
