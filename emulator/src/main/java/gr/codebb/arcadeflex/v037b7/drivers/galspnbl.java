@@ -12,6 +12,7 @@ import static arcadeflex.v036.mame.inptportH.*;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_r;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.soundlatch_w;
 import arcadeflex.v036.mame.sndintrfH.MachineSound;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.SOUND_OKIM6295;
 import static arcadeflex.v036.mame.sndintrfH.SOUND_YM3812;
 import static arcadeflex.v036.vidhrdw.generic.*;

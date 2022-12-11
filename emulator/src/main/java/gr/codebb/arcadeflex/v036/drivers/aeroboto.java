@@ -13,6 +13,7 @@ Driver by Carlos A. Lozano
 package gr.codebb.arcadeflex.v036.drivers;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static common.libc.cstdlib.rand;
 import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;

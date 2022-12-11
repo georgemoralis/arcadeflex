@@ -30,7 +30,7 @@ import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.interrupt;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.inptportH.*;

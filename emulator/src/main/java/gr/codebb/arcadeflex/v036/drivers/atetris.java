@@ -48,6 +48,7 @@ import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.vidhrdw.atetris.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static arcadeflex.v036.mame.inputH.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static arcadeflex.v036.mame.sndintrfH.SOUND_POKEY;

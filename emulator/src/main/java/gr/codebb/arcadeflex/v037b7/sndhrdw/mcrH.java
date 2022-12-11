@@ -5,6 +5,7 @@ import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.mcr.ssio_readmem;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.mcr.ssio_writemem;
 import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.mcr.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.sndhrdw.mcr.csdeluxe_readmem;

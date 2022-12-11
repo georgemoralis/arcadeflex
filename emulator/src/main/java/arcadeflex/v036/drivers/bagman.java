@@ -9,6 +9,7 @@ import static arcadeflex.v036.generic.funcPtr.*;
 //machine imports
 import static arcadeflex.v036.machine.bagman.*;
 //mame imports
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.common.*;

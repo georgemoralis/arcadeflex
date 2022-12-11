@@ -10,6 +10,7 @@ import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.cstdlib.rand;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static common.libc.cstring.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;

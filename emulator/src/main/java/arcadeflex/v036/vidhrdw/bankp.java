@@ -8,6 +8,7 @@ package arcadeflex.v036.vidhrdw;
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 //common imports
@@ -19,7 +20,6 @@ import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 
 public class bankp {
 

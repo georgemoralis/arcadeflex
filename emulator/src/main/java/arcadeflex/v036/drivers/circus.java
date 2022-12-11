@@ -6,6 +6,8 @@ package arcadeflex.v036.drivers;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.cpuintrf.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.circus.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
@@ -23,7 +25,6 @@ import static arcadeflex.v036.mame.sndintrfH.SOUND_DAC;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.sizeof;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.ignore_interrupt;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.interrupt;
 import arcadeflex.v036.mame.drawgfxH.GfxDecodeInfo;
 import arcadeflex.v036.mame.drawgfxH.GfxLayout;
 import arcadeflex.v036.mame.drawgfxH.rectangle;

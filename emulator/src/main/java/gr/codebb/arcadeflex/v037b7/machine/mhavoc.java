@@ -14,6 +14,7 @@ import static gr.codebb.arcadeflex.v037b7.cpu.m6502.m6502H.M6502_INT_NMI;
 import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.vidhrdw.avgdvg.*;
 
 public class mhavoc {

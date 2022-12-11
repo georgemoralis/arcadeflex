@@ -7,6 +7,7 @@ package arcadeflex.v036.drivers;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.common.*;
 //sndhrdw imports

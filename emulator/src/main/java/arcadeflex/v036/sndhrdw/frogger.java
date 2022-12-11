@@ -5,8 +5,9 @@ package arcadeflex.v036.sndhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.cpuintrf.*;
 //TODO
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_cause_interrupt;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_gettotalcycles;
 
 public class frogger {

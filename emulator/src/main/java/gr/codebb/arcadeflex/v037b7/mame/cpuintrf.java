@@ -82,13 +82,13 @@ public class cpuintrf {
 
     static ArrayList<cpuinfo> cpu = new ArrayList<cpuinfo>();
 
-    static int activecpu, totalcpu;
+    public static int activecpu, totalcpu;
     static int cycles_running;/* number of cycles that the CPU emulation was requested to run (needed by cpu_getfcount) */
 
     static int have_to_reset;
 
-    static int[] interrupt_enable = new int[MAX_CPU];
-    static int[] interrupt_vector = new int[MAX_CPU];
+    public static int[] interrupt_enable = new int[MAX_CPU];
+    public static int[] interrupt_vector = new int[MAX_CPU];
 
     static int[] irq_line_state = new int[MAX_CPU * MAX_IRQ_LINES];
     static int[] irq_line_vector = new int[MAX_CPU * MAX_IRQ_LINES];
@@ -173,15 +173,15 @@ public class cpuintrf {
         return cpu.get(index).intf.icount[0];
     }
 
-    static int INT_TYPE_NONE(int index) {
+    public static int INT_TYPE_NONE(int index) {
         return cpu.get(index).intf.no_int;
     }
 
-    static int INT_TYPE_IRQ(int index) {
+    public static int INT_TYPE_IRQ(int index) {
         return cpu.get(index).intf.irq_int;
     }
 
-    static int INT_TYPE_NMI(int index) {
+    public static int INT_TYPE_NMI(int index) {
         return cpu.get(index).intf.nmi_int;
     }
 
@@ -1083,78 +1083,10 @@ public class cpuintrf {
         timer_set(TIME_NOW, (irqline & 7) | ((cpunum & 7) << 3) | (state << 6), cpu_manualirqcallback);
     }
 
-    /**
-     * *************************************************************************
-     * Use this function to cause an interrupt immediately (don't have to wait
-     * until the next call to the interrupt handler)
-     * *************************************************************************
-     */
-    public static void cpu_cause_interrupt(int cpunum, int type) {
-        /* don't trigger interrupts on suspended CPUs */
-        if (cpu_getstatus(cpunum) == 0) {
-            return;
-        }
 
-        timer_set(TIME_NOW, (cpunum & 7) | (type << 3), cpu_manualintcallback);
-    }
 
-    public static void cpu_clear_pending_interrupts(int cpunum) {
-        timer_set(TIME_NOW, cpunum, cpu_clearintcallback);
-    }
 
-    public static WriteHandlerPtr interrupt_enable_w = new WriteHandlerPtr() {
-        public void handler(int offset, int data) {
-            int cpunum = (activecpu < 0) ? 0 : activecpu;
-            interrupt_enable[cpunum] = data;
 
-            /* make sure there are no queued interrupts */
-            if (data == 0) {
-                cpu_clear_pending_interrupts(cpunum);
-            }
-        }
-    };
-
-    public static WriteHandlerPtr interrupt_vector_w = new WriteHandlerPtr() {
-        public void handler(int offset, int data) {
-            int cpunum = (activecpu < 0) ? 0 : activecpu;
-            if (interrupt_vector[cpunum] != data) {
-                logerror("CPU#%d interrupt_vector_w $%02x\n", cpunum, data);
-                interrupt_vector[cpunum] = data;
-
-                /* make sure there are no queued interrupts */
-                cpu_clear_pending_interrupts(cpunum);
-            }
-        }
-    };
-
-    public static InterruptHandlerPtr interrupt = new InterruptHandlerPtr() {
-        public int handler() {
-            int cpunum = (activecpu < 0) ? 0 : activecpu;
-            int val;
-
-            if (interrupt_enable[cpunum] == 0) {
-                return INT_TYPE_NONE(cpunum);
-            }
-
-            val = INT_TYPE_IRQ(cpunum);
-            if (val == -1000) {
-                val = interrupt_vector[cpunum];
-            }
-
-            return val;
-        }
-    };
-
-    public static InterruptHandlerPtr nmi_interrupt = new InterruptHandlerPtr() {
-        public int handler() {
-            int cpunum = (activecpu < 0) ? 0 : activecpu;
-
-            if (interrupt_enable[cpunum] == 0) {
-                return INT_TYPE_NONE(cpunum);
-            }
-            return INT_TYPE_NMI(cpunum);
-        }
-    };
 
     public static InterruptHandlerPtr m68_level1_irq = new InterruptHandlerPtr() {
         public int handler() {

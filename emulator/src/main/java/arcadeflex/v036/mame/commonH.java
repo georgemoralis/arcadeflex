@@ -1,5 +1,9 @@
+/*
+ * ported to v0.36
+ */
 package arcadeflex.v036.mame;
 
+//java imports
 import java.util.ArrayList;
 
 public class commonH {
@@ -9,9 +13,8 @@ public class commonH {
         public String name;/* name of the file to load */
         public int offset;/* offset to load it to */        //UINT32!!!
         public int length;/* length of the file */          //UINT32!!!
-        public int crc;
+        public int crc;/* standard CRC-32 checksum */    //UINT32!!!
 
-        /* standard CRC-32 checksum */    //UINT32!!!
         public RomModule(String n, int o, int s) {
             name = n;
             offset = o;

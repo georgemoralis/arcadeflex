@@ -135,6 +135,7 @@ import static gr.codebb.arcadeflex.v036.cpu.m6800.hd63701.hd63701_internal_regis
 import static gr.codebb.arcadeflex.v036.cpu.m6800.hd63701.hd63701_internal_registers_w;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.sound._2151intf.*;
 import static arcadeflex.v036.sound._2151intfH.*;
 import static gr.codebb.arcadeflex.v036.sound.namco.*;

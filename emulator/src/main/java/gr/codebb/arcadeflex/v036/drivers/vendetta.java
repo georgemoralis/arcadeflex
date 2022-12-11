@@ -18,6 +18,7 @@
 package gr.codebb.arcadeflex.v036.drivers;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.common.*;
 import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static arcadeflex.v036.mame.driverH.*;

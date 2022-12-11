@@ -12,10 +12,10 @@ import static gr.codebb.arcadeflex.v037b7.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.inptportH.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.minivadr.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 
 public class minivadr {
 

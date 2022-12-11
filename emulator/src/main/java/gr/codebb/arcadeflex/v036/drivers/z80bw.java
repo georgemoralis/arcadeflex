@@ -1,4 +1,3 @@
-
 /*
  * ported to v0.36
  * using automatic conversion tool v0.07 + manual fixes
@@ -7,6 +6,8 @@ package gr.codebb.arcadeflex.v036.drivers;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.cpuintrf.*;
 //sndhrdw imports
 import static arcadeflex.v036.sndhrdw.z80bw.*;
 //vidhrdw imports
