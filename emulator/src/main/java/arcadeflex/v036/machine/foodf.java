@@ -10,12 +10,12 @@ import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
+import static arcadeflex.v036.mame.inptport.*;
 //common imports
 import static common.libc.cstring.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static arcadeflex.v036.mame.inptport.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
 
 public class foodf {

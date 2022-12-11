@@ -6,14 +6,15 @@ package arcadeflex.v036.machine;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
+import static arcadeflex.v036.mame.inptport.*;
+//TODO
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static arcadeflex.v036.mame.inptport.*;
 
 public class mappy {
 
@@ -157,7 +158,8 @@ public class mappy {
                             if (credits >= credden_1[temp]) {
                                 credits -= credden_1[temp];
                             } else {
-                                val &= ~1;	/* otherwise you can start with no credits! */
+                                val &= ~1;
+                                /* otherwise you can start with no credits! */
                             }
                         }
                         /* bit 1 is a trigger for the 2 player start */
@@ -165,7 +167,8 @@ public class mappy {
                             if (credits >= 2 * credden_1[temp]) {
                                 credits -= 2 * credden_1[temp];
                             } else {
-                                val &= ~2;	/* otherwise you can start with no credits! */
+                                val &= ~2;
+                                /* otherwise you can start with no credits! */
                             }
                         }
 

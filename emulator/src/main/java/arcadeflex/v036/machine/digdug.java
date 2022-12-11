@@ -7,15 +7,17 @@ package arcadeflex.v036.machine;
 import static arcadeflex.v036.cpu.z80.z80H.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
-import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptport.*;
-import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static arcadeflex.v036.mame.cpuintrfH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//TODO
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 

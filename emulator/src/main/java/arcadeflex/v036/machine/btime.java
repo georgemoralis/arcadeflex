@@ -1,16 +1,14 @@
-
 /*
  * ported to v0.36
  * using automatic conversion tool v0.10
- *
- *
- *
  */
 package arcadeflex.v036.machine;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
 import static arcadeflex.v036.mame.commonH.*;
+//TODO
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
