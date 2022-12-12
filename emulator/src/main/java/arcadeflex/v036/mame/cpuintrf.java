@@ -902,79 +902,67 @@ public class cpuintrf {
 /*TODO*///	SETSP(cpunum,val);
 /*TODO*///}
 /*TODO*///
-/*TODO*////* these are available externally, for the timer system */
-/*TODO*///int cycles_currently_ran(void)
-/*TODO*///{
-/*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-/*TODO*///	return cycles_running - ICOUNT(cpunum);
-/*TODO*///}
-/*TODO*///
-/*TODO*///int cycles_left_to_run(void)
-/*TODO*///{
-/*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-/*TODO*///	return ICOUNT(cpunum);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Returns the number of CPU cycles since the last reset of the CPU
-/*TODO*///
-/*TODO*///  IMPORTANT: this value wraps around in a relatively short time.
-/*TODO*///  For example, for a 6Mhz CPU, it will wrap around in
-/*TODO*///  2^32/6000000 = 716 seconds = 12 minutes.
-/*TODO*///  Make sure you don't do comparisons between values returned by this
-/*TODO*///  function, but only use the difference (which will be correct regardless
-/*TODO*///  of wraparound).
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///int cpu_gettotalcycles(void)
-/*TODO*///{
-/*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-/*TODO*///	return cpu[cpunum].totalcycles + cycles_currently_ran();
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Returns the number of CPU cycles before the next interrupt handler call
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///int cpu_geticount(void)
-/*TODO*///{
-/*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-/*TODO*///	int result = TIME_TO_CYCLES(cpunum, cpu[cpunum].vblankint_period - timer_timeelapsed(cpu[cpunum].vblankint_timer));
-/*TODO*///	return (result < 0) ? 0 : result;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Returns the number of CPU cycles before the end of the current video frame
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///int cpu_getfcount(void)
-/*TODO*///{
-/*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-/*TODO*///	int result = TIME_TO_CYCLES(cpunum, refresh_period - timer_timeelapsed(refresh_timer));
-/*TODO*///	return (result < 0) ? 0 : result;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Returns the number of CPU cycles in one video frame
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///int cpu_getfperiod(void)
-/*TODO*///{
-/*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-/*TODO*///	return TIME_TO_CYCLES(cpunum, refresh_period);
-/*TODO*///}
+    /* these are available externally, for the timer system */
+    public static int cycles_currently_ran() {
+        int cpunum = (activecpu < 0) ? 0 : activecpu;
+        return cycles_running - ICOUNT(cpunum);
+    }
+
+    public static int cycles_left_to_run() {
+        int cpunum = (activecpu < 0) ? 0 : activecpu;
+        return ICOUNT(cpunum);
+    }
+
+    /**
+     * *************************************************************************
+     * Returns the number of CPU cycles since the last reset of the CPU
+     * IMPORTANT: this value wraps around in a relatively short time. For
+     * example, for a 6Mhz CPU, it will wrap around in 2^32/6000000 = 716
+     * seconds = 12 minutes. Make sure you don't do comparisons between values
+     * returned by this function, but only use the difference (which will be
+     * correct regardless of wraparound).
+     * *************************************************************************
+     */
+    public static int cpu_gettotalcycles() {
+        int cpunum = (activecpu < 0) ? 0 : activecpu;
+        return cpu.get(cpunum).totalcycles + cycles_currently_ran();
+    }
+
+    /**
+     * *************************************************************************
+     * Returns the number of CPU cycles before the next interrupt handler call
+     * *************************************************************************
+     */
+    public static int cpu_geticount() {
+        int cpunum = (activecpu < 0) ? 0 : activecpu;
+        int result = TIME_TO_CYCLES(cpunum, cpu.get(cpunum).vblankint_period - timer_timeelapsed(cpu.get(cpunum).vblankint_timer));
+        return (result < 0) ? 0 : result;
+    }
+
+    /**
+     * *************************************************************************
+     * Returns the number of CPU cycles before the end of the current video
+     * frame
+     * *************************************************************************
+     */
+    public static int cpu_getfcount() {
+        int cpunum = (activecpu < 0) ? 0 : activecpu;
+        int result = TIME_TO_CYCLES(cpunum, refresh_period - timer_timeelapsed(refresh_timer));
+        return (result < 0) ? 0 : result;
+    }
+
+    /**
+     * *************************************************************************
+     *
+     * Returns the number of CPU cycles in one video frame
+     *
+     **************************************************************************
+     */
+    public static int cpu_getfperiod() {
+        int cpunum = (activecpu < 0) ? 0 : activecpu;
+        return TIME_TO_CYCLES(cpunum, refresh_period);
+    }
+
     /**
      * *************************************************************************
      *
@@ -1060,25 +1048,21 @@ public class cpuintrf {
         return (int) (time_since_scanline * scanline_period_inv * (double) Machine.drv.screen_width);
     }
 
+    /**
+     * *************************************************************************
+     * Returns the number of times the interrupt handler will be called before
+     * the end of the current video frame. This can be useful to interrupt
+     * handlers to synchronize their operation. If you call this from outside an
+     * interrupt handler, add 1 to the result, i.e. if it returns 0, it means
+     * that the interrupt handler will be called once.
+     * *************************************************************************
+     */
+    public static int cpu_getiloops() {
+        int cpunum = (activecpu < 0) ? 0 : activecpu;
+        return cpu.get(cpunum).iloops;
+    }
 
     /*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Returns the number of times the interrupt handler will be called before
-/*TODO*///  the end of the current video frame. This can be useful to interrupt
-/*TODO*///  handlers to synchronize their operation. If you call this from outside
-/*TODO*///  an interrupt handler, add 1 to the result, i.e. if it returns 0, it means
-/*TODO*///  that the interrupt handler will be called once.
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///int cpu_getiloops(void)
-/*TODO*///{
-/*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-/*TODO*///	return cpu[cpunum].iloops;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
 /*TODO*///
 /*TODO*///  Interrupt handling
 /*TODO*///

@@ -367,7 +367,7 @@ public class memoryH {
             cpu_bankbase[bank] = _base;
             if (u8_ophw == bank) {
                 u8_ophw = (char) 0xff;
-                cpu_set_op_base(cpu_get_pc());
+                cpu_setOPbase16.handler(cpu_get_pc());
             }
         }
     }

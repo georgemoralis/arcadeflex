@@ -85,7 +85,7 @@ public class cpuintrf {
     public static ArrayList<cpuinfo> cpu = new ArrayList<cpuinfo>();
 
     public static int activecpu, totalcpu;
-    static int cycles_running;/* number of cycles that the CPU emulation was requested to run (needed by cpu_getfcount) */
+    public static int cycles_running;/* number of cycles that the CPU emulation was requested to run (needed by cpu_getfcount) */
 
     static int have_to_reset;
 
@@ -171,7 +171,7 @@ public class cpuintrf {
     /*TODO*///#define INTERNAL_INTERRUPT(index,type)	if( cpu[index].intf->internal_interrupt ) ((*cpu[index].intf->internal_interrupt)(type))
 /*TODO*///#define CPUINFO(index,context,regnum)	((*cpu[index].intf->cpu_info)(context,regnum))
 /*TODO*///#define CPUDASM(index,buffer,pc)		((*cpu[index].intf->cpu_dasm)(buffer,pc))
-    static int ICOUNT(int index) {
+    public static int ICOUNT(int index) {
         return cpu.get(index).intf.icount[0];
     }
 
@@ -672,76 +672,14 @@ public class cpuintrf {
 /*TODO*///	SETSP(cpunum,val);
 /*TODO*///}
 /*TODO*///
-    /* these are available externally, for the timer system */
-    public static int cycles_currently_ran() {
-        int cpunum = (activecpu < 0) ? 0 : activecpu;
-        return cycles_running - ICOUNT(cpunum);
-    }
-
-    public static int cycles_left_to_run() {
-        int cpunum = (activecpu < 0) ? 0 : activecpu;
-        return ICOUNT(cpunum);
-    }
-
-    public static void cpu_set_op_base(int/*unsigned*/ val) {
-        int cpunum = (activecpu < 0) ? 0 : activecpu;
-        SET_OP_BASE(cpunum, val);
-    }
-
-    /**
-     * *************************************************************************
-     * Returns the number of CPU cycles since the last reset of the CPU
-     * <p>
-     * IMPORTANT: this value wraps around in a relatively short time. For
-     * example, for a 6Mhz CPU, it will wrap around in 2^32/6000000 = 716
-     * seconds = 12 minutes. Make sure you don't do comparisons between values
-     * returned by this function, but only use the difference (which will be
-     * correct regardless of wraparound).
-     * *************************************************************************
-     */
-    public static int cpu_gettotalcycles() {
-        int cpunum = (activecpu < 0) ? 0 : activecpu;
-        return cpu.get(cpunum).totalcycles + cycles_currently_ran();
-    }
-
-    /**
-     * *************************************************************************
-     * Returns the number of CPU cycles before the next interrupt handler call
-     * *************************************************************************
-     */
-    public static int cpu_geticount() {
-        int cpunum = (activecpu < 0) ? 0 : activecpu;
-        int result = TIME_TO_CYCLES(cpunum, cpu.get(cpunum).vblankint_period - timer_timeelapsed(cpu.get(cpunum).vblankint_timer));
-        return (result < 0) ? 0 : result;
-    }
-
-    /**
-     * *************************************************************************
-     * Returns the number of CPU cycles before the end of the current video
-     * frame
-     * *************************************************************************
-     */
-    public static int cpu_getfcount() {
-        int cpunum = (activecpu < 0) ? 0 : activecpu;
-        int result = TIME_TO_CYCLES(cpunum, refresh_period - timer_timeelapsed(refresh_timer));
-        return (result < 0) ? 0 : result;
-    }
 
 
 
-    /**
-     * *************************************************************************
-     * Returns the number of times the interrupt handler will be called before
-     * the end of the current video frame. This can be useful to interrupt
-     * handlers to synchronize their operation. If you call this from outside an
-     * interrupt handler, add 1 to the result, i.e. if it returns 0, it means
-     * that the interrupt handler will be called once.
-     * *************************************************************************
-     */
-    public static int cpu_getiloops() {
-        int cpunum = (activecpu < 0) ? 0 : activecpu;
-        return cpu.get(cpunum).iloops;
-    }
+
+
+
+
+
 
     /**
      * *************************************************************************
