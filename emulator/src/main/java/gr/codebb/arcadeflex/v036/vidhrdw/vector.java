@@ -116,8 +116,8 @@ public class vector {
     static int vector_runs;
     /* vector runs per refresh */
 
-    static plot_pixel_procPtr vector_pp;
-    static read_pixel_procPtr vector_rp;
+    static plotPixelProcHandlerPtr vector_pp;
+    static readPixelProcHandlerPtr vector_rp;
 
     public static int vec_mult(int parm1, int parm2) {
         int temp, result;
@@ -151,22 +151,22 @@ public class vector {
         return (0x00010000);
     }
 
-    public static plot_pixel_procPtr vector_pp_8 = new plot_pixel_procPtr() {
+    public static plotPixelProcHandlerPtr vector_pp_8 = new plotPixelProcHandlerPtr() {
         public void handler(osd_bitmap b, int x, int y, int p) {
             b.line[y].write(x, p);
         }
     };
-    public static plot_pixel_procPtr vector_pp_16 = new plot_pixel_procPtr() {
+    public static plotPixelProcHandlerPtr vector_pp_16 = new plotPixelProcHandlerPtr() {
         public void handler(osd_bitmap b, int x, int y, int p) {
             b.line[y].WRITE_WORD(x, p & 0xFFFF);
         }
     };
-    public static read_pixel_procPtr vector_rp_8 = new read_pixel_procPtr() {
+    public static readPixelProcHandlerPtr vector_rp_8 = new readPixelProcHandlerPtr() {
         public int handler(osd_bitmap b, int x, int y) {
             return b.line[y].read(x);
         }
     };
-    public static read_pixel_procPtr vector_rp_16 = new read_pixel_procPtr() {
+    public static readPixelProcHandlerPtr vector_rp_16 = new readPixelProcHandlerPtr() {
         public int handler(osd_bitmap b, int x, int y) {
             return b.line[y].READ_WORD(x) & 0xFFFF;
         }
