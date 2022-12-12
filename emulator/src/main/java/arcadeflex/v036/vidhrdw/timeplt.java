@@ -6,19 +6,21 @@ package arcadeflex.v036.vidhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-//common imports
-import static common.libc.expressions.*;
+//mame imports
+import static arcadeflex.v036.mame.cpuintrf.*;
+import static arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
+import static common.libc.expressions.*;
 //TODO
-import static arcadeflex.v036.mame.drawgfxH.*;
+
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
+
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class timeplt {

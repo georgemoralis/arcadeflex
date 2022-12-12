@@ -8,11 +8,18 @@ import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.cpuintrfH.ASSERT_LINE;
 import static arcadeflex.v036.mame.cpuintrfH.CLEAR_LINE;
 import static arcadeflex.v036.mame.cpuintrfH.PULSE_LINE;
+import static arcadeflex.v036.mame.sndintrf.refresh_period_inv;
+import static arcadeflex.v036.mame.timer.timer_get_time;
 import static arcadeflex.v036.mame.timer.timer_iscpususpended;
 import static arcadeflex.v036.mame.timer.timer_set;
+import static arcadeflex.v036.mame.timer.timer_starttime;
 import static arcadeflex.v036.mame.timer.timer_suspendcpu;
+import static arcadeflex.v036.mame.timer.timer_timeelapsed;
 import static arcadeflex.v036.mame.timerH.SUSPEND_REASON_RESET;
+import static arcadeflex.v036.mame.timerH.TIME_IN_HZ;
+import static arcadeflex.v036.mame.timerH.TIME_IN_NSEC;
 import static arcadeflex.v036.mame.timerH.TIME_NOW;
+import static arcadeflex.v036.mame.timerH.TIME_TO_CYCLES;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 //TODO
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
@@ -968,101 +975,93 @@ public class cpuintrf {
 /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
 /*TODO*///	return TIME_TO_CYCLES(cpunum, refresh_period);
 /*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Scales a given value by the ratio of fcount / fperiod
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///int cpu_scalebyfcount(int value)
-/*TODO*///{
-/*TODO*///	int result = (int)((double)value * timer_timeelapsed(refresh_timer) * refresh_period_inv);
-/*TODO*///	if (value >= 0) return (result < value) ? result : value;
-/*TODO*///	else return (result > value) ? result : value;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Returns the current scanline, or the time until a specific scanline
-/*TODO*///
-/*TODO*///  Note: cpu_getscanline() counts from 0, 0 being the first visible line. You
-/*TODO*///  might have to adjust this value to match the hardware, since in many cases
-/*TODO*///  the first visible line is >0.
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///int cpu_getscanline(void)
-/*TODO*///{
-/*TODO*///	return (int)(timer_timeelapsed(refresh_timer) * scanline_period_inv);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///double cpu_getscanlinetime(int scanline)
-/*TODO*///{
-/*TODO*///	double ret;
-/*TODO*///	double scantime = timer_starttime(refresh_timer) + (double)scanline * scanline_period;
-/*TODO*///	double abstime = timer_get_time();
-/*TODO*///	if (abstime >= scantime) scantime += TIME_IN_HZ(Machine->drv->frames_per_second);
-/*TODO*///	ret = scantime - abstime;
-/*TODO*///	if (ret < TIME_IN_NSEC(1))
-/*TODO*///	{
-/*TODO*///		ret = TIME_IN_HZ(Machine->drv->frames_per_second);
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	return ret;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///double cpu_getscanlineperiod(void)
-/*TODO*///{
-/*TODO*///	return scanline_period;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Returns the number of cycles in a scanline
-/*TODO*///
-/*TODO*/// ***************************************************************************/
-/*TODO*///int cpu_getscanlinecycles(void)
-/*TODO*///{
-/*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-/*TODO*///	return TIME_TO_CYCLES(cpunum, scanline_period);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Returns the number of cycles since the beginning of this frame
-/*TODO*///
-/*TODO*/// ***************************************************************************/
-/*TODO*///int cpu_getcurrentcycles(void)
-/*TODO*///{
-/*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-/*TODO*///	return TIME_TO_CYCLES(cpunum, timer_timeelapsed(refresh_timer));
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Returns the current horizontal beam position in pixels
-/*TODO*///
-/*TODO*/// ***************************************************************************/
-/*TODO*///int cpu_gethorzbeampos(void)
-/*TODO*///{
-/*TODO*///	double elapsed_time = timer_timeelapsed(refresh_timer);
-/*TODO*///	int scanline = (int)(elapsed_time * scanline_period_inv);
-/*TODO*///	double time_since_scanline = elapsed_time -
-/*TODO*///						 (double)scanline * scanline_period;
-/*TODO*///	return (int)(time_since_scanline * scanline_period_inv *
-/*TODO*///						 (double)Machine->drv->screen_width);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
+    /**
+     * *************************************************************************
+     *
+     * Scales a given value by the ratio of fcount / fperiod
+     *
+     **************************************************************************
+     */
+    public static int cpu_scalebyfcount(int value) {
+        int result = (int) ((double) value * timer_timeelapsed(refresh_timer) * refresh_period_inv);
+        if (value >= 0) {
+            return (result < value) ? result : value;
+        } else {
+            return (result > value) ? result : value;
+        }
+    }
+
+    /**
+     * *************************************************************************
+     * Returns the current scanline, or the time until a specific scanline Note:
+     * cpu_getscanline() counts from 0, 0 being the first visible line. You
+     * might have to adjust this value to match the hardware, since in many
+     * cases the first visible line is >0.
+     * *************************************************************************
+     */
+    public static int cpu_getscanline() {
+        return (int) (timer_timeelapsed(refresh_timer) * scanline_period_inv);
+    }
+
+    public static double cpu_getscanlinetime(int scanline) {
+        double ret;
+        double scantime = timer_starttime(refresh_timer) + (double) scanline * scanline_period;
+        double abstime = timer_get_time();
+        if (abstime >= scantime) {
+            scantime += TIME_IN_HZ(Machine.drv.frames_per_second);
+        }
+        ret = scantime - abstime;
+        if (ret < TIME_IN_NSEC(1)) {
+            ret = TIME_IN_HZ(Machine.drv.frames_per_second);
+        }
+
+        return ret;
+    }
+
+    public static double cpu_getscanlineperiod() {
+        return scanline_period;
+    }
+
+    /**
+     * *************************************************************************
+     *
+     * Returns the number of cycles in a scanline
+     *
+     **************************************************************************
+     */
+    public static int cpu_getscanlinecycles() {
+        int cpunum = (activecpu < 0) ? 0 : activecpu;
+        return TIME_TO_CYCLES(cpunum, scanline_period);
+    }
+
+    /**
+     * *************************************************************************
+     *
+     * Returns the number of cycles since the beginning of this frame
+     *
+     **************************************************************************
+     */
+    public static int cpu_getcurrentcycles() {
+        int cpunum = (activecpu < 0) ? 0 : activecpu;
+        return TIME_TO_CYCLES(cpunum, timer_timeelapsed(refresh_timer));
+    }
+
+    /**
+     * *************************************************************************
+     *
+     * Returns the current horizontal beam position in pixels
+     *
+     **************************************************************************
+     */
+    public static int cpu_gethorzbeampos() {
+        double elapsed_time = timer_timeelapsed(refresh_timer);
+        int scanline = (int) (elapsed_time * scanline_period_inv);
+        double time_since_scanline = elapsed_time - (double) scanline * scanline_period;
+        return (int) (time_since_scanline * scanline_period_inv * (double) Machine.drv.screen_width);
+    }
+
+
+    /*TODO*////***************************************************************************
 /*TODO*///
 /*TODO*///  Returns the number of times the interrupt handler will be called before
 /*TODO*///  the end of the current video frame. This can be useful to interrupt

@@ -12,31 +12,18 @@
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;        
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import gr.codebb.arcadeflex.common.SubArrays;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.common.SubArrays.*;
-import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
 import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD;
-import static gr.codebb.arcadeflex.v036.mame.memoryH.COMBINE_WORD_MEM;
 import arcadeflex.v036.mame.osdependH.osd_bitmap;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static arcadeflex.v036.mame.paletteH.*;
 import static common.libc.cstring.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static gr.codebb.arcadeflex.v036.mame.mameH.MAX_GFX_ELEMENTS;
-import static arcadeflex.v036.mame.cpuintrfH.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.mame.timer.*;
-import static arcadeflex.v036.mame.timerH.*;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
-import gr.codebb.arcadeflex.v037b7.machine.atarigenH;
-import arcadeflex.v036.mame.drawgfxH;
 
 
 public class badlands

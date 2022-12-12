@@ -13,9 +13,9 @@ package gr.codebb.arcadeflex.v037b7.vidhrdw;
  //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;       
 import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
-import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigen.*;
 import static gr.codebb.arcadeflex.v037b7.machine.atarigenH.*;
@@ -26,7 +26,6 @@ import static arcadeflex.v036.mame.paletteH.*;
 import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import arcadeflex.v036.mame.drawgfxH;
 
 
