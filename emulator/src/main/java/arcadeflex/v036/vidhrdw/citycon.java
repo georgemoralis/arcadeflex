@@ -8,6 +8,10 @@ package arcadeflex.v036.vidhrdw;
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.inptport.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.paletteH.*;
+import static arcadeflex.v036.mame.commonH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 //common imports
@@ -15,16 +19,11 @@ import static common.libc.cstring.*;
 import static common.libc.expressions.*;
 //TODO
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
-import static arcadeflex.v036.mame.inptport.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static arcadeflex.v036.mame.paletteH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class citycon {

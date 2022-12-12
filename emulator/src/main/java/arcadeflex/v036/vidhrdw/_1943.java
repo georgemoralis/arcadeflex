@@ -11,6 +11,7 @@ import static arcadeflex.v036.mame.osdependH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.memoryH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
@@ -18,7 +19,6 @@ import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
 
 public class _1943 {

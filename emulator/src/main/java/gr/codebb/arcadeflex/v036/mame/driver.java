@@ -47,7 +47,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.espial.*;
 import static arcadeflex.v036.drivers.timeplt.*;
 import static arcadeflex.v036.drivers.gng.*;
 import static arcadeflex.v036.drivers.gundealr.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.circusc.*;
+import static arcadeflex.v036.drivers.circusc.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.tp84.*;
 import static arcadeflex.v036.drivers.ironhors.*;
 import static arcadeflex.v036.drivers.gunsmoke.*;
@@ -56,7 +56,7 @@ import static arcadeflex.v036.drivers.commando.*;
 import static arcadeflex.v036.drivers.citycon.*;
 import static arcadeflex.v036.drivers._1943.*;
 import static arcadeflex.v036.drivers.blktiger.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.brkthru.*;
+import static arcadeflex.v036.drivers.brkthru.*;
 import static gr.codebb.arcadeflex.v036.drivers.sidearms.*;
 import static arcadeflex.v036.drivers.retofinv.*;
 import static gr.codebb.arcadeflex.v036.drivers.kyugo.*;
@@ -94,12 +94,12 @@ import static gr.codebb.arcadeflex.v036.drivers.srumbler.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.marineb.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jackal.*;
 import static arcadeflex.v036.drivers.cclimber.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.gberet.*;
+import static arcadeflex.v036.drivers.gberet.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mitchell.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.snk.*;
 import static arcadeflex.v036.drivers.troangel.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.ddragon.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.contra.*;
+import static arcadeflex.v036.drivers.contra.*;
 import static arcadeflex.v036.drivers.travrusa.*;
 import static gr.codebb.arcadeflex.v036.drivers.sidepckt.*;
 import static arcadeflex.v036.drivers.vigilant.*;
@@ -163,7 +163,7 @@ import static gr.codebb.arcadeflex.v036.drivers.shootout.*;
 import static gr.codebb.arcadeflex.v036.drivers.ccastles.*;
 import static gr.codebb.arcadeflex.v036.drivers.centiped.*;
 import static gr.codebb.arcadeflex.v036.drivers.aeroboto.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.goindol.*;
+import static arcadeflex.v036.drivers.goindol.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bjtwin.*;
 import static arcadeflex.v036.drivers.docastle.*;
 import static arcadeflex.v036.drivers.higemaru.*;
@@ -223,9 +223,7 @@ import static gr.codebb.arcadeflex.v036.drivers.cninja.*;
 import static gr.codebb.arcadeflex.v036.drivers.gaelco.*;
 import static gr.codebb.arcadeflex.v036.drivers.gaiden.*;
 import static gr.codebb.arcadeflex.v036.drivers.system16.*;
-
 import static arcadeflex.v036.drivers.cop01.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.galspnbl.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.asteroid.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.starwars.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mcr3.*;
@@ -2817,8 +2815,6 @@ public class driver {
                 /*galpanic */ driver_fantasia,
                 /*galpanic */ driver_newfant,
                 /*galpanic */ driver_missw96,
-                /*galspnbl */ driver_hotpinbl,
-                /*galspnbl */ driver_galspnbl,
                 driver_magmax,
                 driver_terraf, /* (c) 1987 */
                 driver_terrafu, /* (c) 1987 Nichibutsu USA */

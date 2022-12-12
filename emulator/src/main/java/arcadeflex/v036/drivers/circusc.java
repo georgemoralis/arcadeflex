@@ -1,11 +1,11 @@
 /**
- * ported to 0.37b7
  * ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+package arcadeflex.v036.drivers;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -13,18 +13,21 @@ import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static arcadeflex.v036.vidhrdw.circusc.*;
-import static gr.codebb.arcadeflex.v037b7.machine.konami.*;
+import static arcadeflex.v036.vidhrdw.generic.*;
+//sound imports
 import static arcadeflex.v036.sound.dacH.*;
 import static arcadeflex.v036.sound.dac.*;
 import static arcadeflex.v036.sound.sn76496H.*;
 import static arcadeflex.v036.sound.sn76496.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.circusc.*;
+//TODO
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
+import static gr.codebb.arcadeflex.v037b7.machine.konami.*;
+
 public class circusc {
 
     public static final int CIRCUSCHALIE_TIMER_RATE = (14318180 / 6144);

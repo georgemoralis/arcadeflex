@@ -10,6 +10,9 @@ import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.osdependH.*;
 import static arcadeflex.v036.mame.artwork.*;
 import static arcadeflex.v036.mame.artworkH.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+//sound imports
+import static arcadeflex.v036.sound.dac.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 //common imports
@@ -18,11 +21,7 @@ import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.drawgfx;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.plot_pixel;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.drawgfxH.TRANSPARENCY_NONE;
-import static arcadeflex.v036.mame.drawgfxH.TRANSPARENCY_PEN;
-import arcadeflex.v036.mame.drawgfxH.rectangle;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_recalc;
-import static arcadeflex.v036.sound.dac.DAC_data_w;
 
 public class circus {
 

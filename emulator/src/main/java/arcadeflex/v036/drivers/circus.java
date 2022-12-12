@@ -8,6 +8,16 @@ package arcadeflex.v036.drivers;
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.inputH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.inptport.*;
+import static arcadeflex.v036.mame.inptportH.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.memoryH.*;
+//sound imports
+import static arcadeflex.v036.sound.dacH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.circus.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
@@ -15,28 +25,10 @@ import static arcadeflex.v036.vidhrdw.generic.*;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static common.libc.cstring.memcpy;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.mame.commonH.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static arcadeflex.v036.mame.inputH.KEYCODE_X;
-import static arcadeflex.v036.mame.inputH.KEYCODE_Z;
 import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
-import arcadeflex.v036.mame.sndintrfH.MachineSound;
-import static arcadeflex.v036.mame.sndintrfH.SOUND_DAC;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.sizeof;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.ignore_interrupt;
-import arcadeflex.v036.mame.drawgfxH.GfxDecodeInfo;
-import arcadeflex.v036.mame.drawgfxH.GfxLayout;
-import arcadeflex.v036.mame.drawgfxH.rectangle;
-import static arcadeflex.v036.mame.inptport.*;
-import static arcadeflex.v036.mame.inptportH.*;
-import static arcadeflex.v036.mame.memoryH.MRA_RAM;
-import static arcadeflex.v036.mame.memoryH.MRA_ROM;
-import static arcadeflex.v036.mame.memoryH.MWA_RAM;
-import static arcadeflex.v036.mame.memoryH.MWA_ROM;
-import arcadeflex.v036.mame.memoryH.MemoryReadAddress;
-import arcadeflex.v036.mame.memoryH.MemoryWriteAddress;
-import arcadeflex.v036.sound.dacH.DACinterface;
 
 public class circus {
 

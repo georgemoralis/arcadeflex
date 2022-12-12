@@ -1,32 +1,34 @@
 /**
- * ported to v0.37b7
  * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+package arcadeflex.v036.drivers;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.brkthru.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
-import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
-import static gr.codebb.arcadeflex.v037b7.sound._3526intf.*;
+//sound imports
 import static arcadeflex.v036.sound._2203intf.*;
 import static arcadeflex.v036.sound._2203intfH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v037b7.vidhrdw.brkthru.*;
+import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
+import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
+import static gr.codebb.arcadeflex.v037b7.sound._3526intf.*;
+import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 
 public class brkthru {
 
@@ -47,7 +49,9 @@ public class brkthru {
         public void handler(int offset, int data) {
             /* bit 0 = NMI enable */
  /*nmi_enable = ~data & 1;*/
-            logerror("0803 %02X\n", data);
+            if (errorlog != null) {
+                fprintf(errorlog, "0803 %02X\n", data);
+            }
             nmi_enable = data;
             /* bit 1 = ? maybe IRQ acknowledge */
         }
@@ -192,7 +196,7 @@ public class brkthru {
             PORT_DIPSETTING(0x10, DEF_STR("Yes"));
             PORT_BIT_IMPULSE(0x20, IP_ACTIVE_LOW, IPT_COIN1, 2);
             PORT_BIT_IMPULSE(0x40, IP_ACTIVE_LOW, IPT_COIN2, 2);
-            PORT_BIT_IMPULSE(0x80, IP_ACTIVE_LOW, IPT_SERVICE1, 2);
+            PORT_BIT_IMPULSE(0x80, IP_ACTIVE_LOW, IPT_COIN3, 2);
 
             PORT_START();
             /* DSW0 */
@@ -252,8 +256,8 @@ public class brkthru {
             PORT_DIPSETTING(0x01, "3");
             PORT_DIPSETTING(0x00, "5");
             PORT_DIPNAME(0x02, 0x02, DEF_STR("Bonus_Life"));
-            PORT_DIPSETTING(0x02, "20k 50k and every 50k");
-            PORT_DIPSETTING(0x00, "30k 80k and every 80k");
+            PORT_DIPSETTING(0x02, "20k and every 50k");
+            PORT_DIPSETTING(0x00, "30k and every 80k");
             PORT_DIPNAME(0x0c, 0x0c, DEF_STR("Difficulty"));
             PORT_DIPSETTING(0x0c, "Easy");
             PORT_DIPSETTING(0x08, "Medium");
@@ -264,7 +268,7 @@ public class brkthru {
             PORT_DIPSETTING(0x00, DEF_STR("On"));
             PORT_BIT_IMPULSE(0x20, IP_ACTIVE_LOW, IPT_COIN1, 2);
             PORT_BIT_IMPULSE(0x40, IP_ACTIVE_LOW, IPT_COIN2, 2);
-            PORT_BIT_IMPULSE(0x80, IP_ACTIVE_LOW, IPT_SERVICE1, 2);
+            PORT_BIT_IMPULSE(0x80, IP_ACTIVE_LOW, IPT_COIN3, 2);
 
             PORT_START();
             /* DSW0 */

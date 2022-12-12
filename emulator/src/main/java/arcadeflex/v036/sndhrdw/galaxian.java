@@ -10,15 +10,14 @@ import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
+import static arcadeflex.v036.sound.streams.*;
 //TODO
-import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import gr.codebb.arcadeflex.common.PtrLib.BytePtr;
 import gr.codebb.arcadeflex.common.PtrLib.ShortPtr;
-import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.sound.streams.*;
 
 public class galaxian {
 
