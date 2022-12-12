@@ -4,9 +4,9 @@
 package gr.codebb.arcadeflex.v037b7.sound;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+import arcadeflex.v036.mame.sndintrf.snd_interface;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.sound._2413intfH.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intf.*;
 

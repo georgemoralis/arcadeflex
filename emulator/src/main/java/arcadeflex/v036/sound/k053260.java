@@ -13,7 +13,7 @@ import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.timerH.*;
 import static arcadeflex.v036.mame.timer.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
+import static arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static arcadeflex.v036.sound.streams.*;
 

@@ -3,13 +3,21 @@
  */
 package arcadeflex.v036.mame;
 
-import arcadeflex.v036.generic.funcPtr.ReadHandlerPtr;
-import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
-import arcadeflex.v036.generic.funcPtr.WriteHandlerPtr;
-import static arcadeflex.v036.mame.timer.timer_set;
-import static arcadeflex.v036.mame.timerH.TIME_NOW;
-import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
+//sound imports
+import static arcadeflex.v036.sound.streams.*;
+//TODO
+import static gr.codebb.arcadeflex.v036.mame.common.*;
+import static gr.codebb.arcadeflex.v036.mame.mame.*;
+import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
+import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 
 public class sndintrf {
 
@@ -144,52 +152,30 @@ public class sndintrf {
 /*TODO*///
 /*TODO*///
 /*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///
-/*TODO*///static void *sound_update_timer;
-/*TODO*///static double refresh_period;
-/*TODO*///static double refresh_period_inv;
-/*TODO*///
-/*TODO*///
-/*TODO*///struct snd_interface
-/*TODO*///{
-/*TODO*///	unsigned sound_num;										/* ID */
-/*TODO*///	const char *name;										/* description */
-/*TODO*///	int (*chips_num)(const struct MachineSound *msound);	/* returns number of chips if applicable */
-/*TODO*///	int (*chips_clock)(const struct MachineSound *msound);	/* returns chips clock if applicable */
-/*TODO*///	int (*start)(const struct MachineSound *msound);		/* starts sound emulation */
-/*TODO*///	void (*stop)(void);										/* stops sound emulation */
-/*TODO*///	void (*update)(void);									/* updates emulation once per frame if necessary */
-/*TODO*///	void (*reset)(void);									/* resets sound emulation */
-/*TODO*///};
-/*TODO*///
-/*TODO*///
-/*TODO*///#if (HAS_CUSTOM)
-/*TODO*///static const struct CustomSound_interface *cust_intf;
-/*TODO*///
-/*TODO*///int custom_sh_start(const struct MachineSound *msound)
-/*TODO*///{
-/*TODO*///	cust_intf = msound->sound_interface;
-/*TODO*///
-/*TODO*///	if (cust_intf->sh_start)
-/*TODO*///		return (*cust_intf->sh_start)(msound);
-/*TODO*///	else return 0;
-/*TODO*///}
-/*TODO*///void custom_sh_stop(void)
-/*TODO*///{
-/*TODO*///	if (cust_intf->sh_stop) (*cust_intf->sh_stop)();
-/*TODO*///}
-/*TODO*///void custom_sh_update(void)
-/*TODO*///{
-/*TODO*///	if (cust_intf->sh_update) (*cust_intf->sh_update)();
-/*TODO*///}
-/*TODO*///#endif
+    /**
+     * *************************************************************************
+     *
+     *
+     *
+     **************************************************************************
+     */
+    static timer_entry sound_update_timer;
+    static double refresh_period;
+    static double refresh_period_inv;
+
+    public static abstract class snd_interface {
+
+        public int sound_num;
+        public String name;/* description */
+        public abstract int chips_num(MachineSound msound);/* returns number of chips if applicable */
+        public abstract int chips_clock(MachineSound msound);/* returns chips clock if applicable */
+        public abstract int start(MachineSound msound);/* starts sound emulation */
+        public abstract void stop();/* stops sound emulation */
+        public abstract void update();/* updates emulation once per frame if necessary */
+        public abstract void reset();/* resets sound emulation */
+    }
+
+    /*TODO*///#endif
 /*TODO*///#if (HAS_DAC)
 /*TODO*///int DAC_num(const struct MachineSound *msound) { return ((struct DACinterface*)msound->sound_interface)->num; }
 /*TODO*///#endif
@@ -812,155 +798,124 @@ public class sndintrf {
 /*TODO*///	},
 /*TODO*///#endif
 /*TODO*///};
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///int sound_start(void)
-/*TODO*///{
-/*TODO*///	int totalsound = 0;
-/*TODO*///	int i;
-/*TODO*///
-/*TODO*///	/* Verify the order of entries in the sndintf[] array */
-/*TODO*///	for (i = 0;i < SOUND_COUNT;i++)
-/*TODO*///	{
-/*TODO*///		if (sndintf[i].sound_num != i)
-/*TODO*///		{
-/*TODO*///if (errorlog) fprintf(errorlog,"Sound #%d wrong ID %d: check enum SOUND_... in src/sndintrf.h!\n",i,sndintf[i].sound_num);
-/*TODO*///			return 1;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///
-/*TODO*///	/* samples will be read later if needed */
-/*TODO*///	Machine->samples = 0;
-/*TODO*///
-/*TODO*///	refresh_period = TIME_IN_HZ(Machine->drv->frames_per_second);
-/*TODO*///	refresh_period_inv = 1.0 / refresh_period;
-/*TODO*///	sound_update_timer = timer_set(TIME_NEVER,0,NULL);
-/*TODO*///
-/*TODO*///	if (mixer_sh_start() != 0)
-/*TODO*///		return 1;
-/*TODO*///
-/*TODO*///	if (streams_sh_start() != 0)
-/*TODO*///		return 1;
-/*TODO*///
-/*TODO*///	while (Machine->drv->sound[totalsound].sound_type != 0 && totalsound < MAX_SOUND)
-/*TODO*///	{
-/*TODO*///		if ((*sndintf[Machine->drv->sound[totalsound].sound_type].start)(&Machine->drv->sound[totalsound]) != 0)
-/*TODO*///			goto getout;
-/*TODO*///
-/*TODO*///		totalsound++;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	return 0;
-/*TODO*///
-/*TODO*///
-/*TODO*///getout:
-/*TODO*///	/* TODO: should also free the resources allocated before */
-/*TODO*///	return 1;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///void sound_stop(void)
-/*TODO*///{
-/*TODO*///	int totalsound = 0;
-/*TODO*///
-/*TODO*///
-/*TODO*///	while (Machine->drv->sound[totalsound].sound_type != 0 && totalsound < MAX_SOUND)
-/*TODO*///	{
-/*TODO*///		if (sndintf[Machine->drv->sound[totalsound].sound_type].stop)
-/*TODO*///			(*sndintf[Machine->drv->sound[totalsound].sound_type].stop)();
-/*TODO*///
-/*TODO*///		totalsound++;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	streams_sh_stop();
-/*TODO*///	mixer_sh_stop();
-/*TODO*///
-/*TODO*///	if (sound_update_timer)
-/*TODO*///	{
-/*TODO*///		timer_remove(sound_update_timer);
-/*TODO*///		sound_update_timer = 0;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* free audio samples */
-/*TODO*///	freesamples(Machine->samples);
-/*TODO*///	Machine->samples = 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///void sound_update(void)
-/*TODO*///{
-/*TODO*///	int totalsound = 0;
-/*TODO*///
-/*TODO*///
-/*TODO*///	profiler_mark(PROFILER_SOUND);
-/*TODO*///
-/*TODO*///	while (Machine->drv->sound[totalsound].sound_type != 0 && totalsound < MAX_SOUND)
-/*TODO*///	{
-/*TODO*///		if (sndintf[Machine->drv->sound[totalsound].sound_type].update)
-/*TODO*///			(*sndintf[Machine->drv->sound[totalsound].sound_type].update)();
-/*TODO*///
-/*TODO*///		totalsound++;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	streams_sh_update();
-/*TODO*///	mixer_sh_update();
-/*TODO*///
-/*TODO*///	timer_reset(sound_update_timer,TIME_NEVER);
-/*TODO*///
-/*TODO*///	profiler_mark(PROFILER_END);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///void sound_reset(void)
-/*TODO*///{
-/*TODO*///	int totalsound = 0;
-/*TODO*///
-/*TODO*///
-/*TODO*///	while (Machine->drv->sound[totalsound].sound_type != 0 && totalsound < MAX_SOUND)
-/*TODO*///	{
-/*TODO*///		if (sndintf[Machine->drv->sound[totalsound].sound_type].reset)
-/*TODO*///			(*sndintf[Machine->drv->sound[totalsound].sound_type].reset)();
-/*TODO*///
-/*TODO*///		totalsound++;
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///const char *sound_name(const struct MachineSound *msound)
-/*TODO*///{
-/*TODO*///	if (msound->sound_type < SOUND_COUNT)
-/*TODO*///		return sndintf[msound->sound_type].name;
-/*TODO*///	else
-/*TODO*///		return "";
-/*TODO*///}
-/*TODO*///
-/*TODO*///int sound_num(const struct MachineSound *msound)
-/*TODO*///{
-/*TODO*///	if (msound->sound_type < SOUND_COUNT && sndintf[msound->sound_type].chips_num)
-/*TODO*///		return (*sndintf[msound->sound_type].chips_num)(msound);
-/*TODO*///	else
-/*TODO*///		return 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*///int sound_clock(const struct MachineSound *msound)
-/*TODO*///{
-/*TODO*///	if (msound->sound_type < SOUND_COUNT && sndintf[msound->sound_type].chips_clock)
-/*TODO*///		return (*sndintf[msound->sound_type].chips_clock)(msound);
-/*TODO*///	else
-/*TODO*///		return 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///int sound_scalebufferpos(int value)
-/*TODO*///{
-/*TODO*///	int result = (int)((double)value * timer_timeelapsed (sound_update_timer) * refresh_period_inv);
-/*TODO*///	if (value >= 0) return (result < value) ? result : value;
-/*TODO*///	else return (result > value) ? result : value;
-/*TODO*///}
-/*TODO*///
+    public static int sound_start() {
+        int totalsound = 0;
+        /*TODO*////*TODO*///	int i;
+        /*TODO*////*TODO*///
+        /*TODO*////*TODO*///	/* Verify the order of entries in the sndintf[] array */
+        /*TODO*////*TODO*///	for (i = 0;i < SOUND_COUNT;i++)
+        /*TODO*////*TODO*///	{
+        /*TODO*////*TODO*///		if (sndintf[i].sound_num != i)
+        /*TODO*////*TODO*///		{
+        /*TODO*////*TODO*///if (errorlog) fprintf(errorlog,"Sound #%d wrong ID %d: check enum SOUND_... in src/sndintrf.h!\n",i,sndintf[i].sound_num);
+        /*TODO*////*TODO*///			return 1;
+        /*TODO*////*TODO*///		}
+        /*TODO*////*TODO*///	}
+        /*TODO*////*TODO*///
+
+        /* samples will be read later if needed */
+        Machine.samples = null;
+
+        refresh_period = TIME_IN_HZ(Machine.drv.frames_per_second);
+        refresh_period_inv = 1.0 / refresh_period;
+        sound_update_timer = timer_set(TIME_NEVER, 0, null);
+
+        if (mixer_sh_start() != 0) {
+            return 1;
+        }
+
+        if (streams_sh_start() != 0) {
+            return 1;
+        }
+
+        while (totalsound < MAX_SOUND && Machine.drv.sound[totalsound].sound_type != 0) {
+            if ((sndintf[Machine.drv.sound[totalsound].sound_type].start(Machine.drv.sound[totalsound])) != 0) {
+                return 1;//goto getout;
+            }
+            totalsound++;
+        }
+        return 0;
+    }
+
+    public static void sound_stop() {
+        int totalsound = 0;
+
+        while (totalsound < MAX_SOUND && Machine.drv.sound[totalsound].sound_type != 0) {
+            //if (sndintf[Machine.drv.sound[totalsound].sound_type].stop()!=null)
+            sndintf[Machine.drv.sound[totalsound].sound_type].stop();
+
+            totalsound++;
+        }
+
+        streams_sh_stop();
+        mixer_sh_stop();
+
+        if (sound_update_timer != null) {
+            timer_remove(sound_update_timer);
+            sound_update_timer = null;
+        }
+
+        /* free audio samples */
+        freesamples(Machine.samples);
+        Machine.samples = null;
+    }
+
+    public static void sound_update() {
+        int totalsound = 0;
+
+        while (totalsound < MAX_SOUND && Machine.drv.sound[totalsound].sound_type != 0) {
+            //if (sndintf[Machine->drv->sound[totalsound].sound_type].update)
+            sndintf[Machine.drv.sound[totalsound].sound_type].update();
+
+            totalsound++;
+        }
+
+        streams_sh_update();
+        mixer_sh_update();
+
+        timer_reset(sound_update_timer, TIME_NEVER);
+    }
+
+    public static void sound_reset() {
+        int totalsound = 0;
+
+        while (totalsound < MAX_SOUND && Machine.drv.sound[totalsound].sound_type != 0) {
+            //if (sndintf[Machine->drv->sound[totalsound].sound_type].reset)
+            sndintf[Machine.drv.sound[totalsound].sound_type].reset();
+            totalsound++;
+        }
+    }
+
+    public static String sound_name(MachineSound msound) {
+        if (msound.sound_type < SOUND_COUNT) {
+            return sndintf[msound.sound_type].name;
+        } else {
+            return "";
+        }
+    }
+
+    public static int sound_num(MachineSound msound) {
+        if (msound.sound_type < SOUND_COUNT && sndintf[msound.sound_type].chips_num(msound) != 0) {
+            return sndintf[msound.sound_type].chips_num(msound);
+        } else {
+            return 0;
+        }
+    }
+
+    public static int sound_clock(MachineSound msound) {
+        if (msound.sound_type < SOUND_COUNT && sndintf[msound.sound_type].chips_clock(msound) != 0) {
+            return sndintf[msound.sound_type].chips_clock(msound);
+        } else {
+            return 0;
+        }
+    }
+
+    public static int sound_scalebufferpos(int value) {
+        int result = (int) ((double) value * timer_timeelapsed(sound_update_timer) * refresh_period_inv);
+        if (value >= 0) {
+            return (result < value) ? result : value;
+        } else {
+            return (result > value) ? result : value;
+        }
+    }
 }

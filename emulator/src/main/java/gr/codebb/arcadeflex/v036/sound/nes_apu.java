@@ -2,14 +2,12 @@ package gr.codebb.arcadeflex.v036.sound;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 import gr.codebb.arcadeflex.common.PtrLib.ShortPtr;
-import gr.codebb.arcadeflex.v036.mame.sndintrf.snd_interface;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v037b7.cpu.m6502.m6502H.N2A03_DEFAULTCLOCK;
 import static gr.codebb.arcadeflex.v037b7.cpu.m6502.n2a03.n2a03_irq;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.sound_name;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.sound_scalebufferpos;
+import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static arcadeflex.v036.mame.sndintrfH.SOUND_NES;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;

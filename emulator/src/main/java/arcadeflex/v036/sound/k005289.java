@@ -8,6 +8,7 @@ package arcadeflex.v036.sound;
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrf.*;
 //sound imports
 import static arcadeflex.v036.sound.streams.*;
 //TODO

@@ -8,7 +8,7 @@ import static common.libc.cstring.memset;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
+import static arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.sprintf;
 import arcadeflex.v036.sound.streams.StreamInitPtr;

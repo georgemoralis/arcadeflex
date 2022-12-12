@@ -7,11 +7,11 @@ package arcadeflex.v036.sound;
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.sndintrf.*;
 //common imports
 import static common.libc.cstdio.*;
 //TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.sound.dacH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.sound.streams.*;

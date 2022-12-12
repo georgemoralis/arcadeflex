@@ -8,7 +8,7 @@ import static gr.codebb.arcadeflex.v036.platform.sound.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
+import static arcadeflex.v036.mame.sndintrf.sound_scalebufferpos;
 
 public class mixer {
 

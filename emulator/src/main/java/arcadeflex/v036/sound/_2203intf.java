@@ -9,12 +9,12 @@ import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.sndintrf.*;
 //sound imports
 import static arcadeflex.v036.sound._2203intfH.*;
 //common imports
 import static common.libc.cstdio.*;
 //TODO
-import arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.sound.streams.*;

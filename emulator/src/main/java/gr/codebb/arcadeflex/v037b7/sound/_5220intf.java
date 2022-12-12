@@ -6,9 +6,8 @@ package gr.codebb.arcadeflex.v037b7.sound;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 import gr.codebb.arcadeflex.common.PtrLib.ShortPtr;
-import static arcadeflex.v036.mame.driverH.*;
+import arcadeflex.v036.mame.sndintrf.snd_interface;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound._5220intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.tms5220.*;

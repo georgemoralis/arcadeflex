@@ -43,8 +43,10 @@ import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.sndintrf.sound_start;
+import static arcadeflex.v036.mame.sndintrf.sound_stop;
+import static arcadeflex.v036.mame.sndintrf.sound_update;
 import static gr.codebb.arcadeflex.v036.mame.spriteC.*;
 
 public class mame {
@@ -72,8 +74,6 @@ public class mame {
     public static int bitmap_dirty;
 
     /* set by osd_clearbitmap() */
-
-
     public static int run_game(int game) {
         int err;
 
@@ -84,8 +84,8 @@ public class mame {
         mame_debug = options.mame_debug;
 
         Machine.gamedrv = gamedrv = drivers[game];
-        System.out.println("Machine.gamedrv: "+Machine.gamedrv.drv.init_machine);
-        System.out.println("drivers[game]: "+drivers[game].drv.init_machine);
+        System.out.println("Machine.gamedrv: " + Machine.gamedrv.drv.init_machine);
+        System.out.println("drivers[game]: " + drivers[game].drv.init_machine);
         Machine.drv = drv = gamedrv.drv;
         /*TODO TOTAL HACK TO BE REMOVED*/ Machine.visible_area = Machine.drv.visible_area;
         /* copy configuration */
@@ -186,7 +186,7 @@ public class mame {
      */
     public static int init_machine() {
         int i;
-        
+
         System.out.println("mame init_machine");
 
         if (code_init() != 0) {
@@ -222,7 +222,7 @@ public class mame {
         spriteram_2_size[0] = 0;
 
         /* first of all initialize the memory handlers, which could be used by the */
-        /* other initialization routines */
+ /* other initialization routines */
         System.out.println(gamedrv.driver_init);
         cpu_init();
         System.out.println(gamedrv.driver_init);
@@ -237,8 +237,8 @@ public class mame {
         if (gamedrv.driver_init != null) {
             gamedrv.driver_init.handler();
         }
-        
-        System.out.println("FIN mame init_machine "+gamedrv.driver_init);
+
+        System.out.println("FIN mame init_machine " + gamedrv.driver_init);
 
         return 0;
     }
@@ -422,8 +422,6 @@ public class mame {
     public static int need_to_clear_bitmap;
 
     /* set by the user interface */
-
-
     public static int updatescreen() {
         /* update sound */
         //if(MainStream.inst==null){ //disable sound in MainStream case for now..
@@ -590,31 +588,28 @@ public class mame {
  /*TODO*/ //            if (he_did_cheat != 0) return 0;
         return 1;
     }
-    
+
     /* Scale the vector games to a given resolution */
-    public static void scale_vectorgames(int gfx_width,int gfx_height,int width,int height)
-    {
-            double x_scale, y_scale, scale;
+    public static void scale_vectorgames(int gfx_width, int gfx_height, int width, int height) {
+        double x_scale, y_scale, scale;
 
-            if ((Machine.orientation & ORIENTATION_SWAP_XY) != 0)
-            {
-                    x_scale=(double)gfx_width/(double)(height);
-                    y_scale=(double)gfx_height/(double)(width);
-            }
-            else
-            {
-                    x_scale=(double)gfx_width/(double)(width);
-                    y_scale=(double)gfx_height/(double)(height);
-            }
-            if (x_scale<y_scale)
-                    scale=x_scale;
-            else
-                    scale=y_scale;
-            width=(int)((double)width*scale);
-            height=(int)((double)height*scale);
+        if ((Machine.orientation & ORIENTATION_SWAP_XY) != 0) {
+            x_scale = (double) gfx_width / (double) (height);
+            y_scale = (double) gfx_height / (double) (width);
+        } else {
+            x_scale = (double) gfx_width / (double) (width);
+            y_scale = (double) gfx_height / (double) (height);
+        }
+        if (x_scale < y_scale) {
+            scale = x_scale;
+        } else {
+            scale = y_scale;
+        }
+        width = (int) ((double) width * scale);
+        height = (int) ((double) height * scale);
 
-            /* Padding to an dword value */
-            width-=width % 4;
-            height-=height % 4;
+        /* Padding to an dword value */
+        width -= width % 4;
+        height -= height % 4;
     }
 }

@@ -45,7 +45,6 @@ import gr.codebb.arcadeflex.v036.cpu.nec.v30;
 import gr.codebb.arcadeflex.v036.cpu.nec.v33;
 import gr.codebb.arcadeflex.v037b7.cpu.m6502.n2a03;
 import gr.codebb.arcadeflex.v037b7.cpu.m6805.HD63705;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.memorycontextswap;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
 import gr.codebb.arcadeflex.v037b7.cpu.i8085.i8080;
@@ -53,6 +52,7 @@ import gr.codebb.arcadeflex.v037b7.cpu.i8085.i8085;
 import arcadeflex.v036.cpu.s2650.s2650;
 import static arcadeflex.v036.mame.cpuintrf.cpu_timedintcallback;
 import static arcadeflex.v036.mame.cpuintrf.cpu_vblankintcallback;
+import static arcadeflex.v036.mame.sndintrf.sound_reset;
 
 public class cpuintrf {
 

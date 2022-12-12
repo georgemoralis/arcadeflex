@@ -14,7 +14,7 @@ import static arcadeflex.v036.sound.adpcmH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
+import static arcadeflex.v036.mame.sndintrf.*;
 
 public class adpcm extends snd_interface {
 

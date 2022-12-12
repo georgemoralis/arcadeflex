@@ -7,6 +7,7 @@ package arcadeflex.v036.sound;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
+import static arcadeflex.v036.mame.sndintrf.*;
 import gr.codebb.arcadeflex.v036.mame.sndintrf;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
@@ -18,11 +19,7 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
 
-/**
- *
- * @author shadow
- */
-public class upd7759 extends sndintrf.snd_interface {
+public class upd7759 extends snd_interface {
 
     /* number of samples stuffed into the rom */
     static /*unsigned char*/ int numsam;

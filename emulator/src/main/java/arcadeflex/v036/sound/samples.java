@@ -8,7 +8,7 @@ import gr.codebb.arcadeflex.common.PtrLib.BytePtr;
 import gr.codebb.arcadeflex.common.PtrLib.ShortPtr;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.sprintf;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
+import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.sound.samplesH.*;

@@ -9,11 +9,11 @@ import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokeyH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.sound.streams.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
+import static arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_get_pc;
 import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
+
 public class pokey extends snd_interface {
 
     public static FILE pokeylog = null; //fopen("pokeylog.log", "wa");
@@ -118,151 +118,217 @@ public class pokey extends snd_interface {
     public static final int DIVADD_HICLK_JOINED = 7;
 
     /* AUDCx */
-    public static final int NOTPOLY5 = 0x80;	/* selects POLY5 or direct CLOCK */
+    public static final int NOTPOLY5 = 0x80;
+    /* selects POLY5 or direct CLOCK */
 
-    public static final int POLY4 = 0x40;	/* selects POLY4 or POLY17 */
+    public static final int POLY4 = 0x40;
+    /* selects POLY4 or POLY17 */
 
-    public static final int PURE = 0x20;	/* selects POLY4/17 or PURE tone */
+    public static final int PURE = 0x20;
+    /* selects POLY4/17 or PURE tone */
 
-    public static final int VOLUME_ONLY = 0x10;	/* selects VOLUME OUTPUT ONLY */
+    public static final int VOLUME_ONLY = 0x10;
+    /* selects VOLUME OUTPUT ONLY */
 
-    public static final int VOLUME_MASK = 0x0f;	/* volume mask */
+    public static final int VOLUME_MASK = 0x0f;
+    /* volume mask */
 
-    /* AUDCTL */
-    public static final int POLY9 = 0x80;	/* selects POLY9 or POLY17 */
+ /* AUDCTL */
+    public static final int POLY9 = 0x80;
+    /* selects POLY9 or POLY17 */
 
-    public static final int CH1_HICLK = 0x40;	/* selects 1.78979 MHz for Ch 1 */
+    public static final int CH1_HICLK = 0x40;
+    /* selects 1.78979 MHz for Ch 1 */
 
-    public static final int CH3_HICLK = 0x20;	/* selects 1.78979 MHz for Ch 3 */
+    public static final int CH3_HICLK = 0x20;
+    /* selects 1.78979 MHz for Ch 3 */
 
-    public static final int CH12_JOINED = 0x10;	/* clocks channel 1 w/channel 2 */
+    public static final int CH12_JOINED = 0x10;
+    /* clocks channel 1 w/channel 2 */
 
-    public static final int CH34_JOINED = 0x08;	/* clocks channel 3 w/channel 4 */
+    public static final int CH34_JOINED = 0x08;
+    /* clocks channel 3 w/channel 4 */
 
-    public static final int CH1_FILTER = 0x04;	/* selects channel 1 high pass filter */
+    public static final int CH1_FILTER = 0x04;
+    /* selects channel 1 high pass filter */
 
-    public static final int CH2_FILTER = 0x02;	/* selects channel 2 high pass filter */
+    public static final int CH2_FILTER = 0x02;
+    /* selects channel 2 high pass filter */
 
-    public static final int CLK_15KHZ = 0x01;	/* selects 15.6999 kHz or 63.9211 kHz */
+    public static final int CLK_15KHZ = 0x01;
+    /* selects 15.6999 kHz or 63.9211 kHz */
 
-    /*TODO*////* IRQEN (D20E) */
+ /*TODO*////* IRQEN (D20E) */
 /*TODO*///#define IRQ_BREAK	0x80	/* BREAK key pressed interrupt */
 /*TODO*///#define IRQ_KEYBD	0x40	/* keyboard data ready interrupt */
 /*TODO*///#define IRQ_SERIN	0x20	/* serial input data ready interrupt */
-    public static final int IRQ_SEROR = 0x10;	/* serial output register ready interrupt */
+    public static final int IRQ_SEROR = 0x10;
+    /* serial output register ready interrupt */
 
-    public static final int IRQ_SEROC = 0x08;	/* serial output complete interrupt */
+    public static final int IRQ_SEROC = 0x08;
+    /* serial output complete interrupt */
 
-    public static final int IRQ_TIMR4 = 0x04;	/* timer channel #4 interrupt */
+    public static final int IRQ_TIMR4 = 0x04;
+    /* timer channel #4 interrupt */
 
-    public static final int IRQ_TIMR2 = 0x02;	/* timer channel #2 interrupt */
+    public static final int IRQ_TIMR2 = 0x02;
+    /* timer channel #2 interrupt */
 
-    public static final int IRQ_TIMR1 = 0x01;	/* timer channel #1 interrupt */
+    public static final int IRQ_TIMR1 = 0x01;
+    /* timer channel #1 interrupt */
 
-    /* SKSTAT (R/D20F) */
-    public static final int SK_FRAME = 0x80;	/* serial framing error */
+ /* SKSTAT (R/D20F) */
+    public static final int SK_FRAME = 0x80;
+    /* serial framing error */
 
-    public static final int SK_OVERRUN = 0x40;	/* serial overrun error */
+    public static final int SK_OVERRUN = 0x40;
+    /* serial overrun error */
 
-    public static final int SK_KBERR = 0x20;	/* keyboard overrun error */
+    public static final int SK_KBERR = 0x20;
+    /* keyboard overrun error */
 
-    public static final int SK_SERIN = 0x10;	/* serial input high */
+    public static final int SK_SERIN = 0x10;
+    /* serial input high */
 
-    public static final int SK_SHIFT = 0x08;	/* shift key pressed */
+    public static final int SK_SHIFT = 0x08;
+    /* shift key pressed */
 
-    public static final int SK_KEYBD = 0x04;	/* keyboard key pressed */
+    public static final int SK_KEYBD = 0x04;
+    /* keyboard key pressed */
 
-    public static final int SK_SEROUT = 0x02;	/* serial output active */
+    public static final int SK_SEROUT = 0x02;
+    /* serial output active */
 
 
-    /* SKCTL (W/D20F) */
-    public static final int SK_BREAK = 0x80;	/* serial out break signal */
+ /* SKCTL (W/D20F) */
+    public static final int SK_BREAK = 0x80;
+    /* serial out break signal */
 
-    public static final int SK_BPS = 0x70;	/* bits per second */
+    public static final int SK_BPS = 0x70;
+    /* bits per second */
 
-    public static final int SK_FM = 0x08;	/* FM mode */
+    public static final int SK_FM = 0x08;
+    /* FM mode */
 
-    public static final int SK_PADDLE = 0x04;	/* fast paddle a/d conversion */
+    public static final int SK_PADDLE = 0x04;
+    /* fast paddle a/d conversion */
 
-    public static final int SK_RESET = 0x03;	/* reset serial/keyboard interface */
+    public static final int SK_RESET = 0x03;
+    /* reset serial/keyboard interface */
 
-    public static final int DIV_64 = 28;		 /* divisor for 1.78979 MHz clock to 63.9211 kHz */
+    public static final int DIV_64 = 28;
+    /* divisor for 1.78979 MHz clock to 63.9211 kHz */
 
-    public static final int DIV_15 = 114; 	 /* divisor for 1.78979 MHz clock to 15.6999 kHz */
+    public static final int DIV_15 = 114;
+
+    /* divisor for 1.78979 MHz clock to 15.6999 kHz */
 
 
     public static class POKEYregisters {
 
-        int[] counter = new int[4];		/* channel counter */
+        int[] counter = new int[4];
+        /* channel counter */
 
-        int[] divisor = new int[4];		/* channel divisor (modulo value) */
+        int[] divisor = new int[4];
+        /* channel divisor (modulo value) */
 
-        long[]/*UINT32*/ volume = new long[4];		/* channel volume - derived */
+        long[]/*UINT32*/ volume = new long[4];
+        /* channel volume - derived */
 
-        int[]/*UINT8*/ output = new int[4];		/* channel output signal (1 active, 0 inactive) */
+        int[]/*UINT8*/ output = new int[4];
+        /* channel output signal (1 active, 0 inactive) */
 
-        boolean[]/*UINT8*/ audible = new boolean[4];		/* channel plays an audible tone/effect */
+        boolean[]/*UINT8*/ audible = new boolean[4];
+        /* channel plays an audible tone/effect */
 
-        long /*UINT32*/ samplerate_24_8; /* sample rate in 24.8 format */
+        long /*UINT32*/ samplerate_24_8;
+        /* sample rate in 24.8 format */
 
-        long /*UINT32*/ samplepos_fract; /* sample position fractional part */
+        long /*UINT32*/ samplepos_fract;
+        /* sample position fractional part */
 
-        long /*UINT32*/ samplepos_whole; /* sample position whole part */
+        long /*UINT32*/ samplepos_whole;
+        /* sample position whole part */
 
-        long /*UINT32*/ polyadjust;		/* polynome adjustment */
+        long /*UINT32*/ polyadjust;
+        /* polynome adjustment */
 
-        long /*UINT32*/ p4;              /* poly4 index */
+        long /*UINT32*/ p4;
+        /* poly4 index */
 
-        long /*UINT32*/ p5;              /* poly5 index */
+        long /*UINT32*/ p5;
+        /* poly5 index */
 
-        long /*UINT32*/ p9;              /* poly9 index */
+        long /*UINT32*/ p9;
+        /* poly9 index */
 
-        long /*UINT32*/ p17;             /* poly17 index */
+        long /*UINT32*/ p17;
+        /* poly17 index */
 
-        long /*UINT32*/ r9;				/* rand9 index */
+        long /*UINT32*/ r9;
+        /* rand9 index */
 
-        long /*UINT32*/ r17;             /* rand17 index */
+        long /*UINT32*/ r17;
+        /* rand17 index */
 
-        long /*UINT32*/ clockmult;		/* clock multiplier */
+        long /*UINT32*/ clockmult;
+        /* clock multiplier */
 
-        int channel;            /* streams channel */
+        int channel;
+        /* streams channel */
 
-        timer_entry[] timer = new timer_entry[3]; 		/* timers for channel 1,2 and 4 events */
+        timer_entry[] timer = new timer_entry[3];
+        /* timers for channel 1,2 and 4 events */
 
-        timer_entry rtimer;           /* timer for calculating the random offset */
+        timer_entry rtimer;
+        /* timer for calculating the random offset */
 
-        timer_entry[] ptimer = new timer_entry[8];		/* pot timers */
+        timer_entry[] ptimer = new timer_entry[8];
+        /* pot timers */
 
         ReadHandlerPtr[] pot_r = new ReadHandlerPtr[8];
         ReadHandlerPtr allpot_r;
         ReadHandlerPtr serin_r;
         WriteHandlerPtr serout_w;
         interrupt_cbPtr interrupt_cb;
-        int[]/*UINT8*/ AUDF = new int[4];          /* AUDFx (D200, D202, D204, D206) */
+        int[]/*UINT8*/ AUDF = new int[4];
+        /* AUDFx (D200, D202, D204, D206) */
 
-        int[]/*UINT8*/ AUDC = new int[4];			/* AUDCx (D201, D203, D205, D207) */
+        int[]/*UINT8*/ AUDC = new int[4];
+        /* AUDCx (D201, D203, D205, D207) */
 
-        int[]/*UINT8*/ POTx = new int[8];			/* POTx   (R/D200-D207) */
+        int[]/*UINT8*/ POTx = new int[8];
+        /* POTx   (R/D200-D207) */
 
-        int/*UINT8*/ AUDCTL;			/* AUDCTL (W/D208) */
+        int/*UINT8*/ AUDCTL;
+        /* AUDCTL (W/D208) */
 
-        int/*UINT8*/ ALLPOT;			/* ALLPOT (R/D208) */
+        int/*UINT8*/ ALLPOT;
+        /* ALLPOT (R/D208) */
 
-        int/*UINT8*/ KBCODE;			/* KBCODE (R/D209) */
+        int/*UINT8*/ KBCODE;
+        /* KBCODE (R/D209) */
 
-        int/*UINT8*/ RANDOM;			/* RANDOM (R/D20A) */
+        int/*UINT8*/ RANDOM;
+        /* RANDOM (R/D20A) */
 
-        int/*UINT8*/ SERIN;			/* SERIN  (R/D20D) */
+        int/*UINT8*/ SERIN;
+        /* SERIN  (R/D20D) */
 
-        int/*UINT8*/ SEROUT;			/* SEROUT (W/D20D) */
+        int/*UINT8*/ SEROUT;
+        /* SEROUT (W/D20D) */
 
-        int/*UINT8*/ IRQST;			/* IRQST  (R/D20E) */
+        int/*UINT8*/ IRQST;
+        /* IRQST  (R/D20E) */
 
-        int/*UINT8*/ IRQEN;			/* IRQEN  (W/D20E) */
+        int/*UINT8*/ IRQEN;
+        /* IRQEN  (W/D20E) */
 
-        int/*UINT8*/ SKSTAT;			/* SKSTAT (R/D20F) */
+        int/*UINT8*/ SKSTAT;
+        /* SKSTAT (R/D20F) */
 
-        int/*UINT8*/ SKCTL;			/* SKCTL  (W/D20F) */
+        int/*UINT8*/ SKCTL;
+        /* SKCTL  (W/D20F) */
 
     };
 
@@ -702,6 +768,7 @@ public class pokey extends snd_interface {
         }
     };
     StreamInitPtr[] update = {pokey_update, pokey_update, pokey_update, pokey_update};
+
     /*TODO*///#endif
 /*TODO*///
 /*TODO*///void pokey_sh_update(void)
@@ -738,7 +805,8 @@ public class pokey extends snd_interface {
             fprintf(pokeylog, "rand %d\n", size);
         }
         for (int i = 0; i < mask; i++) {
-            rng[ri] = (char) ((x >>> (size - 8)) & 0xFF);   /* use the upper 8 bits */
+            rng[ri] = (char) ((x >>> (size - 8)) & 0xFF);
+            /* use the upper 8 bits */
 
             if (pokeylog != null) {
                 fprintf(pokeylog, "%05x: %02x\n", x, (int) rng[ri]);
@@ -781,9 +849,11 @@ public class pokey extends snd_interface {
             _pokey[chip].divisor[CHAN3] = 4;
             _pokey[chip].divisor[CHAN4] = 4;
             _pokey[chip].clockmult = DIV_64;
-            _pokey[chip].KBCODE = 0x09;		 /* Atari 800 'no key' */
+            _pokey[chip].KBCODE = 0x09;
+            /* Atari 800 'no key' */
 
-            _pokey[chip].SKCTL = SK_RESET;	 /* let the RNG run after reset */
+            _pokey[chip].SKCTL = SK_RESET;
+            /* let the RNG run after reset */
 
             _pokey[chip].rtimer = timer_set(TIME_NEVER, chip, null);
 
@@ -838,7 +908,7 @@ public class pokey extends snd_interface {
         public void handler(int param) {
             int chip = param >> 3;
             int timers = param & 7;
-	//struct POKEYregisters *p = &pokey[chip];
+            //struct POKEYregisters *p = &pokey[chip];
 
             //LOG_TIMER((errorlog, "POKEY #%d timer %d with IRQEN $%02x\n", chip, param, p->IRQEN));
 
@@ -951,7 +1021,8 @@ public class pokey extends snd_interface {
 
             //LOG((errorlog, "POKEY #%d POT%d triggers after %dus\n", chip, pot, (int)(1000000ul*timer_timeelapsed(p->ptimer[pot]))));
             _pokey[chip].ptimer[pot] = null;
-            _pokey[chip].ALLPOT &= ~(1 << pot);	/* set the enabled timer irq status bits */
+            _pokey[chip].ALLPOT &= ~(1 << pot);
+            /* set the enabled timer irq status bits */
 
         }
     };
@@ -963,7 +1034,6 @@ public class pokey extends snd_interface {
      * In quick mode (SK_PADDLE set) the conversion is done very fast
      * (takes two scalines) but the result is not as accurate.
      */
-
     public static double AD_TIME(int chip) {
         return (double) (((_pokey[chip].SKCTL & SK_PADDLE) != 0 ? 64.0 * 2 / 228 : 64.0) * FREQ_17_EXACT / intf.baseclock);
     }
@@ -1006,31 +1076,32 @@ public class pokey extends snd_interface {
         int data = 0, pot;
 
         switch (offs & 15) {
-            	case POT0_C: case POT1_C: case POT2_C: case POT3_C:
-                case POT4_C: case POT5_C: case POT6_C: case POT7_C:
-		pot = offs & 7;
-		if( _pokey[chip].pot_r[pot] != null )
-		{
-			/*
+            case POT0_C:
+            case POT1_C:
+            case POT2_C:
+            case POT3_C:
+            case POT4_C:
+            case POT5_C:
+            case POT6_C:
+            case POT7_C:
+                pot = offs & 7;
+                if (_pokey[chip].pot_r[pot] != null) {
+                    /*
 			 * If the conversion is not yet finished (ptimer running),
 			 * get the current value by the linear interpolation of
 			 * the final value using the elapsed time.
-			 */
-			if(( _pokey[chip].ALLPOT & (1 << pot) ) != 0)
-			{
-				data = (int) (timer_timeelapsed(_pokey[chip].ptimer[pot]) / AD_TIME(chip));
-/*TODO*///				LOG((errorlog,"POKEY #%d read POT%d (interpolated) $%02x\n", chip, pot, data));
-            }
-			else
-			{
-				data = _pokey[chip].POTx[pot];
-/*TODO*///				LOG((errorlog,"POKEY #%d read POT%d (final value)  $%02x\n", chip, pot, data));
-			}
-		}
-		else
-		if (errorlog!=null)
-			fprintf(errorlog,"PC %04x: warning - read p[chip] #%d POT%d\n", cpu_get_pc(), chip, pot);
-		break;
+                     */
+                    if ((_pokey[chip].ALLPOT & (1 << pot)) != 0) {
+                        data = (int) (timer_timeelapsed(_pokey[chip].ptimer[pot]) / AD_TIME(chip));
+                        /*TODO*///				LOG((errorlog,"POKEY #%d read POT%d (interpolated) $%02x\n", chip, pot, data));
+                    } else {
+                        data = _pokey[chip].POTx[pot];
+                        /*TODO*///				LOG((errorlog,"POKEY #%d read POT%d (final value)  $%02x\n", chip, pot, data));
+                    }
+                } else if (errorlog != null) {
+                    fprintf(errorlog, "PC %04x: warning - read p[chip] #%d POT%d\n", cpu_get_pc(), chip, pot);
+                }
+                break;
 
             case ALLPOT_C:
                 if (_pokey[chip].allpot_r != null) {
@@ -1133,8 +1204,8 @@ public class pokey extends snd_interface {
         }
     };
 
-    public static ReadHandlerPtr quad_pokey_r  = new ReadHandlerPtr() { public int handler(int offset)
-    {
+    public static ReadHandlerPtr quad_pokey_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
             int pokey_num = (offset >> 3) & ~0x04;
             int control = (offset & 0x20) >> 2;
             int pokey_reg = (offset % 8) | control;
@@ -1161,7 +1232,8 @@ public class pokey extends snd_interface {
                 _pokey[chip].AUDF[CHAN1] = data & 0xFF;
                 ch_mask = 1 << CHAN1;
                 if ((_pokey[chip].AUDCTL & CH12_JOINED) != 0) /* if ch 1&2 tied together */ {
-                    ch_mask |= 1 << CHAN2;    /* then also change on ch2 */
+                    ch_mask |= 1 << CHAN2;
+                    /* then also change on ch2 */
 
                 }
                 break;
@@ -1206,7 +1278,8 @@ public class pokey extends snd_interface {
                 ch_mask = 1 << CHAN3;
 
                 if ((_pokey[chip].AUDCTL & CH34_JOINED) != 0) /* if ch 3&4 tied together */ {
-                    ch_mask |= 1 << CHAN4;  /* then also change on ch4 */
+                    ch_mask |= 1 << CHAN4;
+                    /* then also change on ch4 */
 
                 }
                 break;
@@ -1246,8 +1319,9 @@ public class pokey extends snd_interface {
                 }
                 //LOG_SOUND((errorlog, "POKEY #%d AUDCTL $%02x (%s)\n", chip, data, audctl2str(data)));
                 _pokey[chip].AUDCTL = data & 0xFF;
-                ch_mask = 15;       /* all channels */
-                /* determine the base multiplier for the 'div by n' calculations */
+                ch_mask = 15;
+                /* all channels */
+ /* determine the base multiplier for the 'div by n' calculations */
 
                 _pokey[chip].clockmult = ((_pokey[chip].AUDCTL & CLK_15KHZ) != 0) ? DIV_15 : DIV_64;
                 break;
@@ -1281,7 +1355,7 @@ public class pokey extends snd_interface {
                 if ((_pokey[chip].AUDCTL & CH12_JOINED) != 0) {
                     if (_pokey[chip].divisor[CHAN2] > 4) {
                         //LOG_TIMER((errorlog, "POKEY #%d timer1+2 after %d clocks\n", chip, _pokey[chip].divisor[CHAN2]));
-				/* set timer #1 _and_ #2 event after timer_div clocks of joined CHAN1+CHAN2 */
+                        /* set timer #1 _and_ #2 event after timer_div clocks of joined CHAN1+CHAN2 */
                         _pokey[chip].timer[TIMER2]
                                 = timer_pulse(1.0 * _pokey[chip].divisor[CHAN2] / intf.baseclock,
                                         (chip << 3) | IRQ_TIMR2 | IRQ_TIMR1, pokey_timer_expire);
@@ -1289,7 +1363,7 @@ public class pokey extends snd_interface {
                 } else {
                     if (_pokey[chip].divisor[CHAN1] > 4) {
                         //LOG_TIMER((errorlog, "POKEY #%d timer1 after %d clocks\n", chip, _pokey[chip].divisor[CHAN1]));
-				/* set timer #1 event after timer_div clocks of CHAN1 */
+                        /* set timer #1 event after timer_div clocks of CHAN1 */
                         _pokey[chip].timer[TIMER1]
                                 = timer_pulse(1.0 * _pokey[chip].divisor[CHAN1] / intf.baseclock,
                                         (chip << 3) | IRQ_TIMR1, pokey_timer_expire);
@@ -1297,7 +1371,7 @@ public class pokey extends snd_interface {
 
                     if (_pokey[chip].divisor[CHAN2] > 4) {
                         //LOG_TIMER((errorlog, "POKEY #%d timer2 after %d clocks\n", chip, _pokey[chip].divisor[CHAN2]));
-				/* set timer #2 event after timer_div clocks of CHAN2 */
+                        /* set timer #2 event after timer_div clocks of CHAN2 */
                         _pokey[chip].timer[TIMER2]
                                 = timer_pulse(1.0 * _pokey[chip].divisor[CHAN2] / intf.baseclock,
                                         (chip << 3) | IRQ_TIMR2, pokey_timer_expire);
@@ -1310,7 +1384,7 @@ public class pokey extends snd_interface {
                     if ((_pokey[chip].AUDC[CHAN4] & 0xf0) != 0) {
                         if (_pokey[chip].divisor[CHAN4] > 4) {
                             //LOG_TIMER((errorlog, "POKEY #%d timer4 after %d clocks\n", chip, _pokey[chip].divisor[CHAN4]));
-					/* set timer #4 event after timer_div clocks of CHAN4 */
+                            /* set timer #4 event after timer_div clocks of CHAN4 */
                             _pokey[chip].timer[TIMER4]
                                     = timer_pulse(1.0 * _pokey[chip].divisor[CHAN4] / intf.baseclock,
                                             (chip << 3) | IRQ_TIMR4, pokey_timer_expire);
@@ -1319,7 +1393,7 @@ public class pokey extends snd_interface {
                 } else {
                     if (_pokey[chip].divisor[CHAN4] > 4) {
                         //LOG_TIMER((errorlog, "POKEY #%d timer4 after %d clocks\n", chip, _pokey[chip].divisor[CHAN4]));
-				/* set timer #4 event after timer_div clocks of CHAN4 */
+                        /* set timer #4 event after timer_div clocks of CHAN4 */
                         _pokey[chip].timer[TIMER4]
                                 = timer_pulse(1.0 * _pokey[chip].divisor[CHAN4] / intf.baseclock,
                                         (chip << 3) | IRQ_TIMR4, pokey_timer_expire);
@@ -1577,11 +1651,11 @@ public class pokey extends snd_interface {
     };
     public static WriteHandlerPtr pokey4_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            pokey_register_w(3,offset,data);
+            pokey_register_w(3, offset, data);
         }
     };
-    
-    public static WriteHandlerPtr quad_pokey_w= new WriteHandlerPtr() {
+
+    public static WriteHandlerPtr quad_pokey_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             int pokey_num = (offset >> 3) & ~0x04;
             int control = (offset & 0x20) >> 2;
@@ -1590,7 +1664,7 @@ public class pokey extends snd_interface {
             pokey_register_w(pokey_num, pokey_reg, data);
         }
     };
-    
+
     /*TODO*///void pokey1_serin_ready(int after)
     /*TODO*///{
     /*TODO*///	timer_set(1.0 * after / intf.baseclock, 0, pokey_serin_ready);

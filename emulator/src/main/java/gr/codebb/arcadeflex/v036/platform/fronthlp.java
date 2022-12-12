@@ -18,14 +18,14 @@ package gr.codebb.arcadeflex.v036.platform;
 
 import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import gr.codebb.arcadeflex.v036.platform.settings;
 import static arcadeflex.v036.mame.version.*;
 import static gr.codebb.arcadeflex.v036.mame.driver.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.sndintrf.sound_name;
+import static arcadeflex.v036.mame.sndintrf.sound_num;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 
 

@@ -10,11 +10,12 @@ import gr.codebb.arcadeflex.v036.mame.sndintrf;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.sound.sn76496H.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static arcadeflex.v036.sound.streams.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
-public class sn76496 extends sndintrf.snd_interface {
+public class sn76496 extends snd_interface {
 
     private static final int MAX_OUTPUT = 0x7fff;
     private static final int STEP = 0x10000;/* noise feedback for white noise mode */

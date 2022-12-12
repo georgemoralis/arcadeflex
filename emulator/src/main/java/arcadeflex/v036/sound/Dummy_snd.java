@@ -6,8 +6,7 @@ package arcadeflex.v036.sound;
 
 //mame imports
 import static arcadeflex.v036.mame.sndintrfH.*;
-//TODO
-import gr.codebb.arcadeflex.v036.mame.sndintrf.snd_interface;
+import arcadeflex.v036.mame.sndintrf.snd_interface;
 
 public class Dummy_snd extends snd_interface {
 
