@@ -21,6 +21,7 @@ import static arcadeflex.v036.mame.paletteH.*;
 import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.usrintrfH.*;
 import static arcadeflex.v036.mame.version.*;
+import static arcadeflex.v036.mame.mameH.*;
 //common imports
 import static common.libc.cstring.*;
 //TODO
@@ -32,7 +33,6 @@ import static gr.codebb.arcadeflex.v036.mame.common.dispensed_tickets;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.decodegfx;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.drawgfx;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.mame.mameH.MAX_GFX_ELEMENTS;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.sprintf;
 import static gr.codebb.arcadeflex.v036.platform.sound.osd_get_mastervolume;
 import static gr.codebb.arcadeflex.v036.platform.sound.osd_set_mastervolume;

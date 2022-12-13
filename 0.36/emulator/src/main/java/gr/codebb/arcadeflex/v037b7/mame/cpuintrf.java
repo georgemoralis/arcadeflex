@@ -1800,7 +1800,7 @@ public class cpuintrf {
         /* while we're at it, compute the scanline times */
         if (Machine.drv.vblank_duration != 0) {
             scanline_period = (refresh_period - TIME_IN_USEC(Machine.drv.vblank_duration))
-                    / (double) (Machine.visible_area.max_y - Machine.visible_area.min_y + 1);
+                    / (double) (Machine.drv.visible_area.max_y - Machine.drv.visible_area.min_y + 1);
         } else {
             scanline_period = refresh_period / (double) Machine.drv.screen_height;
         }

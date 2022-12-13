@@ -24,7 +24,6 @@ import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import gr.codebb.arcadeflex.v036.platform.MainStream;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.cstdlib.rand;
-import static gr.codebb.arcadeflex.v036.mame.mameH.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
@@ -41,6 +40,10 @@ import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.driver.drivers;
 import static arcadeflex.v036.mame.inptport.*;
+import arcadeflex.v036.mame.mameH.GameOptions;
+import static arcadeflex.v036.mame.mameH.MAX_GFX_ELEMENTS;
+import static arcadeflex.v036.mame.mameH.MAX_MEMORY_REGIONS;
+import arcadeflex.v036.mame.mameH.RunningMachine;
 import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;
 import static arcadeflex.v036.mame.osdependH.*;
 import static arcadeflex.v036.mame.sndintrf.sound_start;
@@ -91,7 +94,6 @@ public class mame {
         System.out.println("Machine.gamedrv: " + Machine.gamedrv.drv.init_machine);
         System.out.println("drivers[game]: " + drivers[game].drv.init_machine);
         Machine.drv = drv = gamedrv.drv;
-        /*TODO TOTAL HACK TO BE REMOVED*/ Machine.visible_area = Machine.drv.visible_area;
         /* copy configuration */
         if (options.color_depth == 16
                 || (options.color_depth != 8 && (Machine.gamedrv.flags & GAME_REQUIRES_16BIT) != 0)) {

@@ -16,7 +16,7 @@ import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.memoryH.*;
-//commonh
+//common imports
 import static common.util.*;
 
 public class driverH {
