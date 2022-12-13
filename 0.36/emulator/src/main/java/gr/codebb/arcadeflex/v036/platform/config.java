@@ -479,7 +479,7 @@ public class config {
             /*TODO*///	if (get_bool  ("config", "hotrodse",   NULL,  0)) use_hotrod = 2;
             /*TODO*///
             /*TODO*///	/* misc configuration */
-            /*TODO*///	options.cheat      = get_bool ("config", "cheat", NULL, 0);
+            options.cheat=1;/*TODO*///	options.cheat      = get_bool ("config", "cheat", NULL, 0);
             /*TODO*///	options.mame_debug = get_bool ("config", "debug", NULL, 0);
             /*TODO*///	cheatfile  = get_string ("config", "cheatfile", "cf", "CHEAT.DAT");    /* JCK 980917 */
             /*TODO*///

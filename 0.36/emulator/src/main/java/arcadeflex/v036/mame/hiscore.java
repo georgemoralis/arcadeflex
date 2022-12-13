@@ -1,6 +1,11 @@
 /**
  * ported to v0.36
- *
+ * Most of the functions are based on java way of parsing files with strings
+ */
+/**
+ * Changelog
+ * =========
+ * 13/12/2022 - shadow - This file should be complete for 0.36 version
  */
 package arcadeflex.v036.mame;
 

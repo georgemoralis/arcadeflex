@@ -1,5 +1,6 @@
 package gr.codebb.arcadeflex.v036.platform;
 
+import static arcadeflex.v036.mame.common.save_screen_snapshot;
 import static arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.platform.ticker.*;
@@ -2339,11 +2340,11 @@ public class video {
         return brightness;
     }
 
-    /*TODO*///
-    /*TODO*///void osd_save_snapshot(void)
-    /*TODO*///{
-    /*TODO*///	save_screen_snapshot();
-    /*TODO*///}
+    
+    public static void osd_save_snapshot()
+    {
+    	save_screen_snapshot();
+    }
     public static void osd_pause(int paused) {
         int i;
 

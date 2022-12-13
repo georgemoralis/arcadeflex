@@ -5,6 +5,9 @@
 package arcadeflex.v036.mame;
 
 //mame imports
+import static arcadeflex.v036.mame.cheat.DoCheat;
+import static arcadeflex.v036.mame.cheat.cheat_menu;
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.datafile.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
@@ -39,6 +42,7 @@ import static gr.codebb.arcadeflex.v036.platform.video.osd_get_brightness;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_get_pen;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_mark_dirty;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_pause;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_save_snapshot;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_set_brightness;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_skip_this_frame;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_update_video_and_audio;
@@ -1135,8 +1139,9 @@ public class usrintrf {
                 }
             }
 
-            /*TODO*///		if (input_ui_pressed(IPT_UI_SNAPSHOT))
-/*TODO*///			osd_save_snapshot();
+            if (input_ui_pressed(IPT_UI_SNAPSHOT) != 0) {
+                osd_save_snapshot();
+            }
         } while (input_ui_pressed(IPT_UI_SHOW_GFX) == 0
                 && input_ui_pressed(IPT_UI_CANCEL) == 0);
 
@@ -2643,11 +2648,11 @@ public class usrintrf {
         menu_item[menu_total] = "Game History";
         menu_action[menu_total++] = UI_HISTORY;
 
-        /*TODO*///	if (options.cheat)
-        /*TODO*///	{
-        /*TODO*///		menu_item[menu_total] = "Cheat"; menu_action[menu_total++] = UI_CHEAT;
-        /*TODO*///	}
-        /*TODO*///
+        if (options.cheat != 0) {
+            menu_item[menu_total] = "Cheat";
+            menu_action[menu_total++] = UI_CHEAT;
+        }
+
         /*TODO*///#ifndef NEOFREE
         /*TODO*///#ifndef TINY_COMPILE
         /*TODO*///	if (Machine->gamedrv->clone_of == &driver_neogeo ||
@@ -2763,15 +2768,16 @@ public class usrintrf {
                     }
                     break;
 
-                /*TODO*///			case UI_CHEAT:
-                /*TODO*///osd_sound_enable(0);
-                /*TODO*///while (seq_pressed(input_port_type_seq(IPT_UI_SELECT)))
-                /*TODO*///	osd_update_video_and_audio();	  /* give time to the sound hardware to apply the volume change */
-                /*TODO*///				cheat_menu();
-                /*TODO*///osd_sound_enable(1);
-                /*TODO*///sel = sel & SEL_MASK;
-                /*TODO*///				break;
-                /*TODO*///
+                case UI_CHEAT:
+                    osd_sound_enable(0);
+                    while (seq_pressed(input_port_type_seq(IPT_UI_SELECT))) {
+                        osd_update_video_and_audio();/* give time to the sound hardware to apply the volume change */
+                    }
+                    cheat_menu();
+                    osd_sound_enable(1);
+                    sel = sel & SEL_MASK;
+                    break;
+
                 /*TODO*///#ifndef NEOFREE
                 /*TODO*///#ifndef TINY_COMPILE
                 /*TODO*///			case UI_MEMCARD:
@@ -3215,13 +3221,16 @@ public class usrintrf {
     static int show_total_colors;
 
     public static int handle_user_interface() {
-        /*TODO*///	/* if the user pressed F12, save the screen to a file */
-        /*TODO*///	if (input_ui_pressed(IPT_UI_SNAPSHOT))
-        /*TODO*///		osd_save_snapshot();
-        /*TODO*///
-        /*TODO*///	/* This call is for the cheat, it must be called at least each frames */
-        /*TODO*///	if (options.cheat) DoCheat();
-        /*TODO*///
+        /* if the user pressed F12, save the screen to a file */
+        if (input_ui_pressed(IPT_UI_SNAPSHOT) != 0) {
+            osd_save_snapshot();
+        }
+
+        /* This call is for the cheat, it must be called at least each frames */
+        if (options.cheat != 0) {
+            DoCheat();
+        }
+
         /* if the user pressed ESC, stop the emulation */
  /* but don't quit if the setup menu is on screen */
         if (setup_selected == 0 && input_ui_pressed(IPT_UI_CANCEL) != 0) {
@@ -3277,9 +3286,9 @@ public class usrintrf {
                     }
                 }
 
-                /*TODO*///			if (input_ui_pressed(IPT_UI_SNAPSHOT))
-                /*TODO*///				osd_save_snapshot();
-                /*TODO*///
+                if (input_ui_pressed(IPT_UI_SNAPSHOT) != 0) {
+                    osd_save_snapshot();
+                }
                 if (setup_selected == 0 && input_ui_pressed(IPT_UI_CANCEL) != 0) {
                     return 1;
                 }
@@ -3356,10 +3365,10 @@ public class usrintrf {
     }
 
     public static void init_user_interface() {
-        /*TODO*///	extern int snapno;	/* in common.c */
-        /*TODO*///
-        /*TODO*///	snapno = 0; /* reset snapshot counter */
-        /*TODO*///
+
+        snapno = 0;
+        /* reset snapshot counter */
+
         setup_menu_init();
         setup_selected = 0;
 

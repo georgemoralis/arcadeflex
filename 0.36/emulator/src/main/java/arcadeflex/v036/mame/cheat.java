@@ -131,6 +131,7 @@ public class cheat {
 /*TODO*///int sologame   = 0;
 /*TODO*///
     public static int he_did_cheat;
+
     /*TODO*///
 /*TODO*///void	CheatListHelp( void );
 /*TODO*///void	CheatListHelpEmpty( void );
@@ -5632,9 +5633,8 @@ public class cheat {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*///int cheat_menu(void)
-/*TODO*///{
-/*TODO*///  int x,y;
+    public static int cheat_menu() {
+        /*TODO*///  int x,y;
 /*TODO*///  int s,key,done;
 /*TODO*///  int total;
 /*TODO*///
@@ -5737,9 +5737,10 @@ public class cheat {
 /*TODO*///  if (done == 2)
 /*TODO*///	return 1;
 /*TODO*///  else
-/*TODO*///	return 0;
-/*TODO*///}
-/*TODO*///
+	return 0;
+    }
+
+    /*TODO*///
 /*TODO*////* Free allocated arrays */
 /*TODO*///void StopCheat(void)
 /*TODO*///{
@@ -5753,9 +5754,8 @@ public class cheat {
 /*TODO*///  reset_texttable (HelpLine);
 /*TODO*///}
 /*TODO*///
-/*TODO*///void DoCheat(void)
-/*TODO*///{
-/*TODO*///	int i;
+    public static void DoCheat() {
+        /*TODO*///	int i;
 /*TODO*///	char buf[80];
 /*TODO*///
 /*TODO*///
@@ -6137,8 +6137,8 @@ public class cheat {
 /*TODO*///	osd_sound_enable(1);
 /*TODO*///  }
 /*TODO*///
-/*TODO*///}
-/*TODO*///
+    }
+    /*TODO*///
 /*TODO*///
 /*TODO*///void ShowHelp(int LastHelpLine, struct TextLine *table)
 /*TODO*///{

@@ -795,11 +795,10 @@ public class common {
 /*TODO*///
 /*TODO*///
 /*TODO*///
-/*TODO*///int snapno;
-/*TODO*///
-/*TODO*///void save_screen_snapshot(void)
-/*TODO*///{
-/*TODO*///	void *fp;
+    public static int snapno;
+
+    public static void save_screen_snapshot() {
+        /*TODO*///	void *fp;
 /*TODO*///	char name[20];
 /*TODO*///
 /*TODO*///
@@ -839,6 +838,5 @@ public class common {
 /*TODO*///
 /*TODO*///		osd_fclose(fp);
 /*TODO*///	}
-/*TODO*///}
-/*TODO*///
+    }
 }
