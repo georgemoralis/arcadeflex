@@ -582,16 +582,6 @@ public class mame {
         return res;
     }
 
-    public static int mame_highscore_enabled() {
-        /* disable high score when record/playback is on */
-        if (record != null || playback != null) {
-            return 0;
-        }
-
-        /* disable high score when cheats are used */
- /*TODO*/ //            if (he_did_cheat != 0) return 0;
-        return 1;
-    }
 
     /* Scale the vector games to a given resolution */
     public static void scale_vectorgames(int gfx_width, int gfx_height, int width, int height) {

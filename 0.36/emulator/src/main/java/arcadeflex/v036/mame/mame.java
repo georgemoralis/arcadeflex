@@ -3,8 +3,13 @@
  */
 package arcadeflex.v036.mame;
 
+import static arcadeflex.v036.mame.cheat.he_did_cheat;
+import static gr.codebb.arcadeflex.v036.mame.mame.playback;
+import static gr.codebb.arcadeflex.v036.mame.mame.record;
+
 public class mame {
-/*TODO*///#include "driver.h"
+
+    /*TODO*///#include "driver.h"
 /*TODO*///#include <ctype.h>
 /*TODO*///
 /*TODO*///
@@ -855,21 +860,18 @@ public class mame {
 /*TODO*///
 /*TODO*///
 /*TODO*///
-/*TODO*///int mame_highscore_enabled(void)
-/*TODO*///{
-/*TODO*///	/* disable high score when record/playback is on */
-/*TODO*///	if (record != 0 || playback != 0) return 0;
-/*TODO*///
-/*TODO*///	/* disable high score when cheats are used */
-/*TODO*///	if (he_did_cheat != 0) return 0;
-/*TODO*///
-/*TODO*///#ifdef MAME_NET
-/*TODO*///    /* disable high score when playing network game */
-/*TODO*///    /* (this forces all networked machines to start from the same state!) */
-/*TODO*///    if (net_active()) return 0;
-/*TODO*///#endif /* MAME_NET */
-/*TODO*///
-/*TODO*///	return 1;
-/*TODO*///}
-/*TODO*///    
+    public static int mame_highscore_enabled() {
+        /* disable high score when record/playback is on */
+        if (record != null || playback != null) {
+            return 0;
+        }
+
+        /* disable high score when cheats are used */
+        if (he_did_cheat != 0) {
+            return 0;
+        }
+
+        return 1;
+    }
+
 }

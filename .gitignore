@@ -33,3 +33,4 @@ emulator/samples/*
 /0.36/Release/arcadeflex.cfg
 /0.36/Release/roms/*
 /0.36/Release/samples/*
+/0.36/Release/hi/*.hi

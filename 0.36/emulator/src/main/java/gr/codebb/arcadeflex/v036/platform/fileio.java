@@ -6,20 +6,18 @@ import java.io.ByteArrayOutputStream;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.zip.CRC32;
-import java.util.zip.CheckedInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import static arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import gr.codebb.arcadeflex.common.CRC;
+import static arcadeflex.v036.mame.mame.mame_highscore_enabled;
 
 public class fileio {
 
@@ -34,6 +32,7 @@ public class fileio {
     //public static String romUrl = "http://www.jnodes.net/roms/";
     /*TODO*/ //    char *cfgdir, *nvdir, *hidir, *inpdir, *stadir;
     /*TODO*/ //   char *memcarddir, *artworkdir, *screenshotdir;
+    static String hidir="hi";
     /*temp nvdir, will be configurable lator*/ static String nvdir = "nvram";
     /*TODO*/ //     char *alternate_name;				   /* for "-romdir" */
     public static final int kPlainFile = 1;
@@ -333,18 +332,18 @@ public class fileio {
                 }
                 break;
 
-            /*TODO*///           case OSD_FILETYPE_HIGHSCORE:
-            /*TODO*///                   if( mame_highscore_enabled () )
-            /*TODO*///                   {
-            /*TODO*///                           if( !found )
-            /*TODO*///                           {
-            /*TODO*///                                   sprintf (name, "%s/%s.hi", hidir, gamename);
-            /*TODO*///                                   f->type = kPlainFile;
-            /*TODO*///                                   f->file = fopen (name, _write ? "wb" : "rb");
-            /*TODO*///                                   found = f->file != 0;
-            /*TODO*///                           }                      
-            /*TODO*///                   }
-            /*TODO*///                   break;
+                       case OSD_FILETYPE_HIGHSCORE:
+                               if( mame_highscore_enabled()!=0 )
+                               {
+                                       if( found ==0)
+                                       {
+                                               name=sprintf("%s/%s.hi", hidir, gamename);
+                                               f.type = kPlainFile;
+                                               f.file = fopen (name, _write!=0 ? "wb" : "rb");
+                                                 found = (f.file != null) ? 1 : 0;
+                                       }                      
+                               }
+                               break;
 
             /*TODO*///       case OSD_FILETYPE_CONFIG:
             /*TODO*///                   sprintf (name, "%s/%s.cfg", cfgdir, gamename);

@@ -52,6 +52,10 @@ import gr.codebb.arcadeflex.v037b7.cpu.i8085.i8085;
 import arcadeflex.v036.cpu.s2650.s2650;
 import static arcadeflex.v036.mame.cpuintrf.cpu_timedintcallback;
 import static arcadeflex.v036.mame.cpuintrf.cpu_vblankintcallback;
+import static arcadeflex.v036.mame.hiscore.hs_close;
+import static arcadeflex.v036.mame.hiscore.hs_init;
+import static arcadeflex.v036.mame.hiscore.hs_open;
+import static arcadeflex.v036.mame.hiscore.hs_update;
 import static arcadeflex.v036.mame.sndintrf.sound_reset;
 
 public class cpuintrf {
@@ -421,8 +425,8 @@ public class cpuintrf {
         reset:
         for (;;) {
             /* read hi scores information from hiscore.dat */
- /*TODO*///            hs_open(Machine.gamedrv.name);
-/*TODO*///            hs_init();
+            hs_open(Machine.gamedrv.name);
+            hs_init();
 
             /* initialize the various timers (suspends all CPUs at startup) */
             cpu_inittimers();
@@ -530,7 +534,7 @@ public class cpuintrf {
 
             }
             /* write hi scores to disk - No scores saving if cheat */
- /*TODO*///            hs_close();
+             hs_close();
 /*TODO*///#ifdef MESS
 /*TODO*///	if (Machine->drv->stop_machine) (*Machine->drv->stop_machine)();
 /*TODO*///#endif
@@ -593,7 +597,7 @@ public class cpuintrf {
      */
     public static void machine_reset() {
         /* write hi scores to disk - No scores saving if cheat */
- /*TODO*///        hs_close();
+         hs_close();
 
         have_to_reset = 1;
     }
@@ -1629,7 +1633,7 @@ public class cpuintrf {
         int i;
 
         /* read hi scores from disk */
- /*TODO*///       hs_update();
+        hs_update();
 
         /* read keyboard & update the status of the input ports */
         update_input_ports();

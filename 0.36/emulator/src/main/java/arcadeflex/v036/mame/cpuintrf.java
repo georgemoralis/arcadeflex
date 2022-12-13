@@ -5,24 +5,12 @@ package arcadeflex.v036.mame;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static arcadeflex.v036.mame.cpuintrfH.ASSERT_LINE;
-import static arcadeflex.v036.mame.cpuintrfH.CLEAR_LINE;
-import static arcadeflex.v036.mame.cpuintrfH.PULSE_LINE;
-import static arcadeflex.v036.mame.sndintrf.refresh_period_inv;
-import static arcadeflex.v036.mame.timer.timer_get_time;
-import static arcadeflex.v036.mame.timer.timer_iscpususpended;
-import static arcadeflex.v036.mame.timer.timer_set;
-import static arcadeflex.v036.mame.timer.timer_starttime;
-import static arcadeflex.v036.mame.timer.timer_suspendcpu;
-import static arcadeflex.v036.mame.timer.timer_timeelapsed;
-import static arcadeflex.v036.mame.timerH.SUSPEND_REASON_RESET;
-import static arcadeflex.v036.mame.timerH.TIME_IN_HZ;
-import static arcadeflex.v036.mame.timerH.TIME_IN_NSEC;
-import static arcadeflex.v036.mame.timerH.TIME_NOW;
-import static arcadeflex.v036.mame.timerH.TIME_TO_CYCLES;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import static arcadeflex.v036.mame.cpuintrfH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 //TODO
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
+import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 
 public class cpuintrf {
 
