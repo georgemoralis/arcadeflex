@@ -4,41 +4,31 @@
  */
 package arcadeflex.v036.mame;
 
+//mame imports
+import static arcadeflex.v036.mame.datafile.load_driver_history;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.inptportH.*;
+import static arcadeflex.v036.mame.input.*;
+import static arcadeflex.v036.mame.usrintrfH.*;
+//common imports
+import static common.libc.cstring.*;
+//TODO
+import static gr.codebb.arcadeflex.v036.mame.drawgfx.drawgfx;
+import static gr.codebb.arcadeflex.v036.mame.mame.*;
+import static gr.codebb.arcadeflex.v036.mame.usrintrf.drawhline_norotate;
+import static gr.codebb.arcadeflex.v036.mame.usrintrf.drawpixel;
+import static gr.codebb.arcadeflex.v036.mame.usrintrf.drawvline_norotate;
+import static gr.codebb.arcadeflex.v036.mame.usrintrf.ui_displaymessagewindow;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_clearbitmap;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_mark_dirty;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_update_video_and_audio;
+
 public class usrintrf {
+
     /*TODO*///
 /*TODO*///#define SEL_BITS 12
 /*TODO*///#define SEL_MASK ((1<<SEL_BITS)-1)
-/*TODO*///
-/*TODO*///extern int mame_debug;
-/*TODO*///
-/*TODO*///extern int need_to_clear_bitmap;	/* used to tell updatescreen() to clear the bitmap */
-/*TODO*///extern int bitmap_dirty;	/* set by osd_clearbitmap() */
-/*TODO*///
-/*TODO*////* Variables for stat menu */
-/*TODO*///extern char build_version[];
-/*TODO*///extern unsigned int dispensed_tickets;
-/*TODO*///extern unsigned int coins[COIN_COUNTERS];
-/*TODO*///extern unsigned int coinlockedout[COIN_COUNTERS];
-/*TODO*///
-/*TODO*////* MARTINEZ.F 990207 Memory Card */
-/*TODO*///#ifndef NEOFREE
-/*TODO*///#ifndef TINY_COMPILE
-/*TODO*///int 		memcard_menu(int);
-/*TODO*///extern int	mcd_action;
-/*TODO*///extern int	mcd_number;
-/*TODO*///extern int	memcard_status;
-/*TODO*///extern int	memcard_number;
-/*TODO*///extern int	memcard_manager;
-/*TODO*///#endif
-/*TODO*///#endif
-/*TODO*///
-/*TODO*///extern int neogeo_memcard_load(int);
-/*TODO*///extern void neogeo_memcard_save(void);
-/*TODO*///extern void neogeo_memcard_eject(void);
-/*TODO*///extern int neogeo_memcard_create(int);
-/*TODO*////* MARTINEZ.F 990207 Memory Card End */
-/*TODO*///
-/*TODO*///
 /*TODO*///
 /*TODO*///static int setup_selected;
 /*TODO*///static int osd_selected;
@@ -326,97 +316,85 @@ public class usrintrf {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Display text on the screen. If erase is 0, it superimposes the text on
-/*TODO*///  the last frame displayed.
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///
-/*TODO*///void displaytext(const struct DisplayText *dt,int erase,int update_screen)
-/*TODO*///{
-/*TODO*///	int trueorientation;
-/*TODO*///
-/*TODO*///
-/*TODO*///	if (erase)
-/*TODO*///		osd_clearbitmap(Machine->scrbitmap);
-/*TODO*///
-/*TODO*///
-/*TODO*///	/* hack: force the display into standard orientation to avoid */
-/*TODO*///	/* rotating the user interface */
-/*TODO*///	trueorientation = Machine->orientation;
-/*TODO*///	Machine->orientation = Machine->ui_orientation;
-/*TODO*///
-/*TODO*///	osd_mark_dirty (0,0,Machine->uiwidth-1,Machine->uiheight-1,1);	/* ASG 971011 */
-/*TODO*///
-/*TODO*///	while (dt->text)
-/*TODO*///	{
-/*TODO*///		int x,y;
-/*TODO*///		const char *c;
-/*TODO*///
-/*TODO*///
-/*TODO*///		x = dt->x;
-/*TODO*///		y = dt->y;
-/*TODO*///		c = dt->text;
-/*TODO*///
-/*TODO*///		while (*c)
-/*TODO*///		{
-/*TODO*///			int wrapped;
-/*TODO*///
-/*TODO*///
-/*TODO*///			wrapped = 0;
-/*TODO*///
-/*TODO*///			if (*c == '\n')
-/*TODO*///			{
-/*TODO*///				x = dt->x;
-/*TODO*///				y += Machine->uifontheight + 1;
-/*TODO*///				wrapped = 1;
-/*TODO*///			}
-/*TODO*///			else if (*c == ' ')
-/*TODO*///			{
-/*TODO*///				/* don't try to word wrap at the beginning of a line (this would cause */
-/*TODO*///				/* an endless loop if a word is longer than a line) */
-/*TODO*///				if (x != dt->x)
-/*TODO*///				{
-/*TODO*///					int nextlen=0;
-/*TODO*///					const char *nc;
-/*TODO*///
-/*TODO*///
-/*TODO*///					nc = c+1;
-/*TODO*///					while (*nc && *nc != ' ' && *nc != '\n')
-/*TODO*///					{
-/*TODO*///						nextlen += Machine->uifontwidth;
-/*TODO*///						nc++;
-/*TODO*///					}
-/*TODO*///
-/*TODO*///					/* word wrap */
-/*TODO*///					if (x + Machine->uifontwidth + nextlen > Machine->uiwidth)
-/*TODO*///					{
-/*TODO*///						x = dt->x;
-/*TODO*///						y += Machine->uifontheight + 1;
-/*TODO*///						wrapped = 1;
-/*TODO*///					}
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///
-/*TODO*///			if (!wrapped)
-/*TODO*///			{
-/*TODO*///				drawgfx(Machine->scrbitmap,Machine->uifont,*c,dt->color,0,0,x+Machine->uixmin,y+Machine->uiymin,0,TRANSPARENCY_NONE,0);
-/*TODO*///				x += Machine->uifontwidth;
-/*TODO*///			}
-/*TODO*///
-/*TODO*///			c++;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		dt++;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	Machine->orientation = trueorientation;
-/*TODO*///
-/*TODO*///	if (update_screen) osd_update_video_and_audio();
-/*TODO*///}
-/*TODO*///
+    /**
+     * *************************************************************************
+     *
+     * Display text on the screen. If erase is 0, it superimposes the text on
+     * the last frame displayed.
+     *
+     **************************************************************************
+     */
+    public static void displaytext(DisplayText[] dta, int erase, int update_screen) {
+        int trueorientation;
+
+        if (erase != 0) {
+            osd_clearbitmap(Machine.scrbitmap);
+        }
+
+        /* hack: force the display into standard orientation to avoid */
+ /* rotating the user interface */
+        trueorientation = Machine.orientation;
+        Machine.orientation = Machine.ui_orientation;
+
+        osd_mark_dirty(0, 0, Machine.uiwidth - 1, Machine.uiheight - 1, 1);
+        /* ASG 971011 */
+        for (DisplayText dt : dta) {
+            if (dt.text != null) {
+                int x, y;
+                int c;
+
+                x = dt.x;
+                y = dt.y;
+                c = 0;//dt.text;
+
+                while (c < dt.text.length() && dt.text.charAt(c) != '\0') {
+                    boolean wrapped = false;
+
+                    if (dt.text.charAt(c) == '\n') {
+                        x = dt.x;
+                        y += Machine.uifontheight + 1;
+                        wrapped = true;
+                    } else if (dt.text.charAt(c) == ' ') {
+                        /* don't try to word wrap at the beginning of a line (this would cause */
+ /* an endless loop if a word is longer than a line) */
+                        if (x != dt.x) {
+                            int nextlen = 0;
+                            int nc;
+
+                            nc = c + 1;
+                            while (nc < dt.text.length() && dt.text.charAt(nc) != '\0' && dt.text.charAt(nc) != ' ' && dt.text.charAt(nc) != '\n') {
+                                nextlen += Machine.uifontwidth;
+                                nc++;
+                            }
+
+                            /* word wrap */
+                            if (x + Machine.uifontwidth + nextlen > Machine.uiwidth) {
+                                x = dt.x;
+                                y += Machine.uifontheight + 1;
+                                wrapped = true;
+                            }
+                        }
+                    }
+
+                    if (!wrapped) {
+                        drawgfx(Machine.scrbitmap, Machine.uifont, dt.text.charAt(c), dt.color, 0, 0, x + Machine.uixmin, y + Machine.uiymin, null, TRANSPARENCY_NONE, 0);
+                        x += Machine.uifontwidth;
+                    }
+
+                    c++;
+                }
+            } else {
+                break;
+            }
+        }
+        Machine.orientation = trueorientation;
+
+        if (update_screen != 0) {
+            osd_update_video_and_audio();
+        }
+    }
+
+    /*TODO*///
 /*TODO*////* Writes messages on the screen. */
 /*TODO*///static void ui_text_ex(const char* buf_begin, const char* buf_end, int x, int y, int color)
 /*TODO*///{
@@ -496,109 +474,123 @@ public class usrintrf {
 /*TODO*///
 /*TODO*///	osd_mark_dirty(x,y,x,y+h-1,1);
 /*TODO*///}
-/*TODO*///
-/*TODO*///INLINE void drawhline(int x, int w, int y, unsigned short color)
-/*TODO*///{
-/*TODO*///	if (Machine->ui_orientation & ORIENTATION_SWAP_XY)
-/*TODO*///	{
-/*TODO*///		if (Machine->ui_orientation & ORIENTATION_FLIP_X)
-/*TODO*///			y = Machine->scrbitmap->width - y - 1;
-/*TODO*///		if (Machine->ui_orientation & ORIENTATION_FLIP_Y)
-/*TODO*///			x = Machine->scrbitmap->height - x - w;
-/*TODO*///
-/*TODO*///		drawvline_norotate(y,x,w,color);
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		if (Machine->ui_orientation & ORIENTATION_FLIP_X)
-/*TODO*///			x = Machine->scrbitmap->width - x - w;
-/*TODO*///		if (Machine->ui_orientation & ORIENTATION_FLIP_Y)
-/*TODO*///			y = Machine->scrbitmap->height - y - 1;
-/*TODO*///
-/*TODO*///		drawhline_norotate(x,w,y,color);
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///INLINE void drawvline(int x, int y, int h, unsigned short color)
-/*TODO*///{
-/*TODO*///	if (Machine->ui_orientation & ORIENTATION_SWAP_XY)
-/*TODO*///	{
-/*TODO*///		if (Machine->ui_orientation & ORIENTATION_FLIP_X)
-/*TODO*///			y = Machine->scrbitmap->width - y - h;
-/*TODO*///		if (Machine->ui_orientation & ORIENTATION_FLIP_Y)
-/*TODO*///			x = Machine->scrbitmap->height - x - 1;
-/*TODO*///
-/*TODO*///		drawhline_norotate(y,h,x,color);
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		if (Machine->ui_orientation & ORIENTATION_FLIP_X)
-/*TODO*///			x = Machine->scrbitmap->width - x - 1;
-/*TODO*///		if (Machine->ui_orientation & ORIENTATION_FLIP_Y)
-/*TODO*///			y = Machine->scrbitmap->height - y - h;
-/*TODO*///
-/*TODO*///		drawvline_norotate(x,y,h,color);
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///void ui_drawbox(int leftx,int topy,int width,int height)
-/*TODO*///{
-/*TODO*///	int y;
-/*TODO*///	unsigned short black,white;
-/*TODO*///
-/*TODO*///
-/*TODO*///	if (leftx < 0) leftx = 0;
-/*TODO*///	if (topy < 0) topy = 0;
-/*TODO*///	if (width > Machine->uiwidth) width = Machine->uiwidth;
-/*TODO*///	if (height > Machine->uiheight) height = Machine->uiheight;
-/*TODO*///
-/*TODO*///	leftx += Machine->uixmin;
-/*TODO*///	topy += Machine->uiymin;
-/*TODO*///
-/*TODO*///	black = Machine->uifont->colortable[0];
-/*TODO*///	white = Machine->uifont->colortable[1];
-/*TODO*///
-/*TODO*///	drawhline(leftx,width,topy, 		white);
-/*TODO*///	drawhline(leftx,width,topy+height-1,white);
-/*TODO*///	drawvline(leftx,		topy,height,white);
-/*TODO*///	drawvline(leftx+width-1,topy,height,white);
-/*TODO*///	for (y = topy+1;y < topy+height-1;y++)
-/*TODO*///		drawhline(leftx+1,width-2,y,black);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///static void drawbar(int leftx,int topy,int width,int height,int percentage,int default_percentage)
-/*TODO*///{
-/*TODO*///	int y;
-/*TODO*///	unsigned short black,white;
-/*TODO*///
-/*TODO*///
-/*TODO*///	if (leftx < 0) leftx = 0;
-/*TODO*///	if (topy < 0) topy = 0;
-/*TODO*///	if (width > Machine->uiwidth) width = Machine->uiwidth;
-/*TODO*///	if (height > Machine->uiheight) height = Machine->uiheight;
-/*TODO*///
-/*TODO*///	leftx += Machine->uixmin;
-/*TODO*///	topy += Machine->uiymin;
-/*TODO*///
-/*TODO*///	black = Machine->uifont->colortable[0];
-/*TODO*///	white = Machine->uifont->colortable[1];
-/*TODO*///
-/*TODO*///	for (y = topy;y < topy + height/8;y++)
-/*TODO*///		drawpixel(leftx+(width-1)*default_percentage/100, y, white);
-/*TODO*///
-/*TODO*///	drawhline(leftx,width,topy+height/8,white);
-/*TODO*///
-/*TODO*///	for (y = topy+height/8;y < topy+height-height/8;y++)
-/*TODO*///		drawhline(leftx,1+(width-1)*percentage/100,y,white);
-/*TODO*///
-/*TODO*///	drawhline(leftx,width,topy+height-height/8-1,white);
-/*TODO*///
-/*TODO*///	for (y = topy+height-height/8;y < topy + height;y++)
-/*TODO*///		drawpixel(leftx+(width-1)*default_percentage/100, y, white);
-/*TODO*///}
-/*TODO*///
+    public static void drawhline(int x, int w, int y, char color) {
+        if ((Machine.ui_orientation & ORIENTATION_SWAP_XY) != 0) {
+            if ((Machine.ui_orientation & ORIENTATION_FLIP_X) != 0) {
+                y = Machine.scrbitmap.width - y - 1;
+            }
+            if ((Machine.ui_orientation & ORIENTATION_FLIP_Y) != 0) {
+                x = Machine.scrbitmap.height - x - w;
+            }
+
+            drawvline_norotate(y, x, w, color);
+        } else {
+            if ((Machine.ui_orientation & ORIENTATION_FLIP_X) != 0) {
+                x = Machine.scrbitmap.width - x - w;
+            }
+            if ((Machine.ui_orientation & ORIENTATION_FLIP_Y) != 0) {
+                y = Machine.scrbitmap.height - y - 1;
+            }
+
+            drawhline_norotate(x, w, y, color);
+        }
+    }
+
+    public static void drawvline(int x, int y, int h, char color) {
+        if ((Machine.ui_orientation & ORIENTATION_SWAP_XY) != 0) {
+            if ((Machine.ui_orientation & ORIENTATION_FLIP_X) != 0) {
+                y = Machine.scrbitmap.width - y - h;
+            }
+            if ((Machine.ui_orientation & ORIENTATION_FLIP_Y) != 0) {
+                x = Machine.scrbitmap.height - x - 1;
+            }
+
+            drawhline_norotate(y, h, x, color);
+        } else {
+            if ((Machine.ui_orientation & ORIENTATION_FLIP_X) != 0) {
+                x = Machine.scrbitmap.width - x - 1;
+            }
+            if ((Machine.ui_orientation & ORIENTATION_FLIP_Y) != 0) {
+                y = Machine.scrbitmap.height - y - h;
+            }
+
+            drawvline_norotate(x, y, h, color);
+        }
+    }
+
+    public static void ui_drawbox(int leftx, int topy, int width, int height) {
+        int y;
+        char black, white;
+
+        if (leftx < 0) {
+            leftx = 0;
+        }
+        if (topy < 0) {
+            topy = 0;
+        }
+        if (width > Machine.uiwidth) {
+            width = Machine.uiwidth;
+        }
+        if (height > Machine.uiheight) {
+            height = Machine.uiheight;
+        }
+
+        leftx += Machine.uixmin;
+        topy += Machine.uiymin;
+
+        black = Machine.uifont.colortable.read(0);
+        white = Machine.uifont.colortable.read(1);
+
+        drawhline(leftx, width, topy, white);
+        drawhline(leftx, width, topy + height - 1, white);
+        drawvline(leftx, topy, height, white);
+        drawvline(leftx + width - 1, topy, height, white);
+        for (y = topy + 1; y < topy + height - 1; y++) {
+            drawhline(leftx + 1, width - 2, y, black);
+        }
+    }
+
+    public static void drawbar(int leftx, int topy, int width, int height, int percentage, int default_percentage) {
+        int y;
+        char black, white;
+
+        if (leftx < 0) {
+            leftx = 0;
+        }
+        if (topy < 0) {
+            topy = 0;
+        }
+        if (width > Machine.uiwidth) {
+            width = Machine.uiwidth;
+        }
+        if (height > Machine.uiheight) {
+            height = Machine.uiheight;
+        }
+
+        leftx += Machine.uixmin;
+        topy += Machine.uiymin;
+
+        black = Machine.uifont.colortable.read(0);
+        white = Machine.uifont.colortable.read(1);
+
+        for (y = topy; y < topy + height / 8; y++) {
+            drawpixel(leftx + (width - 1) * default_percentage / 100, y, white);
+        }
+
+        drawhline(leftx, width, topy + height / 8, white);
+
+        for (y = topy + height / 8; y < topy + height - height / 8; y++) {
+            drawhline(leftx, 1 + (width - 1) * percentage / 100, y, white);
+        }
+
+        drawhline(leftx, width, topy + height - height / 8 - 1, white);
+
+        for (y = topy + height - height / 8; y < topy + height; y++) {
+            drawpixel(leftx + (width - 1) * default_percentage / 100, y, white);
+        }
+    }
+
+    /*TODO*///
 /*TODO*////* Extract one line from a multiline buffer */
 /*TODO*////* Return the characters number of the line, pbegin point to the start of the next line */
 /*TODO*///static unsigned multiline_extract(const char** pbegin, const char* end, unsigned max)
@@ -654,8 +646,8 @@ public class usrintrf {
 /*TODO*///			cols = len;
 /*TODO*///		++rows;
 /*TODO*///	}
-/*TODO*///	*dx = cols * Machine->uifontwidth;
-/*TODO*///	*dy = (rows-1) * 3*Machine->uifontheight/2 + Machine->uifontheight;
+/*TODO*///	*dx = cols * Machine.uifontwidth;
+/*TODO*///	*dy = (rows-1) * 3*Machine.uifontheight/2 + Machine.uifontheight;
 /*TODO*///}
 /*TODO*///
 /*TODO*////* Compute the output size of a multiline string with box */
@@ -2462,254 +2454,243 @@ public class usrintrf {
 /*TODO*///
 /*TODO*///	return 0;
 /*TODO*///}
-/*TODO*///
-/*TODO*////* Word-wraps the text in the specified buffer to fit in maxwidth characters per line.
-/*TODO*///   The contents of the buffer are modified.
-/*TODO*///   Known limitations: Words longer than maxwidth cause the function to fail. */
-/*TODO*///static void wordwrap_text_buffer (char *buffer, int maxwidth)
-/*TODO*///{
-/*TODO*///	int width = 0;
-/*TODO*///
-/*TODO*///	while (*buffer)
-/*TODO*///	{
-/*TODO*///		if (*buffer == '\n')
-/*TODO*///		{
-/*TODO*///			buffer++;
-/*TODO*///			width = 0;
-/*TODO*///			continue;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		width++;
-/*TODO*///
-/*TODO*///		if (width > maxwidth)
-/*TODO*///		{
-/*TODO*///			/* backtrack until a space is found */
-/*TODO*///			while (*buffer != ' ')
-/*TODO*///			{
-/*TODO*///				buffer--;
-/*TODO*///				width--;
-/*TODO*///			}
-/*TODO*///			if (width < 1) return;	/* word too long */
-/*TODO*///
-/*TODO*///			/* replace space with a newline */
-/*TODO*///			*buffer = '\n';
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///			buffer++;
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///static int count_lines_in_buffer (char *buffer)
-/*TODO*///{
-/*TODO*///	int lines = 0;
-/*TODO*///	char c;
-/*TODO*///
-/*TODO*///	while ( (c = *buffer++) )
-/*TODO*///		if (c == '\n') lines++;
-/*TODO*///
-/*TODO*///	return lines;
-/*TODO*///}
-/*TODO*///
-/*TODO*////* Display lines from buffer, starting with line 'scroll', in a width x height text window */
-/*TODO*///static void display_scroll_message (int *scroll, int width, int height, char *buf)
-/*TODO*///{
-/*TODO*///	struct DisplayText dt[256];
-/*TODO*///	int curr_dt = 0;
-/*TODO*///	char uparrow[2] = "\x18";
-/*TODO*///	char downarrow[2] = "\x19";
-/*TODO*///	char textcopy[2048];
-/*TODO*///	char *copy;
-/*TODO*///	int leftoffs,topoffs;
-/*TODO*///	int first = *scroll;
-/*TODO*///	int buflines,showlines;
-/*TODO*///	int i;
-/*TODO*///
-/*TODO*///
-/*TODO*///	/* draw box */
-/*TODO*///	leftoffs = (Machine->uiwidth - Machine->uifontwidth * (width + 1)) / 2;
-/*TODO*///	if (leftoffs < 0) leftoffs = 0;
-/*TODO*///	topoffs = (Machine->uiheight - (3 * height + 1) * Machine->uifontheight / 2) / 2;
-/*TODO*///	ui_drawbox(leftoffs,topoffs,(width + 1) * Machine->uifontwidth,(3 * height + 1) * Machine->uifontheight / 2);
-/*TODO*///
-/*TODO*///	buflines = count_lines_in_buffer (buf);
-/*TODO*///	if (first > 0)
-/*TODO*///	{
-/*TODO*///		if (buflines <= height)
-/*TODO*///			first = 0;
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			height--;
-/*TODO*///			if (first > (buflines - height))
-/*TODO*///				first = buflines - height;
-/*TODO*///		}
-/*TODO*///		*scroll = first;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if (first != 0)
-/*TODO*///	{
-/*TODO*///		/* indicate that scrolling upward is possible */
-/*TODO*///		dt[curr_dt].text = uparrow;
-/*TODO*///		dt[curr_dt].color = DT_COLOR_WHITE;
-/*TODO*///		dt[curr_dt].x = (Machine->uiwidth - Machine->uifontwidth * strlen(uparrow)) / 2;
-/*TODO*///		dt[curr_dt].y = topoffs + (3*curr_dt+1)*Machine->uifontheight/2;
-/*TODO*///		curr_dt++;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if ((buflines - first) > height)
-/*TODO*///		showlines = height - 1;
-/*TODO*///	else
-/*TODO*///		showlines = height;
-/*TODO*///
-/*TODO*///	/* skip to first line */
-/*TODO*///	while (first > 0)
-/*TODO*///	{
-/*TODO*///		char c;
-/*TODO*///
-/*TODO*///		while ( (c = *buf++) )
-/*TODO*///		{
-/*TODO*///			if (c == '\n')
-/*TODO*///			{
-/*TODO*///				first--;
-/*TODO*///				break;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* copy 'showlines' lines from buffer, starting with line 'first' */
-/*TODO*///	copy = textcopy;
-/*TODO*///	for (i = 0; i < showlines; i++)
-/*TODO*///	{
-/*TODO*///		char *copystart = copy;
-/*TODO*///
-/*TODO*///		while (*buf && *buf != '\n')
-/*TODO*///		{
-/*TODO*///			*copy = *buf;
-/*TODO*///			copy++;
-/*TODO*///			buf++;
-/*TODO*///		}
-/*TODO*///		*copy = '\0';
-/*TODO*///		copy++;
-/*TODO*///		if (*buf == '\n')
-/*TODO*///			buf++;
-/*TODO*///
-/*TODO*///		if (*copystart == '\t') /* center text */
-/*TODO*///		{
-/*TODO*///			copystart++;
-/*TODO*///			dt[curr_dt].x = (Machine->uiwidth - Machine->uifontwidth * (copy - copystart)) / 2;
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///			dt[curr_dt].x = leftoffs + Machine->uifontwidth/2;
-/*TODO*///
-/*TODO*///		dt[curr_dt].text = copystart;
-/*TODO*///		dt[curr_dt].color = DT_COLOR_WHITE;
-/*TODO*///		dt[curr_dt].y = topoffs + (3*curr_dt+1)*Machine->uifontheight/2;
-/*TODO*///		curr_dt++;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if (showlines == (height - 1))
-/*TODO*///	{
-/*TODO*///		/* indicate that scrolling downward is possible */
-/*TODO*///		dt[curr_dt].text = downarrow;
-/*TODO*///		dt[curr_dt].color = DT_COLOR_WHITE;
-/*TODO*///		dt[curr_dt].x = (Machine->uiwidth - Machine->uifontwidth * strlen(downarrow)) / 2;
-/*TODO*///		dt[curr_dt].y = topoffs + (3*curr_dt+1)*Machine->uifontheight/2;
-/*TODO*///		curr_dt++;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	dt[curr_dt].text = 0;	/* terminate array */
-/*TODO*///
-/*TODO*///	displaytext(dt,0,0);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////* Display text entry for current driver from history.dat and mameinfo.dat. */
-/*TODO*///static int displayhistory (int selected)
-/*TODO*///{
-/*TODO*///	#ifndef MESS
-/*TODO*///	char *msg = "\tHistory not available\n\n\t\x1a Return to Main Menu \x1b";
-/*TODO*///	#else
-/*TODO*///	char *msg = "\tSysInfo.dat Missing\n\n\t\x1a Return to Main Menu \x1b";
-/*TODO*///	#endif
-/*TODO*///	static int scroll = 0;
-/*TODO*///	static char *buf = 0;
-/*TODO*///	int maxcols,maxrows;
-/*TODO*///	int sel;
-/*TODO*///
-/*TODO*///
-/*TODO*///	sel = selected - 1;
-/*TODO*///
-/*TODO*///
-/*TODO*///	maxcols = (Machine->uiwidth / Machine->uifontwidth) - 1;
-/*TODO*///	maxrows = (2 * Machine->uiheight - Machine->uifontheight) / (3 * Machine->uifontheight);
-/*TODO*///	maxcols -= 2;
-/*TODO*///	maxrows -= 8;
-/*TODO*///
-/*TODO*///	if (!buf)
-/*TODO*///	{
-/*TODO*///		/* allocate a buffer for the text */
-/*TODO*///		buf = malloc (8192);
-/*TODO*///		if (buf)
-/*TODO*///		{
-/*TODO*///			/* try to load entry */
-/*TODO*///			if (load_driver_history (Machine->gamedrv, buf, 8192) == 0)
-/*TODO*///			{
-/*TODO*///				scroll = 0;
-/*TODO*///				wordwrap_text_buffer (buf, maxcols);
-/*TODO*///				strcat(buf,"\n\t\x1a Return to Main Menu \x1b\n");
-/*TODO*///			}
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				free (buf);
-/*TODO*///				buf = 0;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	{
-/*TODO*///		if (buf)
-/*TODO*///			display_scroll_message (&scroll, maxcols, maxrows, buf);
-/*TODO*///		else
-/*TODO*///			ui_displaymessagewindow (msg);
-/*TODO*///
-/*TODO*///		if ((scroll > 0) && input_ui_pressed_repeat(IPT_UI_UP,4))
-/*TODO*///		{
-/*TODO*///			if (scroll == 2) scroll = 0;	/* 1 would be the same as 0, but with arrow on top */
-/*TODO*///			else scroll--;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		if (input_ui_pressed_repeat(IPT_UI_DOWN,4))
-/*TODO*///		{
-/*TODO*///			if (scroll == 0) scroll = 2;	/* 1 would be the same as 0, but with arrow on top */
-/*TODO*///			else scroll++;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		if (input_ui_pressed(IPT_UI_SELECT))
-/*TODO*///			sel = -1;
-/*TODO*///
-/*TODO*///		if (input_ui_pressed(IPT_UI_CANCEL))
-/*TODO*///			sel = -1;
-/*TODO*///
-/*TODO*///		if (input_ui_pressed(IPT_UI_CONFIGURE))
-/*TODO*///			sel = -2;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if (sel == -1 || sel == -2)
-/*TODO*///	{
-/*TODO*///		/* tell updatescreen() to clean after us */
-/*TODO*///		need_to_clear_bitmap = 1;
-/*TODO*///
-/*TODO*///		/* force buffer to be recreated */
-/*TODO*///		if (buf)
-/*TODO*///		{
-/*TODO*///			free (buf);
-/*TODO*///			buf = 0;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	return sel + 1;
-/*TODO*///
-/*TODO*///}
-/*TODO*///
+
+    /* Word-wraps the text in the specified buffer to fit in maxwidth characters per line.
+    The contents of the buffer are modified.
+    Known limitations: Words longer than maxwidth cause the function to fail. */
+    public static void wordwrap_text_buffer(String[] buffer, int maxwidth) {
+        StringBuilder buf = new StringBuilder();
+        buf.append(buffer[0]);
+        int width = 0;
+        int bi = 0;
+        while (bi < buf.length() && buf.charAt(bi) != '\0') {
+            if (buf.charAt(bi) == '\n') {
+                bi++;
+                width = 0;
+                continue;
+            }
+
+            width++;
+
+            if (width > maxwidth) {
+                /* backtrack until a space is found */
+                while (buf.charAt(bi) != ' ') {
+                    bi--;
+                    width--;
+                }
+                if (width < 1) {
+                    return;
+                    /* word too long */
+                }
+
+                /* replace space with a newline */
+                buf.setCharAt(bi, '\n');
+            } else {
+                bi++;
+            }
+        }
+        buffer[0] = buf.toString();
+    }
+
+    public static int count_lines_in_buffer(String buffer) {
+        int lines = 0;
+        char c = '\0';
+        int bi = 0;
+        while (bi < buffer.length()) {
+            c = buffer.charAt(bi++);
+            if (c == '\n') {
+                lines++;
+            }
+        }
+        return lines;
+    }
+
+    /* Display lines from buffer, starting with line 'scroll', in a width x height text window */
+    public static void display_scroll_message(int[] scroll, int width, int height, String buf) {
+        DisplayText[] dt = DisplayText.create(256);
+        int curr_dt = 0;
+        String uparrow = "\u0018";
+        String downarrow = "\u0019";
+        char textcopy[] = new char[2048];
+        int copy_ptr = 0;
+        int leftoffs, topoffs;
+        int first = scroll[0];
+        int buflines, showlines;
+        int i;
+        int bi = 0;
+
+        /* draw box */
+        leftoffs = (Machine.uiwidth - Machine.uifontwidth * (width + 1)) / 2;
+        if (leftoffs < 0) {
+            leftoffs = 0;
+        }
+        topoffs = (Machine.uiheight - (3 * height + 1) * Machine.uifontheight / 2) / 2;
+        ui_drawbox(leftoffs, topoffs, (width + 1) * Machine.uifontwidth, (3 * height + 1) * Machine.uifontheight / 2);
+
+        buflines = count_lines_in_buffer(buf);
+        if (first > 0) {
+            if (buflines <= height) {
+                first = 0;
+            } else {
+                height--;
+                if (first > (buflines - height)) {
+                    first = buflines - height;
+                }
+            }
+            scroll[0] = first;
+        }
+
+        if (first != 0) {
+            /* indicate that scrolling upward is possible */
+            dt[curr_dt].text = uparrow;
+            dt[curr_dt].color = DT_COLOR_WHITE;
+            dt[curr_dt].x = (Machine.uiwidth - Machine.uifontwidth * strlen(uparrow)) / 2;
+            dt[curr_dt].y = topoffs + (3 * curr_dt + 1) * Machine.uifontheight / 2;
+            curr_dt++;
+        }
+
+        if ((buflines - first) > height) {
+            showlines = height - 1;
+        } else {
+            showlines = height;
+        }
+
+        /* skip to first line */
+        while (first > 0) {
+            char c;
+
+            while (bi < buf.length()) {
+                c = buf.charAt(bi++);
+                if (c == '\n') {
+                    first--;
+                    break;
+                }
+            }
+        }
+
+        /* copy 'showlines' lines from buffer, starting with line 'first' */
+        copy_ptr = 0;//copy = textcopy;
+        for (i = 0; i < showlines; i++) {
+            int copystart_ptr = copy_ptr; //char *copystart = copy;
+
+            while (bi < buf.length() && buf.charAt(bi) != '\n') {
+                textcopy[copy_ptr] = buf.charAt(bi);
+                copy_ptr++;
+                bi++;
+            }
+            textcopy[copy_ptr] = '\0';
+            copy_ptr++;
+            if (buf.charAt(bi) == '\n') {
+                bi++;
+            }
+
+            if (textcopy[copystart_ptr] == '\t') /* center text */ {
+                copystart_ptr++;
+                dt[curr_dt].x = (Machine.uiwidth - Machine.uifontwidth * (copy_ptr - copystart_ptr)) / 2;
+            } else {
+                dt[curr_dt].x = leftoffs + Machine.uifontwidth / 2;
+            }
+
+            dt[curr_dt].text = new String(textcopy).substring(copystart_ptr);
+            dt[curr_dt].color = DT_COLOR_WHITE;
+            dt[curr_dt].y = topoffs + (3 * curr_dt + 1) * Machine.uifontheight / 2;
+            curr_dt++;
+        }
+
+        if (showlines == (height - 1)) {
+            /* indicate that scrolling downward is possible */
+            dt[curr_dt].text = downarrow;
+            dt[curr_dt].color = DT_COLOR_WHITE;
+            dt[curr_dt].x = (Machine.uiwidth - Machine.uifontwidth * strlen(downarrow)) / 2;
+            dt[curr_dt].y = topoffs + (3 * curr_dt + 1) * Machine.uifontheight / 2;
+            curr_dt++;
+        }
+
+        dt[curr_dt].text = null;
+        /* terminate array */
+
+        displaytext(dt, 0, 0);
+    }
+
+    static int[] hist_scroll = new int[1];
+    static String[] hist_buf = new String[1];
+
+    public static int displayhistory(int selected) {
+        String msg = "\tHistory not available\n\n\t\u001a Return to Main Menu \u001b";
+
+        int maxcols, maxrows;
+        int sel;
+
+        sel = selected - 1;
+
+        maxcols = (Machine.uiwidth / Machine.uifontwidth) - 1;
+        maxrows = (2 * Machine.uiheight - Machine.uifontheight) / (3 * Machine.uifontheight);
+        maxcols -= 2;
+        maxrows -= 8;
+        if (hist_buf[0] == null) {
+            /* allocate a buffer for the text */
+            hist_buf[0] = "";
+            /* try to load entry */
+            if (load_driver_history(Machine.gamedrv, hist_buf, 8192) == 0) {
+                hist_scroll[0] = 0;
+                wordwrap_text_buffer(hist_buf, maxcols);
+                hist_buf[0] += "\n\t\u001a Return to Main Menu \u001b\n";
+
+            } else {
+                hist_buf[0] = null;
+            }
+        }
+        {
+            if (hist_buf[0] != null) {
+                display_scroll_message(hist_scroll, maxcols, maxrows, hist_buf[0]);
+            } else {
+                ui_displaymessagewindow(msg);
+            }
+
+            if ((hist_scroll[0] > 0) && input_ui_pressed_repeat(IPT_UI_UP, 4) != 0) {
+                if (hist_scroll[0] == 2) {
+                    hist_scroll[0] = 0;
+                    /* 1 would be the same as 0, but with arrow on top */
+                } else {
+                    hist_scroll[0]--;
+                }
+            }
+
+            if (input_ui_pressed_repeat(IPT_UI_DOWN, 4) != 0) {
+                if (hist_scroll[0] == 0) {
+                    hist_scroll[0] = 2;
+                    /* 1 would be the same as 0, but with arrow on top */
+                } else {
+                    hist_scroll[0]++;
+                }
+            }
+
+            if (input_ui_pressed(IPT_UI_SELECT) != 0) {
+                sel = -1;
+            }
+
+            if (input_ui_pressed(IPT_UI_CANCEL) != 0) {
+                sel = -1;
+            }
+
+            if (input_ui_pressed(IPT_UI_CONFIGURE) != 0) {
+                sel = -2;
+            }
+        }
+
+        if (sel == -1 || sel == -2) {
+            /* tell updatescreen() to clean after us */
+            need_to_clear_bitmap = 1;
+            /* force buffer to be recreated */
+            if (hist_buf[0] != null) {
+                hist_buf[0] = null;
+            }
+        }
+
+        return sel + 1;
+
+    }
+    /*TODO*///
 /*TODO*///
 /*TODO*///#ifndef NEOFREE
 /*TODO*///#ifndef TINY_COMPILE
