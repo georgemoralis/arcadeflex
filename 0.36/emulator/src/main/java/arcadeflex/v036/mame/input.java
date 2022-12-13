@@ -444,38 +444,33 @@ public class input {
         return pressed;
     }
 
-    /*TODO*///
-    /*TODO*///int code_pressed_memory_repeat(InputCode code, int speed)
-    /*TODO*///{
-    /*TODO*///	static int counter;
-    /*TODO*///	static int keydelay;
-    /*TODO*///	int pressed;
-    /*TODO*///
-    /*TODO*///	profiler_mark(PROFILER_INPUT);
-    /*TODO*///
-    /*TODO*///	pressed = internal_code_pressed(code);
-    /*TODO*///
-    /*TODO*///	if (pressed)
-    /*TODO*///	{
-    /*TODO*///		if (code_map[code].memory == 0)
-    /*TODO*///		{
-    /*TODO*///			code_map[code].memory = 1;
-    /*TODO*///			keydelay = 3;
-    /*TODO*///			counter = 0;
-    /*TODO*///		}
-    /*TODO*///		else if (++counter > keydelay * speed * Machine->drv->frames_per_second / 60)
-    /*TODO*///		{
-    /*TODO*///			keydelay = 1;
-    /*TODO*///			counter = 0;
-    /*TODO*///		} else
-    /*TODO*///			pressed = 0;
-    /*TODO*///	} else
-    /*TODO*///		code_map[code].memory = 0;
-    /*TODO*///
-    /*TODO*///	profiler_mark(PROFILER_END);
-    /*TODO*///
-    /*TODO*///	return pressed;
-    /*TODO*///}
+    static int counter_c;
+    static int keydelay_c;
+
+    public static int code_pressed_memory_repeat(int code, int speed) {
+
+        int pressed;
+
+        pressed = internal_code_pressed(code);
+
+        if (pressed != 0) {
+            if (code_map[code].memory == 0) {
+                code_map[code].memory = 1;
+                keydelay_c = 3;
+                counter_c = 0;
+            } else if (++counter_c > keydelay_c * speed * Machine.drv.frames_per_second / 60) {
+                keydelay_c = 1;
+                counter_c = 0;
+            } else {
+                pressed = 0;
+            }
+        } else {
+            code_map[code].memory = 0;
+        }
+
+        return pressed;
+    }
+
     public static int code_read_async() {
         int i;
 

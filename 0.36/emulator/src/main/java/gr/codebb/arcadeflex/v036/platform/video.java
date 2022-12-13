@@ -2,7 +2,6 @@ package gr.codebb.arcadeflex.v036.platform;
 
 import static arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v036.platform.ticker.*;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,10 +16,11 @@ import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.version.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.usrintrf.*;
 import static gr.codebb.arcadeflex.v036.platform.blit.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.input.*;
+import static arcadeflex.v036.mame.usrintrf.set_ui_visarea;
+import static arcadeflex.v036.mame.usrintrf.ui_text;
 import static gr.codebb.arcadeflex.v036.platform.sound.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
@@ -68,13 +68,14 @@ public class video {
     /*TODO*///
     public static final int MAX_GFX_WIDTH = 1600;
     public static final int MAX_GFX_HEIGHT = 1600;
-    public static final int DIRTY_H = 256; 			/* 160 would be enough, but * 256 is faster */
-    public static final int DIRTY_V = (MAX_GFX_HEIGHT/16);
+    public static final int DIRTY_H = 256;
+    /* 160 would be enough, but * 256 is faster */
+    public static final int DIRTY_V = (MAX_GFX_HEIGHT / 16);
     //public static char[] dirtygrid=new char[DIRTY_V * DIRTY_H];
-    static char[] grid1=new char[DIRTY_V * DIRTY_H];
-    static char[] grid2=new char[DIRTY_V * DIRTY_H];
-    static char[] dirty_old=grid1;
-    public static char[] dirty_new=grid2;
+    static char[] grid1 = new char[DIRTY_V * DIRTY_H];
+    static char[] grid2 = new char[DIRTY_V * DIRTY_H];
+    static char[] dirty_old = grid1;
+    public static char[] dirty_new = grid2;
     /*TODO*///
     /*TODO*///static void scale_vectorgames(int gfx_width,int gfx_height,int *width,int *height);
     /*TODO*///
@@ -627,16 +628,14 @@ public class video {
     /*TODO*///{
     /*TODO*///	memset(dirty_new, dirty, MAX_GFX_WIDTH/16 * MAX_GFX_HEIGHT/16);
     /*TODO*///}
-    
-    public static void swap_dirty()
-    {
+    public static void swap_dirty() {
         char[] tmp;
-    
-    	tmp = dirty_old;
-    	dirty_old = dirty_new;
-    	dirty_new = tmp;
+
+        tmp = dirty_old;
+        dirty_old = dirty_new;
+        dirty_new = tmp;
     }
-    
+
     /*TODO*////*
     /*TODO*/// * This function tries to find the best display mode.
     /*TODO*/// */
@@ -1004,7 +1003,7 @@ public class video {
 
         if (vector_game != 0) {
             //throw new UnsupportedOperationException("Unsupported scale_vectorgames");
-            scale_vectorgames(gfx_width,gfx_height,width, height);
+            scale_vectorgames(gfx_width, gfx_height, width, height);
         }
 
         game_width = width;
@@ -1037,11 +1036,10 @@ public class video {
 
     }
 
-    static void init_dirty(char dirty)
-    {
-            memset(dirty_new, dirty, MAX_GFX_WIDTH/16 * MAX_GFX_HEIGHT/16);
+    static void init_dirty(char dirty) {
+        memset(dirty_new, dirty, MAX_GFX_WIDTH / 16 * MAX_GFX_HEIGHT / 16);
     }
-    
+
     /*TODO*///
     /*TODO*////* set the actual display screen but don't allocate the screen bitmap */
     public static int osd_set_display(int width, int height, int attributes) {
@@ -1065,21 +1063,20 @@ public class video {
         }
         /* Mark the dirty buffers as dirty */
 
- 	if (use_dirty != 0)
-        {
-                if (vector_game != 0)
-                        /* vector games only use one dirty buffer */
-                        init_dirty ((char)0);
-/*TODO*///                else
+        if (use_dirty != 0) {
+            if (vector_game != 0) /* vector games only use one dirty buffer */ {
+                init_dirty((char) 0);
+            }
+            /*TODO*///                else
 /*TODO*///                        init_dirty((char)1);
 /*TODO*///                swap_dirty();
 /*TODO*///                init_dirty((char)1);
         }
-        if (dirtycolor != null)
-        {
-                for (i = 0;i < screen_colors;i++)
-                        dirtycolor[i] = 1;
-                dirtypalette = 1;
+        if (dirtycolor != null) {
+            for (i = 0; i < screen_colors; i++) {
+                dirtycolor[i] = 1;
+            }
+            dirtypalette = 1;
         }
         /*TODO*///	/* handle special 15.75KHz modes, these now include SVGA modes */
         /*TODO*///	found = 0;
@@ -2082,9 +2079,10 @@ public class video {
             }
 
             if (use_dirty != 0) {
-                                   if (vector_game==0)
-                                       swap_dirty();
-                                   init_dirty((char)0);
+                if (vector_game == 0) {
+                    swap_dirty();
+                }
+                init_dirty((char) 0);
             }
 
             if (need_to_clear_bitmap != 0) {
@@ -2324,25 +2322,23 @@ public class video {
     /*TODO*///{
     /*TODO*///	return osd_gamma_correction;
     /*TODO*///}
-    /*TODO*///
-    /*TODO*////* brightess = percentage 0-100% */
-    /*TODO*///void osd_set_brightness(int _brightness)
-    /*TODO*///{
-    /*TODO*///	int i;
-    /*TODO*///
-    /*TODO*///	brightness = _brightness;
-    /*TODO*///
-    /*TODO*///	for (i = 0;i < screen_colors;i++)
-    /*TODO*///		dirtycolor[i] = 1;
-    /*TODO*///	dirtypalette = 1;
-    /*TODO*///	dirty_bright = 1;
-    /*TODO*///}
-    /*TODO*///
-    /*TODO*///int osd_get_brightness(void)
-    /*TODO*///{
-    /*TODO*///	return brightness;
-    /*TODO*///}
-    /*TODO*///
+    /* brightess = percentage 0-100% */
+    public static void osd_set_brightness(int _brightness) {
+        int i;
+
+        brightness = _brightness;
+
+        for (i = 0; i < screen_colors; i++) {
+            dirtycolor[i] = 1;
+        }
+        dirtypalette = 1;
+        dirty_bright = 1;
+    }
+
+    public static int osd_get_brightness() {
+        return brightness;
+    }
+
     /*TODO*///
     /*TODO*///void osd_save_snapshot(void)
     /*TODO*///{
@@ -2560,5 +2556,5 @@ public class video {
     /*TODO*////* set the vblank end */
     /*TODO*///	pReg[V_BLANKING_END_INDEX].value = (vblnk_end & 0xff);
     /*TODO*///}
-    
+
 }

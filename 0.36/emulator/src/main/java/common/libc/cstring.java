@@ -70,6 +70,12 @@ public class cstring {
     /**
      * memcpy
      */
+    public static void memcpy(char[] dst, UBytePtr src, int size) {
+        for (int i = 0; i < Math.min(size, src.memory.length); i++) {
+            dst[i] = src.read(i);
+        }
+    }
+
     public static void memcpy(UBytePtr dst, int dstoffs, UBytePtr src, int srcoffs, int size) {
         for (int i = 0; i < Math.min(size, src.memory.length); i++) {
             dst.write(i + dstoffs, src.read(i + srcoffs));

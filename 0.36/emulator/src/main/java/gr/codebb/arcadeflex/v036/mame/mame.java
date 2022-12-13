@@ -35,7 +35,6 @@ import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.mame.usrintrf.*;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
 import static arcadeflex.v036.mame.input.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
@@ -47,6 +46,11 @@ import static arcadeflex.v036.mame.osdependH.*;
 import static arcadeflex.v036.mame.sndintrf.sound_start;
 import static arcadeflex.v036.mame.sndintrf.sound_stop;
 import static arcadeflex.v036.mame.sndintrf.sound_update;
+import static arcadeflex.v036.mame.usrintrf.builduifont;
+import static arcadeflex.v036.mame.usrintrf.handle_user_interface;
+import static arcadeflex.v036.mame.usrintrf.init_user_interface;
+import static arcadeflex.v036.mame.usrintrf.showcopyright;
+import static arcadeflex.v036.mame.usrintrf.showgamewarnings;
 import static gr.codebb.arcadeflex.v036.mame.spriteC.*;
 
 public class mame {
