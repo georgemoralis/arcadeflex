@@ -72,6 +72,7 @@ public class mame {
         playback = options.playback;
 
         Machine.gamedrv = gamedrv = drivers[game];
+        Machine.drv = drv = gamedrv.drv;
 
         /* copy configuration */
         if (options.color_depth == 16
