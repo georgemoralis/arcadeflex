@@ -3,6 +3,7 @@ package gr.codebb.arcadeflex.v036.sound;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
+import static arcadeflex.v036.mame.cpuintrf.cpu_get_pc;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
@@ -10,7 +11,6 @@ import static gr.codebb.arcadeflex.v036.sound.pokeyH.*;
 import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.sound.streams.*;
 import static arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_get_pc;
 import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
 

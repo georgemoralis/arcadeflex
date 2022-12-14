@@ -2,11 +2,12 @@ package gr.codebb.arcadeflex.v036.mame;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+import static arcadeflex.v036.mame.cpuintrf.cpu_get_pc;
+import static arcadeflex.v036.mame.cpuintrf.cpu_getactivecpu;
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class memory {

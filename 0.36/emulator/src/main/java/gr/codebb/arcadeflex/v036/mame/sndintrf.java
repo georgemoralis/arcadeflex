@@ -26,7 +26,6 @@ import arcadeflex.v036.sound.k053260;
 import gr.codebb.arcadeflex.v037b7.sound.qsound;
 import gr.codebb.arcadeflex.v037b7.sound._2610intf;
 import arcadeflex.v036.sound.k005289;
-import gr.codebb.arcadeflex.v036.sound.nes_apu;
 import gr.codebb.arcadeflex.v037b7.sound._2608intf;
 import gr.codebb.arcadeflex.v037b7.sound._5220intf;
 import arcadeflex.v036.sound.tms36xx;
@@ -252,7 +251,7 @@ public class sndintrf {
                 /*TODO*////*TODO*///		0
                 /*TODO*////*TODO*///	},
                 /*TODO*////*TODO*///#endif
-                new nes_apu(),
+                new Dummy_snd(),
                 /*TEMPHACK*/ new Dummy_snd(),
                 /*TODO*////*TODO*///#if (HAS_ASTROCADE)
                 /*TODO*////*TODO*///    {

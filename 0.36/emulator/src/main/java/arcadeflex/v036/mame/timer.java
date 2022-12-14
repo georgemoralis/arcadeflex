@@ -9,9 +9,7 @@ import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.timerH.*;
 import static arcadeflex.v036.mame.mame.*;
-//TODO
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_gettotalcpu;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpuintf;
+import static arcadeflex.v036.mame.cpuintrf.*;
 
 public class timer {
 

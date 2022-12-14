@@ -3,116 +3,36 @@
  */
 package arcadeflex.v036.mame;
 
+//cpu imports
+import arcadeflex.v036.cpu.dummyCPU;
+import arcadeflex.v036.cpu.s2650.s2650;
+import arcadeflex.v036.cpu.z80.z80;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.cpuintrfH.*;
+import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.hiscore.*;
+import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
 import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.sndintrf.*;
 //TODO
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
+import static gr.codebb.arcadeflex.v037b7.mame.memory.memorycontextswap;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
+
+import java.util.ArrayList;
 
 public class cpuintrf {
 
-    /*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  cpuintrf.c
-/*TODO*///
-/*TODO*///  Don't you love MS-DOS 8+3 names? That stands for CPU interface.
-/*TODO*///  Functions needed to interface the CPU emulator with the other parts of
-/*TODO*///  the emulation.
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///
-/*TODO*///#include <signal.h>
-/*TODO*///#include "driver.h"
-/*TODO*///#include "timer.h"
-/*TODO*///#include "state.h"
-/*TODO*///#include "mamedbg.h"
-/*TODO*///#include "hiscore.h"
-/*TODO*///
-/*TODO*///#if (HAS_Z80)
-/*TODO*///#include "cpu/z80/z80.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_Z80GB)
-/*TODO*///#include "cpu/z80gb/z80gb.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_8080 || HAS_8085A)
-/*TODO*///#include "cpu/i8085/i8085.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_M6502 || HAS_M65C02 || HAS_M65SC02 || HAS_M6510 || HAS_N2A03)
-/*TODO*///#include "cpu/m6502/m6502.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_M65CE02)
-/*TODO*///#include "cpu/m6502/m65ce02.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_M6509)
-/*TODO*///#include "cpu/m6502/m6509.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_H6280)
-/*TODO*///#include "cpu/h6280/h6280.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_I86)
-/*TODO*///#include "cpu/i86/i86intrf.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_V20 || HAS_V30 || HAS_V33)
-/*TODO*///#include "cpu/nec/necintrf.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_I8035 || HAS_I8039 || HAS_I8048 || HAS_N7751)
-/*TODO*///#include "cpu/i8039/i8039.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_M6800 || HAS_M6801 || HAS_M6802 || HAS_M6803 || HAS_M6808 || HAS_HD63701)
-/*TODO*///#include "cpu/m6800/m6800.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_M6805 || HAS_M68705 || HAS_HD63705)
-/*TODO*///#include "cpu/m6805/m6805.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_HD6309 || HAS_M6809)
-/*TODO*///#include "cpu/m6809/m6809.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_KONAMI)
-/*TODO*///#include "cpu/konami/konami.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_M68000 || defined HAS_M68010 || HAS_M68020 || HAS_M68EC020)
-/*TODO*///#include "cpu/m68000/m68000.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_T11)
-/*TODO*///#include "cpu/t11/t11.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_S2650)
-/*TODO*///#include "cpu/s2650/s2650.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_TMS34010)
-/*TODO*///#include "cpu/tms34010/tms34010.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_TMS9900) || (HAS_TMS9940) || (HAS_TMS9980) || (HAS_TMS9985) \
-/*TODO*///	|| (HAS_TMS9989) || (HAS_TMS9995) || (HAS_TMS99105A) || (HAS_TMS99110A)
-/*TODO*///#include "cpu/tms9900/tms9900.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_Z8000)
-/*TODO*///#include "cpu/z8000/z8000.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_TMS320C10)
-/*TODO*///#include "cpu/tms32010/tms32010.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_CCPU)
-/*TODO*///#include "cpu/ccpu/ccpu.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_PDP1)
-/*TODO*///#include "cpu/pdp1/pdp1.h"
-/*TODO*///#endif
-/*TODO*///#if (HAS_ADSP2100)
-/*TODO*///#include "cpu/adsp2100/adsp2100.h"
-/*TODO*///#endif
-/*TODO*///
-/*TODO*////* these are triggers sent to the timer system for various interrupt events */
-/*TODO*///#define TRIGGER_TIMESLICE		-1000
-/*TODO*///#define TRIGGER_INT 			-2000
-/*TODO*///#define TRIGGER_YIELDTIME		-3000
-/*TODO*///#define TRIGGER_SUSPENDTIME 	-4000
-/*TODO*///
-/*TODO*///#define VERBOSE 0
+    /* these are triggers sent to the timer system for various interrupt events */
+    public static final int TRIGGER_TIMESLICE = -1000;
+    public static final int TRIGGER_INT = -2000;
+    public static final int TRIGGER_YIELDTIME = -3000;
+    public static final int TRIGGER_SUSPENDTIME = -4000;
+
+    /*TODO*///#define VERBOSE 0
 /*TODO*///
 /*TODO*///#define SAVE_STATE_TEST 0
 /*TODO*///
@@ -122,156 +42,142 @@ public class cpuintrf {
 /*TODO*///#define LOG(x)
 /*TODO*///#endif
 /*TODO*///
-/*TODO*///#define CPUINFO_SIZE	(5*sizeof(int)+4*sizeof(void*)+2*sizeof(double))
-/*TODO*////* How do I calculate the next power of two from CPUINFO_SIZE using a macro? */
-/*TODO*///#ifdef __LP64__
-/*TODO*///#define CPUINFO_ALIGN	(128-CPUINFO_SIZE)
-/*TODO*///#else
-/*TODO*///#define CPUINFO_ALIGN	(64-CPUINFO_SIZE)
-/*TODO*///#endif
-/*TODO*///
-/*TODO*///struct cpuinfo
-/*TODO*///{
-/*TODO*///	struct cpu_interface *intf; 	/* pointer to the interface functions */
-/*TODO*///	int iloops; 					/* number of interrupts remaining this frame */
-/*TODO*///	int totalcycles;				/* total CPU cycles executed */
-/*TODO*///	int vblankint_countdown;		/* number of vblank callbacks left until we interrupt */
-/*TODO*///	int vblankint_multiplier;		/* number of vblank callbacks per interrupt */
-/*TODO*///	void *vblankint_timer;			/* reference to elapsed time counter */
-/*TODO*///	double vblankint_period;		/* timing period of the VBLANK interrupt */
-/*TODO*///	void *timedint_timer;			/* reference to this CPU's timer */
-/*TODO*///	double timedint_period; 		/* timing period of the timed interrupt */
-/*TODO*///	void *context;					/* dynamically allocated context buffer */
-/*TODO*///	int save_context;				/* need to context switch this CPU? yes or no */
-/*TODO*///	UINT8 filler[CPUINFO_ALIGN];	/* make the array aligned to next power of 2 */
-/*TODO*///};
-/*TODO*///
-/*TODO*///static struct cpuinfo cpu[MAX_CPU];
-/*TODO*///
-/*TODO*///static int activecpu,totalcpu;
-/*TODO*///static int cycles_running;	/* number of cycles that the CPU emulation was requested to run */
-/*TODO*///					/* (needed by cpu_getfcount) */
-/*TODO*///static int have_to_reset;
-/*TODO*///
-/*TODO*///static int interrupt_enable[MAX_CPU];
-/*TODO*///static int interrupt_vector[MAX_CPU];
-/*TODO*///
-/*TODO*///static int irq_line_state[MAX_CPU * MAX_IRQ_LINES];
-/*TODO*///static int irq_line_vector[MAX_CPU * MAX_IRQ_LINES];
-/*TODO*///
-/*TODO*///static int watchdog_counter;
-/*TODO*///
-/*TODO*///static void *vblank_timer;
-/*TODO*///static int vblank_countdown;
-/*TODO*///static int vblank_multiplier;
-/*TODO*///static double vblank_period;
-/*TODO*///
-/*TODO*///static void *refresh_timer;
-/*TODO*///static double refresh_period;
-/*TODO*///static double refresh_period_inv;
-/*TODO*///
-/*TODO*///static void *timeslice_timer;
-/*TODO*///static double timeslice_period;
-/*TODO*///
-/*TODO*///static double scanline_period;
-/*TODO*///static double scanline_period_inv;
-/*TODO*///
-/*TODO*///static int usres; /* removed from cpu_run and made global */
-/*TODO*///static int vblank;
-/*TODO*///static int current_frame;
-/*TODO*///
-/*TODO*///static void cpu_generate_interrupt(int cpunum, int (*func)(void), int num);
-/*TODO*///static void cpu_vblankintcallback(int param);
-/*TODO*///static void cpu_timedintcallback(int param);
-/*TODO*///static void cpu_internal_interrupt(int cpunum, int type);
-/*TODO*///static void cpu_manualnmicallback(int param);
-/*TODO*///static void cpu_manualirqcallback(int param);
-/*TODO*///static void cpu_internalintcallback(int param);
-/*TODO*///static void cpu_manualintcallback(int param);
-/*TODO*///static void cpu_clearintcallback(int param);
-/*TODO*///static void cpu_resetcallback(int param);
-/*TODO*///static void cpu_haltcallback(int param);
-/*TODO*///static void cpu_timeslicecallback(int param);
-/*TODO*///static void cpu_vblankreset(void);
-/*TODO*///static void cpu_vblankcallback(int param);
-/*TODO*///static void cpu_updatecallback(int param);
-/*TODO*///static double cpu_computerate(int value);
-/*TODO*///static void cpu_inittimers(void);
-/*TODO*///
-/*TODO*///
-/*TODO*////* default irq callback handlers */
-/*TODO*///static int cpu_0_irq_callback(int irqline);
-/*TODO*///static int cpu_1_irq_callback(int irqline);
-/*TODO*///static int cpu_2_irq_callback(int irqline);
-/*TODO*///static int cpu_3_irq_callback(int irqline);
-/*TODO*///
-/*TODO*////* and a list of them for indexed access */
-/*TODO*///static int (*cpu_irq_callbacks[MAX_CPU])(int) = {
-/*TODO*///	cpu_0_irq_callback,
-/*TODO*///	cpu_1_irq_callback,
-/*TODO*///	cpu_2_irq_callback,
-/*TODO*///	cpu_3_irq_callback
-/*TODO*///};
-/*TODO*///
-/*TODO*////* Default window layout for the debugger */
-/*TODO*///UINT8 default_win_layout[] = {
-/*TODO*///	 0, 0,80, 5,	/* register window (top rows) */
-/*TODO*///	 0, 5,24,17,	/* disassembler window (left, middle columns) */
-/*TODO*///	25, 5,55, 8,	/* memory #1 window (right, upper middle) */
-/*TODO*///	25,14,55, 8,	/* memory #2 window (right, lower middle) */
-/*TODO*///	 0,23,80, 1 	/* command line window (bottom row) */
-/*TODO*///};
-/*TODO*///
-/*TODO*////* Dummy interfaces for non-CPUs */
-/*TODO*///static void Dummy_reset(void *param);
-/*TODO*///static void Dummy_exit(void);
-/*TODO*///static int Dummy_execute(int cycles);
-/*TODO*///static void Dummy_burn(int cycles);
-/*TODO*///static unsigned Dummy_get_context(void *regs);
-/*TODO*///static void Dummy_set_context(void *regs);
-/*TODO*///static unsigned Dummy_get_pc(void);
-/*TODO*///static void Dummy_set_pc(unsigned val);
-/*TODO*///static unsigned Dummy_get_sp(void);
-/*TODO*///static void Dummy_set_sp(unsigned val);
-/*TODO*///static unsigned Dummy_get_reg(int regnum);
-/*TODO*///static void Dummy_set_reg(int regnum, unsigned val);
-/*TODO*///static void Dummy_set_nmi_line(int state);
-/*TODO*///static void Dummy_set_irq_line(int irqline, int state);
-/*TODO*///static void Dummy_set_irq_callback(int (*callback)(int irqline));
-/*TODO*///static int Dummy_ICount;
-/*TODO*///static const char *Dummy_info(void *context, int regnum);
-/*TODO*///static unsigned Dummy_dasm(char *buffer, unsigned pc);
-/*TODO*///
-/*TODO*////* Convenience macros - not in cpuintrf.h because they shouldn't be used by everyone */
-/*TODO*///#define RESET(index)					((*cpu[index].intf->reset)(Machine->drv->cpu[index].reset_param))
-/*TODO*///#define EXECUTE(index,cycles)			((*cpu[index].intf->execute)(cycles))
-/*TODO*///#define GETCONTEXT(index,context)		((*cpu[index].intf->get_context)(context))
-/*TODO*///#define SETCONTEXT(index,context)		((*cpu[index].intf->set_context)(context))
-/*TODO*///#define GETPC(index)					((*cpu[index].intf->get_pc)())
-/*TODO*///#define SETPC(index,val)				((*cpu[index].intf->set_pc)(val))
+    public static class cpuinfo {
+
+        public cpuinfo(cpu_interface intf) {
+            this.intf = intf;
+        }
+
+        public cpu_interface intf;/* pointer to the interface functions */
+        public int iloops;/* number of interrupts remaining this frame */
+        public int totalcycles;/* total CPU cycles executed */
+        public int vblankint_countdown;/* number of vblank callbacks left until we interrupt */
+        public int vblankint_multiplier;/* number of vblank callbacks per interrupt */
+        public Object vblankint_timer;/* reference to elapsed time counter */
+        public double vblankint_period;/* timing period of the VBLANK interrupt */
+        public Object timedint_timer;/* reference to this CPU's timer */
+        public double timedint_period;/* timing period of the timed interrupt */
+        public Object context;/* dynamically allocated context buffer */
+        public int save_context;/* need to context switch this CPU? yes or no */
+        public int[] filler;//UINT8 filler[CPUINFO_ALIGN];	/* make the array aligned to next power of 2 */
+    }
+
+    static ArrayList<cpuinfo> cpu = new ArrayList<cpuinfo>();
+
+    static int activecpu, totalcpu;
+    static int cycles_running;
+    /* number of cycles that the CPU emulation was requested to run */
+ /* (needed by cpu_getfcount) */
+    static int have_to_reset;
+
+    static int[] interrupt_enable = new int[MAX_CPU];
+    static int[] interrupt_vector = new int[MAX_CPU];
+
+    static int[] irq_line_state = new int[MAX_CPU * MAX_IRQ_LINES];
+    static int[] irq_line_vector = new int[MAX_CPU * MAX_IRQ_LINES];
+
+    static int watchdog_counter;
+
+    static Object vblank_timer;
+    static int vblank_countdown;
+    static int vblank_multiplier;
+    static double vblank_period;
+
+    static Object refresh_timer;
+    static double refresh_period;
+    static double refresh_period_inv;
+
+    static Object timeslice_timer;
+    static double timeslice_period;
+
+    static double scanline_period;
+    static double scanline_period_inv;
+
+    static int usres;/* removed from cpu_run and made global */
+    static int vblank;
+    static int current_frame;
+
+    /* Convenience macros - not in cpuintrf.h because they shouldn't be used by everyone */
+    static void RESET(int index) {
+        cpu.get(index).intf.reset(Machine.drv.cpu[index].reset_param);
+    }
+
+    static int EXECUTE(int index, int cycles) {
+        return cpu.get(index).intf.execute(cycles);
+    }
+
+    static Object GETCONTEXT(int index) {
+        return cpu.get(index).intf.get_context();
+    }
+
+    static void SETCONTEXT(int index, Object context) {
+        cpu.get(index).intf.set_context(context);
+    }
+
+    static int GETPC(int index) {
+        return cpu.get(index).intf.get_pc();
+    }
+
+    /*TODO*///#define SETPC(index,val)				((*cpu[index].intf->set_pc)(val))
 /*TODO*///#define GETSP(index)					((*cpu[index].intf->get_sp)())
 /*TODO*///#define SETSP(index,val)				((*cpu[index].intf->set_sp)(val))
-/*TODO*///#define GETREG(index,regnum)			((*cpu[index].intf->get_reg)(regnum))
-/*TODO*///#define SETREG(index,regnum,value)		((*cpu[index].intf->set_reg)(regnum,value))
-/*TODO*///#define SETNMILINE(index,state) 		((*cpu[index].intf->set_nmi_line)(state))
-/*TODO*///#define SETIRQLINE(index,line,state)	((*cpu[index].intf->set_irq_line)(line,state))
-/*TODO*///#define SETIRQCALLBACK(index,callback)	((*cpu[index].intf->set_irq_callback)(callback))
-/*TODO*///#define INTERNAL_INTERRUPT(index,type)	if( cpu[index].intf->internal_interrupt ) ((*cpu[index].intf->internal_interrupt)(type))
+    static int GETREG(int index, int regnum) {
+        return cpu.get(index).intf.get_reg(regnum);
+    }
+
+    static void SETREG(int index, int regnum, int value) {
+        cpu.get(index).intf.set_reg(regnum, value);
+    }
+
+    static void SETNMILINE(int index, int state) {
+        cpu.get(index).intf.set_nmi_line(state);
+    }
+
+    static void SETIRQLINE(int index, int line, int state) {
+        cpu.get(index).intf.set_irq_line(line, state);
+    }
+
+    static void SETIRQCALLBACK(int index, IrqCallbackHandlerPtr callback) {
+        cpu.get(index).intf.set_irq_callback(callback);
+    }
+
+    /*TODO*///#define INTERNAL_INTERRUPT(index,type)	if( cpu[index].intf->internal_interrupt ) ((*cpu[index].intf->internal_interrupt)(type))
 /*TODO*///#define CPUINFO(index,context,regnum)	((*cpu[index].intf->cpu_info)(context,regnum))
 /*TODO*///#define CPUDASM(index,buffer,pc)		((*cpu[index].intf->cpu_dasm)(buffer,pc))
-/*TODO*///#define ICOUNT(index)					(*cpu[index].intf->icount)
-/*TODO*///#define INT_TYPE_NONE(index)			(cpu[index].intf->no_int)
-/*TODO*///#define INT_TYPE_IRQ(index) 			(cpu[index].intf->irq_int)
-/*TODO*///#define INT_TYPE_NMI(index) 			(cpu[index].intf->nmi_int)
-/*TODO*///#define READMEM(index,offset)			((*cpu[index].intf->memory_read)(offset))
+    static int ICOUNT(int index) {
+        return cpu.get(index).intf.icount[0];
+    }
+
+    static int INT_TYPE_NONE(int index) {
+        return cpu.get(index).intf.no_int;
+    }
+
+    static int INT_TYPE_IRQ(int index) {
+        return cpu.get(index).intf.irq_int;
+    }
+
+    static int INT_TYPE_NMI(int index) {
+        return cpu.get(index).intf.nmi_int;
+    }
+
+    /*TODO*///#define READMEM(index,offset)			((*cpu[index].intf->memory_read)(offset))
 /*TODO*///#define WRITEMEM(index,offset,data) 	((*cpu[index].intf->memory_write)(offset,data))
-/*TODO*///#define SET_OP_BASE(index,pc)			((*cpu[index].intf->set_op_base)(pc))
-/*TODO*///
-/*TODO*///#define CPU_TYPE(index) 				(Machine->drv->cpu[index].cpu_type & ~CPU_FLAGS_MASK)
-/*TODO*///#define CPU_AUDIO(index)				(Machine->drv->cpu[index].cpu_type & CPU_AUDIO_CPU)
-/*TODO*///
-/*TODO*///#define IFC_INFO(cpu,context,regnum)	((cpuintf[cpu].cpu_info)(context,regnum))
-/*TODO*///
+    static void SET_OP_BASE(int index, int pc) {
+        cpu.get(index).intf.set_op_base(pc);
+    }
+
+    static int CPU_TYPE(int index) {
+        return Machine.drv.cpu[index].cpu_type & ~CPU_FLAGS_MASK;
+    }
+
+    static int CPU_AUDIO(int index) {
+        return Machine.drv.cpu[index].cpu_type & CPU_AUDIO_CPU;
+    }
+
+    static String IFC_INFO(int cpu, Object context, int regnum) {
+        return cpuintf[cpu].cpu_info(context, regnum);
+    }
+    /*TODO*///
 /*TODO*////* most CPUs use this macro */
 /*TODO*///#define CPU0(cpu,name,nirq,dirq,oc,i0,i1,i2,mem,shift,bits,endian,align,maxinst,MEM) \
 /*TODO*///	{																			   \
@@ -321,437 +227,232 @@ public class cpuintrf {
 /*TODO*///
 /*TODO*///
 /*TODO*///
-/*TODO*////* warning the ordering must match the one of the enum in driver.h! */
-/*TODO*///struct cpu_interface cpuintf[] =
-/*TODO*///{
-/*TODO*///	CPU0(DUMMY,    Dummy,	 1,  0,1.00,0,				   -1,			   -1,			   16,	  0,16,LE,1, 1,16	),
-/*TODO*///#if (HAS_Z80)
-/*TODO*///	CPU1(Z80,	   z80, 	 1,255,1.00,Z80_IGNORE_INT,    Z80_IRQ_INT,    Z80_NMI_INT,    16,	  0,16,LE,1, 4,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_Z80GB)
-/*TODO*///	CPU0(Z80GB,    z80gb,	 5,255,1.00,Z80GB_IGNORE_INT,  0,			   1,			   16,	  0,16,LE,1, 4,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_8080)
-/*TODO*///	CPU0(8080,	   i8080,	 4,255,1.00,I8080_NONE, 	   I8080_INTR,	   I8080_TRAP,	   16,	  0,16,LE,1, 3,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_8085A)
-/*TODO*///	CPU0(8085A,    i8085,	 4,255,1.00,I8085_NONE, 	   I8085_INTR,	   I8085_TRAP,	   16,	  0,16,LE,1, 3,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_M6502)
-/*TODO*///	CPU0(M6502,    m6502,	 1,  0,1.00,M6502_INT_NONE,    M6502_INT_IRQ,  M6502_INT_NMI,  16,	  0,16,LE,1, 3,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_M65C02)
-/*TODO*///	CPU0(M65C02,   m65c02,	 1,  0,1.00,M65C02_INT_NONE,   M65C02_INT_IRQ, M65C02_INT_NMI, 16,	  0,16,LE,1, 3,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_M65SC02)
-/*TODO*///	CPU0(M65SC02,  m65sc02,  1,  0,1.00,M65SC02_INT_NONE,  M65SC02_INT_IRQ,M65SC02_INT_NMI,16,	  0,16,LE,1, 3,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_M65CE02)
-/*TODO*///	CPU0(M65CE02,  m65ce02,  1,  0,1.00,M65CE02_INT_NONE,  M65CE02_INT_IRQ,M65CE02_INT_NMI,16,	  0,16,LE,1, 3,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_M6509)
-/*TODO*///	CPU0(M6509,    m6509,	 1,  0,1.00,M6509_INT_NONE,    M6509_INT_IRQ,  M6509_INT_NMI,  20,	  0,20,LE,1, 3,20	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_M6510)
-/*TODO*///	CPU0(M6510,    m6510,	 1,  0,1.00,M6510_INT_NONE,    M6510_INT_IRQ,  M6510_INT_NMI,  16,	  0,16,LE,1, 3,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_N2A03)
-/*TODO*///	CPU0(N2A03,    n2a03,	 1,  0,1.00,N2A03_INT_NONE,    N2A03_INT_IRQ,  N2A03_INT_NMI,  16,	  0,16,LE,1, 3,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_H6280)
-/*TODO*///	CPU0(H6280,    h6280,	 3,  0,1.00,H6280_INT_NONE,    -1,			   H6280_INT_NMI,  21,	  0,21,LE,1, 3,21	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_I86)
-/*TODO*///	CPU0(I86,	   i86, 	 1,  0,1.00,I86_INT_NONE,	   -1000,		   I86_NMI_INT,    20,	  0,20,LE,1, 5,20	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_V20)
-/*TODO*///	CPU0(V20,	   v20, 	 1,  0,1.00,NEC_INT_NONE,	   -1000,		   NEC_NMI_INT,    20,	  0,20,LE,1, 5,20	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_V30)
-/*TODO*///	CPU0(V30,	   v30, 	 1,  0,1.00,NEC_INT_NONE,	   -1000,		   NEC_NMI_INT,    20,	  0,20,LE,1, 5,20	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_V33)
-/*TODO*///	CPU0(V33,	   v33, 	 1,  0,1.05,NEC_INT_NONE,	   -1000,		   NEC_NMI_INT,    20,	  0,20,LE,1, 5,20	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_I8035)
-/*TODO*///	CPU0(I8035,    i8035,	 1,  0,1.00,I8035_IGNORE_INT,  I8035_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_I8039)
-/*TODO*///	CPU0(I8039,    i8039,	 1,  0,1.00,I8039_IGNORE_INT,  I8039_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_I8048)
-/*TODO*///	CPU0(I8048,    i8048,	 1,  0,1.00,I8048_IGNORE_INT,  I8048_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_N7751)
-/*TODO*///	CPU0(N7751,    n7751,	 1,  0,1.00,N7751_IGNORE_INT,  N7751_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_M6800)
-/*TODO*///	CPU0(M6800,    m6800,	 1,  0,1.00,M6800_INT_NONE,    M6800_INT_IRQ,  M6800_INT_NMI,  16,	  0,16,BE,1, 4,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_M6801)
-/*TODO*///	CPU0(M6801,    m6801,	 1,  0,1.00,M6801_INT_NONE,    M6801_INT_IRQ,  M6801_INT_NMI,  16,	  0,16,BE,1, 4,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_M6802)
-/*TODO*///	CPU0(M6802,    m6802,	 1,  0,1.00,M6802_INT_NONE,    M6802_INT_IRQ,  M6802_INT_NMI,  16,	  0,16,BE,1, 4,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_M6803)
-/*TODO*///	CPU0(M6803,    m6803,	 1,  0,1.00,M6803_INT_NONE,    M6803_INT_IRQ,  M6803_INT_NMI,  16,	  0,16,BE,1, 4,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_M6808)
-/*TODO*///	CPU0(M6808,    m6808,	 1,  0,1.00,M6808_INT_NONE,    M6808_INT_IRQ,  M6808_INT_NMI,  16,	  0,16,BE,1, 4,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_HD63701)
-/*TODO*///	CPU0(HD63701,  hd63701,  1,  0,1.00,HD63701_INT_NONE,  HD63701_INT_IRQ,HD63701_INT_NMI,16,	  0,16,BE,1, 4,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_NSC8105)
-/*TODO*///	CPU0(NSC8105,  nsc8105,  1,  0,1.00,NSC8105_INT_NONE,  NSC8105_INT_IRQ,NSC8105_INT_NMI,16,	  0,16,BE,1, 4,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_M6805)
-/*TODO*///	CPU0(M6805,    m6805,	 1,  0,1.00,M6805_INT_NONE,    M6805_INT_IRQ,  -1,			   16,	  0,11,BE,1, 3,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_M68705)
-/*TODO*///	CPU0(M68705,   m68705,	 1,  0,1.00,M68705_INT_NONE,   M68705_INT_IRQ, -1,			   16,	  0,11,BE,1, 3,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_HD63705)
-/*TODO*///	CPU0(HD63705,  hd63705,  8,  0,1.00,HD63705_INT_NONE,  HD63705_INT_IRQ,-1,			   16,	  0,16,BE,1, 3,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_HD6309)
-/*TODO*///	CPU0(HD6309,   hd6309,	 2,  0,1.00,HD6309_INT_NONE,   HD6309_INT_IRQ, HD6309_INT_NMI, 16,	  0,16,BE,1, 4,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_M6809)
-/*TODO*///	CPU0(M6809,    m6809,	 2,  0,1.00,M6809_INT_NONE,    M6809_INT_IRQ,  M6809_INT_NMI,  16,	  0,16,BE,1, 4,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_KONAMI)
-/*TODO*///	CPU0(KONAMI,   konami,	 2,  0,1.00,KONAMI_INT_NONE,   KONAMI_INT_IRQ, KONAMI_INT_NMI, 16,	  0,16,BE,1, 4,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_M68000)
-/*TODO*///	CPU0(M68000,   m68000,	 8, -1,1.00,MC68000_INT_NONE,  -1,			   -1,			   24,	  0,24,BE,2,10,24	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_M68010)
-/*TODO*///	CPU0(M68010,   m68010,	 8, -1,1.00,MC68010_INT_NONE,  -1,			   -1,			   24,	  0,24,BE,2,10,24	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_M68EC020)
-/*TODO*///	CPU0(M68EC020, m68ec020, 8, -1,1.00,MC68EC020_INT_NONE,-1,			   -1,			   24,	  0,24,BE,2,10,24	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_M68020)
-/*TODO*///	CPU0(M68020,   m68020,	 8, -1,1.00,MC68020_INT_NONE,  -1,			   -1,			   24,	  0,24,BE,2,10,24	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_T11)
-/*TODO*///	CPU0(T11,	   t11, 	 4,  0,1.00,T11_INT_NONE,	   -1,			   -1,			   16lew, 0,16,LE,2, 6,16LEW),
-/*TODO*///#endif
-/*TODO*///#if (HAS_S2650)
-/*TODO*///	CPU0(S2650,    s2650,	 2,  0,1.00,S2650_INT_NONE,    -1,			   -1,			   16,	  0,15,LE,1, 3,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_TMS34010)
-/*TODO*///	CPU2(TMS34010, tms34010, 2,  0,1.00,TMS34010_INT_NONE, TMS34010_INT1,  -1,			   29,	  3,29,LE,2,10,29	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_TMS9900)
-/*TODO*///	CPU0(TMS9900,  tms9900,  1,  0,1.00,TMS9900_NONE,	   -1,			   -1,			   16bew, 0,16,BE,2, 6,16BEW),
-/*TODO*///#endif
-/*TODO*///#if (HAS_TMS9940)
-/*TODO*///	CPU0(TMS9940,  tms9940,  1,  0,1.00,TMS9940_NONE,	   -1,			   -1,			   16bew, 0,16,BE,2, 6,16BEW),
-/*TODO*///#endif
-/*TODO*///#if (HAS_TMS9980)
-/*TODO*///	CPU0(TMS9980,  tms9980a, 1,  0,1.00,TMS9980A_NONE,	   -1,			   -1,			   16,	  0,16,BE,1, 6,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_TMS9985)
-/*TODO*///	CPU0(TMS9985,  tms9985,  1,  0,1.00,TMS9985_NONE,	   -1,			   -1,			   16,	  0,16,BE,1, 6,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_TMS9989)
-/*TODO*///	CPU0(TMS9989,  tms9989,  1,  0,1.00,TMS9989_NONE,	   -1,			   -1,			   16,	  0,16,BE,1, 6,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_TMS9995)
-/*TODO*///	CPU0(TMS9995,  tms9995,  1,  0,1.00,TMS9995_NONE,	   -1,			   -1,			   16,	  0,16,BE,1, 6,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_TMS99105A)
-/*TODO*///	CPU0(TMS99105A,tms99105a,1,  0,1.00,TMS99105A_NONE,    -1,			   -1,			   16bew, 0,16,BE,2, 6,16BEW),
-/*TODO*///#endif
-/*TODO*///#if (HAS_TMS99110A)
-/*TODO*///	CPU0(TMS99110A,tms99110a,1,  0,1.00,TMS99110A_NONE,    -1,			   -1,			   16bew, 0,16,BE,2, 6,16BEW),
-/*TODO*///#endif
-/*TODO*///#if (HAS_Z8000)
-/*TODO*///	CPU0(Z8000,    z8000,	 2,  0,1.00,Z8000_INT_NONE,    Z8000_NVI,	   Z8000_NMI,	   16bew, 0,16,BE,2, 6,16BEW),
-/*TODO*///#endif
-/*TODO*///#if (HAS_TMS320C10)
-/*TODO*///	CPU0(TMS320C10,tms320c10,2,  0,1.00,TMS320C10_INT_NONE,-1,			   -1,			   16,	 -1,16,BE,2, 4,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_CCPU)
-/*TODO*///	CPU0(CCPU,	   ccpu,	 2,  0,1.00,0,				   -1,			   -1,			   16,	  0,15,LE,1, 3,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_PDP1)
-/*TODO*///	CPU0(PDP1,	   pdp1,	 0,  0,1.00,0,				   -1,			   -1,			   16,	  0,18,LE,1, 3,16	),
-/*TODO*///#endif
-/*TODO*///#if (HAS_ADSP2100)
-/*TODO*////* IMO we should rename all *_ICount to *_icount - ie. no mixed case */
-/*TODO*///#define adsp2100_ICount adsp2100_icount
-/*TODO*///	CPU0(ADSP2100, adsp2100, 4,  0,1.00,ADSP2100_INT_NONE, -1,			   -1,			   16lew,-1,14,LE,2, 4,16LEW),
-/*TODO*///#endif
-/*TODO*///};
-/*TODO*///
-/*TODO*///void cpu_init(void)
-/*TODO*///{
-/*TODO*///	int i;
-/*TODO*///
-/*TODO*///	/* Verify the order of entries in the cpuintf[] array */
+/* warning the ordering must match the one of the enum in driver.h! */
+    public static cpu_interface cpuintf[]
+            = {
+                new dummyCPU(),
+                new z80(),
+                new dummyCPU(),/*TODO*///CPU0(Z80GB,    z80gb,	 5,255,1.00,Z80GB_IGNORE_INT,  0,			   1,			   16,	  0,16,LE,1, 4,16	),
+                new dummyCPU(),/*TODO*///	CPU0(8080,	   i8080,	 4,255,1.00,I8080_NONE, 	   I8080_INTR,	   I8080_TRAP,	   16,	  0,16,LE,1, 3,16	),
+                new dummyCPU(),/*TODO*///	CPU0(8085A,    i8085,	 4,255,1.00,I8085_NONE, 	   I8085_INTR,	   I8085_TRAP,	   16,	  0,16,LE,1, 3,16	),
+                new dummyCPU(),/*TODO*///	CPU0(M6502,    m6502,	 1,  0,1.00,M6502_INT_NONE,    M6502_INT_IRQ,  M6502_INT_NMI,  16,	  0,16,LE,1, 3,16	),
+                new dummyCPU(),/*TODO*///	CPU0(M65C02,   m65c02,	 1,  0,1.00,M65C02_INT_NONE,   M65C02_INT_IRQ, M65C02_INT_NMI, 16,	  0,16,LE,1, 3,16	),
+                new dummyCPU(),/*TODO*///	CPU0(M65SC02,  m65sc02,  1,  0,1.00,M65SC02_INT_NONE,  M65SC02_INT_IRQ,M65SC02_INT_NMI,16,	  0,16,LE,1, 3,16	),
+                new dummyCPU(),/*TODO*///	CPU0(M65CE02,  m65ce02,  1,  0,1.00,M65CE02_INT_NONE,  M65CE02_INT_IRQ,M65CE02_INT_NMI,16,	  0,16,LE,1, 3,16	),
+                new dummyCPU(),/*TODO*///	CPU0(M6509,    m6509,	 1,  0,1.00,M6509_INT_NONE,    M6509_INT_IRQ,  M6509_INT_NMI,  20,	  0,20,LE,1, 3,20	),
+                new dummyCPU(),/*TODO*///	CPU0(M6510,    m6510,	 1,  0,1.00,M6510_INT_NONE,    M6510_INT_IRQ,  M6510_INT_NMI,  16,	  0,16,LE,1, 3,16	),
+                new dummyCPU(),/*TODO*///	CPU0(N2A03,    n2a03,	 1,  0,1.00,N2A03_INT_NONE,    N2A03_INT_IRQ,  N2A03_INT_NMI,  16,	  0,16,LE,1, 3,16	),
+                new dummyCPU(),/*TODO*///	CPU0(H6280,    h6280,	 3,  0,1.00,H6280_INT_NONE,    -1,			   H6280_INT_NMI,  21,	  0,21,LE,1, 3,21	),
+                new dummyCPU(),/*TODO*///	CPU0(I86,	   i86, 	 1,  0,1.00,I86_INT_NONE,	   -1000,		   I86_NMI_INT,    20,	  0,20,LE,1, 5,20	),
+                new dummyCPU(),/*TODO*///	CPU0(V20,	   v20, 	 1,  0,1.00,NEC_INT_NONE,	   -1000,		   NEC_NMI_INT,    20,	  0,20,LE,1, 5,20	),
+                new dummyCPU(),/*TODO*///	CPU0(V30,	   v30, 	 1,  0,1.00,NEC_INT_NONE,	   -1000,		   NEC_NMI_INT,    20,	  0,20,LE,1, 5,20	),
+                new dummyCPU(),/*TODO*///	CPU0(V33,	   v33, 	 1,  0,1.05,NEC_INT_NONE,	   -1000,		   NEC_NMI_INT,    20,	  0,20,LE,1, 5,20	),
+                new dummyCPU(),/*TODO*///	CPU0(I8035,    i8035,	 1,  0,1.00,I8035_IGNORE_INT,  I8035_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
+                new dummyCPU(),/*TODO*///	CPU0(I8039,    i8039,	 1,  0,1.00,I8039_IGNORE_INT,  I8039_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
+                new dummyCPU(),/*TODO*///	CPU0(I8048,    i8048,	 1,  0,1.00,I8048_IGNORE_INT,  I8048_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
+                new dummyCPU(),/*TODO*///	CPU0(N7751,    n7751,	 1,  0,1.00,N7751_IGNORE_INT,  N7751_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
+                new dummyCPU(),/*TODO*///	CPU0(M6800,    m6800,	 1,  0,1.00,M6800_INT_NONE,    M6800_INT_IRQ,  M6800_INT_NMI,  16,	  0,16,BE,1, 4,16	),
+                new dummyCPU(),/*TODO*///	CPU0(M6801,    m6801,	 1,  0,1.00,M6801_INT_NONE,    M6801_INT_IRQ,  M6801_INT_NMI,  16,	  0,16,BE,1, 4,16	),
+                new dummyCPU(),/*TODO*///	CPU0(M6802,    m6802,	 1,  0,1.00,M6802_INT_NONE,    M6802_INT_IRQ,  M6802_INT_NMI,  16,	  0,16,BE,1, 4,16	),
+                new dummyCPU(),/*TODO*///	CPU0(M6803,    m6803,	 1,  0,1.00,M6803_INT_NONE,    M6803_INT_IRQ,  M6803_INT_NMI,  16,	  0,16,BE,1, 4,16	),
+                new dummyCPU(),/*TODO*///	CPU0(M6808,    m6808,	 1,  0,1.00,M6808_INT_NONE,    M6808_INT_IRQ,  M6808_INT_NMI,  16,	  0,16,BE,1, 4,16	),
+                new dummyCPU(),/*TODO*///	CPU0(HD63701,  hd63701,  1,  0,1.00,HD63701_INT_NONE,  HD63701_INT_IRQ,HD63701_INT_NMI,16,	  0,16,BE,1, 4,16	),
+                new dummyCPU(),/*TODO*///	CPU0(NSC8105,  nsc8105,  1,  0,1.00,NSC8105_INT_NONE,  NSC8105_INT_IRQ,NSC8105_INT_NMI,16,	  0,16,BE,1, 4,16	),
+                new dummyCPU(),/*TODO*///	CPU0(M6805,    m6805,	 1,  0,1.00,M6805_INT_NONE,    M6805_INT_IRQ,  -1,			   16,	  0,11,BE,1, 3,16	),
+                new dummyCPU(),/*TODO*///	CPU0(M68705,   m68705,	 1,  0,1.00,M68705_INT_NONE,   M68705_INT_IRQ, -1,			   16,	  0,11,BE,1, 3,16	),
+                new dummyCPU(),/*TODO*///	CPU0(HD63705,  hd63705,  8,  0,1.00,HD63705_INT_NONE,  HD63705_INT_IRQ,-1,			   16,	  0,16,BE,1, 3,16	),
+                new dummyCPU(),/*TODO*///	CPU0(HD6309,   hd6309,	 2,  0,1.00,HD6309_INT_NONE,   HD6309_INT_IRQ, HD6309_INT_NMI, 16,	  0,16,BE,1, 4,16	),
+                new dummyCPU(),/*TODO*///	CPU0(M6809,    m6809,	 2,  0,1.00,M6809_INT_NONE,    M6809_INT_IRQ,  M6809_INT_NMI,  16,	  0,16,BE,1, 4,16	),
+                new dummyCPU(),/*TODO*///	CPU0(KONAMI,   konami,	 2,  0,1.00,KONAMI_INT_NONE,   KONAMI_INT_IRQ, KONAMI_INT_NMI, 16,	  0,16,BE,1, 4,16	),
+                new dummyCPU(),/*TODO*///	CPU0(M68000,   m68000,	 8, -1,1.00,MC68000_INT_NONE,  -1,			   -1,			   24,	  0,24,BE,2,10,24	),
+                new dummyCPU(),/*TODO*///	CPU0(M68010,   m68010,	 8, -1,1.00,MC68010_INT_NONE,  -1,			   -1,			   24,	  0,24,BE,2,10,24	),
+                new dummyCPU(),/*TODO*///	CPU0(M68EC020, m68ec020, 8, -1,1.00,MC68EC020_INT_NONE,-1,			   -1,			   24,	  0,24,BE,2,10,24	),
+                new dummyCPU(),/*TODO*///	CPU0(M68020,   m68020,	 8, -1,1.00,MC68020_INT_NONE,  -1,			   -1,			   24,	  0,24,BE,2,10,24	),
+                new dummyCPU(),/*TODO*///	CPU0(T11,	   t11, 	 4,  0,1.00,T11_INT_NONE,	   -1,			   -1,			   16lew, 0,16,LE,2, 6,16LEW),
+                new s2650(),/*TODO*///	CPU0(S2650,    s2650,	 2,  0,1.00,S2650_INT_NONE,    -1,			   -1,			   16,	  0,15,LE,1, 3,16	),
+                new dummyCPU(),/*TODO*///	CPU2(TMS34010, tms34010, 2,  0,1.00,TMS34010_INT_NONE, TMS34010_INT1,  -1,			   29,	  3,29,LE,2,10,29	),
+                new dummyCPU(),/*TODO*///	CPU0(TMS9900,  tms9900,  1,  0,1.00,TMS9900_NONE,	   -1,			   -1,			   16bew, 0,16,BE,2, 6,16BEW),
+                new dummyCPU(),/*TODO*///	CPU0(TMS9940,  tms9940,  1,  0,1.00,TMS9940_NONE,	   -1,			   -1,			   16bew, 0,16,BE,2, 6,16BEW),
+                new dummyCPU(),/*TODO*///	CPU0(TMS9980,  tms9980a, 1,  0,1.00,TMS9980A_NONE,	   -1,			   -1,			   16,	  0,16,BE,1, 6,16	),
+                new dummyCPU(),/*TODO*///	CPU0(TMS9985,  tms9985,  1,  0,1.00,TMS9985_NONE,	   -1,			   -1,			   16,	  0,16,BE,1, 6,16	),
+                new dummyCPU(),/*TODO*///	CPU0(TMS9989,  tms9989,  1,  0,1.00,TMS9989_NONE,	   -1,			   -1,			   16,	  0,16,BE,1, 6,16	),
+                new dummyCPU(),/*TODO*///	CPU0(TMS9995,  tms9995,  1,  0,1.00,TMS9995_NONE,	   -1,			   -1,			   16,	  0,16,BE,1, 6,16	),
+                new dummyCPU(),/*TODO*///	CPU0(TMS99105A,tms99105a,1,  0,1.00,TMS99105A_NONE,    -1,			   -1,			   16bew, 0,16,BE,2, 6,16BEW),
+                new dummyCPU(),/*TODO*///	CPU0(TMS99110A,tms99110a,1,  0,1.00,TMS99110A_NONE,    -1,			   -1,			   16bew, 0,16,BE,2, 6,16BEW),
+                new dummyCPU(),/*TODO*///	CPU0(Z8000,    z8000,	 2,  0,1.00,Z8000_INT_NONE,    Z8000_NVI,	   Z8000_NMI,	   16bew, 0,16,BE,2, 6,16BEW),
+                new dummyCPU(),/*TODO*///	CPU0(TMS320C10,tms320c10,2,  0,1.00,TMS320C10_INT_NONE,-1,			   -1,			   16,	 -1,16,BE,2, 4,16	),
+                new dummyCPU(),/*TODO*///	CPU0(CCPU,	   ccpu,	 2,  0,1.00,0,				   -1,			   -1,			   16,	  0,15,LE,1, 3,16	),
+                new dummyCPU(),/*TODO*///	CPU0(PDP1,	   pdp1,	 0,  0,1.00,0,				   -1,			   -1,			   16,	  0,18,LE,1, 3,16	),
+                /*TODO*////* IMO we should rename all *_ICount to *_icount - ie. no mixed case */
+                /*TODO*///#define adsp2100_ICount adsp2100_icount
+                new dummyCPU()/*TODO*///	CPU0(ADSP2100, adsp2100, 4,  0,1.00,ADSP2100_INT_NONE, -1,			   -1,			   16lew,-1,14,LE,2, 4,16LEW),
+            };
+
+    public static void cpu_init() {
+        int i;
+        /*TODO*///	/* Verify the order of entries in the cpuintf[] array */
 /*TODO*///	for( i = 0; i < CPU_COUNT; i++ )
 /*TODO*///	{
 /*TODO*///		if( cpuintf[i].cpu_num != i )
 /*TODO*///		{
-/*TODO*///if (errorlog) fprintf( errorlog, "CPU #%d [%s] wrong ID %d: check enum CPU_... in src/driver.h!\n", i, cputype_name(i), cpuintf[i].cpu_num);
+/*TODO*///logerror("CPU #%d [%s] wrong ID %d: check enum CPU_... in src/driver.h!\n", i, cputype_name(i), cpuintf[i].cpu_num);
 /*TODO*///			exit(1);
 /*TODO*///		}
 /*TODO*///	}
-/*TODO*///
-/*TODO*///	/* count how many CPUs we have to emulate */
-/*TODO*///	totalcpu = 0;
-/*TODO*///
-/*TODO*///	while (totalcpu < MAX_CPU)
-/*TODO*///	{
-/*TODO*///		if( CPU_TYPE(totalcpu) == CPU_DUMMY ) break;
-/*TODO*///		totalcpu++;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* zap the CPU data structure */
-/*TODO*///	memset(cpu, 0, sizeof(cpu));
-/*TODO*///
-/*TODO*///	/* Set up the interface functions */
-/*TODO*///	for (i = 0; i < MAX_CPU; i++)
-/*TODO*///		cpu[i].intf = &cpuintf[CPU_TYPE(i)];
-/*TODO*///
-/*TODO*///	/* reset the timer system */
-/*TODO*///	timer_init();
-/*TODO*///	timeslice_timer = refresh_timer = vblank_timer = NULL;
-/*TODO*///}
-/*TODO*///
-/*TODO*///void cpu_run(void)
-/*TODO*///{
-/*TODO*///	int i;
-/*TODO*///
-/*TODO*///	/* determine which CPUs need a context switch */
-/*TODO*///	for (i = 0; i < totalcpu; i++)
-/*TODO*///	{
-/*TODO*///		int j, size;
-/*TODO*///
-/*TODO*///		/* allocate a context buffer for the CPU */
-/*TODO*///		size = GETCONTEXT(i,NULL);
-/*TODO*///		if( size == 0 )
-/*TODO*///		{
-/*TODO*///			/* That can't really be true */
-/*TODO*///if (errorlog) fprintf( errorlog, "CPU #%d claims to need no context buffer!\n", i);
-/*TODO*///			raise( SIGABRT );
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		cpu[i].context = malloc( size );
-/*TODO*///		if( cpu[i].context == NULL )
-/*TODO*///		{
-/*TODO*///			/* That's really bad :( */
-/*TODO*///if (errorlog) fprintf( errorlog, "CPU #%d failed to allocate context buffer (%d bytes)!\n", i, size);
-/*TODO*///			raise( SIGABRT );
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		/* Zap the context buffer */
-/*TODO*///		memset(cpu[i].context, 0, size );
-/*TODO*///
-/*TODO*///
-/*TODO*///		/* Save if there is another CPU of the same type */
-/*TODO*///		cpu[i].save_context = 0;
-/*TODO*///
-/*TODO*///		for (j = 0; j < totalcpu; j++)
-/*TODO*///			if ( i != j && !strcmp(cpunum_core_file(i),cpunum_core_file(j)) )
-/*TODO*///				cpu[i].save_context = 1;
-/*TODO*///
-/*TODO*///		#ifdef MAME_DEBUG
-/*TODO*///
-/*TODO*///		/* or if we're running with the debugger */
-/*TODO*///		{
-/*TODO*///			extern int mame_debug;
-/*TODO*///			cpu[i].save_context |= mame_debug;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		#endif
-/*TODO*///
-/*TODO*///		for( j = 0; j < MAX_IRQ_LINES; j++ )
-/*TODO*///		{
-/*TODO*///			irq_line_state[i * MAX_IRQ_LINES + j] = CLEAR_LINE;
-/*TODO*///			irq_line_vector[i * MAX_IRQ_LINES + j] = cpuintf[CPU_TYPE(i)].default_vector;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///#ifdef	MAME_DEBUG
-/*TODO*///	/* Initialize the debugger */
-/*TODO*///	if( mame_debug )
-/*TODO*///		mame_debug_init();
-/*TODO*///#endif
-/*TODO*///
-/*TODO*///
-/*TODO*///reset:
-/*TODO*///	/* read hi scores information from hiscore.dat */
-/*TODO*///	hs_open(Machine->gamedrv->name);
-/*TODO*///	hs_init();
-/*TODO*///
-/*TODO*///	/* initialize the various timers (suspends all CPUs at startup) */
-/*TODO*///	cpu_inittimers();
-/*TODO*///	watchdog_counter = -1;
-/*TODO*///
-/*TODO*///	/* reset sound chips */
-/*TODO*///	sound_reset();
-/*TODO*///
-/*TODO*///	/* enable all CPUs (except for audio CPUs if the sound is off) */
-/*TODO*///	for (i = 0; i < totalcpu; i++)
-/*TODO*///	{
-/*TODO*///		if (!CPU_AUDIO(i) || Machine->sample_rate != 0)
-/*TODO*///		{
-/*TODO*///			timer_suspendcpu(i, 0, SUSPEND_REASON_RESET);
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			timer_suspendcpu(i, 1, SUSPEND_REASON_DISABLE);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	have_to_reset = 0;
-/*TODO*///	vblank = 0;
-/*TODO*///
-/*TODO*///if (errorlog) fprintf(errorlog,"Machine reset\n");
-/*TODO*///
-/*TODO*///	/* start with interrupts enabled, so the generic routine will work even if */
-/*TODO*///	/* the machine doesn't have an interrupt enable port */
-/*TODO*///	for (i = 0;i < MAX_CPU;i++)
-/*TODO*///	{
-/*TODO*///		interrupt_enable[i] = 1;
-/*TODO*///		interrupt_vector[i] = 0xff;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* do this AFTER the above so init_machine() can use cpu_halt() to hold the */
-/*TODO*///	/* execution of some CPUs, or disable interrupts */
-/*TODO*///	if (Machine->drv->init_machine) (*Machine->drv->init_machine)();
-/*TODO*///
-/*TODO*///	/* reset each CPU */
-/*TODO*///	for (i = 0; i < totalcpu; i++)
-/*TODO*///	{
-/*TODO*///		/* swap memory contexts and reset */
-/*TODO*///		memorycontextswap(i);
-/*TODO*///		if (cpu[i].save_context) SETCONTEXT(i, cpu[i].context);
-/*TODO*///		activecpu = i;
-/*TODO*///		RESET(i);
-/*TODO*///
-/*TODO*///		/* Set the irq callback for the cpu */
-/*TODO*///		SETIRQCALLBACK(i,cpu_irq_callbacks[i]);
-/*TODO*///
-/*TODO*///		/* save the CPU context if necessary */
-/*TODO*///		if (cpu[i].save_context) GETCONTEXT (i, cpu[i].context);
-/*TODO*///
-/*TODO*///		/* reset the total number of cycles */
-/*TODO*///		cpu[i].totalcycles = 0;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* reset the globals */
-/*TODO*///	cpu_vblankreset();
-/*TODO*///	current_frame = 0;
-/*TODO*///
-/*TODO*///	/* loop until the user quits */
-/*TODO*///	usres = 0;
-/*TODO*///	while (usres == 0)
-/*TODO*///	{
-/*TODO*///		int cpunum;
-/*TODO*///
-/*TODO*///		/* was machine_reset() called? */
-/*TODO*///		if (have_to_reset)
-/*TODO*///		{
-/*TODO*///#ifdef MESS
+        /* count how many CPUs we have to emulate */
+        totalcpu = 0;
+
+        while (totalcpu < MAX_CPU) {
+            if (CPU_TYPE(totalcpu) == CPU_DUMMY) {
+                break;
+            }
+            totalcpu++;
+        }
+        /* zap the CPU data structure */
+        cpu.clear();
+        /* Set up the interface functions */
+        for (i = 0; i < MAX_CPU; i++) {
+            cpu.add(new cpuinfo(cpuintf[CPU_TYPE(i)]));
+        }
+        /* reset the timer system */
+        timer_init();
+        timeslice_timer = refresh_timer = vblank_timer = null;
+    }
+
+    public static void cpu_run() {
+        /* determine which CPUs need a context switch */
+        for (int i = 0; i < totalcpu; i++) {
+            cpu.get(i).context = cpu.get(i).intf.init_context();
+            /* Save if there is another CPU of the same type */
+            cpu.get(i).save_context = 0;
+
+            for (int j = 0; j < totalcpu; j++) {
+                if (i != j && cpunum_core_file(i).compareTo(cpunum_core_file(j)) == 0) {
+                    cpu.get(i).save_context = 1;
+                }
+            }
+
+            for (int j = 0; j < MAX_IRQ_LINES; j++) {
+                irq_line_state[i * MAX_IRQ_LINES + j] = CLEAR_LINE;
+                irq_line_vector[i * MAX_IRQ_LINES + j] = cpuintf[CPU_TYPE(i)].default_vector;
+            }
+        }
+        reset:
+        for (;;) {
+            /* read hi scores information from hiscore.dat */
+            hs_open(Machine.gamedrv.name);
+            hs_init();
+
+            /* initialize the various timers (suspends all CPUs at startup) */
+            cpu_inittimers();
+            watchdog_counter = -1;
+
+            /* reset sound_old chips */
+            sound_reset();
+            /* enable all CPUs (except for audio CPUs if the sound_old is off) */
+            for (int i = 0; i < totalcpu; i++) {
+                if (CPU_AUDIO(i) == 0 || Machine.sample_rate != 0) {
+                    timer_suspendcpu(i, 0, SUSPEND_REASON_RESET);
+                } else {
+                    timer_suspendcpu(i, 1, SUSPEND_REASON_DISABLE);
+                }
+            }
+            have_to_reset = 0;
+            vblank = 0;
+
+            if (errorlog != null) {
+                fprintf(errorlog, "Machine reset\n");
+            }
+            /* start with interrupts enabled, so the generic routine will work even if */
+ /* the machine doesn't have an interrupt enable port */
+            for (int i = 0; i < MAX_CPU; i++) {
+                interrupt_enable[i] = 1;
+                interrupt_vector[i] = 0xff;
+                /* Reset any driver hooks into the IRQ acknowledge callbacks */
+            }
+
+            /* do this AFTER the above so init_machine() can use cpu_halt() to hold the */
+ /* execution of some CPUs, or disable interrupts */
+            if (Machine.drv.init_machine != null) {
+                Machine.drv.init_machine.handler();
+            }
+            /* reset each CPU */
+            for (int i = 0; i < totalcpu; i++) {
+                /* swap memory contexts and reset */
+                memorycontextswap(i);
+                if (cpu.get(i).save_context != 0) {
+                    SETCONTEXT(i, cpu.get(i).context);
+                }
+                activecpu = i;
+                RESET(i);
+
+                /* Set the irq callback for the cpu_old */
+                SETIRQCALLBACK(i, cpu_irq_callbacks[i]);
+
+                /* save the CPU context if necessary */
+                if (cpu.get(i).save_context != 0) {
+                    cpu.get(i).context = GETCONTEXT(i);
+                }
+
+                /* reset the total number of cycles */
+                cpu.get(i).totalcycles = 0;
+            }
+            /* reset the globals */
+            cpu_vblankreset();
+            current_frame = 0;
+            /* loop until the user quits */
+            usres = 0;
+            int cpunum_table[] = new int[1];
+            int cycles_table[] = new int[1];
+            while (usres == 0) {
+                int cpunum;
+
+                /* was machine_reset() called? */
+                if (have_to_reset != 0) {
+                    /*TODO*///#ifdef MESS
 /*TODO*///			if (Machine->drv->stop_machine) (*Machine->drv->stop_machine)();
 /*TODO*///#endif
-/*TODO*///			goto reset;
-/*TODO*///		}
-/*TODO*///		profiler_mark(PROFILER_EXTRA);
-/*TODO*///
-/*TODO*///#if SAVE_STATE_TEST
-/*TODO*///		{
-/*TODO*///			if( keyboard_pressed_memory(KEYCODE_S) )
-/*TODO*///			{
-/*TODO*///				void *s = state_create(Machine->gamedrv->name);
-/*TODO*///				if( s )
-/*TODO*///				{
-/*TODO*///					for( cpunum = 0; cpunum < totalcpu; cpunum++ )
-/*TODO*///					{
-/*TODO*///						activecpu = cpunum;
-/*TODO*///						memorycontextswap(activecpu);
-/*TODO*///						if (cpu[activecpu].save_context) SETCONTEXT(activecpu, cpu[activecpu].context);
-/*TODO*///						/* make sure any bank switching is reset */
-/*TODO*///						SET_OP_BASE(activecpu, GETPC(activecpu));
-/*TODO*///						if( cpu[activecpu].intf->cpu_state_save )
-/*TODO*///							(*cpu[activecpu].intf->cpu_state_save)(s);
-/*TODO*///					}
-/*TODO*///					state_close(s);
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///
-/*TODO*///			if( keyboard_pressed_memory(KEYCODE_L) )
-/*TODO*///			{
-/*TODO*///				void *s = state_open(Machine->gamedrv->name);
-/*TODO*///				if( s )
-/*TODO*///				{
-/*TODO*///					for( cpunum = 0; cpunum < totalcpu; cpunum++ )
-/*TODO*///					{
-/*TODO*///						activecpu = cpunum;
-/*TODO*///						memorycontextswap(activecpu);
-/*TODO*///						if (cpu[activecpu].save_context) SETCONTEXT(activecpu, cpu[activecpu].context);
-/*TODO*///						/* make sure any bank switching is reset */
-/*TODO*///						SET_OP_BASE(activecpu, GETPC(activecpu));
-/*TODO*///						if( cpu[activecpu].intf->cpu_state_load )
-/*TODO*///							(*cpu[activecpu].intf->cpu_state_load)(s);
-/*TODO*///						/* update the contexts */
-/*TODO*///						if (cpu[activecpu].save_context) GETCONTEXT(activecpu, cpu[activecpu].context);
-/*TODO*///					}
-/*TODO*///					state_close(s);
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///#endif
-/*TODO*///		/* ask the timer system to schedule */
-/*TODO*///		if (timer_schedule_cpu(&cpunum, &cycles_running))
-/*TODO*///		{
-/*TODO*///			int ran;
-/*TODO*///
-/*TODO*///
-/*TODO*///			/* switch memory and CPU contexts */
-/*TODO*///			activecpu = cpunum;
-/*TODO*///			memorycontextswap(activecpu);
-/*TODO*///			if (cpu[activecpu].save_context) SETCONTEXT(activecpu, cpu[activecpu].context);
-/*TODO*///
-/*TODO*///			/* make sure any bank switching is reset */
-/*TODO*///			SET_OP_BASE(activecpu, GETPC(activecpu));
-/*TODO*///
-/*TODO*///			/* run for the requested number of cycles */
-/*TODO*///			profiler_mark(PROFILER_CPU1 + cpunum);
-/*TODO*///			ran = EXECUTE(activecpu, cycles_running);
-/*TODO*///			profiler_mark(PROFILER_END);
-/*TODO*///
-/*TODO*///			/* update based on how many cycles we really ran */
-/*TODO*///			cpu[activecpu].totalcycles += ran;
-/*TODO*///
-/*TODO*///			/* update the contexts */
-/*TODO*///			if (cpu[activecpu].save_context) GETCONTEXT(activecpu, cpu[activecpu].context);
-/*TODO*///			activecpu = -1;
-/*TODO*///
-/*TODO*///			/* update the timer with how long we actually ran */
-/*TODO*///			timer_update_cpu(cpunum, ran);
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		profiler_mark(PROFILER_END);
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* write hi scores to disk - No scores saving if cheat */
-/*TODO*///	hs_close();
-/*TODO*///
-/*TODO*///#ifdef MESS
+                    continue reset;
+                }
+                /* ask the timer system to schedule */
+                if (timer_schedule_cpu(cpunum_table, cycles_table) != 0) {
+                    cpunum = cpunum_table[0];
+                    cycles_running = cycles_table[0];
+                    int ran = 1;
+
+                    /* switch memory and CPU contexts */
+                    activecpu = cpunum;
+                    memorycontextswap(activecpu);
+
+                    if (cpu.get(activecpu).save_context != 0) {
+                        SETCONTEXT(activecpu, cpu.get(activecpu).context);
+                    }
+
+                    /* make sure any bank switching is reset */
+                    SET_OP_BASE(activecpu, GETPC(activecpu));
+
+                    /* run for the requested number of cycles */
+                    ran = EXECUTE(activecpu, cycles_running);
+
+                    /* update based on how many cycles we really ran */
+                    cpu.get(activecpu).totalcycles += ran;
+
+                    /* update the contexts */
+                    if (cpu.get(activecpu).save_context != 0) {
+                        cpu.get(activecpu).context = GETCONTEXT(activecpu);
+
+                    }
+                    activecpu = -1;
+
+                    /* update the timer with how long we actually ran */
+                    timer_update_cpu(cpunum, ran);
+                }
+
+            }
+            /* write hi scores to disk - No scores saving if cheat */
+            hs_close();
+            /*TODO*///#ifdef MESS
 /*TODO*///	if (Machine->drv->stop_machine) (*Machine->drv->stop_machine)();
-/*TODO*///#endif
-/*TODO*///
-/*TODO*///#ifdef	MAME_DEBUG
-/*TODO*///	/* Shut down the debugger */
-/*TODO*///	if( mame_debug )
-/*TODO*///		mame_debug_exit();
 /*TODO*///#endif
 /*TODO*///
 /*TODO*///	/* shut down the CPU cores */
@@ -768,50 +469,47 @@ public class cpuintrf {
 /*TODO*///			cpu[i].context = NULL;
 /*TODO*///		}
 /*TODO*///	}
-/*TODO*///	totalcpu = 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Use this function to initialize, and later maintain, the watchdog. For
-/*TODO*///  convenience, when the machine is reset, the watchdog is disabled. If you
-/*TODO*///  call this function, the watchdog is initialized, and from that point
-/*TODO*///  onwards, if you don't call it at least once every 10 video frames, the
-/*TODO*///  machine will be reset.
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///void watchdog_reset_w(int offset,int data)
-/*TODO*///{
-/*TODO*///	watchdog_counter = Machine->drv->frames_per_second;
-/*TODO*///}
-/*TODO*///
-/*TODO*///int watchdog_reset_r(int offset)
-/*TODO*///{
-/*TODO*///	watchdog_counter = Machine->drv->frames_per_second;
-/*TODO*///	return 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  This function resets the machine (the reset will not take place
-/*TODO*///  immediately, it will be performed at the end of the active CPU's time
-/*TODO*///  slice)
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///void machine_reset(void)
-/*TODO*///{
-/*TODO*///	/* write hi scores to disk - No scores saving if cheat */
-/*TODO*///	hs_close();
-/*TODO*///
-/*TODO*///	have_to_reset = 1;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
+            totalcpu = 0;
+            break;
+        }
+    }
+    /**
+     * *************************************************************************
+     *
+     * Use this function to initialize, and later maintain, the watchdog. For
+     * convenience, when the machine is reset, the watchdog is disabled. If you
+     * call this function, the watchdog is initialized, and from that point
+     * onwards, if you don't call it at least once every 10 video frames, the
+     * machine will be reset.
+     *
+     **************************************************************************
+     */
+    public static WriteHandlerPtr watchdog_reset_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            watchdog_counter = Machine.drv.frames_per_second;
+        }
+    };
+    public static ReadHandlerPtr watchdog_reset_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            watchdog_counter = Machine.drv.frames_per_second;
+            return 0;
+        }
+    };
+
+    /**
+     * *************************************************************************
+     * This function resets the machine_old (the reset will not take place
+     * immediately, it will be performed at the end of the active CPU's time
+     * slice)
+     * *************************************************************************
+     */
+    public static void machine_reset() {
+        /* write hi scores to disk - No scores saving if cheat */
+        hs_close();
+
+        have_to_reset = 1;
+    }
+
     /**
      * *************************************************************************
      *
@@ -823,57 +521,48 @@ public class cpuintrf {
         timer_set(TIME_NOW, (cpunum & 7) | (state << 3), cpu_resetcallback);
     }
 
-    /*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Use this function to control the HALT line on a CPU
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///void cpu_set_halt_line(int cpunum,int state)
-/*TODO*///{
-/*TODO*///	timer_set(TIME_NOW, (cpunum & 7) | (state << 3), cpu_haltcallback);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  This function returns CPUNUM current status  (running or halted)
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///int cpu_getstatus(int cpunum)
-/*TODO*///{
-/*TODO*///	if (cpunum >= MAX_CPU) return 0;
-/*TODO*///
-/*TODO*///	return !timer_iscpususpended(cpunum,
-/*TODO*///			SUSPEND_REASON_HALT | SUSPEND_REASON_RESET | SUSPEND_REASON_DISABLE);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///int cpu_getactivecpu(void)
-/*TODO*///{
-/*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-/*TODO*///	return cpunum;
-/*TODO*///}
-/*TODO*///
-/*TODO*///void cpu_setactivecpu(int cpunum)
-/*TODO*///{
-/*TODO*///	activecpu = cpunum;
-/*TODO*///}
-/*TODO*///
-/*TODO*///int cpu_gettotalcpu(void)
-/*TODO*///{
-/*TODO*///	return totalcpu;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///unsigned cpu_get_pc(void)
-/*TODO*///{
-/*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-/*TODO*///	return GETPC(cpunum);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void cpu_set_pc(unsigned val)
+    /**
+     * *************************************************************************
+     * Use this function to control the HALT line on a CPU
+     * *************************************************************************
+     */
+    public static void cpu_set_halt_line(int cpunum, int state) {
+        timer_set(TIME_NOW, (cpunum & 7) | (state << 3), cpu_haltcallback);
+    }
+
+    /**
+     * *************************************************************************
+     * This function returns CPUNUM current status (running or halted)
+     * *************************************************************************
+     */
+    public static int cpu_getstatus(int cpunum) {
+        if (cpunum >= MAX_CPU) {
+            return 0;
+        }
+
+        return timer_iscpususpended(cpunum,
+                SUSPEND_REASON_HALT | SUSPEND_REASON_RESET | SUSPEND_REASON_DISABLE) == 0 ? 1 : 0;
+    }
+
+    public static int cpu_getactivecpu() {
+        int cpunum = (activecpu < 0) ? 0 : activecpu;
+        return cpunum;
+    }
+
+    public static void cpu_setactivecpu(int cpunum) {
+        activecpu = cpunum;
+    }
+
+    public static int cpu_gettotalcpu() {
+        return totalcpu;
+    }
+
+    public static int /*unsigned*/ cpu_get_pc() {
+        int cpunum = (activecpu < 0) ? 0 : activecpu;
+        return GETPC(cpunum);
+    }
+
+    /*TODO*///void cpu_set_pc(unsigned val)
 /*TODO*///{
 /*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
 /*TODO*///	SETPC(cpunum,val);
@@ -1051,64 +740,72 @@ public class cpuintrf {
         return cpu.get(cpunum).iloops;
     }
 
+    /**
+     * *************************************************************************
+     *
+     * Interrupt handling
+     *
+     **************************************************************************
+     */
+    /**
+     * *************************************************************************
+     *
+     * These functions are called when a cpu calls the callback sent to it's
+     * set_irq_callback function. It clears the irq line if the current state is
+     * HOLD_LINE and returns the interrupt vector for that line.
+     *
+     **************************************************************************
+     */
+    public static IrqCallbackHandlerPtr cpu_0_irq_callback = new IrqCallbackHandlerPtr() {
+        public int handler(int irqline) {
+            if (irq_line_state[0 * MAX_IRQ_LINES + irqline] == HOLD_LINE) {
+                SETIRQLINE(0, irqline, CLEAR_LINE);
+                irq_line_state[0 * MAX_IRQ_LINES + irqline] = CLEAR_LINE;
+            }
+            //LOG((errorlog, "cpu_0_irq_callback(%d) $%04x\n", irqline, irq_line_vector[0 * MAX_IRQ_LINES + irqline]));
+            return irq_line_vector[0 * MAX_IRQ_LINES + irqline];
+        }
+    };
+    public static IrqCallbackHandlerPtr cpu_1_irq_callback = new IrqCallbackHandlerPtr() {
+        public int handler(int irqline) {
+            if (irq_line_state[1 * MAX_IRQ_LINES + irqline] == HOLD_LINE) {
+                SETIRQLINE(1, irqline, CLEAR_LINE);
+                irq_line_state[1 * MAX_IRQ_LINES + irqline] = CLEAR_LINE;
+            }
+            //LOG((errorlog, "cpu_1_irq_callback(%d) $%04x\n", irqline, irq_line_vector[1 * MAX_IRQ_LINES + irqline]));
+            return irq_line_vector[1 * MAX_IRQ_LINES + irqline];
+        }
+    };
+    public static IrqCallbackHandlerPtr cpu_2_irq_callback = new IrqCallbackHandlerPtr() {
+        public int handler(int irqline) {
+            if (irq_line_state[2 * MAX_IRQ_LINES + irqline] == HOLD_LINE) {
+                SETIRQLINE(2, irqline, CLEAR_LINE);
+                irq_line_state[2 * MAX_IRQ_LINES + irqline] = CLEAR_LINE;
+            }
+            //LOG((errorlog, "cpu_2_irq_callback(%d) $%04x\n", irqline, irq_line_vector[2 * MAX_IRQ_LINES + irqline]));
+            return irq_line_vector[2 * MAX_IRQ_LINES + irqline];
+        }
+    };
+    public static IrqCallbackHandlerPtr cpu_3_irq_callback = new IrqCallbackHandlerPtr() {
+        public int handler(int irqline) {
+            if (irq_line_state[3 * MAX_IRQ_LINES + irqline] == HOLD_LINE) {
+                SETIRQLINE(3, irqline, CLEAR_LINE);
+                irq_line_state[3 * MAX_IRQ_LINES + irqline] = CLEAR_LINE;
+            }
+            //LOG((errorlog, "cpu_3_irq_callback(%d) $%04x\n", irqline, irq_line_vector[2 * MAX_IRQ_LINES + irqline]));
+            return irq_line_vector[3 * MAX_IRQ_LINES + irqline];
+        }
+    };
+
+    /* and a list of them for indexed access */
+    public static final IrqCallbackHandlerPtr[] cpu_irq_callbacks = {
+        cpu_0_irq_callback,
+        cpu_1_irq_callback,
+        cpu_2_irq_callback,
+        cpu_3_irq_callback
+    };
+
     /*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Interrupt handling
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  These functions are called when a cpu calls the callback sent to it's
-/*TODO*///  set_irq_callback function. It clears the irq line if the current state
-/*TODO*///  is HOLD_LINE and returns the interrupt vector for that line.
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///static int cpu_0_irq_callback(int irqline)
-/*TODO*///{
-/*TODO*///	if( irq_line_state[0 * MAX_IRQ_LINES + irqline] == HOLD_LINE )
-/*TODO*///	{
-/*TODO*///		SETIRQLINE(0, irqline, CLEAR_LINE);
-/*TODO*///		irq_line_state[0 * MAX_IRQ_LINES + irqline] = CLEAR_LINE;
-/*TODO*///	}
-/*TODO*///	LOG((errorlog, "cpu_0_irq_callback(%d) $%04x\n", irqline, irq_line_vector[0 * MAX_IRQ_LINES + irqline]));
-/*TODO*///	return irq_line_vector[0 * MAX_IRQ_LINES + irqline];
-/*TODO*///}
-/*TODO*///
-/*TODO*///static int cpu_1_irq_callback(int irqline)
-/*TODO*///{
-/*TODO*///	if( irq_line_state[1 * MAX_IRQ_LINES + irqline] == HOLD_LINE )
-/*TODO*///	{
-/*TODO*///		SETIRQLINE(1, irqline, CLEAR_LINE);
-/*TODO*///		irq_line_state[1 * MAX_IRQ_LINES + irqline] = CLEAR_LINE;
-/*TODO*///	}
-/*TODO*///	LOG((errorlog, "cpu_1_irq_callback(%d) $%04x\n", irqline, irq_line_vector[1 * MAX_IRQ_LINES + irqline]));
-/*TODO*///	return irq_line_vector[1 * MAX_IRQ_LINES + irqline];
-/*TODO*///}
-/*TODO*///
-/*TODO*///static int cpu_2_irq_callback(int irqline)
-/*TODO*///{
-/*TODO*///	if( irq_line_state[2 * MAX_IRQ_LINES + irqline] == HOLD_LINE )
-/*TODO*///	{
-/*TODO*///		SETIRQLINE(2, irqline, CLEAR_LINE);
-/*TODO*///		irq_line_state[2 * MAX_IRQ_LINES + irqline] = CLEAR_LINE;
-/*TODO*///	}
-/*TODO*///	LOG((errorlog, "cpu_2_irq_callback(%d) $%04x\n", irqline, irq_line_vector[2 * MAX_IRQ_LINES + irqline]));
-/*TODO*///	return irq_line_vector[2 * MAX_IRQ_LINES + irqline];
-/*TODO*///}
-/*TODO*///
-/*TODO*///static int cpu_3_irq_callback(int irqline)
-/*TODO*///{
-/*TODO*///	if( irq_line_state[3 * MAX_IRQ_LINES + irqline] == HOLD_LINE )
-/*TODO*///	{
-/*TODO*///		SETIRQLINE(3, irqline, CLEAR_LINE);
-/*TODO*///		irq_line_state[3 * MAX_IRQ_LINES + irqline] = CLEAR_LINE;
-/*TODO*///	}
-/*TODO*///	LOG((errorlog, "cpu_3_irq_callback(%d) $%04x\n", irqline, irq_line_vector[2 * MAX_IRQ_LINES + irqline]));
-/*TODO*///	return irq_line_vector[3 * MAX_IRQ_LINES + irqline];
-/*TODO*///}
-/*TODO*///
-/*TODO*////***************************************************************************
 /*TODO*///
 /*TODO*///  This function is used to generate internal interrupts (TMS34010)
 /*TODO*///
@@ -1119,24 +816,22 @@ public class cpuintrf {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Use this functions to set the vector for a irq line of a CPU
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///void cpu_irq_line_vector_w(int cpunum, int irqline, int vector)
-/*TODO*///{
-/*TODO*///	cpunum &= (MAX_CPU - 1);
-/*TODO*///	irqline &= (MAX_IRQ_LINES - 1);
-/*TODO*///	if( irqline < cpu[cpunum].intf->num_irqs )
-/*TODO*///	{
-/*TODO*///		LOG((errorlog,"cpu_irq_line_vector_w(%d,%d,$%04x)\n",cpunum,irqline,vector));
-/*TODO*///		irq_line_vector[cpunum * MAX_IRQ_LINES + irqline] = vector;
-/*TODO*///		return;
-/*TODO*///	}
-/*TODO*///	LOG((errorlog, "cpu_irq_line_vector_w CPU#%d irqline %d > max irq lines\n", cpunum, irqline));
-/*TODO*///}
-/*TODO*///
+    /**
+     * *************************************************************************
+     * Use this functions to set the vector for a irq line of a CPU
+     * *************************************************************************
+     */
+    public static void cpu_irq_line_vector_w(int cpunum, int irqline, int vector) {
+        cpunum &= (MAX_CPU - 1);
+        irqline &= (MAX_IRQ_LINES - 1);
+        if (irqline < cpu.get(cpunum).intf.num_irqs) {
+            //LOG((errorlog,"cpu_irq_line_vector_w(%d,%d,$%04x)\n",cpunum,irqline,vector));
+            irq_line_vector[cpunum * MAX_IRQ_LINES + irqline] = vector;
+            return;
+        }
+        //LOG(("cpu_irq_line_vector_w CPU#%d irqline %d > max irq lines\n", cpunum, irqline));
+    }
+
     /**
      * *************************************************************************
      * Use these functions to set the vector (data) for a irq line (offset) of
@@ -1332,203 +1027,199 @@ public class cpuintrf {
 /*TODO*///	if (interrupt_enable[cpunum] == 0) return MC68000_INT_NONE;
 /*TODO*///	return MC68000_IRQ_7;
 /*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///int ignore_interrupt(void)
-/*TODO*///{
-/*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-/*TODO*///	return INT_TYPE_NONE(cpunum);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  CPU timing and synchronization functions.
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///
-/*TODO*////* generate a trigger */
-/*TODO*///void cpu_trigger(int trigger)
-/*TODO*///{
-/*TODO*///	timer_trigger(trigger);
-/*TODO*///}
-/*TODO*///
-/*TODO*////* generate a trigger after a specific period of time */
-/*TODO*///void cpu_triggertime(double duration, int trigger)
-/*TODO*///{
-/*TODO*///	timer_set(duration, trigger, cpu_trigger);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*////* burn CPU cycles until a timer trigger */
-/*TODO*///void cpu_spinuntil_trigger(int trigger)
-/*TODO*///{
-/*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-/*TODO*///	timer_suspendcpu_trigger(cpunum, trigger);
-/*TODO*///}
-/*TODO*///
-/*TODO*////* burn CPU cycles until the next interrupt */
-/*TODO*///void cpu_spinuntil_int(void)
-/*TODO*///{
-/*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-/*TODO*///	cpu_spinuntil_trigger(TRIGGER_INT + cpunum);
-/*TODO*///}
-/*TODO*///
-/*TODO*////* burn CPU cycles until our timeslice is up */
-/*TODO*///void cpu_spin(void)
-/*TODO*///{
-/*TODO*///	cpu_spinuntil_trigger(TRIGGER_TIMESLICE);
-/*TODO*///}
-/*TODO*///
-/*TODO*////* burn CPU cycles for a specific period of time */
-/*TODO*///void cpu_spinuntil_time(double duration)
-/*TODO*///{
-/*TODO*///	static int timetrig = 0;
-/*TODO*///
-/*TODO*///	cpu_spinuntil_trigger(TRIGGER_SUSPENDTIME + timetrig);
-/*TODO*///	cpu_triggertime(duration, TRIGGER_SUSPENDTIME + timetrig);
-/*TODO*///	timetrig = (timetrig + 1) & 255;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*////* yield our timeslice for a specific period of time */
-/*TODO*///void cpu_yielduntil_trigger(int trigger)
-/*TODO*///{
-/*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-/*TODO*///	timer_holdcpu_trigger(cpunum, trigger);
-/*TODO*///}
-/*TODO*///
-/*TODO*////* yield our timeslice until the next interrupt */
-/*TODO*///void cpu_yielduntil_int(void)
-/*TODO*///{
-/*TODO*///	int cpunum = (activecpu < 0) ? 0 : activecpu;
-/*TODO*///	cpu_yielduntil_trigger(TRIGGER_INT + cpunum);
-/*TODO*///}
-/*TODO*///
-/*TODO*////* yield our current timeslice */
-/*TODO*///void cpu_yield(void)
-/*TODO*///{
-/*TODO*///	cpu_yielduntil_trigger(TRIGGER_TIMESLICE);
-/*TODO*///}
-/*TODO*///
-/*TODO*////* yield our timeslice for a specific period of time */
-/*TODO*///void cpu_yielduntil_time(double duration)
-/*TODO*///{
-/*TODO*///	static int timetrig = 0;
-/*TODO*///
-/*TODO*///	cpu_yielduntil_trigger(TRIGGER_YIELDTIME + timetrig);
-/*TODO*///	cpu_triggertime(duration, TRIGGER_YIELDTIME + timetrig);
-/*TODO*///	timetrig = (timetrig + 1) & 255;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///int cpu_getvblank(void)
-/*TODO*///{
-/*TODO*///	return vblank;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///int cpu_getcurrentframe(void)
-/*TODO*///{
-/*TODO*///	return current_frame;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Internal CPU event processors.
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///
-/*TODO*///static void cpu_manualnmicallback(int param)
-/*TODO*///{
-/*TODO*///	int cpunum, state, oldactive;
-/*TODO*///	cpunum = param & 7;
-/*TODO*///	state = param >> 3;
-/*TODO*///
-/*TODO*///	/* swap to the CPU's context */
-/*TODO*///	oldactive = activecpu;
-/*TODO*///	activecpu = cpunum;
-/*TODO*///	memorycontextswap(activecpu);
-/*TODO*///	if (cpu[activecpu].save_context) SETCONTEXT(activecpu, cpu[activecpu].context);
-/*TODO*///
-/*TODO*///	LOG((errorlog,"cpu_manualnmicallback %d,%d\n",cpunum,state));
-/*TODO*///
-/*TODO*///	switch (state)
-/*TODO*///	{
-/*TODO*///		case PULSE_LINE:
-/*TODO*///			SETNMILINE(cpunum,ASSERT_LINE);
-/*TODO*///			SETNMILINE(cpunum,CLEAR_LINE);
-/*TODO*///			break;
-/*TODO*///		case HOLD_LINE:
-/*TODO*///		case ASSERT_LINE:
-/*TODO*///			SETNMILINE(cpunum,ASSERT_LINE);
-/*TODO*///			break;
-/*TODO*///		case CLEAR_LINE:
-/*TODO*///			SETNMILINE(cpunum,CLEAR_LINE);
-/*TODO*///			break;
-/*TODO*///		default:
-/*TODO*///			if( errorlog ) fprintf( errorlog, "cpu_manualnmicallback cpu #%d unknown state %d\n", cpunum, state);
-/*TODO*///	}
-/*TODO*///	/* update the CPU's context */
-/*TODO*///	if (cpu[activecpu].save_context) GETCONTEXT(activecpu, cpu[activecpu].context);
-/*TODO*///	activecpu = oldactive;
-/*TODO*///	if (activecpu >= 0) memorycontextswap(activecpu);
-/*TODO*///
-/*TODO*///	/* generate a trigger to unsuspend any CPUs waiting on the interrupt */
-/*TODO*///	if (state != CLEAR_LINE)
-/*TODO*///		timer_trigger(TRIGGER_INT + cpunum);
-/*TODO*///}
-/*TODO*///
-/*TODO*///static void cpu_manualirqcallback(int param)
-/*TODO*///{
-/*TODO*///	int cpunum, irqline, state, oldactive;
-/*TODO*///
-/*TODO*///	irqline = param & 7;
-/*TODO*///	cpunum = (param >> 3) & 7;
-/*TODO*///	state = param >> 6;
-/*TODO*///
-/*TODO*///	/* swap to the CPU's context */
-/*TODO*///	oldactive = activecpu;
-/*TODO*///	activecpu = cpunum;
-/*TODO*///	memorycontextswap(activecpu);
-/*TODO*///	if (cpu[activecpu].save_context) SETCONTEXT(activecpu, cpu[activecpu].context);
-/*TODO*///
-/*TODO*///	LOG((errorlog,"cpu_manualirqcallback %d,%d,%d\n",cpunum,irqline,state));
-/*TODO*///
-/*TODO*///	irq_line_state[cpunum * MAX_IRQ_LINES + irqline] = state;
-/*TODO*///	switch (state)
-/*TODO*///	{
-/*TODO*///		case PULSE_LINE:
-/*TODO*///			SETIRQLINE(cpunum,irqline,ASSERT_LINE);
-/*TODO*///			SETIRQLINE(cpunum,irqline,CLEAR_LINE);
-/*TODO*///			break;
-/*TODO*///		case HOLD_LINE:
-/*TODO*///		case ASSERT_LINE:
-/*TODO*///			SETIRQLINE(cpunum,irqline,ASSERT_LINE);
-/*TODO*///			break;
-/*TODO*///		case CLEAR_LINE:
-/*TODO*///			SETIRQLINE(cpunum,irqline,CLEAR_LINE);
-/*TODO*///			break;
-/*TODO*///		default:
-/*TODO*///			if( errorlog ) fprintf( errorlog, "cpu_manualirqcallback cpu #%d, line %d, unknown state %d\n", cpunum, irqline, state);
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* update the CPU's context */
-/*TODO*///	if (cpu[activecpu].save_context) GETCONTEXT(activecpu, cpu[activecpu].context);
-/*TODO*///	activecpu = oldactive;
-/*TODO*///	if (activecpu >= 0) memorycontextswap(activecpu);
-/*TODO*///
-/*TODO*///	/* generate a trigger to unsuspend any CPUs waiting on the interrupt */
-/*TODO*///	if (state != CLEAR_LINE)
-/*TODO*///		timer_trigger(TRIGGER_INT + cpunum);
-/*TODO*///}
-/*TODO*///
+    public static InterruptHandlerPtr ignore_interrupt = new InterruptHandlerPtr() {
+        public int handler() {
+            int cpunum = (activecpu < 0) ? 0 : activecpu;
+            return INT_TYPE_NONE(cpunum);
+        }
+    };
+
+    /**
+     * *************************************************************************
+     * CPU timing and synchronization functions.
+     * *************************************************************************
+     */
+
+    /* generate a trigger */
+    public static TimerCallbackHandlerPtr cpu_trigger = new TimerCallbackHandlerPtr() {
+        public void handler(int trigger) {
+            timer_trigger(trigger);
+        }
+    };
+
+    /* generate a trigger after a specific period of time */
+    public static void cpu_triggertime(double duration, int trigger) {
+        timer_set(duration, trigger, cpu_trigger);
+    }
+
+    /* burn CPU cycles until a timer trigger */
+    public static void cpu_spinuntil_trigger(int trigger) {
+        int cpunum = (activecpu < 0) ? 0 : activecpu;
+        timer_suspendcpu_trigger(cpunum, trigger);
+    }
+
+    /* burn CPU cycles until the next interrupt */
+    public static void cpu_spinuntil_int() {
+        int cpunum = (activecpu < 0) ? 0 : activecpu;
+        cpu_spinuntil_trigger(TRIGGER_INT + cpunum);
+    }
+
+    /* burn CPU cycles until our timeslice is up */
+    public static void cpu_spin() {
+        cpu_spinuntil_trigger(TRIGGER_TIMESLICE);
+    }
+
+    static int timetrig = 0;
+
+    /* burn CPU cycles for a specific period of time */
+    public static void cpu_spinuntil_time(double duration) {
+        cpu_spinuntil_trigger(TRIGGER_SUSPENDTIME + timetrig);
+        cpu_triggertime(duration, TRIGGER_SUSPENDTIME + timetrig);
+        timetrig = (timetrig + 1) & 255;
+    }
+
+    /* yield our timeslice for a specific period of time */
+    public static void cpu_yielduntil_trigger(int trigger) {
+        int cpunum = (activecpu < 0) ? 0 : activecpu;
+        timer_holdcpu_trigger(cpunum, trigger);
+    }
+
+    /* yield our timeslice until the next interrupt */
+    public static void cpu_yielduntil_int() {
+        int cpunum = (activecpu < 0) ? 0 : activecpu;
+        cpu_yielduntil_trigger(TRIGGER_INT + cpunum);
+    }
+
+    /* yield our current timeslice */
+    public static void cpu_yield() {
+        cpu_yielduntil_trigger(TRIGGER_TIMESLICE);
+    }
+
+    static int timetrig_yield = 0;
+
+    /* yield our timeslice for a specific period of time */
+    public static void cpu_yielduntil_time(double duration) {
+        cpu_yielduntil_trigger(TRIGGER_YIELDTIME + timetrig_yield);
+        cpu_triggertime(duration, TRIGGER_YIELDTIME + timetrig_yield);
+        timetrig_yield = (timetrig_yield + 1) & 255;
+    }
+
+    public static int cpu_getvblank() {
+        return vblank;
+    }
+
+    public static int cpu_getcurrentframe() {
+        return current_frame;
+    }
+    /**
+     * *************************************************************************
+     * Internal CPU event processors.
+     * *************************************************************************
+     */
+    public static TimerCallbackHandlerPtr cpu_manualnmicallback = new TimerCallbackHandlerPtr() {
+        public void handler(int param) {
+            int cpunum, state, oldactive;
+            cpunum = param & 7;
+            state = param >> 3;
+
+            /* swap to the CPU's context */
+            oldactive = activecpu;
+            activecpu = cpunum;
+            memorycontextswap(activecpu);
+            if (cpu.get(activecpu).save_context != 0) {
+                SETCONTEXT(activecpu, cpu.get(activecpu).context);
+            }
+            if (errorlog != null) {
+                fprintf(errorlog, "cpu_manualnmicallback %d,%d\n", cpunum, state);
+            }
+            switch (state) {
+                case PULSE_LINE:
+                    SETNMILINE(cpunum, ASSERT_LINE);
+                    SETNMILINE(cpunum, CLEAR_LINE);
+                    break;
+                case HOLD_LINE:
+                case ASSERT_LINE:
+                    SETNMILINE(cpunum, ASSERT_LINE);
+                    break;
+                case CLEAR_LINE:
+                    SETNMILINE(cpunum, CLEAR_LINE);
+                    break;
+                default:
+                    if (errorlog != null) {
+                        fprintf(errorlog, "cpu_manualnmicallback cpu_old #%d unknown state %d\n", cpunum, state);
+                    }
+            }
+            /* update the CPU's context */
+            if (cpu.get(activecpu).save_context != 0) {
+                cpu.get(activecpu).context = GETCONTEXT(activecpu);
+
+            }
+            activecpu = oldactive;
+            if (activecpu >= 0) {
+                memorycontextswap(activecpu);
+            }
+
+            /* generate a trigger to unsuspend any CPUs waiting on the interrupt */
+            if (state != CLEAR_LINE) {
+                timer_trigger(TRIGGER_INT + cpunum);
+            }
+        }
+    };
+    public static TimerCallbackHandlerPtr cpu_manualirqcallback = new TimerCallbackHandlerPtr() {
+        public void handler(int param) {
+            int cpunum, irqline, state, oldactive;
+
+            irqline = param & 7;
+            cpunum = (param >> 3) & 7;
+            state = param >> 6;
+
+            /* swap to the CPU's context */
+            oldactive = activecpu;
+            activecpu = cpunum;
+            memorycontextswap(activecpu);
+            if (cpu.get(activecpu).save_context != 0) {
+                SETCONTEXT(activecpu, cpu.get(activecpu).context);
+            }
+            if (errorlog != null) {
+                fprintf(errorlog, "cpu_manualirqcallback %d,%d,%d\n", cpunum, irqline, state);
+            }
+
+            irq_line_state[cpunum * MAX_IRQ_LINES + irqline] = state;
+            switch (state) {
+                case PULSE_LINE:
+                    SETIRQLINE(cpunum, irqline, ASSERT_LINE);
+                    SETIRQLINE(cpunum, irqline, CLEAR_LINE);
+                    break;
+                case HOLD_LINE:
+                case ASSERT_LINE:
+                    SETIRQLINE(cpunum, irqline, ASSERT_LINE);
+                    break;
+                case CLEAR_LINE:
+                    SETIRQLINE(cpunum, irqline, CLEAR_LINE);
+                    break;
+                default:
+                    if (errorlog != null) {
+                        fprintf(errorlog, "cpu_manualirqcallback cpu_old #%d, line %d, unknown state %d\n", cpunum, irqline, state);
+                    }
+            }
+            /* update the CPU's context */
+            if (cpu.get(activecpu).save_context != 0) {
+                cpu.get(activecpu).context = GETCONTEXT(activecpu);
+
+            }
+            activecpu = oldactive;
+            if (activecpu >= 0) {
+                memorycontextswap(activecpu);
+            }
+
+            /* generate a trigger to unsuspend any CPUs waiting on the interrupt */
+            if (state != CLEAR_LINE) {
+                timer_trigger(TRIGGER_INT + cpunum);
+            }
+        }
+    };
+
+    /*TODO*///
 /*TODO*///static void cpu_internal_interrupt(int cpunum, int type)
 /*TODO*///{
 /*TODO*///	int oldactive = activecpu;
@@ -1559,44 +1250,41 @@ public class cpuintrf {
 /*TODO*///	cpu_internal_interrupt(cpunum, type);
 /*TODO*///}
 /*TODO*///
-/*TODO*///static void cpu_generate_interrupt(int cpunum, int (*func)(void), int num)
-/*TODO*///{
-/*TODO*///	int oldactive = activecpu;
-/*TODO*///
-/*TODO*///	/* don't trigger interrupts on suspended CPUs */
-/*TODO*///	if (cpu_getstatus(cpunum) == 0) return;
-/*TODO*///
-/*TODO*///	/* swap to the CPU's context */
-/*TODO*///	activecpu = cpunum;
-/*TODO*///	memorycontextswap(activecpu);
-/*TODO*///	if (cpu[activecpu].save_context) SETCONTEXT(activecpu, cpu[activecpu].context);
-/*TODO*///
-/*TODO*///	/* cause the interrupt, calling the function if it exists */
-/*TODO*///	if (func) num = (*func)();
-/*TODO*///
-/*TODO*///	/* wrapper for the new interrupt system */
-/*TODO*///	if (num != INT_TYPE_NONE(cpunum))
-/*TODO*///	{
-/*TODO*///		LOG((errorlog,"CPU#%d interrupt type $%04x: ", cpunum, num));
-/*TODO*///		/* is it the NMI type interrupt of that CPU? */
-/*TODO*///		if (num == INT_TYPE_NMI(cpunum))
-/*TODO*///		{
-/*TODO*///
-/*TODO*///			LOG((errorlog,"NMI\n"));
-/*TODO*///			cpu_manualnmicallback(cpunum | (PULSE_LINE << 3) );
-/*TODO*///
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			int irq_line;
-/*TODO*///
-/*TODO*///			switch (CPU_TYPE(cpunum))
-/*TODO*///			{
-/*TODO*///#if (HAS_Z80)
-/*TODO*///			case CPU_Z80:				irq_line = 0; LOG((errorlog,"Z80 IRQ\n")); break;
-/*TODO*///#endif
-/*TODO*///#if (HAS_8080)
-/*TODO*///			case CPU_8080:
+    public static void cpu_generate_interrupt(int cpunum, InterruptHandlerPtr func, int num) {
+        int oldactive = activecpu;
+
+        /* don't trigger interrupts on suspended CPUs */
+        if (cpu_getstatus(cpunum) == 0) {
+            return;
+        }
+
+        /* swap to the CPU's context */
+        activecpu = cpunum;
+        memorycontextswap(activecpu);
+        if (cpu.get(activecpu).save_context != 0) {
+            SETCONTEXT(activecpu, cpu.get(activecpu).context);
+        }
+        /* cause the interrupt, calling the function if it exists */
+        if (func != null) {
+            num = func.handler();
+        }
+
+        /* wrapper for the new interrupt system */
+        if (num != INT_TYPE_NONE(cpunum)) {
+            //logerror("CPU#%d interrupt type $%04x: ", cpunum, num);
+            /* is it the NMI type interrupt of that CPU? */
+            if (num == INT_TYPE_NMI(cpunum)) {
+
+                //logerror("NMI\n");
+                cpu_manualnmicallback.handler(cpunum | (PULSE_LINE << 3));
+
+            } else {
+                int irq_line;
+                switch (CPU_TYPE(cpunum)) {
+                    case CPU_Z80:
+                        irq_line = 0;
+                        break;
+                    /*TODO*///			case CPU_8080:
 /*TODO*///				switch (num)
 /*TODO*///				{
 /*TODO*///				case I8080_INTR:		irq_line = 0; LOG((errorlog,"I8080 INTR\n")); break;
@@ -1887,69 +1575,80 @@ public class cpuintrf {
 /*TODO*///				}
 /*TODO*///				break;
 /*TODO*///#endif
-/*TODO*///			default:
-/*TODO*///				irq_line = 0;
-/*TODO*///				/* else it should be an IRQ type; assume line 0 and store vector */
-/*TODO*///				LOG((errorlog,"unknown IRQ\n"));
-/*TODO*///			}
-/*TODO*///			cpu_irq_line_vector_w(cpunum, irq_line, num);
-/*TODO*///			cpu_manualirqcallback(irq_line | (cpunum << 3) | (HOLD_LINE << 6) );
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* update the CPU's context */
-/*TODO*///	if (cpu[activecpu].save_context) GETCONTEXT(activecpu, cpu[activecpu].context);
-/*TODO*///	activecpu = oldactive;
-/*TODO*///	if (activecpu >= 0) memorycontextswap(activecpu);
-/*TODO*///
-/*TODO*///	/* trigger already generated by cpu_manualirqcallback or cpu_manualnmicallback */
-/*TODO*///}
-/*TODO*///
-/*TODO*///static void cpu_clear_interrupts(int cpunum)
-/*TODO*///{
-/*TODO*///	int oldactive = activecpu;
-/*TODO*///	int i;
-/*TODO*///
-/*TODO*///	/* swap to the CPU's context */
-/*TODO*///	activecpu = cpunum;
-/*TODO*///	memorycontextswap(activecpu);
-/*TODO*///	if (cpu[activecpu].save_context) SETCONTEXT(activecpu, cpu[activecpu].context);
-/*TODO*///
-/*TODO*///	/* clear NMI line */
-/*TODO*///	SETNMILINE(activecpu,CLEAR_LINE);
-/*TODO*///
-/*TODO*///	/* clear all IRQ lines */
-/*TODO*///	for (i = 0; i < cpu[activecpu].intf->num_irqs; i++)
-/*TODO*///		SETIRQLINE(activecpu,i,CLEAR_LINE);
-/*TODO*///
-/*TODO*///	/* update the CPU's context */
-/*TODO*///	if (cpu[activecpu].save_context) GETCONTEXT(activecpu, cpu[activecpu].context);
-/*TODO*///	activecpu = oldactive;
-/*TODO*///	if (activecpu >= 0) memorycontextswap(activecpu);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///static void cpu_reset_cpu(int cpunum)
-/*TODO*///{
-/*TODO*///	int oldactive = activecpu;
-/*TODO*///
-/*TODO*///	/* swap to the CPU's context */
-/*TODO*///	activecpu = cpunum;
-/*TODO*///	memorycontextswap(activecpu);
-/*TODO*///	if (cpu[activecpu].save_context) SETCONTEXT(activecpu, cpu[activecpu].context);
-/*TODO*///
-/*TODO*///	/* reset the CPU */
-/*TODO*///	RESET(cpunum);
-/*TODO*///
-/*TODO*///	/* Set the irq callback for the cpu */
-/*TODO*///	SETIRQCALLBACK(cpunum,cpu_irq_callbacks[cpunum]);
-/*TODO*///
-/*TODO*///	/* update the CPU's context */
-/*TODO*///	if (cpu[activecpu].save_context) GETCONTEXT(activecpu, cpu[activecpu].context);
-/*TODO*///	activecpu = oldactive;
-/*TODO*///	if (activecpu >= 0) memorycontextswap(activecpu);
-/*TODO*///}
-/*TODO*///
+                    default:
+                        irq_line = 0;
+                    /* else it should be an IRQ type; assume line 0 and store vector */
+                }
+                cpu_irq_line_vector_w(cpunum, irq_line, num);
+                cpu_manualirqcallback.handler(irq_line | (cpunum << 3) | (HOLD_LINE << 6));
+            }
+        }
+
+        /* update the CPU's context */
+        if (cpu.get(activecpu).save_context != 0) {
+            cpu.get(activecpu).context = GETCONTEXT(activecpu);
+        }
+        activecpu = oldactive;
+        if (activecpu >= 0) {
+            memorycontextswap(activecpu);
+        }
+
+    }
+
+    public static void cpu_clear_interrupts(int cpunum) {
+        int oldactive = activecpu;
+        int i;
+
+        /* swap to the CPU's context */
+        activecpu = cpunum;
+        memorycontextswap(activecpu);
+        if (cpu.get(activecpu).save_context != 0) {
+            SETCONTEXT(activecpu, cpu.get(activecpu).context);
+        }
+
+        /* clear NMI line */
+        SETNMILINE(activecpu, CLEAR_LINE);
+
+        /* clear all IRQ lines */
+        for (i = 0; i < cpu.get(activecpu).intf.num_irqs; i++) {
+            SETIRQLINE(activecpu, i, CLEAR_LINE);
+        }
+
+        /* update the CPU's context */
+        if (cpu.get(activecpu).save_context != 0) {
+            cpu.get(activecpu).context = GETCONTEXT(activecpu);
+        }
+        activecpu = oldactive;
+        if (activecpu >= 0) {
+            memorycontextswap(activecpu);
+        }
+    }
+
+    public static void cpu_reset_cpu(int cpunum) {
+        int oldactive = activecpu;
+
+        /* swap to the CPU's context */
+        activecpu = cpunum;
+        memorycontextswap(activecpu);
+        if (cpu.get(activecpu).save_context != 0) {
+            SETCONTEXT(activecpu, cpu.get(activecpu).context);
+        }
+        /* reset the CPU */
+        RESET(cpunum);
+
+        /* Set the irq callback for the cpu_old */
+        SETIRQCALLBACK(cpunum, cpu_irq_callbacks[cpunum]);
+
+        /* update the CPU's context */
+        if (cpu.get(activecpu).save_context != 0) {
+            cpu.get(activecpu).context = GETCONTEXT(activecpu);
+        }
+        activecpu = oldactive;
+        if (activecpu >= 0) {
+            memorycontextswap(activecpu);
+        }
+    }
+
     /**
      * *************************************************************************
      * Interrupt callback. This is called once per CPU interrupt by either the
@@ -2016,305 +1715,296 @@ public class cpuintrf {
         }
     };
 
+    public static TimerCallbackHandlerPtr cpu_haltcallback = new TimerCallbackHandlerPtr() {
+        public void handler(int param) {
+            int state = param >> 3;
+            int cpunum = param & 7;
 
-    /*TODO*///static void cpu_haltcallback(int param)
-/*TODO*///{
-/*TODO*///	int state = param >> 3;
-/*TODO*///	int cpunum = param & 7;
-/*TODO*///
-/*TODO*///	/* reset the CPU */
-/*TODO*///	if (state == ASSERT_LINE)
-/*TODO*///		timer_suspendcpu(cpunum, 1, SUSPEND_REASON_HALT);	/* halt cpu */
-/*TODO*///	else if (state == CLEAR_LINE)
-/*TODO*///		timer_suspendcpu(cpunum, 0, SUSPEND_REASON_HALT);	/* restart cpu */
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  VBLANK reset. Called at the start of emulation and once per VBLANK in
-/*TODO*///  order to update the input ports and reset the interrupt counter.
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///static void cpu_vblankreset(void)
-/*TODO*///{
-/*TODO*///	int i;
-/*TODO*///
-/*TODO*///	/* read hi scores from disk */
-/*TODO*///profiler_mark(PROFILER_HISCORE);
-/*TODO*///	hs_update();
-/*TODO*///profiler_mark(PROFILER_END);
-/*TODO*///
-/*TODO*///	/* read keyboard & update the status of the input ports */
-/*TODO*///	update_input_ports();
-/*TODO*///
-/*TODO*///	/* reset the cycle counters */
-/*TODO*///	for (i = 0; i < totalcpu; i++)
-/*TODO*///	{
-/*TODO*///		if (!timer_iscpususpended(i, SUSPEND_ANY_REASON))
-/*TODO*///			cpu[i].iloops = Machine->drv->cpu[i].vblank_interrupts_per_frame - 1;
-/*TODO*///		else
-/*TODO*///			cpu[i].iloops = -1;
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  VBLANK callback. This is called 'vblank_multipler' times per frame to
-/*TODO*///  service VBLANK-synced interrupts and to begin the screen update process.
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///static void cpu_firstvblankcallback(int param)
-/*TODO*///{
-/*TODO*///	/* now that we're synced up, pulse from here on out */
-/*TODO*///	vblank_timer = timer_pulse(vblank_period, param, cpu_vblankcallback);
-/*TODO*///
-/*TODO*///	/* but we need to call the standard routine as well */
-/*TODO*///	cpu_vblankcallback(param);
-/*TODO*///}
-/*TODO*///
-/*TODO*////* note that calling this with param == -1 means count everything, but call no subroutines */
-/*TODO*///static void cpu_vblankcallback(int param)
-/*TODO*///{
-/*TODO*///	int i;
-/*TODO*///
-/*TODO*///	/* loop over CPUs */
-/*TODO*///	for (i = 0; i < totalcpu; i++)
-/*TODO*///	{
-/*TODO*///		/* if the interrupt multiplier is valid */
-/*TODO*///		if (cpu[i].vblankint_multiplier != -1)
-/*TODO*///		{
-/*TODO*///			/* decrement; if we hit zero, generate the interrupt and reset the countdown */
-/*TODO*///			if (!--cpu[i].vblankint_countdown)
-/*TODO*///			{
-/*TODO*///				if (param != -1)
-/*TODO*///					cpu_vblankintcallback(i);
-/*TODO*///				cpu[i].vblankint_countdown = cpu[i].vblankint_multiplier;
-/*TODO*///				timer_reset(cpu[i].vblankint_timer, TIME_NEVER);
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		/* else reset the VBLANK timer if this is going to be a real VBLANK */
-/*TODO*///		else if (vblank_countdown == 1)
-/*TODO*///			timer_reset(cpu[i].vblankint_timer, TIME_NEVER);
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* is it a real VBLANK? */
-/*TODO*///	if (!--vblank_countdown)
-/*TODO*///	{
-/*TODO*///		/* do we update the screen now? */
-/*TODO*///		if (!(Machine->drv->video_attributes & VIDEO_UPDATE_AFTER_VBLANK))
-/*TODO*///			usres = updatescreen();
-/*TODO*///
-/*TODO*///		/* Set the timer to update the screen */
-/*TODO*///		timer_set(TIME_IN_USEC(Machine->drv->vblank_duration), 0, cpu_updatecallback);
-/*TODO*///		vblank = 1;
-/*TODO*///
-/*TODO*///		/* reset the globals */
-/*TODO*///		cpu_vblankreset();
-/*TODO*///
-/*TODO*///		/* reset the counter */
-/*TODO*///		vblank_countdown = vblank_multiplier;
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Video update callback. This is called a game-dependent amount of time
-/*TODO*///  after the VBLANK in order to trigger a video update.
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///static void cpu_updatecallback(int param)
-/*TODO*///{
-/*TODO*///	/* update the screen if we didn't before */
-/*TODO*///	if (Machine->drv->video_attributes & VIDEO_UPDATE_AFTER_VBLANK)
-/*TODO*///		usres = updatescreen();
-/*TODO*///	vblank = 0;
-/*TODO*///
-/*TODO*///	/* update IPT_VBLANK input ports */
-/*TODO*///	inputport_vblank_end();
-/*TODO*///
-/*TODO*///	/* check the watchdog */
-/*TODO*///	if (watchdog_counter > 0)
-/*TODO*///	{
-/*TODO*///		if (--watchdog_counter == 0)
-/*TODO*///		{
-/*TODO*///if (errorlog) fprintf(errorlog,"reset caused by the watchdog\n");
-/*TODO*///			machine_reset();
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	current_frame++;
-/*TODO*///
-/*TODO*///	/* reset the refresh timer */
-/*TODO*///	timer_reset(refresh_timer, TIME_NEVER);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Converts an integral timing rate into a period. Rates can be specified
-/*TODO*///  as follows:
-/*TODO*///
-/*TODO*///		rate > 0	   -> 'rate' cycles per frame
-/*TODO*///		rate == 0	   -> 0
-/*TODO*///		rate >= -10000 -> 'rate' cycles per second
-/*TODO*///		rate < -10000  -> 'rate' nanoseconds
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///static double cpu_computerate(int value)
-/*TODO*///{
-/*TODO*///	/* values equal to zero are zero */
-/*TODO*///	if (value <= 0)
-/*TODO*///		return 0.0;
-/*TODO*///
-/*TODO*///	/* values above between 0 and 50000 are in Hz */
-/*TODO*///	if (value < 50000)
-/*TODO*///		return TIME_IN_HZ(value);
-/*TODO*///
-/*TODO*///	/* values greater than 50000 are in nanoseconds */
-/*TODO*///	else
-/*TODO*///		return TIME_IN_NSEC(value);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///static void cpu_timeslicecallback(int param)
-/*TODO*///{
-/*TODO*///	timer_trigger(TRIGGER_TIMESLICE);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Initializes all the timers used by the CPU system.
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///static void cpu_inittimers(void)
-/*TODO*///{
-/*TODO*///	double first_time;
-/*TODO*///	int i, max, ipf;
-/*TODO*///
-/*TODO*///	/* remove old timers */
-/*TODO*///	if (timeslice_timer)
-/*TODO*///		timer_remove(timeslice_timer);
-/*TODO*///	if (refresh_timer)
-/*TODO*///		timer_remove(refresh_timer);
-/*TODO*///	if (vblank_timer)
-/*TODO*///		timer_remove(vblank_timer);
-/*TODO*///
-/*TODO*///	/* allocate a dummy timer at the minimum frequency to break things up */
-/*TODO*///	ipf = Machine->drv->cpu_slices_per_frame;
-/*TODO*///	if (ipf <= 0)
-/*TODO*///		ipf = 1;
-/*TODO*///	timeslice_period = TIME_IN_HZ(Machine->drv->frames_per_second * ipf);
-/*TODO*///	timeslice_timer = timer_pulse(timeslice_period, 0, cpu_timeslicecallback);
-/*TODO*///
-/*TODO*///	/* allocate an infinite timer to track elapsed time since the last refresh */
-/*TODO*///	refresh_period = TIME_IN_HZ(Machine->drv->frames_per_second);
-/*TODO*///	refresh_period_inv = 1.0 / refresh_period;
-/*TODO*///	refresh_timer = timer_set(TIME_NEVER, 0, NULL);
-/*TODO*///
-/*TODO*///	/* while we're at it, compute the scanline times */
-/*TODO*///	if (Machine->drv->vblank_duration)
-/*TODO*///		scanline_period = (refresh_period - TIME_IN_USEC(Machine->drv->vblank_duration)) /
-/*TODO*///				(double)(Machine->drv->visible_area.max_y - Machine->drv->visible_area.min_y + 1);
-/*TODO*///	else
-/*TODO*///		scanline_period = refresh_period / (double)Machine->drv->screen_height;
-/*TODO*///	scanline_period_inv = 1.0 / scanline_period;
-/*TODO*///
-/*TODO*///	/*
-/*TODO*///	 *		The following code finds all the CPUs that are interrupting in sync with the VBLANK
-/*TODO*///	 *		and sets up the VBLANK timer to run at the minimum number of cycles per frame in
-/*TODO*///	 *		order to service all the synced interrupts
-/*TODO*///	 */
-/*TODO*///
-/*TODO*///	/* find the CPU with the maximum interrupts per frame */
-/*TODO*///	max = 1;
-/*TODO*///	for (i = 0; i < totalcpu; i++)
-/*TODO*///	{
-/*TODO*///		ipf = Machine->drv->cpu[i].vblank_interrupts_per_frame;
-/*TODO*///		if (ipf > max)
-/*TODO*///			max = ipf;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* now find the LCD with the rest of the CPUs (brute force - these numbers aren't huge) */
-/*TODO*///	vblank_multiplier = max;
-/*TODO*///	while (1)
-/*TODO*///	{
-/*TODO*///		for (i = 0; i < totalcpu; i++)
-/*TODO*///		{
-/*TODO*///			ipf = Machine->drv->cpu[i].vblank_interrupts_per_frame;
-/*TODO*///			if (ipf > 0 && (vblank_multiplier % ipf) != 0)
-/*TODO*///				break;
-/*TODO*///		}
-/*TODO*///		if (i == totalcpu)
-/*TODO*///			break;
-/*TODO*///		vblank_multiplier += max;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* initialize the countdown timers and intervals */
-/*TODO*///	for (i = 0; i < totalcpu; i++)
-/*TODO*///	{
-/*TODO*///		ipf = Machine->drv->cpu[i].vblank_interrupts_per_frame;
-/*TODO*///		if (ipf > 0)
-/*TODO*///			cpu[i].vblankint_countdown = cpu[i].vblankint_multiplier = vblank_multiplier / ipf;
-/*TODO*///		else
-/*TODO*///			cpu[i].vblankint_countdown = cpu[i].vblankint_multiplier = -1;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* allocate a vblank timer at the frame rate * the LCD number of interrupts per frame */
-/*TODO*///	vblank_period = TIME_IN_HZ(Machine->drv->frames_per_second * vblank_multiplier);
-/*TODO*///	vblank_timer = timer_pulse(vblank_period, 0, cpu_vblankcallback);
-/*TODO*///	vblank_countdown = vblank_multiplier;
-/*TODO*///
-/*TODO*///	/*
-/*TODO*///	 *		The following code creates individual timers for each CPU whose interrupts are not
-/*TODO*///	 *		synced to the VBLANK, and computes the typical number of cycles per interrupt
-/*TODO*///	 */
-/*TODO*///
-/*TODO*///	/* start the CPU interrupt timers */
-/*TODO*///	for (i = 0; i < totalcpu; i++)
-/*TODO*///	{
-/*TODO*///		ipf = Machine->drv->cpu[i].vblank_interrupts_per_frame;
-/*TODO*///
-/*TODO*///		/* remove old timers */
-/*TODO*///		if (cpu[i].vblankint_timer)
-/*TODO*///			timer_remove(cpu[i].vblankint_timer);
-/*TODO*///		if (cpu[i].timedint_timer)
-/*TODO*///			timer_remove(cpu[i].timedint_timer);
-/*TODO*///
-/*TODO*///		/* compute the average number of cycles per interrupt */
-/*TODO*///		if (ipf <= 0)
-/*TODO*///			ipf = 1;
-/*TODO*///		cpu[i].vblankint_period = TIME_IN_HZ(Machine->drv->frames_per_second * ipf);
-/*TODO*///		cpu[i].vblankint_timer = timer_set(TIME_NEVER, 0, NULL);
-/*TODO*///
-/*TODO*///		/* see if we need to allocate a CPU timer */
-/*TODO*///		ipf = Machine->drv->cpu[i].timed_interrupts_per_second;
-/*TODO*///		if (ipf)
-/*TODO*///		{
-/*TODO*///			cpu[i].timedint_period = cpu_computerate(ipf);
-/*TODO*///			cpu[i].timedint_timer = timer_pulse(cpu[i].timedint_period, i, cpu_timedintcallback);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* note that since we start the first frame on the refresh, we can't pulse starting
-/*TODO*///	   immediately; instead, we back up one VBLANK period, and inch forward until we hit
-/*TODO*///	   positive time. That time will be the time of the first VBLANK timer callback */
-/*TODO*///	timer_remove(vblank_timer);
-/*TODO*///
-/*TODO*///	first_time = -TIME_IN_USEC(Machine->drv->vblank_duration) + vblank_period;
-/*TODO*///	while (first_time < 0)
-/*TODO*///	{
-/*TODO*///		cpu_vblankcallback(-1);
-/*TODO*///		first_time += vblank_period;
-/*TODO*///	}
-/*TODO*///	vblank_timer = timer_set(first_time, 0, cpu_firstvblankcallback);
-/*TODO*///}
-/*TODO*///
+            /* reset the CPU */
+            if (state == ASSERT_LINE) {
+                timer_suspendcpu(cpunum, 1, SUSPEND_REASON_HALT);/* halt cpu */
+            } else if (state == CLEAR_LINE) {
+                timer_suspendcpu(cpunum, 0, SUSPEND_REASON_HALT);/* restart cpu */
+            }
+        }
+    };
+
+    /**
+     * *************************************************************************
+     * VBLANK reset. Called at the start of emulation and once per VBLANK in
+     * order to update the input ports and reset the interrupt counter.
+     * *************************************************************************
+     */
+    public static void cpu_vblankreset() {
+        int i;
+
+        /* read hi scores from disk */
+        hs_update();
+
+        /* read keyboard & update the status of the input ports */
+        update_input_ports();
+
+        /* reset the cycle counters */
+        for (i = 0; i < totalcpu; i++) {
+            if (timer_iscpususpended(i, SUSPEND_ANY_REASON) == 0) {
+                cpu.get(i).iloops = Machine.drv.cpu[i].vblank_interrupts_per_frame - 1;
+            } else {
+                cpu.get(i).iloops = -1;
+            }
+        }
+    }
+    /**
+     * *************************************************************************
+     * VBLANK callback. This is called 'vblank_multipler' times per frame to
+     * service VBLANK-synced interrupts and to begin the screen update process.
+     * *************************************************************************
+     */
+    public static TimerCallbackHandlerPtr cpu_firstvblankcallback = new TimerCallbackHandlerPtr() {
+        public void handler(int param) {
+
+            /* now that we're synced up, pulse from here on out */
+            vblank_timer = timer_pulse(vblank_period, param, cpu_vblankcallback);
+
+            /* but we need to call the standard routine as well */
+            cpu_vblankcallback.handler(param);
+        }
+    };
+
+    /* note that calling this with param == -1 means count everything, but call no subroutines */
+    public static TimerCallbackHandlerPtr cpu_vblankcallback = new TimerCallbackHandlerPtr() {
+        public void handler(int param) {
+            int i;
+
+            /* loop over CPUs */
+            for (i = 0; i < totalcpu; i++) {
+                /* if the interrupt multiplier is valid */
+                if (cpu.get(i).vblankint_multiplier != -1) {
+                    /* decrement; if we hit zero, generate the interrupt and reset the countdown */
+                    if (--cpu.get(i).vblankint_countdown == 0) {
+                        if (param != -1) {
+                            cpu_vblankintcallback(i);
+                        }
+                        cpu.get(i).vblankint_countdown = cpu.get(i).vblankint_multiplier;
+                        timer_reset(cpu.get(i).vblankint_timer, TIME_NEVER);
+                    }
+                } /* else reset the VBLANK timer if this is going to be a real VBLANK */ else if (vblank_countdown == 1) {
+                    timer_reset(cpu.get(i).vblankint_timer, TIME_NEVER);
+                }
+            }
+            /* is it a real VBLANK? */
+            if (--vblank_countdown == 0) {
+                /* do we update the screen now? */
+                if ((Machine.drv.video_attributes & VIDEO_UPDATE_AFTER_VBLANK) == 0) {
+                    usres = updatescreen();
+                }
+
+                /* Set the timer to update the screen */
+                timer_set(TIME_IN_USEC(Machine.drv.vblank_duration), 0, cpu_updatecallback);
+                vblank = 1;
+
+                /* reset the globals */
+                cpu_vblankreset();
+
+                /* reset the counter */
+                vblank_countdown = vblank_multiplier;
+            }
+        }
+    };
+    /**
+     * *************************************************************************
+     * Video update callback. This is called a game-dependent amount of time
+     * after the VBLANK in order to trigger a video update.
+     * *************************************************************************
+     */
+    public static TimerCallbackHandlerPtr cpu_updatecallback = new TimerCallbackHandlerPtr() {
+        public void handler(int param) {
+            /* update the screen if we didn't before */
+            if ((Machine.drv.video_attributes & VIDEO_UPDATE_AFTER_VBLANK) != 0) {
+                usres = updatescreen();
+            }
+            vblank = 0;
+
+            /* update IPT_VBLANK input ports */
+            inputport_vblank_end();
+
+            /* check the watchdog */
+            if (watchdog_counter > 0) {
+                if (--watchdog_counter == 0) {
+                    if (errorlog != null) {
+                        fprintf(errorlog, "reset caused by the watchdog\n");
+                    }
+                    machine_reset();
+                }
+            }
+
+            current_frame++;
+
+            /* reset the refresh timer */
+            timer_reset(refresh_timer, TIME_NEVER);
+        }
+    };
+
+    /**
+     * *************************************************************************
+     *
+     * Converts an integral timing rate into a period. Rates can be specified as
+     * follows:
+     *
+     * rate > 0	-> 'rate' cycles per frame rate == 0	-> 0 rate >= -10000 ->
+     * 'rate' cycles per second rate < -10000  -> 'rate' nanoseconds
+     *
+     **************************************************************************
+     */
+    public static double cpu_computerate(int value) {
+        /* values equal to zero are zero */
+        if (value <= 0) {
+            return 0.0;
+        }
+
+        /* values above between 0 and 50000 are in Hz */
+        if (value < 50000) {
+            return TIME_IN_HZ(value);
+        } /* values greater than 50000 are in nanoseconds */ else {
+            return TIME_IN_NSEC(value);
+        }
+    }
+
+    public static TimerCallbackHandlerPtr cpu_timeslicecallback = new TimerCallbackHandlerPtr() {
+        public void handler(int i) {
+            timer_trigger(TRIGGER_TIMESLICE);
+        }
+    };
+
+    /**
+     * *************************************************************************
+     * Initializes all the timers used by the CPU system.
+     * *************************************************************************
+     */
+    static void cpu_inittimers() {
+        double first_time;
+        int i, max, ipf;
+
+        /* remove old timers */
+        if (timeslice_timer != null) {
+            timer_remove(timeslice_timer);
+        }
+        if (refresh_timer != null) {
+            timer_remove(refresh_timer);
+        }
+        if (vblank_timer != null) {
+            timer_remove(vblank_timer);
+        }
+        /* allocate a dummy timer at the minimum frequency to break things up */
+        ipf = Machine.drv.cpu_slices_per_frame;
+        if (ipf <= 0) {
+            ipf = 1;
+        }
+        timeslice_period = TIME_IN_HZ(Machine.drv.frames_per_second * ipf);
+        timeslice_timer = timer_pulse(timeslice_period, 0, cpu_timeslicecallback);
+
+        /* allocate an infinite timer to track elapsed time since the last refresh */
+        refresh_period = TIME_IN_HZ(Machine.drv.frames_per_second);
+        refresh_period_inv = 1.0 / refresh_period;
+        refresh_timer = timer_set(TIME_NEVER, 0, null);
+
+        /* while we're at it, compute the scanline times */
+        if (Machine.drv.vblank_duration != 0) {
+            scanline_period = (refresh_period - TIME_IN_USEC(Machine.drv.vblank_duration))
+                    / (double) (Machine.drv.visible_area.max_y - Machine.drv.visible_area.min_y + 1);
+        } else {
+            scanline_period = refresh_period / (double) Machine.drv.screen_height;
+        }
+        scanline_period_inv = 1.0 / scanline_period;
+        /*
+		 *		The following code finds all the CPUs that are interrupting in sync with the VBLANK
+		 *		and sets up the VBLANK timer to run at the minimum number of cycles per frame in
+		 *		order to service all the synced interrupts
+         */
+
+ /* find the CPU with the maximum interrupts per frame */
+        max = 1;
+        for (i = 0; i < totalcpu; i++) {
+            ipf = Machine.drv.cpu[i].vblank_interrupts_per_frame;
+            if (ipf > max) {
+                max = ipf;
+            }
+        }
+
+        /* now find the LCD with the rest of the CPUs (brute force - these numbers aren't huge) */
+        vblank_multiplier = max;
+        while (true) {
+            for (i = 0; i < totalcpu; i++) {
+                ipf = Machine.drv.cpu[i].vblank_interrupts_per_frame;
+                if (ipf > 0 && (vblank_multiplier % ipf) != 0) {
+                    break;
+                }
+            }
+            if (i == totalcpu) {
+                break;
+            }
+            vblank_multiplier += max;
+        }
+
+        /* initialize the countdown timers and intervals */
+        for (i = 0; i < totalcpu; i++) {
+            ipf = Machine.drv.cpu[i].vblank_interrupts_per_frame;
+            if (ipf > 0) {
+                cpu.get(i).vblankint_countdown = cpu.get(i).vblankint_multiplier = vblank_multiplier / ipf;
+            } else {
+                cpu.get(i).vblankint_countdown = cpu.get(i).vblankint_multiplier = -1;
+            }
+        }
+
+        /* allocate a vblank timer at the frame rate * the LCD number of interrupts per frame */
+        vblank_period = TIME_IN_HZ(Machine.drv.frames_per_second * vblank_multiplier);
+        vblank_timer = timer_pulse(vblank_period, 0, cpu_vblankcallback);
+        vblank_countdown = vblank_multiplier;
+
+        /*
+		 *		The following code creates individual timers for each CPU whose interrupts are not
+		 *		synced to the VBLANK, and computes the typical number of cycles per interrupt
+         */
+
+ /* start the CPU interrupt timers */
+        for (i = 0; i < totalcpu; i++) {
+            ipf = Machine.drv.cpu[i].vblank_interrupts_per_frame;
+
+            /* remove old timers */
+            if (cpu.get(i).vblankint_timer != null) {
+                timer_remove(cpu.get(i).vblankint_timer);
+            }
+            if (cpu.get(i).timedint_timer != null) {
+                timer_remove(cpu.get(i).timedint_timer);
+            }
+
+            /* compute the average number of cycles per interrupt */
+            if (ipf <= 0) {
+                ipf = 1;
+            }
+            cpu.get(i).vblankint_period = TIME_IN_HZ(Machine.drv.frames_per_second * ipf);
+            cpu.get(i).vblankint_timer = timer_set(TIME_NEVER, 0, null);
+
+            /* see if we need to allocate a CPU timer */
+            ipf = Machine.drv.cpu[i].timed_interrupts_per_second;
+            if (ipf != 0) {
+                cpu.get(i).timedint_period = cpu_computerate(ipf);
+                cpu.get(i).timedint_timer = timer_pulse(cpu.get(i).timedint_period, i, cpu_timedintcallback);
+            }
+        }
+        /* note that since we start the first frame on the refresh, we can't pulse starting
+		   immediately; instead, we back up one VBLANK period, and inch forward until we hit
+		   positive time. That time will be the time of the first VBLANK timer callback */
+        timer_remove(vblank_timer);
+
+        first_time = -TIME_IN_USEC(Machine.drv.vblank_duration) + vblank_period;
+        while (first_time < 0) {
+            cpu_vblankcallback.handler(-1);
+            first_time += vblank_period;
+        }
+        vblank_timer = timer_set(first_time, 0, cpu_firstvblankcallback);
+    }
+
+    /*TODO*///
 /*TODO*///
 /*TODO*////* AJP 981016 */
 /*TODO*///int cpu_is_saving_context(int _activecpu)
@@ -2355,6 +2045,7 @@ public class cpuintrf {
         int cpunum = (activecpu < 0) ? 0 : activecpu;
         return GETREG(cpunum, regnum);
     }
+
     /*TODO*///
 /*TODO*///void cpu_set_reg(int regnum, unsigned val)
 /*TODO*///{
@@ -2633,18 +2324,20 @@ public class cpuintrf {
 /*TODO*///	return 0;
 /*TODO*///}
 /*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///  Returns the name for a specific CPU type
-/*TODO*///***************************************************************************/
-/*TODO*///const char *cputype_name(int cpu_type)
-/*TODO*///{
-/*TODO*///	cpu_type &= ~CPU_FLAGS_MASK;
-/*TODO*///	if( cpu_type < CPU_COUNT )
-/*TODO*///		return IFC_INFO(cpu_type,NULL,CPU_INFO_NAME);
-/*TODO*///	return "";
-/*TODO*///}
-/*TODO*///
-/*TODO*////***************************************************************************
+    /**
+     * *************************************************************************
+     * Returns the name for a specific CPU type
+     * *************************************************************************
+     */
+    public static String cputype_name(int cpu_type) {
+        cpu_type &= ~CPU_FLAGS_MASK;
+        if (cpu_type < CPU_COUNT) {
+            return IFC_INFO(cpu_type, null, CPU_INFO_NAME);
+        }
+        return "";
+    }
+
+    /*TODO*////***************************************************************************
 /*TODO*///  Returns the family name for a specific CPU type
 /*TODO*///***************************************************************************/
 /*TODO*///const char *cputype_core_family(int cpu_type)
@@ -2666,18 +2359,20 @@ public class cpuintrf {
 /*TODO*///	return "";
 /*TODO*///}
 /*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///  Returns the core filename for a specific CPU type
-/*TODO*///***************************************************************************/
-/*TODO*///const char *cputype_core_file(int cpu_type)
-/*TODO*///{
-/*TODO*///	cpu_type &= ~CPU_FLAGS_MASK;
-/*TODO*///	if( cpu_type < CPU_COUNT )
-/*TODO*///		return IFC_INFO(cpu_type,NULL,CPU_INFO_FILE);
-/*TODO*///	return "";
-/*TODO*///}
-/*TODO*///
-/*TODO*////***************************************************************************
+    /**
+     * *************************************************************************
+     * Returns the core filename for a specific CPU type
+     * *************************************************************************
+     */
+    public static String cputype_core_file(int cpu_type) {
+        cpu_type &= ~CPU_FLAGS_MASK;
+        if (cpu_type < CPU_COUNT) {
+            return IFC_INFO(cpu_type, null, CPU_INFO_FILE);
+        }
+        return "";
+    }
+
+    /*TODO*////***************************************************************************
 /*TODO*///  Returns the credits for a specific CPU type
 /*TODO*///***************************************************************************/
 /*TODO*///const char *cputype_core_credits(int cpu_type)
@@ -2792,17 +2487,19 @@ public class cpuintrf {
 /*TODO*///	return "";
 /*TODO*///}
 /*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///  Returns the core filename for a specific CPU number
-/*TODO*///***************************************************************************/
-/*TODO*///const char *cpunum_core_file(int cpunum)
-/*TODO*///{
-/*TODO*///	if( cpunum < totalcpu )
-/*TODO*///		return cputype_core_file(CPU_TYPE(cpunum));
-/*TODO*///	return "";
-/*TODO*///}
-/*TODO*///
-/*TODO*////***************************************************************************
+    /**
+     * *************************************************************************
+     * Returns the core filename for a specific CPU number
+     * *************************************************************************
+     */
+    public static String cpunum_core_file(int cpunum) {
+        if (cpunum < totalcpu) {
+            return cputype_core_file(CPU_TYPE(cpunum));
+        }
+        return "";
+    }
+
+    /*TODO*////***************************************************************************
 /*TODO*///  Returns the credits for a specific CPU number
 /*TODO*///***************************************************************************/
 /*TODO*///const char *cpunum_core_credits(int cpunum)

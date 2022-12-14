@@ -6,6 +6,7 @@ package arcadeflex.v036.sound;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+import static arcadeflex.v036.mame.cpuintrf.cpu_get_pc;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.cstdio.*;
 import static arcadeflex.v036.mame.mame.*;
@@ -13,7 +14,6 @@ import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 import static arcadeflex.v036.sound.ay8910H.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 import static arcadeflex.v036.sound.streams.*;
 

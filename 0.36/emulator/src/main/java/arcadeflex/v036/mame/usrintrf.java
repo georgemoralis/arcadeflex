@@ -22,6 +22,7 @@ import static arcadeflex.v036.mame.usrintrfH.*;
 import static arcadeflex.v036.mame.version.*;
 import static arcadeflex.v036.mame.mameH.*;
 import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 //common imports
 import static common.libc.cstring.*;
 //TODO
@@ -45,8 +46,6 @@ import static gr.codebb.arcadeflex.v036.platform.video.osd_save_snapshot;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_set_brightness;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_skip_this_frame;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_update_video_and_audio;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cputype_name;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.machine_reset;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_recalc;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_used_colors;
 
