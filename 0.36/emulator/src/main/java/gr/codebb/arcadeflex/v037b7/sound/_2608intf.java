@@ -13,7 +13,7 @@ import static gr.codebb.arcadeflex.v036.mame.common.memory_region_length;
 import arcadeflex.v036.mame.sndintrf.snd_interface;
 import static arcadeflex.v036.mame.sndintrf.sound_name;
 import static arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
+import static arcadeflex.v036.mame.sndintrf.sndintf;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.sound.streams.*;
 import static arcadeflex.v036.mame.timer.*;

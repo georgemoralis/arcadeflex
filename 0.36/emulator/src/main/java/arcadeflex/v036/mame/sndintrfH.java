@@ -4,6 +4,7 @@
 /**
  * Changelog
  * =========
+ * 14/12/2022 - shadow - Removed unneccesary sound chips from list
  * 12/12/2022 - shadow - This file should be complete for 0.36 version
  */
 package arcadeflex.v036.mame;
@@ -54,30 +55,27 @@ public class sndintrfH {
     public static final int SOUND_SN76477 = 16;
     public static final int SOUND_SN76496 = 17;
     public static final int SOUND_POKEY = 18;
-    public static final int SOUND_TIA = 19;/* stripped down Pokey */
-    public static final int SOUND_NES = 20;
-    public static final int SOUND_ASTROCADE = 21;/* Custom I/O chip from Bally/Midway */
-    public static final int SOUND_NAMCO = 22;
-    public static final int SOUND_TMS36XX = 23;/* currently TMS3615 and TMS3617 */
-    public static final int SOUND_TMS5220 = 24;
-    public static final int SOUND_VLM5030 = 25;
-    public static final int SOUND_ADPCM = 26;
-    public static final int SOUND_OKIM6295 = 27;/* ROM-based ADPCM system */
-    public static final int SOUND_MSM5205 = 28;/* CPU-based ADPCM system */
-    public static final int SOUND_UPD7759 = 29;/* ROM-based ADPCM system */
-    public static final int SOUND_HC55516 = 30;/* Harris family of CVSD CODECs */
-    public static final int SOUND_K005289 = 31;/* Konami 005289 */
-    public static final int SOUND_K007232 = 32;/* Konami 007232 */
-    public static final int SOUND_K051649 = 33;/* Konami 051649 */
-    public static final int SOUND_K053260 = 34;/* Konami 053260 */
-    public static final int SOUND_SEGAPCM = 35;
-    public static final int SOUND_RF5C68 = 36;
-    public static final int SOUND_CEM3394 = 37;
-    public static final int SOUND_C140 = 38;
-    public static final int SOUND_QSOUND = 39;
-    public static final int SOUND_SPEAKER = 40;
-    public static final int SOUND_WAVE = 41;
-    public static final int SOUND_COUNT = 42;
+    public static final int SOUND_NES = 19;
+    public static final int SOUND_ASTROCADE = 20;/* Custom I/O chip from Bally/Midway */
+    public static final int SOUND_NAMCO = 21;
+    public static final int SOUND_TMS36XX = 22;/* currently TMS3615 and TMS3617 */
+    public static final int SOUND_TMS5220 = 23;
+    public static final int SOUND_VLM5030 = 24;
+    public static final int SOUND_ADPCM = 25;
+    public static final int SOUND_OKIM6295 = 26;/* ROM-based ADPCM system */
+    public static final int SOUND_MSM5205 = 27;/* CPU-based ADPCM system */
+    public static final int SOUND_UPD7759 = 28;/* ROM-based ADPCM system */
+    public static final int SOUND_HC55516 = 29;/* Harris family of CVSD CODECs */
+    public static final int SOUND_K005289 = 30;/* Konami 005289 */
+    public static final int SOUND_K007232 = 31;/* Konami 007232 */
+    public static final int SOUND_K051649 = 32;/* Konami 051649 */
+    public static final int SOUND_K053260 = 33;/* Konami 053260 */
+    public static final int SOUND_SEGAPCM = 34;
+    public static final int SOUND_RF5C68 = 35;
+    public static final int SOUND_CEM3394 = 36;
+    public static final int SOUND_C140 = 37;
+    public static final int SOUND_QSOUND = 38;
+    public static final int SOUND_COUNT = 39;
 
     /* structure for SOUND_CUSTOM sound drivers */
     public static class CustomSound_interface {

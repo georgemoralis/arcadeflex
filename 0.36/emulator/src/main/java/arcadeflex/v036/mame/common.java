@@ -3,8 +3,11 @@
  */
 package arcadeflex.v036.mame;
 
-import arcadeflex.v036.generic.funcPtr.WriteHandlerPtr;
-import static arcadeflex.v036.mame.commonH.COIN_COUNTERS;
+//generic imports
+import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.commonH.*;
+//TODO
 import static gr.codebb.arcadeflex.v036.mame.common.coinlockedout;
 import static gr.codebb.arcadeflex.v036.mame.common.coins;
 import static gr.codebb.arcadeflex.v036.mame.common.lastcoin;
