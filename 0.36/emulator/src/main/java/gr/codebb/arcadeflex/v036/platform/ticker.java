@@ -1,7 +1,7 @@
 package gr.codebb.arcadeflex.v036.platform;
 
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.mame.*;
 
 public class ticker {
   public static long TICKS_PER_SEC; 

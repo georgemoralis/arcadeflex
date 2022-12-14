@@ -9,11 +9,11 @@ import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.sndintrf.*;
+import static arcadeflex.v036.mame.mame.*;
 //TODO
 import static arcadeflex.v036.sound._2151intfH.*;
 import arcadeflex.v036.mame.sndintrf.snd_interface;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.sound.streams.*;
 import static arcadeflex.v036.sound.ym2151.*;
 

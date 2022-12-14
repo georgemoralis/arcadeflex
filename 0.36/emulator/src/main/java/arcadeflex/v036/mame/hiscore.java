@@ -9,12 +9,13 @@
  */
 package arcadeflex.v036.mame;
 
+//mame imports
+import static arcadeflex.v036.mame.mame.*;
+//TODO
 import arcadeflex.v036.generic.hiscoreFileParser;
 import static arcadeflex.v036.mame.driverH.CPU_FLAGS_MASK;
 import static arcadeflex.v036.mame.osdependH.OSD_FILETYPE_HIGHSCORE;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.osd_fclose;
 import static gr.codebb.arcadeflex.v036.platform.fileio.osd_fopen;

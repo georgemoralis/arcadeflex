@@ -21,7 +21,7 @@ package gr.codebb.arcadeflex.v037b7.sound;
 import static arcadeflex.v036.generic.funcPtr.*;
 
 import arcadeflex.v036.mame.sndintrf.snd_interface;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.sound.streams.*;
 import static arcadeflex.v036.mame.timer.*;

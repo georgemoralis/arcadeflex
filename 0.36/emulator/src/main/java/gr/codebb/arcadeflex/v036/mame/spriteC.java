@@ -4,7 +4,7 @@ import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.osdependH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
@@ -1092,7 +1092,7 @@ public class spriteC {
         screen_clip_bottom = bottom;
     }
 
-    /*TODO*///void sprite_close( void ){
+    public static void sprite_close(  ){
 /*TODO*///	struct sprite_list *sprite_list = first_sprite_list;
 /*TODO*///	mask_buffer_dispose();
 /*TODO*///
@@ -1103,8 +1103,7 @@ public class spriteC {
 /*TODO*///		sprite_list = next;
 /*TODO*///	}
 /*TODO*///	first_sprite_list = NULL;
-/*TODO*///}
-/*TODO*///
+    }
     public static sprite_list sprite_list_create(int num_sprites, int flags) {
         sprite[] sprite = new sprite[num_sprites];
         for (int i = 0; i < sprite.length; i++) {

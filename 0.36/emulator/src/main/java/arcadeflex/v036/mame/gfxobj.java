@@ -4,6 +4,7 @@
 package arcadeflex.v036.mame;
 
 public class gfxobj {
+
     /*TODO*////*
 /*TODO*///	gfx object manager
 /*TODO*///
@@ -142,22 +143,20 @@ public class gfxobj {
 /*TODO*///
 /*TODO*///static struct gfx_object_list *first_object_list;
 /*TODO*///
-/*TODO*///void gfxobj_init(void)
-/*TODO*///{
-/*TODO*///	first_object_list = 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*///void gfxobj_close(void)
-/*TODO*///{
-/*TODO*///	struct gfx_object_list *object_list,*object_next;
+    public static void gfxobj_init() {
+        /*TODO*///	first_object_list = 0;
+    }
+
+    public static void gfxobj_close() {
+        /*TODO*///	struct gfx_object_list *object_list,*object_next;
 /*TODO*///	for(object_list = first_object_list ; object_list != 0 ; object_list=object_next)
 /*TODO*///	{
 /*TODO*///		free(object_list->objects);
 /*TODO*///		object_next = object_list->next;
 /*TODO*///		free(object_list);
 /*TODO*///	}
-/*TODO*///}
-/*TODO*///
+    }
+    /*TODO*///
 /*TODO*///#define MAX_PRIORITY 16
 /*TODO*///struct gfx_object_list *gfxobj_create(int nums,int max_priority,const struct gfx_object *def_object)
 /*TODO*///{

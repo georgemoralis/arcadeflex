@@ -13,7 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import static common.libc.cstring.*;
 import java.awt.event.WindowEvent;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.version.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
@@ -1003,8 +1003,8 @@ public class video {
         select_display_mode(depth);
 
         if (vector_game != 0) {
-            //throw new UnsupportedOperationException("Unsupported scale_vectorgames");
-            scale_vectorgames(gfx_width, gfx_height, width, height);
+            throw new UnsupportedOperationException("Unsupported scale_vectorgames");
+//            scale_vectorgames(gfx_width, gfx_height, width, height);
         }
 
         game_width = width;

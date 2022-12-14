@@ -1794,9 +1794,8 @@ public class cheat {
 /*TODO*///}
 /*TODO*///
 /*TODO*////* Init some variables */
-/*TODO*///void InitCheat(void)
-/*TODO*///{
-/*TODO*///  int i;
+    public static void InitCheat() {
+        /*TODO*///  int i;
 /*TODO*///
 /*TODO*///  he_did_cheat = 0;
 /*TODO*///  CheatEnabled = 0;
@@ -1854,8 +1853,9 @@ public class cheat {
 /*TODO*///  SearchCpuNo = 0;
 /*TODO*///  InitMemoryAreas();
 /*TODO*///
-/*TODO*///}
-/*TODO*///
+    }
+
+    /*TODO*///
 /*TODO*///void DisplayActiveCheats(int y)
 /*TODO*///{
 /*TODO*///  int i;
@@ -5737,14 +5737,12 @@ public class cheat {
 /*TODO*///  if (done == 2)
 /*TODO*///	return 1;
 /*TODO*///  else
-	return 0;
+        return 0;
     }
 
-    /*TODO*///
-/*TODO*////* Free allocated arrays */
-/*TODO*///void StopCheat(void)
-/*TODO*///{
-/*TODO*///  reset_table (StartRam);
+    /* Free allocated arrays */
+    public static void StopCheat() {
+        /*TODO*///  reset_table (StartRam);
 /*TODO*///  reset_table (BackupRam);
 /*TODO*///  reset_table (FlagTable);
 /*TODO*///
@@ -5752,8 +5750,8 @@ public class cheat {
 /*TODO*///  reset_table (OldFlagTable);
 /*TODO*///
 /*TODO*///  reset_texttable (HelpLine);
-/*TODO*///}
-/*TODO*///
+    }
+
     public static void DoCheat() {
         /*TODO*///	int i;
 /*TODO*///	char buf[80];

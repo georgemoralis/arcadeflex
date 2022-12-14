@@ -8,8 +8,8 @@ import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.timerH.*;
+import static arcadeflex.v036.mame.mame.*;
 //TODO
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpu_gettotalcpu;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.cpuintf;
 

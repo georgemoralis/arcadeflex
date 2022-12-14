@@ -5,8 +5,7 @@
 package arcadeflex.v036.mame;
 
 //mame imports
-import static arcadeflex.v036.mame.cheat.DoCheat;
-import static arcadeflex.v036.mame.cheat.cheat_menu;
+import static arcadeflex.v036.mame.cheat.*;
 import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.datafile.*;
@@ -22,6 +21,7 @@ import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.usrintrfH.*;
 import static arcadeflex.v036.mame.version.*;
 import static arcadeflex.v036.mame.mameH.*;
+import static arcadeflex.v036.mame.mame.*;
 //common imports
 import static common.libc.cstring.*;
 //TODO
@@ -32,7 +32,6 @@ import static gr.codebb.arcadeflex.v036.mame.common.coins;
 import static gr.codebb.arcadeflex.v036.mame.common.dispensed_tickets;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.decodegfx;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.drawgfx;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.sprintf;
 import static gr.codebb.arcadeflex.v036.platform.sound.osd_get_mastervolume;
 import static gr.codebb.arcadeflex.v036.platform.sound.osd_set_mastervolume;

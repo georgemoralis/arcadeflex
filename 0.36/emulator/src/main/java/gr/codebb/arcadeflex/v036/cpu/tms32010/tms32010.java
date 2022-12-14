@@ -9,7 +9,7 @@ import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v036.cpu.tms32010.tms32010H.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_readmem16;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_readport;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_setOPbase16;

@@ -3,7 +3,7 @@ package gr.codebb.arcadeflex.v036.platform;
 import static arcadeflex.v036.mame.driver.drivers;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.platform.fronthlp.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.config.*;
 import static gr.codebb.arcadeflex.v036.platform.ticker.*;
 

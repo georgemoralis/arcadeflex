@@ -9,6 +9,7 @@ import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.sndintrf.*;
+import static arcadeflex.v036.mame.mame.*;
 //sound imports
 import static arcadeflex.v058.sound.vlm5030H.*;
 import static arcadeflex.v036.sound.streams.*;
@@ -21,7 +22,6 @@ import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region_length;
 import static gr.codebb.arcadeflex.v036.mame.common.readsamples;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.sound.mixer.mixer_allocate_channel;
 
 public class vlm5030 extends snd_interface {

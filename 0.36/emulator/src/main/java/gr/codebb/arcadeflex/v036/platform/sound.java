@@ -1,6 +1,6 @@
 package gr.codebb.arcadeflex.v036.platform;
 
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import static arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.samples_this_frame;
 
 public class sound {

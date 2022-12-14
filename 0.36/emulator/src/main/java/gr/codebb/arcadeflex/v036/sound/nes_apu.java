@@ -10,12 +10,10 @@ import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
 import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static arcadeflex.v036.mame.sndintrfH.SOUND_NES;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import static arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 import static gr.codebb.arcadeflex.v036.sound.nes_apuH.MAX_NESPSG;
 import static gr.codebb.arcadeflex.v036.sound.nes_apuH.NESinterface;
-import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
 
 public class nes_apu extends snd_interface {
 

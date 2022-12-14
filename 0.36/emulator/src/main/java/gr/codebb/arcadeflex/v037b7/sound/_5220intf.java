@@ -7,7 +7,7 @@ package gr.codebb.arcadeflex.v037b7.sound;
 import static arcadeflex.v036.generic.funcPtr.*;
 import gr.codebb.arcadeflex.common.PtrLib.ShortPtr;
 import arcadeflex.v036.mame.sndintrf.snd_interface;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound._5220intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.tms5220.*;

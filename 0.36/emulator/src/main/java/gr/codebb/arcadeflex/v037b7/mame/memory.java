@@ -8,7 +8,7 @@ import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.mame.*;
 import gr.codebb.arcadeflex.v036.platform.libc_old.FILE;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fclose;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fopen;

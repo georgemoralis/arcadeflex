@@ -8,12 +8,12 @@ package arcadeflex.v036.mame;
 import static arcadeflex.v036.mame.inputH.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.inptport.*;
+import static arcadeflex.v036.mame.mame.*;
 //common imports
 import static common.libc.cstring.*;
 //TODO
 import static gr.codebb.arcadeflex.v036.platform.input.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
 
 public class input {
 
