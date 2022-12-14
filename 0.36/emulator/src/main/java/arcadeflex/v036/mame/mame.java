@@ -1,6 +1,11 @@
 /**
  * ported to v0.36
  */
+/**
+ * Changelog
+ * =========
+ * 14/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.mame;
 
 //mame imports
