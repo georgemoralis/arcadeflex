@@ -4,6 +4,7 @@
 /**
  * Changelog
  * =========
+ * 14/12/2022 - shadow - corrected list of cpus
  * 12/12/2022 - shadow - This file should be complete for 0.36 version
  */
 package arcadeflex.v036.mame;
@@ -138,75 +139,48 @@ public class driverH {
     };
     public static final int CPU_DUMMY = 0;
     public static final int CPU_Z80 = 1;
-    public static final int CPU_Z80GB = 2;
-    public static final int CPU_8080 = 3;
-    public static final int CPU_8085A = 4;
-    public static final int CPU_M6502 = 5;
-    public static final int CPU_M65C02 = 6;
-    public static final int CPU_M65SC02 = 7;
-    public static final int CPU_M65CE02 = 8;
-    public static final int CPU_M6509 = 9;
-    public static final int CPU_M6510 = 10;
-    public static final int CPU_M6510T = 11;
-    public static final int CPU_M7501 = 12;
-    public static final int CPU_M8502 = 13;
-    public static final int CPU_N2A03 = 14;
-    public static final int CPU_M4510 = 15;
-    public static final int CPU_H6280 = 16;
-    public static final int CPU_I86 = 17;
-    public static final int CPU_I88 = 18;
-    public static final int CPU_I186 = 19;
-    public static final int CPU_I188 = 20;
-    public static final int CPU_I286 = 21;
-    public static final int CPU_V20 = 22;
-    public static final int CPU_V30 = 23;
-    public static final int CPU_V33 = 24;
-    public static final int CPU_I8035 = 25;/* same as CPU_I8039 */
-    public static final int CPU_I8039 = 26;
-    public static final int CPU_I8048 = 27;/* same as CPU_I8039 */
-    public static final int CPU_N7751 = 28;/* same as CPU_I8039 */
-    public static final int CPU_M6800 = 29;/* same as CPU_M6802/CPU_M6808 */
-    public static final int CPU_M6801 = 30;/* same as CPU_M6803 */
-    public static final int CPU_M6802 = 31;/* same as CPU_M6800/CPU_M6808 */
-    public static final int CPU_M6803 = 32;/* same as CPU_M6801 */
-    public static final int CPU_M6808 = 33;/* same as CPU_M6800/CPU_M6802 */
-    public static final int CPU_HD63701 = 34;/* 6808 with some additional opcodes */
-    public static final int CPU_NSC8105 = 35;/* same(?) as CPU_M6802(?) with scrambled opcodes. There is at least one new opcode. */
-    public static final int CPU_M6805 = 36;
-    public static final int CPU_M68705 = 37;/* same as CPU_M6805 */
-    public static final int CPU_HD63705 = 38;/* M6805 family but larger address space, different stack size */
-    public static final int CPU_HD6309 = 39;/* same as CPU_M6809 (actually it's not 100% compatible) */
-    public static final int CPU_M6809 = 40;
-    public static final int CPU_KONAMI = 41;
-    public static final int CPU_M68000 = 42;
-    public static final int CPU_M68010 = 43;
-    public static final int CPU_M68EC020 = 44;
-    public static final int CPU_M68020 = 45;
-    public static final int CPU_T11 = 46;
-    public static final int CPU_S2650 = 47;
-    public static final int CPU_F8 = 48;
-    public static final int CPU_TMS34010 = 49;
-    public static final int CPU_TMS9900 = 50;
-    public static final int CPU_TMS9940 = 51;
-    public static final int CPU_TMS9980 = 52;
-    public static final int CPU_TMS9985 = 53;
-    public static final int CPU_TMS9989 = 54;
-    public static final int CPU_TMS9995 = 55;
-    public static final int CPU_TMS99105A = 56;
-    public static final int CPU_TMS99110A = 57;
-    public static final int CPU_Z8000 = 58;
-    public static final int CPU_TMS320C10 = 59;
-    public static final int CPU_CCPU = 60;
-    public static final int CPU_PDP1 = 61;
-    public static final int CPU_ADSP2100 = 62;
-    public static final int CPU_ADSP2105 = 63;
-    public static final int CPU_PSX = 64;
-    public static final int CPU_SC61860 = 65;
-    public static final int CPU_ARM = 66;
-    public static final int CPU_G65C816 = 67;
-    public static final int CPU_SPC700 = 68;
+    public static final int CPU_8080 = 2;
+    public static final int CPU_8085A = 3;
+    public static final int CPU_M6502 = 4;
+    public static final int CPU_M65C02 = 5;
+    public static final int CPU_M6510 = 6;
+    public static final int CPU_N2A03 = 7;
+    public static final int CPU_H6280 = 8;
+    public static final int CPU_I86 = 9;
+    public static final int CPU_V20 = 10;
+    public static final int CPU_V30 = 11;
+    public static final int CPU_V33 = 12;
+    public static final int CPU_I8035 = 13;/* same as CPU_I8039 */
+    public static final int CPU_I8039 = 14;
+    public static final int CPU_I8048 = 15;/* same as CPU_I8039 */
+    public static final int CPU_N7751 = 16;/* same as CPU_I8039 */
+    public static final int CPU_M6800 = 17;/* same as CPU_M6802/CPU_M6808 */
+    public static final int CPU_M6801 = 18;/* same as CPU_M6803 */
+    public static final int CPU_M6802 = 19;/* same as CPU_M6800/CPU_M6808 */
+    public static final int CPU_M6803 = 20;/* same as CPU_M6801 */
+    public static final int CPU_M6808 = 21;/* same as CPU_M6800/CPU_M6802 */
+    public static final int CPU_HD63701 = 22;/* 6808 with some additional opcodes */
+    public static final int CPU_NSC8105 = 23;/* same(?) as CPU_M6802(?) with scrambled opcodes. There is at least one new opcode. */
+    public static final int CPU_M6805 = 24;
+    public static final int CPU_M68705 = 25;/* same as CPU_M6805 */
+    public static final int CPU_HD63705 = 26;/* M6805 family but larger address space, different stack size */
+    public static final int CPU_HD6309 = 27;/* same as CPU_M6809 (actually it's not 100% compatible) */
+    public static final int CPU_M6809 = 28;
+    public static final int CPU_KONAMI = 29;
+    public static final int CPU_M68000 = 30;
+    public static final int CPU_M68010 = 31;
+    public static final int CPU_M68EC020 = 32;
+    public static final int CPU_M68020 = 33;
+    public static final int CPU_T11 = 34;
+    public static final int CPU_S2650 = 35;
+    public static final int CPU_TMS34010 = 36;
+    public static final int CPU_TMS9980 = 37;
+    public static final int CPU_Z8000 = 38;
+    public static final int CPU_TMS320C10 = 39;
+    public static final int CPU_CCPU = 40;
+    public static final int CPU_ADSP2100 = 41;
 
-    public static final int CPU_COUNT = 69;
+    public static final int CPU_COUNT = 42;
 
     /* set this if the CPU is used as a slave for audio. It will not be emulated if */
  /* sound is disabled, therefore speeding up a lot the emulation. */
