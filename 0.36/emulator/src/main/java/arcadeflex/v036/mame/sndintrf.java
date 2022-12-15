@@ -454,6 +454,7 @@ public class sndintrf {
                 /*TODO*///		0
                 /*TODO*///	},
                 /*TODO*///#endif
+                new Dummy_snd(),
                 new sn76496(), /*TODO*///#if (HAS_POKEY)
             /*TODO*///    {
             /*TODO*///		SOUND_POKEY,
@@ -466,7 +467,7 @@ public class sndintrf {
             /*TODO*///		0
             /*TODO*///	},
             /*TODO*///#endif
-            /*TODO*///#if (HAS_NES)
+             new Dummy_snd(),/*TODO*///#if (HAS_NES)
             /*TODO*///    {
             /*TODO*///		SOUND_NES,
             /*TODO*///		"Nintendo",
@@ -478,7 +479,7 @@ public class sndintrf {
             /*TODO*///		0
             /*TODO*///	},
             /*TODO*///#endif
-            /*TODO*///#if (HAS_ASTROCADE)
+             new Dummy_snd(),/*TODO*///#if (HAS_ASTROCADE)
             /*TODO*///    {
             /*TODO*///		SOUND_ASTROCADE,
             /*TODO*///		"Astrocade",
@@ -490,7 +491,7 @@ public class sndintrf {
             /*TODO*///		0
             /*TODO*///	},
             /*TODO*///#endif
-            /*TODO*///#if (HAS_NAMCO)
+             new Dummy_snd(),/*TODO*///#if (HAS_NAMCO)
             /*TODO*///    {
             /*TODO*///		SOUND_NAMCO,
             /*TODO*///		"Namco",
@@ -502,7 +503,7 @@ public class sndintrf {
             /*TODO*///		0
             /*TODO*///	},
             /*TODO*///#endif
-            /*TODO*///#if (HAS_TMS36XX)
+             new Dummy_snd(),/*TODO*///#if (HAS_TMS36XX)
             /*TODO*///    {
             /*TODO*///		SOUND_TMS36XX,
             /*TODO*///		"TMS36XX",
@@ -514,7 +515,7 @@ public class sndintrf {
             /*TODO*///		0
             /*TODO*///	},
             /*TODO*///#endif
-            /*TODO*///#if (HAS_TMS5220)
+             new Dummy_snd(),/*TODO*///#if (HAS_TMS5220)
             /*TODO*///    {
             /*TODO*///		SOUND_TMS5220,
             /*TODO*///		"TMS5520",
@@ -526,7 +527,7 @@ public class sndintrf {
             /*TODO*///		0
             /*TODO*///	},
             /*TODO*///#endif
-            /*TODO*///#if (HAS_VLM5030)
+             new Dummy_snd(),/*TODO*///#if (HAS_VLM5030)
             /*TODO*///    {
             /*TODO*///		SOUND_VLM5030,
             /*TODO*///		"VLM5030",
@@ -538,7 +539,7 @@ public class sndintrf {
             /*TODO*///		0
             /*TODO*///	},
             /*TODO*///#endif
-            /*TODO*///#if (HAS_ADPCM)
+             new Dummy_snd(),/*TODO*///#if (HAS_ADPCM)
             /*TODO*///    {
             /*TODO*///		SOUND_ADPCM,
             /*TODO*///		"ADPCM",
@@ -550,7 +551,7 @@ public class sndintrf {
             /*TODO*///		0
             /*TODO*///	},
             /*TODO*///#endif
-            /*TODO*///#if (HAS_OKIM6295)
+             new Dummy_snd(),/*TODO*///#if (HAS_OKIM6295)
             /*TODO*///    {
             /*TODO*///		SOUND_OKIM6295,
             /*TODO*///		"OKI6295",
@@ -562,7 +563,7 @@ public class sndintrf {
             /*TODO*///		0
             /*TODO*///	},
             /*TODO*///#endif
-            /*TODO*///#if (HAS_MSM5205)
+             new Dummy_snd(),/*TODO*///#if (HAS_MSM5205)
             /*TODO*///    {
             /*TODO*///		SOUND_MSM5205,
             /*TODO*///		"MSM5205",
@@ -574,7 +575,7 @@ public class sndintrf {
             /*TODO*///		MSM5205_sh_reset,
             /*TODO*///	},
             /*TODO*///#endif
-            /*TODO*///#if (HAS_UPD7759)
+             new Dummy_snd(),/*TODO*///#if (HAS_UPD7759)
             /*TODO*///    {
             /*TODO*///		SOUND_UPD7759,
             /*TODO*///		"uPD7759",
@@ -586,7 +587,7 @@ public class sndintrf {
             /*TODO*///		0
             /*TODO*///	},
             /*TODO*///#endif
-            /*TODO*///#if (HAS_HC55516)
+             new Dummy_snd(),/*TODO*///#if (HAS_HC55516)
             /*TODO*///    {
             /*TODO*///		SOUND_HC55516,
             /*TODO*///		"HC55516",
@@ -598,7 +599,7 @@ public class sndintrf {
             /*TODO*///		0
             /*TODO*///	},
             /*TODO*///#endif
-            /*TODO*///#if (HAS_K005289)
+             new Dummy_snd(),/*TODO*///#if (HAS_K005289)
             /*TODO*///    {
             /*TODO*///		SOUND_K005289,
             /*TODO*///		"005289",
@@ -610,7 +611,7 @@ public class sndintrf {
             /*TODO*///		0
             /*TODO*///	},
             /*TODO*///#endif
-            /*TODO*///#if (HAS_K007232)
+             new Dummy_snd(),/*TODO*///#if (HAS_K007232)
             /*TODO*///    {
             /*TODO*///		SOUND_K007232,
             /*TODO*///		"007232",
@@ -622,7 +623,7 @@ public class sndintrf {
             /*TODO*///		0
             /*TODO*///	},
             /*TODO*///#endif
-            /*TODO*///#if (HAS_K051649)
+             new Dummy_snd(),/*TODO*///#if (HAS_K051649)
             /*TODO*///    {
             /*TODO*///		SOUND_K051649,
             /*TODO*///		"051649",
@@ -634,7 +635,7 @@ public class sndintrf {
             /*TODO*///		0
             /*TODO*///	},
             /*TODO*///#endif
-            /*TODO*///#if (HAS_K053260)
+             new Dummy_snd(),/*TODO*///#if (HAS_K053260)
             /*TODO*///    {
             /*TODO*///		SOUND_K053260,
             /*TODO*///		"053260",
@@ -646,7 +647,7 @@ public class sndintrf {
             /*TODO*///		0
             /*TODO*///	},
             /*TODO*///#endif
-            /*TODO*///#if (HAS_SEGAPCM)
+             new Dummy_snd(),/*TODO*///#if (HAS_SEGAPCM)
             /*TODO*///	{
             /*TODO*///		SOUND_SEGAPCM,
             /*TODO*///		"Sega PCM",
@@ -658,7 +659,7 @@ public class sndintrf {
             /*TODO*///		0
             /*TODO*///	},
             /*TODO*///#endif
-            /*TODO*///#if (HAS_RF5C68)
+             new Dummy_snd(),/*TODO*///#if (HAS_RF5C68)
             /*TODO*///	{
             /*TODO*///		SOUND_RF5C68,
             /*TODO*///		"RF5C68",
@@ -670,7 +671,7 @@ public class sndintrf {
             /*TODO*///		0
             /*TODO*///	},
             /*TODO*///#endif
-            /*TODO*///#if (HAS_CEM3394)
+             new Dummy_snd(),/*TODO*///#if (HAS_CEM3394)
             /*TODO*///	{
             /*TODO*///		SOUND_CEM3394,
             /*TODO*///		"CEM3394",
@@ -682,7 +683,7 @@ public class sndintrf {
             /*TODO*///		0
             /*TODO*///	},
             /*TODO*///#endif
-            /*TODO*///#if (HAS_C140)
+             new Dummy_snd(),/*TODO*///#if (HAS_C140)
             /*TODO*///	{
             /*TODO*///		SOUND_C140,
             /*TODO*///		"C140",
@@ -694,7 +695,7 @@ public class sndintrf {
             /*TODO*///		0
             /*TODO*///	},
             /*TODO*///#endif
-            /*TODO*///#if (HAS_QSOUND)
+             new Dummy_snd(),/*TODO*///#if (HAS_QSOUND)
             /*TODO*///	{
             /*TODO*///		SOUND_QSOUND,
             /*TODO*///		"QSound",

@@ -12,7 +12,7 @@
             <properties>
                 <exec.vmArgs></exec.vmArgs>
                 <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
-                <exec.appArgs>bankp</exec.appArgs>
+                <exec.appArgs>docastle</exec.appArgs>
                 <exec.mainClass>gr.codebb.arcadeflex.v036.platform.Main</exec.mainClass>
                 <exec.executable>java</exec.executable>
                 <exec.workingdir>C:\prj5\arcadeflex\0.36\Release</exec.workingdir>
@@ -30,7 +30,7 @@
             <properties>
                 <exec.vmArgs>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</exec.vmArgs>
                 <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
-                <exec.appArgs>bankp</exec.appArgs>
+                <exec.appArgs>docastle</exec.appArgs>
                 <exec.mainClass>gr.codebb.arcadeflex.v036.platform.Main</exec.mainClass>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
@@ -51,7 +51,7 @@
                 <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
                 <exec.mainClass>gr.codebb.arcadeflex.v036.platform.Main</exec.mainClass>
                 <exec.executable>java</exec.executable>
-                <exec.appArgs>bankp</exec.appArgs>
+                <exec.appArgs>docastle</exec.appArgs>
                 <exec.workingdir>C:\prj5\arcadeflex\0.36\Release</exec.workingdir>
             </properties>
         </action>

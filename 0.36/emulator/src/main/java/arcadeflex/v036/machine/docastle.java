@@ -1,7 +1,11 @@
 /*
  * ported to v0.36
  * using automatic conversion tool v0.08
- *
+ */
+/**
+ * Changelog
+ * =========
+ * 15/12/2022 - shadow - This file should be complete for 0.36 version
  */
 package arcadeflex.v036.machine;
 
@@ -11,10 +15,9 @@ import static arcadeflex.v036.cpu.z80.z80H.*;
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
+import static arcadeflex.v036.mame.mame.*;
 //TODO
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
 
 public class docastle {
 

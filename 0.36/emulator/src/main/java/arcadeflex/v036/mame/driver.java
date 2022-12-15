@@ -7,6 +7,7 @@ package arcadeflex.v036.mame;
 import static arcadeflex.v036.mame.driverH.*;
 //drivers imports
 import static arcadeflex.v036.drivers.bankp.*;
+import static arcadeflex.v036.drivers.docastle.*;
 
 public class driver {
 
@@ -416,17 +417,16 @@ public class driver {
                 /*TODO*///	DRIVER( mrdu )		/* bootleg */
                 /*TODO*///	DRIVER( mrdoy )		/* bootleg */
                 /*TODO*///	DRIVER( yankeedo )	/* bootleg */
-                /*TODO*///	DRIVER( docastle )	/* (c) 1983 */
-                /*TODO*///	DRIVER( docastl2 )	/* (c) 1983 */
-                /*TODO*///	DRIVER( douni )		/* (c) 1983 */
-                /*TODO*///	DRIVER( dorunrun )	/* (c) 1984 */
-                /*TODO*///	DRIVER( dorunru2 )	/* (c) 1984 */
-                /*TODO*///	DRIVER( dorunruc )	/* (c) 1984 */
-                /*TODO*///	DRIVER( spiero )	/* (c) 1987 */
-                /*TODO*///	DRIVER( dowild )	/* (c) 1984 */
-                /*TODO*///	DRIVER( jjack )		/* (c) 1984 */
-                /*TODO*///	DRIVER( kickridr )	/* (c) 1984 */
-                /*TODO*///
+                driver_docastle,/* (c) 1983 */
+                driver_docastl2,/* (c) 1983 */
+                driver_douni,/* (c) 1983 */
+                driver_dorunrun,/* (c) 1984 */
+                driver_dorunru2,/* (c) 1984 */
+                driver_dorunruc,/* (c) 1984 */
+                driver_spiero,/* (c) 1987 */
+                driver_dowild,/* (c) 1984 */
+                driver_jjack,/* (c) 1984 */
+                driver_kickridr,/* (c) 1984 */
                 /*TODO*///	/* Nintendo games */
                 /*TODO*///	DRIVER( radarscp )	/* (c) 1980 Nintendo */
                 /*TODO*///	DRIVER( dkong )		/* (c) 1981 Nintendo of America */

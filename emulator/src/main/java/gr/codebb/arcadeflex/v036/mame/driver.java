@@ -30,7 +30,6 @@ import static gr.codebb.arcadeflex.v036.drivers.system1.*;
 import static gr.codebb.arcadeflex.v036.drivers.locomotn.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.pooyan.*;
 import static arcadeflex.v036.drivers.frogger.*;
-import static arcadeflex.v036.drivers.bankp.*;
 import static arcadeflex.v036.drivers.superqix.*;
 import static arcadeflex.v036.drivers.mrdo.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.pingpong.*;
@@ -165,7 +164,6 @@ import static gr.codebb.arcadeflex.v036.drivers.centiped.*;
 import static gr.codebb.arcadeflex.v036.drivers.aeroboto.*;
 import static arcadeflex.v036.drivers.goindol.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bjtwin.*;
-import static arcadeflex.v036.drivers.docastle.*;
 import static arcadeflex.v036.drivers.higemaru.*;
 import static gr.codebb.arcadeflex.v036.drivers.fastfred.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.zodiack.*;
@@ -302,7 +300,6 @@ public class driver {
                 /*022*//*ladybug*/ driver_ladybugb,
                 /*023*//*ladybug*/ driver_snapjack,
                 /*024*//*ladybug*/ driver_cavenger,
-                /*025*//*bankp*/ driver_bankp,
                 /*026*//*pingpong*/ driver_pingpong,
                 /*027*//*mikie*/ driver_mikie,
                 /*028*//*mikie*/ driver_mikiej,
@@ -915,17 +912,6 @@ public class driver {
                 /*btime*/ driver_mmonkey,//no controls working
                 /*btime*/ driver_cookrace,//no controls working,
                 /*mystston*/ driver_mystston, //no controls working
-                /*docastle*/ driver_docastle,//no controls working
-                /*docastle*/ driver_docastl2,//no controls working
-                /*docastle*/ driver_douni,//no controls working
-                /*docastle*/ driver_dorunrun,//no controls working
-                /*docastle*/ driver_dorunru2,//no controls working
-                /*docastle*/ driver_dorunruc,//no controls working
-                /*docastle*/ driver_spiero,//no controls working
-                /*docastle*/ driver_dowild,//no controls working
-                /*docastle*/ driver_jjack,//no controls working
-                /*docastle*/ driver_kickridr,//no controls working
-
                 /*
            Unknown issues 
                  */

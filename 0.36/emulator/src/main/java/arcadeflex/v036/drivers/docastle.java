@@ -2,6 +2,11 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
+/**
+ * Changelog
+ * =========
+ * 15/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.drivers;
 
 //generic imports
@@ -11,21 +16,19 @@ import static arcadeflex.v036.machine.docastle.*;
 //mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.memoryH.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.inptport.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.inptportH.*;
+import static arcadeflex.v036.mame.inputH.*;
 //sound imports
 import static arcadeflex.v036.sound.sn76496H.*;
 import static arcadeflex.v036.sound.sn76496.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.docastle.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
-//TODO
-import static arcadeflex.v036.mame.driverH.*;
-import static arcadeflex.v036.mame.memoryH.*;
-import static arcadeflex.v036.mame.commonH.*;
-import static arcadeflex.v036.mame.inptport.*;
-import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static arcadeflex.v036.mame.inptportH.*;
-import static arcadeflex.v036.mame.inputH.*;
 
 public class docastle {
 

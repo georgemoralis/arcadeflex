@@ -49,8 +49,7 @@ public class sndintrfH {
     public static final int SOUND_YM3438 = 11;/* same as YM2612 */
     public static final int SOUND_YM2413 = 12;/* YM3812 with predefined instruments */
     public static final int SOUND_YM3812 = 13;
-    public static final int SOUND_YM3526 = 14;
-    /*100% YM3812 compatible, less features */
+    public static final int SOUND_YM3526 = 14;/*100% YM3812 compatible, less features */
     public static final int SOUND_Y8950 = 15;/* YM3526 compatible with delta-T ADPCM */
     public static final int SOUND_SN76477 = 16;
     public static final int SOUND_SN76496 = 17;
