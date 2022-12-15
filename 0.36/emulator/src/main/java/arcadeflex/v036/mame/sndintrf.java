@@ -274,7 +274,8 @@ public class sndintrf {
     public static snd_interface sndintf[]
             = {
                 new Dummy_snd(),
-                new CustomSound(), /*TODO*///#if (HAS_SAMPLES)
+                new CustomSound(),
+                new Dummy_snd(),/*TODO*///#if (HAS_SAMPLES)
                 /*TODO*///    {
                 /*TODO*///		SOUND_SAMPLES,
                 /*TODO*///		"Samples",
@@ -454,248 +455,248 @@ public class sndintrf {
                 /*TODO*///		0
                 /*TODO*///	},
                 /*TODO*///#endif
-                new Dummy_snd(),
-                new sn76496(), /*TODO*///#if (HAS_POKEY)
-            /*TODO*///    {
-            /*TODO*///		SOUND_POKEY,
-            /*TODO*///		"Pokey",
-            /*TODO*///		POKEY_num,
-            /*TODO*///		POKEY_clock,
-            /*TODO*///		pokey_sh_start,
-            /*TODO*///		pokey_sh_stop,
-            /*TODO*///		0,
-            /*TODO*///		0
-            /*TODO*///	},
-            /*TODO*///#endif
-             new Dummy_snd(),/*TODO*///#if (HAS_NES)
-            /*TODO*///    {
-            /*TODO*///		SOUND_NES,
-            /*TODO*///		"Nintendo",
-            /*TODO*///		NES_num,
-            /*TODO*///		0,
-            /*TODO*///		NESPSG_sh_start,
-            /*TODO*///		NESPSG_sh_stop,
-            /*TODO*///		NESPSG_sh_update,
-            /*TODO*///		0
-            /*TODO*///	},
-            /*TODO*///#endif
-             new Dummy_snd(),/*TODO*///#if (HAS_ASTROCADE)
-            /*TODO*///    {
-            /*TODO*///		SOUND_ASTROCADE,
-            /*TODO*///		"Astrocade",
-            /*TODO*///		ASTROCADE_num,
-            /*TODO*///		ASTROCADE_clock,
-            /*TODO*///		astrocade_sh_start,
-            /*TODO*///		astrocade_sh_stop,
-            /*TODO*///		astrocade_sh_update,
-            /*TODO*///		0
-            /*TODO*///	},
-            /*TODO*///#endif
-             new Dummy_snd(),/*TODO*///#if (HAS_NAMCO)
-            /*TODO*///    {
-            /*TODO*///		SOUND_NAMCO,
-            /*TODO*///		"Namco",
-            /*TODO*///		0,
-            /*TODO*///		0,
-            /*TODO*///		namco_sh_start,
-            /*TODO*///		namco_sh_stop,
-            /*TODO*///		0,
-            /*TODO*///		0
-            /*TODO*///	},
-            /*TODO*///#endif
-             new Dummy_snd(),/*TODO*///#if (HAS_TMS36XX)
-            /*TODO*///    {
-            /*TODO*///		SOUND_TMS36XX,
-            /*TODO*///		"TMS36XX",
-            /*TODO*///		TMS36XX_num,
-            /*TODO*///        0,
-            /*TODO*///		tms36xx_sh_start,
-            /*TODO*///		tms36xx_sh_stop,
-            /*TODO*///		tms36xx_sh_update,
-            /*TODO*///		0
-            /*TODO*///	},
-            /*TODO*///#endif
-             new Dummy_snd(),/*TODO*///#if (HAS_TMS5220)
-            /*TODO*///    {
-            /*TODO*///		SOUND_TMS5220,
-            /*TODO*///		"TMS5520",
-            /*TODO*///		0,
-            /*TODO*///		TMS5220_clock,
-            /*TODO*///		tms5220_sh_start,
-            /*TODO*///		tms5220_sh_stop,
-            /*TODO*///		tms5220_sh_update,
-            /*TODO*///		0
-            /*TODO*///	},
-            /*TODO*///#endif
-             new Dummy_snd(),/*TODO*///#if (HAS_VLM5030)
-            /*TODO*///    {
-            /*TODO*///		SOUND_VLM5030,
-            /*TODO*///		"VLM5030",
-            /*TODO*///		0,
-            /*TODO*///		VLM5030_clock,
-            /*TODO*///		VLM5030_sh_start,
-            /*TODO*///		VLM5030_sh_stop,
-            /*TODO*///		VLM5030_sh_update,
-            /*TODO*///		0
-            /*TODO*///	},
-            /*TODO*///#endif
-             new Dummy_snd(),/*TODO*///#if (HAS_ADPCM)
-            /*TODO*///    {
-            /*TODO*///		SOUND_ADPCM,
-            /*TODO*///		"ADPCM",
-            /*TODO*///		ADPCM_num,
-            /*TODO*///		0,
-            /*TODO*///		ADPCM_sh_start,
-            /*TODO*///		ADPCM_sh_stop,
-            /*TODO*///		ADPCM_sh_update,
-            /*TODO*///		0
-            /*TODO*///	},
-            /*TODO*///#endif
-             new Dummy_snd(),/*TODO*///#if (HAS_OKIM6295)
-            /*TODO*///    {
-            /*TODO*///		SOUND_OKIM6295,
-            /*TODO*///		"OKI6295",
-            /*TODO*///		OKIM6295_num,
-            /*TODO*///		OKIM6295_clock,
-            /*TODO*///		OKIM6295_sh_start,
-            /*TODO*///		OKIM6295_sh_stop,
-            /*TODO*///		OKIM6295_sh_update,
-            /*TODO*///		0
-            /*TODO*///	},
-            /*TODO*///#endif
-             new Dummy_snd(),/*TODO*///#if (HAS_MSM5205)
-            /*TODO*///    {
-            /*TODO*///		SOUND_MSM5205,
-            /*TODO*///		"MSM5205",
-            /*TODO*///		MSM5205_num,
-            /*TODO*///		MSM5205_clock,
-            /*TODO*///		MSM5205_sh_start,
-            /*TODO*///		0,
-            /*TODO*///		0,
-            /*TODO*///		MSM5205_sh_reset,
-            /*TODO*///	},
-            /*TODO*///#endif
-             new Dummy_snd(),/*TODO*///#if (HAS_UPD7759)
-            /*TODO*///    {
-            /*TODO*///		SOUND_UPD7759,
-            /*TODO*///		"uPD7759",
-            /*TODO*///		0,
-            /*TODO*///		UPD7759_clock,
-            /*TODO*///		UPD7759_sh_start,
-            /*TODO*///		UPD7759_sh_stop,
-            /*TODO*///		0,
-            /*TODO*///		0
-            /*TODO*///	},
-            /*TODO*///#endif
-             new Dummy_snd(),/*TODO*///#if (HAS_HC55516)
-            /*TODO*///    {
-            /*TODO*///		SOUND_HC55516,
-            /*TODO*///		"HC55516",
-            /*TODO*///		HC55516_num,
-            /*TODO*///		0,
-            /*TODO*///		hc55516_sh_start,
-            /*TODO*///		0,
-            /*TODO*///		0,
-            /*TODO*///		0
-            /*TODO*///	},
-            /*TODO*///#endif
-             new Dummy_snd(),/*TODO*///#if (HAS_K005289)
-            /*TODO*///    {
-            /*TODO*///		SOUND_K005289,
-            /*TODO*///		"005289",
-            /*TODO*///		0,
-            /*TODO*///		0,
-            /*TODO*///		K005289_sh_start,
-            /*TODO*///		K005289_sh_stop,
-            /*TODO*///		0,
-            /*TODO*///		0
-            /*TODO*///	},
-            /*TODO*///#endif
-             new Dummy_snd(),/*TODO*///#if (HAS_K007232)
-            /*TODO*///    {
-            /*TODO*///		SOUND_K007232,
-            /*TODO*///		"007232",
-            /*TODO*///		K007232_num,
-            /*TODO*///		0,
-            /*TODO*///		K007232_sh_start,
-            /*TODO*///		0,
-            /*TODO*///		0,
-            /*TODO*///		0
-            /*TODO*///	},
-            /*TODO*///#endif
-             new Dummy_snd(),/*TODO*///#if (HAS_K051649)
-            /*TODO*///    {
-            /*TODO*///		SOUND_K051649,
-            /*TODO*///		"051649",
-            /*TODO*///		0,
-            /*TODO*///		K051649_clock,
-            /*TODO*///		K051649_sh_start,
-            /*TODO*///		K051649_sh_stop,
-            /*TODO*///		0,
-            /*TODO*///		0
-            /*TODO*///	},
-            /*TODO*///#endif
-             new Dummy_snd(),/*TODO*///#if (HAS_K053260)
-            /*TODO*///    {
-            /*TODO*///		SOUND_K053260,
-            /*TODO*///		"053260",
-            /*TODO*///		0,
-            /*TODO*///		K053260_clock,
-            /*TODO*///		K053260_sh_start,
-            /*TODO*///		K053260_sh_stop,
-            /*TODO*///		0,
-            /*TODO*///		0
-            /*TODO*///	},
-            /*TODO*///#endif
-             new Dummy_snd(),/*TODO*///#if (HAS_SEGAPCM)
-            /*TODO*///	{
-            /*TODO*///		SOUND_SEGAPCM,
-            /*TODO*///		"Sega PCM",
-            /*TODO*///		0,
-            /*TODO*///		0,
-            /*TODO*///		SEGAPCM_sh_start,
-            /*TODO*///		SEGAPCM_sh_stop,
-            /*TODO*///		SEGAPCM_sh_update,
-            /*TODO*///		0
-            /*TODO*///	},
-            /*TODO*///#endif
-             new Dummy_snd(),/*TODO*///#if (HAS_RF5C68)
-            /*TODO*///	{
-            /*TODO*///		SOUND_RF5C68,
-            /*TODO*///		"RF5C68",
-            /*TODO*///		0,
-            /*TODO*///		0,
-            /*TODO*///		RF5C68_sh_start,
-            /*TODO*///		RF5C68_sh_stop,
-            /*TODO*///		0,
-            /*TODO*///		0
-            /*TODO*///	},
-            /*TODO*///#endif
-             new Dummy_snd(),/*TODO*///#if (HAS_CEM3394)
-            /*TODO*///	{
-            /*TODO*///		SOUND_CEM3394,
-            /*TODO*///		"CEM3394",
-            /*TODO*///		cem3394_num,
-            /*TODO*///		0,
-            /*TODO*///		cem3394_sh_start,
-            /*TODO*///		cem3394_sh_stop,
-            /*TODO*///		0,
-            /*TODO*///		0
-            /*TODO*///	},
-            /*TODO*///#endif
-             new Dummy_snd(),/*TODO*///#if (HAS_C140)
-            /*TODO*///	{
-            /*TODO*///		SOUND_C140,
-            /*TODO*///		"C140",
-            /*TODO*///		0,
-            /*TODO*///		0,
-            /*TODO*///		C140_sh_start,
-            /*TODO*///		C140_sh_stop,
-            /*TODO*///		0,
-            /*TODO*///		0
-            /*TODO*///	},
-            /*TODO*///#endif
-             new Dummy_snd(),/*TODO*///#if (HAS_QSOUND)
+                new sn76496(),
+                new Dummy_snd(),/*TODO*///#if (HAS_POKEY)
+                /*TODO*///    {
+                /*TODO*///		SOUND_POKEY,
+                /*TODO*///		"Pokey",
+                /*TODO*///		POKEY_num,
+                /*TODO*///		POKEY_clock,
+                /*TODO*///		pokey_sh_start,
+                /*TODO*///		pokey_sh_stop,
+                /*TODO*///		0,
+                /*TODO*///		0
+                /*TODO*///	},
+                /*TODO*///#endif
+                new Dummy_snd(),/*TODO*///#if (HAS_NES)
+                /*TODO*///    {
+                /*TODO*///		SOUND_NES,
+                /*TODO*///		"Nintendo",
+                /*TODO*///		NES_num,
+                /*TODO*///		0,
+                /*TODO*///		NESPSG_sh_start,
+                /*TODO*///		NESPSG_sh_stop,
+                /*TODO*///		NESPSG_sh_update,
+                /*TODO*///		0
+                /*TODO*///	},
+                /*TODO*///#endif
+                new Dummy_snd(),/*TODO*///#if (HAS_ASTROCADE)
+                /*TODO*///    {
+                /*TODO*///		SOUND_ASTROCADE,
+                /*TODO*///		"Astrocade",
+                /*TODO*///		ASTROCADE_num,
+                /*TODO*///		ASTROCADE_clock,
+                /*TODO*///		astrocade_sh_start,
+                /*TODO*///		astrocade_sh_stop,
+                /*TODO*///		astrocade_sh_update,
+                /*TODO*///		0
+                /*TODO*///	},
+                /*TODO*///#endif
+                new Dummy_snd(),/*TODO*///#if (HAS_NAMCO)
+                /*TODO*///    {
+                /*TODO*///		SOUND_NAMCO,
+                /*TODO*///		"Namco",
+                /*TODO*///		0,
+                /*TODO*///		0,
+                /*TODO*///		namco_sh_start,
+                /*TODO*///		namco_sh_stop,
+                /*TODO*///		0,
+                /*TODO*///		0
+                /*TODO*///	},
+                /*TODO*///#endif
+                new Dummy_snd(),/*TODO*///#if (HAS_TMS36XX)
+                /*TODO*///    {
+                /*TODO*///		SOUND_TMS36XX,
+                /*TODO*///		"TMS36XX",
+                /*TODO*///		TMS36XX_num,
+                /*TODO*///        0,
+                /*TODO*///		tms36xx_sh_start,
+                /*TODO*///		tms36xx_sh_stop,
+                /*TODO*///		tms36xx_sh_update,
+                /*TODO*///		0
+                /*TODO*///	},
+                /*TODO*///#endif
+                new Dummy_snd(),/*TODO*///#if (HAS_TMS5220)
+                /*TODO*///    {
+                /*TODO*///		SOUND_TMS5220,
+                /*TODO*///		"TMS5520",
+                /*TODO*///		0,
+                /*TODO*///		TMS5220_clock,
+                /*TODO*///		tms5220_sh_start,
+                /*TODO*///		tms5220_sh_stop,
+                /*TODO*///		tms5220_sh_update,
+                /*TODO*///		0
+                /*TODO*///	},
+                /*TODO*///#endif
+                new Dummy_snd(),/*TODO*///#if (HAS_VLM5030)
+                /*TODO*///    {
+                /*TODO*///		SOUND_VLM5030,
+                /*TODO*///		"VLM5030",
+                /*TODO*///		0,
+                /*TODO*///		VLM5030_clock,
+                /*TODO*///		VLM5030_sh_start,
+                /*TODO*///		VLM5030_sh_stop,
+                /*TODO*///		VLM5030_sh_update,
+                /*TODO*///		0
+                /*TODO*///	},
+                /*TODO*///#endif
+                new Dummy_snd(),/*TODO*///#if (HAS_ADPCM)
+                /*TODO*///    {
+                /*TODO*///		SOUND_ADPCM,
+                /*TODO*///		"ADPCM",
+                /*TODO*///		ADPCM_num,
+                /*TODO*///		0,
+                /*TODO*///		ADPCM_sh_start,
+                /*TODO*///		ADPCM_sh_stop,
+                /*TODO*///		ADPCM_sh_update,
+                /*TODO*///		0
+                /*TODO*///	},
+                /*TODO*///#endif
+                new Dummy_snd(),/*TODO*///#if (HAS_OKIM6295)
+                /*TODO*///    {
+                /*TODO*///		SOUND_OKIM6295,
+                /*TODO*///		"OKI6295",
+                /*TODO*///		OKIM6295_num,
+                /*TODO*///		OKIM6295_clock,
+                /*TODO*///		OKIM6295_sh_start,
+                /*TODO*///		OKIM6295_sh_stop,
+                /*TODO*///		OKIM6295_sh_update,
+                /*TODO*///		0
+                /*TODO*///	},
+                /*TODO*///#endif
+                new Dummy_snd(),/*TODO*///#if (HAS_MSM5205)
+                /*TODO*///    {
+                /*TODO*///		SOUND_MSM5205,
+                /*TODO*///		"MSM5205",
+                /*TODO*///		MSM5205_num,
+                /*TODO*///		MSM5205_clock,
+                /*TODO*///		MSM5205_sh_start,
+                /*TODO*///		0,
+                /*TODO*///		0,
+                /*TODO*///		MSM5205_sh_reset,
+                /*TODO*///	},
+                /*TODO*///#endif
+                new Dummy_snd(),/*TODO*///#if (HAS_UPD7759)
+                /*TODO*///    {
+                /*TODO*///		SOUND_UPD7759,
+                /*TODO*///		"uPD7759",
+                /*TODO*///		0,
+                /*TODO*///		UPD7759_clock,
+                /*TODO*///		UPD7759_sh_start,
+                /*TODO*///		UPD7759_sh_stop,
+                /*TODO*///		0,
+                /*TODO*///		0
+                /*TODO*///	},
+                /*TODO*///#endif
+                new Dummy_snd(),/*TODO*///#if (HAS_HC55516)
+                /*TODO*///    {
+                /*TODO*///		SOUND_HC55516,
+                /*TODO*///		"HC55516",
+                /*TODO*///		HC55516_num,
+                /*TODO*///		0,
+                /*TODO*///		hc55516_sh_start,
+                /*TODO*///		0,
+                /*TODO*///		0,
+                /*TODO*///		0
+                /*TODO*///	},
+                /*TODO*///#endif
+                new Dummy_snd(),/*TODO*///#if (HAS_K005289)
+                /*TODO*///    {
+                /*TODO*///		SOUND_K005289,
+                /*TODO*///		"005289",
+                /*TODO*///		0,
+                /*TODO*///		0,
+                /*TODO*///		K005289_sh_start,
+                /*TODO*///		K005289_sh_stop,
+                /*TODO*///		0,
+                /*TODO*///		0
+                /*TODO*///	},
+                /*TODO*///#endif
+                new Dummy_snd(),/*TODO*///#if (HAS_K007232)
+                /*TODO*///    {
+                /*TODO*///		SOUND_K007232,
+                /*TODO*///		"007232",
+                /*TODO*///		K007232_num,
+                /*TODO*///		0,
+                /*TODO*///		K007232_sh_start,
+                /*TODO*///		0,
+                /*TODO*///		0,
+                /*TODO*///		0
+                /*TODO*///	},
+                /*TODO*///#endif
+                new Dummy_snd(),/*TODO*///#if (HAS_K051649)
+                /*TODO*///    {
+                /*TODO*///		SOUND_K051649,
+                /*TODO*///		"051649",
+                /*TODO*///		0,
+                /*TODO*///		K051649_clock,
+                /*TODO*///		K051649_sh_start,
+                /*TODO*///		K051649_sh_stop,
+                /*TODO*///		0,
+                /*TODO*///		0
+                /*TODO*///	},
+                /*TODO*///#endif
+                new Dummy_snd(),/*TODO*///#if (HAS_K053260)
+                /*TODO*///    {
+                /*TODO*///		SOUND_K053260,
+                /*TODO*///		"053260",
+                /*TODO*///		0,
+                /*TODO*///		K053260_clock,
+                /*TODO*///		K053260_sh_start,
+                /*TODO*///		K053260_sh_stop,
+                /*TODO*///		0,
+                /*TODO*///		0
+                /*TODO*///	},
+                /*TODO*///#endif
+                new Dummy_snd(),/*TODO*///#if (HAS_SEGAPCM)
+                /*TODO*///	{
+                /*TODO*///		SOUND_SEGAPCM,
+                /*TODO*///		"Sega PCM",
+                /*TODO*///		0,
+                /*TODO*///		0,
+                /*TODO*///		SEGAPCM_sh_start,
+                /*TODO*///		SEGAPCM_sh_stop,
+                /*TODO*///		SEGAPCM_sh_update,
+                /*TODO*///		0
+                /*TODO*///	},
+                /*TODO*///#endif
+                new Dummy_snd(),/*TODO*///#if (HAS_RF5C68)
+                /*TODO*///	{
+                /*TODO*///		SOUND_RF5C68,
+                /*TODO*///		"RF5C68",
+                /*TODO*///		0,
+                /*TODO*///		0,
+                /*TODO*///		RF5C68_sh_start,
+                /*TODO*///		RF5C68_sh_stop,
+                /*TODO*///		0,
+                /*TODO*///		0
+                /*TODO*///	},
+                /*TODO*///#endif
+                new Dummy_snd(),/*TODO*///#if (HAS_CEM3394)
+                /*TODO*///	{
+                /*TODO*///		SOUND_CEM3394,
+                /*TODO*///		"CEM3394",
+                /*TODO*///		cem3394_num,
+                /*TODO*///		0,
+                /*TODO*///		cem3394_sh_start,
+                /*TODO*///		cem3394_sh_stop,
+                /*TODO*///		0,
+                /*TODO*///		0
+                /*TODO*///	},
+                /*TODO*///#endif
+                new Dummy_snd(),/*TODO*///#if (HAS_C140)
+                /*TODO*///	{
+                /*TODO*///		SOUND_C140,
+                /*TODO*///		"C140",
+                /*TODO*///		0,
+                /*TODO*///		0,
+                /*TODO*///		C140_sh_start,
+                /*TODO*///		C140_sh_stop,
+                /*TODO*///		0,
+                /*TODO*///		0
+                /*TODO*///	},
+                /*TODO*///#endif
+                new Dummy_snd(),/*TODO*///#if (HAS_QSOUND)
             /*TODO*///	{
             /*TODO*///		SOUND_QSOUND,
             /*TODO*///		"QSound",
