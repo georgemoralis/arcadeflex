@@ -14,7 +14,7 @@ import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.sound.upd7759H.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static arcadeflex.v036.sound.streams.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
 

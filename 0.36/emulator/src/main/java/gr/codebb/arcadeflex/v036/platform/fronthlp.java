@@ -25,7 +25,7 @@ import static arcadeflex.v036.mame.cpuintrf.cputype_name;
 import static arcadeflex.v036.mame.driver.drivers;
 import static arcadeflex.v036.mame.sndintrf.sound_name;
 import static arcadeflex.v036.mame.sndintrf.sound_num;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 
 

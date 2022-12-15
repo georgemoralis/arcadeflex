@@ -1485,9 +1485,11 @@ public class cpuintrf {
 /*TODO*///				}
 /*TODO*///				break;
 /*TODO*///#endif
-/*TODO*///#if HAS_S2650
-/*TODO*///			case CPU_S2650: 			irq_line = 0; LOG((errorlog,"S2650 IRQ\n")); break;
-/*TODO*///#endif
+                    case CPU_S2650:
+                        irq_line = 0;
+                        //LOG((errorlog,"S2650 IRQ\n")); 
+                        break;
+                    /*TODO*///#endif
 /*TODO*///#if HAS_TMS34010
 /*TODO*///			case CPU_TMS34010:
 /*TODO*///				switch (num)

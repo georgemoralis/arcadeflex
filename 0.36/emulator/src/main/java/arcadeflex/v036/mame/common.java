@@ -7,45 +7,32 @@ package arcadeflex.v036.mame;
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.mame.Machine;
+import static arcadeflex.v036.mame.mameH.MAX_MEMORY_REGIONS;
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 //TODO
-import static gr.codebb.arcadeflex.v036.mame.common.coinlockedout;
-import static gr.codebb.arcadeflex.v036.mame.common.coins;
-import static gr.codebb.arcadeflex.v036.mame.common.lastcoin;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 
 public class common {
 
-    /*TODO*////*********************************************************************
-/*TODO*///
-/*TODO*///  common.c
-/*TODO*///
-/*TODO*///  Generic functions, mostly ROM and graphics related.
-/*TODO*///
-/*TODO*///*********************************************************************/
-/*TODO*///
-/*TODO*///#include "driver.h"
-/*TODO*///#include "png.h"
-/*TODO*///
-/*TODO*////* These globals are only kept on a machine basis - LBO 042898 */
-/*TODO*///unsigned int dispensed_tickets;
-/*TODO*///unsigned int coins[COIN_COUNTERS];
-/*TODO*///unsigned int lastcoin[COIN_COUNTERS];
-/*TODO*///unsigned int coinlockedout[COIN_COUNTERS];
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///void showdisclaimer(void)   /* MAURY_BEGIN: dichiarazione */
-/*TODO*///{
-/*TODO*///	printf("MAME is an emulator: it reproduces, more or less faithfully, the behaviour of\n"
-/*TODO*///		 "several arcade machines. But hardware is useless without software, so an image\n"
-/*TODO*///		 "of the ROMs which run on that hardware is required. Such ROMs, like any other\n"
-/*TODO*///		 "commercial software, are copyrighted material and it is therefore illegal to\n"
-/*TODO*///		 "use them if you don't own the original arcade machine. Needless to say, ROMs\n"
-/*TODO*///		 "are not distributed together with MAME. Distribution of MAME together with ROM\n"
-/*TODO*///		 "images is a violation of copyright law and should be promptly reported to the\n"
-/*TODO*///		 "authors so that appropriate legal action can be taken.\n\n");
-/*TODO*///}                           /* MAURY_END: dichiarazione */
-/*TODO*///
-/*TODO*///
+    /* These globals are only kept on a machine basis - LBO 042898 */
+    public static int dispensed_tickets;
+    public static int coins[] = new int[COIN_COUNTERS];
+    public static int lastcoin[] = new int[COIN_COUNTERS];
+    public static int coinlockedout[] = new int[COIN_COUNTERS];
+
+    public static void showdisclaimer() /* MAURY_BEGIN: dichiarazione */ {
+        printf("MAME is an emulator: it reproduces, more or less faithfully, the behaviour of\n"
+                + "several arcade machines. But hardware is useless without software, so an image\n"
+                + "of the ROMs which run on that hardware is required. Such ROMs, like any other\n"
+                + "commercial software, are copyrighted material and it is therefore illegal to\n"
+                + "use them if you don't own the original arcade machine. Needless to say, ROMs\n"
+                + "are not distributed together with MAME. Distribution of MAME together with ROM\n"
+                + "images is a violation of copyright law and should be promptly reported to the\n"
+                + "authors so that appropriate legal action can be taken.\n\n");
+    }
+
+    /*TODO*///
 /*TODO*////***************************************************************************
 /*TODO*///
 /*TODO*///  Read ROMs into memory.
@@ -426,52 +413,49 @@ public class common {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*///void printromlist(const struct RomModule *romp,const char *basename)
-/*TODO*///{
-/*TODO*///	if (!romp) return;
-/*TODO*///
-/*TODO*///#ifdef MESS
-/*TODO*///	if (!strcmp(basename,"nes")) return;
-/*TODO*///#endif
-/*TODO*///
-/*TODO*///	printf("This is the list of the ROMs required for driver \"%s\".\n"
-/*TODO*///			"Name              Size       Checksum\n",basename);
-/*TODO*///
-/*TODO*///	while (romp->name || romp->offset || romp->length)
-/*TODO*///	{
-/*TODO*///		romp++;	/* skip memory region definition */
-/*TODO*///
-/*TODO*///		while (romp->length)
-/*TODO*///		{
-/*TODO*///			const char *name;
-/*TODO*///			int length,expchecksum;
-/*TODO*///
-/*TODO*///
-/*TODO*///			name = romp->name;
-/*TODO*///			expchecksum = romp->crc;
-/*TODO*///
-/*TODO*///			length = 0;
-/*TODO*///
-/*TODO*///			do
-/*TODO*///			{
-/*TODO*///				/* ROM_RELOAD */
-/*TODO*///				if (romp->name == (char *)-1)
-/*TODO*///					length = 0;	/* restart */
-/*TODO*///
-/*TODO*///				length += romp->length & ~ROMFLAG_MASK;
-/*TODO*///
-/*TODO*///				romp++;
-/*TODO*///			} while (romp->length && (romp->name == 0 || romp->name == (char *)-1));
-/*TODO*///
-/*TODO*///			if (expchecksum)
-/*TODO*///				printf("%-12s  %7d bytes  %08x\n",name,length,expchecksum);
-/*TODO*///			else
-/*TODO*///				printf("%-12s  %7d bytes  NO GOOD DUMP KNOWN\n",name,length);
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///
+    public static void printromlist(RomModule[] romp, String basename) {
+        if (romp == null) {
+            return;
+        }
+
+        printf("This is the list of the ROMs required for driver \"%s\".\n"
+                + "Name              Size       Checksum\n", basename);
+        int rom_ptr = 0;
+        while (romp[rom_ptr].name != null || romp[rom_ptr].offset != 0 || romp[rom_ptr].length != 0) {
+            rom_ptr++;
+            /* skip memory region definition */
+
+            while (romp[rom_ptr].length != 0) {
+                String name;
+                int length = 0, expchecksum = 0;
+
+                name = romp[rom_ptr].name;
+                expchecksum = romp[rom_ptr].crc;
+
+                length = 0;
+
+                do {
+                    /* ROM_RELOAD */
+                    if ((romp[rom_ptr].name != null) && (romp[rom_ptr].name.compareTo("-1") == 0)) {
+                        length = 0;
+                        /* restart */
+                    }
+
+                    length += romp[rom_ptr].length & ~ROMFLAG_MASK;
+
+                    rom_ptr++;
+                } while (romp[rom_ptr].length != 0 && (romp[rom_ptr].name == null || romp[rom_ptr].name.compareTo("-1") == 0));
+
+                if (expchecksum != 0) {
+                    printf("%-12s  %7d bytes  %08x\n", name, length, expchecksum);
+                } else {
+                    printf("%-12s  %7d bytes  NO GOOD DUMP KNOWN\n", name, length);
+                }
+            }
+        }
+    }
+
+    /*TODO*///
 /*TODO*///
 /*TODO*////***************************************************************************
 /*TODO*///
@@ -664,44 +648,39 @@ public class common {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*///
-/*TODO*///unsigned char *memory_region(int num)
-/*TODO*///{
-/*TODO*///	int i;
-/*TODO*///
-/*TODO*///	if (num < MAX_MEMORY_REGIONS)
-/*TODO*///		return Machine->memory_region[num];
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		for (i = 0;i < MAX_MEMORY_REGIONS;i++)
-/*TODO*///		{
-/*TODO*///			if ((Machine->memory_region_type[i] & ~REGIONFLAG_MASK) == num)
-/*TODO*///				return Machine->memory_region[i];
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	return 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*///int memory_region_length(int num)
-/*TODO*///{
-/*TODO*///	int i;
-/*TODO*///
-/*TODO*///	if (num < MAX_MEMORY_REGIONS)
-/*TODO*///		return Machine->memory_region_length[num];
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		for (i = 0;i < MAX_MEMORY_REGIONS;i++)
-/*TODO*///		{
-/*TODO*///			if ((Machine->memory_region_type[i] & ~REGIONFLAG_MASK) == num)
-/*TODO*///				return Machine->memory_region_length[i];
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	return 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*///int new_memory_region(int num, int length)
+    public static UBytePtr memory_region(int num) {
+        int i;
+
+        if (num < MAX_MEMORY_REGIONS) {
+            return new UBytePtr(Machine.memory_region[num]);
+        } else {
+            for (i = 0; i < MAX_MEMORY_REGIONS; i++) {
+                if ((Machine.memory_region_type[i] & ~REGIONFLAG_MASK) == num) {
+                    return new UBytePtr(Machine.memory_region[i]);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public static int memory_region_length(int num) {
+        int i;
+
+        if (num < MAX_MEMORY_REGIONS) {
+            return Machine.memory_region_length[num];
+        } else {
+            for (i = 0; i < MAX_MEMORY_REGIONS; i++) {
+                if ((Machine.memory_region_type[i] & ~REGIONFLAG_MASK) == num) {
+                    return Machine.memory_region_length[i];
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    /*TODO*///int new_memory_region(int num, int length)
 /*TODO*///{
 /*TODO*///    int i;
 /*TODO*///

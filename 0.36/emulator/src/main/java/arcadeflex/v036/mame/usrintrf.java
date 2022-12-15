@@ -28,9 +28,6 @@ import static common.libc.cstring.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
-import static gr.codebb.arcadeflex.v036.mame.common.coinlockedout;
-import static gr.codebb.arcadeflex.v036.mame.common.coins;
-import static gr.codebb.arcadeflex.v036.mame.common.dispensed_tickets;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.decodegfx;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.drawgfx;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.sprintf;

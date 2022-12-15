@@ -8,7 +8,7 @@ import static arcadeflex.v036.generic.funcPtr.*;
 import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.cstdio.sprintf;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.common.*;
 import arcadeflex.v036.mame.sndintrf.snd_interface;
 import static arcadeflex.v036.mame.sndintrf.sound_name;
 import static arcadeflex.v036.mame.mame.*;

@@ -20,24 +20,7 @@ import static common.libc.cstdlib.rand;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
 public class common {
     
-    /* These globals are only kept on a machine basis - LBO 042898 */
     
-    public static int dispensed_tickets;
-    public static int coins[]=new int[COIN_COUNTERS];
-    public static int lastcoin[]=new int[COIN_COUNTERS];
-    public static int coinlockedout[]=new int[COIN_COUNTERS];
-    
-    public static void showdisclaimer()   /* MAURY_BEGIN: dichiarazione */
-    {
-	printf("MAME is an emulator: it reproduces, more or less faithfully, the behaviour of\n"
-		+ "several arcade machines. But hardware is useless without software, so an image\n"
-		+ "of the ROMs which run on that hardware is required. Such ROMs, like any other\n"
-		+ "commercial software, are copyrighted material and it is therefore illegal to\n"
-		+ "use them if you don't own the original arcade machine. Needless to say, ROMs\n"
-		+ "are not distributed together with MAME. Distribution of MAME together with ROM\n"
-		+ "images is a violation of copyright law and should be promptly reported to the\n"
-		+ "authors so that appropriate legal action can be taken.\n\n");
-    }
 
 	
     /***************************************************************************
@@ -412,46 +395,7 @@ public class common {
         }
         return 1;
     }
-    public static void printromlist(RomModule[] romp, String basename)
-    {
-            if (romp==null) return;
 
-            printf("This is the list of the ROMs required for driver \"%s\".\n"
-                  +"Name              Size       Checksum\n",basename);
-            int rom_ptr=0;
-            while (romp[rom_ptr].name!=null || romp[rom_ptr].offset!=0 || romp[rom_ptr].length!=0)
-            {
-                    rom_ptr++;	/* skip memory region definition */
-
-                    while (romp[rom_ptr].length!=0)
-                    {
-                            String name;
-                            int length=0,expchecksum=0;
-
-
-                            name = romp[rom_ptr].name;
-                            expchecksum = romp[rom_ptr].crc;
-
-                            length = 0;
-
-                            do
-                            {
-                                    /* ROM_RELOAD */
-                                    if ((romp[rom_ptr].name != null) && (romp[rom_ptr].name.compareTo("-1") == 0))
-                                            length = 0;	/* restart */
-
-                                    length += romp[rom_ptr].length & ~ROMFLAG_MASK;
-
-                                    rom_ptr++;
-                            } while (romp[rom_ptr].length!=0 && (romp[rom_ptr].name == null || romp[rom_ptr].name.compareTo("-1") == 0));
-
-                            if (expchecksum!=0)
-                                    printf("%-12s  %7d bytes  %08x\n",name,length,expchecksum);
-                            else
-                                    printf("%-12s  %7d bytes  NO GOOD DUMP KNOWN\n",name,length);
-                    }
-            }
-    }
     /* ************************************************************************
      * <p>
      * Read samples into memory.
@@ -573,18 +517,6 @@ public class common {
         return result;
     }
     
-    public static osd_bitmap bitmap_alloc_depth(int width, int height, int depth) {
-        if ((Machine.orientation & ORIENTATION_SWAP_XY) != 0) {
-            int temp;
-
-            temp = width;
-            width = height;
-            height = temp;
-        }
-
-        return osd_new_bitmap(width, height, depth);
-    }
-
     public static GameSamples readsamples(String[] samplenames, String basename)
 /* V.V - avoids samples duplication */
 /* if first samplename is *dir, looks for samples into "basename" first, then "dir" */ {
@@ -643,144 +575,6 @@ public class common {
 
 
 
- public static UBytePtr memory_region(int num)
-{
-            int i;
-
-            if (num < MAX_MEMORY_REGIONS)
-                    return new UBytePtr(Machine.memory_region[num]);
-            else
-            {
-                    for (i = 0;i < MAX_MEMORY_REGIONS;i++)
-                    {
-                            if ((Machine.memory_region_type[i] & ~REGIONFLAG_MASK) == num)
-                                    return new UBytePtr(Machine.memory_region[i]);
-                    }
-            }
-
-            return null;
-}
-
-    public static int memory_region_length(int num)
-    {
-            int i;
-
-            if (num < MAX_MEMORY_REGIONS)
-                    return Machine.memory_region_length[num];
-            else
-            {
-                    for (i = 0;i < MAX_MEMORY_REGIONS;i++)
-                    {
-                            if ((Machine.memory_region_type[i] & ~REGIONFLAG_MASK) == num)
-                                    return Machine.memory_region_length[i];
-                    }
-            }
-
-            return 0;
-    }
-
-/*TODO*/ //    int new_memory_region(int num, int length)
-/*TODO*/ //    {
-/*TODO*/ //        int i;
-/*TODO*/ //
-/*TODO*/ //        if (num < MAX_MEMORY_REGIONS)
-/*TODO*/ //        {
-/*TODO*/ //            Machine.memory_region_length[num] = length;
-/*TODO*/ //            Machine.memory_region[num] = malloc(length);
-/*TODO*/ //            return (Machine.memory_region[num] == NULL) ? 1 : 0;
-/*TODO*/ //        }
-/*TODO*/ //        else
-/*TODO*/ //        {
-/*TODO*/ //            for (i = 0;i < MAX_MEMORY_REGIONS;i++)
-/*TODO*/ //            {
-/*TODO*/ //                if (Machine.memory_region[i] == NULL)
-/*TODO*/ //                {
-/*TODO*/ //                    Machine.memory_region_length[i] = length;
-/*TODO*/ //                    Machine.memory_region_type[i] = num;
-/*TODO*/ //                    Machine.memory_region[i] = malloc(length);
-/*TODO*/ //                    return (Machine.memory_region[i] == NULL) ? 1 : 0;
-/*TODO*/ //                }
-/*TODO*/ //            }
-/*TODO*/ //        }
-/*TODO*/ //            return 1;
-/*TODO*/ //    }
-
-/*TODO*/ //    void free_memory_region(int num)
-/*TODO*/ //    {
-/*TODO*/ //            int i;
-/*TODO*/ //
- /*TODO*/ //           if (num < MAX_MEMORY_REGIONS)
-/*TODO*/ //            {
-/*TODO*/ //                    free(Machine.memory_region[num]);
-/*TODO*/ //                    Machine.memory_region[num] = 0;
- /*TODO*/ //           }
-/*TODO*/ //            else
- /*TODO*/ //           {
- /*TODO*/ //                   for (i = 0;i < MAX_MEMORY_REGIONS;i++)
- /*TODO*/ //                   {
-/*TODO*/ //                            if ((Machine.memory_region_type[i] & ~REGIONFLAG_MASK) == num)
-/*TODO*/ //                            {
-/*TODO*/ //                                    free(Machine.memory_region[i]);
-/*TODO*/ //                                    Machine.memory_region[i] = 0;
-/*TODO*/ //                                    return;
-/*TODO*/ //                            }
-/*TODO*/ //                    }
-/*TODO*/ //            }
- /*TODO*/ //   }
-
-/*TODO*/ //    int snapno;
-
-/*TODO*/ //    void save_screen_snapshot(void)
-/*TODO*/ //    {
-/*TODO*/ //            void *fp;
-/*TODO*/ //            char name[20];
-
-
-            /* avoid overwriting existing files */
-            /* first of all try with "gamename.png" */
-/*TODO*/ //            sprintf(name,"%.8s", Machine.gamedrv.name);
-/*TODO*/ //            if (osd_faccess(name,OSD_FILETYPE_SCREENSHOT))
-/*TODO*/ //            {
-/*TODO*/ //                    do
-/*TODO*/ //                    {
-                            /* otherwise use "nameNNNN.png" */
-/*TODO*/ //                            sprintf(name,"%.4s%04d",Machine.gamedrv.name,snapno++);
-/*TODO*/ //                    } while (osd_faccess(name, OSD_FILETYPE_SCREENSHOT));
-/*TODO*/ //            }
-
-/*TODO*/ //            if ((fp = osd_fopen(Machine.gamedrv.name, name, OSD_FILETYPE_SCREENSHOT, 1)) != NULL)
-/*TODO*/ //            {
-/*TODO*/ //                    if (Machine.drv.video_attributes & VIDEO_TYPE_VECTOR)
-/*TODO*/ //                            png_write_bitmap(fp,Machine.scrbitmap);
-/*TODO*/ //                    else
-/*TODO*/ //                    {
-/*TODO*/ //                            struct osd_bitmap *bitmap;
-
-/*TODO*/ //                            bitmap = osd_new_bitmap(
-/*TODO*/ //                                            Machine.drv.visible_area.max_x - Machine.drv.visible_area.min_x + 1,
-/*TODO*/ //                                            Machine.drv.visible_area.max_y - Machine.drv.visible_area.min_y + 1,
-/*TODO*/ //                                            Machine.scrbitmap.depth);
-
-/*TODO*/ //                            if (bitmap)
-/*TODO*/ //                            {
-/*TODO*/ //                                    copybitmap(bitmap,Machine.scrbitmap,0,0,
-/*TODO*/ //                                                    -Machine.drv.visible_area.min_x,-Machine.drv.visible_area.min_y,0,TRANSPARENCY_NONE,0);
-/*TODO*/ //                                    png_write_bitmap(fp,bitmap);
-/*TODO*/ //                                    osd_free_bitmap(bitmap);
-/*TODO*/ //                            }
-/*TODO*/ //                    }
-
-/*TODO*/ //                    osd_fclose(fp);
-/*TODO*/ //            }
-/*TODO*/ //    }
-    /**
-     * WIP 0.37b7 stuff
-     */
-    public static void bitmap_free(osd_bitmap bitmap) {
-        osd_free_bitmap(bitmap);
-    }
  
-    public static osd_bitmap bitmap_alloc(int width, int height) {
-        return osd_create_bitmap(width, height);
-    }
+
 }

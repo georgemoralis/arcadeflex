@@ -4,7 +4,7 @@
 package gr.codebb.arcadeflex.v037b7.mame;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.cpuintrf.cpu_get_pc;
 import static arcadeflex.v036.mame.cpuintrf.cpu_getactivecpu;

@@ -3,7 +3,7 @@ package gr.codebb.arcadeflex.v037b7.sound;
 import static arcadeflex.v036.generic.funcPtr.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.cstring.*;
-import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
+import static arcadeflex.v036.mame.common.*;
 import arcadeflex.v036.mame.sndintrf.snd_interface;
 import static arcadeflex.v036.mame.sndintrf.sound_name;
 import static arcadeflex.v036.mame.mame.*;

@@ -10,6 +10,7 @@ package arcadeflex.v036.mame;
 
 //mame imports
 import static arcadeflex.v036.mame.cheat.*;
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
@@ -29,8 +30,6 @@ import static common.libc.cstdlib.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
-import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
-import static gr.codebb.arcadeflex.v036.mame.common.memory_region_length;
 import static gr.codebb.arcadeflex.v036.mame.common.readroms;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.decodegfx;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.freegfx;

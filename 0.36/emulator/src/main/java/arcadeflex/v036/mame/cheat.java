@@ -3,6 +3,9 @@
  */
 package arcadeflex.v036.mame;
 
+import static gr.codebb.arcadeflex.v036.platform.video.autoframeskip;
+import static gr.codebb.arcadeflex.v036.platform.video.frameskip;
+
 public class cheat {
 
     /*TODO*////* Please don't move these #define : they'll be easier to find at the top of the file :) */
@@ -10,14 +13,14 @@ public class cheat {
 /*TODO*///#define LAST_UPDATE "99.07.17"
 /*TODO*///#define LAST_CODER	"JCK"
 /*TODO*///#define CHEAT_VERSION	"v1.00"
-/*TODO*///
-/*TODO*////* JCK 981123 Please do not remove ! Just comment it out ! */
-/*TODO*////* #define JCK */
-/*TODO*///
-/*TODO*////* JCK 990321 Please do not remove ! Just comment it out ! */
-/*TODO*////* #define USENEWREADKEY */
-/*TODO*///
-/*TODO*///extern int frameskip;
+
+    /* JCK 981123 Please do not remove ! Just comment it out ! */
+ /* #define JCK */
+
+ /* JCK 990321 Please do not remove ! Just comment it out ! */
+ /* #define USENEWREADKEY */
+
+ /*TODO*///extern int frameskip;
 /*TODO*///extern int autoframeskip;
 /*TODO*///#ifdef JCK
 /*TODO*///extern int showfps;
@@ -161,58 +164,54 @@ public class cheat {
 /*TODO*///
 /*TODO*///static unsigned int WatchesCpuNo[MAX_WATCHES];
 /*TODO*///static unsigned int Watches[MAX_WATCHES];
-/*TODO*///static int WatchesFlag;
-/*TODO*///static int WatchX,WatchY;
-/*TODO*///
-/*TODO*///static int WatchGfxLen;
-/*TODO*///static int WatchGfxPos;
-/*TODO*///
-/*TODO*///static int SaveMenu;
-/*TODO*///static int SaveStartSearch;
-/*TODO*///static int SaveContinueSearch;
-/*TODO*///
-/*TODO*///static int SaveIndex;
-/*TODO*///
-/*TODO*///static int StartValue;
-/*TODO*///static int CurrentMethod;
-/*TODO*///static int SaveMethod;
-/*TODO*///
-/*TODO*///static int CheatEnabled;
-/*TODO*///static int WatchEnabled;
-/*TODO*///
-/*TODO*///static int SearchCpuNo;
-/*TODO*///static int SearchCpuNoOld;
-/*TODO*///
-/*TODO*///static int MallocFailure;
-/*TODO*///
-/*TODO*///static int RebuildTables;
-/*TODO*///
-/*TODO*///static int MemoryAreasSelected;
-/*TODO*///
-/*TODO*///static int oldkey;
-/*TODO*///
-/*TODO*///static int MachHeight;
-/*TODO*///static int MachWidth;
-/*TODO*///static int FontHeight;
-/*TODO*///static int FontWidth;
-/*TODO*///
-/*TODO*///static int ManyCpus;
-/*TODO*///
-/*TODO*///static int ValTmp;
-/*TODO*///
-/*TODO*///static int MatchFound;
-/*TODO*///static int OldMatchFound;
-/*TODO*///
-/*TODO*///static int RestoreStatus;
-/*TODO*///
-/*TODO*///static int saveframeskip;
-/*TODO*///static int saveautoframeskip;
-/*TODO*///#ifdef JCK
-/*TODO*///static int saveshowfps;
-/*TODO*///static int saveshowprofile;
-/*TODO*///#endif
-/*TODO*///
-/*TODO*///static char CCheck[2]	= "\x8C";
+    static int WatchesFlag;
+    static int WatchX, WatchY;
+
+    static int WatchGfxLen;
+    static int WatchGfxPos;
+
+    static int SaveMenu;
+    static int SaveStartSearch;
+    static int SaveContinueSearch;
+
+    static int SaveIndex;
+
+    static int StartValue;
+    static int CurrentMethod;
+    static int SaveMethod;
+
+    static int CheatEnabled;
+    static int WatchEnabled;
+
+    static int SearchCpuNo;
+    static int SearchCpuNoOld;
+
+    static int MallocFailure;
+
+    static int RebuildTables;
+
+    static int MemoryAreasSelected;
+
+    static int oldkey;
+
+    static int MachHeight;
+    static int MachWidth;
+    static int FontHeight;
+    static int FontWidth;
+
+    static int ManyCpus;
+
+    static int ValTmp;
+
+    static int MatchFound;
+    static int OldMatchFound;
+
+    static int RestoreStatus;
+
+    static int saveframeskip;
+    static int saveautoframeskip;
+
+    /*TODO*///static char CCheck[2]	= "\x8C";
 /*TODO*///static char CNoCheck[2] = " ";
 /*TODO*///static char CComment[2] = "#";
 /*TODO*///static char CMore[2]	= "+";
@@ -257,33 +256,19 @@ public class cheat {
 /*TODO*///   0 ,	0 ,  0 ,  0 ,  0 ,	0							/* 10 */
 /*TODO*///};
 /*TODO*///
-/*TODO*///void cheat_save_frameskips(void)
-/*TODO*///{
-/*TODO*///	saveframeskip	  = frameskip;
-/*TODO*///	saveautoframeskip = autoframeskip;
-/*TODO*///	#ifdef JCK
-/*TODO*///	saveshowfps   = showfps;
-/*TODO*///	saveshowprofile   = showprofile;
-/*TODO*///	#endif
-/*TODO*///	frameskip	  = 0;
-/*TODO*///	autoframeskip	  = 0;
-/*TODO*///	#ifdef JCK
-/*TODO*///	showfps 	  = 0;
-/*TODO*///	showprofile   = 0;
-/*TODO*///	#endif
-/*TODO*///}
-/*TODO*///
-/*TODO*///void cheat_rest_frameskips(void)
-/*TODO*///{
-/*TODO*///	frameskip	  = saveframeskip;
-/*TODO*///	autoframeskip = saveautoframeskip;
-/*TODO*///	#ifdef JCK
-/*TODO*///	showfps 	  = saveshowfps;
-/*TODO*///	showprofile   = saveshowprofile;
-/*TODO*///	#endif
-/*TODO*///}
-/*TODO*///
-/*TODO*////* MSH 990217 - JCK 990224 */
+    static void cheat_save_frameskips() {
+        saveframeskip = frameskip;
+        saveautoframeskip = autoframeskip;
+        frameskip = 0;
+        autoframeskip = 0;
+    }
+
+    static void cheat_rest_frameskips() {
+        frameskip = saveframeskip;
+        autoframeskip = saveautoframeskip;
+    }
+
+    /*TODO*////* MSH 990217 - JCK 990224 */
 /*TODO*///int cheat_readkey(void)
 /*TODO*///{
 /*TODO*///#ifdef WIN32	/* MSH 990310 */

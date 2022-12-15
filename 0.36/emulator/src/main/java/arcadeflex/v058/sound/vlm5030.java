@@ -10,6 +10,7 @@ import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.common.*;
 //sound imports
 import static arcadeflex.v058.sound.vlm5030H.*;
 import static arcadeflex.v036.sound.streams.*;
@@ -19,8 +20,6 @@ import static common.libc.expressions.*;
 import static common.libc.cstdlib.*;
 //TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
-import static gr.codebb.arcadeflex.v036.mame.common.memory_region_length;
 import static gr.codebb.arcadeflex.v036.mame.common.readsamples;
 import static gr.codebb.arcadeflex.v036.sound.mixer.mixer_allocate_channel;
 
