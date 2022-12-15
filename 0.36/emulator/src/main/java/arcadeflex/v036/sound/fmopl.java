@@ -1,12 +1,12 @@
 /*
- *  Ported to 0.37b7
+ *  Ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.sound;
+package arcadeflex.v036.sound;
 
 import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
-import static gr.codebb.arcadeflex.v037b7.sound.fmoplH.*;
-import static gr.codebb.arcadeflex.v037b7.sound.ymdeltat.*;
-import static gr.codebb.arcadeflex.v037b7.sound.ymdeltatH.*;
+import static arcadeflex.v036.sound.fmoplH.*;
+import static arcadeflex.v036.sound.ymdeltat.*;
+import static arcadeflex.v036.sound.ymdeltatH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.cstdlib.*;
 

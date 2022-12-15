@@ -14,9 +14,9 @@ import static gr.codebb.arcadeflex.v037b7.sound._2608intf.YM2608UpdateRequest;
 import static gr.codebb.arcadeflex.v037b7.sound._2610intf.YM2610UpdateRequest;
 import static gr.codebb.arcadeflex.v037b7.sound._2612intf.YM2612UpdateRequest;
 import static gr.codebb.arcadeflex.v037b7.sound.fmH.*;
-import static gr.codebb.arcadeflex.v037b7.sound.fmopl.DELTAT_MIXING_LEVEL;
-import static gr.codebb.arcadeflex.v037b7.sound.ymdeltatH.*;
-import static gr.codebb.arcadeflex.v037b7.sound.ymdeltat.*;
+import static arcadeflex.v036.sound.fmopl.DELTAT_MIXING_LEVEL;
+import static arcadeflex.v036.sound.ymdeltatH.*;
+import static arcadeflex.v036.sound.ymdeltat.*;
 
 public class fm {
 

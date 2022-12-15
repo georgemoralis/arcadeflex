@@ -22,7 +22,7 @@ import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.sound.streams.*;
 import static arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
+import static arcadeflex.v036.sound.mixerH.*;
 
 public class namco extends snd_interface {
 

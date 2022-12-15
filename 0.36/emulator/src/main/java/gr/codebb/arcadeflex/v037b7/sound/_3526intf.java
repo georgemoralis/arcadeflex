@@ -7,7 +7,7 @@ package gr.codebb.arcadeflex.v037b7.sound;
 import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
-import static gr.codebb.arcadeflex.v037b7.sound.fmoplH.*;
+import static arcadeflex.v036.sound.fmoplH.*;
 
 public class _3526intf extends _3812intf {
 

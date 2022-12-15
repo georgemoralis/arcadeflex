@@ -12,7 +12,7 @@ import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.sound.samplesH.*;
-import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
+import static arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 

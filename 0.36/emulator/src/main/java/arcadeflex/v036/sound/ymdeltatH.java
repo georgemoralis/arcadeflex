@@ -1,11 +1,11 @@
 /*
- *  Ported to 0.37b7
+ *  Ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.sound;
+package arcadeflex.v036.sound;
 
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
-import static gr.codebb.arcadeflex.v037b7.sound.ymdeltat.*;
+import static arcadeflex.v036.sound.ymdeltat.*;
 
 public class ymdeltatH {
 

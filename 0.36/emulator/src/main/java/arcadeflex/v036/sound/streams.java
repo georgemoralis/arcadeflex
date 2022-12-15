@@ -7,7 +7,7 @@ import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
-import static gr.codebb.arcadeflex.v036.sound.mixerH.MIXER_MAX_CHANNELS;
+import static arcadeflex.v036.sound.mixerH.MIXER_MAX_CHANNELS;
 
 public class streams {
 

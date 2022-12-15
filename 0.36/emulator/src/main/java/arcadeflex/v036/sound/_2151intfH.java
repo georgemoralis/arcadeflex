@@ -6,7 +6,7 @@ package arcadeflex.v036.sound;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
+import static arcadeflex.v036.sound.mixerH.*;
 import static arcadeflex.v036.mame.driverH.*;
 
 public class _2151intfH {

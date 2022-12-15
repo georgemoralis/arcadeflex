@@ -17,7 +17,7 @@ import static arcadeflex.v036.mame.sndintrf.sound_name;
 import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.sprintf;
-import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
+import static arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.rf5c68H.*;
 import static arcadeflex.v036.sound.streams.*;
 import static common.libc.cstring.memset;

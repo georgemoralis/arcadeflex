@@ -1,11 +1,10 @@
 /*
- *  Ported to 0.37b7
+ *  Ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.sound;
+package arcadeflex.v036.sound;
 
 import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
-import gr.codebb.arcadeflex.v037b7.sound.ymdeltatH.YM_DELTAT;
-
+import arcadeflex.v036.sound.ymdeltatH.YM_DELTAT;
 
 public class fmoplH {
 

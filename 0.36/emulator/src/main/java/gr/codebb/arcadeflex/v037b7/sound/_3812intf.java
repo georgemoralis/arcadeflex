@@ -16,8 +16,8 @@ import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.sound.streams.*;
 import static arcadeflex.v036.mame.timer.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
-import static gr.codebb.arcadeflex.v037b7.sound.fmopl.*;
-import static gr.codebb.arcadeflex.v037b7.sound.fmoplH.*;
+import static arcadeflex.v036.sound.fmopl.*;
+import static arcadeflex.v036.sound.fmoplH.*;
 
 public class _3812intf extends snd_interface {
 

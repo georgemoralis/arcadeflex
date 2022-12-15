@@ -25,8 +25,8 @@ import static arcadeflex.v036.sound.streams.stream_update;
 import static arcadeflex.v036.mame.timer.timer_remove;
 import static arcadeflex.v036.mame.timer.timer_set;
 import gr.codebb.arcadeflex.v037b7.sound._3812intfH.Y8950interface;
-import static gr.codebb.arcadeflex.v037b7.sound.fmopl.*;
-import static gr.codebb.arcadeflex.v037b7.sound.fmoplH.*;
+import static arcadeflex.v036.sound.fmopl.*;
+import static arcadeflex.v036.sound.fmoplH.*;
 
 
 
