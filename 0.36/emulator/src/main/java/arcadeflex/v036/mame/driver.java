@@ -9,6 +9,8 @@ import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.drivers.bankp.*;
 import static arcadeflex.v036.drivers.docastle.*;
 import static arcadeflex.v036.drivers.kangaroo.*;
+import static arcadeflex.v036.drivers.ladybug.*;
+import static arcadeflex.v036.drivers.blueprnt.*;
 
 public class driver {
 
@@ -407,10 +409,10 @@ public class driver {
                 /*TODO*///	driver_nomnlnd,	/* (c) [1980?] */
                 /*TODO*///	driver_nomnlndg,	/* (c) [1980?] + Gottlieb */
                 /*TODO*///	driver_cheekyms,	/* (c) [1980?] */
-                /*TODO*///	driver_ladybug,	/* (c) 1981 */
-                /*TODO*///	driver_ladybugb,	/* bootleg */
-                /*TODO*///	driver_snapjack,	/* (c) */
-                /*TODO*///	driver_cavenger,	/* (c) 1981 */
+                driver_ladybug, /* (c) 1981 */
+                driver_ladybugb, /* bootleg */
+                driver_snapjack, /* (c) */
+                driver_cavenger, /* (c) 1981 */
                 /*TODO*///	driver_mrdo,		/* (c) 1982 */
                 /*TODO*///	driver_mrdot,		/* (c) 1982 + Taito license */
                 /*TODO*///	driver_mrdofix,	/* (c) 1982 + Taito license */
@@ -2538,9 +2540,9 @@ public class driver {
                 /*TODO*///	driver_spacefbb,	/* bootleg */
                 /*TODO*///	driver_spacebrd,	/* bootleg */
                 /*TODO*///	driver_spacedem,	/* (c) 1980 Nintendo / Fortrek */
-                /*TODO*///	driver_blueprnt,	/* (c) 1982 Bally Midway (Zilec in ROM 3U, and the programmer names) */
-                /*TODO*///	driver_blueprnj,	/* (c) 1982 Jaleco (Zilec in ROM 3U, and the programmer names) */
-                /*TODO*///	driver_saturn,	/* (c) 1983 Jaleco (Zilec in ROM R6, and the programmer names) */
+                driver_blueprnt, /* (c) 1982 Bally Midway (Zilec in ROM 3U, and the programmer names) */
+                driver_blueprnj, /* (c) 1982 Jaleco (Zilec in ROM 3U, and the programmer names) */
+                driver_saturn, /* (c) 1983 Jaleco (Zilec in ROM R6, and the programmer names) */
                 /*TODO*///	driver_omegrace,	/* (c) 1981 Midway */
                 /*TODO*///	driver_dday,		/* (c) 1982 Olympia */
                 /*TODO*///	driver_ddayc,		/* (c) 1982 Olympia + Centuri license */
