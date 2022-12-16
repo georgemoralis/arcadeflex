@@ -1,26 +1,31 @@
 /**
- * ported to 0.37b7
  * ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+/**
+ * Changelog
+ * =========
+ * 16/12/2022 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-
+//mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static arcadeflex.v036.vidhrdw.ladybug.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static arcadeflex.v036.sound.sn76496H.*;
-import static arcadeflex.v036.sound.sn76496.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.inputH.*;
+//sound imports
+import static arcadeflex.v036.sound.sn76496H.*;
+import static arcadeflex.v036.sound.sn76496.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.ladybug.*;
 
 public class ladybug {
 

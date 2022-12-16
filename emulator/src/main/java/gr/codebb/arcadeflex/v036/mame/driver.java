@@ -22,7 +22,6 @@ import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.drivers.pacman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.minivadr.*;
 import static arcadeflex.v036.drivers.pengo.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.ladybug.*;
 import static gr.codebb.arcadeflex.v036.drivers.yamato.*;
 import static arcadeflex.v036.drivers.bombjack.*;
 import static arcadeflex.v036.drivers._1942.*;
@@ -295,10 +294,6 @@ public class driver {
                 /*018*//*digdug*/ driver_digdugat,
                 /*019*//*digdug*/ driver_dzigzag,
                 /*020*//*phozon*/ driver_phozon,
-                /*021*//*ladybug*/ driver_ladybug,
-                /*022*//*ladybug*/ driver_ladybugb,
-                /*023*//*ladybug*/ driver_snapjack,
-                /*024*//*ladybug*/ driver_cavenger,
                 /*026*//*pingpong*/ driver_pingpong,
                 /*027*//*mikie*/ driver_mikie,
                 /*028*//*mikie*/ driver_mikiej,
