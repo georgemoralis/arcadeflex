@@ -23,7 +23,6 @@ import static arcadeflex.v036.drivers.pacman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.minivadr.*;
 import static arcadeflex.v036.drivers.pengo.*;
 import static gr.codebb.arcadeflex.v036.drivers.yamato.*;
-import static arcadeflex.v036.drivers._1942.*;
 import static gr.codebb.arcadeflex.v036.drivers.system1.*;
 import static gr.codebb.arcadeflex.v036.drivers.locomotn.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.pooyan.*;
@@ -77,7 +76,6 @@ import static arcadeflex.v036.drivers.appoooh.*;
 import static arcadeflex.v036.drivers.scobra.*;
 import static gr.codebb.arcadeflex.v036.drivers.scramble.*;
 import static arcadeflex.v036.drivers.hcastle.*;
-import static arcadeflex.v036.drivers.exedexes.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.pkunwar.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.nova2001.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.gsword.*;
@@ -318,9 +316,6 @@ public class driver {
                 /*062*//*vulgus*/ driver_vulgus2,
                 /*063*//*vulgus*/ driver_vulgusj,
                 /*064*//*sonson*/ driver_sonson,
-                /*065*//*_1942*/ driver_1942,
-                /*066*//*_1942*/ driver_1942a,
-                /*067*//*_1942*/ driver_1942b,
                 /*068*//*superqix*/ driver_sqixbl,
                 /*069*//*amidar*/ driver_amidar,
                 /*070*//*amidar*/ driver_amidaru,
@@ -545,8 +540,6 @@ public class driver {
                 /*291*//*snk*/ driver_fitegolf,
                 /*292*//*snk*/ driver_tdfever,
                 /*293*//*snk*/ driver_tdfeverj,
-                /*294*//*exedexes*/ driver_exedexes,
-                /*295*//*exedexes*/ driver_savgbees,
                 /*296*//*bublbobl*/ driver_boblbobl,
                 /*297*//*bublbobl*/ driver_sboblbob,
                 /*298*//*bublbobl*/ driver_tokiob,

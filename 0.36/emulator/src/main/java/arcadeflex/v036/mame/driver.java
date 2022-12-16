@@ -15,6 +15,8 @@ import static arcadeflex.v036.drivers.bagman.*;
 import static arcadeflex.v036.drivers.bombjack.*;
 import static arcadeflex.v036.drivers.cclimber.*;
 import static arcadeflex.v036.drivers.cop01.*;
+import static arcadeflex.v036.drivers._1942.*;
+import static arcadeflex.v036.drivers.exedexes.*;
 
 public class driver {
 
@@ -1004,11 +1006,11 @@ public class driver {
                 /*TODO*///	driver_vulgusj,	/*  5/1984 (c) 1984 */
                 /*TODO*///	driver_sonson,	/*  7/1984 (c) 1984 */
                 /*TODO*///	driver_higemaru,	/*  9/1984 (c) 1984 */
-                /*TODO*///	driver_1942,		/* 12/1984 (c) 1984 */
-                /*TODO*///	driver_1942a,		/* 12/1984 (c) 1984 */
-                /*TODO*///	driver_1942b,		/* 12/1984 (c) 1984 */
-                /*TODO*///	driver_exedexes,	/*  2/1985 (c) 1985 */
-                /*TODO*///	driver_savgbees,	/*  2/1985 (c) 1985 + Memetron license */
+                driver_1942, /* 12/1984 (c) 1984 */
+                driver_1942a, /* 12/1984 (c) 1984 */
+                driver_1942b, /* 12/1984 (c) 1984 */
+                driver_exedexes, /*  2/1985 (c) 1985 */
+                driver_savgbees, /*  2/1985 (c) 1985 + Memetron license */
                 /*TODO*///	driver_commando,	/*  5/1985 (c) 1985 (World) */
                 /*TODO*///	driver_commandu,	/*  5/1985 (c) 1985 + Data East license (US) */
                 /*TODO*///	driver_commandj,	/*  5/1985 (c) 1985 (Japan) */

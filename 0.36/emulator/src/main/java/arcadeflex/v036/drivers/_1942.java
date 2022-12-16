@@ -16,6 +16,7 @@ import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
+import static arcadeflex.v036.mame.common.*;
 //sound imports
 import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;
@@ -23,7 +24,6 @@ import static arcadeflex.v036.sound.ay8910H.*;
 import static arcadeflex.v036.vidhrdw._1942.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class _1942 {
