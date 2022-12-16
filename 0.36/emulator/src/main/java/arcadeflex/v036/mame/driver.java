@@ -12,6 +12,7 @@ import static arcadeflex.v036.drivers.kangaroo.*;
 import static arcadeflex.v036.drivers.ladybug.*;
 import static arcadeflex.v036.drivers.blueprnt.*;
 import static arcadeflex.v036.drivers.bagman.*;
+import static arcadeflex.v036.drivers.bombjack.*;
 
 public class driver {
 
@@ -1700,8 +1701,8 @@ public class driver {
                 /*TODO*///	driver_starfore,	/* (c) 1984 Tehkan */
                 /*TODO*///	driver_megaforc,	/* (c) 1985 Tehkan + Video Ware license */
                 /*TODO*///	driver_baluba,	/* (c) 1986 Able Corp. */
-                /*TODO*///	driver_bombjack,	/* (c) 1984 Tehkan */
-                /*TODO*///	driver_bombjac2,	/* (c) 1984 Tehkan */
+                driver_bombjack, /* (c) 1984 Tehkan */
+                driver_bombjac2, /* (c) 1984 Tehkan */
                 /*TODO*///	driver_pbaction,	/* (c) 1985 Tehkan */
                 /*TODO*///	driver_pbactio2,	/* (c) 1985 Tehkan */
                 /*TODO*///	/* 6011 Pontoon (c) 1985 Tehkan is a gambling game - removed */

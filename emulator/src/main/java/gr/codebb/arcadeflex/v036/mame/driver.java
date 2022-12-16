@@ -23,7 +23,6 @@ import static arcadeflex.v036.drivers.pacman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.minivadr.*;
 import static arcadeflex.v036.drivers.pengo.*;
 import static gr.codebb.arcadeflex.v036.drivers.yamato.*;
-import static arcadeflex.v036.drivers.bombjack.*;
 import static arcadeflex.v036.drivers._1942.*;
 import static gr.codebb.arcadeflex.v036.drivers.system1.*;
 import static gr.codebb.arcadeflex.v036.drivers.locomotn.*;
@@ -297,8 +296,6 @@ public class driver {
                 /*029*//*mikie*/ driver_mikiehs,
                 /*030*//*tp84*/ driver_tp84,
                 /*031*//*tp84*/ driver_tp84a,
-                /*032*//*bombjack*/ driver_bombjack,
-                /*033*//*bombjac2*/ driver_bombjac2,
                 /*034*//*pbaction*/ driver_pbaction,
                 /*035*//*pbactio2*/ driver_pbactio2,
                 /*036*//*pooyan*/ driver_pooyan,
