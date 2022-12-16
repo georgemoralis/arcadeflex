@@ -41,7 +41,6 @@ import static arcadeflex.v036.drivers.sonson.*;
 import static arcadeflex.v036.drivers.amidar.*;
 import static arcadeflex.v036.drivers.bagman.*;
 import static arcadeflex.v036.drivers.pbaction.*;
-import static arcadeflex.v036.drivers.kangaroo.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.espial.*;
 import static arcadeflex.v036.drivers.timeplt.*;
 import static arcadeflex.v036.drivers.gng.*;
@@ -394,9 +393,6 @@ public class driver {
                 /*117*//*bogeyman*/ driver_bogeyman,
                 /*118*//*espial*/ driver_espial,
                 /*119*//*espial*/ driver_espiale,
-                /*120*//*espial*/ driver_kangaroo,
-                /*121*//*espial*/ driver_kangaroa,
-                /*122*//*espial*/ driver_kangarob,
                 /*123*//*wiz*/ driver_stinger,
                 /*124*//*wiz*/ driver_scion,
                 /*125*//*wiz*/ driver_scionc,
@@ -944,7 +940,6 @@ public class driver {
                  */
                 /*001*//*superqix*/ driver_superqix,
                 /*002*//*pacman*/ driver_jumpshot,
-                /*003*//*kangaroo*/ driver_fnkyfish,
                 /*004*//*system1*/ driver_shtngmst,
                 /*005*//*system1*/ driver_chplft,
                 /*006*//*system1*/ driver_wboy3,

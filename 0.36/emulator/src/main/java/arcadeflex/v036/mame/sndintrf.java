@@ -14,6 +14,7 @@ import static arcadeflex.v036.mame.mame.*;
 //sound imports
 import arcadeflex.v036.sound.CustomSound;
 import arcadeflex.v036.sound.Dummy_snd;
+import arcadeflex.v036.sound.ay8910;
 import arcadeflex.v036.sound.sn76496;
 import static arcadeflex.v036.sound.streams.*;
 //TODO
@@ -299,7 +300,7 @@ public class sndintrf {
                 /*TODO*///		0
                 /*TODO*///	},
                 /*TODO*///#endif
-                new Dummy_snd(),/*TODO*///#if (HAS_AY8910)
+                new ay8910(),/*TODO*///#if (HAS_AY8910)
                 /*TODO*///    {
                 /*TODO*///		SOUND_AY8910,
                 /*TODO*///		"AY-8910",

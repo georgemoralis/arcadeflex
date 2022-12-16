@@ -7,18 +7,17 @@ package arcadeflex.v036.vidhrdw;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.memoryH.*;
+import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
-import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.mame.commonH.*;
-import static arcadeflex.v036.mame.memoryH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
