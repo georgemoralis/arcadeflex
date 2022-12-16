@@ -14,6 +14,7 @@ import static arcadeflex.v036.drivers.blueprnt.*;
 import static arcadeflex.v036.drivers.bagman.*;
 import static arcadeflex.v036.drivers.bombjack.*;
 import static arcadeflex.v036.drivers.cclimber.*;
+import static arcadeflex.v036.drivers.cop01.*;
 
 public class driver {
 
@@ -187,8 +188,8 @@ public class driver {
                 /*TODO*///	driver_sectrzon,	/* (c) 1984 + Alice */
                 /*TODO*///	driver_wiping,	/* (c) 1982 */
                 /*TODO*///	driver_rugrats,	/* (c) 1983 */
-                /*TODO*///	driver_cop01,		/* (c) 1985 */
-                /*TODO*///	driver_cop01a,	/* (c) 1985 */
+                driver_cop01, /* (c) 1985 */
+                driver_cop01a, /* (c) 1985 */
                 /*TODO*///	driver_terracre,	/* (c) 1985 */
                 /*TODO*///	driver_terracrb,	/* (c) 1985 */
                 /*TODO*///	driver_terracra,	/* (c) 1985 */

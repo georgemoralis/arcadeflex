@@ -88,7 +88,6 @@ import static gr.codebb.arcadeflex.v037b7.drivers.yard.*;
 import static gr.codebb.arcadeflex.v036.drivers.srumbler.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.marineb.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jackal.*;
-import static arcadeflex.v036.drivers.cclimber.*;
 import static arcadeflex.v036.drivers.gberet.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mitchell.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.snk.*;
@@ -216,7 +215,6 @@ import static gr.codebb.arcadeflex.v036.drivers.cninja.*;
 import static gr.codebb.arcadeflex.v036.drivers.gaelco.*;
 import static gr.codebb.arcadeflex.v036.drivers.gaiden.*;
 import static gr.codebb.arcadeflex.v036.drivers.system16.*;
-import static arcadeflex.v036.drivers.cop01.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.asteroid.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.starwars.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mcr3.*;
@@ -608,22 +606,6 @@ public class driver {
                 /*351*//*dec8*/ driver_shackled,
                 /*352*//*dec8*/ driver_breywood,
                 /*353*//*dec8*/ driver_csilver,
-                /* "Crazy Climber hardware" games */
-                /*354*//*cclimber*/ driver_cclimber,
-                /*355*//*cclimber*/ driver_cclimbrj,
-                /*356*//*cclimber*/ driver_ccboot,
-                /*357*//*cclimber*/ driver_ccboot2,
-                /*358*//*cclimber*/ driver_ckong,
-                /*359*//*cclimber*/ driver_ckonga,
-                /*360*//*cclimber*/ driver_ckongjeu,
-                /*361*//*cclimber*/ driver_ckongo,
-                /*362*//*cclimber*/ driver_ckongalc,
-                /*363*//*cclimber*/ driver_monkeyd,
-                /*364*//*cclimber*/ driver_rpatrolb,
-                /*365*//*cclimber*/ driver_silvland,
-                /*366*//*cclimber*/ driver_swimmer,
-                /*367*//*cclimber*/ driver_swimmera,
-                /*368*//*cclimber*/ driver_guzzler,
                 /*369*//*snk*/ driver_gwar,
                 /*370*//*snk*/ driver_gwarj,
                 /*371*//*snk*/ driver_gwarb,
@@ -2769,8 +2751,6 @@ public class driver {
                  *
                  */
                 /*jrpacman*/ driver_jrpacman,
-                /*cop01   */ driver_cop01,
-                /*cop01   */ driver_cop01a,
                 /*zodiack */ driver_bounty,
                 /*galpanic */ driver_fantasia,
                 /*galpanic */ driver_newfant,
