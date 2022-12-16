@@ -11,6 +11,7 @@ import static arcadeflex.v036.drivers.docastle.*;
 import static arcadeflex.v036.drivers.kangaroo.*;
 import static arcadeflex.v036.drivers.ladybug.*;
 import static arcadeflex.v036.drivers.blueprnt.*;
+import static arcadeflex.v036.drivers.bagman.*;
 
 public class driver {
 
@@ -2372,14 +2373,14 @@ public class driver {
                 /*TODO*///	driver_suprmou2,	/* (c) 1982 Chu Co. Ltd. */
                 /*TODO*///	driver_machomou,	/* (c) 1982 Techstar */
                 /*TODO*///
-                /*TODO*///	/* Valadon Automation games */
-                /*TODO*///	driver_bagman,	/* (c) 1982 */
-                /*TODO*///	driver_bagnard,	/* (c) 1982 */
-                /*TODO*///	driver_bagmans,	/* (c) 1982 + Stern license */
-                /*TODO*///	driver_bagmans2,	/* (c) 1982 + Stern license */
-                /*TODO*///	driver_sbagman,	/* (c) 1984 */
-                /*TODO*///	driver_sbagmans,	/* (c) 1984 + Stern license */
-                /*TODO*///	driver_pickin,	/* (c) 1983 */
+                /* Valadon Automation games */
+                driver_bagman, /* (c) 1982 */
+                driver_bagnard, /* (c) 1982 */
+                driver_bagmans, /* (c) 1982 + Stern license */
+                driver_bagmans2, /* (c) 1982 + Stern license */
+                driver_sbagman, /* (c) 1984 */
+                driver_sbagmans, /* (c) 1984 + Stern license */
+                driver_pickin, /* (c) 1983 */
                 /*TODO*///
                 /*TODO*///	/* Seibu Denshi / Seibu Kaihatsu games */
                 /*TODO*///	driver_stinger,	/* (c) 1983 Seibu Denshi */

@@ -38,7 +38,6 @@ import static gr.codebb.arcadeflex.v037b7.drivers.mikie.*;
 import static arcadeflex.v036.drivers.hexa.*;
 import static arcadeflex.v036.drivers.sonson.*;
 import static arcadeflex.v036.drivers.amidar.*;
-import static arcadeflex.v036.drivers.bagman.*;
 import static arcadeflex.v036.drivers.pbaction.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.espial.*;
 import static arcadeflex.v036.drivers.timeplt.*;
@@ -166,7 +165,6 @@ import static arcadeflex.v036.drivers.higemaru.*;
 import static gr.codebb.arcadeflex.v036.drivers.fastfred.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.zodiack.*;
 import static gr.codebb.arcadeflex.v036.drivers.taitosj.*;
-import static arcadeflex.v036.drivers.blueprnt.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.kchamp.*;
 import static gr.codebb.arcadeflex.v036.drivers.qix.*;
 import static gr.codebb.arcadeflex.v036.drivers.tutankhm.*;
@@ -245,7 +243,6 @@ import static gr.codebb.arcadeflex.v037b7.drivers.klax.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.zerozone.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.wecleman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.ultraman.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.ladyfrog.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.blockout.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.aztarac.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mcr68.*;
@@ -317,13 +314,6 @@ public class driver {
                 /*046*//*locomotn*/ driver_commsega,
                 /*047*//*funkybee*/ driver_funkybee,
                 /*048*//*funkybee*/ driver_skylancr,
-                /*049*//*bagman*/ driver_bagman,
-                /*050*//*bagman*/ driver_bagnard,
-                /*051*//*bagman*/ driver_bagmans,
-                /*052*//*bagman*/ driver_bagmans2,
-                /*053*//*bagman*/ driver_sbagman,
-                /*054*//*bagman*/ driver_sbagmans,
-                /*055*//*bagman*/ driver_pickin,
                 /*056*//*frogger*/ driver_frogger,
                 /*057*//*frogger*/ driver_frogseg1,
                 /*058*//*frogger*/ driver_frogseg2,
@@ -696,8 +686,6 @@ public class driver {
                 /*423*//*taitosj*/ driver_elevatob,
                 /*424*//*taitosj*/ driver_bioatack,
                 /*425*//*taitosj*/ driver_hwrace,
-                /*426*//*blueprnt*/ driver_blueprnt,
-                /*427*//*blueprnt*/ driver_blueprnj,
                 /*428*//*kchamp*/ driver_kchamp,
                 /*429*//*kchamp*/ driver_karatedo,
                 /*430*//*kchamp*/ driver_kchampvs,
@@ -882,7 +870,6 @@ public class driver {
                 /*dec8*/ driver_cobracmj,//sound plays too fast
 
                 /*ddrible*/ driver_ddribble, //vlm5030 works but have glitches
-                /*blueprnt*/ driver_saturn,//sound partialy works
                 /*raiden*/ driver_raidena, //no sound (not in mame 0.36 as well)
 
                 /* controls issues
@@ -2797,7 +2784,6 @@ public class driver {
                 driver_kodure, /* (c) 1987 (Japan) */
                 driver_armedf, /* (c) 1988 */
                 driver_cclimbr2, /* (c) 1988 (Japan) */
-                driver_ladyfrog,
                 null /* end of array */};
 
 }
