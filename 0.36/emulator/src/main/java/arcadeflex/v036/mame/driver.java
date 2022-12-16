@@ -13,6 +13,7 @@ import static arcadeflex.v036.drivers.ladybug.*;
 import static arcadeflex.v036.drivers.blueprnt.*;
 import static arcadeflex.v036.drivers.bagman.*;
 import static arcadeflex.v036.drivers.bombjack.*;
+import static arcadeflex.v036.drivers.cclimber.*;
 
 public class driver {
 
@@ -160,24 +161,24 @@ public class driver {
                 /*TODO*///	driver_fastfred,	/* (c) 1982 Atari */
                 /*TODO*///	driver_jumpcoas,	/* (c) 1983 Kaneko */
                 /*TODO*///
-                /*TODO*///	/* "Crazy Climber hardware" games */
-                /*TODO*///	driver_cclimber,	/* (c) 1980 Nichibutsu */
-                /*TODO*///	driver_cclimbrj,	/* (c) 1980 Nichibutsu */
-                /*TODO*///	driver_ccboot,	/* bootleg */
-                /*TODO*///	driver_ccboot2,	/* bootleg */
-                /*TODO*///	driver_ckong,		/* (c) 1981 Falcon */
-                /*TODO*///	driver_ckonga,	/* (c) 1981 Falcon */
-                /*TODO*///	driver_ckongjeu,	/* bootleg */
-                /*TODO*///	driver_ckongo,	/* bootleg */
-                /*TODO*///	driver_ckongalc,	/* bootleg */
-                /*TODO*///	driver_monkeyd,	/* bootleg */
-                /*TODO*///	driver_rpatrolb,	/* bootleg */
-                /*TODO*///	driver_silvland,	/* Falcon */
+                /* "Crazy Climber hardware" games */
+                driver_cclimber, /* (c) 1980 Nichibutsu */
+                driver_cclimbrj, /* (c) 1980 Nichibutsu */
+                driver_ccboot, /* bootleg */
+                driver_ccboot2, /* bootleg */
+                driver_ckong, /* (c) 1981 Falcon */
+                driver_ckonga, /* (c) 1981 Falcon */
+                driver_ckongjeu, /* bootleg */
+                driver_ckongo, /* bootleg */
+                driver_ckongalc, /* bootleg */
+                driver_monkeyd, /* bootleg */
+                driver_rpatrolb, /* bootleg */
+                driver_silvland, /* Falcon */
                 /*TODO*///	driver_yamato,	/* (c) 1983 Sega */
                 /*TODO*///	driver_yamato2,	/* (c) 1983 Sega */
-                /*TODO*///	driver_swimmer,	/* (c) 1982 Tehkan */
-                /*TODO*///	driver_swimmera,	/* (c) 1982 Tehkan */
-                /*TODO*///	driver_guzzler,	/* (c) 1983 Tehkan */
+                driver_swimmer, /* (c) 1982 Tehkan */
+                driver_swimmera, /* (c) 1982 Tehkan */
+                driver_guzzler, /* (c) 1983 Tehkan */
                 /*TODO*///
                 /*TODO*///	/* Nichibutsu games */
                 /*TODO*///	driver_friskyt,	/* (c) 1981 */
