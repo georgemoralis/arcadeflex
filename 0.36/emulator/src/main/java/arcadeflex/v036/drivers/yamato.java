@@ -2,26 +2,30 @@
  * ported to v0.36
  * using automatic conversion tool v0.08
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package arcadeflex.v036.drivers;
 //generic imports
+
 import static arcadeflex.v036.generic.funcPtr.*;
+//machine imports
+import static arcadeflex.v036.machine.segacrpt.*;
+//mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
-import static arcadeflex.v036.vidhrdw.cclimber.*;
-import static gr.codebb.arcadeflex.v036.machine.segacrpt.*;
+//sound improts
 import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.cclimber.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class yamato {
 
@@ -43,19 +47,19 @@ public class yamato {
                 bit1 = (color_prom.read(0) >> 1) & 0x01;
                 bit2 = (color_prom.read(0) >> 2) & 0x01;
                 bit3 = (color_prom.read(0) >> 3) & 0x01;
-                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
+                palette[p_inc++] = (char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
                 /* green component */
                 bit0 = (color_prom.read(0) >> 4) & 0x01;
                 bit1 = (color_prom.read(0) >> 5) & 0x01;
                 bit2 = (color_prom.read(0) >> 6) & 0x01;
                 bit3 = (color_prom.read(0) >> 7) & 0x01;
-                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
+                palette[p_inc++] = (char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
                 /* blue component */
                 bit0 = (color_prom.read(64) >> 0) & 0x01;
                 bit1 = (color_prom.read(64) >> 1) & 0x01;
                 bit2 = (color_prom.read(64) >> 2) & 0x01;
                 bit3 = (color_prom.read(64) >> 3) & 0x01;
-                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
+                palette[p_inc++] = (char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 
                 color_prom.inc();
             }
@@ -70,24 +74,24 @@ public class yamato {
                 bit0 = (color_prom.read() >> 0) & 0x01;
                 bit1 = (color_prom.read() >> 1) & 0x01;
                 bit2 = (color_prom.read() >> 2) & 0x01;
-                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
+                palette[p_inc++] = (char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 /* green component */
                 bit0 = (color_prom.read() >> 3) & 0x01;
                 bit1 = (color_prom.read() >> 4) & 0x01;
                 bit2 = (color_prom.read() >> 5) & 0x01;
-                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
+                palette[p_inc++] = (char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 /* blue component */
                 bit0 = 0;
                 bit1 = (color_prom.read() >> 6) & 0x01;
                 bit2 = (color_prom.read() >> 7) & 0x01;
-                palette[p_inc++]=(char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
+                palette[p_inc++] = (char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
 
                 color_prom.inc();
             }
 
 
             /* character and sprite lookup table */
-            /* they use colors 0-63 */
+ /* they use colors 0-63 */
             for (i = 0; i < TOTAL_COLORS(0); i++) {
                 /* pen 0 always uses color 0 (background in River Patrol and Silver Land) */
                 if ((i % 4) == 0) {
@@ -100,7 +104,7 @@ public class yamato {
             }
 
             /* big sprite lookup table */
-            /* it uses colors 64-95 */
+ /* it uses colors 64-95 */
             for (i = 0; i < TOTAL_COLORS(2); i++) {
                 if (i % 4 == 0) {
                     //COLOR(2,i) = 0;
@@ -213,7 +217,8 @@ public class yamato {
 
     static InputPortHandlerPtr input_ports_yamato = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_UNKNOWN);
@@ -224,7 +229,8 @@ public class yamato {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_UNKNOWN);
@@ -235,7 +241,8 @@ public class yamato {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();       /* DSW */
+            PORT_START();
+            /* DSW */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "3");
@@ -261,7 +268,8 @@ public class yamato {
             PORT_DIPSETTING(0x80, DEF_STR("Upright"));
             PORT_DIPSETTING(0x00, DEF_STR("Cocktail"));
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_COIN2);/* set 1 only */
 
@@ -274,7 +282,8 @@ public class yamato {
             PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START();       /* IN3 */
+            PORT_START();
+            /* IN3 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_UNKNOWN);
@@ -403,7 +412,7 @@ public class yamato {
 
             ROM_REGION(0x2000, REGION_GFX2 | REGIONFLAG_DISPOSE);
             /* TODO: I'm swapping the two halves of the ROMs to use only the bottom */
-            /* 256 chars. There must be a way for the game to address both halves */
+ /* 256 chars. There must be a way for the game to address both halves */
             ROM_LOAD("8.11c", 0x0800, 0x0800, 0x28024d9a);
             ROM_CONTINUE(0x0000, 0x0800);
             ROM_LOAD("7.11a", 0x1800, 0x0800, 0x4a179790);
@@ -427,9 +436,9 @@ public class yamato {
             ROM_LOAD("3-2.5f", 0x2000, 0x2000, 0x31e73821);
             ROM_LOAD("4-2.5jh", 0x4000, 0x2000, 0xfd7bcfc3);
             /* hole at 6000-6fff */
-            /* 7000-7fff not present here */
+ /* 7000-7fff not present here */
 
-            /* I don't know what the following ROMs are! */
+ /* I don't know what the following ROMs are! */
             ROM_LOAD("5.5lm", 0xf000, 0x1000, 0x7761ad24);/* ?? */
 
             ROM_LOAD("6.5n", 0xf000, 0x1000, 0xda48444c);/* ?? */
@@ -446,7 +455,7 @@ public class yamato {
 
             ROM_REGION(0x2000, REGION_GFX2 | REGIONFLAG_DISPOSE);
             /* TODO: I'm swapping the two halves of the ROMs to use only the bottom */
-            /* 256 chars. There must be a way for the game to address both halves */
+ /* 256 chars. There must be a way for the game to address both halves */
             ROM_LOAD("8.11c", 0x0800, 0x0800, 0x28024d9a);
             ROM_CONTINUE(0x0000, 0x0800);
             ROM_LOAD("7.11a", 0x1800, 0x0800, 0x4a179790);

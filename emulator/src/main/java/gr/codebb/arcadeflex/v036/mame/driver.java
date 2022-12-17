@@ -22,7 +22,6 @@ import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.drivers.pacman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.minivadr.*;
 import static arcadeflex.v036.drivers.pengo.*;
-import static gr.codebb.arcadeflex.v036.drivers.yamato.*;
 import static gr.codebb.arcadeflex.v036.drivers.system1.*;
 import static gr.codebb.arcadeflex.v036.drivers.locomotn.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.pooyan.*;
@@ -377,8 +376,6 @@ public class driver {
                 /*131*//*retofinv*/ driver_retofin2,
                 /*132*//*scregg*/ driver_scregg,
                 /*133*//*scregg*/ driver_eggs,
-                /*134*//*yamato*/ driver_yamato,
-                /*135*//*yamato*/ driver_yamato2,
                 /* Sega System 1 / System 2 games */
                 /*136*//*system1*/ driver_starjack,
                 /*137*//*system1*/ driver_starjacs,
