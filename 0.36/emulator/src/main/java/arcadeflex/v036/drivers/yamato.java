@@ -1,6 +1,11 @@
-/*
+/**
  * ported to v0.36
- * using automatic conversion tool v0.08
+ *
+ */
+/**
+ * Changelog
+ * =========
+ * 18/12/2022 - shadow - This file should be complete for 0.36 version
  */
 package arcadeflex.v036.drivers;
 //generic imports
