@@ -3,6 +3,11 @@
  * using automatic conversion tool v0.08 + Manual fixes
  *
  */
+/**
+ * Changelog
+ * =========
+ * 17/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.vidhrdw;
 
 //generic imports

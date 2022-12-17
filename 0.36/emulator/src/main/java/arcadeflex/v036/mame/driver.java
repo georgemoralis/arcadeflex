@@ -17,6 +17,7 @@ import static arcadeflex.v036.drivers.cclimber.*;
 import static arcadeflex.v036.drivers.cop01.*;
 import static arcadeflex.v036.drivers._1942.*;
 import static arcadeflex.v036.drivers.exedexes.*;
+import static arcadeflex.v036.drivers.appoooh.*;
 
 public class driver {
 
@@ -1457,7 +1458,7 @@ public class driver {
                 /*TODO*///	driver_suprloco,	/* (c) 1982 Sega */
                 /*TODO*///	driver_champbas,	/* (c) 1983 Sega */
                 /*TODO*///	driver_champbb2,
-                /*TODO*///	driver_appoooh,	/* (c) 1984 Sega */
+                driver_appoooh, /* (c) 1984 Sega */
                 driver_bankp,/* (c) 1984 Sega */
                 /*TODO*///	driver_dotrikun,	/* cabinet test board */
                 /*TODO*///	driver_dotriku2,	/* cabinet test board */
