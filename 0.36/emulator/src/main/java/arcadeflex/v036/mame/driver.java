@@ -25,6 +25,7 @@ import static arcadeflex.v036.drivers.funkybee.*;
 import static arcadeflex.v036.drivers.nova2001.*;
 import static arcadeflex.v036.drivers.pkunwar.*;
 import static arcadeflex.v036.drivers.pooyan.*;
+import static arcadeflex.v036.drivers.kyugo.*;
 
 public class driver {
 
@@ -962,20 +963,19 @@ public class driver {
                 /*TODO*/// 4/94 Snow Bros. 2                                    Kit 2P 8W+2B     HC    Action  TP-
                 /*TODO*///*/
                 /*TODO*///
-                /*TODO*///	/* Kyugo games */
-                /*TODO*///	/* Kyugo only made four games: Repulse, Flash Gal, SRD Mission and Air Wolf. */
-                /*TODO*///	/* Gyrodine was made by Crux. Crux was antecedent of Toa Plan, and spin-off from Orca. */
-                /*TODO*///	driver_gyrodine,	/* (c) 1984 Taito Corporation */
-                /*TODO*///	driver_sonofphx,	/* (c) 1985 Associated Overseas MFR */
-                /*TODO*///	driver_repulse,	/* (c) 1985 Sega */
-                /*TODO*///	driver_99lstwar,	/* (c) 1985 Proma */
-                /*TODO*///	driver_99lstwra,	/* (c) 1985 Proma */
-                /*TODO*///	driver_flashgal,	/* (c) 1985 Sega */
-                /*TODO*///	driver_srdmissn,	/* (c) 1986 Taito Corporation */
-                /*TODO*///	driver_airwolf,	/* (c) 1987 Kyugo */
-                /*TODO*///	driver_skywolf,	/* bootleg */
-                /*TODO*///	driver_skywolf2,	/* bootleg */
-                /*TODO*///
+                /* Kyugo games */
+                /* Kyugo only made four games: Repulse, Flash Gal, SRD Mission and Air Wolf. */
+                /* Gyrodine was made by Crux. Crux was antecedent of Toa Plan, and spin-off from Orca. */
+                driver_gyrodine, /* (c) 1984 Taito Corporation */
+                driver_sonofphx, /* (c) 1985 Associated Overseas MFR */
+                driver_repulse, /* (c) 1985 Sega */
+                driver_99lstwar, /* (c) 1985 Proma */
+                driver_99lstwra, /* (c) 1985 Proma */
+                driver_flashgal, /* (c) 1985 Sega */
+                driver_srdmissn, /* (c) 1986 Taito Corporation */
+                driver_airwolf, /* (c) 1987 Kyugo */
+                driver_skywolf, /* bootleg */
+                driver_skywolf2, /* bootleg */
                 /*TODO*///	/* Williams games */
                 /*TODO*///	driver_defender,	/* (c) 1980 */
                 /*TODO*///	driver_defendg,	/* (c) 1980 */
