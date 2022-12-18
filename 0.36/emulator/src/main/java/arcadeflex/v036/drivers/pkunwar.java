@@ -1,24 +1,31 @@
 /**
- * ported to 0.37b7
  * ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+/**
+ * Changelog
+ * =========
+ * 18/12/2022 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static arcadeflex.v036.vidhrdw.nova2001.*;
 import static arcadeflex.v036.mame.inptportH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
 import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;
-import static arcadeflex.v036.mame.sndintrfH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.pkunwar.*;
+import static arcadeflex.v036.vidhrdw.nova2001.*;
 
 public class pkunwar {
 
@@ -124,7 +131,7 @@ public class pkunwar {
             PORT_DIPSETTING(0x30, "Medium");
             PORT_DIPSETTING(0x20, "Hard");
             PORT_DIPSETTING(0x00, "Hardest");
-            PORT_DIPNAME(0x40, 0x40, DEF_STR("Flip_Screen"));
+            PORT_DIPNAME(0x40, 0x40, DEF_STR("Unknown"));
             PORT_DIPSETTING(0x40, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
             PORT_DIPNAME(0x80, 0x80, DEF_STR("Free_Play"));

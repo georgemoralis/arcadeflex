@@ -1,12 +1,16 @@
 /**
- * ported to 0.37b7
  * ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+/**
+ * Changelog
+ * =========
+ * 18/12/2022 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-
+//mame imports
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.memoryH.*;
@@ -14,12 +18,12 @@ import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptportH.*;
+//sndhrdw imports
 import static arcadeflex.v036.sndhrdw.timeplt.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.pooyan.*;
 
 public class pooyan {
@@ -202,7 +206,7 @@ public class pooyan {
             gfxdecodeinfo,
             32, 16 * 16 + 16 * 16,
             pooyan_vh_convert_color_prom,
-            VIDEO_TYPE_RASTER,
+            VIDEO_TYPE_RASTER | VIDEO_SUPPORTS_DIRTY,
             null,
             generic_vh_start,
             generic_vh_stop,

@@ -21,6 +21,10 @@ import static arcadeflex.v036.drivers.appoooh.*;
 import static arcadeflex.v036.drivers.vulgus.*;
 import static arcadeflex.v036.drivers.espial.*;
 import static arcadeflex.v036.drivers.marineb.*;
+import static arcadeflex.v036.drivers.funkybee.*;
+import static arcadeflex.v036.drivers.nova2001.*;
+import static arcadeflex.v036.drivers.pkunwar.*;
+import static arcadeflex.v036.drivers.pooyan.*;
 
 public class driver {
 
@@ -1740,10 +1744,10 @@ public class driver {
                 /*TODO*///	driver_tutankst,	/* GX350 (c) 1982 Stern */
                 /*TODO*///	driver_junofrst,	/* GX310 (c) 1983 Konami */
                 /*TODO*///
-                /*TODO*///	/* Konami games */
-                /*TODO*///	driver_pooyan,	/* GX320 (c) 1982 */
-                /*TODO*///	driver_pooyans,	/* GX320 (c) 1982 Stern */
-                /*TODO*///	driver_pootan,	/* bootleg */
+                /* Konami games */
+                driver_pooyan, /* GX320 (c) 1982 */
+                driver_pooyans, /* GX320 (c) 1982 Stern */
+                driver_pootan, /* bootleg */
                 /*TODO*///	driver_timeplt,	/* GX393 (c) 1982 */
                 /*TODO*///	driver_timepltc,	/* GX393 (c) 1982 + Centuri license*/
                 /*TODO*///	driver_spaceplt,	/* bootleg */
@@ -2270,11 +2274,11 @@ public class driver {
                 /*TODO*///	driver_jackrab2,	/* (c) 1984 */
                 /*TODO*///	driver_jackrabs,	/* (c) 1984 */
                 /*TODO*///
-                /*TODO*///	/* UPL games */
-                /*TODO*///	driver_nova2001,	/* UPL-83005 (c) 1983 */
-                /*TODO*///	driver_nov2001u,	/* UPL-83005 (c) [1983] + Universal license */
-                /*TODO*///	driver_pkunwar,	/* [1985?] */
-                /*TODO*///	driver_pkunwarj,	/* [1985?] */
+                /* UPL games */
+                driver_nova2001, /* UPL-83005 (c) 1983 */
+                driver_nov2001u, /* UPL-83005 (c) [1983] + Universal license */
+                driver_pkunwar, /* [1985?] */
+                driver_pkunwarj, /* [1985?] */
                 /*TODO*///	driver_ninjakd2,	/* (c) 1987 */
                 /*TODO*///	driver_ninjak2a,	/* (c) 1987 */
                 /*TODO*///	driver_ninjak2b,	/* (c) 1987 */
@@ -2481,17 +2485,17 @@ public class driver {
                 /*TODO*///	driver_aerofgtc,	/* (c) 1992 */
                 /*TODO*////*TESTDRIVER*/driver_unkvsys,
                 /*TODO*///
-                	/* Orca games */
-                	driver_marineb,	/* (c) 1982 Orca */
-                	driver_changes,	/* (c) 1982 Orca */
-                	driver_looper,	/* (c) 1982 Orca */
-                	driver_springer,	/* (c) 1982 Orca */
-                	driver_hoccer,	/* (c) 1983 Eastern Micro Electronics, Inc. */
-                	driver_hoccer2,	/* (c) 1983 Eastern Micro Electronics, Inc. */
-                	driver_hopprobo,	/* (c) 1983 Sega */
-                	driver_wanted,	/* (c) 1984 Sigma Ent. Inc. */
-                /*TODO*///	driver_funkybee,	/* (c) 1982 Orca */
-                /*TODO*///	driver_skylancr,	/* (c) 1983 Orca + Esco Trading Co license */
+                /* Orca games */
+                driver_marineb, /* (c) 1982 Orca */
+                driver_changes, /* (c) 1982 Orca */
+                driver_looper, /* (c) 1982 Orca */
+                driver_springer, /* (c) 1982 Orca */
+                driver_hoccer, /* (c) 1983 Eastern Micro Electronics, Inc. */
+                driver_hoccer2, /* (c) 1983 Eastern Micro Electronics, Inc. */
+                driver_hopprobo, /* (c) 1983 Sega */
+                driver_wanted, /* (c) 1984 Sigma Ent. Inc. */
+                driver_funkybee, /* (c) 1982 Orca */
+                driver_skylancr, /* (c) 1983 Orca + Esco Trading Co license */
                 /*TODO*///	driver_zodiack,	/* (c) 1983 Orca + Esco Trading Co license */
                 /*TODO*///	driver_dogfight,	/* (c) 1983 Thunderbolt */
                 /*TODO*///	driver_moguchan,	/* (c) 1982 Orca + Eastern Commerce Inc. license (doesn't appear on screen) */
