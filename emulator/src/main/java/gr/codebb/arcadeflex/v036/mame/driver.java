@@ -36,7 +36,6 @@ import static arcadeflex.v036.drivers.hexa.*;
 import static arcadeflex.v036.drivers.sonson.*;
 import static arcadeflex.v036.drivers.amidar.*;
 import static arcadeflex.v036.drivers.pbaction.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.espial.*;
 import static arcadeflex.v036.drivers.timeplt.*;
 import static arcadeflex.v036.drivers.gng.*;
 import static arcadeflex.v036.drivers.gundealr.*;
@@ -360,8 +359,6 @@ public class driver {
                 /*115*//*pacman*/ driver_vanvans,
                 /*116*//*pacman*/ driver_alibaba,
                 /*117*//*bogeyman*/ driver_bogeyman,
-                /*118*//*espial*/ driver_espial,
-                /*119*//*espial*/ driver_espiale,
                 /*123*//*wiz*/ driver_stinger,
                 /*124*//*wiz*/ driver_scion,
                 /*125*//*wiz*/ driver_scionc,

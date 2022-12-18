@@ -1,56 +1,36 @@
 /*
- * ported to v0.37b7
- * using automatic conversion tool v0.01
+ * ported to v0.36
+ * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+/**
+ * Changelog
+ * =========
+ * 18/12/2022 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//machine imports
+import static arcadeflex.v036.machine.espial.*;
+//mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
 import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;
+//vidhrdw imports
 import static arcadeflex.v036.vidhrdw.espial.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
-import static arcadeflex.v036.cpu.z80.z80H.Z80_IRQ_INT;
 
 public class espial {
-
-    public static InitMachineHandlerPtr espial_init_machine = new InitMachineHandlerPtr() {
-        public void handler() {
-            /* we must start with NMI interrupts disabled */
-            //interrupt_enable = 0;
-            interrupt_enable_w.handler(0, 0);
-        }
-    };
-
-    public static WriteHandlerPtr zodiac_master_interrupt_enable_w = new WriteHandlerPtr() {
-        public void handler(int offset, int data) {
-            interrupt_enable_w.handler(offset, data ^ 1);
-        }
-    };
-
-    public static InterruptHandlerPtr zodiac_master_interrupt = new InterruptHandlerPtr() {
-        public int handler() {
-            return (cpu_getiloops() == 0) ? nmi_interrupt.handler() : interrupt.handler();
-        }
-    };
-
-    public static WriteHandlerPtr zodiac_master_soundlatch_w = new WriteHandlerPtr() {
-        public void handler(int offset, int data) {
-            soundlatch_w.handler(offset, data);
-            cpu_cause_interrupt(1, Z80_IRQ_INT);
-        }
-    };
 
     static MemoryReadAddress readmem[]
             = {
