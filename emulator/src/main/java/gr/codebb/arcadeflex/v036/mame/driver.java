@@ -61,7 +61,6 @@ import static arcadeflex.v036.drivers.bogeyman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.scregg.*;
 import static arcadeflex.v036.drivers.funkybee.*;
 import static gr.codebb.arcadeflex.v036.drivers.xain.*;
-import static gr.codebb.arcadeflex.v036.drivers.vulgus.*;
 import static arcadeflex.v036.drivers.wiz.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.shaolins.*;
 import static gr.codebb.arcadeflex.v036.drivers.battlnts.*;
@@ -310,9 +309,6 @@ public class driver {
                 /*058*//*frogger*/ driver_frogseg2,
                 /*059*//*frogger*/ driver_froggrmc,
                 /*060*//*hexa*/ driver_hexa,
-                /*061*//*vulgus*/ driver_vulgus,
-                /*062*//*vulgus*/ driver_vulgus2,
-                /*063*//*vulgus*/ driver_vulgusj,
                 /*064*//*sonson*/ driver_sonson,
                 /*068*//*superqix*/ driver_sqixbl,
                 /*069*//*amidar*/ driver_amidar,

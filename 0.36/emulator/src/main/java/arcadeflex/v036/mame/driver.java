@@ -18,6 +18,7 @@ import static arcadeflex.v036.drivers.cop01.*;
 import static arcadeflex.v036.drivers._1942.*;
 import static arcadeflex.v036.drivers.exedexes.*;
 import static arcadeflex.v036.drivers.appoooh.*;
+import static arcadeflex.v036.drivers.vulgus.*;
 
 public class driver {
 
@@ -999,12 +1000,12 @@ public class driver {
                 /*TODO*///	driver_inferno,	/* (c) 1984 */
                 /*TODO*///	driver_joust2,	/* (c) 1986 */
                 /*TODO*///
-                /*TODO*///	/* Capcom games */
-                /*TODO*///	/* The following is a COMPLETE list of the Capcom games up to 1997, as shown on */
-                /*TODO*///	/* their web site. The list is sorted by production date. */
-                /*TODO*///	driver_vulgus,	/*  5/1984 (c) 1984 */
-                /*TODO*///	driver_vulgus2,	/*  5/1984 (c) 1984 */
-                /*TODO*///	driver_vulgusj,	/*  5/1984 (c) 1984 */
+                /* Capcom games */
+                /* The following is a COMPLETE list of the Capcom games up to 1997, as shown on */
+                /* their web site. The list is sorted by production date. */
+                driver_vulgus, /*  5/1984 (c) 1984 */
+                driver_vulgus2, /*  5/1984 (c) 1984 */
+                driver_vulgusj, /*  5/1984 (c) 1984 */
                 /*TODO*///	driver_sonson,	/*  7/1984 (c) 1984 */
                 /*TODO*///	driver_higemaru,	/*  9/1984 (c) 1984 */
                 driver_1942, /* 12/1984 (c) 1984 */

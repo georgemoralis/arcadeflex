@@ -2,23 +2,33 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v036.drivers;
+/**
+ * Changelog
+ * =========
+ * 18/12/2022 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
+//drivers imports
+import static arcadeflex.v036.drivers._1942.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame improts
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.inptportH.*;
+import static arcadeflex.v036.mame.common.*;
+//sound imports
 import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;
-import static arcadeflex.v036.drivers._1942.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.vulgus.*;
 
 public class vulgus {
@@ -81,7 +91,8 @@ public class vulgus {
 
     static InputPortHandlerPtr input_ports_vulgus = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -89,14 +100,16 @@ public class vulgus {
 
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably unused */
 
-            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_UNKNOWN);/* probably unused */
 
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -107,7 +120,8 @@ public class vulgus {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -118,7 +132,8 @@ public class vulgus {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Lives"));
             PORT_DIPSETTING(0x01, "1");
@@ -126,7 +141,7 @@ public class vulgus {
             PORT_DIPSETTING(0x03, "3");
             PORT_DIPSETTING(0x00, "5");
             /* these are the settings for the second coin input, but it seems that the */
-            /* game only supports one */
+ /* game only supports one */
             PORT_DIPNAME(0x1c, 0x1c, DEF_STR("Coin_B"));
             PORT_DIPSETTING(0x10, DEF_STR("5C_1C"));
             PORT_DIPSETTING(0x08, DEF_STR("4C_1C"));
@@ -146,8 +161,9 @@ public class vulgus {
             PORT_DIPSETTING(0xa0, DEF_STR("1C_3C"));
             PORT_DIPSETTING(0x00, DEF_STR("Free_Play"));
 
-            PORT_START();       /* DSW1 */
-            /* not sure about difficulty
+            PORT_START();
+            /* DSW1 */
+ /* not sure about difficulty
              Code perform a read and (& 0x03). NDMix*/
 
             PORT_DIPNAME(0x03, 0x03, "Difficulty?");
