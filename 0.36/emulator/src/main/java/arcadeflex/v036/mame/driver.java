@@ -20,6 +20,7 @@ import static arcadeflex.v036.drivers.exedexes.*;
 import static arcadeflex.v036.drivers.appoooh.*;
 import static arcadeflex.v036.drivers.vulgus.*;
 import static arcadeflex.v036.drivers.espial.*;
+import static arcadeflex.v036.drivers.marineb.*;
 
 public class driver {
 
@@ -2480,15 +2481,15 @@ public class driver {
                 /*TODO*///	driver_aerofgtc,	/* (c) 1992 */
                 /*TODO*////*TESTDRIVER*/driver_unkvsys,
                 /*TODO*///
-                /*TODO*///	/* Orca games */
-                /*TODO*///	driver_marineb,	/* (c) 1982 Orca */
-                /*TODO*///	driver_changes,	/* (c) 1982 Orca */
-                /*TODO*///	driver_looper,	/* (c) 1982 Orca */
-                /*TODO*///	driver_springer,	/* (c) 1982 Orca */
-                /*TODO*///	driver_hoccer,	/* (c) 1983 Eastern Micro Electronics, Inc. */
-                /*TODO*///	driver_hoccer2,	/* (c) 1983 Eastern Micro Electronics, Inc. */
-                /*TODO*///	driver_hopprobo,	/* (c) 1983 Sega */
-                /*TODO*///	driver_wanted,	/* (c) 1984 Sigma Ent. Inc. */
+                	/* Orca games */
+                	driver_marineb,	/* (c) 1982 Orca */
+                	driver_changes,	/* (c) 1982 Orca */
+                	driver_looper,	/* (c) 1982 Orca */
+                	driver_springer,	/* (c) 1982 Orca */
+                	driver_hoccer,	/* (c) 1983 Eastern Micro Electronics, Inc. */
+                	driver_hoccer2,	/* (c) 1983 Eastern Micro Electronics, Inc. */
+                	driver_hopprobo,	/* (c) 1983 Sega */
+                	driver_wanted,	/* (c) 1984 Sigma Ent. Inc. */
                 /*TODO*///	driver_funkybee,	/* (c) 1982 Orca */
                 /*TODO*///	driver_skylancr,	/* (c) 1983 Orca + Esco Trading Co license */
                 /*TODO*///	driver_zodiack,	/* (c) 1983 Orca + Esco Trading Co license */
