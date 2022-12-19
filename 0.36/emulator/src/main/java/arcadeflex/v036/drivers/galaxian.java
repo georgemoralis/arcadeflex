@@ -6,15 +6,24 @@ package arcadeflex.v036.drivers;
 
 //cpu imports
 import static arcadeflex.v036.cpu.z80.z80H.*;
+//drivers imports
+import static arcadeflex.v036.drivers.scramble.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-//drivers imports
-import static arcadeflex.v036.drivers.pacman.*;
+//machine imports
+import static arcadeflex.v036.machine.scramble.*;
 //mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.memoryH.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.inptportH.*;
+import static arcadeflex.v036.mame.inptport.*;
+import static arcadeflex.v036.mame.mame.*;
 //sndhrdw imports
 import static arcadeflex.v036.sndhrdw.galaxian.*;
 //sound imports
@@ -26,20 +35,8 @@ import static arcadeflex.v036.sound.dacH.*;
 import static arcadeflex.v036.vidhrdw.galaxian.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
-import static arcadeflex.v036.mame.driverH.*;
-import static arcadeflex.v036.mame.memoryH.*;
-import static arcadeflex.v036.mame.commonH.*;
-import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.mame.inptport.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.machine.scramble.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.drivers.scramble.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_write_handler;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
@@ -3519,7 +3516,7 @@ public class galaxian {
     public static GameDriver driver_spacbatt = new GameDriver("1980", "spacbatt", "galaxian.java", rom_spacbatt, driver_uniwars, machine_driver_pisces, input_ports_superg, init_pisces, ROT90, "bootleg", "Space Battle");
     public static GameDriver driver_warofbug = new GameDriver("1981", "warofbug", "galaxian.java", rom_warofbug, null, machine_driver_warofbug, input_ports_warofbug, null, ROT90, "Armenia", "War of the Bugs");
     public static GameDriver driver_redufo = new GameDriver("????", "redufo", "galaxian.java", rom_redufo, null, machine_driver_warofbug, input_ports_redufo, null, ROT90, "Hara Industries??", "Defend the Terra Attack on the Red UFO");
-    public static GameDriver driver_pacmanbl = new GameDriver("1981", "pacmanbl", "galaxian.java", rom_pacmanbl, driver_pacman, machine_driver_pacmanbl, input_ports_pacmanbl, null, ROT270, "bootleg", "Pac-Man (bootleg on Galaxian hardware)");
+    /*TODO*///    public static GameDriver driver_pacmanbl = new GameDriver("1981", "pacmanbl", "galaxian.java", rom_pacmanbl, driver_pacman, machine_driver_pacmanbl, input_ports_pacmanbl, null, ROT270, "bootleg", "Pac-Man (bootleg on Galaxian hardware)");
     public static GameDriver driver_devilfsg = new GameDriver("1984", "devilfsg", "galaxian.java", rom_devilfsg, driver_devilfsh, machine_driver_devilfsg, input_ports_devilfsg, null, ROT270, "Vision / Artic", "Devil Fish (Galaxian hardware, bootleg?)");
     public static GameDriver driver_zigzag = new GameDriver("1982", "zigzag", "galaxian.java", rom_zigzag, null, machine_driver_zigzag, input_ports_zigzag, null, ROT90, "LAX", "Zig Zag (Galaxian hardware, set 1)");
     public static GameDriver driver_zigzag2 = new GameDriver("1982", "zigzag2", "galaxian.java", rom_zigzag2, driver_zigzag, machine_driver_zigzag, input_ports_zigzag, null, ROT90, "LAX", "Zig Zag (Galaxian hardware, set 2)");

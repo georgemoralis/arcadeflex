@@ -6,16 +6,18 @@ package arcadeflex.v036.sndhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+import static arcadeflex.v036.mame.mame.Machine;
 //mame imports
 import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 //sound imports
 import static arcadeflex.v036.sound.streams.*;
+//common imports
+import static common.libc.expressions.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.BytePtr;
 import gr.codebb.arcadeflex.common.PtrLib.ShortPtr;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 
@@ -184,7 +186,7 @@ public class galaxian {
                             Machine.samples.sample[0].smpfreq,
                             false);
                 } else {
-                    /*TODO*///				mixer_play_sample_16(channelshoot, new ShortPtr(shootwave), shoot_length, shoot_rate, false);
+                    mixer_play_sample_16(channelshoot, new ShortPtr(shootwave), shoot_length, shoot_rate, false);
                     mixer_set_volume(channelshoot, SHOOT_VOLUME);
                 }
             }
@@ -434,19 +436,18 @@ public class galaxian {
 
             if (deathsampleloaded == 0) {
                 mixer_set_volume(channelnoise, 0);
-                /*TODO*///			mixer_play_sample_16(channelnoise,noisewave,NOISE_LENGTH,NOISE_RATE,1);
             }
             if (shootsampleloaded == 0) {
                 mixer_set_volume(channelshoot, 0);
-                /*TODO*///			mixer_play_sample_16(channelshoot,shootwave,SHOOT_LENGTH,SHOOT_RATE,1);
+                mixer_play_sample_16(channelshoot, new ShortPtr(shootwave), SHOOT_LENGTH, SHOOT_RATE, true);
             }
 
             mixer_set_volume(channellfo + 0, 0);
-            /*TODO*///		mixer_play_sample_16(channellfo+0,backgroundwave,backgroundwave.length,1000,1);
+            mixer_play_sample_16(channellfo + 0, new ShortPtr(backgroundwave), sizeof(backgroundwave), 1000, true);
             mixer_set_volume(channellfo + 1, 0);
-            /*TODO*///		mixer_play_sample_16(channellfo+1,backgroundwave,backgroundwave.length,1000,1);
+            mixer_play_sample_16(channellfo + 1, new ShortPtr(backgroundwave), sizeof(backgroundwave), 1000, true);
             mixer_set_volume(channellfo + 2, 0);
-            /*TODO*///		mixer_play_sample_16(channellfo+2,backgroundwave,backgroundwave.length,1000,1);
+            mixer_play_sample_16(channellfo + 2, new ShortPtr(backgroundwave), sizeof(backgroundwave), 1000, true);
 
             return 0;
         }
