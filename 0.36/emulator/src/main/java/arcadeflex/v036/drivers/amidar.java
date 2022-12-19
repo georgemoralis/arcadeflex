@@ -2,6 +2,11 @@
  * ported to v0.36
  * using automatic conversion tool v0.08
  */
+/**
+ * Changelog
+ * =========
+ * 19/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.drivers;
 
 //generic imports
@@ -22,12 +27,10 @@ import static arcadeflex.v036.sndhrdw.scramble.*;
 //sound imports
 import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;
+import static arcadeflex.v036.sound.mixerH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.amidar.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
-//TODO
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 
 public class amidar {
 

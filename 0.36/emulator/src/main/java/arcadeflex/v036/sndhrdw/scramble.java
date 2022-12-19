@@ -1,6 +1,11 @@
 /**
  * ported to 0.36
  */
+/**
+ * Changelog
+ * =========
+ * 19/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.sndhrdw;
 
 //cpu imports
@@ -9,8 +14,7 @@ import static arcadeflex.v036.cpu.z80.z80H.*;
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
-//TODO
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
+//sound imports
 import static arcadeflex.v036.sound.streams.*;
 
 public class scramble {
