@@ -32,6 +32,7 @@ import static arcadeflex.v036.drivers.frogger.*;
 import static arcadeflex.v036.drivers.scobra.*;
 import static arcadeflex.v036.drivers.fastfred.*;
 import static arcadeflex.v036.drivers.yamato.*;
+import static arcadeflex.v036.drivers.galaxian.*;
 
 public class driver {
 
@@ -77,50 +78,49 @@ public class driver {
                 /*TODO*///	driver_penta,		/* bootleg */
                 /*TODO*///	driver_jrpacman,	/* (c) 1983 Midway */
                 /*TODO*///
-                /*TODO*///	/* "Galaxian hardware" games */
-                /*TODO*///	driver_galaxian,	/* (c) Namco */
-                /*TODO*///	driver_galmidw,	/* (c) Midway */
-                /*TODO*///	driver_superg,	/* hack */
-                /*TODO*///	driver_galaxb,	/* bootleg */
-                /*TODO*///	driver_galapx,	/* hack */
-                /*TODO*///	driver_galap1,	/* hack */
-                /*TODO*///	driver_galap4,	/* hack */
-                /*TODO*///	driver_galturbo,	/* hack */
-                /*TODO*///	driver_swarm,		/* hack */
-                /*TODO*///	driver_pisces,	/* ? */
-                /*TODO*///	driver_uniwars,	/* (c) Irem */
-                /*TODO*///	driver_gteikoku,	/* (c) Irem */
-                /*TODO*///	driver_spacbatt,	/* bootleg */
-                /*TODO*///	driver_warofbug,	/* (c) 1981 Armenia */
-                /*TODO*///	driver_redufo,	/* ? */
-                /*TODO*///	driver_pacmanbl,	/* bootleg */
-                /*TODO*///	driver_devilfsg,	/* (c) 1984 Vision / Artic (bootleg?) */
-                /*TODO*///	driver_zigzag,	/* (c) 1982 LAX */
-                /*TODO*///	driver_zigzag2,	/* (c) 1982 LAX */
-                /*TODO*///	driver_jumpbug,	/* (c) 1981 Rock-ola */
-                /*TODO*///	driver_jumpbugb,	/* (c) 1981 Sega */
-                /*TODO*///	driver_levers,	/* (c) 1983 Rock-ola */
-                /*TODO*///	driver_azurian,	/* (c) 1982 Rait Electronics Ltd */
-                /*TODO*///	driver_orbitron,	/* Signatron USA */
-                /*TODO*///	driver_mooncrgx,	/* bootleg */
-                /*TODO*///	driver_mooncrst,	/* (c) 1980 Nichibutsu */
-                /*TODO*///	driver_mooncrsg,	/* (c) 1980 Gremlin */
-                /*TODO*///	driver_smooncrs,	/* Gremlin */
-                /*TODO*///	driver_mooncrsb,	/* bootleg */
-                /*TODO*///	driver_mooncrs2,	/* bootleg */
-                /*TODO*///	driver_fantazia,	/* bootleg */
-                /*TODO*///	driver_eagle,		/* (c) Centuri */
-                /*TODO*///	driver_eagle2,	/* (c) Centuri */
-                /*TODO*///	driver_moonqsr,	/* (c) 1980 Nichibutsu */
-                /*TODO*///	driver_checkman,	/* (c) 1982 Zilec-Zenitone */
-                /*TODO*///	driver_checkmaj,	/* (c) 1982 Jaleco (Zenitone/Zilec in ROM CM4, and the programmer names) */
-                /*TODO*///	driver_streakng,	/* [1980] Shoei */
-                /*TODO*///	driver_blkhole,	/* TDS (Tokyo Denshi Sekkei) */
-                /*TODO*///	driver_moonal2,	/* Nichibutsu */
-                /*TODO*///	driver_moonal2b,	/* Nichibutsu */
-                /*TODO*///	driver_kingball,	/* (c) 1980 Namco */
-                /*TODO*///	driver_kingbalj,	/* (c) 1980 Namco */
-                /*TODO*///
+                /* "Galaxian hardware" games */
+                driver_galaxian, /* (c) Namco */
+                driver_galmidw, /* (c) Midway */
+                driver_superg, /* hack */
+                driver_galaxb, /* bootleg */
+                driver_galapx, /* hack */
+                driver_galap1, /* hack */
+                driver_galap4, /* hack */
+                driver_galturbo, /* hack */
+                driver_swarm, /* hack */
+                driver_pisces, /* ? */
+                driver_uniwars, /* (c) Irem */
+                driver_gteikoku, /* (c) Irem */
+                driver_spacbatt, /* bootleg */
+                driver_warofbug, /* (c) 1981 Armenia */
+                driver_redufo, /* ? */
+                /*TODO*///driver_pacmanbl,	/* bootleg */
+                driver_devilfsg, /* (c) 1984 Vision / Artic (bootleg?) */
+                driver_zigzag, /* (c) 1982 LAX */
+                driver_zigzag2, /* (c) 1982 LAX */
+                driver_jumpbug, /* (c) 1981 Rock-ola */
+                driver_jumpbugb, /* (c) 1981 Sega */
+                driver_levers, /* (c) 1983 Rock-ola */
+                driver_azurian, /* (c) 1982 Rait Electronics Ltd */
+                driver_orbitron, /* Signatron USA */
+                driver_mooncrgx, /* bootleg */
+                driver_mooncrst, /* (c) 1980 Nichibutsu */
+                driver_mooncrsg, /* (c) 1980 Gremlin */
+                driver_smooncrs, /* Gremlin */
+                driver_mooncrsb, /* bootleg */
+                driver_mooncrs2, /* bootleg */
+                driver_fantazia, /* bootleg */
+                driver_eagle, /* (c) Centuri */
+                driver_eagle2, /* (c) Centuri */
+                driver_moonqsr, /* (c) 1980 Nichibutsu */
+                driver_checkman, /* (c) 1982 Zilec-Zenitone */
+                driver_checkmaj, /* (c) 1982 Jaleco (Zenitone/Zilec in ROM CM4, and the programmer names) */
+                driver_streakng, /* [1980] Shoei */
+                driver_blkhole, /* TDS (Tokyo Denshi Sekkei) */
+                driver_moonal2, /* Nichibutsu */
+                driver_moonal2b, /* Nichibutsu */
+                driver_kingball, /* (c) 1980 Namco */
+                driver_kingbalj, /* (c) 1980 Namco */
                 /* "Scramble hardware" (and variations) games */
                 driver_scramble, /* GX387 (c) 1981 Konami */
                 driver_scrambls, /* GX387 (c) 1981 Stern */
