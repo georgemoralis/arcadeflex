@@ -35,6 +35,7 @@ import static arcadeflex.v036.drivers.yamato.*;
 import static arcadeflex.v036.drivers.galaxian.*;
 import static arcadeflex.v036.drivers.hexa.*;
 import static arcadeflex.v036.drivers.higemaru.*;
+import static arcadeflex.v036.drivers.jack.*;
 
 public class driver {
 
@@ -2350,18 +2351,16 @@ public class driver {
                 /*TODO*///	driver_nbajam,	/* (c) 1993 Midway */
                 /*TODO*///	driver_nbajamr2,	/* (c) 1993 Midway */
                 /*TODO*///	driver_nbajamte,	/* (c) 1994 Midway */
-                /*TODO*///
-                /*TODO*///	/* Cinematronics raster games */
-                /*TODO*///	driver_jack,		/* (c) 1982 Cinematronics */
-                /*TODO*///	driver_jack2,		/* (c) 1982 Cinematronics */
-                /*TODO*///	driver_jack3,		/* (c) 1982 Cinematronics */
-                /*TODO*///	driver_treahunt,	/* (c) 1982 Hara Ind. */
-                /*TODO*///	driver_zzyzzyxx,	/* (c) 1982 Cinematronics + Advanced Microcomputer Systems */
-                /*TODO*///	driver_zzyzzyx2,	/* (c) 1982 Cinematronics + Advanced Microcomputer Systems */
-                /*TODO*///	driver_brix,		/* (c) 1982 Cinematronics + Advanced Microcomputer Systems */
-                /*TODO*///	driver_freeze,	/* Cinematronics */
-                /*TODO*///	driver_sucasino,	/* (c) 1982 Data Amusement */
-                /*TODO*///
+                /* Cinematronics raster games */
+                driver_jack, /* (c) 1982 Cinematronics */
+                driver_jack2, /* (c) 1982 Cinematronics */
+                driver_jack3, /* (c) 1982 Cinematronics */
+                driver_treahunt, /* (c) 1982 Hara Ind. */
+                driver_zzyzzyxx, /* (c) 1982 Cinematronics + Advanced Microcomputer Systems */
+                driver_zzyzzyx2, /* (c) 1982 Cinematronics + Advanced Microcomputer Systems */
+                driver_brix, /* (c) 1982 Cinematronics + Advanced Microcomputer Systems */
+                driver_freeze, /* Cinematronics */
+                driver_sucasino, /* (c) 1982 Data Amusement */
                 /*TODO*///	/* Cinematronics vector games */
                 /*TODO*///	driver_spacewar,
                 /*TODO*///	driver_barrier,
