@@ -33,6 +33,8 @@ import static arcadeflex.v036.drivers.scobra.*;
 import static arcadeflex.v036.drivers.fastfred.*;
 import static arcadeflex.v036.drivers.yamato.*;
 import static arcadeflex.v036.drivers.galaxian.*;
+import static arcadeflex.v036.drivers.hexa.*;
+import static arcadeflex.v036.drivers.higemaru.*;
 
 public class driver {
 
@@ -1018,7 +1020,7 @@ public class driver {
                 driver_vulgus2, /*  5/1984 (c) 1984 */
                 driver_vulgusj, /*  5/1984 (c) 1984 */
                 /*TODO*///	driver_sonson,	/*  7/1984 (c) 1984 */
-                /*TODO*///	driver_higemaru,	/*  9/1984 (c) 1984 */
+                driver_higemaru, /*  9/1984 (c) 1984 */
                 driver_1942, /* 12/1984 (c) 1984 */
                 driver_1942a, /* 12/1984 (c) 1984 */
                 driver_1942b, /* 12/1984 (c) 1984 */
@@ -2571,7 +2573,7 @@ public class driver {
                 /*TODO*///	driver_wiseguy,	/* (c) 1990 Dooyong */
                 /*TODO*///	driver_leprechn,	/* (c) 1982 Tong Electronic */
                 /*TODO*///	driver_potogold,	/* (c) 1982 Tong Electronic */
-                /*TODO*///	driver_hexa,		/* D. R. Korea */
+                driver_hexa, /* D. R. Korea */
                 /*TODO*///	driver_redalert,	/* (c) 1981 Irem (GDI game) */
                 /*TODO*///	driver_irobot,	/* (c) 1983 Atari */
                 /*TODO*///	driver_spiders,	/* (c) 1981 Sigma Ent. Inc. */
