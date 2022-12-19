@@ -30,6 +30,8 @@ import static arcadeflex.v036.drivers.scramble.*;
 import static arcadeflex.v036.drivers.amidar.*;
 import static arcadeflex.v036.drivers.frogger.*;
 import static arcadeflex.v036.drivers.scobra.*;
+import static arcadeflex.v036.drivers.fastfred.*;
+import static arcadeflex.v036.drivers.yamato.*;
 
 public class driver {
 
@@ -172,11 +174,10 @@ public class driver {
                 driver_turtles, /* (c) 1981 Stern */
                 driver_turpin, /* (c) 1981 Sega */
                 driver_600, /* GX353 (c) 1981 Konami */
-                /*TODO*///	driver_flyboy,	/* (c) 1982 Kaneko */
-                /*TODO*///	driver_flyboyb,	/* bootleg */
-                /*TODO*///	driver_fastfred,	/* (c) 1982 Atari */
-                /*TODO*///	driver_jumpcoas,	/* (c) 1983 Kaneko */
-                /*TODO*///
+                driver_flyboy, /* (c) 1982 Kaneko */
+                driver_flyboyb, /* bootleg */
+                driver_fastfred, /* (c) 1982 Atari */
+                driver_jumpcoas, /* (c) 1983 Kaneko */
                 /* "Crazy Climber hardware" games */
                 driver_cclimber, /* (c) 1980 Nichibutsu */
                 driver_cclimbrj, /* (c) 1980 Nichibutsu */
@@ -190,8 +191,8 @@ public class driver {
                 driver_monkeyd, /* bootleg */
                 driver_rpatrolb, /* bootleg */
                 driver_silvland, /* Falcon */
-                /*TODO*///	driver_yamato,	/* (c) 1983 Sega */
-                /*TODO*///	driver_yamato2,	/* (c) 1983 Sega */
+                driver_yamato, /* (c) 1983 Sega */
+                driver_yamato2, /* (c) 1983 Sega */
                 driver_swimmer, /* (c) 1982 Tehkan */
                 driver_swimmera, /* (c) 1982 Tehkan */
                 driver_guzzler, /* (c) 1983 Tehkan */
