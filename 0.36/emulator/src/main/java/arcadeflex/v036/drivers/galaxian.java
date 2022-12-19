@@ -2,6 +2,11 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
+/**
+ * Changelog
+ * =========
+ * 19/12/2022 - shadow - Added most of the galaxian driver (missing driver_pacmanbl)
+ */
 package arcadeflex.v036.drivers;
 
 //cpu imports
