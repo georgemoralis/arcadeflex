@@ -29,6 +29,7 @@ import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.memory.*;
 //sndhrdw imports
 import static arcadeflex.v036.sndhrdw.galaxian.*;
 //sound imports
@@ -42,10 +43,6 @@ import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_write_handler;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.mwh_nop;
 
 public class galaxian {
 

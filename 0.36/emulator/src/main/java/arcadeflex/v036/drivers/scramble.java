@@ -29,6 +29,7 @@ import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.inputH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.memory.*;
 //sndhrdw imports
 import static arcadeflex.v036.sndhrdw.scramble.*;
 import static arcadeflex.v036.sndhrdw.frogger.*;
@@ -41,9 +42,6 @@ import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.galaxian.*;
 //TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_readmem16;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.cpu_writemem16;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
 
 public class scramble {
 

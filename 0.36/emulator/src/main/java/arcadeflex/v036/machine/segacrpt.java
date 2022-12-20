@@ -12,9 +12,9 @@ package arcadeflex.v036.machine;
 //mame imports
 import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.memory.*;
 //TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 
 public class segacrpt {
 

@@ -12,8 +12,7 @@ import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
-//TODO
-import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
+import static arcadeflex.v036.mame.memory.*;
 
 public class s2650 extends cpu_interface {
 

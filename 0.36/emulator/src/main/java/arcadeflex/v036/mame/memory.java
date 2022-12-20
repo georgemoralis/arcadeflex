@@ -671,7 +671,7 @@ public class memory {
             ext_memory[x] = new ExtMemory();
         }
         int i, cpu;
-        /*TODO*///	MHELE hardware;
+        char u8_hardware;
         int abits1, abits2, abits3, abitsmin;
         rdelement_max[0] = 0;
         wrelement_max[0] = 0;
@@ -688,325 +688,289 @@ public class memory {
         if (memory_allocate_ext() == 0) {
             return 0;
         }
-        /*TODO*///
-/*TODO*///	for( cpu = 0 ; cpu < cpu_gettotalcpu() ; cpu++ )
-/*TODO*///	{
-/*TODO*///		const struct MemoryReadAddress *_mra;
-/*TODO*///		const struct MemoryWriteAddress *_mwa;
-/*TODO*///
-/*TODO*///		setOPbasefunc[cpu] = NULL;
-/*TODO*///
-/*TODO*///		ramptr[cpu] = romptr[cpu] = memory_region(REGION_CPU1+cpu);
-/*TODO*///
-/*TODO*///		/* initialize the memory base pointers for memory hooks */
-/*TODO*///		_mra = Machine->drv->cpu[cpu].memory_read;
-/*TODO*///		if (_mra)
-/*TODO*///		{
-/*TODO*///			while (_mra->start != -1)
-/*TODO*///			{
-/*TODO*/////				if (_mra->base) *_mra->base = memory_find_base (cpu, _mra->start);
-/*TODO*/////				if (_mra->size) *_mra->size = _mra->end - _mra->start + 1;
-/*TODO*///				_mra++;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///		_mwa = Machine->drv->cpu[cpu].memory_write;
-/*TODO*///		if (_mwa)
-/*TODO*///		{
-/*TODO*///			while (_mwa->start != -1)
-/*TODO*///			{
-/*TODO*///				if (_mwa->base) *_mwa->base = memory_find_base (cpu, _mwa->start);
-/*TODO*///				if (_mwa->size) *_mwa->size = _mwa->end - _mwa->start + 1;
-/*TODO*///				_mwa++;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		/* initialize port structures */
-/*TODO*///		readport_size[cpu] = 0;
-/*TODO*///		writeport_size[cpu] = 0;
-/*TODO*///		readport[cpu] = 0;
-/*TODO*///		writeport[cpu] = 0;
-/*TODO*///
-/*TODO*///		/* install port handlers - at least an empty one */
-/*TODO*///		ioread = Machine->drv->cpu[cpu].port_read;
-/*TODO*///		if (ioread == 0)  ioread = empty_readport;
-/*TODO*///
-/*TODO*///		while (1)
-/*TODO*///		{
-/*TODO*///			if (install_port_read_handler_common(cpu, ioread->start, ioread->end, ioread->handler, 0) == 0)
-/*TODO*///			{
-/*TODO*///				memory_shutdown();
-/*TODO*///				return 0;
-/*TODO*///			}
-/*TODO*///
-/*TODO*///			if (ioread->start == -1)  break;
-/*TODO*///
-/*TODO*///			ioread++;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///
-/*TODO*///		iowrite = Machine->drv->cpu[cpu].port_write;
-/*TODO*///		if (iowrite == 0)  iowrite = empty_writeport;
-/*TODO*///
-/*TODO*///		while (1)
-/*TODO*///		{
-/*TODO*///			if (install_port_write_handler_common(cpu, iowrite->start, iowrite->end, iowrite->handler, 0) == 0)
-/*TODO*///			{
-/*TODO*///				memory_shutdown();
-/*TODO*///				return 0;
-/*TODO*///			}
-/*TODO*///
-/*TODO*///			if (iowrite->start == -1)  break;
-/*TODO*///
-/*TODO*///			iowrite++;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		portmask[cpu] = 0xffff;
-/*TODO*///#if HAS_Z80
-/*TODO*///        if ((Machine->drv->cpu[cpu].cpu_type & ~CPU_FLAGS_MASK) == CPU_Z80 &&
-/*TODO*///			(Machine->drv->cpu[cpu].cpu_type & CPU_16BIT_PORT) == 0)
-/*TODO*///			portmask[cpu] = 0xff;
-/*TODO*///#endif
-/*TODO*///    }
-/*TODO*///
-/*TODO*///	/* initialize grobal handler */
-/*TODO*///	for( i = 0 ; i < MH_HARDMAX ; i++ ){
-/*TODO*///		memoryreadoffset[i] = 0;
-/*TODO*///		memorywriteoffset[i] = 0;
-/*TODO*///	}
-/*TODO*///	/* bank memory */
-/*TODO*///	for (i = 1; i <= MAX_BANKS; i++)
-/*TODO*///	{
-/*TODO*///		memoryreadhandler[i] = bank_read_handler[i];
-/*TODO*///		memorywritehandler[i] = bank_write_handler[i];
-/*TODO*///	}
-/*TODO*///	/* non map memory */
-/*TODO*///	memoryreadhandler[HT_NON] = mrh_error;
-/*TODO*///	memorywritehandler[HT_NON] = mwh_error;
-/*TODO*///	/* NOP memory */
-/*TODO*///	memoryreadhandler[HT_NOP] = mrh_nop;
-/*TODO*///	memorywritehandler[HT_NOP] = mwh_nop;
-/*TODO*///	/* RAMROM memory */
-/*TODO*///	memorywritehandler[HT_RAMROM] = mwh_ramrom;
-/*TODO*///	/* ROM memory */
-/*TODO*///	memorywritehandler[HT_ROM] = mwh_rom;
-/*TODO*///
-/*TODO*///	/* if any CPU is 21-bit or more, we change the error handlers to be more benign */
-/*TODO*///	for (cpu = 0; cpu < cpu_gettotalcpu(); cpu++)
-/*TODO*///		if (ADDRESS_BITS (cpu) >= 21)
-/*TODO*///		{
-/*TODO*///			memoryreadhandler[HT_NON] = mrh_error_sparse;
-/*TODO*///			memorywritehandler[HT_NON] = mwh_error_sparse;
-/*TODO*///#if HAS_TMS34010
-/*TODO*///            if ((Machine->drv->cpu[cpu].cpu_type & ~CPU_FLAGS_MASK)==CPU_TMS34010)
-/*TODO*///			{
-/*TODO*///				memoryreadhandler[HT_NON] = mrh_error_sparse_bit;
-/*TODO*///				memorywritehandler[HT_NON] = mwh_error_sparse_bit;
-/*TODO*///			}
-/*TODO*///#endif
-/*TODO*///        }
-/*TODO*///
-/*TODO*///	for( cpu = 0 ; cpu < cpu_gettotalcpu() ; cpu++ )
-/*TODO*///	{
-/*TODO*///		/* cpu selection */
-/*TODO*///		abits1 = ABITS1 (cpu);
-/*TODO*///		abits2 = ABITS2 (cpu);
-/*TODO*///		abits3 = ABITS3 (cpu);
-/*TODO*///		abitsmin = ABITSMIN (cpu);
-/*TODO*///
-/*TODO*///		/* element shifter , mask set */
-/*TODO*///		mhshift[cpu][0] = (abits2+abits3);
-/*TODO*///		mhshift[cpu][1] = abits3;			/* 2nd */
-/*TODO*///		mhshift[cpu][2] = 0;				/* 3rd (used by set_element)*/
-/*TODO*///		mhmask[cpu][0]  = MHMASK(abits1);		/*1st(used by set_element)*/
-/*TODO*///		mhmask[cpu][1]  = MHMASK(abits2);		/*2nd*/
-/*TODO*///		mhmask[cpu][2]  = MHMASK(abits3);		/*3rd*/
-/*TODO*///
-/*TODO*///		/* allocate current element */
-/*TODO*///		if( (cur_mr_element[cpu] = (MHELE *)malloc(sizeof(MHELE)<<abits1)) == 0 )
-/*TODO*///		{
-/*TODO*///			memory_shutdown();
-/*TODO*///			return 0;
-/*TODO*///		}
-/*TODO*///		if( (cur_mw_element[cpu] = (MHELE *)malloc(sizeof(MHELE)<<abits1)) == 0 )
-/*TODO*///		{
-/*TODO*///			memory_shutdown();
-/*TODO*///			return 0;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		/* initialize curent element table */
-/*TODO*///		for( i = 0 ; i < (1<<abits1) ; i++ )
-/*TODO*///		{
-/*TODO*///			cur_mr_element[cpu][i] = HT_NON;	/* no map memory */
-/*TODO*///			cur_mw_element[cpu][i] = HT_NON;	/* no map memory */
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		memoryread = Machine->drv->cpu[cpu].memory_read;
-/*TODO*///		memorywrite = Machine->drv->cpu[cpu].memory_write;
-/*TODO*///
-/*TODO*///		/* memory read handler build */
-/*TODO*///		if (memoryread)
-/*TODO*///		{
-/*TODO*///			mra = memoryread;
-/*TODO*///			while (mra->start != -1) mra++;
-/*TODO*///			mra--;
-/*TODO*///
-/*TODO*///			while (mra >= memoryread)
-/*TODO*///			{
-/*TODO*///				mem_read_handler handler = mra->handler;
-/*TODO*///
-/*TODO*////* work around a compiler bug */
-/*TODO*///#ifdef SGI_FIX_MWA_NOP
-/*TODO*///				if ((FPTR)handler == (FPTR)MRA_NOP) {
-/*TODO*///					hardware = HT_NOP;
-/*TODO*///				} else {
-/*TODO*///#endif
-/*TODO*///				switch ((FPTR)handler)
-/*TODO*///				{
-/*TODO*///				case (FPTR)MRA_RAM:
-/*TODO*///				case (FPTR)MRA_ROM:
-/*TODO*///					hardware = HT_RAM;	/* sprcial case ram read */
-/*TODO*///					break;
-/*TODO*///				case (FPTR)MRA_BANK1:
-/*TODO*///				case (FPTR)MRA_BANK2:
-/*TODO*///				case (FPTR)MRA_BANK3:
-/*TODO*///				case (FPTR)MRA_BANK4:
-/*TODO*///				case (FPTR)MRA_BANK5:
-/*TODO*///				case (FPTR)MRA_BANK6:
-/*TODO*///				case (FPTR)MRA_BANK7:
-/*TODO*///				case (FPTR)MRA_BANK8:
-/*TODO*///				case (FPTR)MRA_BANK9:
-/*TODO*///				case (FPTR)MRA_BANK10:
-/*TODO*///				case (FPTR)MRA_BANK11:
-/*TODO*///				case (FPTR)MRA_BANK12:
-/*TODO*///				case (FPTR)MRA_BANK13:
-/*TODO*///				case (FPTR)MRA_BANK14:
-/*TODO*///				case (FPTR)MRA_BANK15:
-/*TODO*///				case (FPTR)MRA_BANK16:
-/*TODO*///				{
-/*TODO*///					hardware = (int)MRA_BANK1 - (int)handler + 1;
-/*TODO*///					memoryreadoffset[hardware] = bankreadoffset[hardware] = mra->start;
-/*TODO*///					cpu_bankbase[hardware] = memory_find_base(cpu, mra->start);
-/*TODO*///					break;
-/*TODO*///				}
-/*TODO*///				case (FPTR)MRA_NOP:
-/*TODO*///					hardware = HT_NOP;
-/*TODO*///					break;
-/*TODO*///				default:
-/*TODO*///					/* create newer hardware handler */
-/*TODO*///					if( rdhard_max == MH_HARDMAX )
-/*TODO*///					{
-/*TODO*///						if (errorlog)
-/*TODO*///						 fprintf(errorlog,"read memory hardware pattern over !\n");
-/*TODO*///						hardware = 0;
-/*TODO*///					}
-/*TODO*///					else
-/*TODO*///					{
-/*TODO*///						/* regist hardware function */
-/*TODO*///						hardware = rdhard_max++;
-/*TODO*///						memoryreadhandler[hardware] = handler;
-/*TODO*///						memoryreadoffset[hardware] = mra->start;
-/*TODO*///					}
-/*TODO*///				}
-/*TODO*///#ifdef SGI_FIX_MWA_NOP
-/*TODO*///				}
-/*TODO*///#endif
-/*TODO*///				/* hardware element table make */
-/*TODO*///				set_element( cpu , cur_mr_element[cpu] ,
-/*TODO*///					(((unsigned int) mra->start) >> abitsmin) ,
-/*TODO*///					(((unsigned int) mra->end) >> abitsmin) ,
-/*TODO*///					hardware , readhardware , &rdelement_max );
-/*TODO*///
-/*TODO*///				mra--;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		/* memory write handler build */
-/*TODO*///		if (memorywrite)
-/*TODO*///		{
-/*TODO*///			mwa = memorywrite;
-/*TODO*///			while (mwa->start != -1) mwa++;
-/*TODO*///			mwa--;
-/*TODO*///
-/*TODO*///			while (mwa >= memorywrite)
-/*TODO*///			{
-/*TODO*///				mem_write_handler handler = mwa->handler;
-/*TODO*///#ifdef SGI_FIX_MWA_NOP
-/*TODO*///				if ((FPTR)handler == (FPTR)MWA_NOP) {
-/*TODO*///					hardware = HT_NOP;
-/*TODO*///				} else {
-/*TODO*///#endif
-/*TODO*///				switch( (FPTR)handler )
-/*TODO*///				{
-/*TODO*///				case (FPTR)MWA_RAM:
-/*TODO*///					hardware = HT_RAM;	/* sprcial case ram write */
-/*TODO*///					break;
-/*TODO*///				case (FPTR)MWA_BANK1:
-/*TODO*///				case (FPTR)MWA_BANK2:
-/*TODO*///				case (FPTR)MWA_BANK3:
-/*TODO*///				case (FPTR)MWA_BANK4:
-/*TODO*///				case (FPTR)MWA_BANK5:
-/*TODO*///				case (FPTR)MWA_BANK6:
-/*TODO*///				case (FPTR)MWA_BANK7:
-/*TODO*///				case (FPTR)MWA_BANK8:
-/*TODO*///				case (FPTR)MWA_BANK9:
-/*TODO*///				case (FPTR)MWA_BANK10:
-/*TODO*///				case (FPTR)MWA_BANK11:
-/*TODO*///				case (FPTR)MWA_BANK12:
-/*TODO*///				case (FPTR)MWA_BANK13:
-/*TODO*///				case (FPTR)MWA_BANK14:
-/*TODO*///				case (FPTR)MWA_BANK15:
-/*TODO*///				case (FPTR)MWA_BANK16:
-/*TODO*///				{
-/*TODO*///					hardware = (int)MWA_BANK1 - (int)handler + 1;
-/*TODO*///					memorywriteoffset[hardware] = bankwriteoffset[hardware] = mwa->start;
-/*TODO*///					cpu_bankbase[hardware] = memory_find_base(cpu, mwa->start);
-/*TODO*///					break;
-/*TODO*///				}
-/*TODO*///				case (FPTR)MWA_NOP:
-/*TODO*///					hardware = HT_NOP;
-/*TODO*///					break;
-/*TODO*///				case (FPTR)MWA_RAMROM:
-/*TODO*///					hardware = HT_RAMROM;
-/*TODO*///					break;
-/*TODO*///				case (FPTR)MWA_ROM:
-/*TODO*///					hardware = HT_ROM;
-/*TODO*///					break;
-/*TODO*///				default:
-/*TODO*///					/* create newer hardware handler */
-/*TODO*///					if( wrhard_max == MH_HARDMAX ){
-/*TODO*///						if (errorlog)
-/*TODO*///						 fprintf(errorlog,"write memory hardware pattern over !\n");
-/*TODO*///						hardware = 0;
-/*TODO*///					}else{
-/*TODO*///						/* regist hardware function */
-/*TODO*///						hardware = wrhard_max++;
-/*TODO*///						memorywritehandler[hardware] = handler;
-/*TODO*///						memorywriteoffset[hardware]  = mwa->start;
-/*TODO*///					}
-/*TODO*///				}
-/*TODO*///#ifdef SGI_FIX_MWA_NOP
-/*TODO*///				}
-/*TODO*///#endif
-/*TODO*///				/* hardware element table make */
-/*TODO*///				set_element( cpu , cur_mw_element[cpu] ,
-/*TODO*///					(int) (((unsigned int) mwa->start) >> abitsmin) ,
-/*TODO*///					(int) (((unsigned int) mwa->end) >> abitsmin) ,
-/*TODO*///					hardware , (MHELE *)writehardware , &wrelement_max );
-/*TODO*///
-/*TODO*///				mwa--;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///    }
-/*TODO*///
-/*TODO*///	if (errorlog){
-/*TODO*///		fprintf(errorlog,"used read  elements %d/%d , functions %d/%d\n"
-/*TODO*///		    ,rdelement_max,MH_ELEMAX , rdhard_max,MH_HARDMAX );
-/*TODO*///		fprintf(errorlog,"used write elements %d/%d , functions %d/%d\n"
-/*TODO*///		    ,wrelement_max,MH_ELEMAX , wrhard_max,MH_HARDMAX );
-/*TODO*///	}
-/*TODO*///#ifdef MEM_DUMP
-/*TODO*///	mem_dump();
-/*TODO*///#endif
+        for (cpu = 0; cpu < cpu_gettotalcpu(); cpu++) {
+
+            setOPbasefunc[cpu] = null;
+
+            ramptr[cpu] = romptr[cpu] = memory_region(REGION_CPU1 + cpu);
+
+            /* initialize the memory base pointers for memory hooks */
+            int _mra = 0;//_mra = Machine->drv->cpu[cpu].memory_read;
+            if (Machine.drv.cpu[cpu].memory_read != null && Machine.drv.cpu[cpu].memory_read[_mra] != null) {
+                while (Machine.drv.cpu[cpu].memory_read[_mra].start != -1) {
+                    /*				if (_mra->base) *_mra->base = memory_find_base (cpu, _mra->start); */
+ /*				if (_mra->size) *_mra->size = _mra->end - _mra->start + 1; */
+                    _mra++;
+                }
+            }
+            int _mwa = 0;//_mwa = Machine->drv->cpu[cpu].memory_write;
+            if (Machine.drv.cpu[cpu].memory_write != null && Machine.drv.cpu[cpu].memory_write[_mwa] != null) {
+                while (Machine.drv.cpu[cpu].memory_write[_mwa].start != -1) {
+
+                    if (Machine.drv.cpu[cpu].memory_write[_mwa].base != null) {
+                        UBytePtr b = memory_find_base(cpu, Machine.drv.cpu[cpu].memory_write[_mwa].start);
+                        Machine.drv.cpu[cpu].memory_write[_mwa].base.memory = b.memory;
+                        Machine.drv.cpu[cpu].memory_write[_mwa].base.offset = b.offset;
+                    }
+                    if (Machine.drv.cpu[cpu].memory_write[_mwa].size != null) {
+                        Machine.drv.cpu[cpu].memory_write[_mwa].size[0] = Machine.drv.cpu[cpu].memory_write[_mwa].end - Machine.drv.cpu[cpu].memory_write[_mwa].start + 1;
+                    }
+                    _mwa++;
+                }
+            }
+
+            /* initialize port structures */
+            readport_size[cpu] = 0;
+            writeport_size[cpu] = 0;
+            readport[cpu] = null;
+            writeport[cpu] = null;
+
+            /* install port handlers - at least an empty one */
+            int ioread = 0;//ioread = Machine -> drv -> cpu[cpu].port_read;
+            if (Machine.drv.cpu[cpu].port_read == null) {
+                Machine.drv.cpu[cpu].port_read = empty_readport;
+            }
+
+            while (true) {
+                if (install_port_read_handler_common(cpu, Machine.drv.cpu[cpu].port_read[ioread].start, Machine.drv.cpu[cpu].port_read[ioread].end, Machine.drv.cpu[cpu].port_read[ioread]._handler, 0) == null) {
+                    memory_shutdown();
+                    return 0;
+                }
+                if (Machine.drv.cpu[cpu].port_read[ioread].start == -1) {
+                    break;
+                }
+
+                ioread++;
+            }
+            int iowrite = 0;//iowrite = Machine -> drv -> cpu[cpu].port_write;
+            if (Machine.drv.cpu[cpu].port_write == null) {
+                Machine.drv.cpu[cpu].port_write = empty_writeport;
+            }
+            while (true) {
+                if (install_port_write_handler_common(cpu, Machine.drv.cpu[cpu].port_write[iowrite].start, Machine.drv.cpu[cpu].port_write[iowrite].end, Machine.drv.cpu[cpu].port_write[iowrite]._handler, 0) == null) {
+                    memory_shutdown();
+                    return 0;
+                }
+                if (Machine.drv.cpu[cpu].port_write[iowrite].start == -1) {
+                    break;
+                }
+
+                iowrite++;
+            }
+            portmask[cpu] = 0xffff;
+            if ((Machine.drv.cpu[cpu].cpu_type & ~CPU_FLAGS_MASK) == CPU_Z80
+                    && (Machine.drv.cpu[cpu].cpu_type & CPU_16BIT_PORT) == 0) {
+                portmask[cpu] = 0xff;
+            }
+        }
+        /* initialize global handler */
+        for (i = 0; i < MH_HARDMAX; i++) {
+            memoryreadoffset[i] = 0;
+            memorywriteoffset[i] = 0;
+            memoryreadhandler[i] = null;
+            memorywritehandler[i] = null;
+        }
+        /* bank memory */
+        for (i = 1; i <= MAX_BANKS; i++) {
+            memoryreadhandler[i] = bank_read_handler[i];
+            memorywritehandler[i] = bank_write_handler[i];
+        }
+        /* non map memory */
+        memoryreadhandler[HT_NON] = mrh_error;
+        memorywritehandler[HT_NON] = mwh_error;
+        /* NOP memory */
+        memoryreadhandler[HT_NOP] = mrh_nop;
+        memorywritehandler[HT_NOP] = mwh_nop;
+        /* RAMROM memory */
+        memorywritehandler[HT_RAMROM] = mwh_ramrom;
+        /* ROM memory */
+        memorywritehandler[HT_ROM] = mwh_rom;
+
+        /* if any CPU is 21-bit or more, we change the error handlers to be more benign */
+        for (cpu = 0; cpu < cpu_gettotalcpu(); cpu++) {
+            if (ADDRESS_BITS(cpu) >= 21) {
+                memoryreadhandler[HT_NON] = mrh_error_sparse;
+                memorywritehandler[HT_NON] = mwh_error_sparse;
+
+                if ((Machine.drv.cpu[cpu].cpu_type & ~CPU_FLAGS_MASK) == CPU_TMS34010) {
+                    memoryreadhandler[HT_NON] = mrh_error_sparse_bit;
+                    memorywritehandler[HT_NON] = mwh_error_sparse_bit;
+                }
+            }
+        }
+        for (cpu = 0; cpu < cpu_gettotalcpu(); cpu++) {
+            /* cpu selection */
+            abits1 = ABITS1(cpu);
+            abits2 = ABITS2(cpu);
+            abits3 = ABITS3(cpu);
+            abitsmin = ABITSMIN(cpu);
+
+            /* element shifter , mask set */
+            mhshift[cpu][0] = (abits2 + abits3);
+            mhshift[cpu][1] = abits3;/* 2nd */
+            mhshift[cpu][2] = 0;/* 3rd (used by set_element)*/
+            mhmask[cpu][0] = MHMASK(abits1);/*1st(used by set_element)*/
+            mhmask[cpu][1] = MHMASK(abits2);/*2nd*/
+            mhmask[cpu][2] = MHMASK(abits3);/*3rd*/
+            if ((u8_cur_mr_element[cpu] = new char[1 << abits1]) == null) {
+                memory_shutdown();
+                return 0;
+            }
+            if ((u8_cur_mw_element[cpu] = new char[1 << abits1]) == null) {
+                memory_shutdown();
+                return 0;
+            }
+
+            /* initialize current element table */
+            for (i = 0; i < (1 << abits1); i++) {
+                u8_cur_mr_element[cpu][i] = HT_NON;/* no map memory */
+                u8_cur_mw_element[cpu][i] = HT_NON;/* no map memory */
+            }
+            /* memory read handler build */
+            if (Machine.drv.cpu[cpu].memory_read != null) {
+                int mra_ptr = 0;
+                while (Machine.drv.cpu[cpu].memory_read[mra_ptr].start != -1) {
+                    mra_ptr++;
+                }
+                mra_ptr--;
+                while (mra_ptr >= 0) {
+                    ReadHandlerPtr _handler = Machine.drv.cpu[cpu].memory_read[mra_ptr]._handler;
+                    int handler = Machine.drv.cpu[cpu].memory_read[mra_ptr].handler;
+                    switch (handler) {
+                        case MRA_RAM:
+                        case MRA_ROM:
+                            u8_hardware = HT_RAM;
+                            /* sprcial case ram read */
+                            break;
+                        case MRA_BANK1:
+                        case MRA_BANK2:
+                        case MRA_BANK3:
+                        case MRA_BANK4:
+                        case MRA_BANK5:
+                        case MRA_BANK6:
+                        case MRA_BANK7:
+                        case MRA_BANK8:
+                        case MRA_BANK9:
+                        case MRA_BANK10:
+                        case MRA_BANK11:
+                        case MRA_BANK12:
+                        case MRA_BANK13:
+                        case MRA_BANK14:
+                        case MRA_BANK15:
+                        case MRA_BANK16: {
+                            u8_hardware = (char) ((int) MRA_BANK1 - (int) handler + 1);
+                            memoryreadoffset[u8_hardware] = bankreadoffset[u8_hardware] = Machine.drv.cpu[cpu].memory_read[mra_ptr].start;
+                            cpu_bankbase[u8_hardware] = memory_find_base(cpu, Machine.drv.cpu[cpu].memory_read[mra_ptr].start);
+                            break;
+                        }
+                        case MRA_NOP:
+                            u8_hardware = HT_NOP;
+                            break;
+                        default:
+                            /* create newer hardware handler */
+                            if (rdhard_max == MH_HARDMAX) {
+                                if (errorlog != null) {
+                                    fprintf(errorlog, "read memory hardware pattern over !\n");
+                                }
+                                u8_hardware = 0;
+                            } else {
+                                /* regist hardware function */
+                                u8_hardware = (char) (rdhard_max++);
+                                memoryreadhandler[u8_hardware] = _handler;
+                                memoryreadoffset[u8_hardware] = Machine.drv.cpu[cpu].memory_read[mra_ptr].start;
+                            }
+                    }
+                    /* hardware element table make */
+                    set_element(cpu, new UBytePtr(u8_cur_mr_element[cpu]),
+                            ((/*(unsigned int)*/Machine.drv.cpu[cpu].memory_read[mra_ptr].start) >>> abitsmin),
+                            ((/*(unsigned int)*/Machine.drv.cpu[cpu].memory_read[mra_ptr].end) >>> abitsmin),
+                            u8_hardware, new UBytePtr(u8_readhardware), rdelement_max);
+
+                    mra_ptr--;
+                }
+            }
+
+            /* memory write handler build */
+ /* memory write handler build */
+            if (Machine.drv.cpu[cpu].memory_write != null) {
+                int mwa_ptr = 0;
+                while (Machine.drv.cpu[cpu].memory_write[mwa_ptr].start != -1) {
+                    mwa_ptr++;
+                }
+                mwa_ptr--;
+
+                while (mwa_ptr >= 0) {
+                    WriteHandlerPtr _handler = Machine.drv.cpu[cpu].memory_write[mwa_ptr]._handler;
+                    int handler = Machine.drv.cpu[cpu].memory_write[mwa_ptr].handler;
+                    switch (handler) {
+                        case MWA_RAM:
+                            u8_hardware = HT_RAM;
+                            /* sprcial case ram write */
+                            break;
+                        case MWA_BANK1:
+                        case MWA_BANK2:
+                        case MWA_BANK3:
+                        case MWA_BANK4:
+                        case MWA_BANK5:
+                        case MWA_BANK6:
+                        case MWA_BANK7:
+                        case MWA_BANK8:
+                        case MWA_BANK9:
+                        case MWA_BANK10:
+                        case MWA_BANK11:
+                        case MWA_BANK12:
+                        case MWA_BANK13:
+                        case MWA_BANK14:
+                        case MWA_BANK15:
+                        case MWA_BANK16: {
+                            u8_hardware = (char) ((int) MWA_BANK1 - (int) handler + 1);
+                            memorywriteoffset[u8_hardware] = bankwriteoffset[u8_hardware] = Machine.drv.cpu[cpu].memory_write[mwa_ptr].start;
+                            cpu_bankbase[u8_hardware] = memory_find_base(cpu, Machine.drv.cpu[cpu].memory_write[mwa_ptr].start);
+                            break;
+                        }
+                        case MWA_NOP:
+                            u8_hardware = HT_NOP;
+                            break;
+                        case MWA_RAMROM:
+                            u8_hardware = HT_RAMROM;
+                            break;
+                        case MWA_ROM:
+                            u8_hardware = HT_ROM;
+                            break;
+                        default:
+                            /* create newer hardware handler */
+                            if (wrhard_max == MH_HARDMAX) {
+                                if (errorlog != null) {
+                                    fprintf(errorlog, "write memory hardware pattern over !\n");
+                                }
+                                u8_hardware = 0;
+                            } else {
+                                /* regist hardware function */
+                                u8_hardware = (char) (wrhard_max++);
+                                memorywritehandler[u8_hardware] = _handler;
+                                memorywriteoffset[u8_hardware] = Machine.drv.cpu[cpu].memory_write[mwa_ptr].start;
+                            }
+                    }
+                    /* hardware element table make */
+                    set_element(cpu, new UBytePtr(u8_cur_mw_element[cpu]),
+                            ((/*(unsigned int)*/Machine.drv.cpu[cpu].memory_write[mwa_ptr].start) >>> abitsmin),
+                            ((/*(unsigned int)*/Machine.drv.cpu[cpu].memory_write[mwa_ptr].end) >>> abitsmin),
+                            u8_hardware, new UBytePtr(u8_writehardware), wrelement_max);
+
+                    mwa_ptr--;
+                }
+            }
+        }
+
+        if (errorlog != null) {
+            fprintf(errorlog, "used read  elements %d/%d , functions %d/%d\n",
+                    rdelement_max, MH_ELEMAX, rdhard_max, MH_HARDMAX);
+            fprintf(errorlog, "used write elements %d/%d , functions %d/%d\n",
+                    wrelement_max, MH_ELEMAX, wrhard_max, MH_HARDMAX);
+        }
+        if (MEM_DUMP) {
+            mem_dump();
+        }
         return 1;/* ok */
     }
 
@@ -1033,10 +997,8 @@ public class memory {
         OP_ROM = romptr[activecpu];
     }
 
-    /*TODO*///
-/*TODO*///void memory_shutdown(void)
-/*TODO*///{
-/*TODO*///	struct ExtMemory *ext;
+    public static void memory_shutdown() {
+        /*TODO*///	struct ExtMemory *ext;
 /*TODO*///	int cpu;
 /*TODO*///
 /*TODO*///	for( cpu = 0 ; cpu < MAX_CPU ; cpu++ )
@@ -1069,8 +1031,9 @@ public class memory {
 /*TODO*///	for (ext = ext_memory; ext->data; ext++)
 /*TODO*///		free (ext->data);
 /*TODO*///	memset (ext_memory, 0, sizeof (ext_memory));
-/*TODO*///}
-/*TODO*///
+    }
+
+    /*TODO*///
 /*TODO*///
 /*TODO*///
 /*TODO*////***************************************************************************
@@ -1255,9 +1218,37 @@ public class memory {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*////* the handlers we need to generate */
-/*TODO*///READBYTE(cpu_readmem16,    TYPE_8BIT,     16)
-/*TODO*///READBYTE(cpu_readmem20,    TYPE_8BIT,     20)
+/* the handlers we need to generate */
+    public static int cpu_readmem16(int address) {
+        char u8_hw;
+
+        /* first-level lookup */
+        u8_hw = u8_cur_mrhard[/*(UINT32)*/address >>> (ABITS2_16 + ABITS_MIN_16)];
+
+        /* for compatibility with setbankhandler, 8-bit systems must call handlers */
+ /* for banked memory reads/writes */
+        if (u8_hw == HT_RAM) {
+            //return cpu_bankbase[HT_RAM][address];
+            return cpu_bankbase[HT_RAM].read(address);
+        }
+
+        /* second-level lookup */
+        if (u8_hw >= MH_HARDMAX) {
+            u8_hw -= MH_HARDMAX;
+            u8_hw = u8_readhardware[(u8_hw << MH_SBITS) + ((/*(UINT32)*/address >>> ABITS_MIN_16) & MHMASK(ABITS2_16))];
+
+            /* for compatibility with setbankhandler, 8-bit systems must call handlers */
+ /* for banked memory reads/writes */
+            if (u8_hw == HT_RAM) {
+                return cpu_bankbase[HT_RAM].read(address);
+            }
+        }
+
+        /* fall back to handler */
+        return (memoryreadhandler[u8_hw]).handler(address - memoryreadoffset[u8_hw]);
+    }
+
+    /*TODO*///READBYTE(cpu_readmem20,    TYPE_8BIT,     20)
 /*TODO*///READBYTE(cpu_readmem21,    TYPE_8BIT,     21)
 /*TODO*///
 /*TODO*///READBYTE(cpu_readmem16bew, TYPE_16BIT_BE, 16BEW)
@@ -1466,9 +1457,36 @@ public class memory {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*////* the handlers we need to generate */
-/*TODO*///WRITEBYTE(cpu_writemem16,    TYPE_8BIT,     16)
-/*TODO*///WRITEBYTE(cpu_writemem20,    TYPE_8BIT,     20)
+/* the handlers we need to generate */
+    public static void cpu_writemem16(int address, int data) {
+        char u8_hw;
+
+        /* first-level lookup */
+        u8_hw = u8_cur_mwhard[/*(UINT32)*/address >>> (ABITS2_16 + ABITS_MIN_16)];
+
+        /* for compatibility with setbankhandler, 8-bit systems must call handlers */
+ /* for banked memory reads/writes */
+        if (u8_hw == HT_RAM) {
+            cpu_bankbase[HT_RAM].write(address, data);
+            return;
+        }
+        /* second-level lookup */
+        if (u8_hw >= MH_HARDMAX) {
+            u8_hw -= MH_HARDMAX;
+            u8_hw = u8_writehardware[(u8_hw << MH_SBITS) + ((/*(UINT32)*/address >>> ABITS_MIN_16) & MHMASK(ABITS2_16))];
+
+            /* for compatibility with setbankhandler, 8-bit systems must call handlers */
+ /* for banked memory reads/writes */
+            if (u8_hw == HT_RAM) {
+                cpu_bankbase[HT_RAM].write(address, data);
+                return;
+            }
+        }
+
+        /* fall back to handler */
+        (memorywritehandler[u8_hw]).handler(address - memorywriteoffset[u8_hw], data);
+    }
+    /*TODO*///WRITEBYTE(cpu_writemem20,    TYPE_8BIT,     20)
 /*TODO*///WRITEBYTE(cpu_writemem21,    TYPE_8BIT,     21)
 /*TODO*///
 /*TODO*///WRITEBYTE(cpu_writemem16bew, TYPE_16BIT_BE, 16BEW)
@@ -1535,9 +1553,43 @@ public class memory {
 /*TODO*///}
 /*TODO*///
 /*TODO*///
-/*TODO*////* the handlers we need to generate */
-/*TODO*///SETOPBASE(cpu_setOPbase16,    16,    0)
-/*TODO*///SETOPBASE(cpu_setOPbase16bew, 16BEW, 0)
+/* the handlers we need to generate */
+    public static setopbase cpu_setOPbase16 = new setopbase() {
+        public void handler(int pc) {
+            char u8_hw;
+
+            //not shift neccesary pc = (UINT32)pc >> shift;															
+            /* allow overrides */
+            if (OPbasefunc != null) {
+                pc = OPbasefunc.handler(pc);
+                if (pc == -1) {
+                    return;
+                }
+            }
+
+            /* perform the lookup */
+            u8_hw = u8_cur_mrhard[/*(UINT32)*/pc >>> (ABITS2_16 + ABITS_MIN_16)];
+            if (u8_hw >= MH_HARDMAX) {
+                u8_hw -= MH_HARDMAX;
+                u8_hw = u8_readhardware[(u8_hw << MH_SBITS) + ((/*(UINT32)*/pc >>> ABITS_MIN_16) & MHMASK(ABITS2_16))];
+            }
+            u8_ophw = (char) (u8_hw & 0xFF);
+
+            /* RAM or banked memory */
+            if (u8_hw <= HT_BANKMAX) {
+                SET_OP_RAMROM(new UBytePtr(cpu_bankbase[u8_hw], -memoryreadoffset[u8_hw]));
+                return;
+            }
+
+            /* do not support on callback memory region */
+            if (errorlog != null) {
+                fprintf(errorlog, "CPU #%d PC %04x: warning - op-code execute on mapped i/o\n",
+                        cpu_getactivecpu(), cpu_get_pc());
+            }
+        }
+    };
+
+    /*TODO*///SETOPBASE(cpu_setOPbase16bew, 16BEW, 0)
 /*TODO*///SETOPBASE(cpu_setOPbase16lew, 16LEW, 0)
 /*TODO*///SETOPBASE(cpu_setOPbase20,    20,    0)
 /*TODO*///SETOPBASE(cpu_setOPbase21,    21,    0)
@@ -1545,73 +1597,78 @@ public class memory {
 /*TODO*///SETOPBASE(cpu_setOPbase29,    29,    3)
 /*TODO*///SETOPBASE(cpu_setOPbase32,    32,    0)
 /*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Perform an I/O port read. This function is called by the CPU emulation.
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///int cpu_readport(int port)
-/*TODO*///{
-/*TODO*///	const struct IOReadPort *iorp = cur_readport;
-/*TODO*///
-/*TODO*///	port &= cur_portmask;
-/*TODO*///
-/*TODO*///	/* search the handlers. The order is as follows: first the dynamically installed
-/*TODO*///	   handlers are searched, followed by the static ones in whatever order they were
-/*TODO*///	   specified in the driver */
-/*TODO*///	while (iorp->start != -1)
-/*TODO*///	{
-/*TODO*///		if (port >= iorp->start && port <= iorp->end)
-/*TODO*///		{
-/*TODO*///			mem_read_handler handler = iorp->handler;
-/*TODO*///
-/*TODO*///
-/*TODO*///			if (handler == IORP_NOP) return 0;
-/*TODO*///			else return (*handler)(port - iorp->start);
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		iorp++;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if (errorlog) fprintf(errorlog,"CPU #%d PC %04x: warning - read unmapped I/O port %02x\n",cpu_getactivecpu(),cpu_get_pc(),port);
-/*TODO*///	return 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Perform an I/O port write. This function is called by the CPU emulation.
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///void cpu_writeport(int port, int value)
-/*TODO*///{
-/*TODO*///	const struct IOWritePort *iowp = cur_writeport;
-/*TODO*///
-/*TODO*///	port &= cur_portmask;
-/*TODO*///
-/*TODO*///	/* search the handlers. The order is as follows: first the dynamically installed
-/*TODO*///	   handlers are searched, followed by the static ones in whatever order they were
-/*TODO*///	   specified in the driver */
-/*TODO*///	while (iowp->start != -1)
-/*TODO*///	{
-/*TODO*///		if (port >= iowp->start && port <= iowp->end)
-/*TODO*///		{
-/*TODO*///			mem_write_handler handler = iowp->handler;
-/*TODO*///
-/*TODO*///
-/*TODO*///			if (handler == IOWP_NOP) return;
-/*TODO*///			else (*handler)(port - iowp->start,value);
-/*TODO*///
-/*TODO*///			return;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		iowp++;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if (errorlog) fprintf(errorlog,"CPU #%d PC %04x: warning - write %02x to unmapped I/O port %02x\n",cpu_getactivecpu(),cpu_get_pc(),value,port);
-/*TODO*///}
-/*TODO*///
+    /**
+     * *************************************************************************
+     *
+     * Perform an I/O port read. This function is called by the CPU emulation.
+     *
+     **************************************************************************
+     */
+    public static int cpu_readport(int port) {
+        int iorp = 0;
+
+        port &= cur_portmask;
+
+        /* search the handlers. The order is as follows: first the dynamically installed
+               handlers are searched, followed by the static ones in whatever order they were
+               specified in the driver */
+        while (cur_readport[iorp].start != -1) {
+            if (port >= cur_readport[iorp].start && port <= cur_readport[iorp].end) {
+                ReadHandlerPtr handler = cur_readport[iorp]._handler;
+
+                if (handler == null) {
+                    return 0;//if (handler == IORP_NOP) return 0;
+                } else {
+                    return handler.handler(port - cur_readport[iorp].start);
+                }
+            }
+
+            iorp++;
+        }
+
+        if (errorlog != null) {
+            fprintf(errorlog, "CPU #%d PC %04x: warning - read unmapped I/O port %02x\n", cpu_getactivecpu(), cpu_get_pc(), port);
+        }
+        return 0;
+    }
+
+    /**
+     * *************************************************************************
+     *
+     * Perform an I/O port write. This function is called by the CPU emulation.
+     *
+     **************************************************************************
+     */
+    public static void cpu_writeport(int port, int value) {
+        int iowp = 0;
+
+        port &= cur_portmask;
+
+        /* search the handlers. The order is as follows: first the dynamically installed
+               handlers are searched, followed by the static ones in whatever order they were
+               specified in the driver */
+        while (cur_writeport[iowp].start != -1) {
+            if (port >= cur_writeport[iowp].start && port <= cur_writeport[iowp].end) {
+                WriteHandlerPtr handler = cur_writeport[iowp]._handler;
+
+                if (handler == null) {
+                    return;//if (handler == IOWP_NOP) return;
+                } else {
+                    handler.handler(port - cur_writeport[iowp].start, value);
+                }
+
+                return;
+            }
+
+            iowp++;
+        }
+
+        if (errorlog != null) {
+            fprintf(errorlog, "CPU #%d PC %04x: warning - write %02x to unmapped I/O port %02x\n", cpu_getactivecpu(), cpu_get_pc(), value, port);
+        }
+    }
+
+    /*TODO*///
 /*TODO*///
 /*TODO*////* set readmemory handler for bank memory  */
 /*TODO*///void cpu_setbankhandler_r(int bank, mem_read_handler handler)
@@ -1704,208 +1761,244 @@ public class memory {
 /*TODO*///	memorywritehandler[bank] = handler;
 /*TODO*///}
 /*TODO*///
-/*TODO*////* cpu change op-code memory base */
-/*TODO*///void cpu_setOPbaseoverride (int cpu,opbase_handler function)
-/*TODO*///{
-/*TODO*///	setOPbasefunc[cpu] = function;
-/*TODO*///	if (cpu == cpu_getactivecpu())
-/*TODO*///		OPbasefunc = function;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///void *install_mem_read_handler(int cpu, int start, int end, mem_read_handler handler)
-/*TODO*///{
-/*TODO*///	MHELE hardware = 0;
-/*TODO*///	int abitsmin;
-/*TODO*///	int i, hw_set;
-/*TODO*///	if (errorlog) fprintf(errorlog, "Install new memory read handler:\n");
-/*TODO*///	if (errorlog) fprintf(errorlog, "             cpu: %d\n", cpu);
-/*TODO*///	if (errorlog) fprintf(errorlog, "           start: 0x%08x\n", start);
-/*TODO*///	if (errorlog) fprintf(errorlog, "             end: 0x%08x\n", end);
-/*TODO*///#ifdef __LP64__
-/*TODO*///	if (errorlog) fprintf(errorlog, " handler address: 0x%016lx\n", (unsigned long) handler);
-/*TODO*///#else
-/*TODO*///	if (errorlog) fprintf(errorlog, " handler address: 0x%08x\n", (unsigned int) handler);
-/*TODO*///#endif
-/*TODO*///	abitsmin = ABITSMIN (cpu);
-/*TODO*///
-/*TODO*///	/* see if this function is already registered */
-/*TODO*///	hw_set = 0;
-/*TODO*///	for ( i = 0 ; i < MH_HARDMAX ; i++)
-/*TODO*///	{
-/*TODO*///		/* record it if it matches */
-/*TODO*///		if (( memoryreadhandler[i] == handler ) &&
-/*TODO*///			(  memoryreadoffset[i] == start))
-/*TODO*///		{
-/*TODO*///			if (errorlog) fprintf(errorlog,"handler match - use old one\n");
-/*TODO*///			hardware = i;
-/*TODO*///			hw_set = 1;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	switch ((FPTR)handler)
-/*TODO*///	{
-/*TODO*///		case (FPTR)MRA_RAM:
-/*TODO*///		case (FPTR)MRA_ROM:
-/*TODO*///			hardware = HT_RAM;	/* sprcial case ram read */
-/*TODO*///			hw_set = 1;
-/*TODO*///			break;
-/*TODO*///		case (FPTR)MRA_BANK1:
-/*TODO*///		case (FPTR)MRA_BANK2:
-/*TODO*///		case (FPTR)MRA_BANK3:
-/*TODO*///		case (FPTR)MRA_BANK4:
-/*TODO*///		case (FPTR)MRA_BANK5:
-/*TODO*///		case (FPTR)MRA_BANK6:
-/*TODO*///		case (FPTR)MRA_BANK7:
-/*TODO*///		case (FPTR)MRA_BANK8:
-/*TODO*///		case (FPTR)MRA_BANK9:
-/*TODO*///		case (FPTR)MRA_BANK10:
-/*TODO*///		case (FPTR)MRA_BANK11:
-/*TODO*///		case (FPTR)MRA_BANK12:
-/*TODO*///		case (FPTR)MRA_BANK13:
-/*TODO*///		case (FPTR)MRA_BANK14:
-/*TODO*///		case (FPTR)MRA_BANK15:
-/*TODO*///		case (FPTR)MRA_BANK16:
-/*TODO*///		{
-/*TODO*///			hardware = (int)MRA_BANK1 - (int)handler + 1;
-/*TODO*///			hw_set = 1;
-/*TODO*///			break;
-/*TODO*///		}
-/*TODO*///		case (FPTR)MRA_NOP:
-/*TODO*///			hardware = HT_NOP;
-/*TODO*///			hw_set = 1;
-/*TODO*///			break;
-/*TODO*///	}
-/*TODO*///	if (!hw_set)  /* no match */
-/*TODO*///	{
-/*TODO*///		/* create newer hardware handler */
-/*TODO*///		if( rdhard_max == MH_HARDMAX )
-/*TODO*///		{
-/*TODO*///			if (errorlog) fprintf(errorlog, "read memory hardware pattern over !\n");
-/*TODO*///			if (errorlog) fprintf(errorlog, "Failed to install new memory handler.\n");
-/*TODO*///			return memory_find_base(cpu, start);
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			/* register hardware function */
-/*TODO*///			hardware = rdhard_max++;
-/*TODO*///			memoryreadhandler[hardware] = handler;
-/*TODO*///			memoryreadoffset[hardware] = start;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	/* set hardware element table entry */
-/*TODO*///	set_element( cpu , cur_mr_element[cpu] ,
-/*TODO*///		(((unsigned int) start) >> abitsmin) ,
-/*TODO*///		(((unsigned int) end) >> abitsmin) ,
-/*TODO*///		hardware , readhardware , &rdelement_max );
-/*TODO*///	if (errorlog) fprintf(errorlog, "Done installing new memory handler.\n");
-/*TODO*///	if (errorlog){
-/*TODO*///		fprintf(errorlog,"used read  elements %d/%d , functions %d/%d\n"
-/*TODO*///		    ,rdelement_max,MH_ELEMAX , rdhard_max,MH_HARDMAX );
-/*TODO*///	}
-/*TODO*///	return memory_find_base(cpu, start);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void *install_mem_write_handler(int cpu, int start, int end, mem_write_handler handler)
-/*TODO*///{
-/*TODO*///	MHELE hardware = 0;
-/*TODO*///	int abitsmin;
-/*TODO*///	int i, hw_set;
-/*TODO*///	if (errorlog) fprintf(errorlog, "Install new memory write handler:\n");
-/*TODO*///	if (errorlog) fprintf(errorlog, "             cpu: %d\n", cpu);
-/*TODO*///	if (errorlog) fprintf(errorlog, "           start: 0x%08x\n", start);
-/*TODO*///	if (errorlog) fprintf(errorlog, "             end: 0x%08x\n", end);
-/*TODO*///#ifdef __LP64__
-/*TODO*///	if (errorlog) fprintf(errorlog, " handler address: 0x%016lx\n", (unsigned long) handler);
-/*TODO*///#else
-/*TODO*///	if (errorlog) fprintf(errorlog, " handler address: 0x%08x\n", (unsigned int) handler);
-/*TODO*///#endif
-/*TODO*///	abitsmin = ABITSMIN (cpu);
-/*TODO*///
-/*TODO*///	/* see if this function is already registered */
-/*TODO*///	hw_set = 0;
-/*TODO*///	for ( i = 0 ; i < MH_HARDMAX ; i++)
-/*TODO*///	{
-/*TODO*///		/* record it if it matches */
-/*TODO*///		if (( memorywritehandler[i] == handler ) &&
-/*TODO*///			(  memorywriteoffset[i] == start))
-/*TODO*///		{
-/*TODO*///			if (errorlog) fprintf(errorlog,"handler match - use old one\n");
-/*TODO*///			hardware = i;
-/*TODO*///			hw_set = 1;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	switch( (FPTR)handler )
-/*TODO*///	{
-/*TODO*///		case (FPTR)MWA_RAM:
-/*TODO*///			hardware = HT_RAM;	/* sprcial case ram write */
-/*TODO*///			hw_set = 1;
-/*TODO*///			break;
-/*TODO*///		case (FPTR)MWA_BANK1:
-/*TODO*///		case (FPTR)MWA_BANK2:
-/*TODO*///		case (FPTR)MWA_BANK3:
-/*TODO*///		case (FPTR)MWA_BANK4:
-/*TODO*///		case (FPTR)MWA_BANK5:
-/*TODO*///		case (FPTR)MWA_BANK6:
-/*TODO*///		case (FPTR)MWA_BANK7:
-/*TODO*///		case (FPTR)MWA_BANK8:
-/*TODO*///		case (FPTR)MWA_BANK9:
-/*TODO*///		case (FPTR)MWA_BANK10:
-/*TODO*///		case (FPTR)MWA_BANK11:
-/*TODO*///		case (FPTR)MWA_BANK12:
-/*TODO*///		case (FPTR)MWA_BANK13:
-/*TODO*///		case (FPTR)MWA_BANK14:
-/*TODO*///		case (FPTR)MWA_BANK15:
-/*TODO*///		case (FPTR)MWA_BANK16:
-/*TODO*///		{
-/*TODO*///			hardware = (int)MWA_BANK1 - (int)handler + 1;
-/*TODO*///			hw_set = 1;
-/*TODO*///			break;
-/*TODO*///		}
-/*TODO*///		case (FPTR)MWA_NOP:
-/*TODO*///			hardware = HT_NOP;
-/*TODO*///			hw_set = 1;
-/*TODO*///			break;
-/*TODO*///		case (FPTR)MWA_RAMROM:
-/*TODO*///			hardware = HT_RAMROM;
-/*TODO*///			hw_set = 1;
-/*TODO*///			break;
-/*TODO*///		case (FPTR)MWA_ROM:
-/*TODO*///			hardware = HT_ROM;
-/*TODO*///			hw_set = 1;
-/*TODO*///			break;
-/*TODO*///	}
-/*TODO*///	if (!hw_set)  /* no match */
-/*TODO*///	{
-/*TODO*///		/* create newer hardware handler */
-/*TODO*///		if( wrhard_max == MH_HARDMAX )
-/*TODO*///		{
-/*TODO*///			if (errorlog) fprintf(errorlog, "write memory hardware pattern over !\n");
-/*TODO*///			if (errorlog) fprintf(errorlog, "Failed to install new memory handler.\n");
-/*TODO*///
-/*TODO*///			return memory_find_base(cpu, start);
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			/* register hardware function */
-/*TODO*///			hardware = wrhard_max++;
-/*TODO*///			memorywritehandler[hardware] = handler;
-/*TODO*///			memorywriteoffset[hardware] = start;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	/* set hardware element table entry */
-/*TODO*///	set_element( cpu , cur_mw_element[cpu] ,
-/*TODO*///		(((unsigned int) start) >> abitsmin) ,
-/*TODO*///		(((unsigned int) end) >> abitsmin) ,
-/*TODO*///		hardware , writehardware , &wrelement_max );
-/*TODO*///	if (errorlog) fprintf(errorlog, "Done installing new memory handler.\n");
-/*TODO*///	if (errorlog){
-/*TODO*///		fprintf(errorlog,"used write elements %d/%d , functions %d/%d\n"
-/*TODO*///		    ,wrelement_max,MH_ELEMAX , wrhard_max,MH_HARDMAX );
-/*TODO*///	}
-/*TODO*///	return memory_find_base(cpu, start);
-/*TODO*///}
-/*TODO*///
+    /* cpu change op-code memory base */
+    public static void cpu_setOPbaseoverride(int cpu, opbase_handlerPtr function) {
+        setOPbasefunc[cpu] = function;
+        if (cpu == cpu_getactivecpu()) {
+            OPbasefunc = function;
+        }
+    }
+
+    public static UBytePtr install_mem_read_handler(int cpu, int start, int end, ReadHandlerPtr _handler) {
+        return install_mem_read_handler(cpu, start, end, _handler, -15000);
+    }
+    
+    public static UBytePtr install_mem_read_handler(int cpu, int start, int end, ReadHandlerPtr _handler, int handler) {
+        char u8_hardware = 0;
+        int abitsmin;
+        int i, hw_set;
+        if (errorlog != null) {
+            fprintf(errorlog, "Install new memory read handler:\n");
+        }
+        if (errorlog != null) {
+            fprintf(errorlog, "             cpu: %d\n", cpu);
+        }
+        if (errorlog != null) {
+            fprintf(errorlog, "           start: 0x%08x\n", start);
+        }
+        if (errorlog != null) {
+            fprintf(errorlog, "             end: 0x%08x\n", end);
+        }
+        if (errorlog != null) {
+            fprintf(errorlog, " handler address: 0x%08x\n", handler);
+        }
+
+        abitsmin = ABITSMIN(cpu);
+
+        /* see if this function is already registered */
+        hw_set = 0;
+        for (i = 0; i < MH_HARDMAX; i++) {
+            /* record it if it matches */
+            if (memoryreadhandler[i] != null && (memoryreadhandler[i] == _handler)
+                    && (memoryreadoffset[i] == start)) {
+                if (errorlog != null) {
+                    fprintf(errorlog, "handler match - use old one\n");
+                }
+                u8_hardware = (char) (i & 0xFF);
+                hw_set = 1;
+            }
+        }
+
+        switch (handler) {
+            case MRA_ROM:
+            case MRA_RAM: {
+                u8_hardware = HT_RAM;
+                /* special case ram read */
+                hw_set = 1;
+            }
+            break;
+            case MRA_BANK1:
+            case MRA_BANK2:
+            case MRA_BANK3:
+            case MRA_BANK4:
+            case MRA_BANK5:
+            case MRA_BANK6:
+            case MRA_BANK7:
+            case MRA_BANK8:
+            case MRA_BANK9:
+            case MRA_BANK10:
+            case MRA_BANK11:
+            case MRA_BANK12:
+            case MRA_BANK13:
+            case MRA_BANK14:
+            case MRA_BANK15:
+            case MRA_BANK16: {
+                u8_hardware = (char) ((int) MRA_BANK1 - (int) handler + 1);
+                memoryreadoffset[u8_hardware] = bankreadoffset[u8_hardware] = start;
+                cpu_bankbase[u8_hardware] = memory_find_base(cpu, start);
+                hw_set = 1;
+
+            }
+            break;
+            case MRA_NOP: {
+                u8_hardware = HT_NOP;
+                hw_set = 1;
+
+            }
+            break;
+        }
+        if (hw_set == 0) /* no match */ {
+            /* create newer hardware handler */
+            if (rdhard_max == MH_HARDMAX) {
+                if (errorlog != null) {
+                    fprintf(errorlog, "read memory hardware pattern over !\n");
+                }
+                if (errorlog != null) {
+                    fprintf(errorlog, "Failed to install new memory handler.\n");
+                }
+                return memory_find_base(cpu, start);
+            } else {
+                /* register hardware function */
+                u8_hardware = (char) (rdhard_max++);
+                memoryreadhandler[u8_hardware] = _handler;
+                memoryreadoffset[u8_hardware] = start;
+            }
+        }
+
+        /* set hardware element table entry */
+        set_element(cpu, new UBytePtr(u8_cur_mr_element[cpu]),
+                ((/*(unsigned int)*/start) >>> abitsmin),
+                ((/*(unsigned int)*/end) >>> abitsmin),
+                u8_hardware, new UBytePtr(u8_readhardware), rdelement_max);
+        if (errorlog != null) {
+            fprintf(errorlog, "Done installing new memory handler.\n");
+        }
+        if (errorlog != null) {
+            fprintf(errorlog, "used read  elements %d/%d , functions %d/%d\n",
+                    rdelement_max, MH_ELEMAX, rdhard_max, MH_HARDMAX);
+        }
+        return memory_find_base(cpu, start);
+    }
+
+    public static UBytePtr install_mem_write_handler(int cpu, int start, int end, WriteHandlerPtr _handler) {
+        return install_mem_write_handler(cpu, start, end, _handler, -15000);
+    }
+    
+    public static UBytePtr install_mem_write_handler(int cpu, int start, int end, WriteHandlerPtr _handler, int handler) {
+        char u8_hardware = 0;
+        int abitsmin;
+        int i, hw_set;
+        if (errorlog != null) {
+            fprintf(errorlog, "Install new memory write handler:\n");
+        }
+        if (errorlog != null) {
+            fprintf(errorlog, "             cpu: %d\n", cpu);
+        }
+        if (errorlog != null) {
+            fprintf(errorlog, "           start: 0x%08x\n", start);
+        }
+        if (errorlog != null) {
+            fprintf(errorlog, "             end: 0x%08x\n", end);
+        }
+
+        if (errorlog != null) {
+            fprintf(errorlog, " handler address: 0x%08x\n", handler);
+        }
+
+        abitsmin = ABITSMIN(cpu);
+        /* see if this function is already registered */
+        hw_set = 0;
+        for (i = 0; i < MH_HARDMAX; i++) {
+            /* record it if it matches */
+            if (memorywritehandler[i] != null && (memorywritehandler[i] == _handler)
+                    && (memorywriteoffset[i] == start)) {
+                if (errorlog != null) {
+                    fprintf(errorlog, "handler match - use old one\n");
+                }
+                u8_hardware = (char) (i & 0xFF);
+                hw_set = 1;
+            }
+        }
+
+        switch (handler) {
+            case MWA_RAM: {
+                u8_hardware = HT_RAM;
+                /* special case ram write */
+                hw_set = 1;
+            }
+            break;
+            case MWA_BANK1:
+            case MWA_BANK2:
+            case MWA_BANK3:
+            case MWA_BANK4:
+            case MWA_BANK5:
+            case MWA_BANK6:
+            case MWA_BANK7:
+            case MWA_BANK8:
+            case MWA_BANK9:
+            case MWA_BANK10:
+            case MWA_BANK11:
+            case MWA_BANK12:
+            case MWA_BANK13:
+            case MWA_BANK14:
+            case MWA_BANK15:
+            case MWA_BANK16: {
+                u8_hardware = (char) ((int) MWA_BANK1 - (int) handler + 1);
+                memorywriteoffset[u8_hardware] = bankwriteoffset[u8_hardware] = start;
+                cpu_bankbase[u8_hardware] = memory_find_base(cpu, start);
+                hw_set = 1;
+            }
+            break;
+            case MWA_NOP: {
+                u8_hardware = HT_NOP;
+                hw_set = 1;
+            }
+            break;
+            case MWA_RAMROM: {
+                u8_hardware = HT_RAMROM;
+                hw_set = 1;
+            }
+            break;
+            case MWA_ROM: {
+                u8_hardware = HT_ROM;
+                hw_set = 1;
+            }
+            break;
+        }
+        if (hw_set == 0) /* no match */ {
+            /* create newer hardware handler */
+            if (wrhard_max == MH_HARDMAX) {
+                if (errorlog != null) {
+                    fprintf(errorlog, "write memory hardware pattern over !\n");
+                }
+                if (errorlog != null) {
+                    fprintf(errorlog, "Failed to install new memory handler.\n");
+                }
+
+                return memory_find_base(cpu, start);
+            } else {
+                /* register hardware function */
+                u8_hardware = (char) (wrhard_max++);
+                memorywritehandler[u8_hardware] = _handler;
+                memorywriteoffset[u8_hardware] = start;
+            }
+        }
+
+        /* set hardware element table entry */
+        set_element(cpu, new UBytePtr(u8_cur_mw_element[cpu]),
+                ((/*(unsigned int)*/start) >>> abitsmin),
+                ((/*(unsigned int)*/end) >>> abitsmin),
+                u8_hardware, new UBytePtr(u8_writehardware), wrelement_max);
+        if (errorlog != null) {
+            fprintf(errorlog, "Done installing new memory handler.\n");
+        }
+        if (errorlog != null) {
+            fprintf(errorlog, "used write elements %d/%d , functions %d/%d\n",
+                    wrelement_max, MH_ELEMAX, wrhard_max, MH_HARDMAX);
+        }
+        return memory_find_base(cpu, start);
+    }
+
     public static IOReadPort[] install_port_read_handler(int cpu, int start, int end, ReadHandlerPtr _handler) {
         return install_port_read_handler_common(cpu, start, end, _handler, 1);
     }

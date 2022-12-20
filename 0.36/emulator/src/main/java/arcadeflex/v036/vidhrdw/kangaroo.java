@@ -17,13 +17,13 @@ import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.memory.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class kangaroo {

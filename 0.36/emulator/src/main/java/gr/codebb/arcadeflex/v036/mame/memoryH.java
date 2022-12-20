@@ -5,7 +5,7 @@ import static arcadeflex.v036.mame.memoryH.ABITS2_24;
 import static arcadeflex.v036.mame.memoryH.ABITS_MIN_20;
 import static arcadeflex.v036.mame.memoryH.ABITS_MIN_24;
 import static arcadeflex.v036.mame.memoryH.change_pc_generic;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
+import static arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.memory.cpu_setOPbase20;
 import static gr.codebb.arcadeflex.v036.mame.memory.cpu_setOPbase24;

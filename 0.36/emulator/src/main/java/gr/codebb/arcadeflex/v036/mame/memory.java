@@ -7,7 +7,7 @@ import static arcadeflex.v036.mame.cpuintrf.cpu_getactivecpu;
 import static gr.codebb.arcadeflex.v036.platform.libc.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static arcadeflex.v036.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
+import static arcadeflex.v036.mame.memory.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class memory {

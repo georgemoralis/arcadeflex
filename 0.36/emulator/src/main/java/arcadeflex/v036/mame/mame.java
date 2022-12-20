@@ -23,6 +23,7 @@ import static arcadeflex.v036.mame.mameH.*;
 import static arcadeflex.v036.mame.osdependH.*;
 import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.usrintrf.*;
+import static arcadeflex.v036.mame.memory.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 //common imports
@@ -44,7 +45,6 @@ import static gr.codebb.arcadeflex.v036.platform.fileio.osd_fopen;
 import static gr.codebb.arcadeflex.v036.platform.input.osd_led_w;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 
 public class mame {

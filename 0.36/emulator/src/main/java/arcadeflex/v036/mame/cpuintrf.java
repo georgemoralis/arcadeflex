@@ -18,8 +18,8 @@ import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
 import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.sndintrf.*;
+import static arcadeflex.v036.mame.memory.*;
 //TODO
-import static gr.codebb.arcadeflex.v037b7.mame.memory.memorycontextswap;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 
 import java.util.ArrayList;

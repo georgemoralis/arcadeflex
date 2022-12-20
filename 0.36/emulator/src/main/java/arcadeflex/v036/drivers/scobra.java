@@ -22,6 +22,7 @@ import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.inptportH.*;
+import static arcadeflex.v036.mame.memory.*;
 //sndhrdw imports
 import static arcadeflex.v036.sndhrdw.frogger.*;
 import static arcadeflex.v036.sndhrdw.scramble.*;
@@ -36,7 +37,6 @@ import static arcadeflex.v036.vidhrdw.galaxian.*;
 import static common.libc.expressions.*;
 //TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
 
 public class scobra {
 

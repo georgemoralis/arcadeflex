@@ -23,6 +23,7 @@ import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.inputH.*;
+import static arcadeflex.v036.mame.memory.*;
 //sndhrdw imports
 import static arcadeflex.v036.sndhrdw.cclimber.*;
 //sound imports
@@ -33,7 +34,6 @@ import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.cclimber.*;
 //TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 
 public class cclimber {
 

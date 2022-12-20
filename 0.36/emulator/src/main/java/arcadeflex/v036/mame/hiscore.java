@@ -16,6 +16,7 @@ import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.memory.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
@@ -23,7 +24,6 @@ import static gr.codebb.arcadeflex.v036.platform.fileio.osd_fclose;
 import static gr.codebb.arcadeflex.v036.platform.fileio.osd_fopen;
 import static gr.codebb.arcadeflex.v036.platform.fileio.osd_fread;
 import static gr.codebb.arcadeflex.v036.platform.fileio.osd_fwrite;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.memorycontextswap;
 
 public class hiscore {
 

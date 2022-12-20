@@ -22,6 +22,7 @@ import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.memory.*;
 //sound imports
 import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;
@@ -31,7 +32,6 @@ import static arcadeflex.v036.vidhrdw.galaxian.*;
 import static arcadeflex.v036.vidhrdw.fastfred.*;
 //TODO
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
 
 public class fastfred {
 
