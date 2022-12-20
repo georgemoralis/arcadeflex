@@ -36,6 +36,7 @@ import static arcadeflex.v036.drivers.galaxian.*;
 import static arcadeflex.v036.drivers.hexa.*;
 import static arcadeflex.v036.drivers.higemaru.*;
 import static arcadeflex.v036.drivers.jack.*;
+import static arcadeflex.v036.drivers.zodiack.*;
 
 public class driver {
 
@@ -2502,10 +2503,10 @@ public class driver {
                 driver_wanted, /* (c) 1984 Sigma Ent. Inc. */
                 driver_funkybee, /* (c) 1982 Orca */
                 driver_skylancr, /* (c) 1983 Orca + Esco Trading Co license */
-                /*TODO*///	driver_zodiack,	/* (c) 1983 Orca + Esco Trading Co license */
-                /*TODO*///	driver_dogfight,	/* (c) 1983 Thunderbolt */
-                /*TODO*///	driver_moguchan,	/* (c) 1982 Orca + Eastern Commerce Inc. license (doesn't appear on screen) */
-                /*TODO*///	driver_percuss,	/* (c) 1981 Orca */
+                driver_zodiack, /* (c) 1983 Orca + Esco Trading Co license */
+                driver_dogfight, /* (c) 1983 Thunderbolt */
+                driver_moguchan, /* (c) 1982 Orca + Eastern Commerce Inc. license (doesn't appear on screen) */
+                driver_percuss, /* (c) 1981 Orca */
                 driver_espial, /* (c) 1983 Thunderbolt, Orca logo is hidden in title screen */
                 driver_espiale, /* (c) 1983 Thunderbolt, Orca logo is hidden in title screen */
                 /*TODO*///	/* Vastar was made by Orca, but when it was finished, Orca had already bankrupted. */
