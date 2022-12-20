@@ -12,7 +12,6 @@ import static arcadeflex.v036.mame.osdependH.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
-import static arcadeflex.v036.vidhrdw.galaxian.*;
 //common imports
 import static common.libc.cstring.*;
 import static common.libc.expressions.*;

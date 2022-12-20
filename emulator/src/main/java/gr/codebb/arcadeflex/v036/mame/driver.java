@@ -24,17 +24,13 @@ import static gr.codebb.arcadeflex.v037b7.drivers.minivadr.*;
 import static arcadeflex.v036.drivers.pengo.*;
 import static gr.codebb.arcadeflex.v036.drivers.system1.*;
 import static gr.codebb.arcadeflex.v036.drivers.locomotn.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.pooyan.*;
-import static arcadeflex.v036.drivers.frogger.*;
 import static arcadeflex.v036.drivers.superqix.*;
 import static arcadeflex.v036.drivers.mrdo.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.pingpong.*;
 import static gr.codebb.arcadeflex.v036.drivers.tecmo.*;
 import static arcadeflex.v036.drivers.rocnrope.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mikie.*;
-import static arcadeflex.v036.drivers.hexa.*;
 import static arcadeflex.v036.drivers.sonson.*;
-import static arcadeflex.v036.drivers.amidar.*;
 import static arcadeflex.v036.drivers.pbaction.*;
 import static arcadeflex.v036.drivers.timeplt.*;
 import static arcadeflex.v036.drivers.gng.*;
@@ -51,14 +47,11 @@ import static arcadeflex.v036.drivers.blktiger.*;
 import static arcadeflex.v036.drivers.brkthru.*;
 import static gr.codebb.arcadeflex.v036.drivers.sidearms.*;
 import static arcadeflex.v036.drivers.retofinv.*;
-import static gr.codebb.arcadeflex.v036.drivers.kyugo.*;
 import static arcadeflex.v036.drivers.wc90.*;
-import static arcadeflex.v036.drivers.jack.*;
 import static gr.codebb.arcadeflex.v036.drivers.copsnrob.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.pcktgal.*;
 import static arcadeflex.v036.drivers.bogeyman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.scregg.*;
-import static arcadeflex.v036.drivers.funkybee.*;
 import static gr.codebb.arcadeflex.v036.drivers.xain.*;
 import static arcadeflex.v036.drivers.wiz.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.shaolins.*;
@@ -69,18 +62,13 @@ import static arcadeflex.v036.drivers.mappy.*;
 import static arcadeflex.v036.drivers.digdug.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.phozon.*;
 import static arcadeflex.v036.drivers.speedbal.*;
-import static arcadeflex.v036.drivers.scobra.*;
-import static gr.codebb.arcadeflex.v036.drivers.scramble.*;
 import static arcadeflex.v036.drivers.hcastle.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.pkunwar.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.nova2001.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.gsword.*;
 import static arcadeflex.v036.drivers.stfight.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jrpacman.*;
 import static arcadeflex.v036.drivers.mpatrol.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.yard.*;
 import static gr.codebb.arcadeflex.v036.drivers.srumbler.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.marineb.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jackal.*;
 import static arcadeflex.v036.drivers.gberet.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mitchell.*;
@@ -153,8 +141,6 @@ import static gr.codebb.arcadeflex.v036.drivers.centiped.*;
 import static gr.codebb.arcadeflex.v036.drivers.aeroboto.*;
 import static arcadeflex.v036.drivers.goindol.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bjtwin.*;
-import static arcadeflex.v036.drivers.higemaru.*;
-import static gr.codebb.arcadeflex.v036.drivers.fastfred.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.zodiack.*;
 import static gr.codebb.arcadeflex.v036.drivers.taitosj.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.kchamp.*;
@@ -200,7 +186,6 @@ import static gr.codebb.arcadeflex.v037b7.drivers.shuuz.*;
 import static arcadeflex.v036.drivers.berzerk.*;
 import static gr.codebb.arcadeflex.v036.drivers.ssi.*;
 import static gr.codebb.arcadeflex.v036.drivers.taitof2.*;
-import static arcadeflex.v036.drivers.galaxian.*;
 import static gr.codebb.arcadeflex.v036.drivers.rockola.*;
 import static gr.codebb.arcadeflex.v036.drivers.toaplan1.*;
 import static gr.codebb.arcadeflex.v036.drivers.toaplan2.*;
@@ -290,9 +275,6 @@ public class driver {
                 /*031*//*tp84*/ driver_tp84a,
                 /*034*//*pbaction*/ driver_pbaction,
                 /*035*//*pbactio2*/ driver_pbactio2,
-                /*036*//*pooyan*/ driver_pooyan,
-                /*037*//*pooyan*/ driver_pooyans,
-                /*038*//*pooyan*/ driver_pootan,
                 /*039*//*rocnrope*/ driver_rocnrope,
                 /*040*//*rocnrope*/ driver_rocnropk,
                 /*041*//*locomotn*/ driver_jungler,
@@ -301,32 +283,8 @@ public class driver {
                 /*044*//*locomotn*/ driver_gutangtn,
                 /*045*//*locomotn*/ driver_cottong,
                 /*046*//*locomotn*/ driver_commsega,
-                /*047*//*funkybee*/ driver_funkybee,
-                /*048*//*funkybee*/ driver_skylancr,
-                /*056*//*frogger*/ driver_frogger,
-                /*057*//*frogger*/ driver_frogseg1,
-                /*058*//*frogger*/ driver_frogseg2,
-                /*059*//*frogger*/ driver_froggrmc,
-                /*060*//*hexa*/ driver_hexa,
                 /*064*//*sonson*/ driver_sonson,
                 /*068*//*superqix*/ driver_sqixbl,
-                /*069*//*amidar*/ driver_amidar,
-                /*070*//*amidar*/ driver_amidaru,
-                /*071*//*amidar*/ driver_amidaro,
-                /*072*//*amidar*/ driver_amigo,
-                /*073*//*amidar*/ driver_turtles,
-                /*074*//*amidar*/ driver_turpin,
-                /*075*//*amidar*/ driver_600,
-                /*076*//*kyugo*/ driver_gyrodine,
-                /*077*//*kyugo*/ driver_sonofphx,
-                /*078*//*kyugo*/ driver_repulse,
-                /*079*//*kyugo*/ driver_99lstwar,
-                /*080*//*kyugo*/ driver_99lstwra,
-                /*081*//*kyugo*/ driver_flashgal,
-                /*082*//*kyugo*/ driver_srdmissn,
-                /*083*//*kyugo*/ driver_airwolf,
-                /*084*//*kyugo*/ driver_skywolf,
-                /*085*//*kyugo*/ driver_skywolf2,
                 /*086*//*pacman*/ driver_pacman,
                 /*087*//*pacman*/ driver_pacmanjp,
                 /*088*//*pacman*/ driver_pacmanm,
@@ -406,15 +364,6 @@ public class driver {
                 /*169*//*system1*/ driver_wbdeluxe,
                 /*170*//*system1*/ driver_wbml,
                 /*171*//*system1*/ driver_wbmlju,
-                /*172*//*jack*/ driver_jack,
-                /*173*//*jack*/ driver_jack2,
-                /*174*//*jack*/ driver_jack3,
-                /*175*//*jack*/ driver_treahunt,
-                /*176*//*jack*/ driver_zzyzzyxx,
-                /*177*//*jack*/ driver_zzyzzyx2,
-                /*178*//*jack*/ driver_brix,
-                /*179*//*jack*/ driver_freeze,
-                /*180*//*jack*/ driver_sucasino,
                 /*181*//*timeplt*/ driver_timeplt,
                 /*182*//*timeplt*/ driver_timepltc,
                 /*183*//*timeplt*/ driver_spaceplt,
@@ -431,39 +380,6 @@ public class driver {
                 /*194*//*tecmo*/ driver_gemini,
                 /*195*//*tecmo*/ driver_silkworm,
                 /*196*//*tecmo*/ driver_silkwrm2,
-                /*197*//*scobra*/ driver_scobra,
-                /*198*//*scobra*/ driver_scobras,
-                /*199*//*scobra*/ driver_scobrab,
-                /*200*//*scobra*/ driver_stratgyx,
-                /*201*//*scobra*/ driver_stratgys,
-                /*202*//*scobra*/ driver_armorcar,
-                /*203*//*scobra*/ driver_armorca2,
-                /*204*//*scobra*/ driver_spdcoin,
-                /*205*//*scobra*/ driver_tazmania,
-                /*206*//*scobra*/ driver_tazmani2,
-                /*207*//*scobra*/ driver_calipso,
-                /*208*//*scobra*/ driver_anteater,
-                /*209*//*scobra*/ driver_rescue,
-                /*210*//*scobra*/ driver_minefld,
-                /*211*//*scobra*/ driver_losttomb,
-                /*212*//*scobra*/ driver_losttmbh,
-                /*213*//*scobra*/ driver_superbon,
-                /*214*//*scobra*/ driver_hustler,
-                /*215*//*scobra*/ driver_billiard,
-                /*216*//*scobra*/ driver_hustlerb,
-                /*217*//*scramble*/ driver_scramble,
-                /*218*//*scramble*/ driver_scrambls,
-                /*219*//*scramble*/ driver_atlantis,
-                /*220*//*scramble*/ driver_atlants2,
-                /*221*//*scramble*/ driver_theend,
-                /*222*//*scramble*/ driver_theends,
-                /*223*//*scramble*/ driver_ckongs,
-                /*224*//*scramble*/ driver_froggers,
-                /*225*//*scramble*/ driver_amidars,
-                /*226*//*scramble*/ driver_triplep,
-                /*227*//*scramble*/ driver_knockout,
-                /*228*//*scramble*/ driver_mariner,
-                /*229*//*scramble*/ driver_hotshock,
                 /*230*//*battlnts*/ driver_thehustl,
                 /*231*//*battlnts*/ driver_thehustj,
                 /*232*//*speedbal*/ driver_speedbal,
@@ -531,10 +447,6 @@ public class driver {
                 /*296*//*bublbobl*/ driver_boblbobl,
                 /*297*//*bublbobl*/ driver_sboblbob,
                 /*298*//*bublbobl*/ driver_tokiob,
-                /*299*//*nova2001*/ driver_nova2001,
-                /*300*//*nova2001*/ driver_nov2001u,
-                /*301*//*pkunwar*/ driver_pkunwar,
-                /*302*//*pkunwar*/ driver_pkunwarj,
                 /*303*//*gsword*/ driver_gsword,
                 /*304*//*shaolins*/ driver_kicker,
                 /*305*//*shaolins*/ driver_shaolins,
@@ -601,32 +513,18 @@ public class driver {
                 /*379*//*missile*/ driver_missile,
                 /*380*//*missile*/ driver_missile2,
                 /*381*//*missile*/ driver_suprmatk,
-                /*382*//*scobra*/ driver_moonwar2,
-                /*383*//*scobra*/ driver_monwar2a,
                 /*384*//*arkanoid*/ driver_arkatayt,
                 /*385*//*arkanoid*/ driver_arkbloc2,
                 /*386*//*arkanoid*/ driver_arkangc,
                 /*387*//*zaxxon*/ driver_razmataz,
                 /*388*//*goindol*/ driver_goindol,
                 /*389*//*goindol*/ driver_homo,
-                /*390*//*marineb*/ driver_marineb,
-                /*391*//*marineb*/ driver_changes,
-                /*392*//*marineb*/ driver_looper,
-                /*393*//*marineb*/ driver_springer,
-                /*394*//*marineb*/ driver_hoccer,
-                /*395*//*marineb*/ driver_hoccer2,
-                /*396*//*marineb*/ driver_hopprobo,
-                /*397*//*marineb*/ driver_wanted,
                 /*398*//*ccastles*/ driver_ccastles,
                 /*399*//*ccastles*/ driver_ccastle2,
                 /*400*//*centiped*/ driver_centiped,
                 /*401*//*centiped*/ driver_centipd2,
                 /*402*//*centiped*/ driver_centipdb,
                 /*403*//*centiped*/ driver_centipb2,
-                /*404*//*higemaru*/ driver_higemaru,
-                /*405*//*fastfred*/ driver_flyboyb,
-                /*406*//*fastfred*/ driver_fastfred,
-                /*407*//*fastfred*/ driver_jumpcoas,
                 /*408*//*zodiack*/ driver_zodiack,
                 /*409*//*zodiack*/ driver_dogfight,
                 /*410*//*zodiack*/ driver_moguchan,
@@ -855,9 +753,6 @@ public class driver {
                  */
                 /*001*//*system1*/ driver_brain, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 2079 at vidhrdw.system1.system1_draw_fg(system1.java:468)
                 /*002*//*system1*/ driver_tokisens, // Game Freezes at startup
-                /*003*//*scramble*/ driver_mars,//-CPU #0 PC 7702: warning - op-code execute on mapped i/o
-                /*004*//*scramble*/ driver_devilfsh,//doesn't start..
-                /*005*//*scramble*/ driver_newsin7, //-CPU #1 PC e8a1: warning - op-code execute on mapped i/o
                 /*006*//*airbustr*/ driver_airbustr,//boots but doesn't start
                 /*dec8*/ driver_oscar,//games doesn't boot and freezes emu
                 /*dec8*/ driver_oscarj,//games doesn't boot and freezes emu      		
@@ -893,7 +788,6 @@ public class driver {
                 /*012*//*system1*/ driver_wbmlj2,
                 /*013*//*system1*/ driver_dakkochn,
                 /*014*//*system1*/ driver_ufosensi,
-                /*015*//*scobra*/ driver_darkplnt,
                 /*016*//*spy*/ driver_spy, //sound works , there are a few gfx problems and missing collision(mame 0.36 doesn't have collision either)   
                 /*017//*ironhors*/ driver_farwest,
                 /*018*//*lwings*/ driver_avengers,
@@ -903,7 +797,6 @@ public class driver {
                 /*tehkanwc*/ driver_teedoff,
                 /*aeroboto*/ driver_formatz,
                 /*aeroboto*/ driver_aeroboto,
-                /*fastfred*/ driver_flyboy,
                 /*kingobox*/ driver_ringkin2,
                 /*taitosj*/ driver_kikstart,
                 /*ddragon*/ driver_ddragon,
@@ -1055,47 +948,7 @@ public class driver {
                 driver_xmen2pj,
                 /*TODO*///      driver_cbasebal,	/* 10/1989 (c) 1989 Capcom (Japan) (different hardware) */
                 /* "Galaxian hardware" games */
-                driver_galaxian, /* (c) Namco */
-                driver_galmidw, /* (c) Midway */
-                driver_superg, /* hack */
-                driver_galaxb, /* bootleg */
-                driver_galapx, /* hack */
-                driver_galap1, /* hack */
-                driver_galap4, /* hack */
-                driver_galturbo, /* hack */
-                driver_swarm, /* hack */
-                driver_pisces, /* ? */
-                driver_uniwars, /* (c) Irem */
-                driver_gteikoku, /* (c) Irem */
-                driver_spacbatt, /* bootleg */
-                driver_warofbug, /* (c) 1981 Armenia */
-                driver_redufo, /* ? */
-                driver_pacmanbl, /* bootleg */
-                driver_devilfsg, /* (c) 1984 Vision / Artic (bootleg?) */
-                driver_zigzag, /* (c) 1982 LAX */
-                driver_zigzag2, /* (c) 1982 LAX */
-                driver_jumpbug, /* (c) 1981 Rock-ola */
-                driver_jumpbugb, /* (c) 1981 Sega */
-                driver_levers, /* (c) 1983 Rock-ola */
-                driver_azurian, /* (c) 1982 Rait Electronics Ltd */
-                driver_orbitron, /* Signatron USA */
-                driver_mooncrgx, /* bootleg */
-                driver_mooncrst, /* (c) 1980 Nichibutsu */
-                driver_mooncrsg, /* (c) 1980 Gremlin */
-                driver_smooncrs, /* Gremlin */
-                driver_mooncrsb, /* bootleg */
-                driver_mooncrs2, /* bootleg */
-                driver_fantazia, /* bootleg */
-                driver_eagle, /* (c) Centuri */
-                driver_eagle2, /* (c) Centuri */
-                driver_moonqsr, /* (c) 1980 Nichibutsu */
-                driver_checkman, /* (c) 1982 Zilec-Zenitone */
-                driver_checkmaj, /* (c) 1982 Jaleco (Zenitone/Zilec in ROM CM4, and the programmer names) */
-                driver_streakng, /* [1980] Shoei */
-                driver_blkhole, /* TDS (Tokyo Denshi Sekkei) */
-                driver_moonal2, /* Nichibutsu */
-                driver_moonal2b, /* Nichibutsu */
-                driver_kingball, /* (c) 1980 Namco */
+       
                 //driver_sakingbalj,	/* (c) 1980 Namco */
 
                 /* "Scramble hardware" (and variations) games */
