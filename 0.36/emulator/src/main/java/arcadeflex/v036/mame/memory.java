@@ -10,29 +10,22 @@ import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.memoryH.*;
+import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.commonH.*;
+//common imports
+import static common.libc.cstring.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
+import gr.codebb.arcadeflex.v036.platform.libc_old.FILE;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.fclose;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.fopen;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
+import java.util.Arrays;
 
 public class memory {
 
-    /*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  memory.c
-/*TODO*///
-/*TODO*///  Functions which handle the CPU memory and I/O port access.
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///
-/*TODO*///#include "driver.h"
-/*TODO*///#include "osd_cpu.h"
-/*TODO*///
-/*TODO*////* #define MEM_DUMP */
-/*TODO*///
-/*TODO*///#ifdef MEM_DUMP
-/*TODO*///static void mem_dump( void );
-/*TODO*///#endif
-/*TODO*///
+    public static final boolean MEM_DUMP = false;
+
     /* Convenience macros - not in cpuintrf.h because they shouldn't be used by everyone */
     public static int ADDRESS_BITS(int index) {
         return (cpuintf[Machine.drv.cpu[index].cpu_type & ~CPU_FLAGS_MASK].address_bits);
@@ -82,6 +75,7 @@ public class memory {
 
     /* element shift bits, mask bits */
     public static int[][] mhshift = new int[MAX_CPU][3];
+    public static int[][] mhmask = new int[MAX_CPU][3];
 
     /* pointers to port structs */
  /* ASG: port speedup */
@@ -434,169 +428,199 @@ public class memory {
         }
     };
 
+    /**
+     * *************************************************************************
+     *
+     * Memory structure building
+     *
+     **************************************************************************
+     */
 
-    /*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Memory structure building
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///
-/*TODO*////* return element offset */
-/*TODO*///static MHELE *get_element( MHELE *element , int ad , int elemask ,
-/*TODO*///                        MHELE *subelement , int *ele_max )
-/*TODO*///{
-/*TODO*///	MHELE hw = element[ad];
-/*TODO*///	int i,ele;
-/*TODO*///	int banks = ( elemask / (1<<MH_SBITS) ) + 1;
-/*TODO*///
-/*TODO*///	if( hw >= MH_HARDMAX ) return &subelement[(hw-MH_HARDMAX)<<MH_SBITS];
-/*TODO*///
-/*TODO*///	/* create new element block */
-/*TODO*///	if( (*ele_max)+banks > MH_ELEMAX )
-/*TODO*///	{
-/*TODO*///		if (errorlog) fprintf(errorlog,"memory element size over \n");
-/*TODO*///		return 0;
-/*TODO*///	}
-/*TODO*///	/* get new element nunber */
-/*TODO*///	ele = *ele_max;
-/*TODO*///	(*ele_max)+=banks;
-/*TODO*///#ifdef MEM_DUMP
-/*TODO*///	if (errorlog) fprintf(errorlog,"create element %2d(%2d)\n",ele,banks);
-/*TODO*///#endif
-/*TODO*///	/* set link mark to current element */
-/*TODO*///	element[ad] = ele + MH_HARDMAX;
-/*TODO*///	/* get next subelement top */
-/*TODO*///	subelement  = &subelement[ele<<MH_SBITS];
-/*TODO*///	/* initialize new block */
-/*TODO*///	for( i = 0 ; i < (1<<MH_SBITS) ; i++ )
-/*TODO*///		subelement[i] = hw;
-/*TODO*///
-/*TODO*///	return subelement;
-/*TODO*///}
-/*TODO*///
-/*TODO*///static void set_element( int cpu , MHELE *celement , int sp , int ep , MHELE type , MHELE *subelement , int *ele_max )
-/*TODO*///{
-/*TODO*///	int i;
-/*TODO*///	int edepth = 0;
-/*TODO*///	int shift,mask;
-/*TODO*///	MHELE *eele = celement;
-/*TODO*///	MHELE *sele = celement;
-/*TODO*///	MHELE *ele;
-/*TODO*///	int ss,sb,eb,ee;
-/*TODO*///
-/*TODO*///#ifdef MEM_DUMP
-/*TODO*///	if (errorlog) fprintf(errorlog,"set_element %8X-%8X = %2X\n",sp,ep,type);
-/*TODO*///#endif
-/*TODO*///	if( (unsigned int) sp > (unsigned int) ep ) return;
-/*TODO*///	do{
-/*TODO*///		mask  = mhmask[cpu][edepth];
-/*TODO*///		shift = mhshift[cpu][edepth];
-/*TODO*///
-/*TODO*///		/* center element */
-/*TODO*///		ss = (unsigned int) sp >> shift;
-/*TODO*///		sb = (unsigned int) sp ? ((unsigned int) (sp-1) >> shift) + 1 : 0;
-/*TODO*///		eb = ((unsigned int) (ep+1) >> shift) - 1;
-/*TODO*///		ee = (unsigned int) ep >> shift;
-/*TODO*///
-/*TODO*///		if( sb <= eb )
-/*TODO*///		{
-/*TODO*///			if( (sb|mask)==(eb|mask) )
-/*TODO*///			{
-/*TODO*///				/* same reasion */
-/*TODO*///				ele = (sele ? sele : eele);
-/*TODO*///				for( i = sb ; i <= eb ; i++ ){
-/*TODO*///				 	ele[i & mask] = type;
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				if( sele ) for( i = sb ; i <= (sb|mask) ; i++ )
-/*TODO*///				 	sele[i & mask] = type;
-/*TODO*///				if( eele ) for( i = eb&(~mask) ; i <= eb ; i++ )
-/*TODO*///				 	eele[i & mask] = type;
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		edepth++;
-/*TODO*///
-/*TODO*///		if( ss == sb ) sele = 0;
-/*TODO*///		else sele = get_element( sele , ss & mask , mhmask[cpu][edepth] ,
-/*TODO*///									subelement , ele_max );
-/*TODO*///		if( ee == eb ) eele = 0;
-/*TODO*///		else eele = get_element( eele , ee & mask , mhmask[cpu][edepth] ,
-/*TODO*///									subelement , ele_max );
-/*TODO*///
-/*TODO*///	}while( sele || eele );
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////* ASG 980121 -- allocate all the external memory */
-/*TODO*///static int memory_allocate_ext (void)
-/*TODO*///{
-/*TODO*///	struct ExtMemory *ext = ext_memory;
-/*TODO*///	int cpu;
-/*TODO*///
-/*TODO*///	/* a change for MESS */
-/*TODO*///	if (Machine->gamedrv->rom == 0)  return 1;
-/*TODO*///
-/*TODO*///	/* loop over all CPUs */
-/*TODO*///	for (cpu = 0; cpu < cpu_gettotalcpu (); cpu++)
-/*TODO*///	{
-/*TODO*///		const struct MemoryReadAddress *mra;
-/*TODO*///		const struct MemoryWriteAddress *mwa;
-/*TODO*///
-/*TODO*///		int region = REGION_CPU1+cpu;
-/*TODO*///		int size = memory_region_length(region);
-/*TODO*///
-/*TODO*///		/* now it's time to loop */
-/*TODO*///		while (1)
-/*TODO*///		{
-/*TODO*///			int lowest = 0x7fffffff, end, lastend;
-/*TODO*///
-/*TODO*///			/* find the base of the lowest memory region that extends past the end */
-/*TODO*///			for (mra = Machine->drv->cpu[cpu].memory_read; mra->start != -1; mra++)
-/*TODO*///				if (mra->end >= size && mra->start < lowest) lowest = mra->start;
-/*TODO*///			for (mwa = Machine->drv->cpu[cpu].memory_write; mwa->start != -1; mwa++)
-/*TODO*///				if (mwa->end >= size && mwa->start < lowest) lowest = mwa->start;
-/*TODO*///
-/*TODO*///			/* done if nothing found */
-/*TODO*///			if (lowest == 0x7fffffff)
-/*TODO*///				break;
-/*TODO*///
-/*TODO*///			/* now loop until we find the end of this contiguous block of memory */
-/*TODO*///			lastend = -1;
-/*TODO*///			end = lowest;
-/*TODO*///			while (end != lastend)
-/*TODO*///			{
-/*TODO*///				lastend = end;
-/*TODO*///
-/*TODO*///				/* find the base of the lowest memory region that extends past the end */
-/*TODO*///				for (mra = Machine->drv->cpu[cpu].memory_read; mra->start != -1; mra++)
-/*TODO*///					if (mra->start <= end && mra->end > end) end = mra->end + 1;
-/*TODO*///				for (mwa = Machine->drv->cpu[cpu].memory_write; mwa->start != -1; mwa++)
-/*TODO*///					if (mwa->start <= end && mwa->end > end) end = mwa->end + 1;
-/*TODO*///			}
-/*TODO*///
-/*TODO*///			/* time to allocate */
-/*TODO*///			ext->start = lowest;
-/*TODO*///			ext->end = end - 1;
-/*TODO*///			ext->region = region;
-/*TODO*///			ext->data = malloc (end - lowest);
-/*TODO*///
-/*TODO*///			/* if that fails, we're through */
-/*TODO*///			if (!ext->data)
-/*TODO*///				return 0;
-/*TODO*///
-/*TODO*///			/* reset the memory */
-/*TODO*///			memset (ext->data, 0, end - lowest);
-/*TODO*///			size = ext->end + 1;
-/*TODO*///			ext++;
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	return 1;
-/*TODO*///}
-/*TODO*///
+    /* return element offset */
+    static UBytePtr get_element(UBytePtr element, int ad, int elemask, UBytePtr subelement, int[] ele_max) {
+        char u8_hw = element.read(ad);
+        int i, ele;
+        int banks = (elemask / (1 << MH_SBITS)) + 1;
+
+        if (u8_hw >= MH_HARDMAX) {
+            return new UBytePtr(subelement, (u8_hw - MH_HARDMAX) << MH_SBITS);
+        }
+
+        /* create new element block */
+        if ((ele_max[0]) + banks > MH_ELEMAX) {
+            if (errorlog != null) {
+                fprintf(errorlog, "memory element size overflow\n");
+            }
+            return null;
+        }
+        /* get new element nunber */
+        ele = ele_max[0];
+        (ele_max[0]) += banks;
+
+        if (MEM_DUMP) {
+            if (errorlog != null) {
+                fprintf(errorlog, "create element %2d(%2d)\n", ele, banks);
+            }
+        }
+
+        /* set link mark to current element */
+        element.write(ad, ele + MH_HARDMAX);
+        /* get next subelement top */
+        subelement = new UBytePtr(subelement, ele << MH_SBITS);
+        /* initialize new block */
+        for (i = 0; i < (banks << MH_SBITS); i++) {
+            subelement.write(i, u8_hw);
+        }
+        return subelement;
+    }
+
+    static void set_element(int cpu, UBytePtr celement, int sp, int ep, char u8_type, UBytePtr subelement, int[] ele_max) {
+        int i;
+        int edepth = 0;
+        int shift, mask;
+        UBytePtr eele = celement;
+        UBytePtr sele = celement;
+        UBytePtr ele;
+        int ss, sb, eb, ee;
+        if (MEM_DUMP) {
+            if (errorlog != null) {
+                fprintf(errorlog, "set_element %8X-%8X = %2X\n", sp, ep, (int) u8_type);
+            }
+        }
+        if ( /*(unsigned int)*/sp > /*(unsigned int)*/ ep) {/*TODO*///check if we have to change this to long and casting (shadow)
+            return;
+        }
+        do {
+            mask = mhmask[cpu][edepth];
+            shift = mhshift[cpu][edepth];
+
+            /* center element */
+            ss = /*(unsigned int)*/ sp >>> shift;
+            sb = /*(unsigned int)*/ sp != 0 ? (/*(unsigned int)*/(sp - 1) >>> shift) + 1 : 0;
+            eb = (/*(unsigned int)*/(ep + 1) >>> shift) - 1;
+            ee = /*(unsigned int)*/ ep >>> shift;
+
+            if (sb <= eb) {
+                if ((sb | mask) == (eb | mask)) {
+                    /* same reason */
+                    ele = (sele != null ? sele : eele);
+                    for (i = sb; i <= eb; i++) {
+                        ele.write(i & mask, u8_type);
+                    }
+                } else {
+                    if (sele != null) {
+                        for (i = sb; i <= (sb | mask); i++) {
+                            sele.write(i & mask, u8_type);
+                        }
+                    }
+                    if (eele != null) {
+                        for (i = eb & (~mask); i <= eb; i++) {
+                            eele.write(i & mask, u8_type);
+                        }
+                    }
+                }
+            }
+
+            edepth++;
+
+            if (ss == sb) {
+                sele = null;
+            } else {
+                sele = get_element(sele, ss & mask, mhmask[cpu][edepth],
+                        subelement, ele_max);
+            }
+            if (ee == eb) {
+                eele = null;
+            } else {
+                eele = get_element(eele, ee & mask, mhmask[cpu][edepth],
+                        subelement, ele_max);
+            }
+
+        } while (sele != null || eele != null);
+    }
+
+    /* ASG 980121 -- allocate all the external memory */
+    static int memory_allocate_ext() {
+        int ext = 0;//struct ExtMemory *ext = ext_memory;
+        int cpu;
+
+        /* a change for MESS */
+        if (Machine.gamedrv.rom == null) {
+            return 1;
+        }
+
+        /* loop over all CPUs */
+        for (cpu = 0; cpu < cpu_gettotalcpu(); cpu++) {
+            int region = REGION_CPU1 + cpu;
+            int size = memory_region_length(region);
+
+            /* now it's time to loop */
+            while (true) {
+                int lowest = 0x7fffffff, end, lastend;
+
+                /* find the base of the lowest memory region that extends past the end */
+                for (int mra = 0; Machine.drv.cpu[cpu].memory_read[mra].start != -1; mra++) {
+                    if (Machine.drv.cpu[cpu].memory_read[mra].end >= size
+                            && Machine.drv.cpu[cpu].memory_read[mra].start < lowest) {
+                        lowest = Machine.drv.cpu[cpu].memory_read[mra].start;
+                    }
+                }
+
+                for (int mwa = 0; Machine.drv.cpu[cpu].memory_write[mwa].start != -1; mwa++) {
+                    if (Machine.drv.cpu[cpu].memory_write[mwa].end >= size
+                            && Machine.drv.cpu[cpu].memory_write[mwa].start < lowest) {
+                        lowest = Machine.drv.cpu[cpu].memory_write[mwa].start;
+                    }
+                }
+
+                /* done if nothing found */
+                if (lowest == 0x7fffffff) {
+                    break;
+                }
+
+                /* now loop until we find the end of this contiguous block of memory */
+                lastend = -1;
+                end = lowest;
+                while (end != lastend) {
+                    lastend = end;
+
+                    /* find the base of the lowest memory region that extends past the end */
+                    for (int mra = 0; Machine.drv.cpu[cpu].memory_read[mra].start != -1; mra++) {
+                        if (Machine.drv.cpu[cpu].memory_read[mra].start <= end && Machine.drv.cpu[cpu].memory_read[mra].end > end) {
+                            end = Machine.drv.cpu[cpu].memory_read[mra].end;
+                        }
+                    }
+
+                    for (int mwa = 0; Machine.drv.cpu[cpu].memory_write[mwa].start != -1; mwa++) {
+                        if (Machine.drv.cpu[cpu].memory_write[mwa].start <= end && Machine.drv.cpu[cpu].memory_write[mwa].end > end) {
+                            end = Machine.drv.cpu[cpu].memory_write[mwa].end;
+                        }
+                    }
+
+                }
+
+                /* time to allocate */
+                ext_memory[ext].start = lowest;
+                ext_memory[ext].end = end;
+                ext_memory[ext].region = region;
+                ext_memory[ext].data = new UBytePtr(end + 1 - lowest);
+
+                /* if that fails, we're through */
+                if (ext_memory[ext].data == null) {
+                    return 0;
+                }
+
+                /* reset the memory */
+                memset(ext_memory[ext].data, 0, end + 1 - lowest);
+                size = ext_memory[ext].end + 1;
+                ext++;
+            }
+        }
+
+        return 1;
+    }
+
+    /*TODO*///
 /*TODO*///
 /*TODO*///unsigned char *findmemorychunk(int cpu, int offset, int *chunkstart, int *chunkend)
 /*TODO*///{
@@ -618,53 +642,53 @@ public class memory {
 /*TODO*///	return ramptr[cpu];
 /*TODO*///}
 /*TODO*///
-/*TODO*///
-/*TODO*///unsigned char *memory_find_base (int cpu, int offset)
-/*TODO*///{
-/*TODO*///	int region = REGION_CPU1+cpu;
-/*TODO*///	struct ExtMemory *ext;
-/*TODO*///
-/*TODO*///	/* look in external memory first */
-/*TODO*///	for (ext = ext_memory; ext->data; ext++)
-/*TODO*///		if (ext->region == region && ext->start <= offset && ext->end >= offset)
-/*TODO*///			return ext->data + (offset - ext->start);
-/*TODO*///
-/*TODO*///	return ramptr[cpu] + offset;
-/*TODO*///}
-/*TODO*///
-/*TODO*////* make these static so they can be used in a callback by game drivers */
-/*TODO*///
-/*TODO*///static int rdelement_max = 0;
-/*TODO*///static int wrelement_max = 0;
-/*TODO*///static int rdhard_max = HT_USER;
-/*TODO*///static int wrhard_max = HT_USER;
-/*TODO*///
-/*TODO*////* return = FALSE:can't allocate element memory */
-/*TODO*///int memory_init(void)
-/*TODO*///{
-/*TODO*///	int i, cpu;
-/*TODO*///	const struct MemoryReadAddress *memoryread;
-/*TODO*///	const struct MemoryWriteAddress *memorywrite;
-/*TODO*///	const struct MemoryReadAddress *mra;
-/*TODO*///	const struct MemoryWriteAddress *mwa;
-/*TODO*///	const struct IOReadPort *ioread;
-/*TODO*///	const struct IOWritePort *iowrite;
-/*TODO*///	MHELE hardware;
-/*TODO*///	int abits1,abits2,abits3,abitsmin;
-/*TODO*///	rdelement_max = 0;
-/*TODO*///	wrelement_max = 0;
-/*TODO*///	rdhard_max = HT_USER;
-/*TODO*///	wrhard_max = HT_USER;
-/*TODO*///
-/*TODO*///	for( cpu = 0 ; cpu < MAX_CPU ; cpu++ )
-/*TODO*///		cur_mr_element[cpu] = cur_mw_element[cpu] = 0;
-/*TODO*///
-/*TODO*///	ophw = 0xff;
-/*TODO*///
-/*TODO*///	/* ASG 980121 -- allocate external memory */
-/*TODO*///	if (!memory_allocate_ext ())
-/*TODO*///		return 0;
-/*TODO*///
+    public static UBytePtr memory_find_base(int cpu, int offset) {
+
+        int region = REGION_CPU1 + cpu;
+
+        /* look in external memory first */
+        for (ExtMemory ext : ext_memory) {
+            if (ext.data == null) {
+                break;
+            }
+            if (ext.region == region && ext.start <= offset && ext.end >= offset) {
+                return new UBytePtr(ext.data, (offset - ext.start));
+            }
+        }
+        return new UBytePtr(ramptr[cpu], offset);
+    }
+
+    /* make these static so they can be used in a callback by game drivers */
+    static int[] rdelement_max = new int[1];
+    static int[] wrelement_max = new int[1];
+    static int rdhard_max = HT_USER;
+    static int wrhard_max = HT_USER;
+
+    /* return = FALSE:can't allocate element memory */
+    public static int memory_init() {
+        /*java code intialaze ext_memory stuff elements (shadow) */
+        for (int x = 0; x < MAX_EXT_MEMORY; x++) {
+            ext_memory[x] = new ExtMemory();
+        }
+        int i, cpu;
+        /*TODO*///	MHELE hardware;
+        int abits1, abits2, abits3, abitsmin;
+        rdelement_max[0] = 0;
+        wrelement_max[0] = 0;
+        rdhard_max = HT_USER;
+        wrhard_max = HT_USER;
+
+        for (cpu = 0; cpu < MAX_CPU; cpu++) {
+            u8_cur_mr_element[cpu] = null;
+            u8_cur_mw_element[cpu] = null;
+        }
+        u8_ophw = 0xff;
+
+        /* ASG 980121 -- allocate external memory */
+        if (memory_allocate_ext() == 0) {
+            return 0;
+        }
+        /*TODO*///
 /*TODO*///	for( cpu = 0 ; cpu < cpu_gettotalcpu() ; cpu++ )
 /*TODO*///	{
 /*TODO*///		const struct MemoryReadAddress *_mra;
@@ -983,35 +1007,33 @@ public class memory {
 /*TODO*///#ifdef MEM_DUMP
 /*TODO*///	mem_dump();
 /*TODO*///#endif
-/*TODO*///	return 1;	/* ok */
-/*TODO*///}
-/*TODO*///
-/*TODO*///void memory_set_opcode_base(int cpu,unsigned char *base)
-/*TODO*///{
-/*TODO*///	romptr[cpu] = base;
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///void memorycontextswap(int activecpu)
-/*TODO*///{
-/*TODO*///	cpu_bankbase[0] = ramptr[activecpu];
-/*TODO*///
-/*TODO*///	cur_mrhard = cur_mr_element[activecpu];
-/*TODO*///	cur_mwhard = cur_mw_element[activecpu];
-/*TODO*///
-/*TODO*///	/* ASG: port speedup */
-/*TODO*///	cur_readport = readport[activecpu];
-/*TODO*///	cur_writeport = writeport[activecpu];
-/*TODO*///	cur_portmask = portmask[activecpu];
-/*TODO*///
-/*TODO*///	OPbasefunc = setOPbasefunc[activecpu];
-/*TODO*///
-/*TODO*///	/* op code memory pointer */
-/*TODO*///	ophw = HT_RAM;
-/*TODO*///	OP_RAM = cpu_bankbase[0];
-/*TODO*///	OP_ROM = romptr[activecpu];
-/*TODO*///}
-/*TODO*///
+        return 1;/* ok */
+    }
+
+    public static void memory_set_opcode_base(int cpu, UBytePtr base) {
+        romptr[cpu] = base;
+    }
+
+    public static void memorycontextswap(int activecpu) {
+        cpu_bankbase[0] = ramptr[activecpu];
+
+        u8_cur_mrhard = u8_cur_mr_element[activecpu];
+        u8_cur_mwhard = u8_cur_mw_element[activecpu];
+
+        /* ASG: port speedup */
+        cur_readport = readport[activecpu];
+        cur_writeport = writeport[activecpu];
+        cur_portmask = portmask[activecpu];
+
+        OPbasefunc = setOPbasefunc[activecpu];
+
+        /* op code memory pointer */
+        u8_ophw = HT_RAM;
+        OP_RAM = cpu_bankbase[0];
+        OP_ROM = romptr[activecpu];
+    }
+
+    /*TODO*///
 /*TODO*///void memory_shutdown(void)
 /*TODO*///{
 /*TODO*///	struct ExtMemory *ext;
@@ -1884,169 +1906,181 @@ public class memory {
 /*TODO*///	return memory_find_base(cpu, start);
 /*TODO*///}
 /*TODO*///
-/*TODO*///void *install_port_read_handler(int cpu, int start, int end, mem_read_handler handler)
-/*TODO*///{
-/*TODO*///	return install_port_read_handler_common(cpu, start, end, handler, 1);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void *install_port_write_handler(int cpu, int start, int end, mem_write_handler handler)
-/*TODO*///{
-/*TODO*///	return install_port_write_handler_common(cpu, start, end, handler, 1);
-/*TODO*///}
-/*TODO*///
-/*TODO*///static void *install_port_read_handler_common(int cpu, int start, int end,
-/*TODO*///											  mem_read_handler handler, int install_at_beginning)
-/*TODO*///{
-/*TODO*///	int i, oldsize;
-/*TODO*///
-/*TODO*///	oldsize = readport_size[cpu];
-/*TODO*///	readport_size[cpu] += sizeof(struct IOReadPort);
-/*TODO*///
-/*TODO*///	if (readport[cpu] == 0)
-/*TODO*///	{
-/*TODO*///		readport[cpu] = malloc(readport_size[cpu]);
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		readport[cpu] = realloc(readport[cpu], readport_size[cpu]);
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if (readport[cpu] == 0)  return 0;
-/*TODO*///
-/*TODO*///	if (install_at_beginning)
-/*TODO*///	{
-/*TODO*///		/* can't do a single memcpy because it doesn't handle overlapping regions correctly??? */
-/*TODO*///		for (i = oldsize / sizeof(struct IOReadPort); i >= 1; i--)
-/*TODO*///		{
-/*TODO*///			memcpy(&readport[cpu][i], &readport[cpu][i - 1], sizeof(struct IOReadPort));
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		i = 0;
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		i = oldsize / sizeof(struct IOReadPort);
-/*TODO*///	}
-/*TODO*///
-/*TODO*///#ifdef MEM_DUMP
-/*TODO*///	if (errorlog) fprintf(errorlog, "Installing port read handler: cpu %d  slot %X  start %X  end %X\n", cpu, i, start, end);
-/*TODO*///#endif
-/*TODO*///
-/*TODO*///	readport[cpu][i].start = start;
-/*TODO*///	readport[cpu][i].end = end;
-/*TODO*///	readport[cpu][i].handler = handler;
-/*TODO*///
-/*TODO*///	return readport[cpu];
-/*TODO*///}
-/*TODO*///
-/*TODO*///static void *install_port_write_handler_common(int cpu, int start, int end,
-/*TODO*///											   mem_write_handler handler, int install_at_beginning)
-/*TODO*///{
-/*TODO*///	int i, oldsize;
-/*TODO*///
-/*TODO*///	oldsize = writeport_size[cpu];
-/*TODO*///	writeport_size[cpu] += sizeof(struct IOWritePort);
-/*TODO*///
-/*TODO*///	if (writeport[cpu] == 0)
-/*TODO*///	{
-/*TODO*///		writeport[cpu] = malloc(writeport_size[cpu]);
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		writeport[cpu] = realloc(writeport[cpu], writeport_size[cpu]);
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if (writeport[cpu] == 0)  return 0;
-/*TODO*///
-/*TODO*///	if (install_at_beginning)
-/*TODO*///	{
-/*TODO*///		/* can't do a single memcpy because it doesn't handle overlapping regions correctly??? */
-/*TODO*///		for (i = oldsize / sizeof(struct IOWritePort); i >= 1; i--)
-/*TODO*///		{
-/*TODO*///			memcpy(&writeport[cpu][i], &writeport[cpu][i - 1], sizeof(struct IOWritePort));
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		i = 0;
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		i = oldsize / sizeof(struct IOWritePort);
-/*TODO*///	}
-/*TODO*///
-/*TODO*///#ifdef MEM_DUMP
-/*TODO*///	if (errorlog) fprintf(errorlog, "Installing port write handler: cpu %d  slot %X  start %X  end %X\n", cpu, i, start, end);
-/*TODO*///#endif
-/*TODO*///
-/*TODO*///	writeport[cpu][i].start = start;
-/*TODO*///	writeport[cpu][i].end = end;
-/*TODO*///	writeport[cpu][i].handler = handler;
-/*TODO*///
-/*TODO*///	return writeport[cpu];
-/*TODO*///}
-/*TODO*///
-/*TODO*///#ifdef MEM_DUMP
-/*TODO*///static void mem_dump( void )
-/*TODO*///{
-/*TODO*///	extern int totalcpu;
-/*TODO*///	int cpu;
-/*TODO*///	int naddr,addr;
-/*TODO*///	MHELE nhw,hw;
-/*TODO*///
-/*TODO*///	FILE *temp = fopen ("memdump.log", "w");
-/*TODO*///
-/*TODO*///	if (!temp) return;
-/*TODO*///
-/*TODO*///	for( cpu = 0 ; cpu < 1 ; cpu++ )
-/*TODO*///	{
-/*TODO*///		fprintf(temp,"cpu %d read memory \n",cpu);
-/*TODO*///		addr = 0;
-/*TODO*///		naddr = 0;
-/*TODO*///		nhw = 0xff;
-/*TODO*///		while( (addr >> mhshift[cpu][0]) <= mhmask[cpu][0] ){
-/*TODO*///			hw = cur_mr_element[cpu][addr >> mhshift[cpu][0]];
-/*TODO*///			if( hw >= MH_HARDMAX )
-/*TODO*///			{	/* 2nd element link */
-/*TODO*///				hw = readhardware[((hw-MH_HARDMAX)<<MH_SBITS) + ((addr>>mhshift[cpu][1]) & mhmask[cpu][1])];
-/*TODO*///				if( hw >= MH_HARDMAX )
-/*TODO*///					hw = readhardware[((hw-MH_HARDMAX)<<MH_SBITS) + (addr & mhmask[cpu][2])];
-/*TODO*///			}
-/*TODO*///			if( nhw != hw )
-/*TODO*///			{
-/*TODO*///				if( addr )
-/*TODO*///	fprintf(temp,"  %08x(%08x) - %08x = %02x\n",naddr,memoryreadoffset[nhw],addr-1,nhw);
-/*TODO*///				nhw = hw;
-/*TODO*///				naddr = addr;
-/*TODO*///			}
-/*TODO*///			addr++;
-/*TODO*///		}
-/*TODO*///		fprintf(temp,"  %08x(%08x) - %08x = %02x\n",naddr,memoryreadoffset[nhw],addr-1,nhw);
-/*TODO*///
-/*TODO*///		fprintf(temp,"cpu %d write memory \n",cpu);
-/*TODO*///		naddr = 0;
-/*TODO*///		addr = 0;
-/*TODO*///		nhw = 0xff;
-/*TODO*///		while( (addr >> mhshift[cpu][0]) <= mhmask[cpu][0] ){
-/*TODO*///			hw = cur_mw_element[cpu][addr >> mhshift[cpu][0]];
-/*TODO*///			if( hw >= MH_HARDMAX )
-/*TODO*///			{	/* 2nd element link */
-/*TODO*///				hw = writehardware[((hw-MH_HARDMAX)<<MH_SBITS) + ((addr>>mhshift[cpu][1]) & mhmask[cpu][1])];
-/*TODO*///				if( hw >= MH_HARDMAX )
-/*TODO*///					hw = writehardware[((hw-MH_HARDMAX)<<MH_SBITS) + (addr & mhmask[cpu][2])];
-/*TODO*///			}
-/*TODO*///			if( nhw != hw )
-/*TODO*///			{
-/*TODO*///				if( addr )
-/*TODO*///	fprintf(temp,"  %08x(%08x) - %08x = %02x\n",naddr,memorywriteoffset[nhw],addr-1,nhw);
-/*TODO*///				nhw = hw;
-/*TODO*///				naddr = addr;
-/*TODO*///			}
-/*TODO*///			addr++;
-/*TODO*///		}
-/*TODO*///	fprintf(temp,"  %08x(%08x) - %08x = %02x\n",naddr,memorywriteoffset[nhw],addr-1,nhw);
-/*TODO*///	}
-/*TODO*///	fclose(temp);
-/*TODO*///}
-/*TODO*///#endif
-/*TODO*///
-/*TODO*///    
+    public static IOReadPort[] install_port_read_handler(int cpu, int start, int end, ReadHandlerPtr _handler) {
+        return install_port_read_handler_common(cpu, start, end, _handler, 1);
+    }
+
+    public static IOWritePort[] install_port_write_handler(int cpu, int start, int end, WriteHandlerPtr _handler) {
+        return install_port_write_handler_common(cpu, start, end, _handler, 1);
+    }
+
+    public static IOReadPort[] install_port_read_handler_common(int cpu, int start, int end, ReadHandlerPtr _handler, int install_at_beginning) {
+        int i, oldsize;
+
+        oldsize = readport_size[cpu];
+        readport_size[cpu]++;// += sizeof(struct IOReadPort);
+
+        if (readport[cpu] == null) {
+            readport[cpu] = new IOReadPort[readport_size[cpu]];
+        } else {
+            IOReadPort[] old_readport = readport[cpu];
+            IOReadPort[] temp = Arrays.copyOf(readport[cpu], readport_size[cpu]);
+            readport[cpu] = temp; //realloc(readport[cpu], readport_size[cpu]);
+
+            /* check if we're changing the current readport and ifso update it */
+            if (cur_readport == old_readport) {
+                cur_readport = readport[cpu];
+            }
+
+            /* realloc leaves the old buffer intact if it fails, so free it */
+            if (readport[cpu] == null) {
+                old_readport = null;
+            }
+        }
+
+        if (readport[cpu] == null) {
+            return null;
+        }
+
+        if (install_at_beginning != 0) {
+            /* can't do a single memcpy because it doesn't handle overlapping regions correctly??? */
+            for (i = oldsize; i >= 1; i--)//for (i = oldsize / sizeof(struct IOReadPort); i >= 1; i--)
+            {
+                System.arraycopy(readport[cpu], i - 1, readport[cpu], i, 1);//memcpy(&readport[cpu][i], &readport[cpu][i - 1], sizeof(struct IOReadPort));
+            }
+
+            i = 0;
+        } else {
+            i = oldsize;//i = oldsize / sizeof(struct IOReadPort);
+        }
+        if (MEM_DUMP) {
+            if (errorlog != null) {
+                fprintf(errorlog, "Installing port read handler: cpu %d  slot %X  start %X  end %X\n", cpu, i, start, end);
+            }
+        }
+
+        readport[cpu][i] = new IOReadPort();
+        readport[cpu][i].start = start;
+        readport[cpu][i].end = end;
+        readport[cpu][i]._handler = _handler;
+
+        return readport[cpu];
+    }
+
+    public static IOWritePort[] install_port_write_handler_common(int cpu, int start, int end, WriteHandlerPtr _handler, int install_at_beginning) {
+        int i, oldsize;
+
+        oldsize = writeport_size[cpu];
+        writeport_size[cpu]++;// += sizeof(struct IOWritePort);
+
+        if (writeport[cpu] == null) {
+            writeport[cpu] = new IOWritePort[writeport_size[cpu]];
+        } else {
+            IOWritePort[] old_writeport = writeport[cpu];
+
+            IOWritePort[] temp = Arrays.copyOf(writeport[cpu], writeport_size[cpu]);
+            writeport[cpu] = temp;//realloc(writeport[cpu], writeport_size[cpu]);
+
+            /* check if we're changing the current writeport and ifso update it */
+            if (cur_writeport == old_writeport) {
+                cur_writeport = writeport[cpu];
+            }
+
+            /* realloc leaves the old buffer intact if it fails, so free it */
+            if (writeport[cpu] == null) {
+                old_writeport = null;
+            }
+        }
+
+        if (writeport[cpu] == null) {
+            return null;
+        }
+
+        if (install_at_beginning != 0) {
+            /* can't do a single memcpy because it doesn't handle overlapping regions correctly??? */
+            for (i = oldsize; i >= 1; i--)//for (i = oldsize / sizeof(struct IOWritePort); i >= 1; i--)
+            {
+                System.arraycopy(writeport[cpu], i - 1, writeport[cpu], i, 1);//memcpy(&writeport[cpu][i], &writeport[cpu][i - 1], sizeof(struct IOWritePort));
+            }
+
+            i = 0;
+        } else {
+            i = oldsize;// / sizeof(struct IOWritePort);
+        }
+
+        if (MEM_DUMP) {
+            if (errorlog != null) {
+                fprintf(errorlog, "Installing port write handler: cpu %d  slot %X  start %X  end %X\n", cpu, i, start, end);
+            }
+        }
+        writeport[cpu][i] = new IOWritePort();
+        writeport[cpu][i].start = start;
+        writeport[cpu][i].end = end;
+        writeport[cpu][i]._handler = _handler;
+
+        return writeport[cpu];
+    }
+
+    public static void mem_dump() {
+        int cpu;
+        int naddr, addr;
+        char u8_nhw, u8_hw;
+
+        FILE temp = fopen("memdump.log", "w");
+
+        if (temp == null) {
+            return;
+        }
+
+        for (cpu = 0; cpu < cpu_gettotalcpu(); cpu++) {
+            fprintf(temp, "cpu %d read memory \n", cpu);
+            addr = 0;
+            naddr = 0;
+            u8_nhw = 0xff;
+            while ((addr >> mhshift[cpu][0]) <= mhmask[cpu][0]) {
+                u8_hw = u8_cur_mr_element[cpu][addr >> mhshift[cpu][0]];
+                if (u8_hw >= MH_HARDMAX) {
+                    /* 2nd element link */
+                    u8_hw = u8_readhardware[((u8_hw - MH_HARDMAX) << MH_SBITS) + ((addr >> mhshift[cpu][1]) & mhmask[cpu][1])];
+                    if (u8_hw >= MH_HARDMAX) {
+                        u8_hw = u8_readhardware[((u8_hw - MH_HARDMAX) << MH_SBITS) + (addr & mhmask[cpu][2])];
+                    }
+                }
+                if (u8_nhw != u8_hw) {
+                    if (addr != 0) {
+                        fprintf(temp, "  %08x(%08x) - %08x = %02x\n", naddr, memoryreadoffset[u8_nhw], addr - 1, (int) u8_nhw);
+                    }
+                    u8_nhw = u8_hw;
+                    naddr = addr;
+                }
+                addr++;
+            }
+            fprintf(temp, "  %08x(%08x) - %08x = %02x\n", naddr, memoryreadoffset[u8_nhw], addr - 1, (int) u8_nhw);
+
+            fprintf(temp, "cpu %d write memory \n", cpu);
+            naddr = 0;
+            addr = 0;
+            u8_nhw = 0xff;
+            while ((addr >> mhshift[cpu][0]) <= mhmask[cpu][0]) {
+                u8_hw = u8_cur_mw_element[cpu][addr >> mhshift[cpu][0]];
+                if (u8_hw >= MH_HARDMAX) {
+                    /* 2nd element link */
+                    u8_hw = u8_writehardware[((u8_hw - MH_HARDMAX) << MH_SBITS) + ((addr >> mhshift[cpu][1]) & mhmask[cpu][1])];
+                    if (u8_hw >= MH_HARDMAX) {
+                        u8_hw = u8_writehardware[((u8_hw - MH_HARDMAX) << MH_SBITS) + (addr & mhmask[cpu][2])];
+                    }
+                }
+                if (u8_nhw != u8_hw) {
+                    if (addr != 0) {
+                        fprintf(temp, "  %08x(%08x) - %08x = %02x\n", naddr, memorywriteoffset[u8_nhw], addr - 1, (int) u8_nhw);
+                    }
+                    u8_nhw = u8_hw;
+                    naddr = addr;
+                }
+                addr++;
+            }
+            fprintf(temp, "  %08x(%08x) - %08x = %02x\n", naddr, memorywriteoffset[u8_nhw], addr - 1, (int) u8_nhw);
+        }
+        fclose(temp);
+    }
 }
