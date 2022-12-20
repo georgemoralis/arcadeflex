@@ -1,6 +1,11 @@
 /**
  * ported to 0.36
  */
+/**
+ * Changelog
+ * =========
+ * 20/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.machine;
 
 //cpu imports
@@ -11,14 +16,13 @@ import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
+import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 
 public class digdug {

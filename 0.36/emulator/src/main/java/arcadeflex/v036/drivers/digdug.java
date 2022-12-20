@@ -1,6 +1,11 @@
 /**
  * ported to 0.36
  */
+/**
+ * Changelog
+ * =========
+ * 20/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.drivers;
 
 //generic imports
@@ -10,17 +15,17 @@ import static arcadeflex.v036.machine.digdug.*;
 //mame imports
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
+import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.inptportH.*;
+//sound imports
+import static arcadeflex.v036.sound.namco.*;
+import static arcadeflex.v036.sound.namcoH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.digdug.*;
-//TODO
-import static arcadeflex.v036.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v036.sound.namcoH.*;
-import static gr.codebb.arcadeflex.v036.sound.namco.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 
 public class digdug {
 
