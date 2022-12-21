@@ -1,10 +1,17 @@
 /**
  * ported to 0.36
  */
+/**
+ * Changelog
+ * =========
+ * 21/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.drivers;
-//generic imports
 
+//generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//machine imports
+import static arcadeflex.v036.machine.segacrpt.*;
 //mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.driverH.*;
@@ -15,6 +22,8 @@ import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.inputH.*;
+import static arcadeflex.v036.mame.memory.*;
+import static arcadeflex.v036.mame.memoryH.*;
 //sndhrdw imports
 import static arcadeflex.v036.sndhrdw.zaxxon.*;
 //sound imports
@@ -25,12 +34,7 @@ import static arcadeflex.v036.vidhrdw.zaxxon.*;
 //common imports
 import static common.libc.cstdlib.*;
 //TODO
-import static arcadeflex.v036.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.machine.segacrpt.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 
 public class zaxxon {
 

@@ -2,22 +2,27 @@
  * ported to 0.36
  * 
  */
+/**
+ * Changelog
+ * =========
+ * 21/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.vidhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.osdependH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
 //common imports
 import static common.libc.cstring.*;
 import static common.libc.expressions.*;
-//vidhrdw imports
-import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.osdependH.*;
 
 public class wiping {
 

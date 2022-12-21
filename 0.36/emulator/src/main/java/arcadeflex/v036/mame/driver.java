@@ -49,6 +49,9 @@ import static arcadeflex.v036.drivers.pacman.*;
 import static arcadeflex.v036.drivers.pbaction.*;
 import static arcadeflex.v036.drivers.rallyx.*;
 import static arcadeflex.v036.drivers.retofinv.*;
+import static arcadeflex.v036.drivers.wiping.*;
+import static arcadeflex.v036.drivers.wiz.*;
+import static arcadeflex.v036.drivers.zaxxon.*;
 
 public class driver {
 
@@ -217,8 +220,8 @@ public class driver {
                 /*TODO*///	driver_radrad,	/* (c) 1982 Nichibutsu USA */
                 /*TODO*///	driver_seicross,	/* (c) 1984 + Alice */
                 /*TODO*///	driver_sectrzon,	/* (c) 1984 + Alice */
-                /*TODO*///	driver_wiping,	/* (c) 1982 */
-                /*TODO*///	driver_rugrats,	/* (c) 1983 */
+                driver_wiping, /* (c) 1982 */
+                driver_rugrats, /* (c) 1983 */
                 driver_cop01, /* (c) 1985 */
                 driver_cop01a, /* (c) 1985 */
                 /*TODO*///	driver_terracre,	/* (c) 1985 */
@@ -1397,13 +1400,13 @@ public class driver {
                 /*TODO*///	driver_pignewta,	/* (c) 1983 */
                 /*TODO*///	driver_sindbadm,	/* 834-5244 (c) 1983 Sega */
                 /*TODO*///
-                /*TODO*///	/* Sega "Zaxxon hardware" games */
-                /*TODO*///	driver_zaxxon,	/* (c) 1982 */
-                /*TODO*///	driver_zaxxon2,	/* (c) 1982 */
-                /*TODO*///	driver_zaxxonb,	/* bootleg */
-                /*TODO*///	driver_szaxxon,	/* (c) 1982 */
-                /*TODO*///	driver_futspy,	/* (c) 1984 */
-                /*TODO*///	driver_razmataz,	/* modified 834-0213, 834-0214 (c) 1983 */
+                /* Sega "Zaxxon hardware" games */
+                driver_zaxxon, /* (c) 1982 */
+                driver_zaxxon2, /* (c) 1982 */
+                driver_zaxxonb, /* bootleg */
+                driver_szaxxon, /* (c) 1982 */
+                driver_futspy, /* (c) 1984 */
+                driver_razmataz, /* modified 834-0213, 834-0214 (c) 1983 */
                 /*TODO*///	driver_congo,		/* 605-5167 (c) 1983 */
                 /*TODO*///	driver_tiptop,	/* 605-5167 (c) 1983 */
                 /*TODO*///
@@ -2412,13 +2415,12 @@ public class driver {
                 driver_sbagman, /* (c) 1984 */
                 driver_sbagmans, /* (c) 1984 + Stern license */
                 driver_pickin, /* (c) 1983 */
-                /*TODO*///
-                /*TODO*///	/* Seibu Denshi / Seibu Kaihatsu games */
-                /*TODO*///	driver_stinger,	/* (c) 1983 Seibu Denshi */
-                /*TODO*///	driver_scion,		/* (c) 1984 Seibu Denshi */
-                /*TODO*///	driver_scionc,	/* (c) 1984 Seibu Denshi + Cinematronics license */
-                /*TODO*///	driver_wiz,		/* (c) 1985 Seibu Kaihatsu */
-                /*TODO*///	driver_wizt,		/* (c) 1985 Taito Corporation */
+                /* Seibu Denshi / Seibu Kaihatsu games */
+                driver_stinger, /* (c) 1983 Seibu Denshi */
+                driver_scion, /* (c) 1984 Seibu Denshi */
+                driver_scionc, /* (c) 1984 Seibu Denshi + Cinematronics license */
+                driver_wiz, /* (c) 1985 Seibu Kaihatsu */
+                driver_wizt, /* (c) 1985 Taito Corporation */
                 /*TODO*///	driver_empcity,	/* (c) 1986 Seibu Kaihatsu (bootleg?) */
                 /*TODO*///	driver_empcityj,	/* (c) 1986 Taito Corporation (Japan) */
                 /*TODO*///	driver_stfight,	/* (c) 1986 Seibu Kaihatsu (Germany) (bootleg?) */

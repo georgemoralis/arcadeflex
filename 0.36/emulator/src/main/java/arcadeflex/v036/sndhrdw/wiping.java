@@ -1,20 +1,26 @@
 /**
  *  ported to 0.36
  */
+/**
+ * Changelog
+ * =========
+ * 21/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.sndhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
+import static arcadeflex.v036.sound.streams.*;
 //common imports
 import static common.libc.cstring.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.ShortPtr;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.mame.commonH.*;
-import static arcadeflex.v036.mame.driverH.*;
-import arcadeflex.v036.mame.sndintrfH.MachineSound;
-import static arcadeflex.v036.sound.streams.*;
 
 public class wiping {
 

@@ -1,11 +1,16 @@
 /**
  * ported to 0.36
  */
+/**
+ * Changelog
+ * =========
+ * 21/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.sndhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-//TODO
+//sound imports
 import static arcadeflex.v036.sound.samples.*;
 
 public class zaxxon {
