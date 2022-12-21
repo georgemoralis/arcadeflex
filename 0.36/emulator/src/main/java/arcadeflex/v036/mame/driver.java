@@ -57,6 +57,8 @@ import static arcadeflex.v036.drivers.tehkanwc.*;
 import static arcadeflex.v036.drivers.kchamp.*;
 import static arcadeflex.v036.drivers.pingpong.*;
 import static arcadeflex.v036.drivers.solomon.*;
+import static arcadeflex.v036.drivers.minivadr.*;
+import static arcadeflex.v036.drivers.bosco.*;
 
 public class driver {
 
@@ -283,11 +285,11 @@ public class driver {
                 /*TODO*///	driver_gutangtn,	/* GX359 (c) 1982 Konami + Sega license */
                 /*TODO*///	driver_cottong,	/* bootleg */
                 /*TODO*///	driver_commsega,	/* (c) 1983 Sega */
-                /*TODO*///	/* the following ones all have a custom I/O chip */
-                /*TODO*///	driver_bosco,		/* (c) 1981 */
-                /*TODO*///	driver_boscoo,	/* (c) 1981 */
-                /*TODO*///	driver_boscomd,	/* (c) 1981 Midway */
-                /*TODO*///	driver_boscomdo,	/* (c) 1981 Midway */
+                /* the following ones all have a custom I/O chip */
+                driver_bosco, /* (c) 1981 */
+                driver_boscoo, /* (c) 1981 */
+                driver_boscomd, /* (c) 1981 Midway */
+                driver_boscomdo, /* (c) 1981 Midway */
                 driver_galaga, /* (c) 1981 */
                 driver_galagamw, /* (c) 1981 Midway */
                 driver_galagads, /* hack */
@@ -850,7 +852,7 @@ public class driver {
                 driver_sqixbl, /* bootleg? but (c) 1987 */
                 /*TODO*///	driver_superman,	/* (c) 1988 Taito Corporation */
                 /*TODO*////*TESTDRIVER*/driver_footchmp,	/* (c) 1990 Taito Corporation Japan (World) */
-                /*TODO*///	driver_minivadr,	/* cabinet test board */
+                driver_minivadr, /* cabinet test board */
                 /*TODO*///
                 /*TODO*///	/* Taito "tnzs" hardware */
                 /*TODO*///	driver_extrmatn,	/* (c) 1987 World Games */
