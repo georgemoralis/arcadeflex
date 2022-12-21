@@ -52,6 +52,11 @@ import static arcadeflex.v036.drivers.retofinv.*;
 import static arcadeflex.v036.drivers.wiping.*;
 import static arcadeflex.v036.drivers.wiz.*;
 import static arcadeflex.v036.drivers.zaxxon.*;
+import static arcadeflex.v036.drivers.superqix.*;
+import static arcadeflex.v036.drivers.tehkanwc.*;
+import static arcadeflex.v036.drivers.kchamp.*;
+import static arcadeflex.v036.drivers.pingpong.*;
+import static arcadeflex.v036.drivers.solomon.*;
 
 public class driver {
 
@@ -841,8 +846,8 @@ public class driver {
                 /*TODO*////*TESTDRIVER*/driver_arkblock,	/* bootleg */
                 /*TODO*///	driver_arkbloc2,	/* bootleg */
                 /*TODO*///	driver_arkangc,	/* bootleg */
-                /*TODO*///	driver_superqix,	/* 1987 */
-                /*TODO*///	driver_sqixbl,	/* bootleg? but (c) 1987 */
+                driver_superqix, /* 1987 */
+                driver_sqixbl, /* bootleg? but (c) 1987 */
                 /*TODO*///	driver_superman,	/* (c) 1988 Taito Corporation */
                 /*TODO*////*TESTDRIVER*/driver_footchmp,	/* (c) 1990 Taito Corporation Japan (World) */
                 /*TODO*///	driver_minivadr,	/* cabinet test board */
@@ -1618,10 +1623,10 @@ public class driver {
                 /*TODO*///	driver_astrof3,	/* (c) [1980?] */
                 /*TODO*///	driver_tomahawk,	/* (c) [1980?] */
                 /*TODO*///	driver_tomahaw5,	/* (c) [1980?] */
-                /*TODO*///	driver_kchamp,	/* (c) 1984 Data East USA (US) */
-                /*TODO*///	driver_karatedo,	/* (c) 1984 Data East Corporation (Japan) */
-                /*TODO*///	driver_kchampvs,	/* (c) 1984 Data East USA (US) */
-                /*TODO*///	driver_karatevs,	/* (c) 1984 Data East Corporation (Japan) */
+                driver_kchamp, /* (c) 1984 Data East USA (US) */
+                driver_karatedo, /* (c) 1984 Data East Corporation (Japan) */
+                driver_kchampvs, /* (c) 1984 Data East USA (US) */
+                driver_karatevs, /* (c) 1984 Data East Corporation (Japan) */
                 /*TODO*///	driver_firetrap,	/* (c) 1986 */
                 /*TODO*///	driver_firetpbl,	/* bootleg */
                 /*TODO*///	driver_brkthru,	/* (c) 1986 Data East USA (US) */
@@ -1740,11 +1745,11 @@ public class driver {
                 driver_bombjac2, /* (c) 1984 Tehkan */
                 driver_pbaction, /* (c) 1985 Tehkan */
                 driver_pbactio2, /* (c) 1985 Tehkan */
-                /*TODO*///	/* 6011 Pontoon (c) 1985 Tehkan is a gambling game - removed */
-                /*TODO*///	driver_tehkanwc,	/* (c) 1985 Tehkan */
-                /*TODO*///	driver_gridiron,	/* (c) 1985 Tehkan */
-                /*TODO*///	driver_teedoff,	/* 6102 - (c) 1986 Tecmo */
-                /*TODO*///	driver_solomon,	/* (c) 1986 Tecmo */
+                /* 6011 Pontoon (c) 1985 Tehkan is a gambling game - removed */
+                driver_tehkanwc, /* (c) 1985 Tehkan */
+                driver_gridiron, /* (c) 1985 Tehkan */
+                driver_teedoff, /* 6102 - (c) 1986 Tecmo */
+                driver_solomon, /* (c) 1986 Tecmo */
                 /*TODO*///	driver_rygar,		/* 6002 - (c) 1986 Tecmo */
                 /*TODO*///	driver_rygar2,	/* 6002 - (c) 1986 Tecmo */
                 /*TODO*///	driver_rygarj,	/* 6002 - (c) 1986 Tecmo */
@@ -1805,7 +1810,7 @@ public class driver {
                 /*TODO*///	driver_yiear2,	/* GX407 (c) 1985 */
                 /*TODO*///	driver_kicker,	/* GX477 (c) 1985 */
                 /*TODO*///	driver_shaolins,	/* GX477 (c) 1985 */
-                /*TODO*///	driver_pingpong,	/* GX555 (c) 1985 */
+                driver_pingpong, /* GX555 (c) 1985 */
                 /*TODO*///	driver_gberet,	/* GX577 (c) 1985 */
                 /*TODO*///	driver_rushatck,	/* GX577 (c) 1985 */
                 /*TODO*///	driver_gberetb,	/* bootleg on different hardware */

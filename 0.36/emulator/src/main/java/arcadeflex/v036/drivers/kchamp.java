@@ -1,35 +1,42 @@
 /*
- * ported to 0.37b7
  * ported to v0.36
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+/**
+ * Changelog
+ * =========
+ * 21/12/2022 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
+//cpu imports
+import static arcadeflex.v036.cpu.z80.z80H.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.memory.*;
+//sound imports
 import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static arcadeflex.v036.vidhrdw.kchamp.*;
 import static arcadeflex.v036.sound.dacH.*;
 import static arcadeflex.v036.sound.dac.*;
-import static arcadeflex.v036.cpu.z80.z80H.*;
 import static arcadeflex.v036.sound.MSM5205H.*;
 import static arcadeflex.v036.sound.MSM5205.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
-
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.kchamp.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class kchamp {
 
@@ -494,7 +501,7 @@ public class kchamp {
             256, /* number of colors */
             256, /* color table length */
             kchamp_vh_convert_color_prom,
-            VIDEO_TYPE_RASTER,
+            VIDEO_TYPE_RASTER | VIDEO_SUPPORTS_DIRTY,
             null,
             kchampvs_vh_start,
             generic_vh_stop,
@@ -545,7 +552,7 @@ public class kchamp {
             256, /* number of colors */
             256, /* color table length */
             kchamp_vh_convert_color_prom,
-            VIDEO_TYPE_RASTER,
+            VIDEO_TYPE_RASTER | VIDEO_SUPPORTS_DIRTY,
             null,
             kchamp1p_vh_start,
             generic_vh_stop,

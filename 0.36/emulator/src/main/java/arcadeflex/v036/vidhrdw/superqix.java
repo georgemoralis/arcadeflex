@@ -1,26 +1,31 @@
 /*
  * ported to v0.36
  */
+/**
+ * Changelog
+ * =========
+ * 21/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.vidhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
+import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 //common imports
 import static common.libc.cstring.*;
 //TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
-import static arcadeflex.v036.mame.commonH.REGION_CPU1;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
-import static arcadeflex.v036.mame.memoryH.cpu_setbank;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 
 public class superqix {
