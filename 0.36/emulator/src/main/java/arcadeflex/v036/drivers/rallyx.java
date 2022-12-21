@@ -2,6 +2,11 @@
  * ported to v0.36
  * using automatic conversion tool v0.01
  */
+/**
+ * Changelog
+ * =========
+ * 21/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.drivers;
 
 //generic imports
@@ -15,18 +20,17 @@ import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.inptportH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 //sound imports
 import static arcadeflex.v036.sound.samplesH.*;
 import static arcadeflex.v036.sound.samples.*;
+import static arcadeflex.v036.sound.namcoH.*;
+import static arcadeflex.v036.sound.namco.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.rallyx.*;
 //TODO
-import static gr.codebb.arcadeflex.v036.sound.namcoH.*;
-import static gr.codebb.arcadeflex.v036.sound.namco.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static gr.codebb.arcadeflex.v036.platform.input.osd_led_w;
-import static arcadeflex.v036.mame.memoryH.*;
 
 public class rallyx {
 

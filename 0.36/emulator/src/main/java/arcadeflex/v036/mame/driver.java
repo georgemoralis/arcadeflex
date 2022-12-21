@@ -46,6 +46,9 @@ import static arcadeflex.v036.drivers.galaga.*;
 import static arcadeflex.v036.drivers.digdug.*;
 import static arcadeflex.v036.drivers.pengo.*;
 import static arcadeflex.v036.drivers.pacman.*;
+import static arcadeflex.v036.drivers.pbaction.*;
+import static arcadeflex.v036.drivers.rallyx.*;
+import static arcadeflex.v036.drivers.retofinv.*;
 
 public class driver {
 
@@ -263,9 +266,9 @@ public class driver {
                 /*TODO*///	driver_warpwarp,	/* (c) 1981 Namco */
                 /*TODO*///	driver_warpwarr,	/* (c) 1981 Rock-ola - the high score table says "NAMCO" */
                 /*TODO*///	driver_warpwar2,	/* (c) 1981 Rock-ola - the high score table says "NAMCO" */
-                /*TODO*///	driver_rallyx,	/* (c) 1980 Namco */
-                /*TODO*///	driver_rallyxm,	/* (c) 1980 Midway */
-                /*TODO*///	driver_nrallyx,	/* (c) 1981 Namco */
+                driver_rallyx, /* (c) 1980 Namco */
+                driver_rallyxm, /* (c) 1980 Midway */
+                driver_nrallyx, /* (c) 1981 Namco */
                 /*TODO*///	driver_jungler,	/* GX327 (c) 1981 Konami */
                 /*TODO*///	driver_junglers,	/* GX327 (c) 1981 Stern */
                 /*TODO*///	driver_locomotn,	/* GX359 (c) 1982 Konami + Centuri license */
@@ -798,9 +801,9 @@ public class driver {
                 /*TODO*///	driver_gsword,	/* (c) 1984 Taito Corporation */
                 /*TODO*///	driver_lkage,		/* (c) 1984 Taito Corporation */
                 /*TODO*///	driver_lkageb,	/* bootleg */
-                /*TODO*///	driver_retofinv,	/* (c) 1985 Taito Corporation */
-                /*TODO*///	driver_retofin1,	/* bootleg */
-                /*TODO*///	driver_retofin2,	/* bootleg */
+                driver_retofinv, /* (c) 1985 Taito Corporation */
+                driver_retofin1, /* bootleg */
+                driver_retofin2, /* bootleg */
                 /*TODO*///	driver_tsamurai,	/* (c) 1985 Taito */
                 /*TODO*///	driver_tsamura2,	/* (c) 1985 Taito */
                 /*TODO*///	driver_nunchaku,	/* (c) 1985 Taito */
@@ -1732,8 +1735,8 @@ public class driver {
                 /*TODO*///	driver_baluba,	/* (c) 1986 Able Corp. */
                 driver_bombjack, /* (c) 1984 Tehkan */
                 driver_bombjac2, /* (c) 1984 Tehkan */
-                /*TODO*///	driver_pbaction,	/* (c) 1985 Tehkan */
-                /*TODO*///	driver_pbactio2,	/* (c) 1985 Tehkan */
+                driver_pbaction, /* (c) 1985 Tehkan */
+                driver_pbactio2, /* (c) 1985 Tehkan */
                 /*TODO*///	/* 6011 Pontoon (c) 1985 Tehkan is a gambling game - removed */
                 /*TODO*///	driver_tehkanwc,	/* (c) 1985 Tehkan */
                 /*TODO*///	driver_gridiron,	/* (c) 1985 Tehkan */

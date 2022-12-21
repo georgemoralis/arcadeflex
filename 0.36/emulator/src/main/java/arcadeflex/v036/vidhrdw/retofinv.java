@@ -1,18 +1,25 @@
 /*
- * ported to v0.37b7
+ * ported to v0.36
  * using automatic conversion tool v0.01
+ */
+/**
+ * Changelog
+ * =========
+ * 21/12/2022 - shadow - This file should be complete for 0.36 version
  */
 package arcadeflex.v036.vidhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static common.libc.cstring.memset;
-import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
+//mame imports
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.osdependH.*;
+//common imports
+import static common.libc.cstring.memset;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
 
 public class retofinv {
