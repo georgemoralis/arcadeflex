@@ -2,6 +2,11 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
+/**
+ * Changelog
+ * =========
+ * 21/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.drivers;
 
 //generic imports
@@ -10,20 +15,19 @@ import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.machine.galaga.*;
 //mame imports
 import static arcadeflex.v036.mame.sndintrfH.*;
-//sound imports
-import static arcadeflex.v036.sound.samplesH.*;
-//vidhrdw imports
-import static arcadeflex.v036.vidhrdw.galaga.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-//TODO
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.sound.namcoH.*;
-import static gr.codebb.arcadeflex.v036.sound.namco.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.inputH.*;
+//sound imports
+import static arcadeflex.v036.sound.samplesH.*;
+import static arcadeflex.v036.sound.namco.*;
+import static arcadeflex.v036.sound.namcoH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.galaga.*;
+import static arcadeflex.v036.vidhrdw.generic.*;
 
 public class galaga {
 

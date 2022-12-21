@@ -1,46 +1,48 @@
-/*
+/**
  * ported to v0.36
- * 
+ */
+/**
+ * Changelog
+ * =========
+ * 21/12/2022 - shadow - This file should be complete for 0.36 version
  */
 package arcadeflex.v036.drivers;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//machine imports
+import static arcadeflex.v036.machine.pacman.*;
+import static arcadeflex.v036.machine.pacplus.*;
+import static arcadeflex.v036.machine.theglob.*;
 //mame imports
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.memoryH.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.inptport.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.inptportH.*;
+import static arcadeflex.v036.mame.inputH.*;
+import static arcadeflex.v036.mame.memory.*;
 //sound imports
 import static arcadeflex.v036.sound.sn76496H.*;
 import static arcadeflex.v036.sound.sn76496.*;
 import static arcadeflex.v036.sound.ay8910H.*;
 import static arcadeflex.v036.sound.ay8910.*;
+import static arcadeflex.v036.sound.namcoH.*;
+import static arcadeflex.v036.sound.namco.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.pengo.*;
 //common imports
 import static common.libc.cstdlib.*;
 //TODO
-import static arcadeflex.v036.mame.driverH.*;
-import static arcadeflex.v036.mame.memoryH.*;
-import static arcadeflex.v036.mame.commonH.*;
-import static arcadeflex.v036.mame.inptport.*;
-import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.sound.namcoH.*;
-import static gr.codebb.arcadeflex.v036.sound.namco.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.platform.input.*;
-import static arcadeflex.v036.machine.pacman.*;
-import static arcadeflex.v036.mame.inptportH.*;
-import static arcadeflex.v036.mame.inputH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v037b7.machine.pacplus.*;
-import static arcadeflex.v036.machine.theglob.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.install_mem_read_handler;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 
 public class pacman {
 

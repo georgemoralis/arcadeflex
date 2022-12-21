@@ -1,6 +1,11 @@
 /**
  * ported to v0.36
  */
+/**
+ * Changelog
+ * =========
+ * 21/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.mame;
 
 //mame imports
@@ -37,51 +42,54 @@ import static arcadeflex.v036.drivers.hexa.*;
 import static arcadeflex.v036.drivers.higemaru.*;
 import static arcadeflex.v036.drivers.jack.*;
 import static arcadeflex.v036.drivers.zodiack.*;
+import static arcadeflex.v036.drivers.galaga.*;
+import static arcadeflex.v036.drivers.digdug.*;
+import static arcadeflex.v036.drivers.pengo.*;
+import static arcadeflex.v036.drivers.pacman.*;
 
 public class driver {
 
     public static GameDriver drivers[]
             = {
-                /*TODO*///	/* "Pacman hardware" games */
-                /*TODO*///	driver_pacman,	/* (c) 1980 Namco */
-                /*TODO*///	driver_pacmanjp,	/* (c) 1980 Namco */
-                /*TODO*///	driver_pacmanm,	/* (c) 1980 Midway */
-                /*TODO*///	driver_npacmod,	/* (c) 1981 Namco */
-                /*TODO*///	driver_pacmod,	/* (c) 1981 Midway */
-                /*TODO*///	driver_hangly,	/* hack */
-                /*TODO*///	driver_hangly2,	/* hack */
-                /*TODO*///	driver_puckman,	/* hack */
-                /*TODO*///	driver_pacheart,	/* hack */
-                /*TODO*///	driver_piranha,	/* hack */
-                /*TODO*///	driver_pacplus,
-                /*TODO*///	driver_mspacman,	/* (c) 1981 Midway (but it's a bootleg) */	/* made by Gencomp */
-                /*TODO*///	driver_mspacatk,	/* hack */
-                /*TODO*///	driver_pacgal,	/* hack */
-                /*TODO*///	driver_maketrax,	/* (c) 1981 Williams, high score table says KRL (fur Kural) */
-                /*TODO*///	driver_crush,		/* (c) 1981 Kural Samno Electric Ltd */
-                /*TODO*///	driver_crush2,	/* (c) 1981 Kural Esco Electric Ltd - bootleg? */
-                /*TODO*///	driver_crush3,	/* Kural Electric Ltd - bootleg? */
-                /*TODO*///	driver_mbrush,	/* 1981 bootleg */
-                /*TODO*///	driver_paintrlr,	/* 1981 bootleg */
-                /*TODO*///	driver_eyes,		/* (c) 1982 Digitrex Techstar + "Rockola presents" */
-                /*TODO*///	driver_eyes2,		/* (c) 1982 Techstar + "Rockola presents" */
-                /*TODO*///	driver_mrtnt,		/* (c) 1983 Telko */
-                /*TODO*///	driver_ponpoko,	/* (c) 1982 Sigma Ent. Inc. */
-                /*TODO*///	driver_ponpokov,	/* (c) 1982 Sigma Ent. Inc. + Venture Line license */
-                /*TODO*///	driver_lizwiz,	/* (c) 1985 Techstar + "Sunn presents" */
-                /*TODO*///	driver_theglob,	/* (c) 1983 Epos Corporation */
-                /*TODO*///	driver_beastf,	/* (c) 1984 Epos Corporation */
-                /*TODO*///	driver_jumpshot,
-                /*TODO*///	driver_dremshpr,	/* (c) 1982 Sanritsu */
-                /*TODO*///	driver_vanvan,	/* (c) 1983 Karateco (bootleg?) */
-                /*TODO*///	driver_vanvans,	/* (c) 1983 Sanritsu */
-                /*TODO*///	driver_alibaba,	/* (c) 1982 Sega */
-                /*TODO*///	driver_pengo,		/* 834-0386 (c) 1982 Sega */
-                /*TODO*///	driver_pengo2,	/* 834-0386 (c) 1982 Sega */
-                /*TODO*///	driver_pengo2u,	/* 834-0386 (c) 1982 Sega */
-                /*TODO*///	driver_penta,		/* bootleg */
+                /* "Pacman hardware" games */
+                driver_pacman, /* (c) 1980 Namco */
+                driver_pacmanjp, /* (c) 1980 Namco */
+                driver_pacmanm, /* (c) 1980 Midway */
+                driver_npacmod, /* (c) 1981 Namco */
+                driver_pacmod, /* (c) 1981 Midway */
+                driver_hangly, /* hack */
+                driver_hangly2, /* hack */
+                driver_puckman, /* hack */
+                driver_pacheart, /* hack */
+                driver_piranha, /* hack */
+                driver_pacplus,
+                driver_mspacman, /* (c) 1981 Midway (but it's a bootleg) */ /* made by Gencomp */
+                driver_mspacatk, /* hack */
+                driver_pacgal, /* hack */
+                driver_maketrax, /* (c) 1981 Williams, high score table says KRL (fur Kural) */
+                driver_crush, /* (c) 1981 Kural Samno Electric Ltd */
+                driver_crush2, /* (c) 1981 Kural Esco Electric Ltd - bootleg? */
+                driver_crush3, /* Kural Electric Ltd - bootleg? */
+                driver_mbrush, /* 1981 bootleg */
+                driver_paintrlr, /* 1981 bootleg */
+                driver_eyes, /* (c) 1982 Digitrex Techstar + "Rockola presents" */
+                driver_eyes2, /* (c) 1982 Techstar + "Rockola presents" */
+                driver_mrtnt, /* (c) 1983 Telko */
+                driver_ponpoko, /* (c) 1982 Sigma Ent. Inc. */
+                driver_ponpokov, /* (c) 1982 Sigma Ent. Inc. + Venture Line license */
+                driver_lizwiz, /* (c) 1985 Techstar + "Sunn presents" */
+                driver_theglob, /* (c) 1983 Epos Corporation */
+                driver_beastf, /* (c) 1984 Epos Corporation */
+                driver_jumpshot,
+                driver_dremshpr, /* (c) 1982 Sanritsu */
+                driver_vanvan, /* (c) 1983 Karateco (bootleg?) */
+                driver_vanvans, /* (c) 1983 Sanritsu */
+                driver_alibaba, /* (c) 1982 Sega */
+                driver_pengo, /* 834-0386 (c) 1982 Sega */
+                driver_pengo2, /* 834-0386 (c) 1982 Sega */
+                driver_pengo2u, /* 834-0386 (c) 1982 Sega */
+                driver_penta, /* bootleg */
                 /*TODO*///	driver_jrpacman,	/* (c) 1983 Midway */
-                /*TODO*///
                 /* "Galaxian hardware" games */
                 driver_galaxian, /* (c) Namco */
                 driver_galmidw, /* (c) Midway */
@@ -269,17 +277,17 @@ public class driver {
                 /*TODO*///	driver_boscoo,	/* (c) 1981 */
                 /*TODO*///	driver_boscomd,	/* (c) 1981 Midway */
                 /*TODO*///	driver_boscomdo,	/* (c) 1981 Midway */
-                /*TODO*///	driver_galaga,	/* (c) 1981 */
-                /*TODO*///	driver_galagamw,	/* (c) 1981 Midway */
-                /*TODO*///	driver_galagads,	/* hack */
-                /*TODO*///	driver_gallag,	/* bootleg */
-                /*TODO*///	driver_galagab2,	/* bootleg */
-                /*TODO*///	driver_galaga84,	/* hack */
-                /*TODO*///	driver_nebulbee,	/* hack */
-                /*TODO*///	driver_digdug,	/* (c) 1982 */
-                /*TODO*///	driver_digdugb,	/* (c) 1982 */
-                /*TODO*///	driver_digdugat,	/* (c) 1982 Atari */
-                /*TODO*///	driver_dzigzag,	/* bootleg */
+                driver_galaga, /* (c) 1981 */
+                driver_galagamw, /* (c) 1981 Midway */
+                driver_galagads, /* hack */
+                driver_gallag, /* bootleg */
+                driver_galagab2, /* bootleg */
+                driver_galaga84, /* hack */
+                driver_nebulbee, /* hack */
+                driver_digdug, /* (c) 1982 */
+                driver_digdugb, /* (c) 1982 */
+                driver_digdugat, /* (c) 1982 Atari */
+                driver_dzigzag, /* bootleg */
                 /*TODO*///	driver_xevious,	/* (c) 1982 */
                 /*TODO*///	driver_xeviousa,	/* (c) 1982 + Atari license */
                 /*TODO*///	driver_xevios,	/* bootleg */

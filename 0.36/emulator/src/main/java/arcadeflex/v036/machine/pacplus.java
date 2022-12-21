@@ -1,11 +1,17 @@
 /**
- * ported to 0.37b7
  * ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.machine;
+/**
+ * Changelog
+ * =========
+ * 21/12/2022 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.machine;
 
-import static gr.codebb.arcadeflex.v036.mame.common.*;
+//mame imports
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
+//TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 
 public class pacplus {

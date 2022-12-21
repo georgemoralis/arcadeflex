@@ -1,18 +1,24 @@
 /**
  * ported to 0.36
  */
+/**
+ * Changelog
+ * =========
+ * 21/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.machine;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-
-import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
+//machine imports
+import static arcadeflex.v036.machine.pacman.*;
+//mame imports
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.memoryH.*;
+import static arcadeflex.v036.mame.mame.*;
+//TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static arcadeflex.v036.machine.pacman.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 
 public class theglob {
