@@ -60,6 +60,10 @@ import static arcadeflex.v036.drivers.solomon.*;
 import static arcadeflex.v036.drivers.minivadr.*;
 import static arcadeflex.v036.drivers.bosco.*;
 import static arcadeflex.v036.drivers.berzerk.*;
+import static arcadeflex.v036.drivers.sauro.*;
+import static arcadeflex.v036.drivers._1943.*;
+import static arcadeflex.v036.drivers.gunsmoke.*;
+import static arcadeflex.v036.drivers.champbas.*;
 
 public class driver {
 
@@ -1061,10 +1065,10 @@ public class driver {
                 /*TODO*///	driver_makaimuc,	/*  9/1985 (c) 1985 */
                 /*TODO*///	driver_makaimug,	/*  9/1985 (c) 1985 */
                 /*TODO*///	driver_diamond,	/* (c) 1989 KH Video (NOT A CAPCOM GAME but runs on GnG hardware) */
-                /*TODO*///	driver_gunsmoke,	/* 11/1985 (c) 1985 (World) */
-                /*TODO*///	driver_gunsmrom,	/* 11/1985 (c) 1985 + Romstar (US) */
-                /*TODO*///	driver_gunsmoka,	/* 11/1985 (c) 1985 (US) */
-                /*TODO*///	driver_gunsmokj,	/* 11/1985 (c) 1985 (Japan) */
+                driver_gunsmoke, /* 11/1985 (c) 1985 (World) */
+                driver_gunsmrom, /* 11/1985 (c) 1985 + Romstar (US) */
+                driver_gunsmoka, /* 11/1985 (c) 1985 (US) */
+                driver_gunsmokj, /* 11/1985 (c) 1985 (Japan) */
                 /*TODO*///	driver_sectionz,	/* 12/1985 (c) 1985 */
                 /*TODO*///	driver_sctionza,	/* 12/1985 (c) 1985 */
                 /*TODO*///	driver_trojan,	/*  4/1986 (c) 1986 (US) */
@@ -1086,8 +1090,8 @@ public class driver {
                 /*TODO*///	driver_bionicc,	/*  3/1987 (c) 1987 (US) */
                 /*TODO*///	driver_bionicc2,	/*  3/1987 (c) 1987 (US) */
                 /*TODO*///	driver_topsecrt,	/*  3/1987 (c) 1987 (Japan) */
-                /*TODO*///	driver_1943,		/*  6/1987 (c) 1987 (US) */
-                /*TODO*///	driver_1943j,		/*  6/1987 (c) 1987 (Japan) */
+                driver_1943, /*  6/1987 (c) 1987 (US) */
+                driver_1943j, /*  6/1987 (c) 1987 (Japan) */
                 /*TODO*///	driver_blktiger,	/*  8/1987 (c) 1987 (US) */
                 /*TODO*///	driver_bktigerb,	/* bootleg */
                 /*TODO*///	driver_blkdrgon,	/*  8/1987 (c) 1987 (Japan) */
@@ -1099,7 +1103,7 @@ public class driver {
                 /*TODO*///	driver_toramich,	/* 11/1987 (c) 1987 (Japan) */
                 /*TODO*///	driver_f1dream,	/*  4/1988 (c) 1988 + Romstar */
                 /*TODO*///	driver_f1dreamb,	/* bootleg */
-                /*TODO*///	driver_1943kai,	/*  6/1988 (c) 1987 (Japan) */
+                driver_1943kai, /*  6/1988 (c) 1987 (Japan) */
                 /*TODO*///	driver_lastduel,	/*  7/1988 (c) 1988 (US) */
                 /*TODO*///	driver_lstduela,	/*  7/1988 (c) 1988 (US) */
                 /*TODO*///	driver_lstduelb,	/* bootleg */
@@ -1494,8 +1498,8 @@ public class driver {
                 /*TODO*///	driver_turbob,	/* (c) 1981 Sega */
                 /*TODO*////*TESTDRIVER*/driver_kopunch,	/* 834-0103 (c) 1981 Sega */
                 /*TODO*///	driver_suprloco,	/* (c) 1982 Sega */
-                /*TODO*///	driver_champbas,	/* (c) 1983 Sega */
-                /*TODO*///	driver_champbb2,
+                driver_champbas, /* (c) 1983 Sega */
+                driver_champbb2,
                 driver_appoooh, /* (c) 1984 Sega */
                 driver_bankp,/* (c) 1984 Sega */
                 /*TODO*///	driver_dotrikun,	/* cabinet test board */
@@ -2612,7 +2616,7 @@ public class driver {
                 /*TODO*///	driver_exctsccb,	/* bootleg */
                 /*TODO*///	driver_exctscc2,
                 /*TODO*///	driver_speedbal,	/* (c) 1987 Tecfri */
-                /*TODO*///	driver_sauro,		/* (c) 1987 Tecfri */
+                driver_sauro, /* (c) 1987 Tecfri */
                 /*TODO*///	driver_ambush,	/* (c) 1983 Nippon Amuse Co-Ltd */
                 /*TODO*///	driver_starcrus,	/* [1977 Ramtek] */
                 /*TODO*///	driver_shanghai,	/* (c) 1988 Sun Electronics */

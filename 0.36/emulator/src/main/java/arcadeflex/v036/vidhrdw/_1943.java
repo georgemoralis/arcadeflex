@@ -2,6 +2,11 @@
  * ported to v0.36
  *
  */
+/**
+ * Changelog
+ * =========
+ * 22/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.vidhrdw;
 
 //generic imports
@@ -11,14 +16,13 @@ import static arcadeflex.v036.mame.osdependH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.memoryH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
 
 public class _1943 {

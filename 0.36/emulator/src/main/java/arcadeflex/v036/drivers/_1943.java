@@ -2,6 +2,11 @@
  * ported to v0.36
  *
  */
+/**
+ * Changelog
+ * =========
+ * 22/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.drivers;
 
 //cpu imports
@@ -17,6 +22,7 @@ import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.memoryH.*;
 //sound imports
 import static arcadeflex.v036.sound._2203intf.*;
@@ -25,8 +31,6 @@ import static arcadeflex.v036.sound._2203intfH.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw._1943.*;
 //TODO
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 
 public class _1943 {
