@@ -1,84 +1,37 @@
 /*
  * ported to v0.36
  */
+/**
+ * Changelog
+ * =========
+ * 22/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.drivers;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//machine imports
+import static arcadeflex.v036.machine.berzerk.*;
+//mame imports
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.inputH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.inptport.*;
+import static arcadeflex.v036.mame.inptportH.*;
+import static arcadeflex.v036.mame.memoryH.*;
+//sndhrdw imports
+import static arcadeflex.v036.sndhrdw.berzerk.*;
+//sound imports
+import static arcadeflex.v036.sound.samplesH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.berzerk.*;
 //TODO
-import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static arcadeflex.v036.mame.commonH.REGION_CPU1;
-import static arcadeflex.v036.mame.commonH.ROM_END;
-import static arcadeflex.v036.mame.commonH.ROM_LOAD;
-import static arcadeflex.v036.mame.commonH.ROM_REGION;
-import static arcadeflex.v036.mame.driverH.CPU_Z80;
-import static arcadeflex.v036.mame.driverH.DEFAULT_60HZ_VBLANK_DURATION;
-import arcadeflex.v036.mame.driverH.GameDriver;
-import arcadeflex.v036.mame.driverH.MachineCPU;
-import arcadeflex.v036.mame.driverH.MachineDriver;
-import static arcadeflex.v036.mame.driverH.ROT0;
-import static arcadeflex.v036.mame.driverH.VIDEO_SUPPORTS_DIRTY;
-import static arcadeflex.v036.mame.driverH.VIDEO_TYPE_RASTER;
-import static arcadeflex.v036.mame.inputH.KEYCODE_F1;
-import static arcadeflex.v036.mame.inputH.KEYCODE_F2;
-import static arcadeflex.v036.mame.inputH.KEYCODE_F4;
-import static arcadeflex.v036.mame.inputH.KEYCODE_F5;
-import arcadeflex.v036.mame.sndintrfH.CustomSound_interface;
-import arcadeflex.v036.mame.sndintrfH.MachineSound;
-import static arcadeflex.v036.mame.sndintrfH.SOUND_CUSTOM;
-import static arcadeflex.v036.mame.sndintrfH.SOUND_SAMPLES;
 import static gr.codebb.arcadeflex.v036.platform.fileio.osd_fread;
 import static gr.codebb.arcadeflex.v036.platform.fileio.osd_fwrite;
-import arcadeflex.v036.sound.samplesH.Samplesinterface;
-import static arcadeflex.v036.machine.berzerk.*;
-import arcadeflex.v036.mame.drawgfxH.rectangle;
-import static arcadeflex.v036.mame.inptport.input_port_0_r;
-import static arcadeflex.v036.mame.inptport.input_port_1_r;
-import static arcadeflex.v036.mame.inptport.input_port_2_r;
-import static arcadeflex.v036.mame.inptport.input_port_3_r;
-import static arcadeflex.v036.mame.inptport.input_port_4_r;
-import static arcadeflex.v036.mame.inptport.input_port_5_r;
-import static arcadeflex.v036.mame.inptport.input_port_6_r;
-import static arcadeflex.v036.mame.inptport.input_port_7_r;
-import static arcadeflex.v036.mame.inptport.input_port_8_r;
-import static arcadeflex.v036.mame.inptportH.DEF_STR;
-import static arcadeflex.v036.mame.inptportH.INPUT_PORTS_END;
-import static arcadeflex.v036.mame.inptportH.IPF_8WAY;
-import static arcadeflex.v036.mame.inptportH.IPF_COCKTAIL;
-import static arcadeflex.v036.mame.inptportH.IPF_TOGGLE;
-import static arcadeflex.v036.mame.inptportH.IPT_BUTTON1;
-import static arcadeflex.v036.mame.inptportH.IPT_COIN1;
-import static arcadeflex.v036.mame.inptportH.IPT_COIN2;
-import static arcadeflex.v036.mame.inptportH.IPT_COIN3;
-import static arcadeflex.v036.mame.inptportH.IPT_DIPSWITCH_NAME;
-import static arcadeflex.v036.mame.inptportH.IPT_JOYSTICK_DOWN;
-import static arcadeflex.v036.mame.inptportH.IPT_JOYSTICK_LEFT;
-import static arcadeflex.v036.mame.inptportH.IPT_JOYSTICK_RIGHT;
-import static arcadeflex.v036.mame.inptportH.IPT_JOYSTICK_UP;
-import static arcadeflex.v036.mame.inptportH.IPT_START1;
-import static arcadeflex.v036.mame.inptportH.IPT_START2;
-import static arcadeflex.v036.mame.inptportH.IPT_UNUSED;
-import static arcadeflex.v036.mame.inptportH.IP_ACTIVE_HIGH;
-import static arcadeflex.v036.mame.inptportH.IP_ACTIVE_LOW;
-import static arcadeflex.v036.mame.inptportH.IP_JOY_NONE;
-import static arcadeflex.v036.mame.inptportH.PORT_BIT;
-import static arcadeflex.v036.mame.inptportH.PORT_BITX;
-import static arcadeflex.v036.mame.inptportH.PORT_DIPNAME;
-import static arcadeflex.v036.mame.inptportH.PORT_DIPSETTING;
-import static arcadeflex.v036.mame.inptportH.PORT_START;
-import static arcadeflex.v036.mame.memoryH.*;
-import static arcadeflex.v036.sndhrdw.berzerk.berzerk_sh_start;
-import static arcadeflex.v036.sndhrdw.berzerk.berzerk_sh_update;
-import static arcadeflex.v036.sndhrdw.berzerk.berzerk_sound_control_a_w;
-import static arcadeflex.v036.vidhrdw.berzerk.berzerk_collision_r;
-import static arcadeflex.v036.vidhrdw.berzerk.berzerk_colorram_w;
-import static arcadeflex.v036.vidhrdw.berzerk.berzerk_magicram;
-import static arcadeflex.v036.vidhrdw.berzerk.berzerk_magicram_control_w;
-import static arcadeflex.v036.vidhrdw.berzerk.berzerk_magicram_w;
-import static arcadeflex.v036.vidhrdw.berzerk.berzerk_vh_screenrefresh;
-import static arcadeflex.v036.vidhrdw.berzerk.berzerk_videoram_w;
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 
 public class berzerk {
 
@@ -666,19 +619,18 @@ public class berzerk {
         }
     };
 
-    public static GameDriver driver_berzerk
-            = new GameDriver(
-                    "1980",
-                    "berzerk",
-                    "berzerk.java",
-                    rom_berzerk,
-                    null,
-                    machine_driver_berzerk,
-                    input_ports_berzerk,
-                    null,
-                    ROT0,
-                    "Stern",
-                    "Berzerk (set 1)");
+    public static GameDriver driver_berzerk = new GameDriver(
+            "1980",
+            "berzerk",
+            "berzerk.java",
+            rom_berzerk,
+            null,
+            machine_driver_berzerk,
+            input_ports_berzerk,
+            null,
+            ROT0,
+            "Stern",
+            "Berzerk (set 1)");
     public static GameDriver driver_berzerk1
             = new GameDriver(
                     "1980",

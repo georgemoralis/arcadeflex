@@ -59,6 +59,7 @@ import static arcadeflex.v036.drivers.pingpong.*;
 import static arcadeflex.v036.drivers.solomon.*;
 import static arcadeflex.v036.drivers.minivadr.*;
 import static arcadeflex.v036.drivers.bosco.*;
+import static arcadeflex.v036.drivers.berzerk.*;
 
 public class driver {
 
@@ -2279,11 +2280,11 @@ public class driver {
                 /*TODO*///	driver_ddragon3,	/* TA-0030 (c) 1990 */
                 /*TODO*///	driver_ddrago3b,	/* bootleg */
                 /*TODO*///	/* TA-0031 WWF Wrestlefest */
-                /*TODO*///
-                /*TODO*///	/* Stern "Berzerk hardware" games */
-                /*TODO*///	driver_berzerk,	/* (c) 1980 */
-                /*TODO*///	driver_berzerk1,	/* (c) 1980 */
-                /*TODO*///	driver_frenzy,	/* (c) 1982 */
+
+                /* Stern "Berzerk hardware" games */
+                driver_berzerk, /* (c) 1980 */
+                driver_berzerk1, /* (c) 1980 */
+                driver_frenzy, /* (c) 1982 */
                 /*TODO*///
                 /*TODO*///	/* GamePlan games */
                 /*TODO*///	driver_megatack,	/* (c) 1980 Centuri */

@@ -1,12 +1,18 @@
 /*
  * ported to v0.36
  */
+/**
+ * Changelog
+ * =========
+ * 22/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.vidhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 //machine imports
 import static arcadeflex.v036.machine.berzerk.*;
+import static arcadeflex.v036.mame.mame.*;
 //mame imports
 import static arcadeflex.v036.mame.osdependH.*;
 //vidhrdw imports
@@ -14,7 +20,6 @@ import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.plot_pixel;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 
 public class berzerk {
 

@@ -1,21 +1,25 @@
 /*
  * ported to v0.36
  */
+/**
+ * Changelog
+ * =========
+ * 22/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.sndhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.machine.berzerk.*;
+//mame imports
+import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.mame.*;
+//sound imports
+import static arcadeflex.v036.sound.samples.*;
 //common imports
 import static common.libc.expressions.*;
 //TODO
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
-import arcadeflex.v036.mame.sndintrfH.MachineSound;
-import static arcadeflex.v036.sound.samples.sample_playing;
-import static arcadeflex.v036.sound.samples.sample_set_freq;
-import static arcadeflex.v036.sound.samples.sample_start;
-import static arcadeflex.v036.machine.berzerk.*;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 
 public class berzerk {
@@ -248,7 +252,9 @@ public class berzerk {
     public static WriteHandlerPtr berzerk_sound_control_b_w
             = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            logerror("B Data value %d and offset %d at %d\n", data, offset, lastfreq);
+            if (errorlog != null) {
+                fprintf(errorlog, "B Data value %d and offset %d at %d\n", data, offset, lastfreq);
+            }
         }
     };
 

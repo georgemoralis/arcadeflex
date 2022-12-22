@@ -1,6 +1,11 @@
 /*
  * ported to v0.36
  */
+/**
+ * Changelog
+ * =========
+ * 22/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.machine;
 
 //cpu imports
@@ -9,8 +14,7 @@ import static arcadeflex.v036.cpu.z80.z80H.*;
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.commonH.*;
-//TODO
-import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
+import static arcadeflex.v036.mame.common.*;
 
 public class berzerk {
 
