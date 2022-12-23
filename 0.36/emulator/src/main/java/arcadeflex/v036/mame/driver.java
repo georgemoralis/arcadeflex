@@ -66,6 +66,8 @@ import static arcadeflex.v036.drivers.gunsmoke.*;
 import static arcadeflex.v036.drivers.champbas.*;
 import static arcadeflex.v036.drivers.ambush.*;
 import static arcadeflex.v036.drivers.exctsccr.*;
+import static arcadeflex.v036.drivers.locomotn.*;
+import static arcadeflex.v036.drivers.congo.*;
 
 public class driver {
 
@@ -286,12 +288,12 @@ public class driver {
                 driver_rallyx, /* (c) 1980 Namco */
                 driver_rallyxm, /* (c) 1980 Midway */
                 driver_nrallyx, /* (c) 1981 Namco */
-                /*TODO*///	driver_jungler,	/* GX327 (c) 1981 Konami */
-                /*TODO*///	driver_junglers,	/* GX327 (c) 1981 Stern */
-                /*TODO*///	driver_locomotn,	/* GX359 (c) 1982 Konami + Centuri license */
-                /*TODO*///	driver_gutangtn,	/* GX359 (c) 1982 Konami + Sega license */
-                /*TODO*///	driver_cottong,	/* bootleg */
-                /*TODO*///	driver_commsega,	/* (c) 1983 Sega */
+                driver_jungler, /* GX327 (c) 1981 Konami */
+                driver_junglers, /* GX327 (c) 1981 Stern */
+                driver_locomotn, /* GX359 (c) 1982 Konami + Centuri license */
+                driver_gutangtn, /* GX359 (c) 1982 Konami + Sega license */
+                driver_cottong, /* bootleg */
+                driver_commsega, /* (c) 1983 Sega */
                 /* the following ones all have a custom I/O chip */
                 driver_bosco, /* (c) 1981 */
                 driver_boscoo, /* (c) 1981 */
@@ -1421,9 +1423,8 @@ public class driver {
                 driver_szaxxon, /* (c) 1982 */
                 driver_futspy, /* (c) 1984 */
                 driver_razmataz, /* modified 834-0213, 834-0214 (c) 1983 */
-                /*TODO*///	driver_congo,		/* 605-5167 (c) 1983 */
-                /*TODO*///	driver_tiptop,	/* 605-5167 (c) 1983 */
-                /*TODO*///
+                driver_congo, /* 605-5167 (c) 1983 */
+                driver_tiptop, /* 605-5167 (c) 1983 */
                 /*TODO*///	/* Sega System 1 / System 2 games */
                 /*TODO*///	driver_starjack,	/* 834-5191 (c) 1983 (S1) */
                 /*TODO*///	driver_starjacs,	/* (c) 1983 Stern (S1) */

@@ -1,30 +1,40 @@
-/**
- * ported to 0.37b7
- * ported to 0.36
+/*
+ * ported to v0.36
+ * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+/**
+ * Changelog
+ * =========
+ * 23/12/2022 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
+//driver imports
+import static arcadeflex.v036.drivers.zaxxon.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.driverH.*;
-import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
-import static arcadeflex.v036.mame.cpuintrf.*;
-import static arcadeflex.v036.mame.sndintrf.*;
-import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.inputH.*;
-import static arcadeflex.v036.vidhrdw.zaxxon.*;
+import static arcadeflex.v036.mame.memoryH.*;
+import static arcadeflex.v036.mame.sndintrf.*;
+//sndhrdw imports
+import static arcadeflex.v036.sndhrdw.congo.*;
+//sound imports
 import static arcadeflex.v036.sound.samplesH.*;
-import static arcadeflex.v036.sound.sn76496H.*;
 import static arcadeflex.v036.sound.sn76496.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static arcadeflex.v036.sound.samples.*;
-import static arcadeflex.v036.drivers.zaxxon.*;
+import static arcadeflex.v036.sound.sn76496H.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.zaxxon.*;
+//common imports
 
 public class congo {
 
@@ -33,36 +43,11 @@ public class congo {
             zaxxon_vid_type = 1;
         }
     };
-    public static WriteHandlerPtr congo_daio_w = new WriteHandlerPtr() {
-        public void handler(int offset, int data) {
-            if (offset == 1) {
-                if ((data & 2) != 0) {
-                    sample_start(0, 0, 0);
-                }
-            } else if (offset == 2) {
-                data ^= 0xff;
-
-                if ((data & 0x80) != 0) {
-                    if ((data & 8) != 0) {
-                        sample_start(1, 1, 0);
-                    }
-                    if ((data & 4) != 0) {
-                        sample_start(2, 2, 0);
-                    }
-                    if ((data & 2) != 0) {
-                        sample_start(3, 3, 0);
-                    }
-                    if ((data & 1) != 0) {
-                        sample_start(4, 4, 0);
-                    }
-                }
-            }
-        }
-    };
 
     static MemoryReadAddress readmem[]
             = {
                 new MemoryReadAddress(0x8000, 0x8fff, MRA_RAM),
+                new MemoryReadAddress(0xa000, 0x83ff, MRA_RAM),
                 new MemoryReadAddress(0xa000, 0xa7ff, MRA_RAM),
                 new MemoryReadAddress(0xc000, 0xc000, input_port_0_r),
                 new MemoryReadAddress(0xc001, 0xc001, input_port_1_r),
@@ -103,7 +88,7 @@ public class congo {
                 new MemoryWriteAddress(0x6000, 0x6003, SN76496_0_w),
                 new MemoryWriteAddress(0xa000, 0xa003, SN76496_1_w),
                 new MemoryWriteAddress(0x4000, 0x47ff, MWA_RAM),
-                new MemoryWriteAddress(0x8000, 0x8003, congo_daio_w),
+                new MemoryWriteAddress(0x8000, 0x8003, congo_daio),
                 new MemoryWriteAddress(0x0000, 0x2000, MWA_ROM),
                 new MemoryWriteAddress(-1)
             };
