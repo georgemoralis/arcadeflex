@@ -36,3 +36,4 @@ emulator/samples/*
 /0.36/Release/hi/*.hi
 /0.36/converter/target/*
 /0.36/converter/target/classes/*
+/0.36/emulator/nbactions.xml

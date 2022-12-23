@@ -3,8 +3,12 @@
  */
 package arcadeflex.v036.mame;
 
+//mame imports
+import static arcadeflex.v036.mame.osdependH.*;
+
 public class png {
-/*TODO*////*********************************************************************
+
+    /*TODO*////*********************************************************************
 /*TODO*///
 /*TODO*///  png.c
 /*TODO*///
@@ -622,18 +626,17 @@ public class png {
 /*TODO*///	}
 /*TODO*///	return 1;
 /*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////*********************************************************************
-/*TODO*///
-/*TODO*///  Writes an osd_bitmap in a PNG file. If the depth of the bitmap
-/*TODO*///  is 8, a color type 3 PNG with palette is written. Otherwise a
-/*TODO*///  color type 2 true color RGB PNG is written.
-/*TODO*///
-/*TODO*/// *********************************************************************/
-/*TODO*///int png_write_bitmap(void *fp, struct osd_bitmap *bitmap)
-/*TODO*///{
-/*TODO*///	int i, j, c;
+    /**
+     * *******************************************************************
+     *
+     * Writes an osd_bitmap in a PNG file. If the depth of the bitmap is 8, a
+     * color type 3 PNG with palette is written. Otherwise a color type 2 true
+     * color RGB PNG is written.
+     *
+     ********************************************************************
+     */
+    public static int png_write_bitmap(Object fp, osd_bitmap bitmap) {
+        /*TODO*///	int i, j, c;
 /*TODO*///	UINT8 *ip;
 /*TODO*///	struct png_info p;
 /*TODO*///
@@ -712,10 +715,6 @@ public class png {
 /*TODO*///	if (p.image) free (p.image);
 /*TODO*///	if (p.zimage) free (p.zimage);
 /*TODO*///	if (p.fimage) free (p.fimage);
-/*TODO*///	return 1;
-/*TODO*///}
-/*TODO*///
-/*TODO*////* End of source */
-/*TODO*///
-/*TODO*///    
+        return 1;
+    }
 }

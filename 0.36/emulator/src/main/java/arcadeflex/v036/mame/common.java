@@ -7,11 +7,22 @@ package arcadeflex.v036.mame;
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.commonH.*;
-import static arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.mameH.MAX_MEMORY_REGIONS;
-import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.mameH.*;
+import static arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.png.*;
+//platform imports
+import static arcadeflex.v036.platform.fileio.*;
 //TODO
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_new_bitmap;
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
+import static gr.codebb.arcadeflex.v036.platform.fileio.osd_fclose;
+import static gr.codebb.arcadeflex.v036.platform.fileio.osd_fopen;
+import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 
 public class common {
 
@@ -780,45 +791,39 @@ public class common {
     public static int snapno;
 
     public static void save_screen_snapshot() {
-        /*TODO*///	void *fp;
-/*TODO*///	char name[20];
-/*TODO*///
-/*TODO*///
-/*TODO*///	/* avoid overwriting existing files */
-/*TODO*///	/* first of all try with "gamename.png" */
-/*TODO*///	sprintf(name,"%.8s", Machine->gamedrv->name);
-/*TODO*///	if (osd_faccess(name,OSD_FILETYPE_SCREENSHOT))
-/*TODO*///	{
-/*TODO*///		do
-/*TODO*///		{
-/*TODO*///			/* otherwise use "nameNNNN.png" */
-/*TODO*///			sprintf(name,"%.4s%04d",Machine->gamedrv->name,snapno++);
-/*TODO*///		} while (osd_faccess(name, OSD_FILETYPE_SCREENSHOT));
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if ((fp = osd_fopen(Machine->gamedrv->name, name, OSD_FILETYPE_SCREENSHOT, 1)) != NULL)
-/*TODO*///	{
-/*TODO*///		if (Machine->drv->video_attributes & VIDEO_TYPE_VECTOR)
-/*TODO*///			png_write_bitmap(fp,Machine->scrbitmap);
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			struct osd_bitmap *bitmap;
-/*TODO*///
-/*TODO*///			bitmap = osd_new_bitmap(
-/*TODO*///					Machine->drv->visible_area.max_x - Machine->drv->visible_area.min_x + 1,
-/*TODO*///					Machine->drv->visible_area.max_y - Machine->drv->visible_area.min_y + 1,
-/*TODO*///					Machine->scrbitmap->depth);
-/*TODO*///
-/*TODO*///			if (bitmap)
-/*TODO*///			{
-/*TODO*///				copybitmap(bitmap,Machine->scrbitmap,0,0,
-/*TODO*///						-Machine->drv->visible_area.min_x,-Machine->drv->visible_area.min_y,0,TRANSPARENCY_NONE,0);
-/*TODO*///				png_write_bitmap(fp,bitmap);
-/*TODO*///				osd_free_bitmap(bitmap);
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///
-/*TODO*///		osd_fclose(fp);
-/*TODO*///	}
+        Object fp;
+        String name = "";
+
+
+        /* avoid overwriting existing files */
+ /* first of all try with "gamename.png" */
+        name = sprintf("%.8s", Machine.gamedrv.name);
+        if (osd_faccess(name, OSD_FILETYPE_SCREENSHOT) != 0) {
+            do {
+                /* otherwise use "nameNNNN.png" */
+                name = sprintf("%.4s%04d", Machine.gamedrv.name, snapno++);
+            } while (osd_faccess(name, OSD_FILETYPE_SCREENSHOT) != 0);
+        }
+        if ((fp = osd_fopen(Machine.gamedrv.name, name, OSD_FILETYPE_SCREENSHOT, 1)) != null) {
+            if ((Machine.drv.video_attributes & VIDEO_TYPE_VECTOR) != 0) {
+                png_write_bitmap(fp, Machine.scrbitmap);
+            } else {
+                osd_bitmap bitmap;
+
+                bitmap = osd_new_bitmap(
+                        Machine.drv.visible_area.max_x - Machine.drv.visible_area.min_x + 1,
+                        Machine.drv.visible_area.max_y - Machine.drv.visible_area.min_y + 1,
+                        Machine.scrbitmap.depth);
+
+                if (bitmap != null) {
+                    copybitmap(bitmap, Machine.scrbitmap, 0, 0,
+                            -Machine.drv.visible_area.min_x, -Machine.drv.visible_area.min_y, null, TRANSPARENCY_NONE, 0);
+                    png_write_bitmap(fp, bitmap);
+                    osd_free_bitmap(bitmap);
+                }
+            }
+
+            osd_fclose(fp);
+        }
     }
 }
