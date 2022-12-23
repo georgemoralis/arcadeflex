@@ -4,6 +4,7 @@
 /**
  * Changelog
  * =========
+ * 23/12/2022 - shadow - flip_screen* variables has size 1 (i think)
  * 12/12/2022 - shadow - This file should be complete for 0.36 version (TODO cleanup imports)
  */
 package arcadeflex.v036.vidhrdw;
@@ -39,9 +40,9 @@ public class generic {
     public static int[] spriteram_2_size = new int[1];/* ... here just for convenience */
 
     public static int[] spriteram_3_size = new int[1];/* ... here just for convenience */
-    public static UBytePtr flip_screen = new UBytePtr();/* ... */
-    public static UBytePtr flip_screen_x = new UBytePtr();/* ... */
-    public static UBytePtr flip_screen_y = new UBytePtr();/* ... */
+    public static UBytePtr flip_screen = new UBytePtr(1);/* ... */
+    public static UBytePtr flip_screen_x = new UBytePtr(1);/* ... */
+    public static UBytePtr flip_screen_y = new UBytePtr(1);/* ... */
 
     public static char dirtybuffer[];
     public static osd_bitmap tmpbitmap;

@@ -64,6 +64,7 @@ import static arcadeflex.v036.drivers.sauro.*;
 import static arcadeflex.v036.drivers._1943.*;
 import static arcadeflex.v036.drivers.gunsmoke.*;
 import static arcadeflex.v036.drivers.champbas.*;
+import static arcadeflex.v036.drivers.ambush.*;
 
 public class driver {
 
@@ -2617,7 +2618,7 @@ public class driver {
                 /*TODO*///	driver_exctscc2,
                 /*TODO*///	driver_speedbal,	/* (c) 1987 Tecfri */
                 driver_sauro, /* (c) 1987 Tecfri */
-                /*TODO*///	driver_ambush,	/* (c) 1983 Nippon Amuse Co-Ltd */
+                driver_ambush, /* (c) 1983 Nippon Amuse Co-Ltd */
                 /*TODO*///	driver_starcrus,	/* [1977 Ramtek] */
                 /*TODO*///	driver_shanghai,	/* (c) 1988 Sun Electronics */
                 /*TODO*///	driver_goindol,	/* (c) 1987 Sun a Electronics */
