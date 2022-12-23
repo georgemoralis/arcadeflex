@@ -32,7 +32,8 @@ public class fileio {
     //public static String romUrl = "http://www.jnodes.net/roms/";
     /*TODO*/ //    char *cfgdir, *nvdir, *hidir, *inpdir, *stadir;
     /*TODO*/ //   char *memcarddir, *artworkdir, *screenshotdir;
-    static String hidir="hi";
+    static String hidir = "hi";
+    public static String screenshotdir = "snap";
     /*temp nvdir, will be configurable lator*/ static String nvdir = "nvram";
     /*TODO*/ //     char *alternate_name;				   /* for "-romdir" */
     public static final int kPlainFile = 1;
@@ -63,24 +64,22 @@ public class fileio {
     /*TODO*/ //            eFileType type;
     /*TODO*/ //            unsigned int crc;
     /*TODO*/ //    }	FakeFileHandle;
-    
     public static void downloadFile(String _rom, String _dstDir) {
-        String _url_ROM = settings.romUrl+_rom+".zip";
-        System.out.println("Downloading "+_url_ROM);
-        try (BufferedInputStream inputStream = new BufferedInputStream(new URL(_url_ROM).openStream());
-            FileOutputStream fileOS = new FileOutputStream(_dstDir+"/"+_rom+".zip")) {
-              byte data[] = new byte[1024];
-              int byteContent;
-              while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {
-                  fileOS.write(data, 0, byteContent);
-              }
-              fileOS.close();
-              
+        String _url_ROM = settings.romUrl + _rom + ".zip";
+        System.out.println("Downloading " + _url_ROM);
+        try (BufferedInputStream inputStream = new BufferedInputStream(new URL(_url_ROM).openStream()); FileOutputStream fileOS = new FileOutputStream(_dstDir + "/" + _rom + ".zip")) {
+            byte data[] = new byte[1024];
+            int byteContent;
+            while ((byteContent = inputStream.read(data, 0, 1024)) != -1) {
+                fileOS.write(data, 0, byteContent);
+            }
+            fileOS.close();
+
         } catch (IOException e) {
-              e.printStackTrace(System.out);
+            e.printStackTrace(System.out);
         }
     }
-    
+
     public static Object osd_fopen(String game, String filename, int filetype, int _write) {
         //System.out.println("entering osd_fopen for "+game+" "+filename);
         String name = "";
@@ -130,22 +129,21 @@ public class fileio {
                     pathc = 1;
                     pathv = new String[1];
                     pathv[0] = "roms";
-                    
-                    if (!(new File(pathv[0] + File.separator + gamename + ".zip").exists())){
+
+                    if (!(new File(pathv[0] + File.separator + gamename + ".zip").exists())) {
                         //found=1;
-                        System.out.println(gamename+" not FOUND! Trying to download it");
+                        System.out.println(gamename + " not FOUND! Trying to download it");
                         downloadFile(gamename, pathv[0]);
                     }
-                    
+
                 }
-                
+
                 //System.out.println(gamename);
                 //System.out.println(filename);
-
                 for (indx = 0; indx < pathc && found == 0; ++indx) {
                     String dir_name = pathv[indx];
                     //unZipIt(dir_name + File.separator + gamename + ".zip", dir_name + File.separator + gamename, filename);
-                    
+
                     if (found == 0) {
                         name = sprintf("%s/%s", dir_name, gamename);
                         fprintf(errorlog, "Trying %s\n", name);
@@ -332,18 +330,16 @@ public class fileio {
                 }
                 break;
 
-                       case OSD_FILETYPE_HIGHSCORE:
-                               if( mame_highscore_enabled()!=0 )
-                               {
-                                       if( found ==0)
-                                       {
-                                               name=sprintf("%s/%s.hi", hidir, gamename);
-                                               f.type = kPlainFile;
-                                               f.file = fopen (name, _write!=0 ? "wb" : "rb");
-                                                 found = (f.file != null) ? 1 : 0;
-                                       }                      
-                               }
-                               break;
+            case OSD_FILETYPE_HIGHSCORE:
+                if (mame_highscore_enabled() != 0) {
+                    if (found == 0) {
+                        name = sprintf("%s/%s.hi", hidir, gamename);
+                        f.type = kPlainFile;
+                        f.file = fopen(name, _write != 0 ? "wb" : "rb");
+                        found = (f.file != null) ? 1 : 0;
+                    }
+                }
+                break;
 
             /*TODO*///       case OSD_FILETYPE_CONFIG:
             /*TODO*///                   sprintf (name, "%s/%s.cfg", cfgdir, gamename);
@@ -453,20 +449,20 @@ public class fileio {
 /*TODO*///                    f->file = fopen (name, _write ? "wb" : "rb");
 /*TODO*///                    found = f->file != 0;
 /*TODO*///                    break;
+            case OSD_FILETYPE_SCREENSHOT:
+                /* only for writing */
+                if (_write == 0) {
+                    if (errorlog != null) {
+                        fprintf(errorlog, "osd_fopen: OSD_FILETYPE_SCREENSHOT read not supported\n");
+                    }
+                    break;
+                }
 
-            /*TODO*///            case OSD_FILETYPE_SCREENSHOT:
-            /* only for writing */
- /*TODO*///                    if( !_write )
-/*TODO*///                    {
-/*TODO*///                            LOG((errorlog, "osd_fopen: OSD_FILETYPE_SCREENSHOT read not supported\n"));
-/*TODO*///                            break;
-/*TODO*///                    }
-
-            /*TODO*///                    sprintf (name, "%s/%s.png", screenshotdir, filename);
-/*TODO*///                    f->type = kPlainFile;
-/*TODO*///                    f->file = fopen (name, _write ? "wb" : "rb");
-/*TODO*///                    found = f->file != 0;
-/*TODO*///                    break;
+                name = sprintf("%s/%s.png", screenshotdir, filename);
+                f.type = kPlainFile;
+                f.file = fopen(name, _write != 0 ? "wb" : "rb");
+                found = (f.file != null) ? 1 : 0;
+                break;
         }
 
         if (found == 0) {
@@ -690,7 +686,8 @@ public class fileio {
 
         return 0;
     }
-        public static int checksum_file_zipped(byte[] bytes, String filename, char[] p, int[] size, int[] crc) {
+
+    public static int checksum_file_zipped(byte[] bytes, String filename, char[] p, int[] size, int[] crc) {
         FILE f;
         f = fopen(bytes, filename, "rb");
         if (f == null) {
