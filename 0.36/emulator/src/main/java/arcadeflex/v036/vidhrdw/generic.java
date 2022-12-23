@@ -4,8 +4,8 @@
 /**
  * Changelog
  * =========
- * 23/12/2022 - shadow - flip_screen* variables has size 1 (i think)
  * 12/12/2022 - shadow - This file should be complete for 0.36 version (TODO cleanup imports)
+ * 23/12/2022 - shadow - flip_screen* variables has size 1 (i think)
  */
 package arcadeflex.v036.vidhrdw;
 

@@ -2,25 +2,29 @@
  * ported to 0.36
  * 
  */
+/**
+ * Changelog
+ * =========
+ * 23/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.vidhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.osdependH.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.timer.*;
+import static arcadeflex.v036.mame.timerH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.timer.timer_pulse;
-import static arcadeflex.v036.mame.timer.timer_remove;
-import static arcadeflex.v036.mame.timerH.TIME_IN_HZ;
 
 public class exctsccr {
 

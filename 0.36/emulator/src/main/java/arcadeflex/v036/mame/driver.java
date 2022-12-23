@@ -65,6 +65,7 @@ import static arcadeflex.v036.drivers._1943.*;
 import static arcadeflex.v036.drivers.gunsmoke.*;
 import static arcadeflex.v036.drivers.champbas.*;
 import static arcadeflex.v036.drivers.ambush.*;
+import static arcadeflex.v036.drivers.exctsccr.*;
 
 public class driver {
 
@@ -2612,10 +2613,10 @@ public class driver {
                 /*TODO*///	driver_ringkin2,
                 /*TODO*///	driver_ringkin3,	/* (c) 1985 Data East USA */
                 /*TODO*///	driver_zerozone,	/* (c) 1993 Comad */
-                /*TODO*///	driver_exctsccr,	/* (c) 1983 Alpha Denshi Co. */
-                /*TODO*///	driver_exctscca,	/* (c) 1983 Alpha Denshi Co. */
-                /*TODO*///	driver_exctsccb,	/* bootleg */
-                /*TODO*///	driver_exctscc2,
+                driver_exctsccr, /* (c) 1983 Alpha Denshi Co. */
+                driver_exctscca, /* (c) 1983 Alpha Denshi Co. */
+                driver_exctsccb, /* bootleg */
+                driver_exctscc2,
                 /*TODO*///	driver_speedbal,	/* (c) 1987 Tecfri */
                 driver_sauro, /* (c) 1987 Tecfri */
                 driver_ambush, /* (c) 1983 Nippon Amuse Co-Ltd */
