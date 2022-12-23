@@ -4,7 +4,13 @@
 package arcadeflex.v036.mame;
 
 //mame imports
+import static arcadeflex.v036.mame.mame.errorlog;
 import static arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.pngH.*;
+import static common.libc.cstring.memcpy;
+import static common.libc.cstring.memset;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.sizeof;
 
 public class png {
 
@@ -409,46 +415,49 @@ public class png {
 /*TODO*///	}
 /*TODO*///	return 1;
 /*TODO*///}
-/*TODO*///
-/*TODO*///void png_delete_unused_colors (struct png_info *p)
-/*TODO*///{
-/*TODO*///	int i, tab[256], pen=0, trns=0;
-/*TODO*///	UINT8 ptemp[3*256], ttemp[256];
-/*TODO*///
-/*TODO*///	memset (tab, 0, 256*sizeof(int));
-/*TODO*///	memcpy (ptemp, p->palette, 3*p->num_palette);
-/*TODO*///	memcpy (ttemp, p->trans, p->num_trans);
-/*TODO*///
-/*TODO*///	/* check which colors are actually used */
-/*TODO*///	for (i = 0; i < p->height*p->width; i++)
-/*TODO*///		tab[p->image[i]]++;
-/*TODO*///
-/*TODO*///	/* shrink palette and transparency */
-/*TODO*///	for (i = 0; i < p->num_palette; i++)
-/*TODO*///		if (tab[i])
-/*TODO*///		{
-/*TODO*///			p->palette[3*pen+0]=ptemp[3*i+0];
-/*TODO*///			p->palette[3*pen+1]=ptemp[3*i+1];
-/*TODO*///			p->palette[3*pen+2]=ptemp[3*i+2];
-/*TODO*///			if (i < p->num_trans)
-/*TODO*///			{
-/*TODO*///				p->trans[pen] = ttemp[i];
-/*TODO*///				trns++;
-/*TODO*///			}
-/*TODO*///			tab[i] = pen++;
-/*TODO*///		}
-/*TODO*///
-/*TODO*///	/* remap colors */
-/*TODO*///	for (i = 0; i < p->height*p->width; i++)
-/*TODO*///		p->image[i]=tab[p->image[i]];
-/*TODO*///
-/*TODO*///	if (errorlog && (p->num_palette!=pen))
-/*TODO*///		fprintf (errorlog, "%i unused pen(s) deleted\n", p->num_palette-pen);
-/*TODO*///
-/*TODO*///	p->num_palette = pen;
-/*TODO*///	p->num_trans = trns;
-/*TODO*///}
-/*TODO*///
+    public static void png_delete_unused_colors(png_info p) {
+        int i, pen = 0, trns = 0;
+        int[] tab = new int[256];
+        char[] ptemp = new char[3 * 256];
+        char[] ttemp = new char[256];
+
+        memset(tab, 0, 256);
+        memcpy(ptemp, p.palette, 3 * p.num_palette);
+        memcpy(ttemp, p.trans, p.num_trans);
+
+        /* check which colors are actually used */
+        for (i = 0; i < p.height * p.width; i++) {
+            tab[p.image[i]]++;
+        }
+
+        /* shrink palette and transparency */
+        for (i = 0; i < p.num_palette; i++) {
+            if (tab[i] != 0) {
+                p.palette[3 * pen + 0] = ptemp[3 * i + 0];
+                p.palette[3 * pen + 1] = ptemp[3 * i + 1];
+                p.palette[3 * pen + 2] = ptemp[3 * i + 2];
+                if (i < p.num_trans) {
+                    p.trans[pen] = ttemp[i];
+                    trns++;
+                }
+                tab[i] = pen++;
+            }
+        }
+
+        /* remap colors */
+        for (i = 0; i < p.height * p.width; i++) {
+            p.image[i] = (char) tab[p.image[i]];
+        }
+
+        if (errorlog != null && (p.num_palette != pen)) {
+            fprintf(errorlog, "%i unused pen(s) deleted\n", p.num_palette - pen);
+        }
+
+        p.num_palette = pen;
+        p.num_trans = trns;
+    }
+
+    /*TODO*///
 /*TODO*////********************************************************************************
 /*TODO*///
 /*TODO*///  PNG write functions
@@ -638,14 +647,12 @@ public class png {
     public static int png_write_bitmap(Object fp, osd_bitmap bitmap) {
         /*TODO*///	int i, j, c;
 /*TODO*///	UINT8 *ip;
-/*TODO*///	struct png_info p;
-/*TODO*///
-/*TODO*///	memset (&p, 0, sizeof (struct png_info));
-/*TODO*///	p.xscale = p.yscale = p.source_gamma = 0.0;
-/*TODO*///	p.palette = p.trans = p.image = p.zimage = p.fimage = NULL;
-/*TODO*///	p.width = bitmap->width;
-/*TODO*///	p.height = bitmap->height;
-/*TODO*///	p.color_type = (bitmap->depth == 8 ? 3: 2);
+        png_info p = new png_info();
+        p.xscale = p.yscale = p.source_gamma = 0.0;
+        /*TODO*///	p.palette = p.trans = p.image = p.zimage = p.fimage = NULL;
+        p.width = bitmap.width;
+        p.height = bitmap.height;
+        /*TODO*///	p.color_type = (bitmap->depth == 8 ? 3: 2);
 /*TODO*///
 /*TODO*///	if (p.color_type == 3)
 /*TODO*///	{
