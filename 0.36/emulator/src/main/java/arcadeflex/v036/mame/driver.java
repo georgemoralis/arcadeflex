@@ -68,6 +68,8 @@ import static arcadeflex.v036.drivers.ambush.*;
 import static arcadeflex.v036.drivers.exctsccr.*;
 import static arcadeflex.v036.drivers.locomotn.*;
 import static arcadeflex.v036.drivers.congo.*;
+import static arcadeflex.v036.drivers.wc90.*;
+import static arcadeflex.v036.drivers.wc90b.*;
 
 public class driver {
 
@@ -1770,8 +1772,8 @@ public class driver {
                 /*TODO*///	driver_shadoww,	/* 6215 - (c) 1988 Tecmo */
                 /*TODO*///	driver_tknight,	/* (c) 1989 Tecmo */
                 /*TODO*///	driver_wildfang,	/* (c) 1989 Tecmo */
-                /*TODO*///	driver_wc90,		/* (c) 1989 Tecmo */
-                /*TODO*///	driver_wc90b,		/* bootleg */
+                driver_wc90, /* (c) 1989 Tecmo */
+                driver_wc90b, /* bootleg */
                 /*TODO*///
                 /*TODO*////* Other Tehkan games:
                 /*TODO*///6009 Tank Busters
