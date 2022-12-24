@@ -70,6 +70,7 @@ import static arcadeflex.v036.drivers.locomotn.*;
 import static arcadeflex.v036.drivers.congo.*;
 import static arcadeflex.v036.drivers.wc90.*;
 import static arcadeflex.v036.drivers.wc90b.*;
+import static arcadeflex.v036.drivers.speedbal.*;
 
 public class driver {
 
@@ -130,7 +131,7 @@ public class driver {
                 driver_spacbatt, /* bootleg */
                 driver_warofbug, /* (c) 1981 Armenia */
                 driver_redufo, /* ? */
-                /*TODO*///driver_pacmanbl,	/* bootleg */
+                driver_pacmanbl, /* bootleg */
                 driver_devilfsg, /* (c) 1984 Vision / Artic (bootleg?) */
                 driver_zigzag, /* (c) 1982 LAX */
                 driver_zigzag2, /* (c) 1982 LAX */
@@ -2620,7 +2621,7 @@ public class driver {
                 driver_exctscca, /* (c) 1983 Alpha Denshi Co. */
                 driver_exctsccb, /* bootleg */
                 driver_exctscc2,
-                /*TODO*///	driver_speedbal,	/* (c) 1987 Tecfri */
+                driver_speedbal, /* (c) 1987 Tecfri */
                 driver_sauro, /* (c) 1987 Tecfri */
                 driver_ambush, /* (c) 1983 Nippon Amuse Co-Ltd */
                 /*TODO*///	driver_starcrus,	/* [1977 Ramtek] */
