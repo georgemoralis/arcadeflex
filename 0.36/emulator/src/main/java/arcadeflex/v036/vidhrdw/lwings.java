@@ -1,28 +1,28 @@
 /*
  * ported to v0.36
  * using automatic conversion tool v0.08
- *
- *
- *
  */
-package gr.codebb.arcadeflex.v036.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static common.libc.cstring.*;
+//mame imports
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.osdependH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.paletteH.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.mame.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
+import static common.libc.expressions.*;
+//TODO
+import static common.libc.cstring.*;
+import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static arcadeflex.v036.mame.paletteH.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static common.libc.expressions.NOT;
 
 public class lwings {
 
@@ -50,7 +50,7 @@ public class lwings {
      *
      **************************************************************************
      */
-       // 	#define COLORTABLE_START(gfxn,color_code) Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + \
+    // 	#define COLORTABLE_START(gfxn,color_code) Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + \
     //				color_code * Machine.gfx[gfxn].color_granularity
     //#define GFX_COLOR_CODES(gfxn) Machine.gfx[gfxn].total_colors
     //#define GFX_ELEM_COLORS(gfxn) Machine.gfx[gfxn].color_granularity
@@ -382,14 +382,18 @@ public class lwings {
 
         int transp0, transp1;
         if (priority != 0) {
-            transp0 = 0xFFFF;	/* draw nothing (all pens transparent) */
+            transp0 = 0xFFFF;
+            /* draw nothing (all pens transparent) */
 
-            transp1 = 0xF00F;	/* high priority half of tile */
+            transp1 = 0xF00F;
+            /* high priority half of tile */
 
         } else {
-            transp0 = 1;		/* TRANSPARENCY_PEN, color 0 */
+            transp0 = 1;
+            /* TRANSPARENCY_PEN, color 0 */
 
-            transp1 = 0x0FF0;	/* low priority half of tile */
+            transp1 = 0x0FF0;
+            /* low priority half of tile */
 
         }
 
@@ -443,7 +447,8 @@ public class lwings {
                 int flipx = attrib & 0x10;
                 int flipy = 1;
 
-                if (trojan_vh_type != 0) { /* avengers */
+                if (trojan_vh_type != 0) {
+                    /* avengers */
 
                     flipy = NOT(flipx);
                     flipx = 0;
@@ -487,7 +492,8 @@ public class lwings {
                 offsy = 0x20 * scrolly;
                 offsx = (scrollx >> 4);
                 scrollx = -(scrollx & 0x0f);
-                scrolly = 0; /* Y doesn't scroll ??? */
+                scrolly = 0;
+                /* Y doesn't scroll ??? */
 
                 if (oldoffsy != offsy || oldoffsx != offsx) {
                     UBytePtr p = memory_region(REGION_GFX5);

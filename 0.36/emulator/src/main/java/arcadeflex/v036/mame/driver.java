@@ -75,6 +75,7 @@ import static arcadeflex.v036.drivers.commando.*;
 import static arcadeflex.v036.drivers.galivan.*;
 import static arcadeflex.v036.drivers.mrdo.*;
 import static arcadeflex.v036.drivers.blktiger.*;
+import static arcadeflex.v036.drivers.lwings.*;
 
 public class driver {
 
@@ -1080,24 +1081,24 @@ public class driver {
                 driver_gunsmrom, /* 11/1985 (c) 1985 + Romstar (US) */
                 driver_gunsmoka, /* 11/1985 (c) 1985 (US) */
                 driver_gunsmokj, /* 11/1985 (c) 1985 (Japan) */
-                /*TODO*///	driver_sectionz,	/* 12/1985 (c) 1985 */
-                /*TODO*///	driver_sctionza,	/* 12/1985 (c) 1985 */
-                /*TODO*///	driver_trojan,	/*  4/1986 (c) 1986 (US) */
-                /*TODO*///	driver_trojanr,	/*  4/1986 (c) 1986 + Romstar */
-                /*TODO*///	driver_trojanj,	/*  4/1986 (c) 1986 (Japan) */
+                driver_sectionz, /* 12/1985 (c) 1985 */
+                driver_sctionza, /* 12/1985 (c) 1985 */
+                driver_trojan, /*  4/1986 (c) 1986 (US) */
+                driver_trojanr, /*  4/1986 (c) 1986 + Romstar */
+                driver_trojanj, /*  4/1986 (c) 1986 (Japan) */
                 /*TODO*///	driver_srumbler,	/*  9/1986 (c) 1986 */
                 /*TODO*///	driver_srumblr2,	/*  9/1986 (c) 1986 */
                 /*TODO*///	driver_rushcrsh,	/*  9/1986 (c) 1986 */
-                /*TODO*///	driver_lwings,	/* 11/1986 (c) 1986 */
-                /*TODO*///	driver_lwings2,	/* 11/1986 (c) 1986 */
-                /*TODO*///	driver_lwingsjp,	/* 11/1986 (c) 1986 */
+                driver_lwings, /* 11/1986 (c) 1986 */
+                driver_lwings2, /* 11/1986 (c) 1986 */
+                driver_lwingsjp, /* 11/1986 (c) 1986 */
                 /*TODO*///	driver_sidearms,	/* 12/1986 (c) 1986 (World) */
                 /*TODO*///	driver_sidearmr,	/* 12/1986 (c) 1986 + Romstar license (US) */
                 /*TODO*///	driver_sidearjp,	/* 12/1986 (c) 1986 (Japan) */
                 /*TODO*///	driver_turtship,	/* (c) 1988 Philco (NOT A CAPCOM GAME but runs on modified Sidearms hardware) */
                 /*TODO*///	driver_dyger,		/* (c) 1989 Philco (NOT A CAPCOM GAME but runs on modified Sidearms hardware) */
-                /*TODO*///	driver_avengers,	/*  2/1987 (c) 1987 (US) */
-                /*TODO*///	driver_avenger2,	/*  2/1987 (c) 1987 (US) */
+                driver_avengers, /*  2/1987 (c) 1987 (US) */
+                driver_avenger2, /*  2/1987 (c) 1987 (US) */
                 /*TODO*///	driver_bionicc,	/*  3/1987 (c) 1987 (US) */
                 /*TODO*///	driver_bionicc2,	/*  3/1987 (c) 1987 (US) */
                 /*TODO*///	driver_topsecrt,	/*  3/1987 (c) 1987 (Japan) */
