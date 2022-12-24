@@ -77,6 +77,9 @@ import static arcadeflex.v036.drivers.mrdo.*;
 import static arcadeflex.v036.drivers.blktiger.*;
 import static arcadeflex.v036.drivers.lwings.*;
 import static arcadeflex.v036.drivers.stfight.*;
+import static arcadeflex.v036.drivers.gundealr.*;
+import static arcadeflex.v036.drivers.tecmo.*;
+import static arcadeflex.v036.drivers.timeplt.*;
 
 public class driver {
 
@@ -1769,12 +1772,12 @@ public class driver {
                 driver_gridiron, /* (c) 1985 Tehkan */
                 driver_teedoff, /* 6102 - (c) 1986 Tecmo */
                 driver_solomon, /* (c) 1986 Tecmo */
-                /*TODO*///	driver_rygar,		/* 6002 - (c) 1986 Tecmo */
-                /*TODO*///	driver_rygar2,	/* 6002 - (c) 1986 Tecmo */
-                /*TODO*///	driver_rygarj,	/* 6002 - (c) 1986 Tecmo */
-                /*TODO*///	driver_gemini,	/* (c) 1987 Tecmo */
-                /*TODO*///	driver_silkworm,	/* 6217 - (c) 1988 Tecmo */
-                /*TODO*///	driver_silkwrm2,	/* 6217 - (c) 1988 Tecmo */
+                driver_rygar, /* 6002 - (c) 1986 Tecmo */
+                driver_rygar2, /* 6002 - (c) 1986 Tecmo */
+                driver_rygarj, /* 6002 - (c) 1986 Tecmo */
+                driver_gemini, /* (c) 1987 Tecmo */
+                driver_silkworm, /* 6217 - (c) 1988 Tecmo */
+                driver_silkwrm2, /* 6217 - (c) 1988 Tecmo */
                 /*TODO*///	driver_gaiden,	/* 6215 - (c) 1988 Tecmo */
                 /*TODO*///	driver_shadoww,	/* 6215 - (c) 1988 Tecmo */
                 /*TODO*///	driver_tknight,	/* (c) 1989 Tecmo */
@@ -1795,10 +1798,10 @@ public class driver {
                 driver_pooyan, /* GX320 (c) 1982 */
                 driver_pooyans, /* GX320 (c) 1982 Stern */
                 driver_pootan, /* bootleg */
-                /*TODO*///	driver_timeplt,	/* GX393 (c) 1982 */
-                /*TODO*///	driver_timepltc,	/* GX393 (c) 1982 + Centuri license*/
-                /*TODO*///	driver_spaceplt,	/* bootleg */
-                /*TODO*///	driver_psurge,	/* (c) 1988 unknown (NOT Konami) */
+                driver_timeplt, /* GX393 (c) 1982 */
+                driver_timepltc, /* GX393 (c) 1982 + Centuri license*/
+                driver_spaceplt, /* bootleg */
+                driver_psurge, /* (c) 1988 unknown (NOT Konami) */
                 /*TODO*///	driver_megazone,	/* GX319 (c) 1983 */
                 /*TODO*///	driver_megaznik,	/* GX319 (c) 1983 + Interlogic / Kosuka */
                 /*TODO*///	driver_pandoras,	/* GX328 (c) 1984 + Interlogic */
@@ -2604,10 +2607,10 @@ public class driver {
                 /*TODO*///	driver_omegrace,	/* (c) 1981 Midway */
                 /*TODO*///	driver_dday,		/* (c) 1982 Olympia */
                 /*TODO*///	driver_ddayc,		/* (c) 1982 Olympia + Centuri license */
-                /*TODO*///	driver_gundealr,	/* (c) 1990 Dooyong */
-                /*TODO*///	driver_gundeala,	/* (c) Dooyong */
-                /*TODO*///	driver_yamyam,	/* (c) 1990 Dooyong */
-                /*TODO*///	driver_wiseguy,	/* (c) 1990 Dooyong */
+                driver_gundealr, /* (c) 1990 Dooyong */
+                driver_gundeala, /* (c) Dooyong */
+                driver_yamyam, /* (c) 1990 Dooyong */
+                driver_wiseguy, /* (c) 1990 Dooyong */
                 /*TODO*///	driver_leprechn,	/* (c) 1982 Tong Electronic */
                 /*TODO*///	driver_potogold,	/* (c) 1982 Tong Electronic */
                 driver_hexa, /* D. R. Korea */

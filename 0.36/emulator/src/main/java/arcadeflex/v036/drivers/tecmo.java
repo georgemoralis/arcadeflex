@@ -2,28 +2,37 @@
  * ported to v0.36
  * using automatic conversion tool v0.08
  */
-package gr.codebb.arcadeflex.v036.drivers;
+/**
+ * Changelog
+ * =========
+ * 24/12/2022 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
+//cpu imports
+import static arcadeflex.v036.cpu.z80.z80H.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static arcadeflex.v036.vidhrdw.tecmo.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static arcadeflex.v036.cpu.z80.z80H.*;
-import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
 import static arcadeflex.v036.sound.adpcm.*;
 import static arcadeflex.v036.sound.adpcmH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.tecmo.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
 
@@ -192,46 +201,53 @@ public class tecmo {
 
     static InputPortHandlerPtr input_ports_rygar = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 bits 0-3 */
+            PORT_START();
+            /* IN0 bits 0-3 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_8WAY);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_8WAY);
 
-            PORT_START(); 	/* IN1 bits 0-3 */
+            PORT_START();
+            /* IN1 bits 0-3 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_BUTTON1);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_BUTTON2);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_COIN3);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START(); 	/* IN2 bits 0-3 */
+            PORT_START();
+            /* IN2 bits 0-3 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START(); 	/* IN3 bits 0-3 */
+            PORT_START();
+            /* IN3 bits 0-3 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_BUTTON1 | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_BUTTON2 | IPF_COCKTAIL);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START(); 	/* IN4 bits 0-3 */
+            PORT_START();
+            /* IN4 bits 0-3 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_START2);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_START1);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_COIN2);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_COIN1);
 
-            PORT_START(); 	/* unused? */
+            PORT_START();
+            /* unused? */
 
             PORT_BIT(0x0f, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START(); 	/* DSWA bit 0-3 */
+            PORT_START();
+            /* DSWA bit 0-3 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x01, DEF_STR("2C_1C"));
@@ -244,7 +260,8 @@ public class tecmo {
             PORT_DIPSETTING(0x08, DEF_STR("1C_2C"));
             PORT_DIPSETTING(0x0C, DEF_STR("1C_3C"));
 
-            PORT_START(); 	/* DSWA bit 4-7 */
+            PORT_START();
+            /* DSWA bit 4-7 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x03, "2");
@@ -258,7 +275,8 @@ public class tecmo {
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x08, DEF_STR("On"));
 
-            PORT_START(); 	/* DSWB bit 0-3 */
+            PORT_START();
+            /* DSWB bit 0-3 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Bonus_Life"));
             PORT_DIPSETTING(0x00, "50000 200000 500000");
@@ -272,7 +290,8 @@ public class tecmo {
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x08, DEF_STR("On"));
 
-            PORT_START(); 	/* DSWB bit 4-7 */
+            PORT_START();
+            /* DSWB bit 4-7 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Difficulty"));
             PORT_DIPSETTING(0x00, "Easy");
@@ -286,7 +305,8 @@ public class tecmo {
             PORT_DIPSETTING(0x00, DEF_STR("No"));
             PORT_DIPSETTING(0x08, DEF_STR("Yes"));
 
-            PORT_START(); 	/* unused? */
+            PORT_START();
+            /* unused? */
 
             PORT_BIT(0x0f, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             INPUT_PORTS_END();
@@ -295,46 +315,53 @@ public class tecmo {
 
     static InputPortHandlerPtr input_ports_gemini = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 bits 0-3 */
+            PORT_START();
+            /* IN0 bits 0-3 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_8WAY);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_8WAY);
 
-            PORT_START(); 	/* IN1 bits 0-3 */
+            PORT_START();
+            /* IN1 bits 0-3 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_BUTTON2);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_BUTTON1);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START(); 	/* IN2 bits 0-3 */
+            PORT_START();
+            /* IN2 bits 0-3 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START(); 	/* IN3 bits 0-3 */
+            PORT_START();
+            /* IN3 bits 0-3 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_BUTTON2 | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_BUTTON1 | IPF_COCKTAIL);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START(); 	/* unused? */
+            PORT_START();
+            /* unused? */
 
             PORT_BIT(0x0f, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START(); 	/* IN4 bits 0-3 */
+            PORT_START();
+            /* IN4 bits 0-3 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_START2);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_COIN1);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_COIN2);
 
-            PORT_START(); 	/* DSWA bit 0-3 */
+            PORT_START();
+            /* DSWA bit 0-3 */
 
             PORT_DIPNAME(0x07, 0x00, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x06, DEF_STR("2C_1C"));
@@ -349,7 +376,8 @@ public class tecmo {
             PORT_DIPSETTING(0x00, "Round 6");
             PORT_DIPSETTING(0x08, "Round 7");
 
-            PORT_START(); 	/* DSWA bit 4-7 */
+            PORT_START();
+            /* DSWA bit 4-7 */
 
             PORT_DIPNAME(0x07, 0x00, DEF_STR("Coin_B"));
             PORT_DIPSETTING(0x06, DEF_STR("2C_1C"));
@@ -364,7 +392,8 @@ public class tecmo {
             PORT_DIPSETTING(0x00, DEF_STR("No"));
             PORT_DIPSETTING(0x08, DEF_STR("Yes"));
 
-            PORT_START(); 	/* DSWB bit 0-3 */
+            PORT_START();
+            /* DSWB bit 0-3 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x03, "2");
@@ -377,7 +406,8 @@ public class tecmo {
             PORT_DIPSETTING(0x08, "Hard");
             PORT_DIPSETTING(0x0c, "Hardest");
 
-            PORT_START(); 	/* DSWB bit 4-7 */
+            PORT_START();
+            /* DSWB bit 4-7 */
 
             PORT_DIPNAME(0x07, 0x00, DEF_STR("Bonus_Life"));
             PORT_DIPSETTING(0x00, "50000 200000");
@@ -392,7 +422,8 @@ public class tecmo {
             PORT_DIPSETTING(0x08, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	/* unused? */
+            PORT_START();
+            /* unused? */
 
             PORT_BIT(0x0f, IP_ACTIVE_HIGH, IPT_UNKNOWN);
             INPUT_PORTS_END();
@@ -401,43 +432,50 @@ public class tecmo {
 
     static InputPortHandlerPtr input_ports_silkworm = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 bit 0-3 */
+            PORT_START();
+            /* IN0 bit 0-3 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_8WAY);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_8WAY);
 
-            PORT_START(); 	/* IN0 bit 4-7 */
+            PORT_START();
+            /* IN0 bit 4-7 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_BUTTON2);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_BUTTON1);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_BUTTON3);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_UNKNOWN);/* unused? */
 
-            PORT_START(); 	/* IN1 bit 0-3 */
+            PORT_START();
+            /* IN1 bit 0-3 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER2);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER2);
 
-            PORT_START(); 	/* IN1 bit 4-7 */
+            PORT_START();
+            /* IN1 bit 4-7 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_BUTTON2 | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_BUTTON1 | IPF_PLAYER2);
             PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_BUTTON3 | IPF_PLAYER2);
             PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_UNKNOWN);/* unused? */
 
-            PORT_START(); 	/* unused? */
+            PORT_START();
+            /* unused? */
 
             PORT_BIT(0x0f, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START(); 	/* unused? */
+            PORT_START();
+            /* unused? */
 
             PORT_BIT(0x0f, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START(); 	/* DSWA bit 0-3 */
+            PORT_START();
+            /* DSWA bit 0-3 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x01, DEF_STR("2C_1C"));
@@ -450,7 +488,8 @@ public class tecmo {
             PORT_DIPSETTING(0x08, DEF_STR("1C_2C"));
             PORT_DIPSETTING(0x0C, DEF_STR("1C_3C"));
 
-            PORT_START(); 	/* DSWA bit 4-7 */
+            PORT_START();
+            /* DSWA bit 4-7 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x03, "2");
@@ -465,7 +504,8 @@ public class tecmo {
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x08, DEF_STR("On"));
 
-            PORT_START(); 	/* DSWB bit 0-3 */
+            PORT_START();
+            /* DSWB bit 0-3 */
 
             PORT_DIPNAME(0x07, 0x00, DEF_STR("Bonus_Life"));
             PORT_DIPSETTING(0x00, "50000 200000 500000");
@@ -481,7 +521,8 @@ public class tecmo {
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x08, DEF_STR("On"));
 
-            PORT_START(); 	/* DSWB bit 4-7 */
+            PORT_START();
+            /* DSWB bit 4-7 */
 
             PORT_DIPNAME(0x07, 0x00, DEF_STR("Difficulty"));
             PORT_DIPSETTING(0x00, "0");
@@ -495,7 +536,8 @@ public class tecmo {
             PORT_DIPSETTING(0x08, DEF_STR("No"));
             PORT_DIPSETTING(0x00, DEF_STR("Yes"));
 
-            PORT_START(); 	/* COIN */
+            PORT_START();
+            /* COIN */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_START2);
