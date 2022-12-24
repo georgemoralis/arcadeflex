@@ -71,6 +71,10 @@ import static arcadeflex.v036.drivers.congo.*;
 import static arcadeflex.v036.drivers.wc90.*;
 import static arcadeflex.v036.drivers.wc90b.*;
 import static arcadeflex.v036.drivers.speedbal.*;
+import static arcadeflex.v036.drivers.commando.*;
+import static arcadeflex.v036.drivers.galivan.*;
+import static arcadeflex.v036.drivers.mrdo.*;
+import static arcadeflex.v036.drivers.blktiger.*;
 
 public class driver {
 
@@ -246,13 +250,13 @@ public class driver {
                 /*TODO*///	driver_terracre,	/* (c) 1985 */
                 /*TODO*///	driver_terracrb,	/* (c) 1985 */
                 /*TODO*///	driver_terracra,	/* (c) 1985 */
-                /*TODO*///	driver_galivan,	/* (c) 1985 */
-                /*TODO*///	driver_galivan2,	/* (c) 1985 */
-                /*TODO*///	driver_dangar,	/* (c) 1986 */
-                /*TODO*///	driver_dangar2,	/* (c) 1986 */
-                /*TODO*///	driver_dangarb,	/* bootleg */
-                /*TODO*///	driver_ninjemak,	/* (c) 1986 (US?) */
-                /*TODO*///	driver_youma,		/* (c) 1986 (Japan) */
+                driver_galivan, /* (c) 1985 */
+                driver_galivan2, /* (c) 1985 */
+                driver_dangar, /* (c) 1986 */
+                driver_dangar2, /* (c) 1986 */
+                driver_dangarb, /* bootleg */
+                driver_ninjemak, /* (c) 1986 (US?) */
+                driver_youma, /* (c) 1986 (Japan) */
                 /*TODO*///	driver_terraf,	/* (c) 1987 */
                 /*TODO*///	driver_terrafu,	/* (c) 1987 Nichibutsu USA */
                 /*TODO*///	driver_kodure,	/* (c) 1987 (Japan) */
@@ -470,13 +474,13 @@ public class driver {
                 driver_ladybugb, /* bootleg */
                 driver_snapjack, /* (c) */
                 driver_cavenger, /* (c) 1981 */
-                /*TODO*///	driver_mrdo,		/* (c) 1982 */
-                /*TODO*///	driver_mrdot,		/* (c) 1982 + Taito license */
-                /*TODO*///	driver_mrdofix,	/* (c) 1982 + Taito license */
-                /*TODO*///	driver_mrlo,		/* bootleg */
-                /*TODO*///	driver_mrdu,		/* bootleg */
-                /*TODO*///	driver_mrdoy,		/* bootleg */
-                /*TODO*///	driver_yankeedo,	/* bootleg */
+                driver_mrdo, /* (c) 1982 */
+                driver_mrdot, /* (c) 1982 + Taito license */
+                driver_mrdofix, /* (c) 1982 + Taito license */
+                driver_mrlo, /* bootleg */
+                driver_mrdu, /* bootleg */
+                driver_mrdoy, /* bootleg */
+                driver_yankeedo, /* bootleg */
                 driver_docastle,/* (c) 1983 */
                 driver_docastl2,/* (c) 1983 */
                 driver_douni,/* (c) 1983 */
@@ -1061,10 +1065,10 @@ public class driver {
                 driver_1942b, /* 12/1984 (c) 1984 */
                 driver_exedexes, /*  2/1985 (c) 1985 */
                 driver_savgbees, /*  2/1985 (c) 1985 + Memetron license */
-                /*TODO*///	driver_commando,	/*  5/1985 (c) 1985 (World) */
-                /*TODO*///	driver_commandu,	/*  5/1985 (c) 1985 + Data East license (US) */
-                /*TODO*///	driver_commandj,	/*  5/1985 (c) 1985 (Japan) */
-                /*TODO*///	driver_spaceinv,	/* bootleg */
+                driver_commando, /*  5/1985 (c) 1985 (World) */
+                driver_commandu, /*  5/1985 (c) 1985 + Data East license (US) */
+                driver_commandj, /*  5/1985 (c) 1985 (Japan) */
+                driver_spaceinv, /* bootleg */
                 /*TODO*///	driver_gng,		/*  9/1985 (c) 1985 */
                 /*TODO*///	driver_gnga,		/*  9/1985 (c) 1985 */
                 /*TODO*///	driver_gngt,		/*  9/1985 (c) 1985 */
@@ -1099,10 +1103,10 @@ public class driver {
                 /*TODO*///	driver_topsecrt,	/*  3/1987 (c) 1987 (Japan) */
                 driver_1943, /*  6/1987 (c) 1987 (US) */
                 driver_1943j, /*  6/1987 (c) 1987 (Japan) */
-                /*TODO*///	driver_blktiger,	/*  8/1987 (c) 1987 (US) */
-                /*TODO*///	driver_bktigerb,	/* bootleg */
-                /*TODO*///	driver_blkdrgon,	/*  8/1987 (c) 1987 (Japan) */
-                /*TODO*///	driver_blkdrgnb,	/* bootleg, hacked to say Black Tiger */
+                driver_blktiger, /*  8/1987 (c) 1987 (US) */
+                driver_bktigerb, /* bootleg */
+                driver_blkdrgon, /*  8/1987 (c) 1987 (Japan) */
+                driver_blkdrgnb, /* bootleg, hacked to say Black Tiger */
                 /*TODO*///	driver_sf1,		/*  8/1987 (c) 1987 (World) */
                 /*TODO*///	driver_sf1us,		/*  8/1987 (c) 1987 (US) */
                 /*TODO*///	driver_sf1jp,		/*  8/1987 (c) 1987 (Japan) */
