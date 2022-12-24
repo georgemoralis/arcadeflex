@@ -1,23 +1,27 @@
 /**
  * ported to 0.36
  */
+/**
+ * Changelog
+ * =========
+ * 24/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.machine;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
+import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.memoryH.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.inptport.*;
+import static arcadeflex.v036.mame.memory.*;
 //sound imports
 import static arcadeflex.v036.sound.MSM5205.*;
 import static arcadeflex.v036.sound.MSM5205H.*;
 //TODO
-import static arcadeflex.v036.mame.memoryH.*;
-import static arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
-import static arcadeflex.v036.mame.inptport.*;
 
 public class stfight {
 

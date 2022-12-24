@@ -76,6 +76,7 @@ import static arcadeflex.v036.drivers.galivan.*;
 import static arcadeflex.v036.drivers.mrdo.*;
 import static arcadeflex.v036.drivers.blktiger.*;
 import static arcadeflex.v036.drivers.lwings.*;
+import static arcadeflex.v036.drivers.stfight.*;
 
 public class driver {
 
@@ -2444,9 +2445,9 @@ public class driver {
                 driver_scionc, /* (c) 1984 Seibu Denshi + Cinematronics license */
                 driver_wiz, /* (c) 1985 Seibu Kaihatsu */
                 driver_wizt, /* (c) 1985 Taito Corporation */
-                /*TODO*///	driver_empcity,	/* (c) 1986 Seibu Kaihatsu (bootleg?) */
-                /*TODO*///	driver_empcityj,	/* (c) 1986 Taito Corporation (Japan) */
-                /*TODO*///	driver_stfight,	/* (c) 1986 Seibu Kaihatsu (Germany) (bootleg?) */
+                driver_empcity, /* (c) 1986 Seibu Kaihatsu (bootleg?) */
+                driver_empcityj, /* (c) 1986 Taito Corporation (Japan) */
+                driver_stfight, /* (c) 1986 Seibu Kaihatsu (Germany) (bootleg?) */
                 /*TODO*///	driver_dynduke,	/* (c) 1989 Seibu Kaihatsu + Fabtek license */
                 /*TODO*///	driver_dbldyn,	/* (c) 1989 Seibu Kaihatsu + Fabtek license */
                 /*TODO*///	driver_raiden,	/* (c) 1990 Seibu Kaihatsu */
