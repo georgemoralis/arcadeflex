@@ -81,6 +81,7 @@ import static arcadeflex.v036.drivers.gundealr.*;
 import static arcadeflex.v036.drivers.tecmo.*;
 import static arcadeflex.v036.drivers.timeplt.*;
 import static arcadeflex.v036.drivers.airbustr.*;
+import static arcadeflex.v036.drivers.ninjakd2.*;
 
 public class driver {
 
@@ -2330,10 +2331,10 @@ public class driver {
                 driver_nov2001u, /* UPL-83005 (c) [1983] + Universal license */
                 driver_pkunwar, /* [1985?] */
                 driver_pkunwarj, /* [1985?] */
-                /*TODO*///	driver_ninjakd2,	/* (c) 1987 */
-                /*TODO*///	driver_ninjak2a,	/* (c) 1987 */
-                /*TODO*///	driver_ninjak2b,	/* (c) 1987 */
-                /*TODO*///	driver_rdaction,	/* (c) 1987 + World Games license */
+                driver_ninjakd2, /* (c) 1987 */
+                driver_ninjak2a, /* (c) 1987 */
+                driver_ninjak2b, /* (c) 1987 */
+                driver_rdaction, /* (c) 1987 + World Games license */
                 /*TODO*///	driver_mnight,	/* (c) 1987 distributed by Kawakus */
                 /*TODO*///	driver_arkarea,	/* UPL-87007 (c) [1988?] */
                 /*TODO*////*

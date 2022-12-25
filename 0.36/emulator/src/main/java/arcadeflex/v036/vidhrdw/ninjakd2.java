@@ -2,31 +2,31 @@
  * ported to v0.36
  * 
  */
+/**
+ * Changelog
+ * =========
+ * 25/12/2022 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.vidhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.paletteH.*;
 //common imports
 import static common.libc.cstring.*;
 //TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static arcadeflex.v036.mame.paletteH.*;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_new_bitmap;
 
 public class ninjakd2 {
 
-    /*#define COLORTABLE_START(gfxn,color)	Machine.drv.gfxdecodeinfo[gfxn].color_codes_start + color * Machine.gfx[gfxn].color_granularity
-	#define GFX_COLOR_CODES(gfxn) 		Machine.gfx[gfxn].total_colors
-	#define GFX_ELEM_COLORS(gfxn) 		Machine.gfx[gfxn].color_granularity
-     */
     public static UBytePtr ninjakd2_scrolly_ram = new UBytePtr();
     public static UBytePtr ninjakd2_scrollx_ram = new UBytePtr();
     public static UBytePtr ninjakd2_bgenable_ram = new UBytePtr();
