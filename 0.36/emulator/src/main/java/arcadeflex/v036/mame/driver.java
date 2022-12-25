@@ -82,6 +82,7 @@ import static arcadeflex.v036.drivers.tecmo.*;
 import static arcadeflex.v036.drivers.timeplt.*;
 import static arcadeflex.v036.drivers.airbustr.*;
 import static arcadeflex.v036.drivers.ninjakd2.*;
+import static arcadeflex.v036.drivers.tnzs.*;
 
 public class driver {
 
@@ -876,22 +877,20 @@ public class driver {
                 /*TODO*///	driver_superman,	/* (c) 1988 Taito Corporation */
                 /*TODO*////*TESTDRIVER*/driver_footchmp,	/* (c) 1990 Taito Corporation Japan (World) */
                 driver_minivadr, /* cabinet test board */
-                /*TODO*///
-                /*TODO*///	/* Taito "tnzs" hardware */
-                /*TODO*///	driver_extrmatn,	/* (c) 1987 World Games */
-                /*TODO*///	driver_arkanoi2,	/* (c) 1987 Taito Corporation Japan (World) */
-                /*TODO*///	driver_ark2us,	/* (c) 1987 Taito America Corporation + Romstar license (US) */
-                /*TODO*///	driver_ark2jp,	/* (c) 1987 Taito Corporation (Japan) */
-                /*TODO*///	driver_plumppop,	/* (c) 1987 Taito Corporation (Japan) */
-                /*TODO*///	driver_drtoppel,	/* (c) 1987 Taito Corporation (Japan) */
-                /*TODO*///	driver_chukatai,	/* (c) 1988 Taito Corporation (Japan) */
-                /*TODO*///	driver_tnzs,		/* (c) 1988 Taito Corporation (Japan) (new logo) */
-                /*TODO*///	driver_tnzsb,		/* bootleg but Taito Corporation Japan (World) (new logo) */
-                /*TODO*///	driver_tnzs2,		/* (c) 1988 Taito Corporation Japan (World) (old logo) */
-                /*TODO*///	driver_insectx,	/* (c) 1989 Taito Corporation Japan (World) */
-                /*TODO*///	driver_kageki,	/* (c) 1988 Taito America Corporation + Romstar license (US) */
-                /*TODO*///	driver_kagekij,	/* (c) 1988 Taito Corporation (Japan) */
-                /*TODO*///
+                /* Taito "tnzs" hardware */
+                driver_extrmatn, /* (c) 1987 World Games */
+                driver_arkanoi2, /* (c) 1987 Taito Corporation Japan (World) */
+                driver_ark2us, /* (c) 1987 Taito America Corporation + Romstar license (US) */
+                driver_ark2jp, /* (c) 1987 Taito Corporation (Japan) */
+                driver_plumppop, /* (c) 1987 Taito Corporation (Japan) */
+                driver_drtoppel, /* (c) 1987 Taito Corporation (Japan) */
+                driver_chukatai, /* (c) 1988 Taito Corporation (Japan) */
+                driver_tnzs, /* (c) 1988 Taito Corporation (Japan) (new logo) */
+                driver_tnzsb, /* bootleg but Taito Corporation Japan (World) (new logo) */
+                driver_tnzs2, /* (c) 1988 Taito Corporation Japan (World) (old logo) */
+                driver_insectx, /* (c) 1989 Taito Corporation Japan (World) */
+                driver_kageki, /* (c) 1988 Taito America Corporation + Romstar license (US) */
+                driver_kagekij, /* (c) 1988 Taito Corporation (Japan) */
                 /*TODO*///	/* Taito L-System games */
                 /*TODO*///	driver_fhawk,		/* (c) 1988 Taito Corporation (Japan) */
                 /*TODO*///	driver_raimais,	/* (c) 1988 Taito Corporation (Japan) */
