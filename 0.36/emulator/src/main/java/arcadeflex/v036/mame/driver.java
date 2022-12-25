@@ -80,6 +80,7 @@ import static arcadeflex.v036.drivers.stfight.*;
 import static arcadeflex.v036.drivers.gundealr.*;
 import static arcadeflex.v036.drivers.tecmo.*;
 import static arcadeflex.v036.drivers.timeplt.*;
+import static arcadeflex.v036.drivers.airbustr.*;
 
 public class driver {
 
@@ -2594,7 +2595,7 @@ public class driver {
                 /*TODO*///
                 /*TODO*///	/* other Kaneko games */
                 /*TODO*///	driver_galpanic,	/* (c) 1990 Kaneko */
-                /*TODO*///	driver_airbustr,	/* (c) 1990 Kaneko */
+                driver_airbustr, /* (c) 1990 Kaneko */
                 /*TODO*///
                 /*TODO*///	driver_spacefb,	/* (c) [1980?] Nintendo */
                 /*TODO*///	driver_spacefbg,	/* 834-0031 (c) 1980 Gremlin */
