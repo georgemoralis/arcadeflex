@@ -86,6 +86,7 @@ import static arcadeflex.v036.drivers.tnzs.*;
 import static arcadeflex.v036.drivers.hal21.*;
 import static arcadeflex.v036.drivers.snk.*;
 import static arcadeflex.v036.drivers.mnight.*;
+import static arcadeflex.v036.drivers.mario.*;
 
 public class driver {
 
@@ -513,9 +514,9 @@ public class driver {
                 /*TODO*///	driver_dkjrbl,	/* (c) 1982 Nintendo of America */
                 /*TODO*///	driver_dkong3,	/* (c) 1983 Nintendo of America */
                 /*TODO*///	driver_dkong3j,	/* (c) 1983 Nintendo */
-                /*TODO*///	driver_mario,		/* (c) 1983 Nintendo of America */
-                /*TODO*///	driver_mariojp,	/* (c) 1983 Nintendo */
-                /*TODO*///	driver_masao,		/* bootleg */
+                driver_mario, /* (c) 1983 Nintendo of America */
+                driver_mariojp, /* (c) 1983 Nintendo */
+                driver_masao, /* bootleg */
                 /*TODO*///	driver_hunchbkd,	/* (c) 1983 Century */
                 /*TODO*///	driver_herbiedk,	/* (c) 1984 CVS */
                 /*TODO*////*TESTDRIVER*/driver_herocast,
