@@ -88,6 +88,7 @@ import static arcadeflex.v036.drivers.snk.*;
 import static arcadeflex.v036.drivers.mnight.*;
 import static arcadeflex.v036.drivers.mario.*;
 import static arcadeflex.v036.drivers.gyruss.*;
+import static arcadeflex.v036.drivers.spacefb.*;
 
 public class driver {
 
@@ -2601,12 +2602,11 @@ public class driver {
                 /*TODO*///	/* other Kaneko games */
                 /*TODO*///	driver_galpanic,	/* (c) 1990 Kaneko */
                 driver_airbustr, /* (c) 1990 Kaneko */
-                /*TODO*///
-                /*TODO*///	driver_spacefb,	/* (c) [1980?] Nintendo */
-                /*TODO*///	driver_spacefbg,	/* 834-0031 (c) 1980 Gremlin */
-                /*TODO*///	driver_spacefbb,	/* bootleg */
-                /*TODO*///	driver_spacebrd,	/* bootleg */
-                /*TODO*///	driver_spacedem,	/* (c) 1980 Nintendo / Fortrek */
+                driver_spacefb, /* (c) [1980?] Nintendo */
+                driver_spacefbg, /* 834-0031 (c) 1980 Gremlin */
+                driver_spacefbb, /* bootleg */
+                driver_spacebrd, /* bootleg */
+                driver_spacedem, /* (c) 1980 Nintendo / Fortrek */
                 driver_blueprnt, /* (c) 1982 Bally Midway (Zilec in ROM 3U, and the programmer names) */
                 driver_blueprnj, /* (c) 1982 Jaleco (Zilec in ROM 3U, and the programmer names) */
                 driver_saturn, /* (c) 1983 Jaleco (Zilec in ROM R6, and the programmer names) */
