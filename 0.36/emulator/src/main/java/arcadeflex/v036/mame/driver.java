@@ -85,6 +85,7 @@ import static arcadeflex.v036.drivers.ninjakd2.*;
 import static arcadeflex.v036.drivers.tnzs.*;
 import static arcadeflex.v036.drivers.hal21.*;
 import static arcadeflex.v036.drivers.snk.*;
+import static arcadeflex.v036.drivers.mnight.*;
 
 public class driver {
 
@@ -2336,8 +2337,8 @@ public class driver {
                 driver_ninjak2a, /* (c) 1987 */
                 driver_ninjak2b, /* (c) 1987 */
                 driver_rdaction, /* (c) 1987 + World Games license */
-                /*TODO*///	driver_mnight,	/* (c) 1987 distributed by Kawakus */
-                /*TODO*///	driver_arkarea,	/* UPL-87007 (c) [1988?] */
+                driver_mnight, /* (c) 1987 distributed by Kawakus */
+                driver_arkarea, /* UPL-87007 (c) [1988?] */
                 /*TODO*////*
                 /*TODO*///Urashima Mahjong    UPL-89052
                 /*TODO*///
