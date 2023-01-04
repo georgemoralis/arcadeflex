@@ -5,6 +5,10 @@ package arcadeflex.v036.mame;
 
 //cpu imports
 import arcadeflex.v036.cpu.dummyCPU;
+import arcadeflex.v036.cpu.i8039.i8035;
+import arcadeflex.v036.cpu.i8039.i8039;
+import arcadeflex.v036.cpu.i8039.i8048;
+import arcadeflex.v036.cpu.i8039.n7751;
 import arcadeflex.v036.cpu.s2650.s2650;
 import arcadeflex.v036.cpu.z80.z80;
 //generic imports
@@ -243,10 +247,10 @@ public class cpuintrf {
                 new dummyCPU(),/*TODO*///	CPU0(V20,	   v20, 	 1,  0,1.00,NEC_INT_NONE,	   -1000,		   NEC_NMI_INT,    20,	  0,20,LE,1, 5,20	),
                 new dummyCPU(),/*TODO*///	CPU0(V30,	   v30, 	 1,  0,1.00,NEC_INT_NONE,	   -1000,		   NEC_NMI_INT,    20,	  0,20,LE,1, 5,20	),
                 new dummyCPU(),/*TODO*///	CPU0(V33,	   v33, 	 1,  0,1.05,NEC_INT_NONE,	   -1000,		   NEC_NMI_INT,    20,	  0,20,LE,1, 5,20	),
-                new dummyCPU(),/*TODO*///	CPU0(I8035,    i8035,	 1,  0,1.00,I8035_IGNORE_INT,  I8035_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
-                new dummyCPU(),/*TODO*///	CPU0(I8039,    i8039,	 1,  0,1.00,I8039_IGNORE_INT,  I8039_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
-                new dummyCPU(),/*TODO*///	CPU0(I8048,    i8048,	 1,  0,1.00,I8048_IGNORE_INT,  I8048_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
-                new dummyCPU(),/*TODO*///	CPU0(N7751,    n7751,	 1,  0,1.00,N7751_IGNORE_INT,  N7751_EXT_INT,  -1,			   16,	  0,16,LE,1, 2,16	),
+                new i8035(),
+                new i8039(),
+                new i8048(),
+                new n7751(),
                 new dummyCPU(),/*TODO*///	CPU0(M6800,    m6800,	 1,  0,1.00,M6800_INT_NONE,    M6800_INT_IRQ,  M6800_INT_NMI,  16,	  0,16,BE,1, 4,16	),
                 new dummyCPU(),/*TODO*///	CPU0(M6801,    m6801,	 1,  0,1.00,M6801_INT_NONE,    M6801_INT_IRQ,  M6801_INT_NMI,  16,	  0,16,BE,1, 4,16	),
                 new dummyCPU(),/*TODO*///	CPU0(M6802,    m6802,	 1,  0,1.00,M6802_INT_NONE,    M6802_INT_IRQ,  M6802_INT_NMI,  16,	  0,16,BE,1, 4,16	),
@@ -1336,19 +1340,21 @@ public class cpuintrf {
 /*TODO*///#if (HAS_V33)
 /*TODO*///			case CPU_V33:				irq_line = 0; LOG((errorlog,"V33 IRQ\n")); break;
 /*TODO*///#endif
-/*TODO*///#if (HAS_I8035)
-/*TODO*///			case CPU_I8035: 			irq_line = 0; LOG((errorlog,"I8035 IRQ\n")); break;
-/*TODO*///#endif
-/*TODO*///#if (HAS_I8039)
-/*TODO*///			case CPU_I8039: 			irq_line = 0; LOG((errorlog,"I8039 IRQ\n")); break;
-/*TODO*///#endif
-/*TODO*///#if (HAS_I8048)
-/*TODO*///			case CPU_I8048: 			irq_line = 0; LOG((errorlog,"I8048 IRQ\n")); break;
-/*TODO*///#endif
-/*TODO*///#if (HAS_N7751)
-/*TODO*///			case CPU_N7751: 			irq_line = 0; LOG((errorlog,"N7751 IRQ\n")); break;
-/*TODO*///#endif
-/*TODO*///#if (HAS_M6800)
+
+                    case CPU_I8035:
+                        irq_line = 0;
+                        break;
+                    case CPU_I8039:
+                        irq_line = 0;
+                        break;
+                    case CPU_I8048:
+                        irq_line = 0;
+                        break;
+                    case CPU_N7751:
+                        irq_line = 0;
+                        break;
+
+                    /*TODO*///#if (HAS_M6800)
 /*TODO*///			case CPU_M6800: 			irq_line = 0; LOG((errorlog,"M6800 IRQ\n")); break;
 /*TODO*///#endif
 /*TODO*///#if (HAS_M6801)
