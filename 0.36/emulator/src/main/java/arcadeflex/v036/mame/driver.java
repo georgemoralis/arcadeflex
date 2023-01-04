@@ -87,6 +87,7 @@ import static arcadeflex.v036.drivers.hal21.*;
 import static arcadeflex.v036.drivers.snk.*;
 import static arcadeflex.v036.drivers.mnight.*;
 import static arcadeflex.v036.drivers.mario.*;
+import static arcadeflex.v036.drivers.gyruss.*;
 
 public class driver {
 
@@ -1810,9 +1811,9 @@ public class driver {
                 /*TODO*///	driver_megazone,	/* GX319 (c) 1983 */
                 /*TODO*///	driver_megaznik,	/* GX319 (c) 1983 + Interlogic / Kosuka */
                 /*TODO*///	driver_pandoras,	/* GX328 (c) 1984 + Interlogic */
-                /*TODO*///	driver_gyruss,	/* GX347 (c) 1983 */
-                /*TODO*///	driver_gyrussce,	/* GX347 (c) 1983 + Centuri license */
-                /*TODO*///	driver_venus,		/* bootleg */
+                driver_gyruss, /* GX347 (c) 1983 */
+                driver_gyrussce, /* GX347 (c) 1983 + Centuri license */
+                driver_venus, /* bootleg */
                 /*TODO*///	driver_trackfld,	/* GX361 (c) 1983 */
                 /*TODO*///	driver_trackflc,	/* GX361 (c) 1983 + Centuri license */
                 /*TODO*///	driver_hyprolym,	/* GX361 (c) 1983 */
