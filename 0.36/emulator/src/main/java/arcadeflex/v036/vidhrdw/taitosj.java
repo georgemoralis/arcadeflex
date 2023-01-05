@@ -2,25 +2,30 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
+/**
+ * Changelog
+ * =========
+ * 05/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.vidhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.mame.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
 //common imports
 import static common.libc.cstring.*;
 import static common.libc.expressions.*;
-//vidhrdw imports
-import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
-import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static arcadeflex.v036.mame.osdependH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
 
@@ -450,17 +455,20 @@ public class taitosj {
         /* chech each pair of sprites */
         for (i = 0x00; i < 0x20; i++) {
             if ((i >= 0x10) && (i <= 0x17)) {
-                continue;	/* no sprites here */
+                continue;
+                /* no sprites here */
             }
 
             if (get_sprite_xy(i, sx1, sy1) != 0) {
                 for (j = 0x00; j < 0x20; j++) {
                     if (j >= i) {
-                        break;		/* only check a pair once and don't check against itself */
+                        break;
+                        /* only check a pair once and don't check against itself */
                     }
 
                     if ((j >= 0x10) && (j <= 0x17)) {
-                        continue;	  /* no sprites here */
+                        continue;
+                        /* no sprites here */
                     }
 
                     if (get_sprite_xy(j, sx2, sy2) != 0) {
@@ -499,7 +507,8 @@ public class taitosj {
 
         for (i = 0x00; i < 0x20; i++) {
             if ((i >= 0x10) && (i <= 0x17)) {
-                continue;	/* no sprites here */
+                continue;
+                /* no sprites here */
             }
 
             if (get_sprite_xy(i, sx, sy) != 0) {
@@ -616,7 +625,8 @@ public class taitosj {
         /* check each sprite */
         for (i = 0x00; i < 0x20; i++) {
             if ((i >= 0x10) && (i <= 0x17)) {
-                continue;	/* no sprites here */
+                continue;
+                /* no sprites here */
             }
 
             if (spriteon[i] != 0) {
@@ -636,7 +646,8 @@ public class taitosj {
                 int[] sx = new int[1];
                 int[] sy = new int[1];
                 if ((offs >= 0x40) && (offs <= 0x5f)) {
-                    continue;	/* no sprites here */
+                    continue;
+                    /* no sprites here */
                 }
 
                 if (get_sprite_xy(offs / 4, sx, sy) != 0) {
@@ -701,7 +712,8 @@ public class taitosj {
             /* store parts covered with sprites for sprites/playfields collision detection */
             for (i = 0x00; i < 0x20; i++) {
                 if ((i >= 0x10) && (i <= 0x17)) {
-                    continue; /* no sprites here */
+                    continue;
+                    /* no sprites here */
                 }
                 if (spriteon[i] != 0) {
                     copyscrollbitmap(sprite_plane_collbitmap2[n], taitosj_tmpbitmap[n], 1, new int[]{scrollx}, 32, scrolly, spritearea[i], TRANSPARENCY_NONE, 0);

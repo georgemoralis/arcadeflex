@@ -107,7 +107,6 @@ import static gr.codebb.arcadeflex.v036.drivers.centiped.*;
 import static gr.codebb.arcadeflex.v036.drivers.aeroboto.*;
 import static arcadeflex.v036.drivers.goindol.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bjtwin.*;
-import static gr.codebb.arcadeflex.v036.drivers.taitosj.*;
 import static gr.codebb.arcadeflex.v036.drivers.qix.*;
 import static gr.codebb.arcadeflex.v036.drivers.tutankhm.*;
 import static gr.codebb.arcadeflex.v036.drivers.parodius.*;
@@ -363,18 +362,7 @@ public class driver {
                 /*412*//*kingobox*/ driver_kingofb,
                 /*413*//*kingobox*/ driver_ringking,
                 /* Taito SJ System games */
-                /*414*//*taitosj*/ driver_spaceskr,
-                /*415*//*taitosj*/ driver_junglek,
-                /*416*//*taitosj*/ driver_junglkj2,
-                /*417*//*taitosj*/ driver_jungleh,
-                /*418*//*taitosj*/ driver_alpine,
-                /*419*//*taitosj*/ driver_alpinea,
-                /*420*//*taitosj*/ driver_timetunl,
-                /*421*//*taitosj*/ driver_wwestern,
-                /*422*//*taitosj*/ driver_wwester1,
-                /*423*//*taitosj*/ driver_elevatob,
-                /*424*//*taitosj*/ driver_bioatack,
-                /*425*//*taitosj*/ driver_hwrace,
+               
                 /*432*//*tutankhm*/ driver_tutankhm,
                 /*433*//*tutankhm*/ driver_tutankst,
                 /* Mitchell games */
@@ -495,7 +483,6 @@ public class driver {
                 /*bladestl*/ driver_bladstle, //artifacts left and right of drawing screen
                 /*lkage*/ driver_lkage,//garbage remains in left and right of screen (clipping?)
                 /*lkage*/ driver_lkageb,//garbage remains in left and right of screen (clipping?)
-                /*taitosj*/ driver_waterski,//bad graphics
                 /*mitchell*/ driver_block,// wrong window size (height is too large)
                 /*mitchell*/ driver_blockj,// wrong window size (height is too large)
                 /*mitchell*/ driver_blockbl,// wrong window size (height is too large)
@@ -582,7 +569,6 @@ public class driver {
                 /*aeroboto*/ driver_formatz,
                 /*aeroboto*/ driver_aeroboto,
                 /*kingobox*/ driver_ringkin2,
-                /*taitosj*/ driver_kikstart,
                 /*ddragon*/ driver_ddragon,
                 /*toki*/ driver_toki,
                 /*toki*/ driver_toki2,
@@ -594,10 +580,6 @@ public class driver {
                 /*xain*/ driver_xsleena, //freezes after a while ym2203 issue? (works okay if i remove sound)
                 /*xain*/ driver_xsleenab, //freezes after a while ym2203 issue? (works okay if i remove sound)
                 /*xain*/ driver_solarwar, //freezes after a while ym2203 issue? (works okay if i remove sound)
-                /*taitosj*/ driver_frontlin,//missing m68705
-                /*taitosj*/ driver_elevator,//missing m68705
-                /*taitosj*/ driver_tinstar,//missing m68705
-                /*taitosj*/ driver_sfposeid,//missing m68705
 
                 /**
                  * *************************************************************

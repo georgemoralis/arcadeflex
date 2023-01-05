@@ -90,6 +90,7 @@ import static arcadeflex.v036.drivers.mario.*;
 import static arcadeflex.v036.drivers.gyruss.*;
 import static arcadeflex.v036.drivers.spacefb.*;
 import static arcadeflex.v036.drivers.marvins.*;
+import static arcadeflex.v036.drivers.taitosj.*;
 
 public class driver {
 
@@ -817,26 +818,25 @@ public class driver {
                 /*TODO*///	driver_zookeep2,	/* (c) 1982 Taito America Corporation */
                 /*TODO*///	driver_zookeep3,	/* (c) 1982 Taito America Corporation */
                 /*TODO*///
-                /*TODO*///	/* Taito SJ System games */
-                /*TODO*///	driver_spaceskr,	/* (c) 1981 Taito Corporation */
-                /*TODO*///	driver_junglek,	/* (c) 1982 Taito Corporation */
-                /*TODO*///	driver_junglkj2,	/* (c) 1982 Taito Corporation */
-                /*TODO*///	driver_jungleh,	/* (c) 1982 Taito America Corporation */
-                /*TODO*///	driver_alpine,	/* (c) 1982 Taito Corporation */
-                /*TODO*///	driver_alpinea,	/* (c) 1982 Taito Corporation */
-                /*TODO*///	driver_timetunl,	/* (c) 1982 Taito Corporation */
-                /*TODO*///	driver_wwestern,	/* (c) 1982 Taito Corporation */
-                /*TODO*///	driver_wwester1,	/* (c) 1982 Taito Corporation */
-                /*TODO*///	driver_frontlin,	/* (c) 1982 Taito Corporation */
-                /*TODO*///	driver_elevator,	/* (c) 1983 Taito Corporation */
-                /*TODO*///	driver_elevatob,	/* bootleg */
-                /*TODO*///	driver_tinstar,	/* (c) 1983 Taito Corporation */
-                /*TODO*///	driver_waterski,	/* (c) 1983 Taito Corporation */
-                /*TODO*///	driver_bioatack,	/* (c) 1983 Taito Corporation + Fox Video Games license */
-                /*TODO*///	driver_hwrace,	/* (c) 1983 Taito Corporation */
-                /*TODO*///	driver_sfposeid,	/* 1984 */
-                /*TODO*///	driver_kikstart,
-                /*TODO*///
+                /* Taito SJ System games */
+                driver_spaceskr, /* (c) 1981 Taito Corporation */
+                driver_junglek, /* (c) 1982 Taito Corporation */
+                driver_junglkj2, /* (c) 1982 Taito Corporation */
+                driver_jungleh, /* (c) 1982 Taito America Corporation */
+                driver_alpine, /* (c) 1982 Taito Corporation */
+                driver_alpinea, /* (c) 1982 Taito Corporation */
+                driver_timetunl, /* (c) 1982 Taito Corporation */
+                driver_wwestern, /* (c) 1982 Taito Corporation */
+                driver_wwester1, /* (c) 1982 Taito Corporation */
+                driver_frontlin, /* (c) 1982 Taito Corporation */
+                driver_elevator, /* (c) 1983 Taito Corporation */
+                driver_elevatob, /* bootleg */
+                driver_tinstar, /* (c) 1983 Taito Corporation */
+                driver_waterski, /* (c) 1983 Taito Corporation */
+                driver_bioatack, /* (c) 1983 Taito Corporation + Fox Video Games license */
+                driver_hwrace, /* (c) 1983 Taito Corporation */
+                driver_sfposeid, /* 1984 */
+                driver_kikstart,
                 /*TODO*///	/* other Taito games */
                 /*TODO*///	driver_bking2,	/* (c) 1983 Taito Corporation */
                 /*TODO*///	driver_gsword,	/* (c) 1984 Taito Corporation */
