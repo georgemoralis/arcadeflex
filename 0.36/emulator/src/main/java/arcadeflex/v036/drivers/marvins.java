@@ -2,27 +2,38 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v036.drivers;
+/**
+ * Changelog
+ * =========
+ * 05/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
+//cpu imports
+import static arcadeflex.v036.cpu.z80.z80H.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static arcadeflex.v036.mame.cpuintrf.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static arcadeflex.v036.mame.memoryH.*;
-import static arcadeflex.v036.mame.commonH.*;
+//mame imports
 import static arcadeflex.v036.mame.inptport.*;
-import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.marvins.*;
-import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.sound.namcoH.*;
-import static gr.codebb.arcadeflex.v036.sound.namco.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static arcadeflex.v036.sound.ay8910H.*;
+import static arcadeflex.v036.mame.memoryH.*;
+import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
+//sndhrdw imports
+//sound imports
 import static arcadeflex.v036.sound.ay8910.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static arcadeflex.v036.cpu.z80.z80H.*;
+import static arcadeflex.v036.sound.ay8910H.*;
+import static arcadeflex.v036.sound.namco.*;
+import static arcadeflex.v036.sound.namcoH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.marvins.*;
+import static arcadeflex.v036.vidhrdw.generic.*;
+//TODO
+import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 
 public class marvins {
 
@@ -32,13 +43,7 @@ public class marvins {
      * *************************************************************************
      **
      **	CPUA and CPUB communicate through shared RAM. *
-	**************************************************************************
-     */
-    /**
      * *************************************************************************
-     **
-     ** Video Driver *
-	**************************************************************************
      */
     /**
      * *************************************************************************
@@ -50,7 +55,7 @@ public class marvins {
      * (0x8004, 0x8005, 0x8006, 0x8007) are currently unmapped. Probably they *
      * control the shape of the wave being played. * *	snkwave_interface is
      * currently implemented with the "namco" sound component. *
-	**************************************************************************
+     * *************************************************************************
      */
     static int sound_cpu_busy_bit;
     static int sound_cpu_ready;
@@ -147,7 +152,7 @@ public class marvins {
      * the video registers which is *	different in Mad Crasher and Vanguard II.
      * * *	init_sound defines the location of the polled sound CPU busy bit, *
      * which also varies across games. *
-	**************************************************************************
+     * *************************************************************************
      */
     public static int madcrash_vreg;
 
@@ -157,7 +162,7 @@ public class marvins {
      **	Interrupt Handling * *	CPUA can trigger an interrupt on CPUB, and CPUB
      * can trigger an interrupt *	on CPUA. Each CPU must re-enable interrupts on
      * itself. *
-	**************************************************************************
+     * *************************************************************************
      */
     public static final int SNK_NMI_ENABLE = 1;
     public static final int SNK_NMI_PENDING = 2;
@@ -216,7 +221,7 @@ public class marvins {
      **	Memory Maps for CPUA, CPUB * *	Shared RAM is shuffled in Mad
      * Crasher/Vanguard II compared to *	Marvin's Maze. * *	A few ports are
      * mapped differently for each game. *
-	**************************************************************************
+     * *************************************************************************
      */
     static MemoryReadAddress readmem_CPUA[]
             = {
@@ -308,7 +313,8 @@ public class marvins {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();  /* player#1 controls */
+            PORT_START();
+            /* player#1 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
@@ -318,7 +324,8 @@ public class marvins {
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_UNUSED);
             PORT_BIT(0xc0, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START();  /* player#2 controls */
+            PORT_START();
+            /* player#2 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
@@ -328,7 +335,8 @@ public class marvins {
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_UNUSED);
             PORT_BIT(0xc0, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x02, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "1");
@@ -354,7 +362,8 @@ public class marvins {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	/* DSW2 (unverified) */
+            PORT_START();
+            /* DSW2 (unverified) */
 
             PORT_DIPNAME(0x07, 0x07, "1st Bonus Life");
             PORT_DIPSETTING(0x07, "10000");
@@ -396,7 +405,8 @@ public class marvins {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();  /* player#1 controls */
+            PORT_START();
+            /* player#1 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
@@ -406,7 +416,8 @@ public class marvins {
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0xc0, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START();  /* player#2 controls */
+            PORT_START();
+            /* player#2 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
@@ -416,7 +427,8 @@ public class marvins {
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
             PORT_BIT(0xc0, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x07, 0x07, DEF_STR("Coinage"));
             PORT_DIPSETTING(0x00, DEF_STR("6C_1C"));
@@ -442,7 +454,8 @@ public class marvins {
             PORT_DIPSETTING(0x80, "3");
             PORT_DIPSETTING(0xc0, "5");
 
-            PORT_START(); 	/* DSW2 */
+            PORT_START();
+            /* DSW2 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Demo_Sounds"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -485,7 +498,8 @@ public class marvins {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_SERVICE(0x80, IP_ACTIVE_LOW);
 
-            PORT_START();  /* player#1 controls */
+            PORT_START();
+            /* player#1 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
@@ -495,7 +509,8 @@ public class marvins {
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0xc0, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START();  /* player#2 controls */
+            PORT_START();
+            /* player#2 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
@@ -505,7 +520,8 @@ public class marvins {
             PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
             PORT_BIT(0xc0, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x01, DEF_STR("Upright"));
@@ -531,7 +547,8 @@ public class marvins {
             PORT_DIPSETTING(0x80, "3");
             PORT_DIPSETTING(0xc0, "4");
 
-            PORT_START(); 	/* DSW2 */
+            PORT_START();
+            /* DSW2 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Unknown"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -564,7 +581,7 @@ public class marvins {
      * *************************************************************************
      **
      **	Graphics Layout *
-	**************************************************************************
+     * *************************************************************************
      */
     static GfxLayout sprite_layout = new GfxLayout(
             16, 16,
@@ -605,7 +622,7 @@ public class marvins {
      * *************************************************************************
      **
      **	Machine Driver *
-	**************************************************************************
+     * *************************************************************************
      */
     static MachineDriver machine_driver_marvins = new MachineDriver(
             new MachineCPU[]{
@@ -706,7 +723,7 @@ public class marvins {
      **
      **	ROM Loading * *	note: *	Mad Crasher doesn't pass its internal checksum
      * *	Also, some of the background graphics look to be incorrect. *
-	**************************************************************************
+     * *************************************************************************
      */
     static RomLoadHandlerPtr rom_marvins = new RomLoadHandlerPtr() {
         public void handler() {

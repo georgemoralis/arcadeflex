@@ -89,6 +89,7 @@ import static arcadeflex.v036.drivers.mnight.*;
 import static arcadeflex.v036.drivers.mario.*;
 import static arcadeflex.v036.drivers.gyruss.*;
 import static arcadeflex.v036.drivers.spacefb.*;
+import static arcadeflex.v036.drivers.marvins.*;
 
 public class driver {
 
@@ -2210,9 +2211,9 @@ public class driver {
                 /*TODO*///	driver_lasso,		/*       'WM' (c) 1982 */
                 /*TODO*///	driver_joyfulr,	/* A2001      (c) 1983 */
                 /*TODO*///	driver_mnchmobl,	/* A2001      (c) 1983 + Centuri license */
-                /*TODO*///	driver_marvins,	/* A2003      (c) 1983 */
-                /*TODO*///	driver_madcrash,	/* A2005      (c) 1984 */
-                /*TODO*///	driver_vangrd2,	/*            (c) 1984 */
+                driver_marvins, /* A2003      (c) 1983 */
+                driver_madcrash, /* A2005      (c) 1984 */
+                driver_vangrd2, /*            (c) 1984 */
                 driver_hal21, /*            (c) 1985 */
                 driver_hal21j, /*            (c) 1985 (Japan) */
                 driver_aso, /*            (c) 1985 */

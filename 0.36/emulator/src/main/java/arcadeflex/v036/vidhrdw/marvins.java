@@ -2,25 +2,33 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  *
- *
- *
  */
-package gr.codebb.arcadeflex.v036.vidhrdw;
+/**
+ * Changelog
+ * =========
+ * 05/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.vidhrdw;
+
+//drivers imports
+import static arcadeflex.v036.drivers.marvins.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static common.libc.cstring.*;
-import static gr.codebb.arcadeflex.v036.drivers.marvins.*;
+//mame imports
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.osdependH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.mame.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
+import static common.libc.cstring.*;
+//TODO
+import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 
 public class marvins {
@@ -39,7 +47,7 @@ public class marvins {
      * * * Background and Foreground tilemap layers each have eight 16-color *
      * palettes. A palette bank select register is associated with the whole *
      * layer. *
-	**************************************************************************
+     * *************************************************************************
      */
     public static WriteHandlerPtr marvins_palette_bank_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
@@ -94,7 +102,7 @@ public class marvins {
      * *************************************************************************
      **
      ** Memory Handlers *
-	**************************************************************************
+     * *************************************************************************
      */
     public static WriteHandlerPtr marvins_spriteram_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
@@ -162,7 +170,7 @@ public class marvins {
      * *************************************************************************
      **
      ** Callbacks for Tilemap Manager *
-	**************************************************************************
+     * *************************************************************************
      */
     public static WriteHandlerPtr get_bg_tilemap_info = new WriteHandlerPtr() {
         public void handler(int col, int row) {
@@ -197,7 +205,7 @@ public class marvins {
      * *************************************************************************
      **
      ** Video Initialization *
-	**************************************************************************
+     * *************************************************************************
      */
     public static VhStartHandlerPtr marvins_vh_start = new VhStartHandlerPtr() {
         public int handler() {
@@ -205,9 +213,11 @@ public class marvins {
             old_bg_color = (char) -1;
             old_fg_color = (char) -1;
 
-            stuff_palette(0, 0, 16 * 8); /* load sprite colors */
+            stuff_palette(0, 0, 16 * 8);
+            /* load sprite colors */
 
-            stuff_palette(16 * 8 * 3, 16 * 8, 16 * 8); /* load text colors */
+            stuff_palette(16 * 8 * 3, 16 * 8, 16 * 8);
+            /* load text colors */
 
             fg_tilemap = tilemap_create(
                     get_fg_tilemap_info,
@@ -264,7 +274,7 @@ public class marvins {
      * *************************************************************************
      **
      ** Screen Refresh *
-	**************************************************************************
+     * *************************************************************************
      */
     static void draw_status(osd_bitmap bitmap) {
         UBytePtr base = new UBytePtr(videoram, 0x2400);
@@ -313,7 +323,8 @@ public class marvins {
         }
 
         while (source.offset < finish) {
-            int attributes = source.read(3); /* Y?F? CCCC */
+            int attributes = source.read(3);
+            /* Y?F? CCCC */
 
             int tile_number = source.read(1);
             int sy = (-16 + source.read(0) - scrolly) & 0xff;
@@ -353,7 +364,8 @@ public class marvins {
 
             /*unsigned char*/ int sprite_partition = mem.read(0xfe00) & 0xFF;
 
-            int attributes = mem.read(0x8600); /* 0x20: normal, 0xa0: video flipped */
+            int attributes = mem.read(0x8600);
+            /* 0x20: normal, 0xa0: video flipped */
 
             int scroll_attributes = mem.read(0xff00);
             int sprite_scrolly = mem.read(0xf800);
@@ -408,7 +420,8 @@ public class marvins {
 
             UBytePtr mem = new UBytePtr(memory_region(REGION_CPU1), madcrash_vreg);
 
-            int attributes = mem.read(0x8600); /* 0x20: normal, 0xa0: video flipped */
+            int attributes = mem.read(0x8600);
+            /* 0x20: normal, 0xa0: video flipped */
 
             int bg_scrolly = mem.read(0xf800);
             int bg_scrollx = mem.read(0xf900);
