@@ -88,7 +88,6 @@ import static gr.codebb.arcadeflex.v036.drivers.cheekyms.*;
 import static gr.codebb.arcadeflex.v036.drivers.slapfght.*;
 import static gr.codebb.arcadeflex.v036.drivers.gladiatr.*;
 import static arcadeflex.v036.drivers.snowbros.*;
-import static gr.codebb.arcadeflex.v036.drivers.bublbobl.*;
 import static gr.codebb.arcadeflex.v036.drivers.z80bw.*;
 import static gr.codebb.arcadeflex.v036.drivers.arkanoid.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.skydiver.*;
@@ -300,9 +299,6 @@ public class driver {
                 /*277*//*pcktgal*/ driver_spool3,
                 /*278*//*pcktgal*/ driver_spool3i,
                 /*280*//*copsnrob*/ driver_copsnrob,
-                /*296*//*bublbobl*/ driver_boblbobl,
-                /*297*//*bublbobl*/ driver_sboblbob,
-                /*298*//*bublbobl*/ driver_tokiob,
                 /*303*//*gsword*/ driver_gsword,
                 /*304*//*shaolins*/ driver_kicker,
                 /*305*//*shaolins*/ driver_shaolins,
@@ -565,7 +561,6 @@ public class driver {
                 /*014*//*system1*/ driver_ufosensi,
                 /*016*//*spy*/ driver_spy, //sound works , there are a few gfx problems and missing collision(mame 0.36 doesn't have collision either)   
                 /*017//*ironhors*/ driver_farwest,
-                /*020*//*bublbobl*/ driver_tokio,
                 /*aeroboto*/ driver_formatz,
                 /*aeroboto*/ driver_aeroboto,
                 /*kingobox*/ driver_ringkin2,
@@ -622,9 +617,6 @@ public class driver {
                 /*arkanoid*/ driver_arkanoid,
                 /*arkanoid*/ driver_arknoidu,
                 /*arkanoid*/ driver_arknoidj,
-                /*bublbobl*/ driver_bublbobl,//M68705  
-                /*bublbobl*/ driver_bublbobr,//M68705  
-                /*bublbobl*/ driver_bubbobr1,//M68705  
 
                 /*psychic5*/ driver_psychic5,
                 /*bottom9*/ driver_bottom9,

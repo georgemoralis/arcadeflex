@@ -2,9 +2,19 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v036.drivers;
+/**
+ * Changelog
+ * =========
+ * 06/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//machine imports
+import static arcadeflex.v036.machine.bublbobl.*;
+//mame improts
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -12,20 +22,19 @@ import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static arcadeflex.v036.vidhrdw.bublbobl.*;
-import static gr.codebb.arcadeflex.v036.machine.bublbobl.*;
+import static arcadeflex.v036.mame.cpuintrfH.*;
+import static arcadeflex.v036.vidhrdw.generic.*;
+//sound imports
 import static arcadeflex.v036.sound._2203intf.*;
 import static arcadeflex.v036.sound._2203intfH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.bublbobl.*;
+//TODO
 import static gr.codebb.arcadeflex.v037b7.sound._3526intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static arcadeflex.v036.mame.cpuintrfH.*;
 
 public class bublbobl {
 
@@ -203,7 +212,8 @@ public class bublbobl {
 
     static InputPortHandlerPtr input_ports_bublbobl = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_TILT);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN3);
@@ -211,7 +221,8 @@ public class bublbobl {
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0xf0, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, "Language");
             PORT_DIPSETTING(0x01, "Japanese");
@@ -234,7 +245,8 @@ public class bublbobl {
             PORT_DIPSETTING(0x00, DEF_STR("2C_3C"));
             PORT_DIPSETTING(0x80, DEF_STR("1C_2C"));
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Difficulty"));
             PORT_DIPSETTING(0x02, "Easy");
@@ -257,7 +269,8 @@ public class bublbobl {
             PORT_DIPSETTING(0x80, "C");
             PORT_DIPSETTING(0xc0, "D");
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY);
@@ -268,7 +281,8 @@ public class bublbobl {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY | IPF_PLAYER2);
@@ -284,7 +298,8 @@ public class bublbobl {
 
     static InputPortHandlerPtr input_ports_boblbobl = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, "Language");
             PORT_DIPSETTING(0x00, "English");
@@ -307,7 +322,8 @@ public class bublbobl {
             PORT_DIPSETTING(0x00, DEF_STR("2C_3C"));
             PORT_DIPSETTING(0x80, DEF_STR("1C_2C"));
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Difficulty"));
             PORT_DIPSETTING(0x02, "Easy");
@@ -330,7 +346,8 @@ public class bublbobl {
             PORT_DIPSETTING(0x80, "High");
             PORT_DIPSETTING(0xc0, "Very High");
 
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY);
@@ -341,7 +358,8 @@ public class bublbobl {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY | IPF_PLAYER2);
@@ -358,7 +376,8 @@ public class bublbobl {
 
     static InputPortHandlerPtr input_ports_sboblbob = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, "Game");
             PORT_DIPSETTING(0x01, "Bobble Bobble");
@@ -381,7 +400,8 @@ public class bublbobl {
             PORT_DIPSETTING(0x00, DEF_STR("2C_3C"));
             PORT_DIPSETTING(0x80, DEF_STR("1C_2C"));
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Difficulty"));
             PORT_DIPSETTING(0x02, "Easy");
@@ -404,7 +424,8 @@ public class bublbobl {
             PORT_DIPSETTING(0x80, "High");
             PORT_DIPSETTING(0xc0, "Very High");
 
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY);
@@ -415,7 +436,8 @@ public class bublbobl {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY | IPF_PLAYER2);
@@ -432,7 +454,8 @@ public class bublbobl {
 
     static InputPortHandlerPtr input_ports_tokio = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -455,7 +478,8 @@ public class bublbobl {
             PORT_DIPSETTING(0x00, DEF_STR("2C_3C"));
             PORT_DIPSETTING(0x80, DEF_STR("1C_2C"));
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x02, DEF_STR("Difficulty"));
             PORT_DIPSETTING(0x03, "Easy");
@@ -479,7 +503,8 @@ public class bublbobl {
             PORT_DIPSETTING(0x00, "English");
             PORT_DIPSETTING(0x80, "Japanese");
 
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_TILT);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN3);/* service */
@@ -491,7 +516,8 @@ public class bublbobl {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY);
@@ -502,7 +528,8 @@ public class bublbobl {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY | IPF_COCKTAIL);
@@ -738,11 +765,13 @@ public class bublbobl {
             ROM_LOAD("a78_06.bin", 0x00000, 0x8000, 0x32c8305b);
             ROM_LOAD("a78_05.bin", 0x08000, 0x4000, 0x53f4bc6e);/* banked at 8000-bfff. I must load */
 
-            ROM_CONTINUE(0x10000, 0xc000);			/* bank 0 at 8000 because the code falls into */
-            /* it from 7fff, so bank switching wouldn't work */
+            ROM_CONTINUE(0x10000, 0xc000);
+            /* bank 0 at 8000 because the code falls into */
+ /* it from 7fff, so bank switching wouldn't work */
 
             ROM_REGION(0x80000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("a78_09.bin", 0x00000, 0x8000, 0x20358c22);   /* 1st plane */
+            ROM_LOAD("a78_09.bin", 0x00000, 0x8000, 0x20358c22);
+            /* 1st plane */
 
             ROM_LOAD("a78_10.bin", 0x08000, 0x8000, 0x930168a9);
             ROM_LOAD("a78_11.bin", 0x10000, 0x8000, 0x9773e512);
@@ -750,7 +779,8 @@ public class bublbobl {
             ROM_LOAD("a78_13.bin", 0x20000, 0x8000, 0xd0af35c5);
             ROM_LOAD("a78_14.bin", 0x28000, 0x8000, 0x7b5369a8);
             /* 0x30000-0x3ffff empty */
-            ROM_LOAD("a78_15.bin", 0x40000, 0x8000, 0x6b61a413);   /* 2nd plane */
+            ROM_LOAD("a78_15.bin", 0x40000, 0x8000, 0x6b61a413);
+            /* 2nd plane */
 
             ROM_LOAD("a78_16.bin", 0x48000, 0x8000, 0xb5492d97);
             ROM_LOAD("a78_17.bin", 0x50000, 0x8000, 0xd69762d5);
@@ -782,11 +812,13 @@ public class bublbobl {
             ROM_LOAD("25.cpu", 0x00000, 0x8000, 0x2d901c9d);
             ROM_LOAD("24.cpu", 0x08000, 0x4000, 0xb7afedc4);/* banked at 8000-bfff. I must load */
 
-            ROM_CONTINUE(0x10000, 0xc000);			/* bank 0 at 8000 because the code falls into */
-            /* it from 7fff, so bank switching wouldn't work */
+            ROM_CONTINUE(0x10000, 0xc000);
+            /* bank 0 at 8000 because the code falls into */
+ /* it from 7fff, so bank switching wouldn't work */
 
             ROM_REGION(0x80000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("a78_09.bin", 0x00000, 0x8000, 0x20358c22);   /* 1st plane */
+            ROM_LOAD("a78_09.bin", 0x00000, 0x8000, 0x20358c22);
+            /* 1st plane */
 
             ROM_LOAD("a78_10.bin", 0x08000, 0x8000, 0x930168a9);
             ROM_LOAD("a78_11.bin", 0x10000, 0x8000, 0x9773e512);
@@ -794,7 +826,8 @@ public class bublbobl {
             ROM_LOAD("a78_13.bin", 0x20000, 0x8000, 0xd0af35c5);
             ROM_LOAD("a78_14.bin", 0x28000, 0x8000, 0x7b5369a8);
             /* 0x30000-0x3ffff empty */
-            ROM_LOAD("a78_15.bin", 0x40000, 0x8000, 0x6b61a413);   /* 2nd plane */
+            ROM_LOAD("a78_15.bin", 0x40000, 0x8000, 0x6b61a413);
+            /* 2nd plane */
 
             ROM_LOAD("a78_16.bin", 0x48000, 0x8000, 0xb5492d97);
             ROM_LOAD("a78_17.bin", 0x50000, 0x8000, 0xd69762d5);
@@ -826,11 +859,13 @@ public class bublbobl {
             ROM_LOAD("a78_06.bin", 0x00000, 0x8000, 0x32c8305b);
             ROM_LOAD("a78_21.bin", 0x08000, 0x4000, 0x2844033d);/* banked at 8000-bfff. I must load */
 
-            ROM_CONTINUE(0x10000, 0xc000);			/* bank 0 at 8000 because the code falls into */
-            /* it from 7fff, so bank switching wouldn't work */
+            ROM_CONTINUE(0x10000, 0xc000);
+            /* bank 0 at 8000 because the code falls into */
+ /* it from 7fff, so bank switching wouldn't work */
 
             ROM_REGION(0x80000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("a78_09.bin", 0x00000, 0x8000, 0x20358c22);   /* 1st plane */
+            ROM_LOAD("a78_09.bin", 0x00000, 0x8000, 0x20358c22);
+            /* 1st plane */
 
             ROM_LOAD("a78_10.bin", 0x08000, 0x8000, 0x930168a9);
             ROM_LOAD("a78_11.bin", 0x10000, 0x8000, 0x9773e512);
@@ -838,7 +873,8 @@ public class bublbobl {
             ROM_LOAD("a78_13.bin", 0x20000, 0x8000, 0xd0af35c5);
             ROM_LOAD("a78_14.bin", 0x28000, 0x8000, 0x7b5369a8);
             /* 0x30000-0x3ffff empty */
-            ROM_LOAD("a78_15.bin", 0x40000, 0x8000, 0x6b61a413);   /* 2nd plane */
+            ROM_LOAD("a78_15.bin", 0x40000, 0x8000, 0x6b61a413);
+            /* 2nd plane */
 
             ROM_LOAD("a78_16.bin", 0x48000, 0x8000, 0xb5492d97);
             ROM_LOAD("a78_17.bin", 0x50000, 0x8000, 0xd69762d5);
@@ -870,13 +906,15 @@ public class bublbobl {
             ROM_LOAD("bb3", 0x00000, 0x8000, 0x01f81936);
             ROM_LOAD("bb5", 0x08000, 0x4000, 0x13118eb1);/* banked at 8000-bfff. I must load */
 
-            ROM_CONTINUE(0x10000, 0x4000);			/* bank 0 at 8000 because the code falls into */
-            /* it from 7fff, so bank switching wouldn't work */
+            ROM_CONTINUE(0x10000, 0x4000);
+            /* bank 0 at 8000 because the code falls into */
+ /* it from 7fff, so bank switching wouldn't work */
 
             ROM_LOAD("bb4", 0x14000, 0x8000, 0xafda99d8);/* banked at 8000-bfff */
 
             ROM_REGION(0x80000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("a78_09.bin", 0x00000, 0x8000, 0x20358c22);   /* 1st plane */
+            ROM_LOAD("a78_09.bin", 0x00000, 0x8000, 0x20358c22);
+            /* 1st plane */
 
             ROM_LOAD("a78_10.bin", 0x08000, 0x8000, 0x930168a9);
             ROM_LOAD("a78_11.bin", 0x10000, 0x8000, 0x9773e512);
@@ -884,7 +922,8 @@ public class bublbobl {
             ROM_LOAD("a78_13.bin", 0x20000, 0x8000, 0xd0af35c5);
             ROM_LOAD("a78_14.bin", 0x28000, 0x8000, 0x7b5369a8);
             /* 0x30000-0x3ffff empty */
-            ROM_LOAD("a78_15.bin", 0x40000, 0x8000, 0x6b61a413);   /* 2nd plane */
+            ROM_LOAD("a78_15.bin", 0x40000, 0x8000, 0x6b61a413);
+            /* 2nd plane */
 
             ROM_LOAD("a78_16.bin", 0x48000, 0x8000, 0xb5492d97);
             ROM_LOAD("a78_17.bin", 0x50000, 0x8000, 0xd69762d5);
@@ -911,13 +950,15 @@ public class bublbobl {
             ROM_LOAD("bbb-3.rom", 0x00000, 0x8000, 0xf304152a);
             ROM_LOAD("bb5", 0x08000, 0x4000, 0x13118eb1);/* banked at 8000-bfff. I must load */
 
-            ROM_CONTINUE(0x10000, 0x4000);			/* bank 0 at 8000 because the code falls into */
-            /* it from 7fff, so bank switching wouldn't work */
+            ROM_CONTINUE(0x10000, 0x4000);
+            /* bank 0 at 8000 because the code falls into */
+ /* it from 7fff, so bank switching wouldn't work */
 
             ROM_LOAD("bbb-4.rom", 0x14000, 0x8000, 0x94c75591);/* banked at 8000-bfff */
 
             ROM_REGION(0x80000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("a78_09.bin", 0x00000, 0x8000, 0x20358c22);   /* 1st plane */
+            ROM_LOAD("a78_09.bin", 0x00000, 0x8000, 0x20358c22);
+            /* 1st plane */
 
             ROM_LOAD("a78_10.bin", 0x08000, 0x8000, 0x930168a9);
             ROM_LOAD("a78_11.bin", 0x10000, 0x8000, 0x9773e512);
@@ -925,7 +966,8 @@ public class bublbobl {
             ROM_LOAD("a78_13.bin", 0x20000, 0x8000, 0xd0af35c5);
             ROM_LOAD("a78_14.bin", 0x28000, 0x8000, 0x7b5369a8);
             /* 0x30000-0x3ffff empty */
-            ROM_LOAD("a78_15.bin", 0x40000, 0x8000, 0x6b61a413);   /* 2nd plane */
+            ROM_LOAD("a78_15.bin", 0x40000, 0x8000, 0x6b61a413);
+            /* 2nd plane */
 
             ROM_LOAD("a78_16.bin", 0x48000, 0x8000, 0xb5492d97);
             ROM_LOAD("a78_17.bin", 0x50000, 0x8000, 0xd69762d5);
@@ -957,7 +999,8 @@ public class bublbobl {
             ROM_LOAD("a7106-1.256", 0x28000, 0x8000, 0x56927b3f);
 
             ROM_REGION(0x80000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("a7108.256", 0x00000, 0x8000, 0x0439ab13);   /* 1st plane */
+            ROM_LOAD("a7108.256", 0x00000, 0x8000, 0x0439ab13);
+            /* 1st plane */
 
             ROM_LOAD("a7109.256", 0x08000, 0x8000, 0xedb3d2ff);
             ROM_LOAD("a7110.256", 0x10000, 0x8000, 0x69f0888c);
@@ -966,7 +1009,8 @@ public class bublbobl {
             ROM_LOAD("a7113.256", 0x28000, 0x8000, 0xf2c92aaa);
             ROM_LOAD("a7114.256", 0x30000, 0x8000, 0xc574b7b2);
             ROM_LOAD("a7115.256", 0x38000, 0x8000, 0x12d87e7f);
-            ROM_LOAD("a7116.256", 0x40000, 0x8000, 0x0bce35b6);   /* 2nd plane */
+            ROM_LOAD("a7116.256", 0x40000, 0x8000, 0x0bce35b6);
+            /* 2nd plane */
 
             ROM_LOAD("a7117.256", 0x48000, 0x8000, 0xdeda6387);
             ROM_LOAD("a7118.256", 0x50000, 0x8000, 0x330cd9d7);
@@ -999,7 +1043,8 @@ public class bublbobl {
             ROM_LOAD("6", 0x28000, 0x8000, 0x1490e95b);
 
             ROM_REGION(0x80000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD("a7108.256", 0x00000, 0x8000, 0x0439ab13);   /* 1st plane */
+            ROM_LOAD("a7108.256", 0x00000, 0x8000, 0x0439ab13);
+            /* 1st plane */
 
             ROM_LOAD("a7109.256", 0x08000, 0x8000, 0xedb3d2ff);
             ROM_LOAD("a7110.256", 0x10000, 0x8000, 0x69f0888c);
@@ -1008,7 +1053,8 @@ public class bublbobl {
             ROM_LOAD("a7113.256", 0x28000, 0x8000, 0xf2c92aaa);
             ROM_LOAD("a7114.256", 0x30000, 0x8000, 0xc574b7b2);
             ROM_LOAD("a7115.256", 0x38000, 0x8000, 0x12d87e7f);
-            ROM_LOAD("a7116.256", 0x40000, 0x8000, 0x0bce35b6);   /* 2nd plane */
+            ROM_LOAD("a7116.256", 0x40000, 0x8000, 0x0bce35b6);
+            /* 2nd plane */
 
             ROM_LOAD("a7117.256", 0x48000, 0x8000, 0xdeda6387);
             ROM_LOAD("a7118.256", 0x50000, 0x8000, 0x330cd9d7);

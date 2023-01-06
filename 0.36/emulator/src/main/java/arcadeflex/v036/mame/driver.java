@@ -91,6 +91,7 @@ import static arcadeflex.v036.drivers.gyruss.*;
 import static arcadeflex.v036.drivers.spacefb.*;
 import static arcadeflex.v036.drivers.marvins.*;
 import static arcadeflex.v036.drivers.taitosj.*;
+import static arcadeflex.v036.drivers.bublbobl.*;
 
 public class driver {
 
@@ -853,13 +854,13 @@ public class driver {
                 /*TODO*////*TESTDRIVER*/driver_flstoryj,	/* (c) 1985 Taito Corporation (Japan) */
                 /*TODO*///	driver_gladiatr,	/* (c) 1986 Taito America Corporation (US) */
                 /*TODO*///	driver_ogonsiro,	/* (c) 1986 Taito Corporation (Japan) */
-                /*TODO*///	driver_bublbobl,	/* (c) 1986 Taito Corporation */
-                /*TODO*///	driver_bublbobr,	/* (c) 1986 Taito America Corporation + Romstar license */
-                /*TODO*///	driver_bubbobr1,	/* (c) 1986 Taito America Corporation + Romstar license */
-                /*TODO*///	driver_boblbobl,	/* bootleg */
-                /*TODO*///	driver_sboblbob,	/* bootleg */
-                /*TODO*///	driver_tokio,		/* 1986 */
-                /*TODO*///	driver_tokiob,	/* bootleg */
+                driver_bublbobl, /* (c) 1986 Taito Corporation */
+                driver_bublbobr, /* (c) 1986 Taito America Corporation + Romstar license */
+                driver_bubbobr1, /* (c) 1986 Taito America Corporation + Romstar license */
+                driver_boblbobl, /* bootleg */
+                driver_sboblbob, /* bootleg */
+                driver_tokio, /* 1986 */
+                driver_tokiob, /* bootleg */
                 /*TODO*///	driver_kicknrun,	/* (c) 1986 Taito Corporation */
                 /*TODO*///	driver_mexico86,	/* bootleg (Micro Research) */
                 /*TODO*///	driver_kikikai,	/* (c) 1986 Taito Corporation */

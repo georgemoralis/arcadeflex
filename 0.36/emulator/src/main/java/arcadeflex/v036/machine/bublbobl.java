@@ -1,42 +1,34 @@
-/**
- * *************************************************************************
- *
- * machine.c
- *
- * Functions to emulate general aspects of the machine (RAM, ROM, interrupts,
- * I/O ports)
- *
- **************************************************************************
- */
-
 /*
  * ported to v0.36
  * using automatic conversion tool v0.10
- *
- *
- *
  */
-package gr.codebb.arcadeflex.v036.machine;
+/**
+ * Changelog
+ * =========
+ * 06/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.machine;
+
+//cpu imports
+import static arcadeflex.v036.cpu.z80.z80H.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
 import static arcadeflex.v036.mame.sndintrf.*;
-import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
-import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static common.libc.cstdlib.rand;
 import static arcadeflex.v036.mame.memoryH.*;
-import static arcadeflex.v036.cpu.z80.z80H.*;
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.mame.*;
+//common imports
+import static common.libc.cstdlib.*;
+//TODO
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class bublbobl {
 
@@ -92,7 +84,8 @@ public class bublbobl {
 
     public static ReadHandlerPtr tokio_fake_r = new ReadHandlerPtr() {
         public int handler(int offset) {
-            return 0xbf; /* ad-hoc value set to pass initial testing */
+            return 0xbf;
+            /* ad-hoc value set to pass initial testing */
 
         }
     };
