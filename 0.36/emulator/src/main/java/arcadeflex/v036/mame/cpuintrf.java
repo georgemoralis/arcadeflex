@@ -12,6 +12,8 @@ import arcadeflex.v036.cpu.i8039.n7751;
 import arcadeflex.v036.cpu.m6805.HD63705;
 import arcadeflex.v036.cpu.m6805.m6805;
 import arcadeflex.v036.cpu.m6805.m68705;
+import arcadeflex.v036.cpu.m6809.m6809;
+import static arcadeflex.v036.cpu.m6809.m6809H.*;
 import arcadeflex.v036.cpu.s2650.s2650;
 import arcadeflex.v036.cpu.z80.z80;
 //generic imports
@@ -265,7 +267,7 @@ public class cpuintrf {
                 new m68705(),
                 new HD63705(),
                 new dummyCPU(),/*TODO*///	CPU0(HD6309,   hd6309,	 2,  0,1.00,HD6309_INT_NONE,   HD6309_INT_IRQ, HD6309_INT_NMI, 16,	  0,16,BE,1, 4,16	),
-                new dummyCPU(),/*TODO*///	CPU0(M6809,    m6809,	 2,  0,1.00,M6809_INT_NONE,    M6809_INT_IRQ,  M6809_INT_NMI,  16,	  0,16,BE,1, 4,16	),
+                new m6809(),
                 new dummyCPU(),/*TODO*///	CPU0(KONAMI,   konami,	 2,  0,1.00,KONAMI_INT_NONE,   KONAMI_INT_IRQ, KONAMI_INT_NMI, 16,	  0,16,BE,1, 4,16	),
                 new dummyCPU(),/*TODO*///	CPU0(M68000,   m68000,	 8, -1,1.00,MC68000_INT_NONE,  -1,			   -1,			   24,	  0,24,BE,2,10,24	),
                 new dummyCPU(),/*TODO*///	CPU0(M68010,   m68010,	 8, -1,1.00,MC68010_INT_NONE,  -1,			   -1,			   24,	  0,24,BE,2,10,24	),
@@ -1394,17 +1396,20 @@ public class cpuintrf {
 /*TODO*///				}
 /*TODO*///				break;
 /*TODO*///#endif
-/*TODO*///#if (HAS_M6809)
-/*TODO*///			case CPU_M6809:
-/*TODO*///				switch (num)
-/*TODO*///				{
-/*TODO*///				case M6809_INT_IRQ: 	irq_line = 0; LOG((errorlog,"M6809 IRQ\n")); break;
-/*TODO*///				case M6809_INT_FIRQ:	irq_line = 1; LOG((errorlog,"M6809 FIRQ\n")); break;
-/*TODO*///				default:				irq_line = 0; LOG((errorlog,"M6809 unknown\n"));
-/*TODO*///				}
-/*TODO*///				break;
-/*TODO*///#endif
-/*TODO*///#if (HAS_KONAMI)
+                    case CPU_M6809:
+                        switch (num) {
+                            case M6809_INT_IRQ:
+                                irq_line = 0;
+                                break;
+                            case M6809_INT_FIRQ:
+                                irq_line = 1;
+                                break;
+                            default:
+                                irq_line = 0;
+                        }
+                        break;
+
+                    /*TODO*///#if (HAS_KONAMI)
 /*TODO*///				case CPU_KONAMI:
 /*TODO*///				switch (num)
 /*TODO*///				{
