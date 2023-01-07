@@ -92,6 +92,7 @@ import static arcadeflex.v036.drivers.spacefb.*;
 import static arcadeflex.v036.drivers.marvins.*;
 import static arcadeflex.v036.drivers.taitosj.*;
 import static arcadeflex.v036.drivers.bublbobl.*;
+import static arcadeflex.v036.drivers.sidearms.*;
 
 public class driver {
 
@@ -1105,11 +1106,11 @@ public class driver {
                 driver_lwings, /* 11/1986 (c) 1986 */
                 driver_lwings2, /* 11/1986 (c) 1986 */
                 driver_lwingsjp, /* 11/1986 (c) 1986 */
-                /*TODO*///	driver_sidearms,	/* 12/1986 (c) 1986 (World) */
-                /*TODO*///	driver_sidearmr,	/* 12/1986 (c) 1986 + Romstar license (US) */
-                /*TODO*///	driver_sidearjp,	/* 12/1986 (c) 1986 (Japan) */
-                /*TODO*///	driver_turtship,	/* (c) 1988 Philco (NOT A CAPCOM GAME but runs on modified Sidearms hardware) */
-                /*TODO*///	driver_dyger,		/* (c) 1989 Philco (NOT A CAPCOM GAME but runs on modified Sidearms hardware) */
+                driver_sidearms, /* 12/1986 (c) 1986 (World) */
+                driver_sidearmr, /* 12/1986 (c) 1986 + Romstar license (US) */
+                driver_sidearjp, /* 12/1986 (c) 1986 (Japan) */
+                driver_turtship, /* (c) 1988 Philco (NOT A CAPCOM GAME but runs on modified Sidearms hardware) */
+                driver_dyger, /* (c) 1989 Philco (NOT A CAPCOM GAME but runs on modified Sidearms hardware) */
                 driver_avengers, /*  2/1987 (c) 1987 (US) */
                 driver_avenger2, /*  2/1987 (c) 1987 (US) */
                 /*TODO*///	driver_bionicc,	/*  3/1987 (c) 1987 (US) */

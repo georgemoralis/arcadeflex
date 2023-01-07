@@ -1,45 +1,37 @@
-/**
- * *************************************************************************
- *
- * Sidearms ========
- *
- * Driver provided by Paul Leaman
- *
- * TODO: There is an additional ROM which seems to contain code for a third Z80,
- * however the board only has two. The ROM is related to the missing star
- * background. At one point, the code jumps to A000, outside of the ROM address
- * space. This ROM could be something entirely different from Z80 code. In
- * another set, it consists of only the second half of the one we have here.
- *
- **************************************************************************
- */
-
 /*
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v036.drivers;
+/**
+ * Changelog
+ * =========
+ * 07/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.memoryH.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.sidearms.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
 import static arcadeflex.v036.sound._2203intf.*;
 import static arcadeflex.v036.sound._2203intfH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.sidearms.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 
 public class sidearms {
 
@@ -109,7 +101,7 @@ public class sidearms {
      RAM[0xa002] = 0xa0;
      //      interrupt_enable_w(offset,data & 0x80);
      } };*/
-    /*	static MemoryReadAddress readmem2[] =
+ /*	static MemoryReadAddress readmem2[] =
      {
      new MemoryReadAddress( 0x0000, 0x7fff, MRA_ROM ),
      new MemoryReadAddress( 0xc000, 0xdfff, MRA_RAM ),
@@ -118,7 +110,7 @@ public class sidearms {
      new MemoryReadAddress( 0xe800, 0xebff, MRA_RAM ),
      new MemoryReadAddress( 0xec00, 0xefff, MRA_RAM ),
      new MemoryReadAddress( -1 )  /* end of table */
-    /*	};
+ /*	};
 	
      static MemoryWriteAddress writemem2[] =
      {
@@ -129,8 +121,8 @@ public class sidearms {
      new MemoryWriteAddress( 0xe800, 0xebff, MWA_RAM ),
      new MemoryWriteAddress( 0xec00, 0xefff, MWA_RAM ),
      new MemoryWriteAddress( 0xf80e, 0xf80e, pop ),        /* ROM bank selector? (to appear at 8000) */
-    /*		new MemoryWriteAddress( -1 )  /* end of table */
-    /*	};
+ /*		new MemoryWriteAddress( -1 )  /* end of table */
+ /*	};
      #endif*/
     static MemoryReadAddress turtship_readmem[]
             = {
@@ -183,7 +175,8 @@ public class sidearms {
 
     static InputPortHandlerPtr input_ports_sidearms = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -197,7 +190,8 @@ public class sidearms {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -208,7 +202,8 @@ public class sidearms {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON3);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -219,7 +214,8 @@ public class sidearms {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON3 | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x07, 0x07, DEF_STR("Difficulty"));
             PORT_DIPSETTING(0x07, "0 (Easiest)");
@@ -243,7 +239,8 @@ public class sidearms {
             PORT_DIPSETTING(0x00, DEF_STR("On"));
             PORT_SERVICE(0x80, IP_ACTIVE_LOW);
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x07, 0x07, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x00, DEF_STR("4C_1C"));
@@ -270,10 +267,12 @@ public class sidearms {
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x80, DEF_STR("On"));
 
-            PORT_START();       /* DSW2 */
+            PORT_START();
+            /* DSW2 */
 
             PORT_BIT(0x7f, IP_ACTIVE_LOW, IPT_UNUSED);
-            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_VBLANK);    /* not sure, but likely */
+            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_VBLANK);
+            /* not sure, but likely */
 
             INPUT_PORTS_END();
         }
@@ -281,7 +280,8 @@ public class sidearms {
 
     static InputPortHandlerPtr input_ports_turtship = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -292,7 +292,8 @@ public class sidearms {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -303,7 +304,8 @@ public class sidearms {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON3);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -314,7 +316,8 @@ public class sidearms {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON3 | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_BITX(0x01, 0x01, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Invulnerability", 0, IP_JOY_NONE);
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -341,7 +344,8 @@ public class sidearms {
             PORT_DIPSETTING(0x80, "7");
             PORT_DIPSETTING(0x00, "8");
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_SERVICE(0x01, IP_ACTIVE_LOW);
             PORT_DIPNAME(0x02, 0x02, DEF_STR("Unknown"));
@@ -370,7 +374,8 @@ public class sidearms {
 
     static InputPortHandlerPtr input_ports_dyger = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);/* seems to be 1-player only */
@@ -382,7 +387,8 @@ public class sidearms {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -393,11 +399,13 @@ public class sidearms {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON3);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0xff, IP_ACTIVE_LOW, IPT_UNKNOWN);/* seems to be 1-player only */
 
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Unknown"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -424,7 +432,8 @@ public class sidearms {
             PORT_DIPSETTING(0x80, "7");
             PORT_DIPSETTING(0x00, "8");
 
-            PORT_START();       /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_SERVICE(0x01, IP_ACTIVE_LOW);
             PORT_DIPNAME(0x02, 0x02, DEF_STR("Unknown"));
@@ -629,15 +638,20 @@ public class sidearms {
 
     static RomLoadHandlerPtr rom_sidearms = new RomLoadHandlerPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 64k for code + banked ROMs images */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 64k for code + banked ROMs images */
 
-            ROM_LOAD("sa03.bin", 0x00000, 0x08000, 0xe10fe6a0);       /* CODE */
+            ROM_LOAD("sa03.bin", 0x00000, 0x08000, 0xe10fe6a0);
+            /* CODE */
 
-            ROM_LOAD("a_14e.rom", 0x10000, 0x08000, 0x4925ed03);       /* 0+1 */
+            ROM_LOAD("a_14e.rom", 0x10000, 0x08000, 0x4925ed03);
+            /* 0+1 */
 
-            ROM_LOAD("a_12e.rom", 0x18000, 0x08000, 0x81d0ece7);       /* 2+3 */
+            ROM_LOAD("a_12e.rom", 0x18000, 0x08000, 0x81d0ece7);
+            /* 2+3 */
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the audio CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the audio CPU */
 
             ROM_LOAD("a_04k.rom", 0x0000, 0x8000, 0x34efe2d2);
 
@@ -679,15 +693,20 @@ public class sidearms {
 
     static RomLoadHandlerPtr rom_sidearmr = new RomLoadHandlerPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 64k for code + banked ROMs images */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 64k for code + banked ROMs images */
 
-            ROM_LOAD("03", 0x00000, 0x08000, 0x9a799c45);       /* CODE */
+            ROM_LOAD("03", 0x00000, 0x08000, 0x9a799c45);
+            /* CODE */
 
-            ROM_LOAD("a_14e.rom", 0x10000, 0x08000, 0x4925ed03);       /* 0+1 */
+            ROM_LOAD("a_14e.rom", 0x10000, 0x08000, 0x4925ed03);
+            /* 0+1 */
 
-            ROM_LOAD("a_12e.rom", 0x18000, 0x08000, 0x81d0ece7);       /* 2+3 */
+            ROM_LOAD("a_12e.rom", 0x18000, 0x08000, 0x81d0ece7);
+            /* 2+3 */
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the audio CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the audio CPU */
 
             ROM_LOAD("a_04k.rom", 0x0000, 0x8000, 0x34efe2d2);
 
@@ -729,15 +748,20 @@ public class sidearms {
 
     static RomLoadHandlerPtr rom_sidearjp = new RomLoadHandlerPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 64k for code + banked ROMs images */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 64k for code + banked ROMs images */
 
-            ROM_LOAD("a_15e.rom", 0x00000, 0x08000, 0x61ceb0cc);       /* CODE */
+            ROM_LOAD("a_15e.rom", 0x00000, 0x08000, 0x61ceb0cc);
+            /* CODE */
 
-            ROM_LOAD("a_14e.rom", 0x10000, 0x08000, 0x4925ed03);       /* 0+1 */
+            ROM_LOAD("a_14e.rom", 0x10000, 0x08000, 0x4925ed03);
+            /* 0+1 */
 
-            ROM_LOAD("a_12e.rom", 0x18000, 0x08000, 0x81d0ece7);       /* 2+3 */
+            ROM_LOAD("a_12e.rom", 0x18000, 0x08000, 0x81d0ece7);
+            /* 2+3 */
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the audio CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the audio CPU */
 
             ROM_LOAD("a_04k.rom", 0x0000, 0x8000, 0x34efe2d2);
 
@@ -779,13 +803,15 @@ public class sidearms {
 
     static RomLoadHandlerPtr rom_turtship = new RomLoadHandlerPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 64k for code + banked ROMs images */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 64k for code + banked ROMs images */
 
             ROM_LOAD("turtship.003", 0x00000, 0x08000, 0xe7a7fc2e);
             ROM_LOAD("turtship.002", 0x10000, 0x08000, 0xe576f482);
             ROM_LOAD("turtship.001", 0x18000, 0x08000, 0xa9b64240);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the audio CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the audio CPU */
 
             ROM_LOAD("turtship.004", 0x0000, 0x8000, 0x1cbe48e8);
 
@@ -817,13 +843,15 @@ public class sidearms {
 
     static RomLoadHandlerPtr rom_dyger = new RomLoadHandlerPtr() {
         public void handler() {
-            ROM_REGION(0x20000, REGION_CPU1);    /* 64k for code + banked ROMs images */
+            ROM_REGION(0x20000, REGION_CPU1);
+            /* 64k for code + banked ROMs images */
 
             ROM_LOAD("dyger.003", 0x00000, 0x08000, 0xbae9882e);
             ROM_LOAD("dyger.002", 0x10000, 0x08000, 0x059ac4dc);
             ROM_LOAD("dyger.001", 0x18000, 0x08000, 0xd8440f66);
 
-            ROM_REGION(0x10000, REGION_CPU2);    /* 64k for the audio CPU */
+            ROM_REGION(0x10000, REGION_CPU2);
+            /* 64k for the audio CPU */
 
             ROM_LOAD("dyger.004", 0x0000, 0x8000, 0x8a256c09);
 

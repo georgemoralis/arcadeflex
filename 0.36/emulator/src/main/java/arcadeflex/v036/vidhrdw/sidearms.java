@@ -1,26 +1,29 @@
 /*
  * ported to v0.36
  * using automatic conversion tool v0.08
- *
- *
- *
  */
-package gr.codebb.arcadeflex.v036.vidhrdw;
+/**
+ * Changelog
+ * =========
+ * 07/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.vidhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
 import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static arcadeflex.v036.mame.osdependH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.platform.video.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
+import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.osdependH.*;
 import static arcadeflex.v036.mame.paletteH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//TODO
+import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
+import static gr.codebb.arcadeflex.v036.platform.video.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class sidearms {
@@ -77,8 +80,8 @@ public class sidearms {
             coin_counter_w.handler(1, data & 0x02);
 
             /* bit 4 probably resets the sound CPU */
-            /* TODO: I don't know about the other bits (all used) */
-            /* bit 7 flips screen */
+ /* TODO: I don't know about the other bits (all used) */
+ /* bit 7 flips screen */
             if (flipscreen != (data & 0x80)) {
                 flipscreen = data & 0x80;
                 /* TODO: support screen flip */
@@ -138,7 +141,7 @@ public class sidearms {
                         offset = offs + 2 * sx;
 
                         /* swap bits 1-7 and 8-10 of the address to compensate for the */
-                        /* funny layout of the ROM data */
+ /* funny layout of the ROM data */
                         offset = (offset & 0xf801) | ((offset & 0x0700) >> 7) | ((offset & 0x00fe) << 3);
 
                         code = p.read(offset) + 256 * (p.read(offset + 1) & 0x01);
@@ -211,30 +214,30 @@ public class sidearms {
             }
 
             /* There is a scrolling blinking star background behind the tile */
-            /* background, but I have absolutely NO IDEA how to render it. */
-            /* The scroll registers have a 64 pixels resolution. */
-            /*TODO*///	#if IHAVETHEBACKGROUND
-/*TODO*///		{
-/*TODO*///			int x,y;
-/*TODO*///			for (x = 0;x < 48;x+=8)
-/*TODO*///			{
-/*TODO*///				for (y = 0;y < 32;y+=8)
-/*TODO*///				{
-/*TODO*///					drawgfx(tmpbitmap,Machine.gfx[0],
-/*TODO*///							(y%8)*48+(x%8),
-/*TODO*///							0,
-/*TODO*///							0,0,
-/*TODO*///							8*x,8*y,
-/*TODO*///							0,TRANSPARENCY_NONE,0);
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	
-		/* copy the temporary bitmap to the screen */
-            /*TODO*///		scrollx = -(*sidearms_bg2_scrollx & 0x3f);
-/*TODO*///		scrolly = -(*sidearms_bg2_scrolly & 0x3f);
-            /*TODO*///		copyscrollbitmap(bitmap,tmpbitmap,1,&scrollx,1,&scrolly,&Machine.drv.visible_area,TRANSPARENCY_NONE,0);
-/*TODO*///	#endif
+ /* background, but I have absolutely NO IDEA how to render it. */
+ /* The scroll registers have a 64 pixels resolution. */
+//	#if IHAVETHEBACKGROUND
+//		{
+//			int x,y;
+//			for (x = 0;x < 48;x+=8)
+//			{
+//				for (y = 0;y < 32;y+=8)
+//				{
+//					drawgfx(tmpbitmap,Machine.gfx[0],
+//							(y%8)*48+(x%8),
+//							0,
+//							0,0,
+//							8*x,8*y,
+//							0,TRANSPARENCY_NONE,0);
+//				}
+//			}
+//		}
+//	
+            /* copy the temporary bitmap to the screen */
+//		scrollx = -(*sidearms_bg2_scrollx & 0x3f);
+//		scrolly = -(*sidearms_bg2_scrolly & 0x3f);
+            //		copyscrollbitmap(bitmap,tmpbitmap,1,&scrollx,1,&scrolly,&Machine.drv.visible_area,TRANSPARENCY_NONE,0);
+//	#endif
             if (bgon != 0) {
                 scrollx = sidearms_bg_scrollx.read(0) + 256 * sidearms_bg_scrollx.read(1) + 64;
                 scrolly = sidearms_bg_scrolly.read(0) + 256 * sidearms_bg_scrolly.read(1);
@@ -255,7 +258,7 @@ public class sidearms {
                             offset = offs + 2 * sx;
 
                             /* swap bits 1-7 and 8-10 of the address to compensate for the */
-                            /* funny layout of the ROM data */
+ /* funny layout of the ROM data */
                             offset = (offset & 0xf801) | ((offset & 0x0700) >> 7) | ((offset & 0x00fe) << 3);
 
                             drawgfx(tmpbitmap2, Machine.gfx[1],
@@ -270,11 +273,11 @@ public class sidearms {
                 }
 
                 scrollx += 64;
-                /*TODO*///	#if IHAVETHEBACKGROUND
-/*TODO*///		copyscrollbitmap(bitmap,tmpbitmap2,1,&scrollx,1,&scrolly,&Machine.drv.visible_area,TRANSPARENCY_COLOR,1);
-/*TODO*///	#else
+                //#if IHAVETHEBACKGROUND
+                //copyscrollbitmap(bitmap,tmpbitmap2,1,&scrollx,1,&scrolly,&Machine.drv.visible_area,TRANSPARENCY_COLOR,1);
+                //#else
                 copyscrollbitmap(bitmap, tmpbitmap2, 1, new int[]{scrollx}, 1, new int[]{scrolly}, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
-                /*TODO*///	#endif
+                //#endif
             } else {
                 fillbitmap(bitmap, Machine.pens[0], Machine.drv.visible_area);
             }

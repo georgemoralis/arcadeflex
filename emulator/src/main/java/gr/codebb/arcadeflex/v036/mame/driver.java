@@ -29,7 +29,6 @@ import static gr.codebb.arcadeflex.v037b7.drivers.tp84.*;
 import static arcadeflex.v036.drivers.ironhors.*;
 import static arcadeflex.v036.drivers.citycon.*;
 import static arcadeflex.v036.drivers.brkthru.*;
-import static gr.codebb.arcadeflex.v036.drivers.sidearms.*;
 import static gr.codebb.arcadeflex.v036.drivers.copsnrob.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.pcktgal.*;
 import static arcadeflex.v036.drivers.bogeyman.*;
@@ -289,10 +288,6 @@ public class driver {
                 /*265*//*gng*/ driver_makaimuc,
                 /*266*//*gng*/ driver_makaimug,
                 /*267*//*gng*/ driver_diamond,
-                /*270*//*sidearms*/ driver_sidearms,
-                /*271*//*sidearms*/ driver_sidearmr,
-                /*272*//*sidearms*/ driver_sidearjp,
-                /*273*//*sidearms*/ driver_turtship,
                 /*274*//*pcktgal*/ driver_pcktgal,
                 /*275*//*pcktgal*/ driver_pcktgalb,
                 /*276*//*pcktgal*/ driver_pcktgal2,
@@ -473,7 +468,6 @@ public class driver {
                 /* GFX issues
         
                  */
-                /*002*//*sidearms*/ driver_dyger, //screen height is too big  
                 /*003*//*m62*/ driver_battroad,//screen height is too big
                 /*bladestl*/ driver_bladestl, //artifacts left and right of drawing screen
                 /*bladestl*/ driver_bladstle, //artifacts left and right of drawing screen
