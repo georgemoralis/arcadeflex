@@ -2,6 +2,11 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
+/**
+ * Changelog
+ * =========
+ * 07/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.drivers;
 
 //generic imports
@@ -11,6 +16,12 @@ import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.memoryH.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.inptport.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.inptportH.*;
 //sndhrdw imports
 import static arcadeflex.v036.sndhrdw.trackfld.*;
 //sound imports
@@ -20,16 +31,6 @@ import static arcadeflex.v036.sound.dac.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.sbasketb.*;
-//TODO
-import static arcadeflex.v036.mame.driverH.*;
-import static arcadeflex.v036.mame.memoryH.*;
-import static arcadeflex.v036.mame.commonH.*;
-import static arcadeflex.v036.mame.inptport.*;
-import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 
 public class sbasketb {
 

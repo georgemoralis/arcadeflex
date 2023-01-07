@@ -100,6 +100,8 @@ import static arcadeflex.v036.drivers.citycon.*;
 import static arcadeflex.v036.drivers.ironhors.*;
 import static arcadeflex.v036.drivers.gng.*;
 import static arcadeflex.v036.drivers.mappy.*;
+import static arcadeflex.v036.drivers.sbasketb.*;
+import static arcadeflex.v036.drivers.sonson.*;
 
 public class driver {
 
@@ -1080,7 +1082,7 @@ public class driver {
                 driver_vulgus, /*  5/1984 (c) 1984 */
                 driver_vulgus2, /*  5/1984 (c) 1984 */
                 driver_vulgusj, /*  5/1984 (c) 1984 */
-                /*TODO*///	driver_sonson,	/*  7/1984 (c) 1984 */
+                driver_sonson, /*  7/1984 (c) 1984 */
                 driver_higemaru, /*  9/1984 (c) 1984 */
                 driver_1942, /* 12/1984 (c) 1984 */
                 driver_1942a, /* 12/1984 (c) 1984 */
@@ -1839,7 +1841,7 @@ public class driver {
                 /*TODO*///	driver_tp84a,		/* GX388 (c) 1984 */
                 /*TODO*///	driver_hyperspt,	/* GX330 (c) 1984 + Centuri */
                 /*TODO*///	driver_hpolym84,	/* GX330 (c) 1984 */
-                /*TODO*///	driver_sbasketb,	/* GX405 (c) 1984 */
+                driver_sbasketb, /* GX405 (c) 1984 */
                 /*TODO*///	driver_mikie,		/* GX469 (c) 1984 */
                 /*TODO*///	driver_mikiej,	/* GX469 (c) 1984 */
                 /*TODO*///	driver_mikiehs,	/* GX469 (c) 1984 */

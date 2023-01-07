@@ -2,19 +2,24 @@
  * ported to v0.36
  *
  */
+/**
+ * Changelog
+ * =========
+ * 07/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.vidhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.mame.Machine;
+import static arcadeflex.v036.mame.osdependH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.osdependH.*;
 
 public class sonson {
 
@@ -114,7 +119,7 @@ public class sonson {
                     scroll[i] = -(sonson_scrollx.read());
                 }
 
-                copyscrollbitmap(bitmap, tmpbitmap, 32, scroll, 0, null, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                copyscrollbitmap(bitmap, tmpbitmap, 32, scroll, 0, null, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
             }
 
             /* draw the sprites */
@@ -124,7 +129,7 @@ public class sonson {
                         spriteram.read(offs + 1) & 0x1f,
                         ~spriteram.read(offs + 1) & 0x40, ~spriteram.read(offs + 1) & 0x80,
                         spriteram.read(offs + 3), spriteram.read(offs + 0),
-                        Machine.visible_area, TRANSPARENCY_PEN, 0);
+                        Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
             }
         }
     };
