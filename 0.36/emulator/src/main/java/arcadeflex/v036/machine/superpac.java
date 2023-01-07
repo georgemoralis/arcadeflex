@@ -1,18 +1,21 @@
 /*
  * ported to v0.36
  * using automatic conversion tool v0.10
- *
- *
- *
  */
-package gr.codebb.arcadeflex.v036.machine;
+/**
+ * Changelog
+ * =========
+ * 07/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.machine;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static arcadeflex.v036.mame.driverH.*;
+//mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptport.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
+//TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class superpac {
@@ -47,7 +50,7 @@ public class superpac {
         public int handler(int offset) {
             /* to speed up emulation, we check for the loop the sound CPU sits in most of the time
              and end the current iteration (things will start going again with the next IRQ) */
-	//	if (offset == 0xfb - 0x40 && superpac_sharedram[offset] == 0)
+            //	if (offset == 0xfb - 0x40 && superpac_sharedram[offset] == 0)
             //		cpu_seticount (0);
             return superpac_sharedram.read(offset);
         }

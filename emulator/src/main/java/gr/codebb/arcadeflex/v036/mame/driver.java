@@ -20,24 +20,14 @@ import static arcadeflex.v036.mame.driverH.*;
 
 //drivers imports
 import static gr.codebb.arcadeflex.v036.drivers.system1.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.mikie.*;
-import static arcadeflex.v036.drivers.sonson.*;
-import static arcadeflex.v036.drivers.gng.*;
-import static arcadeflex.v036.drivers.circusc.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.tp84.*;
-import static arcadeflex.v036.drivers.ironhors.*;
-import static arcadeflex.v036.drivers.citycon.*;
-import static arcadeflex.v036.drivers.brkthru.*;
 import static gr.codebb.arcadeflex.v036.drivers.copsnrob.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.pcktgal.*;
 import static arcadeflex.v036.drivers.bogeyman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.scregg.*;
-import static gr.codebb.arcadeflex.v036.drivers.xain.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.shaolins.*;
 import static gr.codebb.arcadeflex.v036.drivers.battlnts.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.spy.*;
-import static gr.codebb.arcadeflex.v036.drivers.superpac.*;
-import static arcadeflex.v036.drivers.mappy.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.phozon.*;
 import static arcadeflex.v036.drivers.hcastle.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.gsword.*;
@@ -58,7 +48,6 @@ import static gr.codebb.arcadeflex.v036.drivers.dec8.*;
 import static gr.codebb.arcadeflex.v036.drivers.m62.*;
 import static gr.codebb.arcadeflex.v036.drivers.combatsc.*;
 import static gr.codebb.arcadeflex.v036.drivers.trackfld.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.jailbrek.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.kingobox.*;
 import static gr.codebb.arcadeflex.v036.drivers.atetris.*;
 import static arcadeflex.v036.drivers.mystston.*;
@@ -133,13 +122,10 @@ import static gr.codebb.arcadeflex.v037b7.drivers.neogeo.*;
 import static gr.codebb.arcadeflex.v036.drivers.lastduel.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bloodbro.*;
 import static gr.codebb.arcadeflex.v036.drivers.nemesis.*;
-import static arcadeflex.v036.drivers.sbasketb.*;
 import static gr.codebb.arcadeflex.v036.drivers.terracre.*;
 import static gr.codebb.arcadeflex.v036.drivers.punchout.*;
 import static gr.codebb.arcadeflex.v036.drivers.astrof.*;
 import static gr.codebb.arcadeflex.v036.drivers.karnov.*;
-//import static gr.codebb.arcadeflex.v036.drivers.shuuz.*;
-//import static gr.codebb.arcadeflex.v037b16.drivers.shuuz.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.shuuz.*;
 import static gr.codebb.arcadeflex.v036.drivers.ssi.*;
 import static gr.codebb.arcadeflex.v036.drivers.taitof2.*;
@@ -204,24 +190,9 @@ public class driver {
                  *
                  * Perfect games
                  */
-                /*001*//*superpac*/driver_superpac,
-                /*002*//*superpac*/ driver_superpcm,
-                /*003*//*superpac*/ driver_pacnpal,
-                /*004*//*superpac*/ driver_pacnchmp,
-                /*009*//*mappy*/ driver_mappy,
-                /*010*//*mappy*/ driver_mappyjp,
-                /*011*//*mappy*/ driver_digdug2,
-                /*012*//*mappy*/ driver_digdug2a,
-                /*013*//*mappy*/ driver_todruaga,
-                /*014*//*mappy*/ driver_todruagb,
-                /*015*//*mappy*/ driver_motos,
-                /*020*//*phozon*/ driver_phozon,
-                /*027*//*mikie*/ driver_mikie,
-                /*028*//*mikie*/ driver_mikiej,
-                /*029*//*mikie*/ driver_mikiehs,
+                /*020*//*phozon*/driver_phozon,
                 /*030*//*tp84*/ driver_tp84,
                 /*031*//*tp84*/ driver_tp84a,
-                /*064*//*sonson*/ driver_sonson,
                 /*117*//*bogeyman*/ driver_bogeyman,
                 /*132*//*scregg*/ driver_scregg,
                 /*133*//*scregg*/ driver_eggs,
@@ -269,21 +240,6 @@ public class driver {
                 /*233*//*hcastle*/ driver_hcastle,
                 /*234*//*hcastle*/ driver_hcastlea,
                 /*235*//*hcastle*/ driver_hcastlej,
-                /*240*//*citycon*/ driver_citycon,
-                /*241*//*citycon*/ driver_citycona,
-                /*242*//*citycon*/ driver_cruisin,
-                /*243*//*ironhors*/ driver_ironhors,
-                /*244*//*ironhors*/ driver_dairesya,
-                /*254*//*brkthru*/ driver_brkthru,
-                /*255*//*brkthru*/ driver_brkthruj,
-                /*256*//*brkthru*/ driver_darwin,
-                /*261*//*gng*/ driver_gng,
-                /*262*//*gng*/ driver_gnga,
-                /*263*//*gng*/ driver_gngt,
-                /*264*//*gng*/ driver_makaimur,
-                /*265*//*gng*/ driver_makaimuc,
-                /*266*//*gng*/ driver_makaimug,
-                /*267*//*gng*/ driver_diamond,
                 /*274*//*pcktgal*/ driver_pcktgal,
                 /*275*//*pcktgal*/ driver_pcktgalb,
                 /*276*//*pcktgal*/ driver_pcktgal2,
@@ -323,10 +279,6 @@ public class driver {
                 /*337*//*srumbler*/ driver_srumbler,
                 /*338*//*srumbler*/ driver_srumblr2,
                 /*339*//*srumbler*/ driver_rushcrsh,
-                /*347*//*circusc*/ driver_circusc,
-                /*348*//*circusc*/ driver_circusc2,
-                /*349*//*circusc*/ driver_circuscc,
-                /*350*//*circusc*/ driver_circusce,
                 /*351*//*dec8*/ driver_shackled,
                 /*352*//*dec8*/ driver_breywood,
                 /*353*//*dec8*/ driver_csilver,
@@ -371,7 +323,6 @@ public class driver {
                 /*451*//*snowbros*/ driver_snowbrob,
                 /*452*//*snowbros*/ driver_snowbroj,
                 /*453*//*galpanic*/ driver_galpanic,
-                /*471*//*sbasketb*/ driver_sbasketb,
                 /*472*//*trackfld*/ driver_trackfld,
                 /*473*//*trackfld*/ driver_trackflc,
                 /*474*//*trackfld*/ driver_hyprolym,
@@ -432,7 +383,6 @@ public class driver {
                  */
                 /*001*//*gladiatr*/ driver_gladiatr, //no nvram support
                 /*002*//*gladiatr*/ driver_ogonsiro, //no nvram support
-                /*003*//*jailbrek*/ driver_jailbrek, //vlm5030 exists but doesn't work...
                 /*004*//*atetris*/ driver_atetris,//no nvram support
                 /*005*//*atetris*/ driver_atetrisa,//no nvram support
                 /*006*//*atetris*/ driver_atetrisb,//no nvram support
@@ -547,7 +497,6 @@ public class driver {
                 /*013*//*system1*/ driver_dakkochn,
                 /*014*//*system1*/ driver_ufosensi,
                 /*016*//*spy*/ driver_spy, //sound works , there are a few gfx problems and missing collision(mame 0.36 doesn't have collision either)   
-                /*017//*ironhors*/ driver_farwest,
                 /*aeroboto*/ driver_formatz,
                 /*aeroboto*/ driver_aeroboto,
                 /*kingobox*/ driver_ringkin2,
@@ -556,13 +505,6 @@ public class driver {
                 /*toki*/ driver_toki2,
                 /*toki*/ driver_toki3,
                 /*toki*/ driver_tokiu,
-                /*
-        WIP drivers
-                 */
-                /*xain*/ driver_xsleena, //freezes after a while ym2203 issue? (works okay if i remove sound)
-                /*xain*/ driver_xsleenab, //freezes after a while ym2203 issue? (works okay if i remove sound)
-                /*xain*/ driver_solarwar, //freezes after a while ym2203 issue? (works okay if i remove sound)
-
                 /**
                  * *************************************************************
                  * TO RECHECK

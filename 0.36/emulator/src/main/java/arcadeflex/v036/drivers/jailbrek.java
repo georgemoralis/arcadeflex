@@ -1,28 +1,38 @@
 /*
  * modifications based on 0.58 for vlm5030
- * ported to v0.37b7
+ * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+/**
+ * Changelog
+ * =========
+ * 07/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//machine imports
+import static arcadeflex.v036.machine.konami.*;
+//mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptportH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
 import static arcadeflex.v036.sound.sn76496H.*;
 import static arcadeflex.v036.sound.sn76496.*;
-import static arcadeflex.v036.vidhrdw.jailbrek.*;
-import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v037b7.machine.konami.*;
 import static arcadeflex.v058.sound.vlm5030.*;
 import static arcadeflex.v058.sound.vlm5030H.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.jailbrek.*;
+//common imports
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class jailbrek {
 

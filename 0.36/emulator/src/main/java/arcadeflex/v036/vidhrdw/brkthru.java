@@ -1,22 +1,32 @@
 /*
- * ported to v0.37b7
+ * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+/**
+ * Changelog
+ * =========
+ * 07/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.vidhrdw;
 
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static common.libc.cstring.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.memoryH.*;
-import static arcadeflex.v036.mame.osdependH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.memoryH.*;
+import static arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.mame.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
+import static common.libc.cstring.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
+
 public class brkthru {
 
     public static UBytePtr brkthru_scroll = new UBytePtr();
@@ -111,7 +121,7 @@ public class brkthru {
             memset(dirtybuffer, 1, videoram_size[0]);
 
             /* the background area is twice as wide as the screen */
-            if ((tmpbitmap = bitmap_alloc(2 * Machine.drv.screen_width, Machine.drv.screen_height)) == null) {
+            if ((tmpbitmap = osd_create_bitmap(2 * Machine.drv.screen_width, Machine.drv.screen_height)) == null) {
                 dirtybuffer = null;
                 return 1;
             }
@@ -129,7 +139,7 @@ public class brkthru {
      */
     public static VhStopHandlerPtr brkthru_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
-            bitmap_free(tmpbitmap);
+            osd_free_bitmap(tmpbitmap);
             dirtybuffer = null;
         }
     };
@@ -211,7 +221,7 @@ public class brkthru {
                 } else {
                     scroll = -bgscroll;
                 }
-                copyscrollbitmap(bitmap, tmpbitmap, 1, new int[]{scroll}, 0, null, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                copyscrollbitmap(bitmap, tmpbitmap, 1, new int[]{scroll}, 0, null, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
             }
 
             /* Draw the sprites. Note that it is important to draw them exactly in this */
@@ -239,13 +249,13 @@ public class brkthru {
                                 color,
                                 flipscreen, flipscreen,
                                 sx, flipscreen != 0 ? sy + 16 : sy - 16,
-                                Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                         drawgfx(bitmap, Machine.gfx[9],
                                 code | 1,
                                 color,
                                 flipscreen, flipscreen,
                                 sx, sy,
-                                Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
 
                         /* redraw with wraparound */
                         drawgfx(bitmap, Machine.gfx[9],
@@ -253,20 +263,20 @@ public class brkthru {
                                 color,
                                 flipscreen, flipscreen,
                                 sx, (flipscreen != 0 ? sy + 16 : sy - 16) + 256,
-                                Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                         drawgfx(bitmap, Machine.gfx[9],
                                 code | 1,
                                 color,
                                 flipscreen, flipscreen,
                                 sx, sy + 256,
-                                Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                     } else {
                         drawgfx(bitmap, Machine.gfx[9],
                                 code,
                                 color,
                                 flipscreen, flipscreen,
                                 sx, sy,
-                                Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
 
                         /* redraw with wraparound */
                         drawgfx(bitmap, Machine.gfx[9],
@@ -274,7 +284,7 @@ public class brkthru {
                                 color,
                                 flipscreen, flipscreen,
                                 sx, sy + 256,
-                                Machine.visible_area, TRANSPARENCY_PEN, 0);
+                                Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                     }
                 }
             }
@@ -295,7 +305,7 @@ public class brkthru {
                         0,
                         flipscreen, flipscreen,
                         8 * sx, 8 * sy,
-                        Machine.visible_area, TRANSPARENCY_PEN, 0);
+                        Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
             }
         }
     };

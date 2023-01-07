@@ -102,6 +102,11 @@ import static arcadeflex.v036.drivers.gng.*;
 import static arcadeflex.v036.drivers.mappy.*;
 import static arcadeflex.v036.drivers.sbasketb.*;
 import static arcadeflex.v036.drivers.sonson.*;
+import static arcadeflex.v036.drivers.brkthru.*;
+import static arcadeflex.v036.drivers.mikie.*;
+import static arcadeflex.v036.drivers.xain.*;
+import static arcadeflex.v036.drivers.superpac.*;
+import static arcadeflex.v036.drivers.jailbrek.*;
 
 public class driver {
 
@@ -348,10 +353,10 @@ public class driver {
                 /*TODO*///	driver_xeviousa,	/* (c) 1982 + Atari license */
                 /*TODO*///	driver_xevios,	/* bootleg */
                 /*TODO*///	driver_sxevious,	/* (c) 1984 */
-                /*TODO*///	driver_superpac,	/* (c) 1982 */
-                /*TODO*///	driver_superpcm,	/* (c) 1982 Midway */
-                /*TODO*///	driver_pacnpal,	/* (c) 1983 */
-                /*TODO*///	driver_pacnchmp,	/* (c) 1983 */
+                driver_superpac, /* (c) 1982 */
+                driver_superpcm, /* (c) 1982 Midway */
+                driver_pacnpal, /* (c) 1983 */
+                driver_pacnchmp, /* (c) 1983 */
                 /*TODO*///	driver_phozon,	/* (c) 1983 */
                 driver_mappy, /* (c) 1983 */
                 driver_mappyjp, /* (c) 1983 */
@@ -1670,9 +1675,9 @@ public class driver {
                 driver_karatevs, /* (c) 1984 Data East Corporation (Japan) */
                 /*TODO*///	driver_firetrap,	/* (c) 1986 */
                 /*TODO*///	driver_firetpbl,	/* bootleg */
-                /*TODO*///	driver_brkthru,	/* (c) 1986 Data East USA (US) */
-                /*TODO*///	driver_brkthruj,	/* (c) 1986 Data East Corporation (Japan) */
-                /*TODO*///	driver_darwin,	/* (c) 1986 Data East Corporation (Japan) */
+                driver_brkthru, /* (c) 1986 Data East USA (US) */
+                driver_brkthruj, /* (c) 1986 Data East Corporation (Japan) */
+                driver_darwin, /* (c) 1986 Data East Corporation (Japan) */
                 /*TODO*///	driver_shootout,	/* (c) 1985 Data East USA (US) */
                 /*TODO*///	driver_shootouj,	/* (c) 1985 Data East USA (Japan) */
                 /*TODO*///	driver_shootoub,	/* bootleg */
@@ -1842,9 +1847,9 @@ public class driver {
                 /*TODO*///	driver_hyperspt,	/* GX330 (c) 1984 + Centuri */
                 /*TODO*///	driver_hpolym84,	/* GX330 (c) 1984 */
                 driver_sbasketb, /* GX405 (c) 1984 */
-                /*TODO*///	driver_mikie,		/* GX469 (c) 1984 */
-                /*TODO*///	driver_mikiej,	/* GX469 (c) 1984 */
-                /*TODO*///	driver_mikiehs,	/* GX469 (c) 1984 */
+                driver_mikie, /* GX469 (c) 1984 */
+                driver_mikiej, /* GX469 (c) 1984 */
+                driver_mikiehs, /* GX469 (c) 1984 */
                 /*TODO*///	driver_roadf,		/* GX461 (c) 1984 */
                 /*TODO*///	driver_roadf2,	/* GX461 (c) 1984 */
                 /*TODO*///	driver_yiear,		/* GX407 (c) 1985 */
@@ -1856,7 +1861,7 @@ public class driver {
                 /*TODO*///	driver_rushatck,	/* GX577 (c) 1985 */
                 /*TODO*///	driver_gberetb,	/* bootleg on different hardware */
                 /*TODO*///	driver_mrgoemon,	/* GX621 (c) 1986 (Japan) */
-                /*TODO*///	driver_jailbrek,	/* GX507 (c) 1986 */
+                driver_jailbrek, /* GX507 (c) 1986 */
                 /*TODO*///	driver_finalizr,	/* GX523 (c) 1985 */
                 /*TODO*///	driver_finalizb,	/* bootleg */
                 driver_ironhors, /* GX560 (c) 1986 */
@@ -2297,9 +2302,9 @@ public class driver {
                 /*TODO*///	driver_renegade,	/* TA-0018 (c) 1986 + Taito America license */
                 /*TODO*///	driver_kuniokun,	/* TA-0018 (c) 1986 */
                 /*TODO*///	driver_kuniokub,	/* bootleg */
-                /*TODO*///	driver_xsleena,	/* TA-0019 (c) 1986 */
-                /*TODO*///	driver_xsleenab,	/* bootleg */
-                /*TODO*///	driver_solarwar,	/* TA-0019 (c) 1986 Taito + Memetron license */
+                driver_xsleena, /* TA-0019 (c) 1986 */
+                driver_xsleenab, /* bootleg */
+                driver_solarwar, /* TA-0019 (c) 1986 Taito + Memetron license */
                 /*TODO*///	driver_battlane,	/* TA-???? (c) 1986 + Taito license */
                 /*TODO*///	driver_battlan2,	/* TA-???? (c) 1986 + Taito license */
                 /*TODO*///	driver_battlan3,	/* TA-???? (c) 1986 + Taito license */

@@ -2,24 +2,31 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v036.drivers;
+/**
+ * Changelog
+ * =========
+ * 07/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-
+//machine imports
+import static arcadeflex.v036.machine.superpac.*;
+//mame imports
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptportH.*;
+//sound imports
+import static arcadeflex.v036.sound.namcoH.*;
+import static arcadeflex.v036.sound.namco.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.superpac.*;
-import static gr.codebb.arcadeflex.v036.sound.namcoH.*;
-import static gr.codebb.arcadeflex.v036.sound.namco.*;
-import static gr.codebb.arcadeflex.v036.machine.superpac.*;
 
 public class superpac {
 
@@ -91,7 +98,8 @@ public class superpac {
     /* input from the outside world */
     static InputPortHandlerPtr input_ports_superpac = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x0f, 0x00, DEF_STR("Difficulty"));
             PORT_DIPSETTING(0x00, "Rank 0-Normal");
@@ -122,7 +130,8 @@ public class superpac {
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x80, DEF_STR("On"));
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x07, 0x00, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("3C_1C"));
@@ -143,7 +152,7 @@ public class superpac {
             PORT_DIPSETTING(0x20, "30k 100k 100k");
             PORT_DIPSETTING(0x28, "30k 120k 120k");
             /* TODO: bonus scores for 5 lives */
-            /* 	PORT_DIPNAME( 0x38, 0x00, DEF_STR( "Bonus_Life") );
+ /* 	PORT_DIPNAME( 0x38, 0x00, DEF_STR( "Bonus_Life") );
              PORT_DIPSETTING(    0x38, "None" );
              PORT_DIPSETTING(    0x28, "30k" );
              PORT_DIPSETTING(    0x30, "40k" );
@@ -158,9 +167,10 @@ public class superpac {
             PORT_DIPSETTING(0x00, "3");
             PORT_DIPSETTING(0xc0, "5");
 
-            PORT_START(); 	/* FAKE */
-            /* The player inputs are not memory mapped, they are handled by an I/O chip. */
-            /* These fake input ports are read by mappy_customio_data_r() */
+            PORT_START();
+            /* FAKE */
+ /* The player inputs are not memory mapped, they are handled by an I/O chip. */
+ /* These fake input ports are read by mappy_customio_data_r() */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_4WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_4WAY);
@@ -170,7 +180,8 @@ public class superpac {
             PORT_BITX(0x20, IP_ACTIVE_HIGH, IPT_BUTTON1, null, IP_KEY_PREVIOUS, IP_JOY_PREVIOUS);
             PORT_BIT(0xc0, IP_ACTIVE_HIGH, IPT_UNUSED);
 
-            PORT_START(); 	/* FAKE */
+            PORT_START();
+            /* FAKE */
 
             PORT_BIT_IMPULSE(0x01, IP_ACTIVE_HIGH, IPT_COIN1, 1);
             PORT_BIT_IMPULSE(0x02, IP_ACTIVE_HIGH, IPT_COIN2, 1);
@@ -187,7 +198,8 @@ public class superpac {
 
     static InputPortHandlerPtr input_ports_pacnpal = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Coin_B"));
             PORT_DIPSETTING(0x02, DEF_STR("2C_1C"));
@@ -201,7 +213,8 @@ public class superpac {
             PORT_DIPSETTING(0x0c, "D");
             PORT_BIT(0xf0, IP_ACTIVE_HIGH, IPT_UNUSED);
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x07, 0x00, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("3C_1C"));
@@ -222,7 +235,7 @@ public class superpac {
             PORT_DIPSETTING(0x08, "20k 70k 70k");
             PORT_DIPSETTING(0x10, "30k 80k 80k");
             /* TODO: bonus scores are different for 5 lives */
-            /* 	PORT_DIPNAME( 0x38, 0x18, DEF_STR( "Bonus_Life") );
+ /* 	PORT_DIPNAME( 0x38, 0x18, DEF_STR( "Bonus_Life") );
              PORT_DIPSETTING(    0x00, "None" );
              PORT_DIPSETTING(    0x30, "30k" );
              PORT_DIPSETTING(    0x38, "40k" );
@@ -237,9 +250,10 @@ public class superpac {
             PORT_DIPSETTING(0x80, "3");
             PORT_DIPSETTING(0xc0, "5");
 
-            PORT_START(); 	/* FAKE */
-            /* The player inputs are not memory mapped, they are handled by an I/O chip. */
-            /* These fake input ports are read by mappy_customio_data_r() */
+            PORT_START();
+            /* FAKE */
+ /* The player inputs are not memory mapped, they are handled by an I/O chip. */
+ /* These fake input ports are read by mappy_customio_data_r() */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_4WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_4WAY);
@@ -249,7 +263,8 @@ public class superpac {
             PORT_BITX(0x20, IP_ACTIVE_HIGH, IPT_BUTTON1, null, IP_KEY_PREVIOUS, IP_JOY_PREVIOUS);
             PORT_BIT(0xc0, IP_ACTIVE_HIGH, IPT_UNUSED);
 
-            PORT_START(); 	/* FAKE */
+            PORT_START();
+            /* FAKE */
 
             PORT_BIT_IMPULSE(0x01, IP_ACTIVE_HIGH, IPT_COIN1, 2);
             PORT_BIT_IMPULSE(0x02, IP_ACTIVE_HIGH, IPT_COIN2, 2);
@@ -514,11 +529,13 @@ public class superpac {
             ROM_LOAD("pap2.3f", 0x0000, 0x2000, 0x39f44aa4);
 
             ROM_REGION(0x0220, REGION_PROMS);
-            ROM_LOAD("papi6.vid", 0x0000, 0x0020, BADCRC(0x52634b41)); /* palette */
+            ROM_LOAD("papi6.vid", 0x0000, 0x0020, BADCRC(0x52634b41));
+            /* palette */
 
             ROM_LOAD("papi5.vid", 0x0020, 0x0100, BADCRC(0xac46203c));/* chars */
 
-            ROM_LOAD("papi4.vid", 0x0120, 0x0100, BADCRC(0x686bde84)); /* sprites */
+            ROM_LOAD("papi4.vid", 0x0120, 0x0100, BADCRC(0x686bde84));
+            /* sprites */
 
             ROM_REGION(0x0100, REGION_SOUND1);/* sound prom */
 
