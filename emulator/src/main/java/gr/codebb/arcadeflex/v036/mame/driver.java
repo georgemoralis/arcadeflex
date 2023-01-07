@@ -20,7 +20,6 @@ import static arcadeflex.v036.mame.driverH.*;
 
 //drivers imports
 import static gr.codebb.arcadeflex.v036.drivers.system1.*;
-import static arcadeflex.v036.drivers.rocnrope.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mikie.*;
 import static arcadeflex.v036.drivers.sonson.*;
 import static arcadeflex.v036.drivers.gng.*;
@@ -222,8 +221,6 @@ public class driver {
                 /*029*//*mikie*/ driver_mikiehs,
                 /*030*//*tp84*/ driver_tp84,
                 /*031*//*tp84*/ driver_tp84a,
-                /*039*//*rocnrope*/ driver_rocnrope,
-                /*040*//*rocnrope*/ driver_rocnropk,
                 /*064*//*sonson*/ driver_sonson,
                 /*117*//*bogeyman*/ driver_bogeyman,
                 /*132*//*scregg*/ driver_scregg,

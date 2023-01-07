@@ -94,6 +94,7 @@ import static arcadeflex.v036.drivers.taitosj.*;
 import static arcadeflex.v036.drivers.bublbobl.*;
 import static arcadeflex.v036.drivers.sidearms.*;
 import static arcadeflex.v036.drivers.cheekyms.*;
+import static arcadeflex.v036.drivers.rocnrope.*;
 
 public class driver {
 
@@ -1823,8 +1824,8 @@ public class driver {
                 /*TODO*///	driver_trackflc,	/* GX361 (c) 1983 + Centuri license */
                 /*TODO*///	driver_hyprolym,	/* GX361 (c) 1983 */
                 /*TODO*///	driver_hyprolyb,	/* bootleg */
-                /*TODO*///	driver_rocnrope,	/* GX364 (c) 1983 */
-                /*TODO*///	driver_rocnropk,	/* GX364 (c) 1983 + Kosuka */
+                driver_rocnrope, /* GX364 (c) 1983 */
+                driver_rocnropk, /* GX364 (c) 1983 + Kosuka */
                 /*TODO*///	driver_circusc,	/* GX380 (c) 1984 */
                 /*TODO*///	driver_circusc2,	/* GX380 (c) 1984 */
                 /*TODO*///	driver_circuscc,	/* GX380 (c) 1984 + Centuri license */
