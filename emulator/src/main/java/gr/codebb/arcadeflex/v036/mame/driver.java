@@ -20,21 +20,17 @@ import static arcadeflex.v036.mame.driverH.*;
 
 //drivers imports
 import static gr.codebb.arcadeflex.v036.drivers.system1.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.tp84.*;
 import static gr.codebb.arcadeflex.v036.drivers.copsnrob.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.pcktgal.*;
 import static arcadeflex.v036.drivers.bogeyman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.scregg.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.shaolins.*;
 import static gr.codebb.arcadeflex.v036.drivers.battlnts.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.spy.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.phozon.*;
 import static arcadeflex.v036.drivers.hcastle.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.gsword.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jrpacman.*;
 import static arcadeflex.v036.drivers.mpatrol.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.yard.*;
-import static gr.codebb.arcadeflex.v036.drivers.srumbler.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jackal.*;
 import static arcadeflex.v036.drivers.gberet.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mitchell.*;
@@ -57,7 +53,6 @@ import static gr.codebb.arcadeflex.v036.drivers.matmania.*;
 import static gr.codebb.arcadeflex.v036.drivers.renegade.*;
 import static gr.codebb.arcadeflex.v036.drivers.hyperspt.*;
 import static gr.codebb.arcadeflex.v036.drivers.flkatck.*;
-import static gr.codebb.arcadeflex.v036.drivers.ddrible.*;
 import static gr.codebb.arcadeflex.v036.drivers.lkage.*;
 import static gr.codebb.arcadeflex.v036.drivers.mainevt.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bladestl.*;
@@ -80,7 +75,6 @@ import static gr.codebb.arcadeflex.v037b7.drivers.skydiver.*;
 import static gr.codebb.arcadeflex.v036.drivers.simpsons.*;
 import static gr.codebb.arcadeflex.v036.drivers.vendetta.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.missile.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.yiear.*;
 import static gr.codebb.arcadeflex.v036.drivers.pacland.*;
 import static gr.codebb.arcadeflex.v036.drivers.skykid.*;
 import static gr.codebb.arcadeflex.v036.drivers.baraduke.*;
@@ -89,11 +83,9 @@ import static gr.codebb.arcadeflex.v036.drivers.wardner.*;
 import static gr.codebb.arcadeflex.v036.drivers.shootout.*;
 import static gr.codebb.arcadeflex.v036.drivers.ccastles.*;
 import static gr.codebb.arcadeflex.v036.drivers.centiped.*;
-import static gr.codebb.arcadeflex.v036.drivers.aeroboto.*;
 import static arcadeflex.v036.drivers.goindol.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bjtwin.*;
 import static gr.codebb.arcadeflex.v036.drivers.qix.*;
-import static gr.codebb.arcadeflex.v036.drivers.tutankhm.*;
 import static gr.codebb.arcadeflex.v036.drivers.parodius.*;
 import static gr.codebb.arcadeflex.v036.drivers.m72.*;
 import static gr.codebb.arcadeflex.v036.drivers.raiden.*;
@@ -190,10 +182,7 @@ public class driver {
                  *
                  * Perfect games
                  */
-                /*020*//*phozon*/driver_phozon,
-                /*030*//*tp84*/ driver_tp84,
-                /*031*//*tp84*/ driver_tp84a,
-                /*117*//*bogeyman*/ driver_bogeyman,
+                /*117*//*bogeyman*/driver_bogeyman,
                 /*132*//*scregg*/ driver_scregg,
                 /*133*//*scregg*/ driver_eggs,
                 /* Sega System 1 / System 2 games */
@@ -247,9 +236,6 @@ public class driver {
                 /*278*//*pcktgal*/ driver_spool3i,
                 /*280*//*copsnrob*/ driver_copsnrob,
                 /*303*//*gsword*/ driver_gsword,
-                /*304*//*shaolins*/ driver_kicker,
-                /*305*//*shaolins*/ driver_shaolins,
-                /*309*/
                 /*310*//*travrusa*/ driver_travrusa,
                 /*311*//*travrusa*/ driver_motorace,
                 /*312*//*troangel*/ driver_troangel,
@@ -276,9 +262,6 @@ public class driver {
                 /*332*//*yard*/ driver_yard,
                 /*333*//*yard*/ driver_vsyard,
                 /*334*//*yard*/ driver_vsyard2,
-                /*337*//*srumbler*/ driver_srumbler,
-                /*338*//*srumbler*/ driver_srumblr2,
-                /*339*//*srumbler*/ driver_rushcrsh,
                 /*351*//*dec8*/ driver_shackled,
                 /*352*//*dec8*/ driver_breywood,
                 /*353*//*dec8*/ driver_csilver,
@@ -299,9 +282,6 @@ public class driver {
                 /*403*//*centiped*/ driver_centipb2,
                 /*412*//*kingobox*/ driver_kingofb,
                 /*413*//*kingobox*/ driver_ringking,
-                /* Taito SJ System games */
-                /*432*//*tutankhm*/ driver_tutankhm,
-                /*433*//*tutankhm*/ driver_tutankst,
                 /* Mitchell games */
                 /*434*//*mitchell*/ driver_mgakuen,
                 /*435*//*mitchell*/ driver_mgakuen2,
@@ -331,8 +311,6 @@ public class driver {
                 /*477*//*hyperspt*/ driver_roadf,
                 /*478*//*rockrage*/ driver_rockrage,
                 /*479*//*rockrage*/ driver_rockragj,
-                /*480*//*yiear*/ driver_yiear,
-                /*481*//*yiear*/ driver_yiear2,
                 /*482*//*astrof*/ driver_astrof,
                 /*483*//*astrof*/ driver_astrof2,
                 /*484*//*astrof*/ driver_astrof3,
@@ -440,8 +418,6 @@ public class driver {
                 /*dec8*/ driver_garyoret,//sound plays too fast , small gfx issues
                 /*dec8*/ driver_cobracom,//sound plays too fast
                 /*dec8*/ driver_cobracmj,//sound plays too fast
-
-                /*ddrible*/ driver_ddribble, //vlm5030 works but have glitches
                 /*raiden*/ driver_raidena, //no sound (not in mame 0.36 as well)
 
                 /* controls issues
@@ -497,8 +473,6 @@ public class driver {
                 /*013*//*system1*/ driver_dakkochn,
                 /*014*//*system1*/ driver_ufosensi,
                 /*016*//*spy*/ driver_spy, //sound works , there are a few gfx problems and missing collision(mame 0.36 doesn't have collision either)   
-                /*aeroboto*/ driver_formatz,
-                /*aeroboto*/ driver_aeroboto,
                 /*kingobox*/ driver_ringkin2,
                 /*ddragon*/ driver_ddragon,
                 /*toki*/ driver_toki,

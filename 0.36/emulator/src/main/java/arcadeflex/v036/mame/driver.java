@@ -107,6 +107,14 @@ import static arcadeflex.v036.drivers.mikie.*;
 import static arcadeflex.v036.drivers.xain.*;
 import static arcadeflex.v036.drivers.superpac.*;
 import static arcadeflex.v036.drivers.jailbrek.*;
+import static arcadeflex.v036.drivers.tp84.*;
+import static arcadeflex.v036.drivers.shaolins.*;
+import static arcadeflex.v036.drivers.srumbler.*;
+import static arcadeflex.v036.drivers.phozon.*;
+import static arcadeflex.v036.drivers.tutankhm.*;
+import static arcadeflex.v036.drivers.aeroboto.*;
+import static arcadeflex.v036.drivers.ddrible.*;
+import static arcadeflex.v036.drivers.yiear.*;
 
 public class driver {
 
@@ -357,7 +365,7 @@ public class driver {
                 driver_superpcm, /* (c) 1982 Midway */
                 driver_pacnpal, /* (c) 1983 */
                 driver_pacnchmp, /* (c) 1983 */
-                /*TODO*///	driver_phozon,	/* (c) 1983 */
+                driver_phozon, /* (c) 1983 */
                 driver_mappy, /* (c) 1983 */
                 driver_mappyjp, /* (c) 1983 */
                 driver_digdug2, /* (c) 1985 */
@@ -1114,9 +1122,9 @@ public class driver {
                 driver_trojan, /*  4/1986 (c) 1986 (US) */
                 driver_trojanr, /*  4/1986 (c) 1986 + Romstar */
                 driver_trojanj, /*  4/1986 (c) 1986 (Japan) */
-                /*TODO*///	driver_srumbler,	/*  9/1986 (c) 1986 */
-                /*TODO*///	driver_srumblr2,	/*  9/1986 (c) 1986 */
-                /*TODO*///	driver_rushcrsh,	/*  9/1986 (c) 1986 */
+                driver_srumbler, /*  9/1986 (c) 1986 */
+                driver_srumblr2, /*  9/1986 (c) 1986 */
+                driver_rushcrsh, /*  9/1986 (c) 1986 */
                 driver_lwings, /* 11/1986 (c) 1986 */
                 driver_lwings2, /* 11/1986 (c) 1986 */
                 driver_lwingsjp, /* 11/1986 (c) 1986 */
@@ -1808,14 +1816,12 @@ public class driver {
                 /*TODO*///	driver_wildfang,	/* (c) 1989 Tecmo */
                 driver_wc90, /* (c) 1989 Tecmo */
                 driver_wc90b, /* bootleg */
-                /*TODO*///
-                /*TODO*////* Other Tehkan games:
-                /*TODO*///6009 Tank Busters
-                /*TODO*///*/
-                /*TODO*///
-                /*TODO*///	/* Konami bitmap games */
-                /*TODO*///	driver_tutankhm,	/* GX350 (c) 1982 Konami */
-                /*TODO*///	driver_tutankst,	/* GX350 (c) 1982 Stern */
+                /* Other Tehkan games:
+                6009 Tank Busters
+                 */
+                /* Konami bitmap games */
+                driver_tutankhm, /* GX350 (c) 1982 Konami */
+                driver_tutankst, /* GX350 (c) 1982 Stern */
                 /*TODO*///	driver_junofrst,	/* GX310 (c) 1983 Konami */
                 /*TODO*///
                 /* Konami games */
@@ -1842,8 +1848,8 @@ public class driver {
                 driver_circusc2, /* GX380 (c) 1984 */
                 driver_circuscc, /* GX380 (c) 1984 + Centuri license */
                 driver_circusce, /* GX380 (c) 1984 + Centuri license */
-                /*TODO*///	driver_tp84,		/* GX388 (c) 1984 */
-                /*TODO*///	driver_tp84a,		/* GX388 (c) 1984 */
+                driver_tp84, /* GX388 (c) 1984 */
+                driver_tp84a, /* GX388 (c) 1984 */
                 /*TODO*///	driver_hyperspt,	/* GX330 (c) 1984 + Centuri */
                 /*TODO*///	driver_hpolym84,	/* GX330 (c) 1984 */
                 driver_sbasketb, /* GX405 (c) 1984 */
@@ -1852,10 +1858,10 @@ public class driver {
                 driver_mikiehs, /* GX469 (c) 1984 */
                 /*TODO*///	driver_roadf,		/* GX461 (c) 1984 */
                 /*TODO*///	driver_roadf2,	/* GX461 (c) 1984 */
-                /*TODO*///	driver_yiear,		/* GX407 (c) 1985 */
-                /*TODO*///	driver_yiear2,	/* GX407 (c) 1985 */
-                /*TODO*///	driver_kicker,	/* GX477 (c) 1985 */
-                /*TODO*///	driver_shaolins,	/* GX477 (c) 1985 */
+                driver_yiear, /* GX407 (c) 1985 */
+                driver_yiear2, /* GX407 (c) 1985 */
+                driver_kicker, /* GX477 (c) 1985 */
+                driver_shaolins, /* GX477 (c) 1985 */
                 driver_pingpong, /* GX555 (c) 1985 */
                 /*TODO*///	driver_gberet,	/* GX577 (c) 1985 */
                 /*TODO*///	driver_rushatck,	/* GX577 (c) 1985 */
@@ -1871,7 +1877,7 @@ public class driver {
                 /*TODO*///	driver_topgunr,	/* GX631 (c) 1986 (US) */
                 /*TODO*///	driver_jackalj,	/* GX631 (c) 1986 (Japan) */
                 /*TODO*///	driver_topgunbl,	/* bootleg */
-                /*TODO*///	driver_ddribble,	/* GX690 (c) 1986 */
+                driver_ddribble, /* GX690 (c) 1986 */
                 /*TODO*///	driver_contra,	/* GX633 (c) 1987 */
                 /*TODO*///	driver_contrab,	/* bootleg */
                 /*TODO*///	driver_contraj,	/* GX633 (c) 1987 (Japan) */
@@ -2509,8 +2515,8 @@ public class driver {
                 /*TODO*///	driver_exerion,	/* (c) 1983 Jaleco */
                 /*TODO*///	driver_exeriont,	/* (c) 1983 Jaleco + Taito America license */
                 /*TODO*///	driver_exerionb,	/* bootleg */
-                /*TODO*///	driver_formatz,	/* (c) 1984 Jaleco */
-                /*TODO*///	driver_aeroboto,	/* (c) 1984 Williams */
+                driver_formatz, /* (c) 1984 Jaleco */
+                driver_aeroboto, /* (c) 1984 Williams */
                 driver_citycon, /* (c) 1985 Jaleco */
                 driver_citycona, /* (c) 1985 Jaleco */
                 driver_cruisin, /* (c) 1985 Jaleco/Kitkorp */

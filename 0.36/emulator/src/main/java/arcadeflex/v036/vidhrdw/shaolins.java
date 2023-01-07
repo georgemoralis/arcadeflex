@@ -1,19 +1,28 @@
 /*
- * ported to v0.37b7
+ * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+/**
+ * Changelog
+ * =========
+ * 07/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.vidhrdw;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static common.libc.cstring.memset;
-import static common.libc.expressions.NOT;
-import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
+//mame imports
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.osdependH.*;
+//vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
+import static common.libc.cstring.*;
+import static common.libc.expressions.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 
 public class shaolins {
 
@@ -133,7 +142,7 @@ public class shaolins {
                 for (i = 4; i < 32; i++) {
                     scroll[i] = -shaolins_scroll.read() - 1;
                 }
-                copyscrollbitmap(bitmap, tmpbitmap, 0, null, 32, scroll, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                copyscrollbitmap(bitmap, tmpbitmap, 0, null, 32, scroll, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
             }
 
             for (offs = spriteram_size[0] - 32; offs >= 0; offs -= 32) /* max 24 sprites */ {
@@ -143,7 +152,7 @@ public class shaolins {
                             (spriteram.read(offs + 9) & 0x0f) + 16 * palettebank,
                             NOT(spriteram.read(offs + 9) & 0x40), (spriteram.read(offs + 9) & 0x80),
                             240 - spriteram.read(offs + 6), 248 - spriteram.read(offs + 4),
-                            Machine.visible_area, TRANSPARENCY_COLOR, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_COLOR, 0);
                     /* transparency_color, otherwise sprites in test mode are not visible */
                 }
             }

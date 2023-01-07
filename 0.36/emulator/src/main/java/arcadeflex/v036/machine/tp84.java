@@ -1,22 +1,26 @@
 /*
  * ported to v0.36
  * using automatic conversion tool v0.09
- *
- *
- *
  */
-package gr.codebb.arcadeflex.v036.machine;
+/**
+ * Changelog
+ * =========
+ * 07/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.machine;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
+//mame imports
+import static arcadeflex.v036.mame.cpuintrf.*;
 
 public class tp84 {
 
     public static ReadHandlerPtr tp84_beam_r = new ReadHandlerPtr() {
         public int handler(int offset) {
             //	return cpu_getscanline();
-            return 255; /* always return beam position 255 */ /* JB 970829 */
+            return 255;
+            /* always return beam position 255 */ /* JB 970829 */
 
 
         }

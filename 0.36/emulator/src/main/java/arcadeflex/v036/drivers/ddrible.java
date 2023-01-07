@@ -2,35 +2,48 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v036.drivers;
+/**
+ * Changelog
+ * =========
+ * 07/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//machine imports
+import static arcadeflex.v036.machine.ddrible.*;
+//mame imports
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v036.machine.ddrible.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static arcadeflex.v036.vidhrdw.ddrible.*;
+//sound imports
 import static arcadeflex.v036.sound._2203intf.*;
 import static arcadeflex.v036.sound._2203intfH.*;
-import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.sound.streams.*;
 import static arcadeflex.v058.sound.vlm5030.*;
 import static arcadeflex.v058.sound.vlm5030H.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.ddrible.*;
+//common imports
+import static common.libc.cstdlib.*;
+//TODO
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static common.libc.cstdlib.rand;
 
 public class ddrible {
 
     public static ReadHandlerPtr ddrible_vlm5030_busy_r = new ReadHandlerPtr() {
         public int handler(int offset) {
-            return rand(); /* patch */
-		//if (VLM5030_BSY()) return 1;
+            return rand();
+            /* patch */
+            //if (VLM5030_BSY()) return 1;
             //else return 0;
 
         }
@@ -40,22 +53,25 @@ public class ddrible {
         public void handler(int offset, int data) {
             UBytePtr SPEECH_ROM = memory_region(REGION_SOUND1);
             /* b7 : vlm data bus OE   */
-            /* b6 : VLM5030-RST       */
-            /* b5 : VLM5030-ST        */
-            /* b4 : VLM5300-VCU       */
-            /* b3 : ROM bank select   */
+ /* b6 : VLM5030-RST       */
+ /* b5 : VLM5030-ST        */
+ /* b4 : VLM5300-VCU       */
+ /* b3 : ROM bank select   */
             VLM5030_RST((data & 0x40) != 0 ? 1 : 0);
             VLM5030_ST((data & 0x20) != 0 ? 1 : 0);
             VLM5030_VCU((data & 0x10) != 0 ? 1 : 0);
             VLM5030_set_rom(new UBytePtr(SPEECH_ROM, (data & 0x08) != 0 ? 0x10000 : 0));
             /* b2 : SSG-C rc filter enable */
-            /* b1 : SSG-B rc filter enable */
-            /* b0 : SSG-A rc filter enable */
-            set_RC_filter(2, 1000, 2200, 1000, (data & 0x04) != 0 ? 150000 : 0); /* YM2203-SSG-C */
+ /* b1 : SSG-B rc filter enable */
+ /* b0 : SSG-A rc filter enable */
+            set_RC_filter(2, 1000, 2200, 1000, (data & 0x04) != 0 ? 150000 : 0);
+            /* YM2203-SSG-C */
 
-            set_RC_filter(1, 1000, 2200, 1000, (data & 0x02) != 0 ? 150000 : 0); /* YM2203-SSG-B */
+            set_RC_filter(1, 1000, 2200, 1000, (data & 0x02) != 0 ? 150000 : 0);
+            /* YM2203-SSG-B */
 
-            set_RC_filter(0, 1000, 2200, 1000, (data & 0x01) != 0 ? 150000 : 0); /* YM2203-SSG-A */
+            set_RC_filter(0, 1000, 2200, 1000, (data & 0x01) != 0 ? 150000 : 0);
+            /* YM2203-SSG-A */
 
         }
     };
@@ -139,7 +155,8 @@ public class ddrible {
 
     static InputPortHandlerPtr input_ports_ddribble = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* PLAYER 1 INPUTS */
+            PORT_START();
+            /* PLAYER 1 INPUTS */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
@@ -150,7 +167,8 @@ public class ddrible {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* PLAYER 2 INPUTS */
+            PORT_START();
+            /* PLAYER 2 INPUTS */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2);
@@ -161,7 +179,8 @@ public class ddrible {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* COINSW & START */
+            PORT_START();
+            /* COINSW & START */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -172,7 +191,8 @@ public class ddrible {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNUSED);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* DSW #1 */
+            PORT_START();
+            /* DSW #1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x02, DEF_STR("4C_1C"));
@@ -209,7 +229,8 @@ public class ddrible {
             PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
             PORT_DIPSETTING(0x90, DEF_STR("1C_7C"));
 
-            PORT_START(); 	/* DSW #2 */
+            PORT_START();
+            /* DSW #2 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Unknown"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -235,7 +256,8 @@ public class ddrible {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	/* DSW #3 */
+            PORT_START();
+            /* DSW #3 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Flip_Screen"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));

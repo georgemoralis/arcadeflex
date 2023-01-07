@@ -1,24 +1,29 @@
 /*
  * ported to v0.36
  * using automatic conversion tool v0.10
- *
- *
- *
  */
-package gr.codebb.arcadeflex.v036.vidhrdw;
+/**
+ * Changelog
+ * =========
+ * 07/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.vidhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-
-import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static arcadeflex.v036.mame.osdependH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
+//machine imports
 import static arcadeflex.v036.machine.phozon.*;
+//mame imports
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.mame.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
+import static common.libc.cstdlib.*;
+//TODO
+import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static common.libc.cstdlib.rand;
 
 public class phozon {
 
@@ -50,19 +55,19 @@ public class phozon {
                 bit1 = (color_prom.read(0) >> 1) & 0x01;
                 bit2 = (color_prom.read(0) >> 2) & 0x01;
                 bit3 = (color_prom.read(0) >> 3) & 0x01;
-                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
+                palette[p_inc++] = (char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
                 /* green component */
                 bit0 = (color_prom.read(Machine.drv.total_colors) >> 0) & 0x01;
                 bit1 = (color_prom.read(Machine.drv.total_colors) >> 1) & 0x01;
                 bit2 = (color_prom.read(Machine.drv.total_colors) >> 2) & 0x01;
                 bit3 = (color_prom.read(Machine.drv.total_colors) >> 3) & 0x01;
-                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
+                palette[p_inc++] = (char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
                 /* blue component */
                 bit0 = (color_prom.read(2 * Machine.drv.total_colors) >> 0) & 0x01;
                 bit1 = (color_prom.read(2 * Machine.drv.total_colors) >> 1) & 0x01;
                 bit2 = (color_prom.read(2 * Machine.drv.total_colors) >> 2) & 0x01;
                 bit3 = (color_prom.read(2 * Machine.drv.total_colors) >> 3) & 0x01;
-                palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
+                palette[p_inc++] = (char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
 
                 color_prom.inc();
             }
@@ -70,7 +75,7 @@ public class phozon {
             color_prom.inc(2 * Machine.drv.total_colors);
             /* color_prom now points to the beginning of the lookup table */
 
-            /* characters */
+ /* characters */
             for (i = 0; i < TOTAL_COLORS(0); i++) {
                 colortable[Machine.drv.gfxdecodeinfo[0].color_codes_start + i] = (char) ((color_prom.readinc()) & 0x0f);
             }
@@ -126,7 +131,7 @@ public class phozon {
             int offs;
 
             /* for every character in the video RAM, check if it has been modified */
-            /* since last time and update it accordingly. */
+ /* since last time and update it accordingly. */
             for (offs = videoram_size[0] - 1; offs >= 0; offs--) {
                 if (dirtybuffer[offs] != 0) {
                     int sx, sy, mx, my;
@@ -141,15 +146,18 @@ public class phozon {
                     mx = offs % 32;
                     my = offs / 32;
 
-                    if (my <= 1) {       /* bottom screen characters */
+                    if (my <= 1) {
+                        /* bottom screen characters */
 
                         sx = my + 34;
                         sy = mx - 2;
-                    } else if (my >= 30) {	/* top screen characters */
+                    } else if (my >= 30) {
+                        /* top screen characters */
 
                         sx = my - 30;
                         sy = mx - 2;
-                    } else {               /* middle screen characters */
+                    } else {
+                        /* middle screen characters */
 
                         sx = mx + 2;
                         sy = my - 2;
@@ -178,18 +186,21 @@ public class phozon {
                     int flipy = spriteram_3.read(offs) & 2;
 
                     switch (spriteram_3.read(offs) & 0x3c) {
-                        case 0x00:		/* 16x16 */
+                        case 0x00:
+                            /* 16x16 */
 
                             phozon_draw_sprite(bitmap, sprite, color, flipx, flipy, x, y);
                             break;
 
-                        case 0x14:		/* 8x8 */
+                        case 0x14:
+                            /* 8x8 */
 
                             sprite = (sprite << 2) | ((spriteram_3.read(offs) & 0xc0) >> 6);
                             phozon_draw_sprite8(bitmap, sprite, color, flipx, flipy, x, y + 8);
                             break;
 
-                        case 0x04:		/* 8x16 */
+                        case 0x04:
+                            /* 8x16 */
 
                             sprite = (sprite << 2) | ((spriteram_3.read(offs) & 0xc0) >> 6);
                             if (flipy == 0) {
@@ -201,7 +212,8 @@ public class phozon {
                             }
                             break;
 
-                        case 0x24:		/* 8x32 */
+                        case 0x24:
+                            /* 8x32 */
 
                             sprite = (sprite << 2) | ((spriteram_3.read(offs) & 0xc0) >> 6);
                             if (flipy == 0) {
@@ -237,15 +249,18 @@ public class phozon {
                     mx = offs % 32;
                     my = offs / 32;
 
-                    if (my <= 1) {       /* bottom screen characters */
+                    if (my <= 1) {
+                        /* bottom screen characters */
 
                         sx = my + 34;
                         sy = mx - 2;
-                    } else if (my >= 30) {	/* top screen characters */
+                    } else if (my >= 30) {
+                        /* top screen characters */
 
                         sx = my - 30;
                         sy = mx - 2;
-                    } else {               /* middle screen characters */
+                    } else {
+                        /* middle screen characters */
 
                         sx = mx + 2;
                         sy = my - 2;

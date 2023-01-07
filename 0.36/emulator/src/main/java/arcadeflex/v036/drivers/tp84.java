@@ -1,12 +1,19 @@
 /**
- * ported to v0.37b7
  * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+/**
+ * Changelog
+ * =========
+ * 07/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//machine imports
+import static arcadeflex.v036.machine.tp84.*;
+//mame imports
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -14,16 +21,17 @@ import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.sndintrf.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptportH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
 import static arcadeflex.v036.sound.sn76496H.*;
 import static arcadeflex.v036.sound.sn76496.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static arcadeflex.v036.vidhrdw.tp84.*;
 import static arcadeflex.v036.sound.streams.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.tp84.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class tp84 {
 
@@ -38,39 +46,6 @@ public class tp84 {
     public static WriteHandlerPtr sharedram_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             sharedram.write(offset, data);
-        }
-    };
-    /* JB 970829 - just give it what it wants
-		F104: LDX   $6400
-		F107: LDU   $6402
-		F10A: LDA   $640B
-		F10D: BEQ   $F13B
-		F13B: LDX   $6404
-		F13E: LDU   $6406
-		F141: LDA   $640C
-		F144: BEQ   $F171
-		F171: LDA   $2000	; read beam
-		F174: ADDA  #$20
-		F176: BCC   $F104
-     */
-    public static ReadHandlerPtr tp84_beam_r = new ReadHandlerPtr() {
-        public int handler(int offset) {
-            //	return cpu_getscanline();
-            return 255;
-            /* always return beam position 255 */ /* JB 970829 */
-        }
-    };
-
-    /* JB 970829 - catch a busy loop for CPU 1
-		E0ED: LDA   #$01
-		E0EF: STA   $4000
-		E0F2: BRA   $E0ED
-     */
-    public static WriteHandlerPtr tp84_catchloop_w = new WriteHandlerPtr() {
-        public void handler(int offset, int data) {
-            if (cpu_get_pc() == 0xe0f2) {
-                cpu_spinuntil_int();
-            }
         }
     };
 
