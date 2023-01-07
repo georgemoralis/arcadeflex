@@ -83,7 +83,6 @@ import static gr.codebb.arcadeflex.v037b7.drivers.surpratk.*;
 import static gr.codebb.arcadeflex.v036.drivers.rollerg.*;
 import static gr.codebb.arcadeflex.v036.drivers._88games.*;
 import static arcadeflex.v036.drivers.bottom9.*;
-import static gr.codebb.arcadeflex.v036.drivers.cheekyms.*;
 import static gr.codebb.arcadeflex.v036.drivers.slapfght.*;
 import static gr.codebb.arcadeflex.v036.drivers.gladiatr.*;
 import static arcadeflex.v036.drivers.snowbros.*;
@@ -334,7 +333,6 @@ public class driver {
                 /*351*//*dec8*/ driver_shackled,
                 /*352*//*dec8*/ driver_breywood,
                 /*353*//*dec8*/ driver_csilver,
-               
                 /* Atari "Missile Command hardware" games */
                 /*379*//*missile*/ driver_missile,
                 /*380*//*missile*/ driver_missile2,
@@ -353,7 +351,6 @@ public class driver {
                 /*412*//*kingobox*/ driver_kingofb,
                 /*413*//*kingobox*/ driver_ringking,
                 /* Taito SJ System games */
-               
                 /*432*//*tutankhm*/ driver_tutankhm,
                 /*433*//*tutankhm*/ driver_tutankst,
                 /* Mitchell games */
@@ -433,7 +430,6 @@ public class driver {
                 /*523*//*crimfght*/ driver_crimfgt2,
                 /*524*//*crimfght*/ driver_crimfgtj,
                 /*trackfld*/ driver_hyprolyb,
-
                 /*
            Small issues that doesn't affect playable status
                  */
@@ -611,7 +607,6 @@ public class driver {
                 /*arkanoid*/ driver_arkanoid,
                 /*arkanoid*/ driver_arknoidu,
                 /*arkanoid*/ driver_arknoidj,
-
                 /*psychic5*/ driver_psychic5,
                 /*bottom9*/ driver_bottom9,
                 /*bottom9*/ driver_bottom9n,
@@ -656,7 +651,6 @@ public class driver {
                 driver_combascj, /* GX611 (c) 1987 (Japan) */
                 driver_bootcamp, /* GX611 (c) 1987 */
                 driver_combascb, /* bootleg */
-                driver_cheekyms,
                 /* "Midway" Z80 b/w games */
                 driver_astinvad, /* (c) 1980 Stern */
                 driver_kamikaze, /* Leijac Corporation */

@@ -93,6 +93,7 @@ import static arcadeflex.v036.drivers.marvins.*;
 import static arcadeflex.v036.drivers.taitosj.*;
 import static arcadeflex.v036.drivers.bublbobl.*;
 import static arcadeflex.v036.drivers.sidearms.*;
+import static arcadeflex.v036.drivers.cheekyms.*;
 
 public class driver {
 
@@ -487,7 +488,7 @@ public class driver {
                 /*TODO*///	driver_devzone,	/* 8022 (c) [1980] */
                 /*TODO*///	driver_nomnlnd,	/* (c) [1980?] */
                 /*TODO*///	driver_nomnlndg,	/* (c) [1980?] + Gottlieb */
-                /*TODO*///	driver_cheekyms,	/* (c) [1980?] */
+                driver_cheekyms, /* (c) [1980?] */
                 driver_ladybug, /* (c) 1981 */
                 driver_ladybugb, /* bootleg */
                 driver_snapjack, /* (c) */
