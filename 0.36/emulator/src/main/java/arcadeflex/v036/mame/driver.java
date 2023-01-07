@@ -95,6 +95,11 @@ import static arcadeflex.v036.drivers.bublbobl.*;
 import static arcadeflex.v036.drivers.sidearms.*;
 import static arcadeflex.v036.drivers.cheekyms.*;
 import static arcadeflex.v036.drivers.rocnrope.*;
+import static arcadeflex.v036.drivers.circusc.*;
+import static arcadeflex.v036.drivers.citycon.*;
+import static arcadeflex.v036.drivers.ironhors.*;
+import static arcadeflex.v036.drivers.gng.*;
+import static arcadeflex.v036.drivers.mappy.*;
 
 public class driver {
 
@@ -346,13 +351,13 @@ public class driver {
                 /*TODO*///	driver_pacnpal,	/* (c) 1983 */
                 /*TODO*///	driver_pacnchmp,	/* (c) 1983 */
                 /*TODO*///	driver_phozon,	/* (c) 1983 */
-                /*TODO*///	driver_mappy,		/* (c) 1983 */
-                /*TODO*///	driver_mappyjp,	/* (c) 1983 */
-                /*TODO*///	driver_digdug2,	/* (c) 1985 */
-                /*TODO*///	driver_digdug2a,	/* (c) 1985 */
-                /*TODO*///	driver_todruaga,	/* (c) 1984 */
-                /*TODO*///	driver_todruagb,	/* (c) 1984 */
-                /*TODO*///	driver_motos,		/* (c) 1985 */
+                driver_mappy, /* (c) 1983 */
+                driver_mappyjp, /* (c) 1983 */
+                driver_digdug2, /* (c) 1985 */
+                driver_digdug2a, /* (c) 1985 */
+                driver_todruaga, /* (c) 1984 */
+                driver_todruagb, /* (c) 1984 */
+                driver_motos, /* (c) 1985 */
                 /*TODO*///	driver_grobda,	/* (c) 1984 */
                 /*TODO*///	driver_grobda2,	/* (c) 1984 */
                 /*TODO*///	driver_grobda3,	/* (c) 1984 */
@@ -1086,13 +1091,13 @@ public class driver {
                 driver_commandu, /*  5/1985 (c) 1985 + Data East license (US) */
                 driver_commandj, /*  5/1985 (c) 1985 (Japan) */
                 driver_spaceinv, /* bootleg */
-                /*TODO*///	driver_gng,		/*  9/1985 (c) 1985 */
-                /*TODO*///	driver_gnga,		/*  9/1985 (c) 1985 */
-                /*TODO*///	driver_gngt,		/*  9/1985 (c) 1985 */
-                /*TODO*///	driver_makaimur,	/*  9/1985 (c) 1985 */
-                /*TODO*///	driver_makaimuc,	/*  9/1985 (c) 1985 */
-                /*TODO*///	driver_makaimug,	/*  9/1985 (c) 1985 */
-                /*TODO*///	driver_diamond,	/* (c) 1989 KH Video (NOT A CAPCOM GAME but runs on GnG hardware) */
+                driver_gng, /*  9/1985 (c) 1985 */
+                driver_gnga, /*  9/1985 (c) 1985 */
+                driver_gngt, /*  9/1985 (c) 1985 */
+                driver_makaimur, /*  9/1985 (c) 1985 */
+                driver_makaimuc, /*  9/1985 (c) 1985 */
+                driver_makaimug, /*  9/1985 (c) 1985 */
+                driver_diamond, /* (c) 1989 KH Video (NOT A CAPCOM GAME but runs on GnG hardware) */
                 driver_gunsmoke, /* 11/1985 (c) 1985 (World) */
                 driver_gunsmrom, /* 11/1985 (c) 1985 + Romstar (US) */
                 driver_gunsmoka, /* 11/1985 (c) 1985 (US) */
@@ -1826,10 +1831,10 @@ public class driver {
                 /*TODO*///	driver_hyprolyb,	/* bootleg */
                 driver_rocnrope, /* GX364 (c) 1983 */
                 driver_rocnropk, /* GX364 (c) 1983 + Kosuka */
-                /*TODO*///	driver_circusc,	/* GX380 (c) 1984 */
-                /*TODO*///	driver_circusc2,	/* GX380 (c) 1984 */
-                /*TODO*///	driver_circuscc,	/* GX380 (c) 1984 + Centuri license */
-                /*TODO*///	driver_circusce,	/* GX380 (c) 1984 + Centuri license */
+                driver_circusc, /* GX380 (c) 1984 */
+                driver_circusc2, /* GX380 (c) 1984 */
+                driver_circuscc, /* GX380 (c) 1984 + Centuri license */
+                driver_circusce, /* GX380 (c) 1984 + Centuri license */
                 /*TODO*///	driver_tp84,		/* GX388 (c) 1984 */
                 /*TODO*///	driver_tp84a,		/* GX388 (c) 1984 */
                 /*TODO*///	driver_hyperspt,	/* GX330 (c) 1984 + Centuri */
@@ -1852,9 +1857,9 @@ public class driver {
                 /*TODO*///	driver_jailbrek,	/* GX507 (c) 1986 */
                 /*TODO*///	driver_finalizr,	/* GX523 (c) 1985 */
                 /*TODO*///	driver_finalizb,	/* bootleg */
-                /*TODO*///	driver_ironhors,	/* GX560 (c) 1986 */
-                /*TODO*///	driver_dairesya,	/* GX560 (c) 1986 (Japan) */
-                /*TODO*///	driver_farwest,
+                driver_ironhors, /* GX560 (c) 1986 */
+                driver_dairesya, /* GX560 (c) 1986 (Japan) */
+                driver_farwest,
                 /*TODO*///	driver_jackal,	/* GX631 (c) 1986 (World) */
                 /*TODO*///	driver_topgunr,	/* GX631 (c) 1986 (US) */
                 /*TODO*///	driver_jackalj,	/* GX631 (c) 1986 (Japan) */
@@ -2499,9 +2504,9 @@ public class driver {
                 /*TODO*///	driver_exerionb,	/* bootleg */
                 /*TODO*///	driver_formatz,	/* (c) 1984 Jaleco */
                 /*TODO*///	driver_aeroboto,	/* (c) 1984 Williams */
-                /*TODO*///	driver_citycon,	/* (c) 1985 Jaleco */
-                /*TODO*///	driver_citycona,	/* (c) 1985 Jaleco */
-                /*TODO*///	driver_cruisin,	/* (c) 1985 Jaleco/Kitkorp */
+                driver_citycon, /* (c) 1985 Jaleco */
+                driver_citycona, /* (c) 1985 Jaleco */
+                driver_cruisin, /* (c) 1985 Jaleco/Kitkorp */
                 /*TODO*///	driver_pinbo,		/* (c) 1984 Jaleco */
                 /*TODO*///	driver_pinbos,	/* (c) 1985 Strike */
                 /*TODO*///	driver_psychic5,	/* (c) 1987 Jaleco */
