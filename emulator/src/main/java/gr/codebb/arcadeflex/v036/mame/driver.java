@@ -26,7 +26,6 @@ import static arcadeflex.v036.drivers.bogeyman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.scregg.*;
 import static gr.codebb.arcadeflex.v036.drivers.battlnts.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.spy.*;
-import static arcadeflex.v036.drivers.hcastle.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.gsword.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jrpacman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jackal.*;
@@ -219,9 +218,6 @@ public class driver {
                 /*193*//*battlnts*/ driver_battlntj,
                 /*230*//*battlnts*/ driver_thehustl,
                 /*231*//*battlnts*/ driver_thehustj,
-                /*233*//*hcastle*/ driver_hcastle,
-                /*234*//*hcastle*/ driver_hcastlea,
-                /*235*//*hcastle*/ driver_hcastlej,
                 /*274*//*pcktgal*/ driver_pcktgal,
                 /*275*//*pcktgal*/ driver_pcktgalb,
                 /*276*//*pcktgal*/ driver_pcktgal2,

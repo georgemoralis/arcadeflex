@@ -20,6 +20,10 @@ import arcadeflex.v036.sound._2203intf;
 import arcadeflex.v036.sound.adpcm;
 import arcadeflex.v036.sound.ay8910;
 import arcadeflex.v036.sound.dac;
+import arcadeflex.v036.sound.k005289;
+import arcadeflex.v036.sound.k007232;
+import arcadeflex.v036.sound.k051649;
+import arcadeflex.v036.sound.k053260;
 import arcadeflex.v036.sound.namco;
 import arcadeflex.v036.sound.samples;
 import arcadeflex.v036.sound.sn76496;
@@ -446,54 +450,10 @@ public class sndintrf {
                 /*TODO*///		0
                 /*TODO*///	},
                 /*TODO*///#endif
-                new Dummy_snd(),/*TODO*///#if (HAS_K005289)
-                /*TODO*///    {
-                /*TODO*///		SOUND_K005289,
-                /*TODO*///		"005289",
-                /*TODO*///		0,
-                /*TODO*///		0,
-                /*TODO*///		K005289_sh_start,
-                /*TODO*///		K005289_sh_stop,
-                /*TODO*///		0,
-                /*TODO*///		0
-                /*TODO*///	},
-                /*TODO*///#endif
-                new Dummy_snd(),/*TODO*///#if (HAS_K007232)
-                /*TODO*///    {
-                /*TODO*///		SOUND_K007232,
-                /*TODO*///		"007232",
-                /*TODO*///		K007232_num,
-                /*TODO*///		0,
-                /*TODO*///		K007232_sh_start,
-                /*TODO*///		0,
-                /*TODO*///		0,
-                /*TODO*///		0
-                /*TODO*///	},
-                /*TODO*///#endif
-                new Dummy_snd(),/*TODO*///#if (HAS_K051649)
-                /*TODO*///    {
-                /*TODO*///		SOUND_K051649,
-                /*TODO*///		"051649",
-                /*TODO*///		0,
-                /*TODO*///		K051649_clock,
-                /*TODO*///		K051649_sh_start,
-                /*TODO*///		K051649_sh_stop,
-                /*TODO*///		0,
-                /*TODO*///		0
-                /*TODO*///	},
-                /*TODO*///#endif
-                new Dummy_snd(),/*TODO*///#if (HAS_K053260)
-                /*TODO*///    {
-                /*TODO*///		SOUND_K053260,
-                /*TODO*///		"053260",
-                /*TODO*///		0,
-                /*TODO*///		K053260_clock,
-                /*TODO*///		K053260_sh_start,
-                /*TODO*///		K053260_sh_stop,
-                /*TODO*///		0,
-                /*TODO*///		0
-                /*TODO*///	},
-                /*TODO*///#endif
+                new k005289(),
+                new k007232(),
+                new k051649(),
+                new k053260(),
                 new Dummy_snd(),/*TODO*///#if (HAS_SEGAPCM)
                 /*TODO*///	{
                 /*TODO*///		SOUND_SEGAPCM,

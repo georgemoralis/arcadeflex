@@ -122,6 +122,8 @@ import static arcadeflex.v036.drivers.mpatrol.*;
 import static arcadeflex.v036.drivers.travrusa.*;
 import static arcadeflex.v036.drivers.troangel.*;
 import static arcadeflex.v036.drivers.yard.*;
+import static arcadeflex.v036.drivers.finalizr.*;
+import static arcadeflex.v036.drivers.hcastle.*;
 
 public class driver {
 
@@ -1874,8 +1876,8 @@ public class driver {
                 /*TODO*///	driver_gberetb,	/* bootleg on different hardware */
                 /*TODO*///	driver_mrgoemon,	/* GX621 (c) 1986 (Japan) */
                 driver_jailbrek, /* GX507 (c) 1986 */
-                /*TODO*///	driver_finalizr,	/* GX523 (c) 1985 */
-                /*TODO*///	driver_finalizb,	/* bootleg */
+                driver_finalizr, /* GX523 (c) 1985 */
+                driver_finalizb, /* bootleg */
                 driver_ironhors, /* GX560 (c) 1986 */
                 driver_dairesya, /* GX560 (c) 1986 (Japan) */
                 driver_farwest,
@@ -1906,9 +1908,9 @@ public class driver {
                 /*TODO*///	driver_battlntj,	/* GX777 (c) 1987 (Japan) */
                 /*TODO*///	driver_bladestl,	/* GX797 (c) 1987 */
                 /*TODO*///	driver_bladstle,	/* GX797 (c) 1987 */
-                /*TODO*///	driver_hcastle,	/* GX768 (c) 1988 */
-                /*TODO*///	driver_hcastlea,	/* GX768 (c) 1988 */
-                /*TODO*///	driver_hcastlej,	/* GX768 (c) 1988 (Japan) */
+                driver_hcastle, /* GX768 (c) 1988 */
+                driver_hcastlea, /* GX768 (c) 1988 */
+                driver_hcastlej, /* GX768 (c) 1988 (Japan) */
                 /*TODO*///	driver_ajax,		/* GX770 (c) 1987 */
                 /*TODO*///	driver_ajaxj,		/* GX770 (c) 1987 (Japan) */
                 /*TODO*///	driver_scontra,	/* GX775 (c) 1988 */
