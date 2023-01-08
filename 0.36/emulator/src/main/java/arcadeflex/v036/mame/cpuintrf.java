@@ -9,6 +9,12 @@ import arcadeflex.v036.cpu.i8039.i8035;
 import arcadeflex.v036.cpu.i8039.i8039;
 import arcadeflex.v036.cpu.i8039.i8048;
 import arcadeflex.v036.cpu.i8039.n7751;
+import arcadeflex.v036.cpu.m6800.hd63701;
+import arcadeflex.v036.cpu.m6800.m6800;
+import arcadeflex.v036.cpu.m6800.m6802;
+import arcadeflex.v036.cpu.m6800.m6803;
+import arcadeflex.v036.cpu.m6800.m6808;
+import arcadeflex.v036.cpu.m6800.nsc8105;
 import arcadeflex.v036.cpu.m6805.HD63705;
 import arcadeflex.v036.cpu.m6805.m6805;
 import arcadeflex.v036.cpu.m6805.m68705;
@@ -256,13 +262,13 @@ public class cpuintrf {
                 new i8039(),
                 new i8048(),
                 new n7751(),
-                new dummyCPU(),/*TODO*///	CPU0(M6800,    m6800,	 1,  0,1.00,M6800_INT_NONE,    M6800_INT_IRQ,  M6800_INT_NMI,  16,	  0,16,BE,1, 4,16	),
+                new m6800(),
                 new dummyCPU(),/*TODO*///	CPU0(M6801,    m6801,	 1,  0,1.00,M6801_INT_NONE,    M6801_INT_IRQ,  M6801_INT_NMI,  16,	  0,16,BE,1, 4,16	),
-                new dummyCPU(),/*TODO*///	CPU0(M6802,    m6802,	 1,  0,1.00,M6802_INT_NONE,    M6802_INT_IRQ,  M6802_INT_NMI,  16,	  0,16,BE,1, 4,16	),
-                new dummyCPU(),/*TODO*///	CPU0(M6803,    m6803,	 1,  0,1.00,M6803_INT_NONE,    M6803_INT_IRQ,  M6803_INT_NMI,  16,	  0,16,BE,1, 4,16	),
-                new dummyCPU(),/*TODO*///	CPU0(M6808,    m6808,	 1,  0,1.00,M6808_INT_NONE,    M6808_INT_IRQ,  M6808_INT_NMI,  16,	  0,16,BE,1, 4,16	),
-                new dummyCPU(),/*TODO*///	CPU0(HD63701,  hd63701,  1,  0,1.00,HD63701_INT_NONE,  HD63701_INT_IRQ,HD63701_INT_NMI,16,	  0,16,BE,1, 4,16	),
-                new dummyCPU(),/*TODO*///	CPU0(NSC8105,  nsc8105,  1,  0,1.00,NSC8105_INT_NONE,  NSC8105_INT_IRQ,NSC8105_INT_NMI,16,	  0,16,BE,1, 4,16	),
+                new m6802(),
+                new m6803(),
+                new m6808(),
+                new hd63701(),
+                new nsc8105(),
                 new m6805(),
                 new m68705(),
                 new HD63705(),
@@ -1358,25 +1364,24 @@ public class cpuintrf {
                     case CPU_N7751:
                         irq_line = 0;
                         break;
-
-                    /*TODO*///#if (HAS_M6800)
-/*TODO*///			case CPU_M6800: 			irq_line = 0; LOG((errorlog,"M6800 IRQ\n")); break;
-/*TODO*///#endif
-/*TODO*///#if (HAS_M6801)
-/*TODO*///			case CPU_M6801: 			irq_line = 0; LOG((errorlog,"M6801 IRQ\n")); break;
-/*TODO*///#endif
-/*TODO*///#if (HAS_M6802)
-/*TODO*///			case CPU_M6802: 			irq_line = 0; LOG((errorlog,"M6802 IRQ\n")); break;
-/*TODO*///#endif
-/*TODO*///#if (HAS_M6803)
-/*TODO*///			case CPU_M6803: 			irq_line = 0; LOG((errorlog,"M6803 IRQ\n")); break;
-/*TODO*///#endif
-/*TODO*///#if (HAS_M6808)
-/*TODO*///			case CPU_M6808: 			irq_line = 0; LOG((errorlog,"M6808 IRQ\n")); break;
-/*TODO*///#endif
-/*TODO*///#if (HAS_HD63701)
-/*TODO*///			case CPU_HD63701:			irq_line = 0; LOG((errorlog,"HD63701 IRQ\n")); break;
-/*TODO*///#endif
+                    case CPU_M6800:
+                        irq_line = 0;
+                        break;
+                    case CPU_M6801:
+                        irq_line = 0;
+                        break;
+                    case CPU_M6802:
+                        irq_line = 0;
+                        break;
+                    case CPU_M6803:
+                        irq_line = 0;
+                        break;
+                    case CPU_M6808:
+                        irq_line = 0;
+                        break;
+                    case CPU_HD63701:
+                        irq_line = 0;
+                        break;
                     case CPU_M6805:
                         irq_line = 0;
                         break;
