@@ -115,6 +115,8 @@ import static arcadeflex.v036.drivers.tutankhm.*;
 import static arcadeflex.v036.drivers.aeroboto.*;
 import static arcadeflex.v036.drivers.ddrible.*;
 import static arcadeflex.v036.drivers.yiear.*;
+import static arcadeflex.v036.drivers.goindol.*;
+import static arcadeflex.v036.drivers.trackfld.*;
 
 public class driver {
 
@@ -1838,10 +1840,10 @@ public class driver {
                 driver_gyruss, /* GX347 (c) 1983 */
                 driver_gyrussce, /* GX347 (c) 1983 + Centuri license */
                 driver_venus, /* bootleg */
-                /*TODO*///	driver_trackfld,	/* GX361 (c) 1983 */
-                /*TODO*///	driver_trackflc,	/* GX361 (c) 1983 + Centuri license */
-                /*TODO*///	driver_hyprolym,	/* GX361 (c) 1983 */
-                /*TODO*///	driver_hyprolyb,	/* bootleg */
+                	driver_trackfld,	/* GX361 (c) 1983 */
+                	driver_trackflc,	/* GX361 (c) 1983 + Centuri license */
+                	driver_hyprolym,	/* GX361 (c) 1983 */
+                	driver_hyprolyb,	/* bootleg */
                 driver_rocnrope, /* GX364 (c) 1983 */
                 driver_rocnropk, /* GX364 (c) 1983 + Kosuka */
                 driver_circusc, /* GX380 (c) 1984 */
@@ -2664,8 +2666,8 @@ public class driver {
                 driver_ambush, /* (c) 1983 Nippon Amuse Co-Ltd */
                 /*TODO*///	driver_starcrus,	/* [1977 Ramtek] */
                 /*TODO*///	driver_shanghai,	/* (c) 1988 Sun Electronics */
-                /*TODO*///	driver_goindol,	/* (c) 1987 Sun a Electronics */
-                /*TODO*///	driver_homo,		/* bootleg */
+                driver_goindol, /* (c) 1987 Sun a Electronics */
+                driver_homo, /* bootleg */
                 /*TODO*////*TESTDRIVER*/driver_dlair,
                 /*TODO*///	driver_meteor,	/* (c) 1981 Venture Line */
                 /*TODO*///	driver_bjtwin,	/* (c) 1993 NMK */

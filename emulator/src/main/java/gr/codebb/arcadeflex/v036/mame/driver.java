@@ -43,7 +43,6 @@ import static arcadeflex.v036.drivers.vigilant.*;
 import static gr.codebb.arcadeflex.v036.drivers.dec8.*;
 import static gr.codebb.arcadeflex.v036.drivers.m62.*;
 import static gr.codebb.arcadeflex.v036.drivers.combatsc.*;
-import static gr.codebb.arcadeflex.v036.drivers.trackfld.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.kingobox.*;
 import static gr.codebb.arcadeflex.v036.drivers.atetris.*;
 import static arcadeflex.v036.drivers.mystston.*;
@@ -83,7 +82,6 @@ import static gr.codebb.arcadeflex.v036.drivers.wardner.*;
 import static gr.codebb.arcadeflex.v036.drivers.shootout.*;
 import static gr.codebb.arcadeflex.v036.drivers.ccastles.*;
 import static gr.codebb.arcadeflex.v036.drivers.centiped.*;
-import static arcadeflex.v036.drivers.goindol.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bjtwin.*;
 import static gr.codebb.arcadeflex.v036.drivers.qix.*;
 import static gr.codebb.arcadeflex.v036.drivers.parodius.*;
@@ -272,8 +270,6 @@ public class driver {
                 /*384*//*arkanoid*/ driver_arkatayt,
                 /*385*//*arkanoid*/ driver_arkbloc2,
                 /*386*//*arkanoid*/ driver_arkangc,
-                /*388*//*goindol*/ driver_goindol,
-                /*389*//*goindol*/ driver_homo,
                 /*398*//*ccastles*/ driver_ccastles,
                 /*399*//*ccastles*/ driver_ccastle2,
                 /*400*//*centiped*/ driver_centiped,
@@ -303,9 +299,6 @@ public class driver {
                 /*451*//*snowbros*/ driver_snowbrob,
                 /*452*//*snowbros*/ driver_snowbroj,
                 /*453*//*galpanic*/ driver_galpanic,
-                /*472*//*trackfld*/ driver_trackfld,
-                /*473*//*trackfld*/ driver_trackflc,
-                /*474*//*trackfld*/ driver_hyprolym,
                 /*475*//*hyperspt*/ driver_hyperspt,
                 /*476*//*hyperspt*/ driver_hpolym84,
                 /*477*//*hyperspt*/ driver_roadf,
@@ -355,7 +348,6 @@ public class driver {
                 /*522*//*crimfght*/ driver_crimfght,
                 /*523*//*crimfght*/ driver_crimfgt2,
                 /*524*//*crimfght*/ driver_crimfgtj,
-                /*trackfld*/ driver_hyprolyb,
                 /*
            Small issues that doesn't affect playable status
                  */

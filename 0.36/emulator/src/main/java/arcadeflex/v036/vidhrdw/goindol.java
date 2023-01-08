@@ -1,18 +1,26 @@
 /**
- * ported to v0.37b7
  * ported to v0.36
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+/**
+ * Changelog
+ * =========
+ * 08/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.vidhrdw;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static common.libc.cstring.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
+//mame imports
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.osdependH.*;
+//common imports
+import static common.libc.cstring.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_new_bitmap;
 
 public class goindol {
 
@@ -103,13 +111,13 @@ public class goindol {
                 bg_dirtybuffer = null;
                 return 1;
             }
-            if ((bitmap_fg = bitmap_alloc(Machine.drv.screen_width, Machine.drv.screen_height)) == null) {
+            if ((bitmap_fg = osd_new_bitmap(Machine.drv.screen_width, Machine.drv.screen_height, Machine.scrbitmap.depth)) == null) {
                 fg_dirtybuffer = null;
                 bg_dirtybuffer = null;
                 return 1;
             }
-            if ((bitmap_bg = bitmap_alloc(Machine.drv.screen_width, Machine.drv.screen_height)) == null) {
-                bitmap_free(bitmap_fg);
+            if ((bitmap_bg = osd_new_bitmap(Machine.drv.screen_width, Machine.drv.screen_height, Machine.scrbitmap.depth)) == null) {
+                osd_free_bitmap(bitmap_fg);
                 fg_dirtybuffer = null;
                 bg_dirtybuffer = null;
                 return 1;
@@ -124,8 +132,8 @@ public class goindol {
         public void handler() {
             fg_dirtybuffer = null;
             bg_dirtybuffer = null;
-            bitmap_free(bitmap_fg);
-            bitmap_free(bitmap_bg);
+            osd_free_bitmap(bitmap_fg);
+            osd_free_bitmap(bitmap_bg);
         }
     };
 
@@ -205,14 +213,14 @@ public class goindol {
                         palette,
                         0, 0,
                         sx, sy,
-                        Machine.visible_area,
+                        Machine.drv.visible_area,
                         TRANSPARENCY_PEN, 0);
                 drawgfx(bitmap, Machine.gfx[gfxbank],
                         tile + 1,
                         palette,
                         0, 0,
                         sx, sy + 8,
-                        Machine.visible_area,
+                        Machine.drv.visible_area,
                         TRANSPARENCY_PEN, 0);
             }
         }
@@ -227,8 +235,8 @@ public class goindol {
 
             goindol_draw_background(bitmap_bg);
             goindol_draw_foreground(bitmap_fg);
-            copybitmap(bitmap, bitmap_bg, 0, 0, 0, 0, Machine.visible_area, TRANSPARENCY_NONE, 0);
-            copyscrollbitmap(bitmap, bitmap_fg, 1, new int[]{fg_scrolly}, 1, new int[]{fg_scrollx}, Machine.visible_area, TRANSPARENCY_COLOR, 0);
+            copybitmap(bitmap, bitmap_bg, 0, 0, 0, 0, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
+            copyscrollbitmap(bitmap, bitmap_fg, 1, new int[]{fg_scrolly}, 1, new int[]{fg_scrollx}, Machine.drv.visible_area, TRANSPARENCY_COLOR, 0);
             goindol_draw_sprites(bitmap, 1, goindol_spriteram1);
             goindol_draw_sprites(bitmap, 0, goindol_spriteram2);
         }
