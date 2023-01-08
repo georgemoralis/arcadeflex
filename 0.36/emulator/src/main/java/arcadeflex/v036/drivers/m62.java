@@ -1,49 +1,46 @@
-/**
- * **************************************************************************
- *
- * Irem "M62" system
- *
- * There's two crystals on Kid Kiki. 24.00 MHz and 3.579545 MHz for sound
- *
- * TODO: - Kid Niki is missing the drums
- *
- *************************************************************************
- */
-
 /*
  * ported to v0.36
  * using automatic conversion tool v0.08
  */
-package gr.codebb.arcadeflex.v036.drivers;
+/**
+ * Changelog
+ * =========
+ * 08/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.m62.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
+//sndhrdw imports
 import static arcadeflex.v036.sndhrdw.irem.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.m62.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 
 public class m62 {
 
     /* Lode Runner 2 seems to have a simple protection on the bank switching */
-    /* circuitry. It writes data to ports 0x80 and 0x81, then reads port 0x80 */
-    /* a variable number of times (discarding the result) and finally retrieves */
-    /* data from the bankswitched ROM area. */
-    /* Since the data written to 0x80 is always the level number, I just use */
-    /* that to select the ROM. The only exception I make is a special case used in */
-    /* service mode to test the ROMs. */
+ /* circuitry. It writes data to ports 0x80 and 0x81, then reads port 0x80 */
+ /* a variable number of times (discarding the result) and finally retrieves */
+ /* data from the bankswitched ROM area. */
+ /* Since the data written to 0x80 is always the level number, I just use */
+ /* that to select the ROM. The only exception I make is a special case used in */
+ /* service mode to test the ROMs. */
     static int ldrun2_bankswap;
     public static ReadHandlerPtr ldrun2_bankswitch_r = new ReadHandlerPtr() {
         public int handler(int offset) {
@@ -94,8 +91,8 @@ public class m62 {
     };
 
     /* Lode Runner 3 has, it seems, a poor man's protection consisting of a PAL */
-    /* (I think; it's included in the ROM set) which is read at certain times, */
-    /* and the game crashes if ti doesn't match the expected values. */
+ /* (I think; it's included in the ROM set) which is read at certain times, */
+ /* and the game crashes if ti doesn't match the expected values. */
     public static ReadHandlerPtr ldrun3_prot_5_r = new ReadHandlerPtr() {
         public int handler(int offset) {
             return 5;
@@ -384,7 +381,8 @@ public class m62 {
 
     static InputPortHandlerPtr input_ports_kungfum = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -393,7 +391,8 @@ public class m62 {
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0xf0, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -406,7 +405,8 @@ public class m62 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -418,7 +418,8 @@ public class m62 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Difficulty"));
             PORT_DIPSETTING(0x01, "Easy");
@@ -432,7 +433,8 @@ public class m62 {
             PORT_DIPSETTING(0x04, "4");
             PORT_DIPSETTING(0x00, "5");
             /* TODO: support the different settings which happen in Coin Mode 2 */
-            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage")); /* mapped on coin mode 1 */
+            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage"));
+            /* mapped on coin mode 1 */
 
             PORT_DIPSETTING(0x90, DEF_STR("7C_1C"));
             PORT_DIPSETTING(0xa0, DEF_STR("6C_1C"));
@@ -448,9 +450,11 @@ public class m62 {
             PORT_DIPSETTING(0x30, DEF_STR("1C_6C"));
             PORT_DIPSETTING(0x20, DEF_STR("1C_7C"));
             PORT_DIPSETTING(0x10, DEF_STR("1C_8C"));
-            PORT_DIPSETTING(0x00, DEF_STR("Free_Play")); /* TODO: support the different settings which happen in Coin Mode 2 */
+            PORT_DIPSETTING(0x00, DEF_STR("Free_Play"));
+            /* TODO: support the different settings which happen in Coin Mode 2 */
 
-            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage")); /* mapped on coin mode 1 */
+            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage"));
+            /* mapped on coin mode 1 */
 
             PORT_DIPSETTING(0x90, DEF_STR("7C_1C"));
             PORT_DIPSETTING(0xa0, DEF_STR("6C_1C"));
@@ -468,9 +472,10 @@ public class m62 {
             PORT_DIPSETTING(0x10, DEF_STR("1C_8C"));
             PORT_DIPSETTING(0x00, DEF_STR("Free_Play"));
             /* setting 0x80 give 1 Coin/1 Credit */
-            /* setting 0x80 give 1 Coin/1 Credit */
+ /* setting 0x80 give 1 Coin/1 Credit */
 
-            PORT_START(); 	/* DSW2 */
+            PORT_START();
+            /* DSW2 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Flip_Screen"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -504,7 +509,8 @@ public class m62 {
 
     static InputPortHandlerPtr input_ports_battroad = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -513,7 +519,8 @@ public class m62 {
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0xf0, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -526,7 +533,8 @@ public class m62 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -538,7 +546,8 @@ public class m62 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x03, "Energy Decrease");
             PORT_DIPSETTING(0x03, "Slow");
@@ -552,7 +561,8 @@ public class m62 {
             PORT_DIPSETTING(0x08, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
             /* TODO: support the different settings which happen in Coin Mode 2 */
-            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage")); /* mapped on coin mode 1 */
+            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage"));
+            /* mapped on coin mode 1 */
 
             PORT_DIPSETTING(0x90, DEF_STR("7C_1C"));
             PORT_DIPSETTING(0xa0, DEF_STR("6C_1C"));
@@ -568,9 +578,11 @@ public class m62 {
             PORT_DIPSETTING(0x30, DEF_STR("1C_6C"));
             PORT_DIPSETTING(0x20, DEF_STR("1C_7C"));
             PORT_DIPSETTING(0x10, DEF_STR("1C_8C"));
-            PORT_DIPSETTING(0x00, DEF_STR("Free_Play")); /* TODO: support the different settings which happen in Coin Mode 2 */
+            PORT_DIPSETTING(0x00, DEF_STR("Free_Play"));
+            /* TODO: support the different settings which happen in Coin Mode 2 */
 
-            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage")); /* mapped on coin mode 1 */
+            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage"));
+            /* mapped on coin mode 1 */
 
             PORT_DIPSETTING(0x90, DEF_STR("7C_1C"));
             PORT_DIPSETTING(0xa0, DEF_STR("6C_1C"));
@@ -588,9 +600,10 @@ public class m62 {
             PORT_DIPSETTING(0x10, DEF_STR("1C_8C"));
             PORT_DIPSETTING(0x00, DEF_STR("Free_Play"));
             /* setting 0x80 give 1 Coin/1 Credit */
-            /* setting 0x80 give 1 Coin/1 Credit */
+ /* setting 0x80 give 1 Coin/1 Credit */
 
-            PORT_START(); 	/* DSW2 */
+            PORT_START();
+            /* DSW2 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Flip_Screen"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -622,7 +635,8 @@ public class m62 {
 
     static InputPortHandlerPtr input_ports_ldrun = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -631,7 +645,8 @@ public class m62 {
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0xf0, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -644,7 +659,8 @@ public class m62 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -656,7 +672,8 @@ public class m62 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x03, "Timer Speed");
             PORT_DIPSETTING(0x03, "Slow");
@@ -669,7 +686,8 @@ public class m62 {
             PORT_DIPSETTING(0x04, "4");
             PORT_DIPSETTING(0x00, "5");
             /* TODO: support the different settings which happen in Coin Mode 2 */
-            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage")); /* mapped on coin mode 1 */
+            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage"));
+            /* mapped on coin mode 1 */
 
             PORT_DIPSETTING(0x90, DEF_STR("7C_1C"));
             PORT_DIPSETTING(0xa0, DEF_STR("6C_1C"));
@@ -685,9 +703,11 @@ public class m62 {
             PORT_DIPSETTING(0x30, DEF_STR("1C_6C"));
             PORT_DIPSETTING(0x20, DEF_STR("1C_7C"));
             PORT_DIPSETTING(0x10, DEF_STR("1C_8C"));
-            PORT_DIPSETTING(0x00, DEF_STR("Free_Play")); /* TODO: support the different settings which happen in Coin Mode 2 */
+            PORT_DIPSETTING(0x00, DEF_STR("Free_Play"));
+            /* TODO: support the different settings which happen in Coin Mode 2 */
 
-            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage")); /* mapped on coin mode 1 */
+            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage"));
+            /* mapped on coin mode 1 */
 
             PORT_DIPSETTING(0x90, DEF_STR("7C_1C"));
             PORT_DIPSETTING(0xa0, DEF_STR("6C_1C"));
@@ -705,9 +725,10 @@ public class m62 {
             PORT_DIPSETTING(0x10, DEF_STR("1C_8C"));
             PORT_DIPSETTING(0x00, DEF_STR("Free_Play"));
             /* setting 0x80 give 1 Coin/1 Credit */
-            /* setting 0x80 give 1 Coin/1 Credit */
+ /* setting 0x80 give 1 Coin/1 Credit */
 
-            PORT_START(); 	/* DSW2 */
+            PORT_START();
+            /* DSW2 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Flip_Screen"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -740,7 +761,8 @@ public class m62 {
 
     static InputPortHandlerPtr input_ports_ldrun2 = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -749,7 +771,8 @@ public class m62 {
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0xf0, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -762,7 +785,8 @@ public class m62 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -774,7 +798,8 @@ public class m62 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x01, 0x01, "Timer Speed");
             PORT_DIPSETTING(0x01, "Slow");
@@ -788,7 +813,8 @@ public class m62 {
             PORT_DIPSETTING(0x04, "4");
             PORT_DIPSETTING(0x00, "5");
             /* TODO: support the different settings which happen in Coin Mode 2 */
-            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage")); /* mapped on coin mode 1 */
+            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage"));
+            /* mapped on coin mode 1 */
 
             PORT_DIPSETTING(0x90, DEF_STR("7C_1C"));
             PORT_DIPSETTING(0xa0, DEF_STR("6C_1C"));
@@ -804,9 +830,11 @@ public class m62 {
             PORT_DIPSETTING(0x30, DEF_STR("1C_6C"));
             PORT_DIPSETTING(0x20, DEF_STR("1C_7C"));
             PORT_DIPSETTING(0x10, DEF_STR("1C_8C"));
-            PORT_DIPSETTING(0x00, DEF_STR("Free_Play")); /* TODO: support the different settings which happen in Coin Mode 2 */
+            PORT_DIPSETTING(0x00, DEF_STR("Free_Play"));
+            /* TODO: support the different settings which happen in Coin Mode 2 */
 
-            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage")); /* mapped on coin mode 1 */
+            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage"));
+            /* mapped on coin mode 1 */
 
             PORT_DIPSETTING(0x90, DEF_STR("7C_1C"));
             PORT_DIPSETTING(0xa0, DEF_STR("6C_1C"));
@@ -824,9 +852,10 @@ public class m62 {
             PORT_DIPSETTING(0x10, DEF_STR("1C_8C"));
             PORT_DIPSETTING(0x00, DEF_STR("Free_Play"));
             /* setting 0x80 give 1 Coin/1 Credit */
-            /* setting 0x80 give 1 Coin/1 Credit */
+ /* setting 0x80 give 1 Coin/1 Credit */
 
-            PORT_START(); 	/* DSW2 */
+            PORT_START();
+            /* DSW2 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Flip_Screen"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -859,7 +888,8 @@ public class m62 {
 
     static InputPortHandlerPtr input_ports_ldrun3 = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -868,7 +898,8 @@ public class m62 {
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0xf0, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -881,7 +912,8 @@ public class m62 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -893,7 +925,8 @@ public class m62 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x01, 0x01, "Timer Speed");
             PORT_DIPSETTING(0x01, "Slow");
@@ -907,7 +940,8 @@ public class m62 {
             PORT_DIPSETTING(0x04, "4");
             PORT_DIPSETTING(0x00, "5");
             /* TODO: support the different settings which happen in Coin Mode 2 */
-            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage")); /* mapped on coin mode 1 */
+            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage"));
+            /* mapped on coin mode 1 */
 
             PORT_DIPSETTING(0x90, DEF_STR("7C_1C"));
             PORT_DIPSETTING(0xa0, DEF_STR("6C_1C"));
@@ -923,9 +957,11 @@ public class m62 {
             PORT_DIPSETTING(0x30, DEF_STR("1C_6C"));
             PORT_DIPSETTING(0x20, DEF_STR("1C_7C"));
             PORT_DIPSETTING(0x10, DEF_STR("1C_8C"));
-            PORT_DIPSETTING(0x00, DEF_STR("Free_Play")); /* TODO: support the different settings which happen in Coin Mode 2 */
+            PORT_DIPSETTING(0x00, DEF_STR("Free_Play"));
+            /* TODO: support the different settings which happen in Coin Mode 2 */
 
-            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage")); /* mapped on coin mode 1 */
+            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage"));
+            /* mapped on coin mode 1 */
 
             PORT_DIPSETTING(0x90, DEF_STR("7C_1C"));
             PORT_DIPSETTING(0xa0, DEF_STR("6C_1C"));
@@ -943,9 +979,10 @@ public class m62 {
             PORT_DIPSETTING(0x10, DEF_STR("1C_8C"));
             PORT_DIPSETTING(0x00, DEF_STR("Free_Play"));
             /* setting 0x80 give 1 Coin/1 Credit */
-            /* setting 0x80 give 1 Coin/1 Credit */
+ /* setting 0x80 give 1 Coin/1 Credit */
 
-            PORT_START(); 	/* DSW2 */
+            PORT_START();
+            /* DSW2 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Flip_Screen"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -978,7 +1015,8 @@ public class m62 {
 
     static InputPortHandlerPtr input_ports_ldrun4 = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -987,7 +1025,8 @@ public class m62 {
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0xf0, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -1000,7 +1039,8 @@ public class m62 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -1012,7 +1052,8 @@ public class m62 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x01, 0x01, "Timer Speed");
             PORT_DIPSETTING(0x01, "Slow");
@@ -1026,7 +1067,8 @@ public class m62 {
             PORT_DIPSETTING(0x04, "4");
             PORT_DIPSETTING(0x00, "5");
             /* TODO: support the different settings which happen in Coin Mode 2 */
-            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage")); /* mapped on coin mode 1 */
+            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage"));
+            /* mapped on coin mode 1 */
 
             PORT_DIPSETTING(0x90, DEF_STR("7C_1C"));
             PORT_DIPSETTING(0xa0, DEF_STR("6C_1C"));
@@ -1042,9 +1084,11 @@ public class m62 {
             PORT_DIPSETTING(0x30, DEF_STR("1C_6C"));
             PORT_DIPSETTING(0x20, DEF_STR("1C_7C"));
             PORT_DIPSETTING(0x10, DEF_STR("1C_8C"));
-            PORT_DIPSETTING(0x00, DEF_STR("Free_Play")); /* TODO: support the different settings which happen in Coin Mode 2 */
+            PORT_DIPSETTING(0x00, DEF_STR("Free_Play"));
+            /* TODO: support the different settings which happen in Coin Mode 2 */
 
-            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage")); /* mapped on coin mode 1 */
+            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage"));
+            /* mapped on coin mode 1 */
 
             PORT_DIPSETTING(0x90, DEF_STR("7C_1C"));
             PORT_DIPSETTING(0xa0, DEF_STR("6C_1C"));
@@ -1062,9 +1106,10 @@ public class m62 {
             PORT_DIPSETTING(0x10, DEF_STR("1C_8C"));
             PORT_DIPSETTING(0x00, DEF_STR("Free_Play"));
             /* setting 0x80 give 1 Coin/1 Credit */
-            /* setting 0x80 give 1 Coin/1 Credit */
+ /* setting 0x80 give 1 Coin/1 Credit */
 
-            PORT_START(); 	/* DSW2 */
+            PORT_START();
+            /* DSW2 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Flip_Screen"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -1098,7 +1143,8 @@ public class m62 {
 
     static InputPortHandlerPtr input_ports_lotlot = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -1107,7 +1153,8 @@ public class m62 {
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0xf0, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -1120,7 +1167,8 @@ public class m62 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -1132,7 +1180,8 @@ public class m62 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x03, "Speed");
             PORT_DIPSETTING(0x03, "Very Slow");
@@ -1145,7 +1194,8 @@ public class m62 {
             PORT_DIPSETTING(0x0c, "3");
             PORT_DIPSETTING(0x00, "4");
             /* TODO: support the different settings which happen in Coin Mode 2 */
-            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage")); /* mapped on coin mode 1 */
+            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage"));
+            /* mapped on coin mode 1 */
 
             PORT_DIPSETTING(0xa0, DEF_STR("6C_1C"));
             PORT_DIPSETTING(0xb0, DEF_STR("5C_1C"));
@@ -1164,7 +1214,8 @@ public class m62 {
             PORT_DIPSETTING(0x50, DEF_STR("1C_6C"));
             PORT_DIPSETTING(0x00, DEF_STR("Free_Play"));
 
-            PORT_START(); 	/* DSW2 */
+            PORT_START();
+            /* DSW2 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Flip_Screen"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -1227,7 +1278,8 @@ public class m62 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Lives"));
             PORT_DIPSETTING(0x02, "2");
@@ -1241,7 +1293,8 @@ public class m62 {
             PORT_DIPSETTING(0x08, "50000");
             PORT_DIPSETTING(0x00, "80000");
             /* TODO: support the different settings which happen in Coin Mode 2 */
-            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage")); /* mapped on coin mode 1 */
+            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage"));
+            /* mapped on coin mode 1 */
 
             PORT_DIPSETTING(0xa0, DEF_STR("6C_1C"));
             PORT_DIPSETTING(0xb0, DEF_STR("5C_1C"));
@@ -1260,7 +1313,8 @@ public class m62 {
             PORT_DIPSETTING(0x50, DEF_STR("1C_6C"));
             PORT_DIPSETTING(0x00, DEF_STR("Free_Play"));
 
-            PORT_START(); 	/* DSW2 */
+            PORT_START();
+            /* DSW2 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Flip_Screen"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -1291,7 +1345,8 @@ public class m62 {
 
     static InputPortHandlerPtr input_ports_spelunkr = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -1300,7 +1355,8 @@ public class m62 {
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0xf0, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -1313,7 +1369,8 @@ public class m62 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -1325,7 +1382,8 @@ public class m62 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x03, "Energy Decrease");
             PORT_DIPSETTING(0x03, "Slow");
@@ -1338,7 +1396,8 @@ public class m62 {
             PORT_DIPSETTING(0x04, "4");
             PORT_DIPSETTING(0x00, "5");
             /* TODO: support the different settings which happen in Coin Mode 2 */
-            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage")); /* mapped on coin mode 1 */
+            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage"));
+            /* mapped on coin mode 1 */
 
             PORT_DIPSETTING(0xa0, DEF_STR("6C_1C"));
             PORT_DIPSETTING(0xb0, DEF_STR("5C_1C"));
@@ -1357,7 +1416,8 @@ public class m62 {
             PORT_DIPSETTING(0x50, DEF_STR("1C_6C"));
             PORT_DIPSETTING(0x00, DEF_STR("Free_Play"));
 
-            PORT_START(); 	/* DSW2 */
+            PORT_START();
+            /* DSW2 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Flip_Screen"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -1390,7 +1450,8 @@ public class m62 {
 
     static InputPortHandlerPtr input_ports_spelunk2 = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -1399,7 +1460,8 @@ public class m62 {
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0xf0, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
@@ -1412,7 +1474,8 @@ public class m62 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
@@ -1424,7 +1487,8 @@ public class m62 {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x03, 0x03, "Energy Decrease");
             PORT_DIPSETTING(0x03, "Slow");
@@ -1437,7 +1501,8 @@ public class m62 {
             PORT_DIPSETTING(0x04, "4");
             PORT_DIPSETTING(0x00, "5");
             /* TODO: support the different settings which happen in Coin Mode 2 */
-            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage")); /* mapped on coin mode 1 */
+            PORT_DIPNAME(0xf0, 0xf0, DEF_STR("Coinage"));
+            /* mapped on coin mode 1 */
 
             PORT_DIPSETTING(0xa0, DEF_STR("6C_1C"));
             PORT_DIPSETTING(0xb0, DEF_STR("5C_1C"));
@@ -1456,7 +1521,8 @@ public class m62 {
             PORT_DIPSETTING(0x50, DEF_STR("1C_6C"));
             PORT_DIPSETTING(0x00, DEF_STR("Free_Play"));
 
-            PORT_START(); 	/* DSW2 */
+            PORT_START();
+            /* DSW2 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Flip_Screen"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -2137,7 +2203,7 @@ public class m62 {
             ROM_LOAD("b-1l-.bin", 0x0500, 0x0100, 0x35e45021);/* sprite palette blue component */
 
             ROM_LOAD("b-5f-.bin", 0x0600, 0x0020, 0x7a601c3d);/* sprite height, one entry per 32 */
-            /* sprites. Used at run time! */
+ /* sprites. Used at run time! */
 
             ROM_LOAD("b-6f-.bin", 0x0620, 0x0100, 0x82c20d12);/* video timing? - same as battroad */
 
@@ -2195,7 +2261,7 @@ public class m62 {
             ROM_LOAD("b-1l-.bin", 0x0500, 0x0100, 0x35e45021);/* sprite palette blue component */
 
             ROM_LOAD("b-5f-.bin", 0x0600, 0x0020, 0x7a601c3d);/* sprite height, one entry per 32 */
-            /* sprites. Used at run time! */
+ /* sprites. Used at run time! */
 
             ROM_LOAD("b-6f-.bin", 0x0620, 0x0100, 0x82c20d12);/* video timing? - same as battroad */
 
@@ -2253,7 +2319,7 @@ public class m62 {
             ROM_LOAD("b-1l-.bin", 0x0500, 0x0100, 0x35e45021);/* sprite palette blue component */
 
             ROM_LOAD("b-5f-.bin", 0x0600, 0x0020, 0x7a601c3d);/* sprite height, one entry per 32 */
-            /* sprites. Used at run time! */
+ /* sprites. Used at run time! */
 
             ROM_LOAD("b-6f-.bin", 0x0620, 0x0100, 0x82c20d12);/* video timing? - same as battroad */
 
@@ -2311,7 +2377,7 @@ public class m62 {
             ROM_LOAD("b-1l-.bin", 0x0500, 0x0100, 0x35e45021);/* sprite palette blue component */
 
             ROM_LOAD("b-5f-.bin", 0x0600, 0x0020, 0x7a601c3d);/* sprite height, one entry per 32 */
-            /* sprites. Used at run time! */
+ /* sprites. Used at run time! */
 
             ROM_LOAD("b-6f-.bin", 0x0620, 0x0100, 0x82c20d12);/* video timing? - same as battroad */
 
@@ -2369,7 +2435,7 @@ public class m62 {
             ROM_LOAD("b-1l-.bin", 0x0500, 0x0100, 0x35e45021);/* sprite palette blue component */
 
             ROM_LOAD("b-5f-.bin", 0x0600, 0x0020, 0x7a601c3d);/* sprite height, one entry per 32 */
-            /* sprites. Used at run time! */
+ /* sprites. Used at run time! */
 
             ROM_LOAD("b-6f-.bin", 0x0620, 0x0100, 0x82c20d12);/* video timing? - same as battroad */
 
@@ -2435,7 +2501,7 @@ public class m62 {
             ROM_LOAD("br-c-1j", 0x0600, 0x0020, 0x78eb5d77);/* character palette */
 
             ROM_LOAD("br-b-5p", 0x0620, 0x0020, 0xce746937);/* sprite height, one entry per 32 */
-            /* sprites. Used at run time! */
+ /* sprites. Used at run time! */
 
             ROM_LOAD("br-b-6f", 0x0640, 0x0100, 0x82c20d12);/* video timing? - same as kungfum */
 
@@ -2483,7 +2549,7 @@ public class m62 {
             ROM_LOAD("lr-b-1l", 0x0500, 0x0100, 0x08d8cf9a);/* sprite palette blue component */
 
             ROM_LOAD("lr-b-5p", 0x0600, 0x0020, 0xe01f69e2);/* sprite height, one entry per 32 */
-            /* sprites. Used at run time! */
+ /* sprites. Used at run time! */
 
             ROM_LOAD("lr-b-6f", 0x0620, 0x0100, 0x34d88d3c);/* video timing? - common to the other games */
 
@@ -2531,7 +2597,7 @@ public class m62 {
             ROM_LOAD("lr-b-1l", 0x0500, 0x0100, 0x08d8cf9a);/* sprite palette blue component */
 
             ROM_LOAD("lr-b-5p", 0x0600, 0x0020, 0xe01f69e2);/* sprite height, one entry per 32 */
-            /* sprites. Used at run time! */
+ /* sprites. Used at run time! */
 
             ROM_LOAD("lr-b-6f", 0x0620, 0x0100, 0x34d88d3c);/* video timing? - common to the other games */
 
@@ -2586,7 +2652,7 @@ public class m62 {
             ROM_LOAD("lr2-b-1l", 0x0500, 0x0100, 0xc8fb708a);/* sprite palette blue component */
 
             ROM_LOAD("lr2-b-5p", 0x0600, 0x0020, 0xe01f69e2);/* sprite height, one entry per 32 */
-            /* sprites. Used at run time! */
+ /* sprites. Used at run time! */
 
             ROM_LOAD("lr2-b-6f", 0x0620, 0x0100, 0x34d88d3c);/* video timing? - common to the other games */
 
@@ -2633,7 +2699,7 @@ public class m62 {
             ROM_LOAD("lr3-b-1l", 0x0500, 0x0100, 0x5b11c41d);/* sprite palette blue component */
 
             ROM_LOAD("lr3-b-5p", 0x0600, 0x0020, 0xe01f69e2);/* sprite height, one entry per 32 */
-            /* sprites. Used at run time! */
+ /* sprites. Used at run time! */
 
             ROM_LOAD("lr3-n-4f", 0x0620, 0x0100, 0xdf674be9);/* unknown */
 
@@ -2685,7 +2751,7 @@ public class m62 {
             ROM_LOAD("lr4-b-1l", 0x0500, 0x0100, 0x0d89b692);/* sprite palette blue component */
 
             ROM_LOAD("lr4-b-5p", 0x0600, 0x0020, 0xe01f69e2);/* sprite height, one entry per 32 */
-            /* sprites. Used at run time! */
+ /* sprites. Used at run time! */
 
             ROM_LOAD("lr4-v-4h", 0x0620, 0x0100, 0xdf674be9);/* unknown */
 
@@ -2744,7 +2810,7 @@ public class m62 {
             ROM_LOAD("lot-k-2j", 0x0800, 0x0100, 0xe791ef2a);/* character palette blue component */
 
             ROM_LOAD("lot-b-5p", 0x0900, 0x0020, 0x110b21fd);/* sprite height, one entry per 32 */
-            /* sprites. Used at run time! */
+ /* sprites. Used at run time! */
 
             ROM_LOAD("lot-k-7e", 0x0920, 0x0200, 0x6cef0fbd);/* unknown */
 
@@ -2814,7 +2880,7 @@ public class m62 {
             ROM_LOAD("dr29.1l", 0x0500, 0x0100, 0x1173a754);/* sprite palette blue component */
 
             ROM_LOAD("dr32.5p", 0x0600, 0x0020, 0x11cd1f2e);/* sprite height, one entry per 32 */
-            /* sprites. Used at run time! */
+ /* sprites. Used at run time! */
 
             ROM_LOAD("dr28.8f", 0x0620, 0x0200, 0x6cef0fbd);/* unknown */
 
@@ -2882,7 +2948,7 @@ public class m62 {
             ROM_LOAD("dr29.1l", 0x0500, 0x0100, 0x1173a754);/* sprite palette blue component */
 
             ROM_LOAD("dr32.5p", 0x0600, 0x0020, 0x11cd1f2e);/* sprite height, one entry per 32 */
-            /* sprites. Used at run time! */
+ /* sprites. Used at run time! */
 
             ROM_LOAD("dr28.8f", 0x0620, 0x0200, 0x6cef0fbd);/* unknown */
 
@@ -2929,9 +2995,11 @@ public class m62 {
             ROM_REGION(0x0c000, REGION_GFX3 | REGIONFLAG_DISPOSE);
             ROM_LOAD("sprm.4p", 0x00000, 0x0800, 0x4dfe2e63);/* chars */
 
-            ROM_CONTINUE(0x02000, 0x0800);		/* first and second half identical, */
+            ROM_CONTINUE(0x02000, 0x0800);
+            /* first and second half identical, */
 
-            ROM_CONTINUE(0x00800, 0x0800);		/* second half not used by the driver */
+            ROM_CONTINUE(0x00800, 0x0800);
+            /* second half not used by the driver */
 
             ROM_CONTINUE(0x02800, 0x0800);
             ROM_CONTINUE(0x00000, 0x0800);
@@ -2969,7 +3037,7 @@ public class m62 {
             ROM_LOAD("sprb.1l", 0x0500, 0x0100, 0x3ec46248);/* sprite palette blue component */
 
             ROM_LOAD("sprb.5p", 0x0600, 0x0020, 0x746c6238);/* sprite height, one entry per 32 */
-            /* sprites. Used at run time! */
+ /* sprites. Used at run time! */
 
             ROM_LOAD("sprm.8h", 0x0620, 0x0200, 0x875cc442);/* unknown */
 
@@ -3015,9 +3083,11 @@ public class m62 {
             ROM_REGION(0x0c000, REGION_GFX3 | REGIONFLAG_DISPOSE);
             ROM_LOAD("sp2-r.4l", 0x00000, 0x0800, 0x6a4b2d8b);/* chars */
 
-            ROM_CONTINUE(0x02000, 0x0800);		/* first and second half identical, */
+            ROM_CONTINUE(0x02000, 0x0800);
+            /* first and second half identical, */
 
-            ROM_CONTINUE(0x00800, 0x0800);		/* second half not used by the driver */
+            ROM_CONTINUE(0x00800, 0x0800);
+            /* second half not used by the driver */
 
             ROM_CONTINUE(0x02800, 0x0800);
             ROM_CONTINUE(0x00000, 0x0800);
@@ -3055,7 +3125,7 @@ public class m62 {
             ROM_LOAD("sp2-b.1l", 0x0600, 0x0100, 0x8f4a2e3c);/* sprites blue component */
 
             ROM_LOAD("sp2-b.5p", 0x0700, 0x0020, 0xcd126f6a);/* sprite height, one entry per 32 */
-            /* sprites. Used at run time! */
+ /* sprites. Used at run time! */
 
             ROM_LOAD("sp2-r.8j", 0x0720, 0x0200, 0x875cc442);/* unknown */
 
@@ -3073,8 +3143,7 @@ public class m62 {
     public static GameDriver driver_battroad = new GameDriver("1984", "battroad", "m62.java", rom_battroad, null, machine_driver_battroad, input_ports_battroad, null, ROT90, "Irem", "The Battle-Road");
     public static GameDriver driver_ldrun = new GameDriver("1984", "ldrun", "m62.java", rom_ldrun, null, machine_driver_ldrun, input_ports_ldrun, null, ROT0, "Irem (licensed from Broderbund)", "Lode Runner (set 1)");
     public static GameDriver driver_ldruna = new GameDriver("1984", "ldruna", "m62.java", rom_ldruna, driver_ldrun, machine_driver_ldrun, input_ports_ldrun, null, ROT0, "Irem (licensed from Broderbund)", "Lode Runner (set 2)");
-    public static GameDriver driver_ldrun2 = new GameDriver("1984", "ldrun2", "m62.java", rom_ldrun2, null, machine_driver_ldrun2, input_ports_ldrun2, null, ROT0, "Irem (licensed from Broderbund)", "Lode Runner II - The Bungeling Strikes Back");	/* Japanese version is called Bangeringu Teikoku No Gyakushuu */
-
+    public static GameDriver driver_ldrun2 = new GameDriver("1984", "ldrun2", "m62.java", rom_ldrun2, null, machine_driver_ldrun2, input_ports_ldrun2, null, ROT0, "Irem (licensed from Broderbund)", "Lode Runner II - The Bungeling Strikes Back");/* Japanese version is called Bangeringu Teikoku No Gyakushuu */
     public static GameDriver driver_ldrun3 = new GameDriver("1985", "ldrun3", "m62.java", rom_ldrun3, null, machine_driver_ldrun3, input_ports_ldrun3, null, ROT0, "Irem (licensed from Broderbund)", "Lode Runner III - Majin No Fukkatsu");
     public static GameDriver driver_ldrun4 = new GameDriver("1986", "ldrun4", "m62.java", rom_ldrun4, null, machine_driver_ldrun4, input_ports_ldrun4, null, ROT0, "Irem (licensed from Broderbund)", "Lode Runner IV - Teikoku Karano Dasshutsu");
     public static GameDriver driver_lotlot = new GameDriver("1985", "lotlot", "m62.java", rom_lotlot, null, machine_driver_lotlot, input_ports_lotlot, null, ROT0, "Irem (licensed from Tokuma Shoten)", "Lot Lot");

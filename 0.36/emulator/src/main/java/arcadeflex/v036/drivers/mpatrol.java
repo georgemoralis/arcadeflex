@@ -2,6 +2,11 @@
  * ported to v0.36
  *
  */
+/**
+ * Changelog
+ * =========
+ * 08/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.drivers;
 
 //cpu imports
@@ -23,7 +28,6 @@ import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.mpatrol.*;
 //TODO
 import static arcadeflex.v036.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 
 public class mpatrol {
 

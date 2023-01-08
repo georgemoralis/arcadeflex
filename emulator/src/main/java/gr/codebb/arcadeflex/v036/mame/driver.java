@@ -29,19 +29,14 @@ import static gr.codebb.arcadeflex.v037b7.drivers.spy.*;
 import static arcadeflex.v036.drivers.hcastle.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.gsword.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jrpacman.*;
-import static arcadeflex.v036.drivers.mpatrol.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.yard.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jackal.*;
 import static arcadeflex.v036.drivers.gberet.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mitchell.*;
-import static arcadeflex.v036.drivers.troangel.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.ddragon.*;
 import static arcadeflex.v036.drivers.contra.*;
-import static arcadeflex.v036.drivers.travrusa.*;
 import static gr.codebb.arcadeflex.v036.drivers.sidepckt.*;
 import static arcadeflex.v036.drivers.vigilant.*;
 import static gr.codebb.arcadeflex.v036.drivers.dec8.*;
-import static gr.codebb.arcadeflex.v036.drivers.m62.*;
 import static gr.codebb.arcadeflex.v036.drivers.combatsc.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.kingobox.*;
 import static gr.codebb.arcadeflex.v036.drivers.atetris.*;
@@ -234,32 +229,7 @@ public class driver {
                 /*278*//*pcktgal*/ driver_spool3i,
                 /*280*//*copsnrob*/ driver_copsnrob,
                 /*303*//*gsword*/ driver_gsword,
-                /*310*//*travrusa*/ driver_travrusa,
-                /*311*//*travrusa*/ driver_motorace,
-                /*312*//*troangel*/ driver_troangel,
-                /* M62 */
-                /*313*//*m62*/ driver_kungfum,
-                /*314*//*m62*/ driver_kungfud,
-                /*315*//*m62*/ driver_spartanx,
-                /*316*//*m62*/ driver_kungfub,
-                /*317*//*m62*/ driver_kungfub2,
-                /*318*//*m62*/ driver_ldrun,
-                /*319*//*m62*/ driver_ldruna,
-                /*320*//*m62*/ driver_ldrun2,
-                /*321*//*m62*/ driver_ldrun3,
-                /*322*//*m62*/ driver_ldrun4,
-                /*323*//*m62*/ driver_lotlot,
-                /*324*//*m62*/ driver_kidniki,
-                /*325*//*m62*/ driver_yanchamr,
-                /*326*//*m62*/ driver_spelunkr,
-                /*327*//*m62*/ driver_spelunk2,
                 /*328*//*skydiver*/ driver_skydiver,
-                /*329*//*mpatrol*/ driver_mpatrol,
-                /*330*//*mpatrol*/ driver_mpatrolw,
-                /*331*//*mpatrol*/ driver_mranger,
-                /*332*//*yard*/ driver_yard,
-                /*333*//*yard*/ driver_vsyard,
-                /*334*//*yard*/ driver_vsyard2,
                 /*351*//*dec8*/ driver_shackled,
                 /*352*//*dec8*/ driver_breywood,
                 /*353*//*dec8*/ driver_csilver,
@@ -381,7 +351,6 @@ public class driver {
                 /* GFX issues
         
                  */
-                /*003*//*m62*/ driver_battroad,//screen height is too big
                 /*bladestl*/ driver_bladestl, //artifacts left and right of drawing screen
                 /*bladestl*/ driver_bladstle, //artifacts left and right of drawing screen
                 /*lkage*/ driver_lkage,//garbage remains in left and right of screen (clipping?)

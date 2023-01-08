@@ -1,6 +1,11 @@
 /**
  * ported to 0.36
  */
+/**
+ * Changelog
+ * =========
+ * 08/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.drivers;
 
 //generic imports
@@ -13,15 +18,15 @@ import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.memoryH.*;
 //sndhrdw imports
 import static arcadeflex.v036.sndhrdw.irem.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.travrusa.*;
 //TODO
-import static arcadeflex.v036.mame.memoryH.*;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
 
 public class travrusa {
 

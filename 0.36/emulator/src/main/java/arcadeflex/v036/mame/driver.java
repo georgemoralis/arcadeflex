@@ -117,6 +117,11 @@ import static arcadeflex.v036.drivers.ddrible.*;
 import static arcadeflex.v036.drivers.yiear.*;
 import static arcadeflex.v036.drivers.goindol.*;
 import static arcadeflex.v036.drivers.trackfld.*;
+import static arcadeflex.v036.drivers.m62.*;
+import static arcadeflex.v036.drivers.mpatrol.*;
+import static arcadeflex.v036.drivers.travrusa.*;
+import static arcadeflex.v036.drivers.troangel.*;
+import static arcadeflex.v036.drivers.yard.*;
 
 public class driver {
 
@@ -725,33 +730,32 @@ public class driver {
                 /*TODO*///	/* Irem games */
                 /*TODO*///	/* trivia: IREM means "International Rental Electronics Machines" */
                 /*TODO*///	driver_skychut,	/* (c) [1980] */
-                /*TODO*///	driver_mpatrol,	/* (c) 1982 */
-                /*TODO*///	driver_mpatrolw,	/* (c) 1982 + Williams license */
-                /*TODO*///	driver_mranger,	/* bootleg */
-                /*TODO*///	driver_troangel,	/* (c) 1983 */
-                /*TODO*///	driver_yard,		/* (c) 1983 */
-                /*TODO*///	driver_vsyard,	/* (c) 1983/1984 */
-                /*TODO*///	driver_vsyard2,	/* (c) 1983/1984 */
-                /*TODO*///	driver_travrusa,	/* (c) 1983 */
-                /*TODO*///	driver_motorace,	/* (c) 1983 Williams license */
-                /*TODO*///	/* M62 */
-                /*TODO*///	driver_kungfum,	/* (c) 1984 */
-                /*TODO*///	driver_kungfud,	/* (c) 1984 + Data East license */
-                /*TODO*///	driver_spartanx,	/* (c) 1984 */
-                /*TODO*///	driver_kungfub,	/* bootleg */
-                /*TODO*///	driver_kungfub2,	/* bootleg */
-                /*TODO*///	driver_battroad,	/* (c) 1984 */
-                /*TODO*///	driver_ldrun,		/* (c) 1984 licensed from Broderbund */
-                /*TODO*///	driver_ldruna,	/* (c) 1984 licensed from Broderbund */
-                /*TODO*///	driver_ldrun2,	/* (c) 1984 licensed from Broderbund */
-                /*TODO*///	driver_ldrun3,	/* (c) 1985 licensed from Broderbund */
-                /*TODO*///	driver_ldrun4,	/* (c) 1986 licensed from Broderbund */
-                /*TODO*///	driver_lotlot,	/* (c) 1985 licensed from Tokuma Shoten */
-                /*TODO*///	driver_kidniki,	/* (c) 1986 + Data East USA license */
-                /*TODO*///	driver_yanchamr,	/* (c) 1986 (Japan) */
-                /*TODO*///	driver_spelunkr,	/* (c) 1985 licensed from Broderbund */
-                /*TODO*///	driver_spelunk2,	/* (c) 1986 licensed from Broderbund */
-                /*TODO*///
+                driver_mpatrol, /* (c) 1982 */
+                driver_mpatrolw, /* (c) 1982 + Williams license */
+                driver_mranger, /* bootleg */
+                driver_troangel, /* (c) 1983 */
+                driver_yard, /* (c) 1983 */
+                driver_vsyard, /* (c) 1983/1984 */
+                driver_vsyard2, /* (c) 1983/1984 */
+                driver_travrusa, /* (c) 1983 */
+                driver_motorace, /* (c) 1983 Williams license */
+                /* M62 */
+                driver_kungfum, /* (c) 1984 */
+                driver_kungfud, /* (c) 1984 + Data East license */
+                driver_spartanx, /* (c) 1984 */
+                driver_kungfub, /* bootleg */
+                driver_kungfub2, /* bootleg */
+                driver_battroad, /* (c) 1984 */
+                driver_ldrun, /* (c) 1984 licensed from Broderbund */
+                driver_ldruna, /* (c) 1984 licensed from Broderbund */
+                driver_ldrun2, /* (c) 1984 licensed from Broderbund */
+                driver_ldrun3, /* (c) 1985 licensed from Broderbund */
+                driver_ldrun4, /* (c) 1986 licensed from Broderbund */
+                driver_lotlot, /* (c) 1985 licensed from Tokuma Shoten */
+                driver_kidniki, /* (c) 1986 + Data East USA license */
+                driver_yanchamr, /* (c) 1986 (Japan) */
+                driver_spelunkr, /* (c) 1985 licensed from Broderbund */
+                driver_spelunk2, /* (c) 1986 licensed from Broderbund */
                 /*TODO*///	driver_vigilant,	/* (c) 1988 (World) */
                 /*TODO*///	driver_vigilntu,	/* (c) 1988 (US) */
                 /*TODO*///	driver_vigilntj,	/* (c) 1988 (Japan) */
@@ -1840,10 +1844,10 @@ public class driver {
                 driver_gyruss, /* GX347 (c) 1983 */
                 driver_gyrussce, /* GX347 (c) 1983 + Centuri license */
                 driver_venus, /* bootleg */
-                	driver_trackfld,	/* GX361 (c) 1983 */
-                	driver_trackflc,	/* GX361 (c) 1983 + Centuri license */
-                	driver_hyprolym,	/* GX361 (c) 1983 */
-                	driver_hyprolyb,	/* bootleg */
+                driver_trackfld, /* GX361 (c) 1983 */
+                driver_trackflc, /* GX361 (c) 1983 + Centuri license */
+                driver_hyprolym, /* GX361 (c) 1983 */
+                driver_hyprolyb, /* bootleg */
                 driver_rocnrope, /* GX364 (c) 1983 */
                 driver_rocnropk, /* GX364 (c) 1983 + Kosuka */
                 driver_circusc, /* GX380 (c) 1984 */

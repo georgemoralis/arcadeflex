@@ -2,22 +2,27 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
+/**
+ * Changelog
+ * =========
+ * 08/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.sndhrdw;
 
+//cpu imports
+import static arcadeflex.v036.cpu.m6800.m6803.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static arcadeflex.v036.mame.sndintrf.*;
-//TODO
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
+import static arcadeflex.v036.mame.memoryH.*;
+//sound imports
 import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;
 import static arcadeflex.v036.sound.MSM5205.*;
 import static arcadeflex.v036.sound.MSM5205H.*;
-import static arcadeflex.v036.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v036.cpu.m6800.m6803.*;
 
 public class irem {
 

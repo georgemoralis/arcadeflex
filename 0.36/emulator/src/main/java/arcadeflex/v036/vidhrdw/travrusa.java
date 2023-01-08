@@ -2,6 +2,11 @@
  * ported to v0.36
  * using automatic conversion tool v0.08
  */
+/**
+ * Changelog
+ * =========
+ * 08/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.vidhrdw;
 
 //generic imports
@@ -10,6 +15,7 @@ import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.inptport.*;
+import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.osdependH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
@@ -17,7 +23,6 @@ import static arcadeflex.v036.vidhrdw.generic.*;
 import static common.libc.expressions.*;
 //TODO
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
