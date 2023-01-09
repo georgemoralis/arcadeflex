@@ -1,48 +1,45 @@
-/**
- * *************************************************************************
- *
- * The Simpsons (c) 1991 Konami Co. Ltd
- *
- * Preliminary driver by: Ernesto Corvi someone@secureshell.com
- *
- **************************************************************************
- */
-
 /*
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v036.drivers;
+/**
+ * Changelog
+ * =========
+ * 09/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
+//cpu imports
+import static arcadeflex.v036.cpu.konami.konamiH.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//machine imports
+import static arcadeflex.v036.machine.simpsons.*;
+//mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
-import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import arcadeflex.v036.mame.sndintrfH.MachineSound;
-import static arcadeflex.v036.mame.sndintrfH.SOUND_YM2151;
-import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
-import static arcadeflex.v036.sound._2151intf.*;
-import static arcadeflex.v036.sound._2151intfH.*;
-import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.konami.K053247.*;
 import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
 import static arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.simpsons.*;
-import static gr.codebb.arcadeflex.v036.cpu.konami.konamiH.*;
-import static gr.codebb.arcadeflex.v036.machine.simpsons.*;
-import static arcadeflex.v036.mame.sndintrfH.SOUND_K053260;
+import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
+import static arcadeflex.v036.sound._2151intf.*;
+import static arcadeflex.v036.sound._2151intfH.*;
+import static arcadeflex.v036.sound.mixerH.*;
 import static arcadeflex.v036.sound.k053260.*;
 import static arcadeflex.v036.sound.k053260H.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.simpsons.*;
+import static arcadeflex.v036.vidhrdw.konamiic.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class simpsons {
 
@@ -117,7 +114,8 @@ public class simpsons {
         public void handler(int offset, int data) {
             //	sound_nmi_enabled = 1;
             cpu_set_nmi_line(1, CLEAR_LINE);
-            timer_set(TIME_IN_USEC(50), 0, nmi_callback);	/* kludge until the K053260 is emulated correctly */
+            timer_set(TIME_IN_USEC(50), 0, nmi_callback);
+            /* kludge until the K053260 is emulated correctly */
 
         }
     };
@@ -152,7 +150,8 @@ public class simpsons {
      */
     static InputPortHandlerPtr input_ports_simpsons = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();  /* IN0 - Player 1 */
+            PORT_START();
+            /* IN0 - Player 1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER1);
@@ -163,7 +162,8 @@ public class simpsons {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON3);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START1);
 
-            PORT_START(); 	/* IN1 - Player 2 */
+            PORT_START();
+            /* IN1 - Player 2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2);
@@ -174,7 +174,8 @@ public class simpsons {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON3 | IPF_PLAYER2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START2);
 
-            PORT_START(); 	/* IN2 - Player 3 - Used on the 4p version */
+            PORT_START();
+            /* IN2 - Player 3 - Used on the 4p version */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER3);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER3);
@@ -185,7 +186,8 @@ public class simpsons {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON3 | IPF_PLAYER3);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START3);
 
-            PORT_START(); 	/* IN3 - Player 4 - Used on the 4p version */
+            PORT_START();
+            /* IN3 - Player 4 - Used on the 4p version */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER4);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER4);
@@ -196,7 +198,8 @@ public class simpsons {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON3 | IPF_PLAYER4);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START4);
 
-            PORT_START();  /* IN4 */
+            PORT_START();
+            /* IN4 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -207,7 +210,8 @@ public class simpsons {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();  /* IN5 */
+            PORT_START();
+            /* IN5 */
 
             PORT_BITX(0x01, IP_ACTIVE_LOW, IPT_SERVICE, DEF_STR("Service_Mode"), KEYCODE_F2, IP_JOY_NONE);
             PORT_BIT(0xfe, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -217,7 +221,8 @@ public class simpsons {
 
     static InputPortHandlerPtr input_ports_simpsn2p = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();  /* IN0 - Player 1 */
+            PORT_START();
+            /* IN0 - Player 1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER1);
@@ -228,7 +233,8 @@ public class simpsons {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON3);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START1);
 
-            PORT_START(); 	/* IN1 - Player 2 */
+            PORT_START();
+            /* IN1 - Player 2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2);
@@ -239,7 +245,8 @@ public class simpsons {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON3 | IPF_PLAYER2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START2);
 
-            PORT_START(); 	/* IN2 - Player 3 - Used on the 4p version */
+            PORT_START();
+            /* IN2 - Player 3 - Used on the 4p version */
             //	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER3 );
             //	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER3 );
             //	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER3 );
@@ -249,7 +256,8 @@ public class simpsons {
             //	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_BUTTON3 | IPF_PLAYER3 );
             //	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START3 );
 
-            PORT_START(); 	/* IN3 - Player 4 - Used on the 4p version */
+            PORT_START();
+            /* IN3 - Player 4 - Used on the 4p version */
             //	PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER4 );
             //	PORT_BIT( 0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER4 );
             //	PORT_BIT( 0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER4 );
@@ -259,7 +267,8 @@ public class simpsons {
             //	PORT_BIT( 0x40, IP_ACTIVE_LOW, IPT_BUTTON3 | IPF_PLAYER4 );
             //	PORT_BIT( 0x80, IP_ACTIVE_LOW, IPT_START4 );
 
-            PORT_START();  /* IN4 */
+            PORT_START();
+            /* IN4 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -270,7 +279,8 @@ public class simpsons {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();  /* IN5 */
+            PORT_START();
+            /* IN5 */
 
             PORT_BITX(0x01, IP_ACTIVE_LOW, IPT_SERVICE, DEF_STR("Service_Mode"), KEYCODE_F2, IP_JOY_NONE);
             PORT_BIT(0xfe, IP_ACTIVE_LOW, IPT_UNKNOWN);

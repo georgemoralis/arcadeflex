@@ -125,6 +125,7 @@ import static arcadeflex.v036.drivers.yard.*;
 import static arcadeflex.v036.drivers.finalizr.*;
 import static arcadeflex.v036.drivers.hcastle.*;
 import static arcadeflex.v036.drivers.rockrage.*;
+import static arcadeflex.v036.drivers.simpsons.*;
 
 public class driver {
 
@@ -1947,9 +1948,9 @@ public class driver {
                 /*TODO*///	driver_rollerg,	/* GX999 (c) 1991 (US) */
                 /*TODO*///	driver_rollergj,	/* GX999 (c) 1991 (Japan) */
                 /*TODO*////*TESTDRIVER*/driver_xexex,		/* GX067 (c) 1991 */
-                /*TODO*///	driver_simpsons,	/* GX072 (c) 1991 */
-                /*TODO*///	driver_simpsn2p,	/* GX072 (c) 1991 */
-                /*TODO*///	driver_simps2pj,	/* GX072 (c) 1991 (Japan) */
+                driver_simpsons, /* GX072 (c) 1991 */
+                driver_simpsn2p, /* GX072 (c) 1991 */
+                driver_simps2pj, /* GX072 (c) 1991 (Japan) */
                 /*TODO*///	driver_vendetta,	/* GX081 (c) 1991 (Asia) */
                 /*TODO*///	driver_vendett2,	/* GX081 (c) 1991 (Asia) */
                 /*TODO*///	driver_vendettj,	/* GX081 (c) 1991 (Japan) */

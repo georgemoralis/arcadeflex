@@ -3,6 +3,11 @@
  * using automatic conversion tool v0.01
  * sound is ported from mame 0.58 (vlm5030)
  */
+/**
+ * Changelog
+ * =========
+ * 09/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.drivers;
 
 //cpu imports

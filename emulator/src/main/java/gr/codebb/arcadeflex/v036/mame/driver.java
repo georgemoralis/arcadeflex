@@ -64,7 +64,6 @@ import static arcadeflex.v036.drivers.snowbros.*;
 import static gr.codebb.arcadeflex.v036.drivers.z80bw.*;
 import static gr.codebb.arcadeflex.v036.drivers.arkanoid.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.skydiver.*;
-import static gr.codebb.arcadeflex.v036.drivers.simpsons.*;
 import static gr.codebb.arcadeflex.v036.drivers.vendetta.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.missile.*;
 import static gr.codebb.arcadeflex.v036.drivers.pacland.*;
@@ -301,9 +300,6 @@ public class driver {
                 /*512*//*aliens*/ driver_aliens2,
                 /*513*//*aliens*/ driver_aliensu,
                 /*514*//*aliens*/ driver_aliensj,
-                /*515*//*simpsons*/ driver_simpsons,
-                /*516*//*simpsons*/ driver_simpsn2p,
-                /*517*//*simpsons*/ driver_simps2pj,
                 /*518*//*surpratk*/ driver_surpratk,
                 /*519*//*vendetta*/ driver_vendetta,
                 /*520*//*vendetta*/ driver_vendett2,
