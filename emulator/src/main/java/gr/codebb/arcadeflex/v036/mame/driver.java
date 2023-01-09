@@ -49,7 +49,6 @@ import static gr.codebb.arcadeflex.v036.drivers.flkatck.*;
 import static gr.codebb.arcadeflex.v036.drivers.lkage.*;
 import static gr.codebb.arcadeflex.v036.drivers.mainevt.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bladestl.*;
-import static arcadeflex.v036.drivers.rockrage.*;
 import static gr.codebb.arcadeflex.v036.drivers.thunderx.*;
 import static arcadeflex.v036.drivers.aliens.*;
 import static gr.codebb.arcadeflex.v036.drivers.crimfght.*;
@@ -268,8 +267,6 @@ public class driver {
                 /*475*//*hyperspt*/ driver_hyperspt,
                 /*476*//*hyperspt*/ driver_hpolym84,
                 /*477*//*hyperspt*/ driver_roadf,
-                /*478*//*rockrage*/ driver_rockrage,
-                /*479*//*rockrage*/ driver_rockragj,
                 /*482*//*astrof*/ driver_astrof,
                 /*483*//*astrof*/ driver_astrof2,
                 /*484*//*astrof*/ driver_astrof3,

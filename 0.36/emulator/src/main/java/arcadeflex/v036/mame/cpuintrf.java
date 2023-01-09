@@ -5,6 +5,7 @@ package arcadeflex.v036.mame;
 
 //cpu imports
 import arcadeflex.v036.cpu.dummyCPU;
+import arcadeflex.v036.cpu.hd6309.hd6309;
 import arcadeflex.v036.cpu.i8039.i8035;
 import arcadeflex.v036.cpu.i8039.i8039;
 import arcadeflex.v036.cpu.i8039.i8048;
@@ -274,7 +275,7 @@ public class cpuintrf {
                 new m6805(),
                 new m68705(),
                 new HD63705(),
-                new dummyCPU(),/*TODO*///	CPU0(HD6309,   hd6309,	 2,  0,1.00,HD6309_INT_NONE,   HD6309_INT_IRQ, HD6309_INT_NMI, 16,	  0,16,BE,1, 4,16	),
+                new hd6309(),
                 new m6809(),
                 new konami(),
                 new dummyCPU(),/*TODO*///	CPU0(M68000,   m68000,	 8, -1,1.00,MC68000_INT_NONE,  -1,			   -1,			   24,	  0,24,BE,2,10,24	),
@@ -1393,16 +1394,18 @@ public class cpuintrf {
                     case CPU_HD63705:
                         irq_line = 0;
                         break;
-                    /*TODO*///#if (HAS_HD6309)
-/*TODO*///			case CPU_HD6309:
-/*TODO*///				switch (num)
-/*TODO*///				{
-/*TODO*///				case HD6309_INT_IRQ:	irq_line = 0; LOG((errorlog,"M6309 IRQ\n")); break;
-/*TODO*///				case HD6309_INT_FIRQ:	irq_line = 1; LOG((errorlog,"M6309 FIRQ\n")); break;
-/*TODO*///				default:				irq_line = 0; LOG((errorlog,"M6309 unknown\n"));
-/*TODO*///				}
-/*TODO*///				break;
-/*TODO*///#endif
+                    case CPU_HD6309:
+                        switch (num) {
+                            case HD6309_INT_IRQ:
+                                irq_line = 0;
+                                break;
+                            case HD6309_INT_FIRQ:
+                                irq_line = 1;
+                                break;
+                            default:
+                                irq_line = 0;
+                        }
+                        break;
                     case CPU_M6809:
                         switch (num) {
                             case M6809_INT_IRQ:

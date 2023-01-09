@@ -124,6 +124,7 @@ import static arcadeflex.v036.drivers.troangel.*;
 import static arcadeflex.v036.drivers.yard.*;
 import static arcadeflex.v036.drivers.finalizr.*;
 import static arcadeflex.v036.drivers.hcastle.*;
+import static arcadeflex.v036.drivers.rockrage.*;
 
 public class driver {
 
@@ -1896,8 +1897,8 @@ public class driver {
                 /*TODO*///	driver_combascj,	/* GX611 (c) 1987 (Japan) */
                 /*TODO*///	driver_bootcamp,	/* GX611 (c) 1987 */
                 /*TODO*///	driver_combascb,	/* bootleg */
-                /*TODO*///	driver_rockrage,	/* GX620 (c) 1986 (World?) */
-                /*TODO*///	driver_rockragj,	/* GX620 (c) 1986 (Japan) */
+                driver_rockrage, /* GX620 (c) 1986 (World?) */
+                driver_rockragj, /* GX620 (c) 1986 (Japan) */
                 /*TODO*///	driver_mx5000,	/* GX669 (c) 1987 */
                 /*TODO*///	driver_flkatck,	/* GX669 (c) 1987 (Japan) */
                 /*TODO*///	driver_fastlane,	/* GX752 (c) 1987 */

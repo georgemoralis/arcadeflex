@@ -6,9 +6,7 @@ package gr.codebb.arcadeflex.v036.vidhrdw.konami;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 import static common.libc.cstring.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.osdependH.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;
