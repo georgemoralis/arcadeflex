@@ -1,59 +1,52 @@
-/**
- * *************************************************************************
- *
- * Vendetta (GX081) (c) 1991 Konami
- *
- * Preliminary driver by: Ernesto Corvi someone@secureshell.com
- *
- * Notes: - collision detection is handled by a protection chip. Its emulation
- * might not be 100% accurate.
- *
- **************************************************************************
- */
-
 /*
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v036.drivers;
+/**
+ * Changelog
+ * =========
+ * 09/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
+//cpu imports
+import static arcadeflex.v036.cpu.konami.konami.*;
+import static arcadeflex.v036.cpu.konami.konamiH.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//machine imports
+import static arcadeflex.v036.machine.eeprom.*;
+import static arcadeflex.v036.machine.eepromH.*;
+//mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.common.*;
-import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.mame.memory.*;
-import arcadeflex.v036.mame.sndintrfH.MachineSound;
-import static arcadeflex.v036.mame.sndintrfH.SOUND_YM2151;
-import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
-import static arcadeflex.v036.sound._2151intf.*;
-import static arcadeflex.v036.sound._2151intfH.*;
-import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.konami.K053247.*;
 import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
 import static arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.vendetta.*;
-import static gr.codebb.arcadeflex.v036.cpu.konami.konamiH.*;
-import static gr.codebb.arcadeflex.v036.machine.eeprom.*;
-import static gr.codebb.arcadeflex.v036.machine.eepromH.*;
-import static gr.codebb.arcadeflex.v036.cpu.konami.konami.*;
-import static arcadeflex.v036.mame.sndintrfH.SOUND_K053260;
-import static gr.codebb.arcadeflex.v036.vidhrdw.konami.K054000.*;
+import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
+import static arcadeflex.v036.sound._2151intf.*;
+import static arcadeflex.v036.sound._2151intfH.*;
+import static arcadeflex.v036.sound.mixerH.*;
 import static arcadeflex.v036.sound.k053260.*;
 import static arcadeflex.v036.sound.k053260H.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.vendetta.*;
+import static arcadeflex.v036.vidhrdw.konamiic.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v036.mame.memory.cpu_setbankhandler_r;
+import static gr.codebb.arcadeflex.v036.mame.memory.cpu_setbankhandler_w;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 
 public class vendetta {
 
@@ -443,7 +436,7 @@ public class vendetta {
             vendetta_vh_stop,
             vendetta_vh_screenrefresh,
             /* sound hardware */
-            SOUND_SUPPORTS_STEREO,0,0,0,
+            SOUND_SUPPORTS_STEREO, 0, 0, 0,
             new MachineSound[]{
                 new MachineSound(
                         SOUND_YM2151,

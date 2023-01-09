@@ -126,6 +126,7 @@ import static arcadeflex.v036.drivers.finalizr.*;
 import static arcadeflex.v036.drivers.hcastle.*;
 import static arcadeflex.v036.drivers.rockrage.*;
 import static arcadeflex.v036.drivers.simpsons.*;
+import static arcadeflex.v036.drivers.vendetta.*;
 
 public class driver {
 
@@ -1951,9 +1952,9 @@ public class driver {
                 driver_simpsons, /* GX072 (c) 1991 */
                 driver_simpsn2p, /* GX072 (c) 1991 */
                 driver_simps2pj, /* GX072 (c) 1991 (Japan) */
-                /*TODO*///	driver_vendetta,	/* GX081 (c) 1991 (Asia) */
-                /*TODO*///	driver_vendett2,	/* GX081 (c) 1991 (Asia) */
-                /*TODO*///	driver_vendettj,	/* GX081 (c) 1991 (Japan) */
+                driver_vendetta, /* GX081 (c) 1991 (Asia) */
+                driver_vendett2, /* GX081 (c) 1991 (Asia) */
+                driver_vendettj, /* GX081 (c) 1991 (Japan) */
                 /*TODO*///	driver_wecleman,	/* GX602 (c) 1986 */
                 /*TODO*///	driver_hotchase,	/* GX763 (c) 1988 */
                 /*TODO*///	driver_ultraman,	/* GX910 (c) 1991 Banpresto/Bandai */
