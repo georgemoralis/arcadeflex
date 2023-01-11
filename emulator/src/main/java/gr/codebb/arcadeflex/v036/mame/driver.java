@@ -51,8 +51,6 @@ import static gr.codebb.arcadeflex.v036.drivers.thunderx.*;
 import static gr.codebb.arcadeflex.v036.drivers.crimfght.*;
 import static gr.codebb.arcadeflex.v036.drivers.gbusters.*;
 import static gr.codebb.arcadeflex.v036.drivers.blockhl.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.surpratk.*;
-import static gr.codebb.arcadeflex.v036.drivers.rollerg.*;
 import static gr.codebb.arcadeflex.v036.drivers._88games.*;
 import static arcadeflex.v036.drivers.bottom9.*;
 import static gr.codebb.arcadeflex.v036.drivers.slapfght.*;
@@ -246,8 +244,6 @@ public class driver {
                 /*442*//*mitchell*/ driver_hatena,
                 /*443*//*mitchell*/ driver_spang,
                 /*444*//*mitchell*/ driver_sbbros,
-                /*445*//*rollerg*/ driver_rollerg,
-                /*446*//*rollerg*/ driver_rollergj,
                 /*447*//*raiden*/ driver_raiden,
                 /*448*//*raiden*/ driver_raidenk,
                 /*449*//*snowbros*/ driver_snowbros,
@@ -288,7 +284,6 @@ public class driver {
                 /*508*//*jackal*/ driver_jackal,
                 /*509*//*jackal*/ driver_topgunr,
                 /*510*//*jackal*/ driver_jackalj,
-                /*518*//*surpratk*/ driver_surpratk,
                 /*522*//*crimfght*/ driver_crimfght,
                 /*523*//*crimfght*/ driver_crimfgt2,
                 /*524*//*crimfght*/ driver_crimfgtj,

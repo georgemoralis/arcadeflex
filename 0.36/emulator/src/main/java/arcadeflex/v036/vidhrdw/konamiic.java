@@ -10,6 +10,7 @@ import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
+import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.mameH.*;
 import static arcadeflex.v036.mame.osdependH.*;
@@ -1832,35 +1833,35 @@ public class konamiic {
         K053244_rombank = bank;
     }
 
-    /*TODO*////*TODO*///
-/*TODO*////*TODO*////*
-/*TODO*////*TODO*/// * Sprite Format
-/*TODO*////*TODO*/// * ------------------
-/*TODO*////*TODO*/// *
-/*TODO*////*TODO*/// * Word | Bit(s)           | Use
-/*TODO*////*TODO*/// * -----+-fedcba9876543210-+----------------
-/*TODO*////*TODO*/// *   0  | x--------------- | active (show this sprite)
-/*TODO*////*TODO*/// *   0  | -x-------------- | maintain aspect ratio (when set, zoom y acts on both axis)
-/*TODO*////*TODO*/// *   0  | --x------------- | flip y
-/*TODO*////*TODO*/// *   0  | ---x------------ | flip x
-/*TODO*////*TODO*/// *   0  | ----xxxx-------- | sprite size (see below)
-/*TODO*////*TODO*/// *   0  | ---------xxxxxxx | priority order
-/*TODO*////*TODO*/// *   1  | --xxxxxxxxxxxxxx | sprite code. We use an additional bit in TMNT2, but this is
-/*TODO*////*TODO*/// *                           probably not accurate (protection related so we can't verify)
-/*TODO*////*TODO*/// *   2  | ------xxxxxxxxxx | y position
-/*TODO*////*TODO*/// *   3  | ------xxxxxxxxxx | x position
-/*TODO*////*TODO*/// *   4  | xxxxxxxxxxxxxxxx | zoom y (0x40 = normal, <0x40 = enlarge, >0x40 = reduce)
-/*TODO*////*TODO*/// *   5  | xxxxxxxxxxxxxxxx | zoom x (0x40 = normal, <0x40 = enlarge, >0x40 = reduce)
-/*TODO*////*TODO*/// *   6  | ------x--------- | mirror y (top half is drawn as mirror image of the bottom)
-/*TODO*////*TODO*/// *   6  | -------x-------- | mirror x (right half is drawn as mirror image of the left)
-/*TODO*////*TODO*/// *   6  | --------x------- | shadow
-/*TODO*////*TODO*/// *   6  | ---------xxxxxxx | "color", but depends on external connections
-/*TODO*////*TODO*/// *   7  | ---------------- |
-/*TODO*////*TODO*/// *
-/*TODO*////*TODO*/// * shadow enables transparent shadows. Note that it applies to pen 0x0f ONLY.
-/*TODO*////*TODO*/// * The rest of the sprite remains normal.
-/*TODO*////*TODO*/// */
-/*TODO*////*TODO*///
+    /*TODO*///
+/*TODO*////*
+/*TODO*/// * Sprite Format
+/*TODO*/// * ------------------
+/*TODO*/// *
+/*TODO*/// * Word | Bit(s)           | Use
+/*TODO*/// * -----+-fedcba9876543210-+----------------
+/*TODO*/// *   0  | x--------------- | active (show this sprite)
+/*TODO*/// *   0  | -x-------------- | maintain aspect ratio (when set, zoom y acts on both axis)
+/*TODO*/// *   0  | --x------------- | flip y
+/*TODO*/// *   0  | ---x------------ | flip x
+/*TODO*/// *   0  | ----xxxx-------- | sprite size (see below)
+/*TODO*/// *   0  | ---------xxxxxxx | priority order
+/*TODO*/// *   1  | --xxxxxxxxxxxxxx | sprite code. We use an additional bit in TMNT2, but this is
+/*TODO*/// *                           probably not accurate (protection related so we can't verify)
+/*TODO*/// *   2  | ------xxxxxxxxxx | y position
+/*TODO*/// *   3  | ------xxxxxxxxxx | x position
+/*TODO*/// *   4  | xxxxxxxxxxxxxxxx | zoom y (0x40 = normal, <0x40 = enlarge, >0x40 = reduce)
+/*TODO*/// *   5  | xxxxxxxxxxxxxxxx | zoom x (0x40 = normal, <0x40 = enlarge, >0x40 = reduce)
+/*TODO*/// *   6  | ------x--------- | mirror y (top half is drawn as mirror image of the bottom)
+/*TODO*/// *   6  | -------x-------- | mirror x (right half is drawn as mirror image of the left)
+/*TODO*/// *   6  | --------x------- | shadow
+/*TODO*/// *   6  | ---------xxxxxxx | "color", but depends on external connections
+/*TODO*/// *   7  | ---------------- |
+/*TODO*/// *
+/*TODO*/// * shadow enables transparent shadows. Note that it applies to pen 0x0f ONLY.
+/*TODO*/// * The rest of the sprite remains normal.
+/*TODO*/// */
+/*TODO*///
     public static void K053245_sprites_draw(osd_bitmap bitmap, int min_priority, int max_priority) {
         int NUM_SPRITES = 128;
         int offs, pri_code;
@@ -2692,523 +2693,504 @@ public class konamiic {
         return K053247_irq_enabled;
     }
 
-    /*TODO*///
-/*TODO*///
-/*TODO*///#define MAX_K051316 3
-/*TODO*///
-/*TODO*///static int K051316_memory_region[MAX_K051316];
-/*TODO*///static int K051316_gfxnum[MAX_K051316];
-/*TODO*///static int K051316_wraparound[MAX_K051316];
-/*TODO*///static int K051316_offset[MAX_K051316][2];
-/*TODO*///static int K051316_bpp[MAX_K051316];
-/*TODO*///static void (*K051316_callback[MAX_K051316])(int *code,int *color);
-/*TODO*///static unsigned char *K051316_ram[MAX_K051316];
-/*TODO*///static unsigned char K051316_ctrlram[MAX_K051316][16];
-/*TODO*///static struct tilemap *K051316_tilemap[MAX_K051316];
-/*TODO*///static int K051316_chip_selected;
-/*TODO*///
-/*TODO*///void K051316_vh_stop(int chip);
-/*TODO*///
-/*TODO*////***************************************************************************
-/*TODO*///
-/*TODO*///  Callbacks for the TileMap code
-/*TODO*///
-/*TODO*///***************************************************************************/
-/*TODO*///
-/*TODO*///static void K051316_preupdate(int chip)
-/*TODO*///{
-/*TODO*///	K051316_chip_selected = chip;
-/*TODO*///}
-/*TODO*///
-/*TODO*///static void K051316_get_tile_info(int col,int row)
-/*TODO*///{
-/*TODO*///	int tile_index = 32*row+col;
-/*TODO*///	int code = K051316_ram[K051316_chip_selected][tile_index];
-/*TODO*///	int color = K051316_ram[K051316_chip_selected][tile_index + 0x400];
-/*TODO*///
-/*TODO*///	(*K051316_callback[K051316_chip_selected])(&code,&color);
-/*TODO*///
-/*TODO*///	SET_TILE_INFO(K051316_gfxnum[K051316_chip_selected],code,color);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///int K051316_vh_start(int chip, int gfx_memory_region,int bpp,
-/*TODO*///		void (*callback)(int *code,int *color))
-/*TODO*///{
-/*TODO*///	int gfx_index;
-/*TODO*///
-/*TODO*///
-/*TODO*///	/* find first empty slot to decode gfx */
-/*TODO*///	for (gfx_index = 0; gfx_index < MAX_GFX_ELEMENTS; gfx_index++)
-/*TODO*///		if (Machine->gfx[gfx_index] == 0)
-/*TODO*///			break;
-/*TODO*///	if (gfx_index == MAX_GFX_ELEMENTS)
-/*TODO*///		return 1;
-/*TODO*///
-/*TODO*///	if (bpp == 4)
-/*TODO*///	{
-/*TODO*///		static struct GfxLayout charlayout =
-/*TODO*///		{
-/*TODO*///			16,16,
-/*TODO*///			0,				/* filled in later */
-/*TODO*///			4,
-/*TODO*///			{ 0, 1, 2, 3 },
-/*TODO*///			{ 0*4, 1*4, 2*4, 3*4, 4*4, 5*4, 6*4, 7*4,
-/*TODO*///					8*4, 9*4, 10*4, 11*4, 12*4, 13*4, 14*4, 15*4 },
-/*TODO*///			{ 0*64, 1*64, 2*64, 3*64, 4*64, 5*64, 6*64, 7*64,
-/*TODO*///					8*64, 9*64, 10*64, 11*64, 12*64, 13*64, 14*64, 15*64 },
-/*TODO*///			128*8
-/*TODO*///		};
-/*TODO*///
-/*TODO*///
-/*TODO*///		/* tweak the structure for the number of tiles we have */
-/*TODO*///		charlayout.total = memory_region_length(gfx_memory_region) / 128;
-/*TODO*///
-/*TODO*///		/* decode the graphics */
-/*TODO*///		Machine->gfx[gfx_index] = decodegfx(memory_region(gfx_memory_region),&charlayout);
-/*TODO*///	}
-/*TODO*///	else if (bpp == 7)
-/*TODO*///	{
-/*TODO*///		static struct GfxLayout charlayout =
-/*TODO*///		{
-/*TODO*///			16,16,
-/*TODO*///			0,				/* filled in later */
-/*TODO*///			7,
-/*TODO*///			{ 1, 2, 3, 4, 5, 6, 7 },
-/*TODO*///			{ 0*8, 1*8, 2*8, 3*8, 4*8, 5*8, 6*8, 7*8,
-/*TODO*///					8*8, 9*8, 10*8, 11*8, 12*8, 13*8, 14*8, 15*8 },
-/*TODO*///			{ 0*128, 1*128, 2*128, 3*128, 4*128, 5*128, 6*128, 7*128,
-/*TODO*///					8*128, 9*128, 10*128, 11*128, 12*128, 13*128, 14*128, 15*128 },
-/*TODO*///			256*8
-/*TODO*///		};
-/*TODO*///
-/*TODO*///
-/*TODO*///		/* tweak the structure for the number of tiles we have */
-/*TODO*///		charlayout.total = memory_region_length(gfx_memory_region) / 256;
-/*TODO*///
-/*TODO*///		/* decode the graphics */
-/*TODO*///		Machine->gfx[gfx_index] = decodegfx(memory_region(gfx_memory_region),&charlayout);
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///if (errorlog) fprintf(errorlog,"K051316_vh_start supports only 4 or 7 bpp\n");
-/*TODO*///		return 1;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if (!Machine->gfx[gfx_index])
-/*TODO*///		return 1;
-/*TODO*///
-/*TODO*///	/* set the color information */
-/*TODO*///	Machine->gfx[gfx_index]->colortable = Machine->remapped_colortable;
-/*TODO*///	Machine->gfx[gfx_index]->total_colors = Machine->drv->color_table_len / (1 << bpp);
-/*TODO*///
-/*TODO*///	K051316_memory_region[chip] = gfx_memory_region;
-/*TODO*///	K051316_gfxnum[chip] = gfx_index;
-/*TODO*///	K051316_bpp[chip] = bpp;
-/*TODO*///	K051316_callback[chip] = callback;
-/*TODO*///
-/*TODO*///	K051316_tilemap[chip] = tilemap_create(K051316_get_tile_info,TILEMAP_OPAQUE,16,16,32,32);
-/*TODO*///
-/*TODO*///	K051316_ram[chip] = malloc(0x800);
-/*TODO*///
-/*TODO*///	if (!K051316_ram[chip] || !K051316_tilemap[chip])
-/*TODO*///	{
-/*TODO*///		K051316_vh_stop(chip);
-/*TODO*///		return 1;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	tilemap_set_clip(K051316_tilemap[chip],0);
-/*TODO*///
-/*TODO*///	K051316_wraparound[chip] = 0;	/* default = no wraparound */
-/*TODO*///	K051316_offset[chip][0] = K051316_offset[chip][1] = 0;
-/*TODO*///
-/*TODO*///	return 0;
-/*TODO*///}
-/*TODO*///
-/*TODO*///int K051316_vh_start_0(int gfx_memory_region,int bpp,
-/*TODO*///		void (*callback)(int *code,int *color))
-/*TODO*///{
-/*TODO*///	return K051316_vh_start(0,gfx_memory_region,bpp,callback);
-/*TODO*///}
-/*TODO*///
-/*TODO*///int K051316_vh_start_1(int gfx_memory_region,int bpp,
-/*TODO*///		void (*callback)(int *code,int *color))
-/*TODO*///{
-/*TODO*///	return K051316_vh_start(1,gfx_memory_region,bpp,callback);
-/*TODO*///}
-/*TODO*///
-/*TODO*///int K051316_vh_start_2(int gfx_memory_region,int bpp,
-/*TODO*///		void (*callback)(int *code,int *color))
-/*TODO*///{
-/*TODO*///	return K051316_vh_start(2,gfx_memory_region,bpp,callback);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///void K051316_vh_stop(int chip)
-/*TODO*///{
-/*TODO*///	free(K051316_ram[chip]);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void K051316_vh_stop_0(void)
-/*TODO*///{
-/*TODO*///	K051316_vh_stop(0);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void K051316_vh_stop_1(void)
-/*TODO*///{
-/*TODO*///	K051316_vh_stop(1);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void K051316_vh_stop_2(void)
-/*TODO*///{
-/*TODO*///	K051316_vh_stop(2);
-/*TODO*///}
-/*TODO*///
-/*TODO*///int K051316_r(int chip, int offset)
-/*TODO*///{
-/*TODO*///	return K051316_ram[chip][offset];
-/*TODO*///}
-/*TODO*///
-/*TODO*///int K051316_0_r(int offset)
-/*TODO*///{
-/*TODO*///	return K051316_r(0, offset);
-/*TODO*///}
-/*TODO*///
-/*TODO*///int K051316_1_r(int offset)
-/*TODO*///{
-/*TODO*///	return K051316_r(1, offset);
-/*TODO*///}
-/*TODO*///
-/*TODO*///int K051316_2_r(int offset)
-/*TODO*///{
-/*TODO*///	return K051316_r(2, offset);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///void K051316_w(int chip,int offset,int data)
-/*TODO*///{
-/*TODO*///	if (K051316_ram[chip][offset] != data)
-/*TODO*///	{
-/*TODO*///		K051316_ram[chip][offset] = data;
-/*TODO*///		tilemap_mark_tile_dirty(K051316_tilemap[chip],offset%32,(offset%0x400)/32);
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///void K051316_0_w(int offset,int data)
-/*TODO*///{
-/*TODO*///	K051316_w(0,offset,data);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void K051316_1_w(int offset,int data)
-/*TODO*///{
-/*TODO*///	K051316_w(1,offset,data);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void K051316_2_w(int offset,int data)
-/*TODO*///{
-/*TODO*///	K051316_w(2,offset,data);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///int K051316_rom_r(int chip, int offset)
-/*TODO*///{
-/*TODO*///	if ((K051316_ctrlram[chip][0x0e] & 0x01) == 0)
-/*TODO*///	{
-/*TODO*///		int addr;
-/*TODO*///
-/*TODO*///		addr = offset + (K051316_ctrlram[chip][0x0c] << 11) + (K051316_ctrlram[chip][0x0d] << 19);
-/*TODO*///		if (K051316_bpp[chip] <= 4) addr /= 2;
-/*TODO*///		addr &= memory_region_length(K051316_memory_region[chip])-1;
-/*TODO*///
-/*TODO*///#if 0
-/*TODO*///	usrintf_showmessage("%04x: offset %04x addr %04x",cpu_get_pc(),offset,addr);
-/*TODO*///#endif
-/*TODO*///
-/*TODO*///		return memory_region(K051316_memory_region[chip])[addr];
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///if (errorlog) fprintf(errorlog,"%04x: read 051316 ROM offset %04x but reg 0x0c bit 0 not clear\n",cpu_get_pc(),offset);
-/*TODO*///		return 0;
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///
-/*TODO*///int K051316_rom_0_r(int offset)
-/*TODO*///{
-/*TODO*///	return K051316_rom_r(0,offset);
-/*TODO*///}
-/*TODO*///
-/*TODO*///int K051316_rom_1_r(int offset)
-/*TODO*///{
-/*TODO*///	return K051316_rom_r(1,offset);
-/*TODO*///}
-/*TODO*///
-/*TODO*///int K051316_rom_2_r(int offset)
-/*TODO*///{
-/*TODO*///	return K051316_rom_r(2,offset);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
-/*TODO*///void K051316_ctrl_w(int chip,int offset,int data)
-/*TODO*///{
-/*TODO*///	K051316_ctrlram[chip][offset] = data;
-/*TODO*///if (errorlog && offset >= 0x0c) fprintf(errorlog,"%04x: write %02x to 051316 reg %x\n",cpu_get_pc(),data,offset);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void K051316_ctrl_0_w(int offset,int data)
-/*TODO*///{
-/*TODO*///	K051316_ctrl_w(0,offset,data);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void K051316_ctrl_1_w(int offset,int data)
-/*TODO*///{
-/*TODO*///	K051316_ctrl_w(1,offset,data);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void K051316_ctrl_2_w(int offset,int data)
-/*TODO*///{
-/*TODO*///	K051316_ctrl_w(2,offset,data);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void K051316_wraparound_enable(int chip, int status)
-/*TODO*///{
-/*TODO*///	K051316_wraparound[chip] = status;
-/*TODO*///}
-/*TODO*///
-/*TODO*///void K051316_set_offset(int chip, int xoffs, int yoffs)
-/*TODO*///{
-/*TODO*///	K051316_offset[chip][0] = xoffs;
-/*TODO*///	K051316_offset[chip][1] = yoffs;
-/*TODO*///}
-/*TODO*///
-/*TODO*///void K051316_tilemap_update(int chip)
-/*TODO*///{
-/*TODO*///	K051316_preupdate(chip);
-/*TODO*///	tilemap_update(K051316_tilemap[chip]);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void K051316_tilemap_update_0(void)
-/*TODO*///{
-/*TODO*///	K051316_tilemap_update(0);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void K051316_tilemap_update_1(void)
-/*TODO*///{
-/*TODO*///	K051316_tilemap_update(1);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void K051316_tilemap_update_2(void)
-/*TODO*///{
-/*TODO*///	K051316_tilemap_update(2);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*////* Note: rotation support doesn't handle asymmetrical visible areas. This doesn't */
-/*TODO*////* matter because in the Konami games the visible area is always symmetrical. */
-/*TODO*///void K051316_zoom_draw(int chip, struct osd_bitmap *bitmap)
-/*TODO*///{
-/*TODO*///	UINT32 startx,starty,cx,cy;
-/*TODO*///	int incxx,incxy,incyx,incyy;
-/*TODO*///	int x,sx,sy,ex,ey;
-/*TODO*///	struct osd_bitmap *srcbitmap = K051316_tilemap[chip]->pixmap;
-/*TODO*///
-/*TODO*///	startx = 256 * ((INT16)(256 * K051316_ctrlram[chip][0x00] + K051316_ctrlram[chip][0x01]));
-/*TODO*///	incxx  =        (INT16)(256 * K051316_ctrlram[chip][0x02] + K051316_ctrlram[chip][0x03]);
-/*TODO*///	incyx  =        (INT16)(256 * K051316_ctrlram[chip][0x04] + K051316_ctrlram[chip][0x05]);
-/*TODO*///	starty = 256 * ((INT16)(256 * K051316_ctrlram[chip][0x06] + K051316_ctrlram[chip][0x07]));
-/*TODO*///	incxy  =        (INT16)(256 * K051316_ctrlram[chip][0x08] + K051316_ctrlram[chip][0x09]);
-/*TODO*///	incyy  =        (INT16)(256 * K051316_ctrlram[chip][0x0a] + K051316_ctrlram[chip][0x0b]);
-/*TODO*///
-/*TODO*///	startx += (Machine->drv->visible_area.min_y - (16 + K051316_offset[chip][1])) * incyx;
-/*TODO*///	starty += (Machine->drv->visible_area.min_y - (16 + K051316_offset[chip][1])) * incyy;
-/*TODO*///
-/*TODO*///	startx += (Machine->drv->visible_area.min_x - (89 + K051316_offset[chip][0])) * incxx;
-/*TODO*///	starty += (Machine->drv->visible_area.min_x - (89 + K051316_offset[chip][0])) * incxy;
-/*TODO*///
-/*TODO*///	sx = Machine->drv->visible_area.min_x;
-/*TODO*///	sy = Machine->drv->visible_area.min_y;
-/*TODO*///	ex = Machine->drv->visible_area.max_x;
-/*TODO*///	ey = Machine->drv->visible_area.max_y;
-/*TODO*///
-/*TODO*///	if (Machine->orientation & ORIENTATION_SWAP_XY)
-/*TODO*///	{
-/*TODO*///		int t;
-/*TODO*///
-/*TODO*///		t = startx; startx = starty; starty = t;
-/*TODO*///		t = sx; sx = sy; sy = t;
-/*TODO*///		t = ex; ex = ey; ey = t;
-/*TODO*///		t = incxx; incxx = incyy; incyy = t;
-/*TODO*///		t = incxy; incxy = incyx; incyx = t;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if (Machine->orientation & ORIENTATION_FLIP_X)
-/*TODO*///	{
-/*TODO*///		int w = ex - sx;
-/*TODO*///
-/*TODO*///		incxy = -incxy;
-/*TODO*///		incyx = -incyx;
-/*TODO*///		startx = 0xfffff - startx;
-/*TODO*///		startx -= incxx * w;
-/*TODO*///		starty -= incxy * w;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if (Machine->orientation & ORIENTATION_FLIP_Y)
-/*TODO*///	{
-/*TODO*///		int h = ey - sy;
-/*TODO*///
-/*TODO*///		incxy = -incxy;
-/*TODO*///		incyx = -incyx;
-/*TODO*///		starty = 0xfffff - starty;
-/*TODO*///		startx -= incyx * h;
-/*TODO*///		starty -= incyy * h;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	if (bitmap->depth == 8)
-/*TODO*///	{
-/*TODO*///		unsigned char *dest;
-/*TODO*///
-/*TODO*///		if (incxy == 0 && incyx == 0 && !K051316_wraparound[chip])
-/*TODO*///		{
-/*TODO*///			/* optimized loop for the not rotated case */
-/*TODO*///
-/*TODO*///			if (incxx == 0x800)
-/*TODO*///			{
-/*TODO*///				/* optimized loop for the not zoomed case */
-/*TODO*///
-/*TODO*///				/* startx is unsigned */
-/*TODO*///				startx = ((INT32)startx) >> 11;
-/*TODO*///
-/*TODO*///				if (startx >= 512)
-/*TODO*///				{
-/*TODO*///					sx += -startx;
-/*TODO*///					startx = 0;
-/*TODO*///				}
-/*TODO*///
-/*TODO*///				if (sx <= ex)
-/*TODO*///				{
-/*TODO*///					while (sy <= ey)
-/*TODO*///					{
-/*TODO*///						if ((starty & 0xfff00000) == 0)
-/*TODO*///						{
-/*TODO*///							x = sx;
-/*TODO*///							cx = startx;
-/*TODO*///							cy = starty >> 11;
-/*TODO*///							dest = &bitmap->line[sy][sx];
-/*TODO*///							while (x <= ex && cx < 512)
-/*TODO*///							{
-/*TODO*///								int c = srcbitmap->line[cy][cx];
-/*TODO*///
-/*TODO*///								if (c != palette_transparent_pen)
-/*TODO*///									*dest = c;
-/*TODO*///
-/*TODO*///								cx++;
-/*TODO*///								x++;
-/*TODO*///								dest++;
-/*TODO*///							}
-/*TODO*///						}
-/*TODO*///						starty += incyy;
-/*TODO*///						sy++;
-/*TODO*///					}
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				while ((startx & 0xfff00000) != 0 && sx <= ex)
-/*TODO*///				{
-/*TODO*///					startx += incxx;
-/*TODO*///					sx++;
-/*TODO*///				}
-/*TODO*///
-/*TODO*///				if ((startx & 0xfff00000) == 0)
-/*TODO*///				{
-/*TODO*///					while (sy <= ey)
-/*TODO*///					{
-/*TODO*///						if ((starty & 0xfff00000) == 0)
-/*TODO*///						{
-/*TODO*///							x = sx;
-/*TODO*///							cx = startx;
-/*TODO*///							cy = starty >> 11;
-/*TODO*///							dest = &bitmap->line[sy][sx];
-/*TODO*///							while (x <= ex && (cx & 0xfff00000) == 0)
-/*TODO*///							{
-/*TODO*///								int c = srcbitmap->line[cy][cx >> 11];
-/*TODO*///
-/*TODO*///								if (c != palette_transparent_pen)
-/*TODO*///									*dest = c;
-/*TODO*///
-/*TODO*///								cx += incxx;
-/*TODO*///								x++;
-/*TODO*///								dest++;
-/*TODO*///							}
-/*TODO*///						}
-/*TODO*///						starty += incyy;
-/*TODO*///						sy++;
-/*TODO*///					}
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///		else
-/*TODO*///		{
-/*TODO*///			if (K051316_wraparound[chip])
-/*TODO*///			{
-/*TODO*///				/* plot with wraparound */
-/*TODO*///				while (sy <= ey)
-/*TODO*///				{
-/*TODO*///					x = sx;
-/*TODO*///					cx = startx;
-/*TODO*///					cy = starty;
-/*TODO*///					dest = &bitmap->line[sy][sx];
-/*TODO*///					while (x <= ex)
-/*TODO*///					{
-/*TODO*///						int c = srcbitmap->line[(cy >> 11) & 0x1ff][(cx >> 11) & 0x1ff];
-/*TODO*///
-/*TODO*///						if (c != palette_transparent_pen)
-/*TODO*///							*dest = c;
-/*TODO*///
-/*TODO*///						cx += incxx;
-/*TODO*///						cy += incxy;
-/*TODO*///						x++;
-/*TODO*///						dest++;
-/*TODO*///					}
-/*TODO*///					startx += incyx;
-/*TODO*///					starty += incyy;
-/*TODO*///					sy++;
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///			else
-/*TODO*///			{
-/*TODO*///				while (sy <= ey)
-/*TODO*///				{
-/*TODO*///					x = sx;
-/*TODO*///					cx = startx;
-/*TODO*///					cy = starty;
-/*TODO*///					dest = &bitmap->line[sy][sx];
-/*TODO*///					while (x <= ex)
-/*TODO*///					{
-/*TODO*///						if ((cx & 0xfff00000) == 0 && (cy & 0xfff00000) == 0)
-/*TODO*///						{
-/*TODO*///							int c = srcbitmap->line[cy >> 11][cx >> 11];
-/*TODO*///
-/*TODO*///							if (c != palette_transparent_pen)
-/*TODO*///								*dest = c;
-/*TODO*///						}
-/*TODO*///
-/*TODO*///						cx += incxx;
-/*TODO*///						cy += incxy;
-/*TODO*///						x++;
-/*TODO*///						dest++;
-/*TODO*///					}
-/*TODO*///					startx += incyx;
-/*TODO*///					starty += incyy;
-/*TODO*///					sy++;
-/*TODO*///				}
-/*TODO*///			}
-/*TODO*///		}
-/*TODO*///	}
-/*TODO*///	else
-/*TODO*///	{
-/*TODO*///		/* 16-bit case */
+    public static abstract interface K051316_callbackProcPtr {
+
+        public abstract void handler(int[] code, int[] color);
+    }
+    public static int[] K051316_memory_region = new int[3];
+    static int[] K051316_gfxnum = new int[3];
+    static int[] K051316_wraparound = new int[3];
+    static int[][] K051316_offset = new int[3][];
+    static int[] K051316_bpp = new int[3];
+    static K051316_callbackProcPtr[] K051316_callback = new K051316_callbackProcPtr[3];//static void (*K051316_callback[MAX_K051316])(int *code,int *color);
+    static UBytePtr[] K051316_ram = new UBytePtr[3];
+    static char[][] K051316_ctrlram = new char[3][];
+    static tilemap[] K051316_tilemap = new tilemap[3];
+    static int K051316_chip_selected;
+
+    static {
+        for (int i = 0; i < 3; i++) {
+            K051316_offset[i] = new int[2];
+        }
+        for (int i = 0; i < 3; i++) {
+            K051316_ctrlram[i] = new char[16];
+        }
+
+    }
+
+    /**
+     * *************************************************************************
+     *
+     * Callbacks for the TileMap code
+     *
+     **************************************************************************
+     */
+    public static void K051316_preupdate(int chip) {
+        K051316_chip_selected = chip;
+    }
+
+    public static WriteHandlerPtr K051316_get_tile_info = new WriteHandlerPtr() {
+        public void handler(int col, int row) {
+            int tile_index = 32 * row + col;
+            int[] code = new int[1];
+            int[] color = new int[1];
+            code[0] = K051316_ram[K051316_chip_selected].read(tile_index);
+            color[0] = K051316_ram[K051316_chip_selected].read(tile_index + 0x400);
+
+            K051316_callback[K051316_chip_selected].handler(code, color);//(*K051316_callback[K051316_chip_selected])(&code,&color);
+
+            SET_TILE_INFO(K051316_gfxnum[K051316_chip_selected], code[0], color[0]);
+        }
+    };
+
+    public static int K051316_vh_start(int chip, int gfx_memory_region, int bpp, K051316_callbackProcPtr callback) {
+        int gfx_index;
+
+
+        /* find first empty slot to decode gfx */
+        for (gfx_index = 0; gfx_index < MAX_GFX_ELEMENTS; gfx_index++) {
+            if (Machine.gfx[gfx_index] == null) {
+                break;
+            }
+        }
+        if (gfx_index == MAX_GFX_ELEMENTS) {
+            return 1;
+        }
+
+        if (bpp == 4) {
+            GfxLayout charlayout = new GfxLayout(
+                    16, 16,
+                    0, /* filled in later */
+                    4,
+                    new int[]{0, 1, 2, 3},
+                    new int[]{0 * 4, 1 * 4, 2 * 4, 3 * 4, 4 * 4, 5 * 4, 6 * 4, 7 * 4,
+                        8 * 4, 9 * 4, 10 * 4, 11 * 4, 12 * 4, 13 * 4, 14 * 4, 15 * 4},
+                    new int[]{0 * 64, 1 * 64, 2 * 64, 3 * 64, 4 * 64, 5 * 64, 6 * 64, 7 * 64,
+                        8 * 64, 9 * 64, 10 * 64, 11 * 64, 12 * 64, 13 * 64, 14 * 64, 15 * 64},
+                    128 * 8
+            );
+
+
+            /* tweak the structure for the number of tiles we have */
+            charlayout.total = memory_region_length(gfx_memory_region) / 128;
+
+            /* decode the graphics */
+            Machine.gfx[gfx_index] = decodegfx(memory_region(gfx_memory_region), charlayout);
+        } else if (bpp == 7) {
+            GfxLayout charlayout = new GfxLayout(
+                    16, 16,
+                    0, /* filled in later */
+                    7,
+                    new int[]{1, 2, 3, 4, 5, 6, 7},
+                    new int[]{0 * 8, 1 * 8, 2 * 8, 3 * 8, 4 * 8, 5 * 8, 6 * 8, 7 * 8,
+                        8 * 8, 9 * 8, 10 * 8, 11 * 8, 12 * 8, 13 * 8, 14 * 8, 15 * 8},
+                    new int[]{0 * 128, 1 * 128, 2 * 128, 3 * 128, 4 * 128, 5 * 128, 6 * 128, 7 * 128,
+                        8 * 128, 9 * 128, 10 * 128, 11 * 128, 12 * 128, 13 * 128, 14 * 128, 15 * 128},
+                    256 * 8
+            );
+
+
+            /* tweak the structure for the number of tiles we have */
+            charlayout.total = memory_region_length(gfx_memory_region) / 256;
+
+            /* decode the graphics */
+            Machine.gfx[gfx_index] = decodegfx(memory_region(gfx_memory_region), charlayout);
+        } else {
+            if (errorlog != null) {
+                fprintf(errorlog, "K051316_vh_start supports only 4 or 7 bpp\n");
+            }
+            return 1;
+        }
+
+        if (Machine.gfx[gfx_index] == null) {
+            return 1;
+        }
+
+        /* set the color information */
+        Machine.gfx[gfx_index].colortable = new UShortArray(Machine.remapped_colortable);
+        Machine.gfx[gfx_index].total_colors = Machine.drv.color_table_len / (1 << bpp);
+
+        K051316_memory_region[chip] = gfx_memory_region;
+        K051316_gfxnum[chip] = gfx_index;
+        K051316_bpp[chip] = bpp;
+        K051316_callback[chip] = callback;
+
+        K051316_tilemap[chip] = tilemap_create(K051316_get_tile_info, TILEMAP_OPAQUE, 16, 16, 32, 32);
+
+        K051316_ram[chip] = new UBytePtr(0x800);
+
+        if (K051316_ram[chip] == null || K051316_tilemap[chip] == null) {
+            K051316_vh_stop(chip);
+            return 1;
+        }
+
+        tilemap_set_clip(K051316_tilemap[chip], null);
+
+        K051316_wraparound[chip] = 0;
+        /* default = no wraparound */
+
+        K051316_offset[chip][0] = K051316_offset[chip][1] = 0;
+
+        return 0;
+    }
+
+    public static int K051316_vh_start_0(int gfx_memory_region, int bpp,
+            K051316_callbackProcPtr callback) {
+        return K051316_vh_start(0, gfx_memory_region, bpp, callback);
+    }
+
+    public static int K051316_vh_start_1(int gfx_memory_region, int bpp,
+            K051316_callbackProcPtr callback) {
+        return K051316_vh_start(1, gfx_memory_region, bpp, callback);
+    }
+
+    public static int K051316_vh_start_2(int gfx_memory_region, int bpp,
+            K051316_callbackProcPtr callback) {
+        return K051316_vh_start(2, gfx_memory_region, bpp, callback);
+    }
+
+    public static void K051316_vh_stop(int chip) {
+        K051316_ram[chip] = null;
+    }
+
+    public static void K051316_vh_stop_0() {
+        K051316_vh_stop(0);
+    }
+
+    public static void K051316_vh_stop_1() {
+        K051316_vh_stop(1);
+    }
+
+    public static void K051316_vh_stop_2() {
+        K051316_vh_stop(2);
+    }
+
+    public static int K051316_r(int chip, int offset) {
+        return K051316_ram[chip].read(offset);
+    }
+
+    public static ReadHandlerPtr K051316_0_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            return K051316_r(0, offset);
+        }
+    };
+
+    public static ReadHandlerPtr K051316_1_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            return K051316_r(1, offset);
+        }
+    };
+
+    public static ReadHandlerPtr K051316_2_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            return K051316_r(2, offset);
+        }
+    };
+
+    public static void K051316_w(int chip, int offset, int data) {
+        if (K051316_ram[chip].read(offset) != data) {
+            K051316_ram[chip].write(offset, data);
+            tilemap_mark_tile_dirty(K051316_tilemap[chip], offset % 32, (offset % 0x400) / 32);
+        }
+    }
+
+    public static WriteHandlerPtr K051316_0_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            K051316_w(0, offset, data);
+        }
+    };
+
+    public static WriteHandlerPtr K051316_1_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            K051316_w(1, offset, data);
+        }
+    };
+
+    public static WriteHandlerPtr K051316_2_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            K051316_w(2, offset, data);
+        }
+    };
+
+    public static int K051316_rom_r(int chip, int offset) {
+        if ((K051316_ctrlram[chip][0x0e] & 0x01) == 0) {
+            int addr;
+
+            addr = offset + (K051316_ctrlram[chip][0x0c] << 11) + (K051316_ctrlram[chip][0x0d] << 19);
+            if (K051316_bpp[chip] <= 4) {
+                addr /= 2;
+            }
+            addr &= memory_region_length(K051316_memory_region[chip]) - 1;
+
+            /* #if 0
+             usrintf_showmessage("%04x: offset %04x addr %04x",cpu_get_pc(),offset,addr);
+             #endif*/
+            return memory_region(K051316_memory_region[chip]).read(addr);
+        } else {
+            if (errorlog != null) {
+                fprintf(errorlog, "%04x: read 051316 ROM offset %04x but reg 0x0c bit 0 not clear\n", cpu_get_pc(), offset);
+            }
+            return 0;
+        }
+    }
+
+    public static ReadHandlerPtr K051316_rom_0_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            return K051316_rom_r(0, offset);
+        }
+    };
+
+    public static ReadHandlerPtr K051316_rom_1_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            return K051316_rom_r(1, offset);
+        }
+    };
+
+    public static ReadHandlerPtr K051316_rom_2_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            return K051316_rom_r(2, offset);
+        }
+    };
+
+    public static void K051316_ctrl_w(int chip, int offset, int data) {
+        K051316_ctrlram[chip][offset] = (char) (data & 0xFF);
+        if (errorlog != null && offset >= 0x0c) {
+            fprintf(errorlog, "%04x: write %02x to 051316 reg %x\n", cpu_get_pc(), data, offset);
+        }
+    }
+
+    public static WriteHandlerPtr K051316_ctrl_0_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            K051316_ctrl_w(0, offset, data);
+        }
+    };
+
+    public static WriteHandlerPtr K051316_ctrl_1_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            K051316_ctrl_w(1, offset, data);
+        }
+    };
+
+    public static WriteHandlerPtr K051316_ctrl_2_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            K051316_ctrl_w(2, offset, data);
+        }
+    };
+
+    public static void K051316_wraparound_enable(int chip, int status) {
+        K051316_wraparound[chip] = status;
+    }
+
+    public static void K051316_set_offset(int chip, int xoffs, int yoffs) {
+        K051316_offset[chip][0] = xoffs;
+        K051316_offset[chip][1] = yoffs;
+    }
+
+    public static void K051316_tilemap_update(int chip) {
+        K051316_preupdate(chip);
+        tilemap_update(K051316_tilemap[chip]);
+    }
+
+    public static void K051316_tilemap_update_0() {
+        K051316_tilemap_update(0);
+    }
+
+    public static void K051316_tilemap_update_1() {
+        K051316_tilemap_update(1);
+    }
+
+    public static void K051316_tilemap_update_2() {
+        K051316_tilemap_update(2);
+    }
+
+
+    /* Note: rotation support doesn't handle asymmetrical visible areas. This doesn't */
+ /* matter because in the Konami games the visible area is always symmetrical. */
+    public static void K051316_zoom_draw(int chip, osd_bitmap bitmap) {
+        /*UINT32*/
+        long startx, starty, cx, cy;
+        int incxx, incxy, incyx, incyy;
+        int x, sx, sy, ex, ey;
+        osd_bitmap srcbitmap = K051316_tilemap[chip].pixmap;
+
+        startx = ((256 * ((short) (256 * K051316_ctrlram[chip][0x00] + K051316_ctrlram[chip][0x01])))) & 0xFFFFFFFFL;
+        incxx = (short) (256 * K051316_ctrlram[chip][0x02] + K051316_ctrlram[chip][0x03]);
+        incyx = (short) (256 * K051316_ctrlram[chip][0x04] + K051316_ctrlram[chip][0x05]);
+        starty = ((256 * ((short) (256 * K051316_ctrlram[chip][0x06] + K051316_ctrlram[chip][0x07])))) & 0xFFFFFFFFL;
+        incxy = (short) (256 * K051316_ctrlram[chip][0x08] + K051316_ctrlram[chip][0x09]);
+        incyy = (short) (256 * K051316_ctrlram[chip][0x0a] + K051316_ctrlram[chip][0x0b]);
+
+        startx = (startx + ((Machine.drv.visible_area.min_y - (16 + K051316_offset[chip][1])) * incyx)) & 0xFFFFFFFFL;
+        starty = (starty + ((Machine.drv.visible_area.min_y - (16 + K051316_offset[chip][1])) * incyy)) & 0xFFFFFFFFL;
+
+        startx = (startx + ((Machine.drv.visible_area.min_x - (89 + K051316_offset[chip][0])) * incxx)) & 0xFFFFFFFFL;
+        starty = (starty + ((Machine.drv.visible_area.min_x - (89 + K051316_offset[chip][0])) * incxy)) & 0xFFFFFFFFL;
+
+        sx = Machine.drv.visible_area.min_x;
+        sy = Machine.drv.visible_area.min_y;
+        ex = Machine.drv.visible_area.max_x;
+        ey = Machine.drv.visible_area.max_y;
+
+        if ((Machine.orientation & ORIENTATION_SWAP_XY) != 0) {
+            int t;
+
+            t = (int) startx;
+            startx = starty;
+            starty = t & 0xFFFFFFFFL;
+            t = sx;
+            sx = sy;
+            sy = t;
+            t = ex;
+            ex = ey;
+            ey = t;
+            t = incxx;
+            incxx = incyy;
+            incyy = t;
+            t = incxy;
+            incxy = incyx;
+            incyx = t;
+        }
+
+        if ((Machine.orientation & ORIENTATION_FLIP_X) != 0) {
+            int w = ex - sx;
+
+            incxy = -incxy;
+            incyx = -incyx;
+            startx = 0xfffff - startx;
+            startx = (startx - (incxx * w)) & 0xFFFFFFFFL;
+            starty = (starty - (incxy * w)) & 0xFFFFFFFFL;
+        }
+
+        if ((Machine.orientation & ORIENTATION_FLIP_Y) != 0) {
+            int h = ey - sy;
+
+            incxy = -incxy;
+            incyx = -incyx;
+            starty = 0xfffff - starty;
+            startx = (startx - (incyx * h)) & 0xFFFFFFFFL;
+            starty = (starty - (incyy * h)) & 0xFFFFFFFFL;
+        }
+
+        if (bitmap.depth == 8) {
+            UBytePtr dest;
+
+            if (incxy == 0 && incyx == 0 && K051316_wraparound[chip] == 0) {
+                /* optimized loop for the not rotated case */
+
+                if (incxx == 0x800) {
+                    /* optimized loop for the not zoomed case */
+
+ /* startx is unsigned */
+                    startx = (((int) startx) >>> 11) & 0xFFFFFFFFL;
+
+                    if (startx >= 512) {
+                        sx += -startx;
+                        startx = 0;
+                    }
+
+                    if (sx <= ex) {
+                        while (sy <= ey) {
+                            if ((starty & 0xfff00000) == 0) {
+                                x = sx;
+                                cx = startx;
+                                cy = (starty >>> 11) & 0xFFFFFFFFL;
+                                dest = new UBytePtr(bitmap.line[sy], sx);
+                                while (x <= ex && cx < 512) {
+                                    int c = srcbitmap.line[(int) cy].read((int) cx);
+
+                                    if (c != palette_transparent_pen) {
+                                        dest.write(0, c & 0xFF);//*dest = c; ????
+                                    }
+                                    cx = (cx + 1) & 0xFFFFFFFFL;
+                                    x++;
+                                    dest.offset++;
+                                }
+                            }
+                            starty = (starty + incyy) & 0xFFFFFFFFL;
+                            sy++;
+                        }
+                    }
+                } else {
+                    while ((startx & 0xfff00000) != 0 && sx <= ex) {
+                        startx = (startx + incxx) & 0xFFFFFFFFL;
+                        sx++;
+                    }
+
+                    if ((startx & 0xfff00000) == 0) {
+                        while (sy <= ey) {
+                            if ((starty & 0xfff00000) == 0) {
+                                x = sx;
+                                cx = startx;
+                                cy = (starty >>> 11) & 0xFFFFFFFFL;
+                                dest = new UBytePtr(bitmap.line[sy], sx);
+                                while (x <= ex && (cx & 0xfff00000) == 0) {
+                                    int c = srcbitmap.line[(int) cy].read((int) cx >> 11);
+
+                                    if (c != palette_transparent_pen) {
+                                        dest.write(0, c & 0xFF);//*dest = c;
+                                    }
+                                    cx = (cx + incxx) & 0xFFFFFFFFL;
+                                    x++;
+                                    dest.offset++;
+                                }
+                            }
+                            starty = (starty + incyy) & 0xFFFFFFFFL;
+                            sy++;
+                        }
+                    }
+                }
+            } else {
+                if (K051316_wraparound[chip] != 0) {
+                    /* plot with wraparound */
+                    while (sy <= ey) {
+                        x = sx;
+                        cx = startx;
+                        cy = starty;
+                        dest = new UBytePtr(bitmap.line[sy], sx);
+                        while (x <= ex) {
+                            int c = srcbitmap.line[((int) cy >>> 11) & 0x1ff].read(((int) cx >>> 11) & 0x1ff);
+
+                            if (c != palette_transparent_pen) {
+                                dest.write(0, c & 0xFF);//*dest = c;
+                            }
+                            cx = (cx + incxx) & 0xFFFFFFFFL;
+                            cy = (cy + incxy) & 0xFFFFFFFFL;
+                            x++;
+                            dest.offset++;
+                        }
+                        startx = (startx + incyx) & 0xFFFFFFFFL;
+                        starty = (starty + incyy) & 0xFFFFFFFFL;
+                        sy++;
+                    }
+                } else {
+                    while (sy <= ey) {
+                        x = sx;
+                        cx = startx;
+                        cy = starty;
+                        dest = new UBytePtr(bitmap.line[sy], sx);
+                        while (x <= ex) {
+                            if ((cx & 0xfff00000) == 0 && (cy & 0xfff00000) == 0) {
+                                int c = srcbitmap.line[(int) cy >> 11].read((int) cx >> 11);
+
+                                if (c != palette_transparent_pen) {
+                                    dest.write(0, c & 0xFF);//*dest = c;
+                                }
+                            }
+
+                            cx = (cx + incxx) & 0xFFFFFFFFL;
+                            cy = (cy + incxy) & 0xFFFFFFFFL;
+                            x++;
+                            dest.offset++;
+                        }
+                        startx = (startx + incyx) & 0xFFFFFFFFL;
+                        starty = (starty + incyy) & 0xFFFFFFFFL;
+                        sy++;
+                    }
+                }
+            }
+        } else {
+            throw new UnsupportedOperationException("Unsupported");
+            /*TODO*///		/* 16-bit case */
 /*TODO*///
 /*TODO*///		unsigned short *dest;
 /*TODO*///
@@ -3349,8 +3331,8 @@ public class konamiic {
 /*TODO*///				}
 /*TODO*///			}
 /*TODO*///		}
-/*TODO*///	}
-/*TODO*///#if 0
+        }
+        /*TODO*///#if 0
 /*TODO*///	usrintf_showmessage("%02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x",
 /*TODO*///			K051316_ctrlram[chip][0x00],
 /*TODO*///			K051316_ctrlram[chip][0x01],
@@ -3369,25 +3351,20 @@ public class konamiic {
 /*TODO*///			K051316_ctrlram[chip][0x0e],	/* 0 = test ROMs */
 /*TODO*///			K051316_ctrlram[chip][0x0f]);
 /*TODO*///#endif
-/*TODO*///}
-/*TODO*///
-/*TODO*///void K051316_zoom_draw_0(struct osd_bitmap *bitmap)
-/*TODO*///{
-/*TODO*///	K051316_zoom_draw(0, bitmap);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void K051316_zoom_draw_1(struct osd_bitmap *bitmap)
-/*TODO*///{
-/*TODO*///	K051316_zoom_draw(1, bitmap);
-/*TODO*///}
-/*TODO*///
-/*TODO*///void K051316_zoom_draw_2(struct osd_bitmap *bitmap)
-/*TODO*///{
-/*TODO*///	K051316_zoom_draw(2, bitmap);
-/*TODO*///}
-/*TODO*///
-/*TODO*///
-/*TODO*///
+    }
+
+    public static void K051316_zoom_draw_0(osd_bitmap bitmap) {
+        K051316_zoom_draw(0, bitmap);
+    }
+
+    public static void K051316_zoom_draw_1(osd_bitmap bitmap) {
+        K051316_zoom_draw(1, bitmap);
+    }
+
+    public static void K051316_zoom_draw_2(osd_bitmap bitmap) {
+        K051316_zoom_draw(2, bitmap);
+    }
+
     static /*unsigned*/ char[] K053251_ram = new char[16];
     static int[] K053251_palette_index = new int[5];
 

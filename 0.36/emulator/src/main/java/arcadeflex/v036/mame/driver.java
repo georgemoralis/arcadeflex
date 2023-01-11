@@ -131,6 +131,7 @@ import static arcadeflex.v036.drivers.battlnts.*;
 import static arcadeflex.v036.drivers.flkatck.*;
 import static arcadeflex.v036.drivers.aliens.*;
 import static arcadeflex.v036.drivers.surpratk.*;
+import static arcadeflex.v036.drivers.rollerg.*;
 
 public class driver {
 
@@ -1948,10 +1949,10 @@ public class driver {
                 driver_aliens2, /* GX875 (c) 1990 (World) */
                 driver_aliensu, /* GX875 (c) 1990 (US) */
                 driver_aliensj, /* GX875 (c) 1990 (Japan) */
-                driver_surpratk,	/* GX911 (c) 1990 (Japan) */
+                driver_surpratk, /* GX911 (c) 1990 (Japan) */
                 /*TODO*///	driver_parodius,	/* GX955 (c) 1990 (Japan) */
-                /*TODO*///	driver_rollerg,	/* GX999 (c) 1991 (US) */
-                /*TODO*///	driver_rollergj,	/* GX999 (c) 1991 (Japan) */
+                driver_rollerg, /* GX999 (c) 1991 (US) */
+                driver_rollergj, /* GX999 (c) 1991 (Japan) */
                 /*TODO*////*TESTDRIVER*/driver_xexex,		/* GX067 (c) 1991 */
                 driver_simpsons, /* GX072 (c) 1991 */
                 driver_simpsn2p, /* GX072 (c) 1991 */
