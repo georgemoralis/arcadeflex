@@ -2,29 +2,34 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v036.drivers;
+/**
+ * Changelog
+ * =========
+ * 10/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
+//cpu imports
+import static arcadeflex.v036.cpu.m6809.m6809H.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
 import static arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.konami.K007342.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.konami.K007420.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.battlnts.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.konamiic.*;
+import static arcadeflex.v036.vidhrdw.battlnts.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
 
@@ -122,7 +127,8 @@ public class battlnts {
      */
     static InputPortHandlerPtr input_ports_battlnts = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* DSW #1 */
+            PORT_START();
+            /* DSW #1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x02, DEF_STR("4C_1C"));
@@ -159,7 +165,8 @@ public class battlnts {
             PORT_DIPSETTING(0x90, DEF_STR("1C_7C"));
             //	PORT_DIPSETTING(    0x00, "Invalid" );
 
-            PORT_START(); 	/* DSW #2 */
+            PORT_START();
+            /* DSW #2 */
 
             PORT_DIPNAME(0x03, 0x02, DEF_STR("Lives"));
             PORT_DIPSETTING(0x03, "2");
@@ -183,7 +190,8 @@ public class battlnts {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	/* COINSW */
+            PORT_START();
+            /* COINSW */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -198,7 +206,8 @@ public class battlnts {
             PORT_DIPSETTING(0x00, "Dual");
             PORT_SERVICE(0x80, IP_ACTIVE_LOW);
 
-            PORT_START(); 	/* PLAYER 1 INPUTS */
+            PORT_START();
+            /* PLAYER 1 INPUTS */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER1);
@@ -211,7 +220,8 @@ public class battlnts {
             PORT_DIPSETTING(0x80, "3");
             PORT_DIPSETTING(0x00, "5");
 
-            PORT_START(); 	/* PLAYER 2 INPUTS */
+            PORT_START();
+            /* PLAYER 2 INPUTS */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2);
@@ -227,7 +237,8 @@ public class battlnts {
 
     static InputPortHandlerPtr input_ports_thehustj = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* DSW #1 */
+            PORT_START();
+            /* DSW #1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x02, DEF_STR("4C_1C"));
@@ -264,7 +275,8 @@ public class battlnts {
             PORT_DIPSETTING(0x90, DEF_STR("1C_7C"));
             //	PORT_DIPSETTING(    0x00, "Invalid" );
 
-            PORT_START(); 	/* DSW #2 */
+            PORT_START();
+            /* DSW #2 */
 
             PORT_DIPNAME(0x03, 0x02, "Balls");
             PORT_DIPSETTING(0x03, "1");
@@ -289,7 +301,8 @@ public class battlnts {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	/* COINSW */
+            PORT_START();
+            /* COINSW */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -304,7 +317,8 @@ public class battlnts {
             PORT_DIPSETTING(0x00, DEF_STR("On"));
             PORT_SERVICE(0x80, IP_ACTIVE_LOW);
 
-            PORT_START(); 	/* PLAYER 1 INPUTS */
+            PORT_START();
+            /* PLAYER 1 INPUTS */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER1);
@@ -317,7 +331,8 @@ public class battlnts {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	/* PLAYER 2 INPUTS */
+            PORT_START();
+            /* PLAYER 2 INPUTS */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_PLAYER2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_PLAYER2);

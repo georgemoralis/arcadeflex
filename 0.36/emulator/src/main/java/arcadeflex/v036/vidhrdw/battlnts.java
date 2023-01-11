@@ -1,20 +1,23 @@
 /*
  * ported to v0.36
  * using automatic conversion tool v0.10
- *
- *
- *
  */
-package gr.codebb.arcadeflex.v036.vidhrdw;
+/**
+ * Changelog
+ * =========
+ * 10/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.vidhrdw;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static arcadeflex.v036.mame.driverH.*;
+//mame imports
 import static arcadeflex.v036.mame.osdependH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.konamiic.*;
+//TODO
 import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.konami.K007342.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.konami.K007420.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 
 public class battlnts {

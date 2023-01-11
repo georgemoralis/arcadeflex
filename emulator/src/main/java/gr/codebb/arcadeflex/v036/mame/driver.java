@@ -24,7 +24,6 @@ import static gr.codebb.arcadeflex.v036.drivers.copsnrob.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.pcktgal.*;
 import static arcadeflex.v036.drivers.bogeyman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.scregg.*;
-import static gr.codebb.arcadeflex.v036.drivers.battlnts.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.spy.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.gsword.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jrpacman.*;
@@ -45,12 +44,10 @@ import static gr.codebb.arcadeflex.v036.drivers.exprraid.*;
 import static gr.codebb.arcadeflex.v036.drivers.matmania.*;
 import static gr.codebb.arcadeflex.v036.drivers.renegade.*;
 import static gr.codebb.arcadeflex.v036.drivers.hyperspt.*;
-import static gr.codebb.arcadeflex.v036.drivers.flkatck.*;
 import static gr.codebb.arcadeflex.v036.drivers.lkage.*;
 import static gr.codebb.arcadeflex.v036.drivers.mainevt.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bladestl.*;
 import static gr.codebb.arcadeflex.v036.drivers.thunderx.*;
-import static arcadeflex.v036.drivers.aliens.*;
 import static gr.codebb.arcadeflex.v036.drivers.crimfght.*;
 import static gr.codebb.arcadeflex.v036.drivers.gbusters.*;
 import static gr.codebb.arcadeflex.v036.drivers.blockhl.*;
@@ -211,10 +208,6 @@ public class driver {
                 /*169*//*system1*/ driver_wbdeluxe,
                 /*170*//*system1*/ driver_wbml,
                 /*171*//*system1*/ driver_wbmlju,
-                /*192*//*battlnts*/ driver_battlnts,
-                /*193*//*battlnts*/ driver_battlntj,
-                /*230*//*battlnts*/ driver_thehustl,
-                /*231*//*battlnts*/ driver_thehustj,
                 /*274*//*pcktgal*/ driver_pcktgal,
                 /*275*//*pcktgal*/ driver_pcktgalb,
                 /*276*//*pcktgal*/ driver_pcktgal2,
@@ -295,10 +288,6 @@ public class driver {
                 /*508*//*jackal*/ driver_jackal,
                 /*509*//*jackal*/ driver_topgunr,
                 /*510*//*jackal*/ driver_jackalj,
-                /*511*//*aliens*/ driver_aliens,
-                /*512*//*aliens*/ driver_aliens2,
-                /*513*//*aliens*/ driver_aliensu,
-                /*514*//*aliens*/ driver_aliensj,
                 /*518*//*surpratk*/ driver_surpratk,
                 /*522*//*crimfght*/ driver_crimfght,
                 /*523*//*crimfght*/ driver_crimfgt2,
@@ -486,8 +475,6 @@ public class driver {
                 /*renegade*/ driver_kuniokun,//no sprites?
                 /*renegade*/ driver_kuniokub,//no sprites?
 
-                /*flkatck*/ driver_mx5000,
-                /*flkatck*/ driver_flkatck,
                 /*slapfght*/ driver_tigerh,
                 /*slapfght*/ driver_tigerh2,
                 /*slapfght*/ driver_tigerhj,

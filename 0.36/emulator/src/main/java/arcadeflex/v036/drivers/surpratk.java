@@ -1,33 +1,41 @@
 /**
- * ported to 0.37b7
  * ported to 0.36
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+/**
+ * Changelog
+ * =========
+ * 10/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
+//cpu imports
+import static arcadeflex.v036.cpu.konami.konami.*;
+import static arcadeflex.v036.cpu.konami.konamiH.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v036.cpu.konami.konamiH.*;
-import static gr.codebb.arcadeflex.v036.cpu.konami.konami.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import arcadeflex.v036.mame.sndintrfH.MachineSound;
-import static arcadeflex.v036.mame.sndintrfH.SOUND_YM2151;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
-import static gr.codebb.arcadeflex.v036.vidhrdw.surpratk.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
-import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
+import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
 import static arcadeflex.v036.sound._2151intf.*;
 import static arcadeflex.v036.sound._2151intfH.*;
+import static arcadeflex.v036.sound.mixerH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.konamiic.*;
+import static arcadeflex.v036.vidhrdw.surpratk.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 
 public class surpratk {
 
@@ -36,7 +44,9 @@ public class surpratk {
             UBytePtr RAM = memory_region(REGION_CPU1);
             int offs = 0;
 
-            logerror("%04x: setlines %02x\n", cpu_get_pc(), lines);
+            if (errorlog != null) {
+                fprintf(errorlog, "%04x: setlines %02x\n", cpu_get_pc(), lines);
+            }
 
             offs = 0x10000 + ((lines & 0x1f) * 0x2000);
             if (offs >= 0x48000) {
@@ -101,7 +111,9 @@ public class surpratk {
 
     public static WriteHandlerPtr surpratk_videobank_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            logerror("%04x: videobank = %02x\n", cpu_get_pc(), data);
+            if (errorlog != null) {
+                fprintf(errorlog, "%04x: videobank = %02x\n", cpu_get_pc(), data);
+            }
 
             /* bit 0 = select 053245 at 0000-07ff */
  /* bit 1 = select palette at 0000-07ff */
@@ -112,7 +124,9 @@ public class surpratk {
 
     public static WriteHandlerPtr surpratk_5fc0_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            logerror("%04x: 3fc0 = %02x\n", cpu_get_pc(), data);
+            if (errorlog != null) {
+                fprintf(errorlog, "%04x: 3fc0 = %02x\n", cpu_get_pc(), data);
+            }
 
             /* bit 0/1 = coin counters */
             coin_counter_w.handler(0, data & 0x01);

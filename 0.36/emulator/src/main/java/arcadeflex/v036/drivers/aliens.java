@@ -1,8 +1,15 @@
 /*
  * ported to v0.36
  */
+/**
+ * Changelog
+ * =========
+ * 10/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.drivers;
 
+//cpu imports
+import static arcadeflex.v036.cpu.konami.konami.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
@@ -21,17 +28,14 @@ import static arcadeflex.v036.sound._2151intf.*;
 import static arcadeflex.v036.sound._2151intfH.*;
 import static arcadeflex.v036.sound.k007232.*;
 import static arcadeflex.v036.sound.k007232H.*;
+import static arcadeflex.v036.sound.mixerH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.aliens.*;
+import static arcadeflex.v036.vidhrdw.konamiic.*;
 //TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static arcadeflex.v036.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.cpu.konami.konami.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
-import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 
 public class aliens {
 
