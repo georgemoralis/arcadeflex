@@ -1,11 +1,21 @@
 /**
- * ported to v0.37b7
  * ported to v0.36
  *
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+/**
+ * Changelog
+ * =========
+ * 13/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//machine imports
+import static arcadeflex.v036.machine.kabuki.*;
+import static arcadeflex.v036.machine.eepromH.*;
+import static arcadeflex.v036.machine.eeprom.*;
+//mame imports
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
@@ -13,24 +23,23 @@ import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.mitchell.*;
-import static gr.codebb.arcadeflex.v036.machine.eepromH.*;
-import static gr.codebb.arcadeflex.v036.machine.eeprom.*;
+import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
+import static arcadeflex.v036.mame.memory.*;
+//sound imports
+import static arcadeflex.v036.sound._2413intfH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.mitchell.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
-import static arcadeflex.v036.sound._2413intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.ym2413.*;
-import static gr.codebb.arcadeflex.v036.machine.kabuki.*;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 
 public class mitchell {
 
@@ -67,23 +76,28 @@ public class mitchell {
     public static nvramHandlerPtr nvram_handler = new nvramHandlerPtr() {
         public void handler(Object file, int read_or_write) {
             if (read_or_write != 0) {
-                EEPROM_save(file);					/* EEPROM */
+                EEPROM_save(file);
+                /* EEPROM */
 
                 if (nvram_size != 0) /* Super Pang, Block Block */ {
-                    osd_fwrite(file, nvram, nvram_size);	/* NVRAM */
+                    osd_fwrite(file, nvram, nvram_size);
+                    /* NVRAM */
                 }
             } else {
                 EEPROM_init(eeprom_interface);
 
                 if (file != null) {
                     init_eeprom_count = 0;
-                    EEPROM_load(file);					/* EEPROM */
+                    EEPROM_load(file);
+                    /* EEPROM */
 
                     if (nvram_size != 0) /* Super Pang, Block Block */ {
-                        osd_fread(file, nvram, nvram_size);	/* NVRAM */
+                        osd_fread(file, nvram, nvram_size);
+                        /* NVRAM */
                     }
                 } else {
-                    init_eeprom_count = 1000;	/* for Super Pang */
+                    init_eeprom_count = 1000;
+                    /* for Super Pang */
                 }
             }
         }
@@ -95,10 +109,10 @@ public class mitchell {
             bit = EEPROM_read_bit() << 7;
 
             /* bits 0 and (sometimes) 3 are checked in the interrupt handler. */
-            /* Maybe they are vblank related, but I'm not sure. */
-            /* bit 3 is checked before updating the palette so it really seems to be vblank. */
-            /* Many games require two interrupts per frame and for these bits to toggle, */
-            /* otherwise music doesn't work. */
+ /* Maybe they are vblank related, but I'm not sure. */
+ /* bit 3 is checked before updating the palette so it really seems to be vblank. */
+ /* Many games require two interrupts per frame and for these bits to toggle, */
+ /* otherwise music doesn't work. */
             if ((cpu_getiloops() & 1) != 0) {
                 bit |= 0x01;
             } else {
@@ -218,7 +232,8 @@ public class mitchell {
                 default:
                     return readinputport(1 + offset);
                 //break;
-                case 1:	/* Mahjong games */
+                case 1:
+                    /* Mahjong games */
 
                     if (offset != 0) {
                         return mahjong_input_r(offset - 1);
@@ -226,7 +241,8 @@ public class mitchell {
                         return readinputport(1);
                     }
                 //break;
-                case 2:	/* Block Block - dial control */
+                case 2:
+                    /* Block Block - dial control */
 
                     if (offset != 0) {
                         return block_input_r.handler(offset - 1);
@@ -234,7 +250,8 @@ public class mitchell {
                         return readinputport(1);
                     }
                 //break;
-                case 3:	/* Super Pang - simulate START 1 press to initialize EEPROM */
+                case 3:
+                    /* Super Pang - simulate START 1 press to initialize EEPROM */
 
                     if (offset != 0 || init_eeprom_count == 0) {
                         return readinputport(1 + offset);
@@ -252,7 +269,9 @@ public class mitchell {
             switch (input_type) {
                 case 0:
                 default:
-                    logerror("PC %04x: write %02x to port 01\n", cpu_get_pc(), data);
+                    if (errorlog != null) {
+                        fprintf(errorlog, "PC %04x: write %02x to port 01\n", cpu_get_pc(), data);
+                    }
                     break;
                 case 1:
                     mahjong_input_select_w(offset, data);
@@ -336,7 +355,8 @@ public class mitchell {
                 new IOWritePort(-1) /* end of table */};
     static InputPortHandlerPtr input_ports_mgakuen = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();       /* DSW */
+            PORT_START();
+            /* DSW */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);/* USED - handled in port5_r */
 
@@ -349,7 +369,8 @@ public class mitchell {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);/* data from EEPROM */
 
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -360,7 +381,8 @@ public class mitchell {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -371,7 +393,8 @@ public class mitchell {
             PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P1 E", KEYCODE_E, IP_JOY_NONE);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P1 A", KEYCODE_A, IP_JOY_NONE);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -382,7 +405,8 @@ public class mitchell {
             PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P1 F", KEYCODE_F, IP_JOY_NONE);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P1 B", KEYCODE_B, IP_JOY_NONE);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -393,7 +417,8 @@ public class mitchell {
             PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P1 G", KEYCODE_G, IP_JOY_NONE);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P1 C", KEYCODE_C, IP_JOY_NONE);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -404,7 +429,8 @@ public class mitchell {
             PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P1 H", KEYCODE_H, IP_JOY_NONE);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P1 D", KEYCODE_D, IP_JOY_NONE);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -415,7 +441,8 @@ public class mitchell {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -426,7 +453,8 @@ public class mitchell {
             PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P2 E", KEYCODE_E, IP_JOY_NONE);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P2 A", KEYCODE_A, IP_JOY_NONE);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -437,7 +465,8 @@ public class mitchell {
             PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P2 F", KEYCODE_F, IP_JOY_NONE);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P2 B", KEYCODE_B, IP_JOY_NONE);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -448,7 +477,8 @@ public class mitchell {
             PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P2 G", KEYCODE_G, IP_JOY_NONE);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P2 C", KEYCODE_C, IP_JOY_NONE);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -459,7 +489,8 @@ public class mitchell {
             PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P2 H", KEYCODE_H, IP_JOY_NONE);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P2 D", KEYCODE_D, IP_JOY_NONE);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -470,7 +501,8 @@ public class mitchell {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x07, 0x07, DEF_STR("Coinage"));
             PORT_DIPSETTING(0x00, DEF_STR("4C_1C"));
@@ -495,7 +527,8 @@ public class mitchell {
             PORT_DIPSETTING(0x00, DEF_STR("On"));
             PORT_SERVICE(0x80, IP_ACTIVE_LOW);
 
-            PORT_START(); 	/* DSW2 */
+            PORT_START();
+            /* DSW2 */
 
             PORT_DIPNAME(0x03, 0x03, "Player 1 Skill");
             PORT_DIPSETTING(0x03, "Weak");
@@ -525,7 +558,8 @@ public class mitchell {
 
     static InputPortHandlerPtr input_ports_marukin = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();       /* DSW */
+            PORT_START();
+            /* DSW */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);/* USED - handled in port5_r */
 
@@ -538,7 +572,8 @@ public class mitchell {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);/* data from EEPROM */
 
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_SERVICE);/* same as the service mode farther down */
 
@@ -550,7 +585,8 @@ public class mitchell {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -561,7 +597,8 @@ public class mitchell {
             PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P1 E", KEYCODE_E, IP_JOY_NONE);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P1 A", KEYCODE_A, IP_JOY_NONE);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -572,7 +609,8 @@ public class mitchell {
             PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P1 F", KEYCODE_F, IP_JOY_NONE);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P1 B", KEYCODE_B, IP_JOY_NONE);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -583,7 +621,8 @@ public class mitchell {
             PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P1 G", KEYCODE_G, IP_JOY_NONE);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P1 C", KEYCODE_C, IP_JOY_NONE);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -594,7 +633,8 @@ public class mitchell {
             PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P1 H", KEYCODE_H, IP_JOY_NONE);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P1 D", KEYCODE_D, IP_JOY_NONE);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -605,7 +645,8 @@ public class mitchell {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -616,7 +657,8 @@ public class mitchell {
             PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P2 E", KEYCODE_E, IP_JOY_NONE);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P2 A", KEYCODE_A, IP_JOY_NONE);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -627,7 +669,8 @@ public class mitchell {
             PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P2 F", KEYCODE_F, IP_JOY_NONE);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P2 B", KEYCODE_B, IP_JOY_NONE);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -638,7 +681,8 @@ public class mitchell {
             PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P2 G", KEYCODE_G, IP_JOY_NONE);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P2 C", KEYCODE_C, IP_JOY_NONE);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -649,7 +693,8 @@ public class mitchell {
             PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P2 H", KEYCODE_H, IP_JOY_NONE);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P2 D", KEYCODE_D, IP_JOY_NONE);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -665,7 +710,8 @@ public class mitchell {
 
     static InputPortHandlerPtr input_ports_pkladies = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();       /* DSW */
+            PORT_START();
+            /* DSW */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);/* USED - handled in port5_r */
 
@@ -678,7 +724,8 @@ public class mitchell {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);/* data from EEPROM */
 
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_SERVICE);/* same as the service mode farther down */
 
@@ -690,7 +737,8 @@ public class mitchell {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -701,7 +749,8 @@ public class mitchell {
             PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P1 E", KEYCODE_E, IP_JOY_NONE);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P1 A", KEYCODE_A, IP_JOY_NONE);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -712,7 +761,8 @@ public class mitchell {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P1 B", KEYCODE_B, IP_JOY_NONE);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -723,7 +773,8 @@ public class mitchell {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P1 C", KEYCODE_C, IP_JOY_NONE);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -735,7 +786,8 @@ public class mitchell {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P1 D", KEYCODE_D, IP_JOY_NONE);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -746,7 +798,8 @@ public class mitchell {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -757,7 +810,8 @@ public class mitchell {
             PORT_BITX(0x40, IP_ACTIVE_LOW, 0, "P2 E", KEYCODE_E, IP_JOY_NONE);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P2 A", KEYCODE_A, IP_JOY_NONE);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -768,7 +822,8 @@ public class mitchell {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P2 B", KEYCODE_B, IP_JOY_NONE);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -779,7 +834,8 @@ public class mitchell {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P2 C", KEYCODE_C, IP_JOY_NONE);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -791,7 +847,8 @@ public class mitchell {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BITX(0x80, IP_ACTIVE_LOW, 0, "P2 D", KEYCODE_D, IP_JOY_NONE);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -807,7 +864,8 @@ public class mitchell {
 
     static InputPortHandlerPtr input_ports_pang = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();       /* DSW */
+            PORT_START();
+            /* DSW */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);/* USED - handled in port5_r */
 
@@ -820,21 +878,26 @@ public class mitchell {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);/* data from EEPROM */
 
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
-            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_START1);
-            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -845,7 +908,8 @@ public class mitchell {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -861,7 +925,8 @@ public class mitchell {
 
     static InputPortHandlerPtr input_ports_qtono1 = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();       /* DSW */
+            PORT_START();
+            /* DSW */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);/* USED - handled in port5_r */
 
@@ -874,7 +939,8 @@ public class mitchell {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);/* data from EEPROM */
 
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_SERVICE);/* same as the service mode farther down */
 
@@ -886,7 +952,8 @@ public class mitchell {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -897,7 +964,8 @@ public class mitchell {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -913,7 +981,8 @@ public class mitchell {
 
     static InputPortHandlerPtr input_ports_block = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();       /* DSW */
+            PORT_START();
+            /* DSW */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);/* USED - handled in port5_r */
 
@@ -926,21 +995,26 @@ public class mitchell {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);/* data from EEPROM */
 
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
-            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_START1);
-            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
-            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_UNKNOWN);   /* probably unused */
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_UNKNOWN);
+            /* probably unused */
 
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -952,7 +1026,8 @@ public class mitchell {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -964,11 +1039,13 @@ public class mitchell {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2);
 
-            PORT_START();       /* DIAL1 */
+            PORT_START();
+            /* DIAL1 */
 
             PORT_ANALOG(0xff, 0x00, IPT_DIAL, 50, 20, 0, 0);
 
-            PORT_START();       /* DIAL2 */
+            PORT_START();
+            /* DIAL2 */
 
             PORT_ANALOG(0xff, 0x00, IPT_DIAL | IPF_PLAYER2, 50, 20, 0, 0);
             INPUT_PORTS_END();
@@ -1197,7 +1274,8 @@ public class mitchell {
             ROM_LOAD("pko-prg2.15f", 0x10000, 0x10000, 0x86cbe82d);
 
             ROM_REGION(0x200000, REGION_GFX1 | REGIONFLAG_DISPOSE);
-            ROM_LOAD_GFX_EVEN("pko-001.8h", 0x000000, 0x80000, 0x1ead5d9b);	/* chars */
+            ROM_LOAD_GFX_EVEN("pko-001.8h", 0x000000, 0x80000, 0x1ead5d9b);
+            /* chars */
 
             ROM_LOAD_GFX_ODD("pko-003.8j", 0x000000, 0x80000, 0x339ab4e6);
             ROM_LOAD_GFX_EVEN("pko-002.9h", 0x100000, 0x80000, 0x1cf02586);
@@ -1277,12 +1355,15 @@ public class mitchell {
         public void handler() {
             ROM_REGION(2 * 0x30000, REGION_CPU1);/* 192k for code + 192k for decrypted opcodes */
 
-            ROM_LOAD("pang_04.bin", 0x30000, 0x08000, 0xf68f88a5);  /* Decrypted opcode + data */
+            ROM_LOAD("pang_04.bin", 0x30000, 0x08000, 0xf68f88a5);
+            /* Decrypted opcode + data */
 
             ROM_CONTINUE(0x00000, 0x08000);
-            ROM_LOAD("pang_02.bin", 0x40000, 0x20000, 0x3f15bb61);  /* Decrypted op codes */
+            ROM_LOAD("pang_02.bin", 0x40000, 0x20000, 0x3f15bb61);
+            /* Decrypted op codes */
 
-            ROM_LOAD("pang_03.bin", 0x10000, 0x20000, 0x0c8477ae);  /* Decrypted data */
+            ROM_LOAD("pang_03.bin", 0x10000, 0x20000, 0x0c8477ae);
+            /* Decrypted data */
 
             ROM_REGION(0x100000, REGION_GFX1 | REGIONFLAG_DISPOSE);
             ROM_LOAD("pang_09.bin", 0x000000, 0x20000, 0x3a5883f5);/* chars */
@@ -1636,13 +1717,16 @@ public class mitchell {
         public void handler() {
             ROM_REGION(2 * 0x50000, REGION_CPU1);/* 320k for code + 320k for decrypted opcodes */
 
-            ROM_LOAD("m7.l6", 0x50000, 0x08000, 0x3b576fd9);  /* Decrypted opcode + data */
+            ROM_LOAD("m7.l6", 0x50000, 0x08000, 0x3b576fd9);
+            /* Decrypted opcode + data */
 
             ROM_CONTINUE(0x00000, 0x08000);
-            ROM_LOAD("m5.l3", 0x60000, 0x20000, 0x7c988bb7);  /* Decrypted opcode + data */
+            ROM_LOAD("m5.l3", 0x60000, 0x20000, 0x7c988bb7);
+            /* Decrypted opcode + data */
 
             ROM_CONTINUE(0x10000, 0x20000);
-            ROM_LOAD("m6.l5", 0x30000, 0x20000, 0x5768d8eb);  /* Decrypted data */
+            ROM_LOAD("m6.l5", 0x30000, 0x20000, 0x5768d8eb);
+            /* Decrypted data */
 
             ROM_REGION(0x100000, REGION_GFX1 | REGIONFLAG_DISPOSE);
             ROM_LOAD("m12.o10", 0x000000, 0x20000, 0x963154d9);/* chars */
@@ -1715,7 +1799,8 @@ public class mitchell {
         public void handler() {
             input_type = 3;
             nvram_size = 0x80;
-            nvram = new UBytePtr(memory_region(REGION_CPU1), (0xe000));	/* NVRAM */
+            nvram = new UBytePtr(memory_region(REGION_CPU1), (0xe000));
+            /* NVRAM */
 
             spang_decode();
         }
@@ -1724,7 +1809,8 @@ public class mitchell {
         public void handler() {
             input_type = 3;
             nvram_size = 0x80;
-            nvram = new UBytePtr(memory_region(REGION_CPU1), (0xe000));	/* NVRAM */
+            nvram = new UBytePtr(memory_region(REGION_CPU1), (0xe000));
+            /* NVRAM */
 
             sbbros_decode();
         }
@@ -1766,7 +1852,8 @@ public class mitchell {
         public void handler() {
             input_type = 2;
             nvram_size = 0x80;
-            nvram = new UBytePtr(memory_region(REGION_CPU1), (0xff80)); /* NVRAM */
+            nvram = new UBytePtr(memory_region(REGION_CPU1), (0xff80));
+            /* NVRAM */
 
             block_decode();
         }
@@ -1775,7 +1862,8 @@ public class mitchell {
         public void handler() {
             input_type = 2;
             nvram_size = 0x80;
-            nvram = new UBytePtr(memory_region(REGION_CPU1), (0xff80));	/* NVRAM */
+            nvram = new UBytePtr(memory_region(REGION_CPU1), (0xff80));
+            /* NVRAM */
 
             bootleg_decode();
         }

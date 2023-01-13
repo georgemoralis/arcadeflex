@@ -39,6 +39,7 @@ import gr.codebb.arcadeflex.v037b7.sound._3526intf;
 import gr.codebb.arcadeflex.v037b7.sound._3812intf;
 import gr.codebb.arcadeflex.v037b7.sound.okim6295;
 import gr.codebb.arcadeflex.v037b7.sound.y8950intf;
+import gr.codebb.arcadeflex.v037b7.sound.ym2413;
 
 public class sndintrf {
 
@@ -355,18 +356,7 @@ public class sndintrf {
                 /*TODO*///		YM2612_sh_reset
                 /*TODO*///	},
                 /*TODO*///#endif
-                new Dummy_snd(),/*TODO*///#if (HAS_YM2413)
-                /*TODO*///    {
-                /*TODO*///		SOUND_YM2413,
-                /*TODO*///		"YM-2413",
-                /*TODO*///		YM2413_num,
-                /*TODO*///		YM2413_clock,
-                /*TODO*///		YM2413_sh_start,
-                /*TODO*///		YM2413_sh_stop,
-                /*TODO*///		0,
-                /*TODO*///		0
-                /*TODO*///	},
-                /*TODO*///#endif
+                new ym2413(),
                 new _3812intf(),
                 new _3526intf(),
                 new y8950intf(),

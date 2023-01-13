@@ -132,6 +132,8 @@ import static arcadeflex.v036.drivers.flkatck.*;
 import static arcadeflex.v036.drivers.aliens.*;
 import static arcadeflex.v036.drivers.surpratk.*;
 import static arcadeflex.v036.drivers.rollerg.*;
+import static arcadeflex.v036.drivers.mitchell.*;
+import static arcadeflex.v036.drivers.system1.*;
 
 public class driver {
 
@@ -1340,28 +1342,28 @@ public class driver {
                 /*TODO*///						/*  Star Gladiator 2 */
                 /*TODO*///						/*  Rival Schools 2 */
                 /*TODO*///
-                /*TODO*///	/* Mitchell games */
-                /*TODO*///	driver_mgakuen,	/* (c) 1988 Yuga */
-                /*TODO*///	driver_mgakuen2,	/* (c) 1989 Face */
-                /*TODO*///	driver_pkladies,	/* (c) 1989 Mitchell */
-                /*TODO*///	driver_dokaben,	/*  3/1989 (c) 1989 Capcom (Japan) */
-                /*TODO*///	/*  8/1989 Dokaben 2 (baseball) */
-                /*TODO*///	driver_pang,		/* (c) 1989 Mitchell (World) */
-                /*TODO*///	driver_pangb,		/* bootleg */
-                /*TODO*///	driver_bbros,		/* (c) 1989 Capcom (US) not listed on Capcom's site */
-                /*TODO*///	driver_pompingw,	/* (c) 1989 Mitchell (Japan) */
+                /* Mitchell games */
+                driver_mgakuen, /* (c) 1988 Yuga */
+                driver_mgakuen2, /* (c) 1989 Face */
+                driver_pkladies, /* (c) 1989 Mitchell */
+                driver_dokaben, /*  3/1989 (c) 1989 Capcom (Japan) */
+                /*  8/1989 Dokaben 2 (baseball) */
+                driver_pang, /* (c) 1989 Mitchell (World) */
+                driver_pangb, /* bootleg */
+                driver_bbros, /* (c) 1989 Capcom (US) not listed on Capcom's site */
+                driver_pompingw, /* (c) 1989 Mitchell (Japan) */
                 /*TODO*///	driver_cbasebal,	/* 10/1989 (c) 1989 Capcom (Japan) (different hardware) */
-                /*TODO*///	driver_cworld,	/* 11/1989 (QUIZ 1) (c) 1989 Capcom */
-                /*TODO*///	driver_hatena,	/*  2/28/1990 (QUIZ 2) (c) 1990 Capcom (Japan) */
-                /*TODO*///	driver_spang,		/*  9/14/1990 (c) 1990 Mitchell (World) */
-                /*TODO*///	driver_sbbros,	/* 10/ 1/1990 (c) 1990 Mitchell + Capcom (US) not listed on Capcom's site */
-                /*TODO*///	driver_marukin,	/* 10/17/1990 (c) 1990 Yuga (Japan) */
-                /*TODO*///	driver_qtono1,	/* 12/25/1990 (QUIZ 3) (c) 1991 Capcom (Japan) */
-                /*TODO*///	/*  4/1991 Ashita Tenki ni Naare (golf) */
-                /*TODO*///	driver_qsangoku,	/*  6/ 7/1991 (QUIZ 4) (c) 1991 Capcom (Japan) */
-                /*TODO*///	driver_block,		/*  9/10/1991 (c) 1991 Capcom (World) */
-                /*TODO*///	driver_blockj,	/*  9/10/1991 (c) 1991 Capcom (Japan) */
-                /*TODO*///	driver_blockbl,	/* bootleg */
+                driver_cworld, /* 11/1989 (QUIZ 1) (c) 1989 Capcom */
+                driver_hatena, /*  2/28/1990 (QUIZ 2) (c) 1990 Capcom (Japan) */
+                driver_spang, /*  9/14/1990 (c) 1990 Mitchell (World) */
+                driver_sbbros, /* 10/ 1/1990 (c) 1990 Mitchell + Capcom (US) not listed on Capcom's site */
+                driver_marukin, /* 10/17/1990 (c) 1990 Yuga (Japan) */
+                driver_qtono1, /* 12/25/1990 (QUIZ 3) (c) 1991 Capcom (Japan) */
+                /*  4/1991 Ashita Tenki ni Naare (golf) */
+                driver_qsangoku, /*  6/ 7/1991 (QUIZ 4) (c) 1991 Capcom (Japan) */
+                driver_block, /*  9/10/1991 (c) 1991 Capcom (World) */
+                driver_blockj, /*  9/10/1991 (c) 1991 Capcom (Japan) */
+                driver_blockbl, /* bootleg */
                 /*TODO*///
                 /*TODO*///	/* Incredible Technologies games */
                 /*TODO*///	driver_capbowl,	/* (c) 1988 Incredible Technologies */
@@ -1485,76 +1487,74 @@ public class driver {
                 driver_razmataz, /* modified 834-0213, 834-0214 (c) 1983 */
                 driver_congo, /* 605-5167 (c) 1983 */
                 driver_tiptop, /* 605-5167 (c) 1983 */
-                /*TODO*///	/* Sega System 1 / System 2 games */
-                /*TODO*///	driver_starjack,	/* 834-5191 (c) 1983 (S1) */
-                /*TODO*///	driver_starjacs,	/* (c) 1983 Stern (S1) */
-                /*TODO*///	driver_regulus,	/* 834-5328 (c) 1983 (S1) */
-                /*TODO*///	driver_regulusu,	/* 834-5328 (c) 1983 (S1) */
-                /*TODO*///	driver_upndown,	/* (c) 1983 (S1) */
-                /*TODO*///	driver_mrviking,	/* 834-5383 (c) 1984 (S1) */
-                /*TODO*///	driver_mrvikinj,	/* 834-5383 (c) 1984 (S1) */
-                /*TODO*///	driver_swat,		/* 834-5388 (c) 1984 Coreland / Sega (S1) */
-                /*TODO*///	driver_flicky,	/* (c) 1984 (S1) */
-                /*TODO*///	driver_flicky2,	/* (c) 1984 (S1) */
-                /*TODO*///	/* Water Match (S1) */
-                /*TODO*///	driver_bullfgtj,	/* 834-5478 (c) 1984 Sega / Coreland (S1) */
-                /*TODO*///	driver_pitfall2,	/* 834-5627 [1985?] reprogrammed, (c) 1984 Activision (S1) */
-                /*TODO*///	driver_pitfallu,	/* 834-5627 [1985?] reprogrammed, (c) 1984 Activision (S1) */
-                /*TODO*///	driver_seganinj,	/* 834-5677 (c) 1985 (S1) */
-                /*TODO*///	driver_seganinu,	/* 834-5677 (c) 1985 (S1) */
-                /*TODO*///	driver_nprinces,	/* 834-5677 (c) 1985 (S1) */
-                /*TODO*///	driver_nprincsu,	/* 834-5677 (c) 1985 (S1) */
-                /*TODO*///	driver_nprincsb,	/* bootleg? (S1) */
-                /*TODO*///	driver_imsorry,	/* 834-5707 (c) 1985 Coreland / Sega (S1) */
-                /*TODO*///	driver_imsorryj,	/* 834-5707 (c) 1985 Coreland / Sega (S1) */
-                /*TODO*///	driver_teddybb,	/* 834-5712 (c) 1985 (S1) */
-                /*TODO*///	driver_hvymetal,	/* 834-5745 (c) 1985 (S2?) */
-                /*TODO*///	driver_myhero,	/* 834-5755 (c) 1985 (S1) */
-                /*TODO*///	driver_myheroj,	/* 834-5755 (c) 1985 Coreland / Sega (S1) */
-                /*TODO*///	driver_myherok,	/* 834-5755 (c) 1985 Coreland / Sega (S1) */
-                /*TODO*///	driver_shtngmst,	/* 834-5719/5720 (c) 1985 (S2) */
-                /*TODO*///	driver_chplft,	/* 834-5795 (c) 1985, (c) 1982 Dan Gorlin (S2) */
-                /*TODO*///	driver_chplftb,	/* 834-5795 (c) 1985, (c) 1982 Dan Gorlin (S2) */
-                /*TODO*///	driver_chplftbl,	/* bootleg (S2) */
-                /*TODO*///	driver_4dwarrio,	/* 834-5918 (c) 1985 Coreland / Sega (S1) */
-                /*TODO*///	driver_brain,		/* (c) 1986 Coreland / Sega (S2?) */
-                /*TODO*///	driver_wboy,		/* 834-5984 (c) 1986 + Escape license (S1) */
-                /*TODO*///	driver_wboy2,		/* 834-5984 (c) 1986 + Escape license (S1) */
-                /*TODO*///	driver_wboy3,
-                /*TODO*///	driver_wboy4,		/* 834-5984 (c) 1986 + Escape license (S1) */
-                /*TODO*///	driver_wboyu,		/* 834-5753 (? maybe a conversion) (c) 1986 + Escape license (S1) */
-                /*TODO*///	driver_wboy4u,	/* 834-5984 (c) 1986 + Escape license (S1) */
-                /*TODO*///	driver_wbdeluxe,	/* (c) 1986 + Escape license (S1) */
-                /*TODO*///	driver_gardia,	/* 834-6119 (S2?) */
-                /*TODO*///	driver_gardiab,	/* bootleg */
-                /*TODO*///	driver_blockgal,	/* 834-6303 (S1) */
-                /*TODO*///	driver_blckgalb,	/* bootleg */
-                /*TODO*///	driver_tokisens,	/* (c) 1987 (from a bootleg board) (S2) */
-                /*TODO*///	driver_wbml,		/* bootleg (S2) */
-                /*TODO*///	driver_wbmlj,		/* (c) 1987 Sega/Westone (S2) */
-                /*TODO*///	driver_wbmlj2,	/* (c) 1987 Sega/Westone (S2) */
-                /*TODO*///	driver_wbmlju,	/* bootleg? (S2) */
-                /*TODO*///	driver_dakkochn,	/* 836-6483? (S2) */
-                /*TODO*///	driver_ufosensi,	/* 834-6659 (S2) */
-                /*TODO*////*
-                /*TODO*///other System 1 / System 2 games:
-                /*TODO*///
-                /*TODO*///WarBall
-                /*TODO*///Rafflesia
-                /*TODO*///Sanrin Sanchan
-                /*TODO*///DokiDoki Penguin Land *not confirmed
-                /*TODO*///*/
-                /*TODO*///
-                /*TODO*///	/* Sega System E games (Master System hardware) */
-                /*TODO*////*
-                /*TODO*///???          834-5492 (??? not sure it's System E)
-                /*TODO*///Transformer  834-5803 (c) 1986
-                /*TODO*///Opa Opa
-                /*TODO*///Fantasy Zone 2
-                /*TODO*///Hang-On Jr.
-                /*TODO*///(more?)
-                /*TODO*///*/
-                /*TODO*///
+                /* Sega System 1 / System 2 games */
+                driver_starjack, /* 834-5191 (c) 1983 (S1) */
+                driver_starjacs, /* (c) 1983 Stern (S1) */
+                driver_regulus, /* 834-5328 (c) 1983 (S1) */
+                driver_regulusu, /* 834-5328 (c) 1983 (S1) */
+                driver_upndown, /* (c) 1983 (S1) */
+                driver_mrviking, /* 834-5383 (c) 1984 (S1) */
+                driver_mrvikinj, /* 834-5383 (c) 1984 (S1) */
+                driver_swat, /* 834-5388 (c) 1984 Coreland / Sega (S1) */
+                driver_flicky, /* (c) 1984 (S1) */
+                driver_flicky2, /* (c) 1984 (S1) */
+                /* Water Match (S1) */
+                driver_bullfgtj, /* 834-5478 (c) 1984 Sega / Coreland (S1) */
+                driver_pitfall2, /* 834-5627 [1985?] reprogrammed, (c) 1984 Activision (S1) */
+                driver_pitfallu, /* 834-5627 [1985?] reprogrammed, (c) 1984 Activision (S1) */
+                driver_seganinj, /* 834-5677 (c) 1985 (S1) */
+                driver_seganinu, /* 834-5677 (c) 1985 (S1) */
+                driver_nprinces, /* 834-5677 (c) 1985 (S1) */
+                driver_nprincsu, /* 834-5677 (c) 1985 (S1) */
+                driver_nprincsb, /* bootleg? (S1) */
+                driver_imsorry, /* 834-5707 (c) 1985 Coreland / Sega (S1) */
+                driver_imsorryj, /* 834-5707 (c) 1985 Coreland / Sega (S1) */
+                driver_teddybb, /* 834-5712 (c) 1985 (S1) */
+                driver_hvymetal, /* 834-5745 (c) 1985 (S2?) */
+                driver_myhero, /* 834-5755 (c) 1985 (S1) */
+                driver_myheroj, /* 834-5755 (c) 1985 Coreland / Sega (S1) */
+                driver_myherok, /* 834-5755 (c) 1985 Coreland / Sega (S1) */
+                driver_shtngmst, /* 834-5719/5720 (c) 1985 (S2) */
+                driver_chplft, /* 834-5795 (c) 1985, (c) 1982 Dan Gorlin (S2) */
+                driver_chplftb, /* 834-5795 (c) 1985, (c) 1982 Dan Gorlin (S2) */
+                driver_chplftbl, /* bootleg (S2) */
+                driver_4dwarrio, /* 834-5918 (c) 1985 Coreland / Sega (S1) */
+                driver_brain, /* (c) 1986 Coreland / Sega (S2?) */
+                driver_wboy, /* 834-5984 (c) 1986 + Escape license (S1) */
+                driver_wboy2, /* 834-5984 (c) 1986 + Escape license (S1) */
+                driver_wboy3,
+                driver_wboy4, /* 834-5984 (c) 1986 + Escape license (S1) */
+                driver_wboyu, /* 834-5753 (? maybe a conversion) (c) 1986 + Escape license (S1) */
+                driver_wboy4u, /* 834-5984 (c) 1986 + Escape license (S1) */
+                driver_wbdeluxe, /* (c) 1986 + Escape license (S1) */
+                driver_gardia, /* 834-6119 (S2?) */
+                driver_gardiab, /* bootleg */
+                driver_blockgal, /* 834-6303 (S1) */
+                driver_blckgalb, /* bootleg */
+                driver_tokisens, /* (c) 1987 (from a bootleg board) (S2) */
+                driver_wbml, /* bootleg (S2) */
+                driver_wbmlj, /* (c) 1987 Sega/Westone (S2) */
+                driver_wbmlj2, /* (c) 1987 Sega/Westone (S2) */
+                driver_wbmlju, /* bootleg? (S2) */
+                driver_dakkochn, /* 836-6483? (S2) */
+                driver_ufosensi, /* 834-6659 (S2) */
+                /*
+                other System 1 / System 2 games:
+                
+                WarBall
+                Rafflesia
+                Sanrin Sanchan
+                DokiDoki Penguin Land *not confirmed
+                 */
+                /* Sega System E games (Master System hardware) */
+                /*
+                ???          834-5492 (??? not sure it's System E)
+                Transformer  834-5803 (c) 1986
+                Opa Opa
+                Fantasy Zone 2
+                Hang-On Jr.
+                (more?)
+                 */
                 /*TODO*///	/* other Sega 8-bit games */
                 /*TODO*///	driver_turbo,		/* (c) 1981 Sega */
                 /*TODO*///	driver_turboa,	/* (c) 1981 Sega */

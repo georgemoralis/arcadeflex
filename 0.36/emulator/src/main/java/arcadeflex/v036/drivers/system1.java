@@ -2,41 +2,51 @@
  * ported to v0.36
  * using automatic conversion tool v0.08 + manual fixes
  */
-package gr.codebb.arcadeflex.v036.drivers;
+/**
+ * Changelog
+ * =========
+ * 13/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
+//cpu imports
+import static arcadeflex.v036.cpu.z80.z80H.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//machine imports
+import static arcadeflex.v036.machine.segacrpt.*;
+//mame imports
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.machine.segacrpt.*;
+import static arcadeflex.v036.mame.memory.*;
+import static arcadeflex.v036.mame.timerH.*;
+//soud imports
 import static arcadeflex.v036.sound.sn76496H.*;
 import static arcadeflex.v036.sound.sn76496.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static arcadeflex.v036.cpu.z80.z80H.*;
-import static arcadeflex.v036.mame.timerH.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.system1H.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.system1.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.system1H.*;
+import static arcadeflex.v036.vidhrdw.system1.*;
+import static arcadeflex.v036.vidhrdw.generic.*;
+//TODO
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 
 public class system1 {
 
     public static InitMachineHandlerPtr system1_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             /* skip the long IC CHECK in Teddyboy Blues and Choplifter */
-            /* this is not a ROM patch, the game checks a RAM location */
-            /* before doing the test */
+ /* this is not a ROM patch, the game checks a RAM location */
+ /* before doing the test */
             memory_region(REGION_CPU1).write(0xeffe, 0x4f);
             memory_region(REGION_CPU1).write(0xefff, 0x4b);
 
@@ -48,8 +58,8 @@ public class system1 {
     public static InitMachineHandlerPtr chplft_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             /* skip the long IC CHECK in Teddyboy Blues and Choplifter */
-            /* this is not a ROM patch, the game checks a RAM location */
-            /* before doing the test */
+ /* this is not a ROM patch, the game checks a RAM location */
+ /* before doing the test */
             memory_region(REGION_CPU1).write(0xeffe, 0x4f);
             memory_region(REGION_CPU1).write(0xefff, 0x4b);
 
@@ -60,8 +70,8 @@ public class system1 {
     public static InitMachineHandlerPtr wbml_init_machine = new InitMachineHandlerPtr() {
         public void handler() {
             /* skip the long IC CHECK in Teddyboy Blues and Choplifter */
-            /* this is not a ROM patch, the game checks a RAM location */
-            /* before doing the test */
+ /* this is not a ROM patch, the game checks a RAM location */
+ /* before doing the test */
             memory_region(REGION_CPU1).write(0xeffe, 0x4f);
             memory_region(REGION_CPU1).write(0xefff, 0x4b);
 
@@ -285,7 +295,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_starjack = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -296,7 +307,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
@@ -307,7 +319,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -318,7 +331,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -353,7 +367,8 @@ public class system1 {
             PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
             PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -383,7 +398,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_starjacs = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -394,7 +410,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
@@ -405,7 +422,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -416,7 +434,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -451,7 +470,8 @@ public class system1 {
             PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
             PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -480,7 +500,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_regulus = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -491,7 +512,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
@@ -502,7 +524,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -513,7 +536,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -548,7 +572,8 @@ public class system1 {
             PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
             PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -579,7 +604,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_upndown = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -590,7 +616,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -601,7 +628,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -612,7 +640,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -647,7 +676,8 @@ public class system1 {
             PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
             PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -677,7 +707,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_mrviking = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON1);
@@ -688,7 +719,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
@@ -699,7 +731,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -710,7 +743,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -745,7 +779,8 @@ public class system1 {
             PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
             PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -775,7 +810,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_swat = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -786,7 +822,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_4WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
@@ -797,7 +834,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_4WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -808,7 +846,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -843,7 +882,8 @@ public class system1 {
             PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
             PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -874,7 +914,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_flicky = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -885,7 +926,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_UNKNOWN);
@@ -896,7 +938,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -907,7 +950,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -942,7 +986,8 @@ public class system1 {
             PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
             PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -971,7 +1016,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_bullfgtj = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -982,7 +1028,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
@@ -993,7 +1040,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -1004,7 +1052,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -1039,7 +1088,8 @@ public class system1 {
             PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
             PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -1069,7 +1119,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_pitfall2 = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -1080,7 +1131,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
@@ -1091,7 +1143,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -1102,7 +1155,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -1137,7 +1191,8 @@ public class system1 {
             PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
             PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -1168,7 +1223,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_pitfallu = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -1179,7 +1235,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
@@ -1190,7 +1247,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -1201,7 +1259,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -1236,7 +1295,8 @@ public class system1 {
             PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
             PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -1266,7 +1326,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_seganinj = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON3);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -1277,7 +1338,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON3 | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
@@ -1288,7 +1350,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -1299,7 +1362,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -1334,7 +1398,8 @@ public class system1 {
             PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
             PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -1365,7 +1430,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_imsorry = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -1376,7 +1442,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
@@ -1387,7 +1454,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -1398,7 +1466,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -1433,7 +1502,8 @@ public class system1 {
             PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
             PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -1463,7 +1533,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_teddybb = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON1);
@@ -1474,7 +1545,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
@@ -1485,7 +1557,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -1496,7 +1569,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -1531,7 +1605,8 @@ public class system1 {
             PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
             PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -1561,7 +1636,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_hvymetal = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON1);
@@ -1572,7 +1648,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
@@ -1583,7 +1660,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -1594,7 +1672,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -1629,7 +1708,8 @@ public class system1 {
             PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
             PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
 
-            PORT_START();   /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -1659,7 +1739,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_myhero = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON1);
@@ -1670,7 +1751,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
@@ -1681,7 +1763,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -1692,7 +1775,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -1727,7 +1811,8 @@ public class system1 {
             PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
             PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -1757,7 +1842,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_chplft = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -1768,7 +1854,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
@@ -1779,7 +1866,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -1790,7 +1878,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();   /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -1816,7 +1905,8 @@ public class system1 {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	  /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -1856,7 +1946,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_4dwarrio = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -1867,7 +1958,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
@@ -1878,7 +1970,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -1889,7 +1982,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -1924,7 +2018,8 @@ public class system1 {
             PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
             PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -1955,7 +2050,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_brain = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -1966,7 +2062,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
@@ -1977,7 +2074,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -1988,7 +2086,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -2023,7 +2122,8 @@ public class system1 {
             PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
             PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -2054,7 +2154,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_wboy = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON1);
@@ -2067,7 +2168,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
@@ -2080,7 +2182,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -2091,7 +2194,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -2126,7 +2230,8 @@ public class system1 {
             PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
             PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -2158,10 +2263,11 @@ public class system1 {
     /* same as wboy, additional Energy Consumption switch */
     static InputPortHandlerPtr input_ports_wbdeluxe = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_UNKNOWN);/* Has to be 0 otherwise the game resets */
-            /* if you die after level 1. */
+ /* if you die after level 1. */
 
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -2173,7 +2279,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
@@ -2186,7 +2293,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -2197,7 +2305,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -2232,7 +2341,8 @@ public class system1 {
             PORT_DIPSETTING(0xb0, DEF_STR("1C_5C"));
             PORT_DIPSETTING(0xa0, DEF_STR("1C_6C"));
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -2263,7 +2373,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_wboyu = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON1);
@@ -2276,7 +2387,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
@@ -2289,7 +2401,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -2300,7 +2413,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -2326,7 +2440,8 @@ public class system1 {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x07, 0x07, DEF_STR("Coinage"));
             PORT_DIPSETTING(0x04, DEF_STR("4C_1C"));
@@ -2357,15 +2472,18 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_blockgal = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_ANALOG(0xff, 0x00, IPT_DIAL | IPF_REVERSE, 60, 15, 0, 0);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_ANALOG(0xff, 0x00, IPT_DIAL | IPF_REVERSE | IPF_COCKTAIL, 60, 15, 0, 0);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -2376,7 +2494,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Unknown"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -2401,7 +2520,8 @@ public class system1 {
             PORT_DIPSETTING(0x00, DEF_STR("On"));
             PORT_SERVICE(0x80, IP_ACTIVE_LOW);
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Unknown"));
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
@@ -2433,7 +2553,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_tokisens = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -2444,7 +2565,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
@@ -2455,7 +2577,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -2466,7 +2589,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();   /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -2492,7 +2616,8 @@ public class system1 {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	  /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -2532,7 +2657,8 @@ public class system1 {
 
     static InputPortHandlerPtr input_ports_wbml = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();   /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -2543,7 +2669,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY);
 
-            PORT_START();   /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_COCKTAIL);
@@ -2554,7 +2681,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY | IPF_COCKTAIL);
 
-            PORT_START();   /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -2565,7 +2693,8 @@ public class system1 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START();   /* DSW1 */
+            PORT_START();
+            /* DSW1 */
 
             PORT_DIPNAME(0x01, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
@@ -2591,7 +2720,8 @@ public class system1 {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	  /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x0f, 0x0f, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x07, DEF_STR("4C_1C"));
@@ -2952,7 +3082,7 @@ public class system1 {
      **************************************************************************
      */
     /* Since the standard System 1 PROM has part # 5317, Star Jacker, whose first */
-    /* ROM is #5318, is probably the first or second System 1 game produced */
+ /* ROM is #5318, is probably the first or second System 1 game produced */
     static RomLoadHandlerPtr rom_starjack = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
@@ -3008,9 +3138,9 @@ public class system1 {
             ROM_LOAD("sja1ic63", 0xa000, 0x2000, 0x5bcb253e);
 
             ROM_REGION(0x8000, REGION_GFX2);/* 32k for sprites data */
-            /* SJA1IC86 and SJA1IC93 in the original set were bad, so I'm using the ones */
-            /* from the Sega version. However I suspect the real ones should be slightly */
-            /* different. */
+ /* SJA1IC86 and SJA1IC93 in the original set were bad, so I'm using the ones */
+ /* from the Sega version. However I suspect the real ones should be slightly */
+ /* different. */
 
             ROM_LOAD("5318", 0x0000, 0x4000, BADCRC(0x6f2e1fd3));
             ROM_LOAD("5319", 0x4000, 0x4000, BADCRC(0xebee4999));
@@ -3022,13 +3152,17 @@ public class system1 {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
-            ROM_LOAD("epr5640a.29", 0x0000, 0x2000, 0xdafb1528); /* encrypted */
+            ROM_LOAD("epr5640a.29", 0x0000, 0x2000, 0xdafb1528);
+            /* encrypted */
 
-            ROM_LOAD("epr5641a.30", 0x2000, 0x2000, 0x0fcc850e); /* encrypted */
+            ROM_LOAD("epr5641a.30", 0x2000, 0x2000, 0x0fcc850e);
+            /* encrypted */
 
-            ROM_LOAD("epr5642a.31", 0x4000, 0x2000, 0x4feffa17); /* encrypted */
+            ROM_LOAD("epr5642a.31", 0x4000, 0x2000, 0x4feffa17);
+            /* encrypted */
 
-            ROM_LOAD("epr5643a.32", 0x6000, 0x2000, 0xb8ac7eb4); /* encrypted */
+            ROM_LOAD("epr5643a.32", 0x6000, 0x2000, 0xb8ac7eb4);
+            /* encrypted */
 
             ROM_LOAD("epr5644.33", 0x8000, 0x2000, 0xffd05b7d);
             ROM_LOAD("epr5645a.34", 0xa000, 0x2000, 0x6b4bf77c);
@@ -3119,13 +3253,17 @@ public class system1 {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
-            ROM_LOAD("vepr5873", 0x0000, 0x2000, 0x14d21624); /* encrypted */
+            ROM_LOAD("vepr5873", 0x0000, 0x2000, 0x14d21624);
+            /* encrypted */
 
-            ROM_LOAD("vepr5874", 0x2000, 0x2000, 0x6df7de87); /* encrypted */
+            ROM_LOAD("vepr5874", 0x2000, 0x2000, 0x6df7de87);
+            /* encrypted */
 
-            ROM_LOAD("vepr5875", 0x4000, 0x2000, 0xac226100); /* encrypted */
+            ROM_LOAD("vepr5875", 0x4000, 0x2000, 0xac226100);
+            /* encrypted */
 
-            ROM_LOAD("vepr5876", 0x6000, 0x2000, 0xe77db1dc); /* encrypted */
+            ROM_LOAD("vepr5876", 0x6000, 0x2000, 0xe77db1dc);
+            /* encrypted */
 
             ROM_LOAD("epr-5755.bin", 0x8000, 0x2000, 0xedd62ae1);
             ROM_LOAD("epr-5756.bin", 0xa000, 0x2000, 0x11974040);
@@ -3154,13 +3292,17 @@ public class system1 {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
-            ROM_LOAD("epr-5751.bin", 0x0000, 0x2000, 0xae97a4c5); /* encrypted */
+            ROM_LOAD("epr-5751.bin", 0x0000, 0x2000, 0xae97a4c5);
+            /* encrypted */
 
-            ROM_LOAD("epr-5752.bin", 0x2000, 0x2000, 0xd48e6726); /* encrypted */
+            ROM_LOAD("epr-5752.bin", 0x2000, 0x2000, 0xd48e6726);
+            /* encrypted */
 
-            ROM_LOAD("epr-5753.bin", 0x4000, 0x2000, 0x28c60887); /* encrypted */
+            ROM_LOAD("epr-5753.bin", 0x4000, 0x2000, 0x28c60887);
+            /* encrypted */
 
-            ROM_LOAD("epr-5754.bin", 0x6000, 0x2000, 0x1f47ed02); /* encrypted */
+            ROM_LOAD("epr-5754.bin", 0x6000, 0x2000, 0x1f47ed02);
+            /* encrypted */
 
             ROM_LOAD("epr-5755.bin", 0x8000, 0x2000, 0xedd62ae1);
             ROM_LOAD("epr-5756.bin", 0xa000, 0x2000, 0x11974040);
@@ -3189,13 +3331,17 @@ public class system1 {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
-            ROM_LOAD("epr5807b.29", 0x0000, 0x2000, 0x93db9c9f); /* encrypted */
+            ROM_LOAD("epr5807b.29", 0x0000, 0x2000, 0x93db9c9f);
+            /* encrypted */
 
-            ROM_LOAD("epr5808.30", 0x2000, 0x2000, 0x67116665); /* encrypted */
+            ROM_LOAD("epr5808.30", 0x2000, 0x2000, 0x67116665);
+            /* encrypted */
 
-            ROM_LOAD("epr5809.31", 0x4000, 0x2000, 0xfd792fc9); /* encrypted */
+            ROM_LOAD("epr5809.31", 0x4000, 0x2000, 0xfd792fc9);
+            /* encrypted */
 
-            ROM_LOAD("epr5810.32", 0x6000, 0x2000, 0xdc2b279d); /* encrypted */
+            ROM_LOAD("epr5810.32", 0x6000, 0x2000, 0xdc2b279d);
+            /* encrypted */
 
             ROM_LOAD("epr5811.33", 0x8000, 0x2000, 0x093e3ab1);
             ROM_LOAD("epr5812.34", 0xa000, 0x2000, 0x5bfd692f);
@@ -3224,9 +3370,11 @@ public class system1 {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
-            ROM_LOAD("epr5978", 0x0000, 0x4000, 0x296f1492); /* encrypted */
+            ROM_LOAD("epr5978", 0x0000, 0x4000, 0x296f1492);
+            /* encrypted */
 
-            ROM_LOAD("epr5979", 0x4000, 0x4000, 0x64b03ef9); /* encrypted */
+            ROM_LOAD("epr5979", 0x4000, 0x4000, 0x64b03ef9);
+            /* encrypted */
 
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for sound cpu */
 
@@ -3249,13 +3397,17 @@ public class system1 {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
-            ROM_LOAD("f_9", 0x0000, 0x2000, 0xa65ac88e); /* encrypted */
+            ROM_LOAD("f_9", 0x0000, 0x2000, 0xa65ac88e);
+            /* encrypted */
 
-            ROM_LOAD("f_10", 0x2000, 0x2000, 0x18b412f4); /* encrypted */
+            ROM_LOAD("f_10", 0x2000, 0x2000, 0x18b412f4);
+            /* encrypted */
 
-            ROM_LOAD("f_11", 0x4000, 0x2000, 0xa5558d7e); /* encrypted */
+            ROM_LOAD("f_11", 0x4000, 0x2000, 0xa5558d7e);
+            /* encrypted */
 
-            ROM_LOAD("f_12", 0x6000, 0x2000, 0x1b35fef1); /* encrypted */
+            ROM_LOAD("f_12", 0x6000, 0x2000, 0x1b35fef1);
+            /* encrypted */
 
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for sound cpu */
 
@@ -3278,9 +3430,11 @@ public class system1 {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
-            ROM_LOAD("6071", 0x0000, 0x4000, 0x96b57df9); /* encrypted */
+            ROM_LOAD("6071", 0x0000, 0x4000, 0x96b57df9);
+            /* encrypted */
 
-            ROM_LOAD("6072", 0x4000, 0x4000, 0xf7baadd0); /* encrypted */
+            ROM_LOAD("6072", 0x4000, 0x4000, 0xf7baadd0);
+            /* encrypted */
 
             ROM_LOAD("6073", 0x8000, 0x4000, 0x721af166);
 
@@ -3308,9 +3462,11 @@ public class system1 {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
-            ROM_LOAD("epr6456a.116", 0x0000, 0x4000, 0xbcc8406b); /* encrypted */
+            ROM_LOAD("epr6456a.116", 0x0000, 0x4000, 0xbcc8406b);
+            /* encrypted */
 
-            ROM_LOAD("epr6457a.109", 0x4000, 0x4000, 0xa016fd2a); /* encrypted */
+            ROM_LOAD("epr6457a.109", 0x4000, 0x4000, 0xa016fd2a);
+            /* encrypted */
 
             ROM_LOAD("epr6458a.96", 0x8000, 0x4000, 0x5c30b3e8);
 
@@ -3366,9 +3522,11 @@ public class system1 {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
-            ROM_LOAD("ic116.bin", 0x0000, 0x4000, 0xa5d0c9d0); /* encrypted */
+            ROM_LOAD("ic116.bin", 0x0000, 0x4000, 0xa5d0c9d0);
+            /* encrypted */
 
-            ROM_LOAD("ic109.bin", 0x4000, 0x4000, 0xb9e6775c); /* encrypted */
+            ROM_LOAD("ic109.bin", 0x4000, 0x4000, 0xb9e6775c);
+            /* encrypted */
 
             ROM_LOAD("7151.96", 0x8000, 0x4000, 0xf2eeb0d8);
 
@@ -3428,9 +3586,11 @@ public class system1 {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
-            ROM_LOAD("epr6550.116", 0x0000, 0x4000, 0x5f6d59f1); /* encrypted */
+            ROM_LOAD("epr6550.116", 0x0000, 0x4000, 0x5f6d59f1);
+            /* encrypted */
 
-            ROM_LOAD("epr6551.109", 0x4000, 0x4000, 0x1af133b2); /* encrypted */
+            ROM_LOAD("epr6551.109", 0x4000, 0x4000, 0x1af133b2);
+            /* encrypted */
 
             ROM_LOAD("7151.96", 0x8000, 0x4000, 0xf2eeb0d8);
 
@@ -3493,9 +3653,11 @@ public class system1 {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
-            ROM_LOAD("nprinces.001", 0x0000, 0x4000, 0xe0de073c); /* encrypted */
+            ROM_LOAD("nprinces.001", 0x0000, 0x4000, 0xe0de073c);
+            /* encrypted */
 
-            ROM_LOAD("nprinces.002", 0x4000, 0x4000, 0x27219c7f); /* encrypted */
+            ROM_LOAD("nprinces.002", 0x4000, 0x4000, 0x27219c7f);
+            /* encrypted */
 
             ROM_LOAD("7151.96", 0x8000, 0x4000, 0xf2eeb0d8);
 
@@ -3525,9 +3687,11 @@ public class system1 {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
-            ROM_LOAD("epr6676.116", 0x0000, 0x4000, 0xeb087d7f); /* encrypted */
+            ROM_LOAD("epr6676.116", 0x0000, 0x4000, 0xeb087d7f);
+            /* encrypted */
 
-            ROM_LOAD("epr6677.109", 0x4000, 0x4000, 0xbd244bee); /* encrypted */
+            ROM_LOAD("epr6677.109", 0x4000, 0x4000, 0xbd244bee);
+            /* encrypted */
 
             ROM_LOAD("epr6678.96", 0x8000, 0x4000, 0x2e16b9fd);
 
@@ -3555,9 +3719,11 @@ public class system1 {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
-            ROM_LOAD("6647.116", 0x0000, 0x4000, 0xcc5d915d); /* encrypted */
+            ROM_LOAD("6647.116", 0x0000, 0x4000, 0xcc5d915d);
+            /* encrypted */
 
-            ROM_LOAD("6648.109", 0x4000, 0x4000, 0x37574d60); /* encrypted */
+            ROM_LOAD("6648.109", 0x4000, 0x4000, 0x37574d60);
+            /* encrypted */
 
             ROM_LOAD("6649.96", 0x8000, 0x4000, 0x5f59bdee);
 
@@ -3585,9 +3751,11 @@ public class system1 {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
-            ROM_LOAD("6768.116", 0x0000, 0x4000, 0x5939817e); /* encrypted */
+            ROM_LOAD("6768.116", 0x0000, 0x4000, 0x5939817e);
+            /* encrypted */
 
-            ROM_LOAD("6769.109", 0x4000, 0x4000, 0x14a98ddd); /* encrypted */
+            ROM_LOAD("6769.109", 0x4000, 0x4000, 0x14a98ddd);
+            /* encrypted */
 
             ROM_LOAD("6770.96", 0x8000, 0x4000, 0x67b0c7c2);
 
@@ -3715,12 +3883,14 @@ public class system1 {
     static RomLoadHandlerPtr rom_myherok = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
-            /* all the three program ROMs have bits 0-1 swapped */
-            /* when decoded, they are identical to the Japanese version */
+ /* all the three program ROMs have bits 0-1 swapped */
+ /* when decoded, they are identical to the Japanese version */
 
-            ROM_LOAD("ry-11.rom", 0x0000, 0x4000, 0x6f4c8ee5); /* encrypted */
+            ROM_LOAD("ry-11.rom", 0x0000, 0x4000, 0x6f4c8ee5);
+            /* encrypted */
 
-            ROM_LOAD("ry-09.rom", 0x4000, 0x4000, 0x369302a1); /* encrypted */
+            ROM_LOAD("ry-09.rom", 0x4000, 0x4000, 0x369302a1);
+            /* encrypted */
 
             ROM_LOAD("ry-07.rom", 0x8000, 0x4000, 0xb8e9922e);
 
@@ -3730,7 +3900,7 @@ public class system1 {
 
             ROM_REGION(0xc000, REGION_GFX1 | REGIONFLAG_DISPOSE);
             /* all three gfx ROMs have address lines A4 and A5 swapped, also #1 and #3 */
-            /* have data lines D0 and D6 swapped, while #2 has data lines D1 and D5 swapped. */
+ /* have data lines D0 and D6 swapped, while #2 has data lines D1 and D5 swapped. */
             ROM_LOAD("ry-04.rom", 0x0000, 0x4000, 0xdfb75143);
             ROM_LOAD("ry-03.rom", 0x4000, 0x4000, 0xcf68b4a2);
             ROM_LOAD("ry-02.rom", 0x8000, 0x4000, 0xd100eaef);
@@ -3892,9 +4062,11 @@ public class system1 {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
-            ROM_LOAD("4d.116", 0x0000, 0x4000, 0x546d1bc7); /* encrypted */
+            ROM_LOAD("4d.116", 0x0000, 0x4000, 0x546d1bc7);
+            /* encrypted */
 
-            ROM_LOAD("4d.109", 0x4000, 0x4000, 0xf1074ec3); /* encrypted */
+            ROM_LOAD("4d.109", 0x4000, 0x4000, 0xf1074ec3);
+            /* encrypted */
 
             ROM_LOAD("4d.96", 0x8000, 0x4000, 0x387c1e8f);
 
@@ -3927,7 +4099,7 @@ public class system1 {
             ROM_LOAD("brain.1", 0x00000, 0x8000, 0x2d2aec31);
             ROM_LOAD("brain.2", 0x10000, 0x8000, 0x810a8ab5);
             ROM_RELOAD(0x08000, 0x8000);/* there's code falling through from 7fff */
-            /* so I have to copy the ROM there */
+ /* so I have to copy the ROM there */
 
             ROM_LOAD("brain.3", 0x18000, 0x8000, 0x9a225634);
 
@@ -3962,9 +4134,11 @@ public class system1 {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
-            ROM_LOAD("b-1.bin", 0x0000, 0x4000, 0x51d27534); /* encrypted */
+            ROM_LOAD("b-1.bin", 0x0000, 0x4000, 0x51d27534);
+            /* encrypted */
 
-            ROM_LOAD("b-2.bin", 0x4000, 0x4000, 0xe29d1cd1); /* encrypted */
+            ROM_LOAD("b-2.bin", 0x4000, 0x4000, 0xe29d1cd1);
+            /* encrypted */
 
             ROM_LOAD("epr7491.96", 0x8000, 0x4000, 0x1f7d0efe);
 
@@ -3994,9 +4168,11 @@ public class system1 {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
-            ROM_LOAD("wb_1", 0x0000, 0x4000, 0xbd6fef49); /* encrypted */
+            ROM_LOAD("wb_1", 0x0000, 0x4000, 0xbd6fef49);
+            /* encrypted */
 
-            ROM_LOAD("wb_2", 0x4000, 0x4000, 0x4081b624); /* encrypted */
+            ROM_LOAD("wb_2", 0x4000, 0x4000, 0x4081b624);
+            /* encrypted */
 
             ROM_LOAD("wb_3", 0x8000, 0x4000, 0xc48a0e36);
 
@@ -4026,9 +4202,11 @@ public class system1 {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
-            ROM_LOAD("epr7489.116", 0x0000, 0x4000, 0x130f4b70); /* encrypted */
+            ROM_LOAD("epr7489.116", 0x0000, 0x4000, 0x130f4b70);
+            /* encrypted */
 
-            ROM_LOAD("epr7490.109", 0x4000, 0x4000, 0x9e656733); /* encrypted */
+            ROM_LOAD("epr7490.109", 0x4000, 0x4000, 0x9e656733);
+            /* encrypted */
 
             ROM_LOAD("epr7491.96", 0x8000, 0x4000, 0x1f7d0efe);
 
@@ -4058,13 +4236,17 @@ public class system1 {
         public void handler() {
             ROM_REGION(2 * 0x10000, REGION_CPU1);/* 64k for code + 64k for decrypted opcodes */
 
-            ROM_LOAD("ic129", 0x0000, 0x2000, 0x1bbb7354); /* encrypted */
+            ROM_LOAD("ic129", 0x0000, 0x2000, 0x1bbb7354);
+            /* encrypted */
 
-            ROM_LOAD("ic130", 0x2000, 0x2000, 0x21007413); /* encrypted */
+            ROM_LOAD("ic130", 0x2000, 0x2000, 0x21007413);
+            /* encrypted */
 
-            ROM_LOAD("ic131", 0x4000, 0x2000, 0x44b30433); /* encrypted */
+            ROM_LOAD("ic131", 0x4000, 0x2000, 0x44b30433);
+            /* encrypted */
 
-            ROM_LOAD("ic132", 0x6000, 0x2000, 0xbb525a0b); /* encrypted */
+            ROM_LOAD("ic132", 0x6000, 0x2000, 0xbb525a0b);
+            /* encrypted */
 
             ROM_LOAD("ic133", 0x8000, 0x2000, 0x8379aa23);
             ROM_LOAD("ic134", 0xa000, 0x2000, 0xc767a5d7);
@@ -4261,10 +4443,12 @@ public class system1 {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
 
-            ROM_LOAD("bg.116", 0x0000, 0x4000, 0xa99b231a); /* encrypted */
+            ROM_LOAD("bg.116", 0x0000, 0x4000, 0xa99b231a);
+            /* encrypted */
 
-            ROM_LOAD("bg.109", 0x4000, 0x4000, 0xa6b573d5); /* encrypted */
-            /* 0x8000-0xbfff empty (was same as My Hero) */
+            ROM_LOAD("bg.109", 0x4000, 0x4000, 0xa6b573d5);
+            /* encrypted */
+ /* 0x8000-0xbfff empty (was same as My Hero) */
 
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for sound cpu */
 
@@ -4294,7 +4478,8 @@ public class system1 {
 
             ROM_LOAD("ic62", 0x10000, 0x8000, 0x65c47676);/* decrypted opcodes */
 
-            ROM_CONTINUE(0x00000, 0x8000);		 /* decrypted data */
+            ROM_CONTINUE(0x00000, 0x8000);
+            /* decrypted data */
 
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for sound cpu */
 
@@ -4359,7 +4544,8 @@ public class system1 {
 
             ROM_LOAD("wbml.01", 0x20000, 0x8000, 0x66482638);/* Unencrypted opcodes */
 
-            ROM_CONTINUE(0x00000, 0x8000);		  /* Now load the operands in RAM */
+            ROM_CONTINUE(0x00000, 0x8000);
+            /* Now load the operands in RAM */
 
             ROM_LOAD("wbml.02", 0x30000, 0x8000, 0x48746bb6);/* Unencrypted opcodes */
 
@@ -4466,7 +4652,8 @@ public class system1 {
 
             ROM_LOAD("wbml.01", 0x20000, 0x8000, 0x66482638);/* Unencrypted opcodes */
 
-            ROM_CONTINUE(0x00000, 0x8000);		  /* Now load the operands in RAM */
+            ROM_CONTINUE(0x00000, 0x8000);
+            /* Now load the operands in RAM */
 
             ROM_LOAD("m-6.bin", 0x30000, 0x8000, 0x8c08cd11);/* Unencrypted opcodes */
 
@@ -4506,7 +4693,7 @@ public class system1 {
             ROM_LOAD("epr11224.90", 0x00000, 0x8000, 0x9fb1972b);/* encrypted */
 
             ROM_LOAD("epr11225.91", 0x10000, 0x8000, 0xc540f9e2);/* encrypted */
-            /* 18000-1ffff empty */
+ /* 18000-1ffff empty */
 
             ROM_REGION(0x10000, REGION_CPU2);/* 64k for sound cpu */
 
@@ -4659,7 +4846,7 @@ public class system1 {
             UBytePtr rom;
 
             /* additionally to the usual protection, all the program ROMs have data lines */
-            /* D0 and D1 swapped. */
+ /* D0 and D1 swapped. */
             rom = memory_region(REGION_CPU1);
             for (A = 0; A < 0xc000; A++) {
                 rom.write(A, ((rom.read(A) & 0xfc) | ((rom.read(A) & 1) << 1) | ((rom.read(A) & 2) >> 1)));
@@ -4719,8 +4906,7 @@ public class system1 {
     public static GameDriver driver_swat = new GameDriver("1984", "swat", "system1.java", rom_swat, null, machine_driver_system1, input_ports_swat, init_swat, ROT270, "Coreland / Sega", "SWAT", GAME_NO_COCKTAIL);
     public static GameDriver driver_flicky = new GameDriver("1984", "flicky", "system1.java", rom_flicky, null, machine_driver_system1, input_ports_flicky, init_flicky, ROT0, "Sega", "Flicky (set 1)", GAME_NO_COCKTAIL);
     public static GameDriver driver_flicky2 = new GameDriver("1984", "flicky2", "system1.java", rom_flicky2, driver_flicky, machine_driver_system1, input_ports_flicky, init_flicky, ROT0, "Sega", "Flicky (set 2)", GAME_NO_COCKTAIL);
-    public static GameDriver driver_bullfgtj = new GameDriver("1984", "bullfgtj", "system1.java", rom_bullfgtj, null, machine_driver_system1, input_ports_bullfgtj, init_bullfgtj, ROT0, "Sega / Coreland", "The Tougyuu (Japan)", GAME_NO_COCKTAIL);	/* Bull Fight */
-
+    public static GameDriver driver_bullfgtj = new GameDriver("1984", "bullfgtj", "system1.java", rom_bullfgtj, null, machine_driver_system1, input_ports_bullfgtj, init_bullfgtj, ROT0, "Sega / Coreland", "The Tougyuu (Japan)", GAME_NO_COCKTAIL);/* Bull Fight */
     public static GameDriver driver_pitfall2 = new GameDriver("1985", "pitfall2", "system1.java", rom_pitfall2, null, machine_driver_pitfall2, input_ports_pitfall2, init_pitfall2, ROT0, "Sega", "Pitfall II", GAME_NO_COCKTAIL);
     public static GameDriver driver_pitfallu = new GameDriver("1985", "pitfallu", "system1.java", rom_pitfallu, driver_pitfall2, machine_driver_pitfall2, input_ports_pitfallu, null, ROT0, "Sega", "Pitfall II (not encrypted)", GAME_NO_COCKTAIL);
     public static GameDriver driver_seganinj = new GameDriver("1985", "seganinj", "system1.java", rom_seganinj, null, machine_driver_system1, input_ports_seganinj, init_seganinj, ROT0, "Sega", "Sega Ninja", GAME_NO_COCKTAIL);
@@ -4735,9 +4921,11 @@ public class system1 {
     public static GameDriver driver_myhero = new GameDriver("1985", "myhero", "system1.java", rom_myhero, null, machine_driver_system1, input_ports_myhero, null, ROT0, "Sega", "My Hero (US)", GAME_NO_COCKTAIL);
     public static GameDriver driver_myheroj = new GameDriver("1985", "myheroj", "system1.java", rom_myheroj, driver_myhero, machine_driver_system1, input_ports_myhero, init_myheroj, ROT0, "Coreland / Sega", "Seishun Scandal (Japan)", GAME_NO_COCKTAIL);
     public static GameDriver driver_myherok = new GameDriver("1985", "myherok", "system1.java", rom_myherok, driver_myhero, machine_driver_system1, input_ports_myhero, init_myherok, ROT0, "Coreland / Sega", "My Hero (Korea)", GAME_NO_COCKTAIL);
-    public static GameDriver driver_shtngmst = new GameDriver("1985", "shtngmst", "system1.java", rom_shtngmst, null, machine_driver_chplft, input_ports_chplft, null, ROT0, "Sega", "Shooting Master", GAME_NOT_WORKING | GAME_NO_COCKTAIL);	/* 8751 protection */
+    public static GameDriver driver_shtngmst = new GameDriver("1985", "shtngmst", "system1.java", rom_shtngmst, null, machine_driver_chplft, input_ports_chplft, null, ROT0, "Sega", "Shooting Master", GAME_NOT_WORKING | GAME_NO_COCKTAIL);
+    /* 8751 protection */
 
-    public static GameDriver driver_chplft = new GameDriver("1985", "chplft", "system1.java", rom_chplft, null, machine_driver_chplft, input_ports_chplft, null, ROT0, "Sega", "Choplifter", GAME_NOT_WORKING | GAME_NO_COCKTAIL);	/* 8751 protection */
+    public static GameDriver driver_chplft = new GameDriver("1985", "chplft", "system1.java", rom_chplft, null, machine_driver_chplft, input_ports_chplft, null, ROT0, "Sega", "Choplifter", GAME_NOT_WORKING | GAME_NO_COCKTAIL);
+    /* 8751 protection */
 
     public static GameDriver driver_chplftb = new GameDriver("1985", "chplftb", "system1.java", rom_chplftb, driver_chplft, machine_driver_chplft, input_ports_chplft, null, ROT0, "Sega", "Choplifter (alternate)", GAME_NO_COCKTAIL);
     public static GameDriver driver_chplftbl = new GameDriver("1985", "chplftbl", "system1.java", rom_chplftbl, driver_chplft, machine_driver_chplft, input_ports_chplft, null, ROT0, "bootleg", "Choplifter (bootleg)", GAME_NO_COCKTAIL);

@@ -1,29 +1,35 @@
-/*
+/**
  * ported to v0.36
- * using automatic conversion tool v0.08 + manual fixes
- *
- *
  *
  */
-package gr.codebb.arcadeflex.v036.vidhrdw;
+/**
+ * Changelog
+ * =========
+ * 13/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.vidhrdw;
+
+//driver imports
+import static arcadeflex.v036.drivers.system1.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.paletteH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.system1H.*;
+//TODO
 import gr.codebb.arcadeflex.common.SubArrays.UShortArray;
 import static common.libc.cstring.*;
-import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static arcadeflex.v036.mame.osdependH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.system1H.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static arcadeflex.v036.mame.paletteH.*;
 import static gr.codebb.arcadeflex.v036.platform.video.*;
-import static gr.codebb.arcadeflex.v036.drivers.system1.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.mame.commonH.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class system1 {
@@ -67,17 +73,17 @@ public class system1 {
                     bit1 = (color_prom.read(0 * 256) >> 1) & 0x01;
                     bit2 = (color_prom.read(0 * 256) >> 2) & 0x01;
                     bit3 = (color_prom.read(0 * 256) >> 3) & 0x01;
-                    palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
+                    palette[p_inc++] = (char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
                     bit0 = (color_prom.read(1 * 256) >> 0) & 0x01;
                     bit1 = (color_prom.read(1 * 256) >> 1) & 0x01;
                     bit2 = (color_prom.read(1 * 256) >> 2) & 0x01;
                     bit3 = (color_prom.read(1 * 256) >> 3) & 0x01;
-                    palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
+                    palette[p_inc++] = (char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
                     bit0 = (color_prom.read(2 * 256) >> 0) & 0x01;
                     bit1 = (color_prom.read(2 * 256) >> 1) & 0x01;
                     bit2 = (color_prom.read(2 * 256) >> 2) & 0x01;
                     bit3 = (color_prom.read(2 * 256) >> 3) & 0x01;
-                    palette[p_inc++]=(char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
+                    palette[p_inc++] = (char) (0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3);
                     color_prom.inc();
                 }
             } else {
@@ -86,16 +92,16 @@ public class system1 {
 
                     /* red component */
                     val = (i >> 0) & 0x07;
-                    palette[p_inc++]=(char) ((val << 5) | (val << 2) | (val >> 1));
+                    palette[p_inc++] = (char) ((val << 5) | (val << 2) | (val >> 1));
                     /* green component */
                     val = (i >> 3) & 0x07;
-                    palette[p_inc++]=(char) ((val << 5) | (val << 2) | (val >> 1));
+                    palette[p_inc++] = (char) ((val << 5) | (val << 2) | (val >> 1));
                     /* blue component */
                     val = (i >> 5) & 0x06;
                     if (val != 0) {
                         val++;
                     }
-                    palette[p_inc++]=(char) ((val << 5) | (val << 2) | (val >> 1));
+                    palette[p_inc++] = (char) ((val << 5) | (val << 2) | (val >> 1));
                 }
             }
             //(shadow) copy palette to palette_lookup table
@@ -184,8 +190,8 @@ public class system1 {
             }
 
             /* bit 0 is coin counter */
-            /* bit 3 is ??? */
-            /* bit 4 is screen blank */
+ /* bit 3 is ??? */
+ /* bit 4 is screen blank */
             system1_video_mode = data;
         }
     };
@@ -244,27 +250,27 @@ public class system1 {
         yr = ((y - background_scrolly) & 0xff) / 8;
 
         /* TODO: bits 5 and 6 of backgroundram are also used (e.g. Pitfall2, Mr. Viking) */
-        /* what's the difference? Bit 7 is used in Choplifter/WBML for extra char bank */
-        /* selection, but it is also set in Pitfall2 */
+ /* what's the difference? Bit 7 is used in Choplifter/WBML for extra char bank */
+ /* selection, but it is also set in Pitfall2 */
         if (system1_background_memory == system1_BACKGROUND_MEMORY_SINGLE) {
             if ((system1_backgroundram.read(2 * (32 * yr + xr) + 1) & 0x10) != 0) {
                 system1_background_collisionram.write(0x20 + spr_number, 0xff);
             }
         } else {
             /* TODO: I should handle the paged background memory here. */
-            /* maybe collision detection is not used by the paged games */
-            /* (wbml and tokisens), though tokisens doesn't play very well */
-            /* (you can't seem to fit in gaps where you should fit) */
+ /* maybe collision detection is not used by the paged games */
+ /* (wbml and tokisens), though tokisens doesn't play very well */
+ /* (you can't seem to fit in gaps where you should fit) */
         }
 
         /* TODO: collision should probably be checked with the foreground as well */
-        /* (TeddyBoy Blues, head of the tiger in girl bonus round) */
+ /* (TeddyBoy Blues, head of the tiger in girl bonus round) */
     }
 
     public static WriteHandlerPtr system1_background_collisionram_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             /* to do the RAM check, Mister Viking writes 0xff and immediately */
-            /* reads it back, expecting bit 0 to be NOT set. */
+ /* reads it back, expecting bit 0 to be NOT set. */
             system1_background_collisionram.write(offset, 0x7e);
         }
     };
@@ -272,9 +278,9 @@ public class system1 {
     public static WriteHandlerPtr system1_sprites_collisionram_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             /* to do the RAM check, Mister Viking write 0xff and immediately */
-            /* reads it back, expecting bit 0 to be NOT set. */
-            /* Up'n Down expects to find 0x7e at f800 before doing the whole */
-            /* collision test */
+ /* reads it back, expecting bit 0 to be NOT set. */
+ /* Up'n Down expects to find 0x7e at f800 before doing the whole */
+ /* collision test */
             system1_sprites_collisionram.write(offset, 0x7e);
         }
     };
@@ -284,21 +290,23 @@ public class system1 {
         int bank;
         UBytePtr SprReg = new UBytePtr();//unsigned char *SprReg;
         UShortArray SprPalette;//unsigned short *SprPalette;
-        short skip;	/* bytes to skip before drawing each row (can be negative) */
-
+        short skip;
+        /* bytes to skip before drawing each row (can be negative) */
 
         SprReg.set(spriteram, 0x10 * spr_number);//SprReg		= spriteram + 0x10 * spr_number;
 
         src = SprReg.read(SPR_GFXOFS_LO) + (SprReg.read(SPR_GFXOFS_HI) << 8);
         bank = 0x8000 * (((SprReg.read(SPR_X_HI) & 0x80) >> 7) + ((SprReg.read(SPR_X_HI) & 0x40) >> 5));
-        bank &= (memory_region_length(REGION_GFX2) - 1);	/* limit to the range of available ROMs */
+        bank &= (memory_region_length(REGION_GFX2) - 1);
+        /* limit to the range of available ROMs */
 
         skip = (short) (SprReg.read(SPR_SKIP_LO) + (SprReg.read(SPR_SKIP_HI) << 8));
 
         Height = SprReg.read(SPR_Y_BOTTOM) - SprReg.read(SPR_Y_TOP);
-        SprPalette= new UShortArray(Machine.remapped_colortable, 0x10 * spr_number);//SprPalette	= Machine.remapped_colortable + 0x10 * spr_number;
+        SprPalette = new UShortArray(Machine.remapped_colortable, 0x10 * spr_number);//SprPalette	= Machine.remapped_colortable + 0x10 * spr_number;
         SprX = SprReg.read(SPR_X_LO) + ((SprReg.read(SPR_X_HI) & 0x01) << 8);
-        SprX /= 2;	/* the hardware has sub-pixel placement, it seems */
+        SprX /= 2;
+        /* the hardware has sub-pixel placement, it seems */
 
         if (Machine.gamedrv == driver_wbml || Machine.gamedrv.clone_of == driver_wbml) {
             SprX += 7;
@@ -461,7 +469,8 @@ public class system1 {
                 int code, color;
 
                 code = (system1_videoram.read(offs) | (system1_videoram.read(offs + 1) << 8));
-                code = ((code >> 4) & 0x800) | (code & 0x7ff);	/* Heavy Metal only */
+                code = ((code >> 4) & 0x800) | (code & 0x7ff);
+                /* Heavy Metal only */
 
                 color = ((code >> 5) & 0x3f);
                 sx = (offs / 2) % 32;
@@ -492,7 +501,7 @@ public class system1 {
         if (priority == -1) {
             /* optimized far background */
 
-            /* for every character in the background video RAM, check if it has
+ /* for every character in the background video RAM, check if it has
              * been modified since last time and update it accordingly.
              */
             for (offs = 0; offs < system1_backgroundram_size[0]; offs += 2) {
@@ -502,7 +511,8 @@ public class system1 {
                     bg_dirtybuffer[offs / 2] = 0;
 
                     code = (system1_backgroundram.read(offs) | (system1_backgroundram.read(offs + 1) << 8));
-                    code = ((code >> 4) & 0x800) | (code & 0x7ff);	/* Heavy Metal only */
+                    code = ((code >> 4) & 0x800) | (code & 0x7ff);
+                    /* Heavy Metal only */
 
                     color = ((code >> 5) & 0x3f) + 0x40;
                     sx = (offs / 2) % 32;
@@ -527,7 +537,8 @@ public class system1 {
                     int code, color;
 
                     code = (system1_backgroundram.read(offs) | (system1_backgroundram.read(offs + 1) << 8));
-                    code = ((code >> 4) & 0x800) | (code & 0x7ff);	/* Heavy Metal only */
+                    code = ((code >> 4) & 0x800) | (code & 0x7ff);
+                    /* Heavy Metal only */
 
                     color = ((code >> 5) & 0x3f) + 0x40;
                     sx = (offs / 2) % 32;
@@ -609,7 +620,7 @@ public class system1 {
         if (priority == -1) {
             /* optimized far background */
 
-            /* for every character in the background video RAM, check if it has
+ /* for every character in the background video RAM, check if it has
              * been modified since last time and update it accordingly.
              */
             for (offs = 0; offs < system1_backgroundram_size[0]; offs += 2) {
@@ -619,7 +630,8 @@ public class system1 {
                     bg_dirtybuffer[offs / 2] = 0;
 
                     code = (system1_backgroundram.read(offs) | (system1_backgroundram.read(offs + 1) << 8));
-                    code = ((code >> 4) & 0x800) | (code & 0x7ff);	/* Heavy Metal only */
+                    code = ((code >> 4) & 0x800) | (code & 0x7ff);
+                    /* Heavy Metal only */
 
                     color = ((code >> 5) & 0x3f) + 0x40;
                     sx = (offs / 2) % 32;
@@ -648,7 +660,8 @@ public class system1 {
                     int code, color;
 
                     code = (system1_backgroundram.read(offs) | (system1_backgroundram.read(offs + 1) << 8));
-                    code = ((code >> 4) & 0x800) | (code & 0x7ff);	/* Heavy Metal only */
+                    code = ((code >> 4) & 0x800) | (code & 0x7ff);
+                    /* Heavy Metal only */
 
                     color = ((code >> 5) & 0x3f) + 0x40;
                     sx = 8 * ((offs / 2) % 32);
@@ -703,7 +716,8 @@ public class system1 {
     public static WriteHandlerPtr wbml_bg_bankselect_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             bg_bank_latch = (char) data;
-            bg_bank = (char) ((data >> 1) & 0x03);	/* Select 4 banks of 4k, bit 2,1 */
+            bg_bank = (char) ((data >> 1) & 0x03);
+            /* Select 4 banks of 4k, bit 2,1 */
 
         }
     };
@@ -770,7 +784,8 @@ public class system1 {
                     source.inc(2);//source+=2;
                 }
             }
-        } /* next page */
+        }
+        /* next page */
 
     }
 

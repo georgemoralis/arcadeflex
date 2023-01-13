@@ -1,27 +1,30 @@
 /*
  * ported to v0.36
  * using automatic conversion tool v0.08
- *
- *
- *
  */
-package gr.codebb.arcadeflex.v036.vidhrdw;
+/**
+ * Changelog
+ * =========
+ * 13/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.vidhrdw;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
 import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.paletteH.*;
+//TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static arcadeflex.v036.mame.osdependH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.mame.paletteH.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295.*;
 
@@ -33,7 +36,8 @@ public class mitchell {
     public static UBytePtr pang_colorram = new UBytePtr();
 
     /* Private */
-    public static UBytePtr pang_objram = new UBytePtr();           /* Sprite RAM */
+    public static UBytePtr pang_objram = new UBytePtr();
+    /* Sprite RAM */
 
     static tilemap bg_tilemap;
     static int flipscreen;
@@ -59,7 +63,7 @@ public class mitchell {
     /**
      * *************************************************************************
      * Video init
-	**************************************************************************
+     * *************************************************************************
      */
     public static VhStartHandlerPtr pang_vh_start = new VhStartHandlerPtr() {
         public int handler() {
@@ -85,7 +89,7 @@ public class mitchell {
                 pang_vh_stop.handler();
                 return 1;
             }
-		//memset(pang_objram, 0, pang_videoram_size);
+            //memset(pang_objram, 0, pang_videoram_size);
 
             /*
              Palette RAM
@@ -95,9 +99,10 @@ public class mitchell {
                 pang_vh_stop.handler();
                 return 1;
             }
-		//memset(paletteram, 0, 2*Machine.drv.total_colors);
+            //memset(paletteram, 0, 2*Machine.drv.total_colors);
 
-            palette_transparent_color = 0; /* background color (Block Block uses this on the title screen) */
+            palette_transparent_color = 0;
+            /* background color (Block Block uses this on the title screen) */
 
             return 0;
         }
@@ -113,7 +118,7 @@ public class mitchell {
     /**
      * *************************************************************************
      * OBJ / CHAR RAM HANDLERS (BANK 0 = CHAR, BANK 1=OBJ)
-	**************************************************************************
+     * *************************************************************************
      */
     static int video_bank;
 
@@ -174,7 +179,7 @@ public class mitchell {
     /**
      * *************************************************************************
      * COLOUR RAM
-	***************************************************************************
+     * **************************************************************************
      */
     public static WriteHandlerPtr pang_colorram_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
@@ -194,7 +199,7 @@ public class mitchell {
     /**
      * *************************************************************************
      * PALETTE HANDLERS (COLOURS: BANK 0 = 0x00-0x3f BANK 1=0x40-0xff)
-	***************************************************************************
+     * **************************************************************************
      */
     static int paletteram_bank;
 
@@ -204,13 +209,13 @@ public class mitchell {
                 fprintf(errorlog, "PC %04x: pang_gfxctrl_w %02x\n", cpu_get_pc(), data);
             }
             {
-		//char baf[40];
+                //char baf[40];
                 //sprintf(baf,"%02x",data);
                 //	usrintf_showmessage(baf);
             }
 
             /* bit 0 is unknown (used, maybe back color enable?) */
-            /* bit 1 is coin counter */
+ /* bit 1 is coin counter */
             coin_counter_w.handler(0, data & 2);
 
             /* bit 2 is flip screen */
@@ -220,16 +225,16 @@ public class mitchell {
             }
 
             /* bit 3 is unknown (used, e.g. marukin pulses it on the title screen) */
-            /* bit 4 selects OKI M6295 bank */
+ /* bit 4 selects OKI M6295 bank */
             OKIM6295_set_bank_base(0, ALL_VOICES, (data & 0x10) != 0 ? 0x40000 : 0x00000);
 
             /* bit 5 is palette RAM bank selector (doesn't apply to mgakuen) */
             paletteram_bank = data & 0x20;
 
             /* bits 6 and 7 are unknown, used in several places. At first I thought */
-            /* they were bg and sprites enable, but this screws up spang (screen flickers */
-            /* every time you pop a bubble). However, not using them as enable bits screws */
-            /* up marukin - you can see partially built up screens during attract mode. */
+ /* they were bg and sprites enable, but this screws up spang (screen flickers */
+ /* every time you pop a bubble). However, not using them as enable bits screws */
+ /* up marukin - you can see partially built up screens during attract mode. */
         }
     };
 
@@ -283,7 +288,7 @@ public class mitchell {
         }
 
         /* the last entry is not a sprite, we skip it otherwise spang shows a bubble */
-        /* moving diagonally across the screen */
+ /* moving diagonally across the screen */
         for (offs = 0x1000 - 0x40; offs >= 0; offs -= 0x20) {
             attr = pang_objram.read(offs + 1);
             code = pang_objram.read(offs) + ((attr & 0xe0) << 3);
@@ -306,7 +311,7 @@ public class mitchell {
         int offs, sx, sy;
 
         /* the last entry is not a sprite, we skip it otherwise spang shows a bubble */
-        /* moving diagonally across the screen */
+ /* moving diagonally across the screen */
         for (offs = 0x1000 - 0x40; offs >= 0; offs -= 0x20) {
             int code = pang_objram.read(offs);
             int attr = pang_objram.read(offs + 1);

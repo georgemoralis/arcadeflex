@@ -19,7 +19,6 @@ package gr.codebb.arcadeflex.v036.mame;
 import static arcadeflex.v036.mame.driverH.*;
 
 //drivers imports
-import static gr.codebb.arcadeflex.v036.drivers.system1.*;
 import static gr.codebb.arcadeflex.v036.drivers.copsnrob.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.pcktgal.*;
 import static arcadeflex.v036.drivers.bogeyman.*;
@@ -29,7 +28,6 @@ import static gr.codebb.arcadeflex.v037b7.drivers.gsword.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jrpacman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jackal.*;
 import static arcadeflex.v036.drivers.gberet.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.mitchell.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.ddragon.*;
 import static arcadeflex.v036.drivers.contra.*;
 import static gr.codebb.arcadeflex.v036.drivers.sidepckt.*;
@@ -169,43 +167,6 @@ public class driver {
                 /*117*//*bogeyman*/driver_bogeyman,
                 /*132*//*scregg*/ driver_scregg,
                 /*133*//*scregg*/ driver_eggs,
-                /* Sega System 1 / System 2 games */
-                /*136*//*system1*/ driver_starjack,
-                /*137*//*system1*/ driver_starjacs,
-                /*138*//*system1*/ driver_regulus,
-                /*139*//*system1*/ driver_regulusu,
-                /*140*//*system1*/ driver_upndown,
-                /*141*//*system1*/ driver_mrviking,
-                /*142*//*system1*/ driver_mrvikinj,
-                /*143*//*system1*/ driver_swat,
-                /*144*//*system1*/ driver_flicky,
-                /*145*//*system1*/ driver_flicky2,
-                /*146*//*system1*/ driver_bullfgtj,
-                /*147*//*system1*/ driver_pitfall2,
-                /*148*//*system1*/ driver_pitfallu,
-                /*149*//*system1*/ driver_seganinj,
-                /*150*//*system1*/ driver_seganinu,
-                /*151*//*system1*/ driver_nprinces,
-                /*152*//*system1*/ driver_nprincsu,
-                /*153*//*system1*/ driver_nprincsb,
-                /*154*//*system1*/ driver_imsorry,
-                /*155*//*system1*/ driver_imsorryj,
-                /*156*//*system1*/ driver_teddybb,
-                /*157*//*system1*/ driver_hvymetal,
-                /*158*//*system1*/ driver_myhero,
-                /*159*//*system1*/ driver_myheroj,
-                /*160*//*system1*/ driver_myherok,
-                /*161*//*system1*/ driver_chplftb,
-                /*162*//*system1*/ driver_chplftbl,
-                /*163*//*system1*/ driver_4dwarrio,
-                /*164*//*system1*/ driver_wboy,
-                /*165*//*system1*/ driver_wboy2,
-                /*166*//*system1*/ driver_wboy4,
-                /*167*//*system1*/ driver_wboyu,
-                /*168*//*system1*/ driver_wboy4u,
-                /*169*//*system1*/ driver_wbdeluxe,
-                /*170*//*system1*/ driver_wbml,
-                /*171*//*system1*/ driver_wbmlju,
                 /*274*//*pcktgal*/ driver_pcktgal,
                 /*275*//*pcktgal*/ driver_pcktgalb,
                 /*276*//*pcktgal*/ driver_pcktgal2,
@@ -233,17 +194,6 @@ public class driver {
                 /*412*//*kingobox*/ driver_kingofb,
                 /*413*//*kingobox*/ driver_ringking,
                 /* Mitchell games */
-                /*434*//*mitchell*/ driver_mgakuen,
-                /*435*//*mitchell*/ driver_mgakuen2,
-                /*436*//*mitchell*/ driver_pkladies,
-                /*437*//*mitchell*/ driver_pang,
-                /*438*//*mitchell*/ driver_pangb,
-                /*439*//*mitchell*/ driver_bbros,
-                /*440*//*mitchell*/ driver_pompingw,
-                /*441*//*mitchell*/ driver_cworld,
-                /*442*//*mitchell*/ driver_hatena,
-                /*443*//*mitchell*/ driver_spang,
-                /*444*//*mitchell*/ driver_sbbros,
                 /*447*//*raiden*/ driver_raiden,
                 /*448*//*raiden*/ driver_raidenk,
                 /*449*//*snowbros*/ driver_snowbros,
@@ -324,9 +274,6 @@ public class driver {
                 /*bladestl*/ driver_bladstle, //artifacts left and right of drawing screen
                 /*lkage*/ driver_lkage,//garbage remains in left and right of screen (clipping?)
                 /*lkage*/ driver_lkageb,//garbage remains in left and right of screen (clipping?)
-                /*mitchell*/ driver_block,// wrong window size (height is too large)
-                /*mitchell*/ driver_blockj,// wrong window size (height is too large)
-                /*mitchell*/ driver_blockbl,// wrong window size (height is too large)
 
                 /*
            Sound issues
@@ -371,18 +318,12 @@ public class driver {
                 /*
            Unknown issues 
                  */
-                /*001*//*system1*/ driver_brain, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 2079 at vidhrdw.system1.system1_draw_fg(system1.java:468)
-                /*002*//*system1*/ driver_tokisens, // Game Freezes at startup
                 /*dec8*/ driver_oscar,//games doesn't boot and freezes emu
                 /*dec8*/ driver_oscarj,//games doesn't boot and freezes emu      		
                 /*baraduke*/ driver_baraduke,//stops on booting
                 /*baraduke*/ driver_metrocrs,//goes to intro menu but not much after
                 /*kingobox*/ driver_ringkin3,//warning - op-code execute on mapped i/o
                 /*jackal*/ driver_topgunbl, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 51 at vidhrdw.jackal$1.handler(jackal.java:45)
-                /*mitchell*/ driver_dokaben,//displays an ram error message
-                /*mitchell*/ driver_marukin,//displays an no nvram error message
-                /*mitchell*/ driver_qtono1,//not sure if it works  (japanese)
-                /*mitchell*/ driver_qsangoku,//not sure if it works (japanese)
                 /*m72*/ driver_majtitle, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 786432 at arcadeflex.ptrlib$UBytePtr.read(ptrlib.java:96) at mame.drawgfx.readbit(drawgfx.java:33)
                 /*m72*/ driver_hharry, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4096 at mame.memory.cpu_readmem20(memory.java:1089)
                 /*m72*/ driver_hharryu, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4136 at mame.memory.cpu_readmem20(memory.java:1089)
@@ -391,17 +332,7 @@ public class driver {
                 /*
           GAME NOT WORKING FLAG
                  */
-                /*004*//*system1*/ driver_shtngmst,
-                /*005*//*system1*/ driver_chplft,
-                /*006*//*system1*/ driver_wboy3,
-                /*007*//*system1*/ driver_gardia,
-                /*008*//*system1*/ driver_gardiab,
-                /*009*//*system1*/ driver_blockgal,
-                /*010*//*system1*/ driver_blckgalb,
-                /*011*//*system1*/ driver_wbmlj,
-                /*012*//*system1*/ driver_wbmlj2,
-                /*013*//*system1*/ driver_dakkochn,
-                /*014*//*system1*/ driver_ufosensi,
+
                 /*016*//*spy*/ driver_spy, //sound works , there are a few gfx problems and missing collision(mame 0.36 doesn't have collision either)   
                 /*kingobox*/ driver_ringkin2,
                 /*ddragon*/ driver_ddragon,
