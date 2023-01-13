@@ -20,10 +20,11 @@ import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.memory.*;
 //TODO
-import static gr.codebb.arcadeflex.v036.platform.osdepend.*;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 
 public class z80 extends cpu_interface {
 
@@ -1475,13 +1476,17 @@ public class z80 extends cpu_interface {
 
     opcode illegal_1 = new opcode() {
         public void handler() {
-            logerror("Z80 #%d ill. opcode $%02x $%02x\n", cpu_getactivecpu(), cpu_readop((Z80.PC - 1) & 0xffff), cpu_readop(Z80.PC));
+            if (errorlog != null) {
+                fprintf(errorlog, "Z80 #%d ill. opcode $%02x $%02x\n", cpu_getactivecpu(), cpu_readop((Z80.PC - 1) & 0xffff), cpu_readop(Z80.PC));
+            }
         }
     };
 
     opcode illegal_2 = new opcode() {
         public void handler() {
-            logerror("Z80 #%d ill. opcode $ed $%02x\n", cpu_getactivecpu(), cpu_readop((Z80.PC - 1) & 0xffff));
+            if (errorlog != null) {
+                fprintf(errorlog, "Z80 #%d ill. opcode $ed $%02x\n", cpu_getactivecpu(), cpu_readop((Z80.PC - 1) & 0xffff));
+            }
         }
     };
 

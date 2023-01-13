@@ -229,7 +229,7 @@ public class palette {
                 } else {
                     int j, used;
 
-                    logerror("shrinking %d colors palette...\n", Machine.drv.total_colors);
+                    if(errorlog!=null) fprintf(errorlog,"shrinking %d colors palette...\n", Machine.drv.total_colors);
 
                     /* shrink palette to fit */
                     used = 0;
@@ -251,7 +251,7 @@ public class palette {
                                 used = total_shrinked_pens;
                                 palette_map[i] = (char) (total_shrinked_pens - 1);
                                 usrintf_showmessage("cannot shrink static palette");
-                                logerror("error: ran out of free pens to shrink the palette.\n");
+                                if(errorlog!=null) fprintf(errorlog,"error: ran out of free pens to shrink the palette.\n");
                             } else {
                                 shrinked_palette[3 * j + 0] = game_palette[3 * i + 0];
                                 shrinked_palette[3 * j + 1] = game_palette[3 * i + 1];
@@ -260,7 +260,7 @@ public class palette {
                         }
                     }
 
-                    logerror("shrinked palette uses %d colors\n", used);
+                    if(errorlog!=null) fprintf(errorlog,"shrinked palette uses %d colors\n", used);
 
                     if (osd_allocate_colors(used, shrinked_palette, shrinked_pens, 0) != 0) {
                         return 1;
@@ -457,12 +457,12 @@ public class palette {
 
     public static void palette_change_color(int color, int red, int green, int blue) {
         if ((Machine.drv.video_attributes & VIDEO_MODIFIES_PALETTE) == 0) {
-            logerror("Error: palette_change_color() called, but VIDEO_MODIFIES_PALETTE not set.\n");
+            if(errorlog!=null) fprintf(errorlog,"Error: palette_change_color() called, but VIDEO_MODIFIES_PALETTE not set.\n");
             return;
         }
 
         if (color >= Machine.drv.total_colors) {
-            logerror("error: palette_change_color() called with color %d, but only %d allocated.\n", color, Machine.drv.total_colors);
+            if(errorlog!=null) fprintf(errorlog,"error: palette_change_color() called with color %d, but only %d allocated.\n", color, Machine.drv.total_colors);
             return;
         }
 

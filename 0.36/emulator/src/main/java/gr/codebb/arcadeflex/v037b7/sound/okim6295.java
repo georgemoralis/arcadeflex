@@ -17,9 +17,9 @@ import static arcadeflex.v036.mame.mame.*;
 import arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static arcadeflex.v036.mame.sndintrfH.SOUND_OKIM6295;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static arcadeflex.v036.sound.adpcmH.MAX_ADPCM;
 import static arcadeflex.v036.sound.streams.*;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 import static gr.codebb.arcadeflex.v037b7.sound.okim6295H.*;
 
 
@@ -247,7 +247,7 @@ public class okim6295 extends snd_interface {
 
         /* range check the numbers */
         if (num >= num_voices / MAX_OKIM6295_VOICES) {
-            logerror("error: OKIM6295_status_r() called with chip = %d, but only %d chips allocated\n", num, num_voices / MAX_OKIM6295_VOICES);
+            if(errorlog!=null) fprintf(errorlog,"error: OKIM6295_status_r() called with chip = %d, but only %d chips allocated\n", num, num_voices / MAX_OKIM6295_VOICES);
             return 0x0f;
         }
 
@@ -278,7 +278,7 @@ public class okim6295 extends snd_interface {
     static void OKIM6295_data_w(int num, int data) {
         /* range check the numbers */
         if (num >= num_voices / MAX_OKIM6295_VOICES) {
-            logerror("error: OKIM6295_data_w() called with chip = %d, but only %d chips allocated\n", num, num_voices / MAX_OKIM6295_VOICES);
+            if(errorlog!=null) fprintf(errorlog,"error: OKIM6295_data_w() called with chip = %d, but only %d chips allocated\n", num, num_voices / MAX_OKIM6295_VOICES);
             return;
         }
 
@@ -310,7 +310,7 @@ public class okim6295 extends snd_interface {
                         voice.step = 0;
                         voice.volume = volume_table[data & 0x0f];
                     } /* invalid samples go here */ else {
-                        logerror("OKIM6295: requested to play invalid sample %02x\n", okim6295_command[num]);
+                        if(errorlog!=null) fprintf(errorlog,"OKIM6295: requested to play invalid sample %02x\n", okim6295_command[num]);
                         voice.playing = 0;
                     }
                 }

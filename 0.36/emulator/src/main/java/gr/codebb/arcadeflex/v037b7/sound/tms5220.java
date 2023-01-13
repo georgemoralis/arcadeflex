@@ -4,11 +4,12 @@
  */
 package gr.codebb.arcadeflex.v037b7.sound;
 
+import static arcadeflex.v036.mame.mame.errorlog;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static common.libc.cstdlib.rand;
 import static common.libc.cstring.*;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 import static gr.codebb.arcadeflex.v037b7.sound._5220intfH.*;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static gr.codebb.arcadeflex.v037b7.sound.tms5220r.*;
 
 public class tms5220 {
@@ -125,11 +126,11 @@ public class tms5220 {
             }
 
             if (DEBUG_5220 != 0) {
-                logerror("Added byte to FIFO (size=%2d)\n", (int) u8_fifo_count);
+                if(errorlog!=null) fprintf(errorlog,"Added byte to FIFO (size=%2d)\n", (int) u8_fifo_count);
             }
         } else {
             if (DEBUG_5220 != 0) {
-                logerror("Ran out of room in the FIFO!\n");
+                if(errorlog!=null) fprintf(errorlog,"Ran out of room in the FIFO!\n");
             }
         }
 
@@ -164,7 +165,7 @@ public class tms5220 {
         set_interrupt_state(0);
 
         if (DEBUG_5220 != 0) {
-            logerror("Status read: TS=%d BL=%d BE=%d\n", (int) u8_talk_status, (int) u8_buffer_low, (int) u8_buffer_empty);
+            if(errorlog!=null) fprintf(errorlog,"Status read: TS=%d BL=%d BE=%d\n", (int) u8_talk_status, (int) u8_buffer_low, (int) u8_buffer_empty);
         }
 
         return (u8_talk_status << 7) | (u8_buffer_low << 6) | (u8_buffer_empty << 5);
@@ -494,7 +495,7 @@ public class tms5220 {
         if (bits < 0) {
             //goto ranout;
             if (DEBUG_5220 != 0) {
-                logerror("Ran out of bits on a parse!\n");
+                if(errorlog!=null) fprintf(errorlog,"Ran out of bits on a parse!\n");
             }
 
             /* this is an error condition; mark the buffer empty and turn off speaking */
@@ -512,7 +513,7 @@ public class tms5220 {
         /* if the index is 0 or 15, we're done */
         if (indx == 0 || indx == 15) {
             if (DEBUG_5220 != 0) {
-                logerror("  (4-bit energy=%d frame)\n", new_energy);
+                if(errorlog!=null) fprintf(errorlog,"  (4-bit energy=%d frame)\n", new_energy);
             }
 
             /* clear fifo if stop frame encountered */
@@ -522,7 +523,7 @@ public class tms5220 {
             }
             //goto done;
             if (DEBUG_5220 != 0) {
-                logerror("Parsed a frame successfully - %d bits remaining\n", bits);
+                if(errorlog!=null) fprintf(errorlog,"Parsed a frame successfully - %d bits remaining\n", bits);
             }
 
             /* if we're not to remove this one, restore the FIFO */
@@ -542,7 +543,7 @@ public class tms5220 {
         if (bits < 0) {
             //goto ranout;
             if (DEBUG_5220 != 0) {
-                logerror("Ran out of bits on a parse!\n");
+                if(errorlog!=null) fprintf(errorlog,"Ran out of bits on a parse!\n");
             }
 
             /* this is an error condition; mark the buffer empty and turn off speaking */
@@ -561,7 +562,7 @@ public class tms5220 {
         if (bits < 0) {
             //goto ranout;
             if (DEBUG_5220 != 0) {
-                logerror("Ran out of bits on a parse!\n");
+                if(errorlog!=null) fprintf(errorlog,"Ran out of bits on a parse!\n");
             }
 
             /* this is an error condition; mark the buffer empty and turn off speaking */
@@ -583,11 +584,11 @@ public class tms5220 {
             }
 
             if (DEBUG_5220 != 0) {
-                logerror("  (11-bit energy=%d pitch=%d rep=%d frame)\n", (int) new_energy, (int) new_pitch, rep_flag);
+                if(errorlog!=null) fprintf(errorlog,"  (11-bit energy=%d pitch=%d rep=%d frame)\n", (int) new_energy, (int) new_pitch, rep_flag);
             }
             //goto done;
             if (DEBUG_5220 != 0) {
-                logerror("Parsed a frame successfully - %d bits remaining\n", bits);
+                if(errorlog!=null) fprintf(errorlog,"Parsed a frame successfully - %d bits remaining\n", bits);
             }
 
             /* if we're not to remove this one, restore the FIFO */
@@ -609,7 +610,7 @@ public class tms5220 {
             if (bits < 0) {
                 //goto ranout;
                 if (DEBUG_5220 != 0) {
-                    logerror("Ran out of bits on a parse!\n");
+                    if(errorlog!=null) fprintf(errorlog,"Ran out of bits on a parse!\n");
                 }
 
                 /* this is an error condition; mark the buffer empty and turn off speaking */
@@ -627,11 +628,11 @@ public class tms5220 {
             new_k[3] = k4table[extract_bits(4)];
 
             if (DEBUG_5220 != 0) {
-                logerror("  (29-bit energy=%d pitch=%d rep=%d 4K frame)\n", new_energy, new_pitch, rep_flag);
+                if(errorlog!=null) fprintf(errorlog,"  (29-bit energy=%d pitch=%d rep=%d 4K frame)\n", new_energy, new_pitch, rep_flag);
             }
             //goto done;
             if (DEBUG_5220 != 0) {
-                logerror("Parsed a frame successfully - %d bits remaining\n", bits);
+                if(errorlog!=null) fprintf(errorlog,"Parsed a frame successfully - %d bits remaining\n", bits);
             }
 
             /* if we're not to remove this one, restore the FIFO */
@@ -651,7 +652,7 @@ public class tms5220 {
         if (bits < 0) {
             //goto ranout;
             if (DEBUG_5220 != 0) {
-                logerror("Ran out of bits on a parse!\n");
+                if(errorlog!=null) fprintf(errorlog,"Ran out of bits on a parse!\n");
             }
 
             /* this is an error condition; mark the buffer empty and turn off speaking */
@@ -675,12 +676,12 @@ public class tms5220 {
         new_k[9] = k10table[extract_bits(3)];
 
         if (DEBUG_5220 != 0) {
-            logerror("  (50-bit energy=%d pitch=%d rep=%d 10K frame)\n", new_energy, new_pitch, rep_flag);
+            if(errorlog!=null) fprintf(errorlog,"  (50-bit energy=%d pitch=%d rep=%d 10K frame)\n", new_energy, new_pitch, rep_flag);
         }
 
         //done:
         if (DEBUG_5220 != 0) {
-            logerror("Parsed a frame successfully - %d bits remaining\n", bits);
+            if(errorlog!=null) fprintf(errorlog,"Parsed a frame successfully - %d bits remaining\n", bits);
         }
 
         /* if we're not to remove this one, restore the FIFO */
@@ -712,13 +713,13 @@ public class tms5220 {
             u8_buffer_low = 1;
 
             if (DEBUG_5220 != 0) {
-                logerror("Buffer low set\n");
+                if(errorlog!=null) fprintf(errorlog,"Buffer low set\n");
             }
         } /* did we just become full? */ else {
             u8_buffer_low = 0;
 
             if (DEBUG_5220 != 0) {
-                logerror("Buffer low cleared\n");
+                if(errorlog!=null) fprintf(errorlog,"Buffer low cleared\n");
             }
         }
     }

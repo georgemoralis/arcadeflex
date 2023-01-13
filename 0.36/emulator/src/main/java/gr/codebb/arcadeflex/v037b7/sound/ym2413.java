@@ -4,10 +4,11 @@
 package gr.codebb.arcadeflex.v037b7.sound;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+import static arcadeflex.v036.mame.mame.errorlog;
 import arcadeflex.v036.mame.sndintrf.snd_interface;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.sound._2413intfH.*;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intf.*;
 
 public class ym2413 extends snd_interface {
@@ -320,7 +321,7 @@ public class ym2413 extends snd_interface {
                     break;
 
                 default:
-                    logerror("YM2413: Write to register %02x\n", pending);
+                    if(errorlog!=null) fprintf(errorlog,"YM2413: Write to register %02x\n", pending);
                     break;
             }
         }

@@ -267,9 +267,4 @@ public class osdepend {
         /*TODO*///
         return res;
     }
-    public static void logerror(String str, Object... arguments) {
-        if (errorlog != null) {
-            fprintf(errorlog, str, arguments);
-        }
-    }
 }
