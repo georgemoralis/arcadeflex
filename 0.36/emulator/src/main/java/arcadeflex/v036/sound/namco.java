@@ -15,6 +15,7 @@ import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.sound.streams.*;
 //TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 
 public class namco extends snd_interface {
 
@@ -500,62 +501,66 @@ public class namco extends snd_interface {
             }
         }
     };
-    /*TODO*////********************************************************************************/
-/*TODO*///
-/*TODO*///void namcos1_sound_w(int offset, int data)
-/*TODO*///{
-/*TODO*///	sound_channel *voice;
-/*TODO*///	int base;
-/*TODO*///	static int nssw;
-/*TODO*///
-/*TODO*///	/* verify the offset */
-/*TODO*///	if (offset > 63)
-/*TODO*///	{
-/*TODO*///		if (errorlog) fprintf(errorlog, "NAMCOS1 sound: Attempting to write past the 64 registers segment\n");
-/*TODO*///		return;
-/*TODO*///	}
-/*TODO*///
-/*TODO*///	/* update the streams */
-/*TODO*///	stream_update(stream,0);
-/*TODO*///
-/*TODO*///	/* set the register */
-/*TODO*///	namco_soundregs[offset] = data;
-/*TODO*///
-/*TODO*///	/* recompute all the voice parameters */
-/*TODO*///	for (base = 0, voice = channel_list; voice < last_channel; voice++, base += 8)
-/*TODO*///	{
-/*TODO*///		voice->frequency = namco_soundregs[0x01 + base] & 15;	/* high bits are from here */
-/*TODO*///		voice->frequency = voice->frequency * 256 + namco_soundregs[0x02 + base];
-/*TODO*///		voice->frequency = voice->frequency * 256 + namco_soundregs[0x03 + base];
-/*TODO*///
-/*TODO*///		voice->volume[0] = namco_soundregs[0x00 + base] & 0x0f;
-/*TODO*///		voice->volume[1] = namco_soundregs[0x04 + base] & 0x0f;
-/*TODO*///		voice->wave = &sound_prom[32/samples_per_byte * ((namco_soundregs[0x01 + base] >> 4) & 15)];
-/*TODO*///
-/*TODO*///		nssw = ((namco_soundregs[0x04 + base] & 0x80) >> 7);
-/*TODO*///		if ((voice + 1) < last_channel) (voice + 1)->noise_sw = nssw;
-/*TODO*///	}
-/*TODO*///	voice = channel_list;
-/*TODO*///	voice->noise_sw = nssw;
-/*TODO*///}
-/*TODO*///
-/*TODO*///int namcos1_sound_r(int offset)
-/*TODO*///{
-/*TODO*///	return namco_soundregs[offset];
-/*TODO*///}
-/*TODO*///
-/*TODO*///void namcos1_wavedata_w(int offset, int data)
-/*TODO*///{
-/*TODO*///	/* update the streams */
-/*TODO*///	stream_update(stream,0);
-/*TODO*///
-/*TODO*///	namco_wavedata[offset] = data;
-/*TODO*///}
-/*TODO*///
-/*TODO*///int namcos1_wavedata_r(int offset)
-/*TODO*///{
-/*TODO*///	return namco_wavedata[offset];
-/*TODO*///}
+    /**
+     * *****************************************************************************
+     */
+    static int nssw;
+    public static WriteHandlerPtr namcos1_sound_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            int voice;
+            int _base;
+
+            /* verify the offset */
+            if (offset > 63) {
+                printf("NAMCOS1 sound: Attempting to write past the 64 registers segment\n");
+                return;
+            }
+
+            /* update the streams */
+            stream_update(stream, 0);
+
+            /* set the register */
+            namco_soundregs.write(offset, data);
+
+            /* recompute all the voice parameters */
+            for (_base = 0, voice = 0; voice < last_channel; voice++, _base += 8) {
+                channel_list[voice].frequency = namco_soundregs.read(0x01 + _base) & 15;
+                /* high bits are from here */
+
+                channel_list[voice].frequency = channel_list[voice].frequency * 256 + namco_soundregs.read(0x02 + _base);
+                channel_list[voice].frequency = channel_list[voice].frequency * 256 + namco_soundregs.read(0x03 + _base);
+
+                channel_list[voice].volume[0] = namco_soundregs.read(0x00 + _base) & 0x0f;
+                channel_list[voice].volume[1] = namco_soundregs.read(0x04 + _base) & 0x0f;
+                channel_list[voice].wave = new UBytePtr(sound_prom, 32 / samples_per_byte * ((namco_soundregs.read(0x01 + _base) >> 4) & 15));
+
+                nssw = ((namco_soundregs.read(0x04 + _base) & 0x80) >> 7);
+                if ((voice + 1) < last_channel) {
+                    channel_list[voice + 1].noise_sw = nssw;
+                }
+            }
+            //voice = 0;
+            channel_list[0].noise_sw = nssw;
+        }
+    };
+    public static ReadHandlerPtr namcos1_sound_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            return namco_soundregs.read(offset);
+        }
+    };
+    public static WriteHandlerPtr namcos1_wavedata_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+            /* update the streams */
+            stream_update(stream, 0);
+
+            namco_wavedata.write(offset, data);
+        }
+    };
+    public static ReadHandlerPtr namcos1_wavedata_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            return namco_wavedata.read(offset);
+        }
+    };
 
     /**
      * *****************************************************************************

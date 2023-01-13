@@ -41,12 +41,10 @@ import static gr.codebb.arcadeflex.v036.drivers.btime.*;
 import static gr.codebb.arcadeflex.v036.drivers.exprraid.*;
 import static gr.codebb.arcadeflex.v036.drivers.matmania.*;
 import static gr.codebb.arcadeflex.v036.drivers.renegade.*;
-import static gr.codebb.arcadeflex.v036.drivers.hyperspt.*;
 import static gr.codebb.arcadeflex.v036.drivers.lkage.*;
 import static gr.codebb.arcadeflex.v036.drivers.mainevt.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bladestl.*;
 import static gr.codebb.arcadeflex.v036.drivers.thunderx.*;
-import static gr.codebb.arcadeflex.v036.drivers.crimfght.*;
 import static gr.codebb.arcadeflex.v036.drivers.gbusters.*;
 import static gr.codebb.arcadeflex.v036.drivers.blockhl.*;
 import static gr.codebb.arcadeflex.v036.drivers._88games.*;
@@ -60,7 +58,6 @@ import static gr.codebb.arcadeflex.v037b7.drivers.skydiver.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.missile.*;
 import static gr.codebb.arcadeflex.v036.drivers.pacland.*;
 import static gr.codebb.arcadeflex.v036.drivers.skykid.*;
-import static gr.codebb.arcadeflex.v036.drivers.baraduke.*;
 import static gr.codebb.arcadeflex.v036.drivers.psychic5.*;
 import static gr.codebb.arcadeflex.v036.drivers.wardner.*;
 import static gr.codebb.arcadeflex.v036.drivers.shootout.*;
@@ -201,9 +198,6 @@ public class driver {
                 /*451*//*snowbros*/ driver_snowbrob,
                 /*452*//*snowbros*/ driver_snowbroj,
                 /*453*//*galpanic*/ driver_galpanic,
-                /*475*//*hyperspt*/ driver_hyperspt,
-                /*476*//*hyperspt*/ driver_hpolym84,
-                /*477*//*hyperspt*/ driver_roadf,
                 /*482*//*astrof*/ driver_astrof,
                 /*483*//*astrof*/ driver_astrof2,
                 /*484*//*astrof*/ driver_astrof3,
@@ -234,9 +228,6 @@ public class driver {
                 /*508*//*jackal*/ driver_jackal,
                 /*509*//*jackal*/ driver_topgunr,
                 /*510*//*jackal*/ driver_jackalj,
-                /*522*//*crimfght*/ driver_crimfght,
-                /*523*//*crimfght*/ driver_crimfgt2,
-                /*524*//*crimfght*/ driver_crimfgtj,
                 /*
            Small issues that doesn't affect playable status
                  */
@@ -319,9 +310,7 @@ public class driver {
            Unknown issues 
                  */
                 /*dec8*/ driver_oscar,//games doesn't boot and freezes emu
-                /*dec8*/ driver_oscarj,//games doesn't boot and freezes emu      		
-                /*baraduke*/ driver_baraduke,//stops on booting
-                /*baraduke*/ driver_metrocrs,//goes to intro menu but not much after
+                /*dec8*/ driver_oscarj,//games doesn't boot and freezes emu      	
                 /*kingobox*/ driver_ringkin3,//warning - op-code execute on mapped i/o
                 /*jackal*/ driver_topgunbl, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 51 at vidhrdw.jackal$1.handler(jackal.java:45)
                 /*m72*/ driver_majtitle, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 786432 at arcadeflex.ptrlib$UBytePtr.read(ptrlib.java:96) at mame.drawgfx.readbit(drawgfx.java:33)
@@ -368,8 +357,7 @@ public class driver {
                 /*exprraid*/ driver_exprraid, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
                 /*exprraid*/ driver_wexpress, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
                 /*exprraid*/ driver_wexpresb, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
-                /*hyperspt*/ driver_roadf2, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 65536 at arcadeflex.libc$UBytePtr.read(libc.java:86)
-
+                
                 /**
                  * Test (Not working) drivers
                  */

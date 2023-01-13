@@ -136,6 +136,7 @@ import static arcadeflex.v036.drivers.mitchell.*;
 import static arcadeflex.v036.drivers.system1.*;
 import static arcadeflex.v036.drivers.crimfght.*;
 import static arcadeflex.v036.drivers.hyperspt.*;
+import static arcadeflex.v036.drivers.baraduke.*;
 
 public class driver {
 
@@ -417,8 +418,8 @@ public class driver {
                 /*TODO*///	driver_paclandm,	/* (c) 1984 Midway */
                 /*TODO*///	driver_drgnbstr,	/* (c) 1984 */
                 /*TODO*///	driver_skykid,	/* (c) 1985 */
-                /*TODO*///	driver_baraduke,	/* (c) 1985 */
-                /*TODO*///	driver_metrocrs,	/* (c) 1985 */
+                driver_baraduke, /* (c) 1985 */
+                driver_metrocrs, /* (c) 1985 */
                 /*TODO*///
                 /*TODO*///	/* Namco System 86 games */
                 /*TODO*///	driver_hopmappy,	/* (c) 1986 */
