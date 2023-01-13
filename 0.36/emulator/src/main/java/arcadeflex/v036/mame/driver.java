@@ -134,6 +134,8 @@ import static arcadeflex.v036.drivers.surpratk.*;
 import static arcadeflex.v036.drivers.rollerg.*;
 import static arcadeflex.v036.drivers.mitchell.*;
 import static arcadeflex.v036.drivers.system1.*;
+import static arcadeflex.v036.drivers.crimfght.*;
+import static arcadeflex.v036.drivers.hyperspt.*;
 
 public class driver {
 
@@ -1866,14 +1868,14 @@ public class driver {
                 driver_circusce, /* GX380 (c) 1984 + Centuri license */
                 driver_tp84, /* GX388 (c) 1984 */
                 driver_tp84a, /* GX388 (c) 1984 */
-                /*TODO*///	driver_hyperspt,	/* GX330 (c) 1984 + Centuri */
-                /*TODO*///	driver_hpolym84,	/* GX330 (c) 1984 */
+                driver_hyperspt, /* GX330 (c) 1984 + Centuri */
+                driver_hpolym84, /* GX330 (c) 1984 */
                 driver_sbasketb, /* GX405 (c) 1984 */
                 driver_mikie, /* GX469 (c) 1984 */
                 driver_mikiej, /* GX469 (c) 1984 */
                 driver_mikiehs, /* GX469 (c) 1984 */
-                /*TODO*///	driver_roadf,		/* GX461 (c) 1984 */
-                /*TODO*///	driver_roadf2,	/* GX461 (c) 1984 */
+                driver_roadf, /* GX461 (c) 1984 */
+                driver_roadf2, /* GX461 (c) 1984 */
                 driver_yiear, /* GX407 (c) 1985 */
                 driver_yiear2, /* GX407 (c) 1985 */
                 driver_kicker, /* GX477 (c) 1985 */
@@ -1937,9 +1939,9 @@ public class driver {
                 /*TODO*///	driver_hypsptsp,	/* GX861 (c) 1988 (Japan) */
                 /*TODO*///	driver_gbusters,	/* GX878 (c) 1988 */
                 /*TODO*///	driver_crazycop,	/* GX878 (c) 1988 (Japan) */
-                /*TODO*///	driver_crimfght,	/* GX821 (c) 1989 (US) */
-                /*TODO*///	driver_crimfgt2,	/* GX821 (c) 1989 (World) */
-                /*TODO*///	driver_crimfgtj,	/* GX821 (c) 1989 (Japan) */
+                driver_crimfght, /* GX821 (c) 1989 (US) */
+                driver_crimfgt2, /* GX821 (c) 1989 (World) */
+                driver_crimfgtj, /* GX821 (c) 1989 (Japan) */
                 /*TODO*///	driver_spy,		/* GX857 (c) 1989 (US) */
                 /*TODO*///	driver_bottom9,	/* GX891 (c) 1989 */
                 /*TODO*///	driver_bottom9n,	/* GX891 (c) 1989 */
