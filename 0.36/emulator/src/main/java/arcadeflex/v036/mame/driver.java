@@ -137,6 +137,8 @@ import static arcadeflex.v036.drivers.system1.*;
 import static arcadeflex.v036.drivers.crimfght.*;
 import static arcadeflex.v036.drivers.hyperspt.*;
 import static arcadeflex.v036.drivers.baraduke.*;
+import static arcadeflex.v036.drivers.battlane.*;
+import static arcadeflex.v036.drivers.megazone.*;
 
 public class driver {
 
@@ -1851,8 +1853,8 @@ public class driver {
                 driver_timepltc, /* GX393 (c) 1982 + Centuri license*/
                 driver_spaceplt, /* bootleg */
                 driver_psurge, /* (c) 1988 unknown (NOT Konami) */
-                /*TODO*///	driver_megazone,	/* GX319 (c) 1983 */
-                /*TODO*///	driver_megaznik,	/* GX319 (c) 1983 + Interlogic / Kosuka */
+                driver_megazone, /* GX319 (c) 1983 */
+                driver_megaznik, /* GX319 (c) 1983 + Interlogic / Kosuka */
                 /*TODO*///	driver_pandoras,	/* GX328 (c) 1984 + Interlogic */
                 driver_gyruss, /* GX347 (c) 1983 */
                 driver_gyrussce, /* GX347 (c) 1983 + Centuri license */
@@ -2330,9 +2332,9 @@ public class driver {
                 driver_xsleena, /* TA-0019 (c) 1986 */
                 driver_xsleenab, /* bootleg */
                 driver_solarwar, /* TA-0019 (c) 1986 Taito + Memetron license */
-                /*TODO*///	driver_battlane,	/* TA-???? (c) 1986 + Taito license */
-                /*TODO*///	driver_battlan2,	/* TA-???? (c) 1986 + Taito license */
-                /*TODO*///	driver_battlan3,	/* TA-???? (c) 1986 + Taito license */
+                driver_battlane, /* TA-???? (c) 1986 + Taito license */
+                driver_battlan2, /* TA-???? (c) 1986 + Taito license */
+                driver_battlan3, /* TA-???? (c) 1986 + Taito license */
                 /*TODO*///	driver_ddragon,
                 /*TODO*///	driver_ddragonb,	/* TA-0021 bootleg */
                 /*TODO*///	/* TA-0022 Super Dodge Ball */
