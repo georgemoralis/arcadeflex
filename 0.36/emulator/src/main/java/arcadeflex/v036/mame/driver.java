@@ -139,6 +139,8 @@ import static arcadeflex.v036.drivers.hyperspt.*;
 import static arcadeflex.v036.drivers.baraduke.*;
 import static arcadeflex.v036.drivers.battlane.*;
 import static arcadeflex.v036.drivers.megazone.*;
+import static arcadeflex.v036.drivers.junofrst.*;
+import static arcadeflex.v036.drivers.vicdual.*;
 
 public class driver {
 
@@ -1434,35 +1436,34 @@ public class driver {
                 /*TODO*///	driver_comotion,	/* 5-7 [1977 Gremlin] */
                 /*TODO*///	driver_hustle,	/* 16-21 [1977 Gremlin] */
                 /*TODO*///	driver_blasto,	/* [1978 Gremlin] */
-                /*TODO*///
-                /*TODO*///	/* Gremlin/Sega "VIC dual game board" games */
-                /*TODO*///	/* the numbers listed are the range of ROM part numbers */
-                /*TODO*///	driver_depthch,	/* 50-55 [1977 Gremlin?] */
-                /*TODO*///	driver_safari,	/* 57-66 [1977 Gremlin?] */
-                /*TODO*///	driver_frogs,		/* 112-119 [1978 Gremlin?] */
-                /*TODO*///	driver_sspaceat,	/* 155-162 (c) */
-                /*TODO*///	driver_sspacatc,	/* 139-146 (c) */
-                /*TODO*///	driver_headon,	/* 163-167/192-193 (c) Gremlin */
-                /*TODO*///	driver_headonb,	/* 163-167/192-193 (c) Gremlin */
-                /*TODO*///	driver_headon2,	/* ???-??? (c) 1979 Sega */
-                /*TODO*///	/* ???-??? Fortress */
-                /*TODO*///	/* ???-??? Gee Bee */
-                /*TODO*///	/* 255-270  Head On 2 / Deep Scan */
-                /*TODO*///	driver_invho2,	/* 271-286 (c) 1979 Sega */
-                /*TODO*///	driver_samurai,	/* 289-302 + upgrades (c) 1980 Sega */
-                /*TODO*///	driver_invinco,	/* 310-318 (c) 1979 Sega */
-                /*TODO*///	driver_invds,		/* 367-382 (c) 1979 Sega */
-                /*TODO*///	driver_tranqgun,	/* 413-428 (c) 1980 Sega */
-                /*TODO*///	/* 450-465  Tranquilizer Gun (different version?) */
-                /*TODO*///	/* ???-??? Car Hunt / Deep Scan */
-                /*TODO*///	driver_spacetrk,	/* 630-645 (c) 1980 Sega */
-                /*TODO*///	driver_sptrekct,	/* (c) 1980 Sega */
-                /*TODO*///	driver_carnival,	/* 651-666 (c) 1980 Sega */
-                /*TODO*///	driver_carnvckt,	/* 501-516 (c) 1980 Sega */
-                /*TODO*///	driver_digger,	/* 684-691 no copyright notice */
-                /*TODO*///	driver_pulsar,	/* 790-805 (c) 1981 Sega */
-                /*TODO*///	driver_heiankyo,	/* (c) [1979?] Denki Onkyo */
-                /*TODO*///
+
+                /* Gremlin/Sega "VIC dual game board" games */
+                /* the numbers listed are the range of ROM part numbers */
+                driver_depthch, /* 50-55 [1977 Gremlin?] */
+                driver_safari, /* 57-66 [1977 Gremlin?] */
+                driver_frogs, /* 112-119 [1978 Gremlin?] */
+                driver_sspaceat, /* 155-162 (c) */
+                driver_sspacatc, /* 139-146 (c) */
+                driver_headon, /* 163-167/192-193 (c) Gremlin */
+                driver_headonb, /* 163-167/192-193 (c) Gremlin */
+                driver_headon2, /* ???-??? (c) 1979 Sega */
+                /* ???-??? Fortress */
+                /* ???-??? Gee Bee */
+                /* 255-270  Head On 2 / Deep Scan */
+                driver_invho2, /* 271-286 (c) 1979 Sega */
+                driver_samurai, /* 289-302 + upgrades (c) 1980 Sega */
+                driver_invinco, /* 310-318 (c) 1979 Sega */
+                driver_invds, /* 367-382 (c) 1979 Sega */
+                driver_tranqgun, /* 413-428 (c) 1980 Sega */
+                /* 450-465  Tranquilizer Gun (different version?) */
+                /* ???-??? Car Hunt / Deep Scan */
+                driver_spacetrk, /* 630-645 (c) 1980 Sega */
+                driver_sptrekct, /* (c) 1980 Sega */
+                driver_carnival, /* 651-666 (c) 1980 Sega */
+                driver_carnvckt, /* 501-516 (c) 1980 Sega */
+                driver_digger, /* 684-691 no copyright notice */
+                driver_pulsar, /* 790-805 (c) 1981 Sega */
+                driver_heiankyo, /* (c) [1979?] Denki Onkyo */
                 /*TODO*///	/* Sega G-80 vector games */
                 /*TODO*///	driver_spacfury,	/* (c) 1981 */
                 /*TODO*///	driver_spacfura,	/* no copyright notice */
@@ -1843,8 +1844,7 @@ public class driver {
                 /* Konami bitmap games */
                 driver_tutankhm, /* GX350 (c) 1982 Konami */
                 driver_tutankst, /* GX350 (c) 1982 Stern */
-                /*TODO*///	driver_junofrst,	/* GX310 (c) 1983 Konami */
-                /*TODO*///
+                driver_junofrst, /* GX310 (c) 1983 Konami */
                 /* Konami games */
                 driver_pooyan, /* GX320 (c) 1982 */
                 driver_pooyans, /* GX320 (c) 1982 Stern */
