@@ -141,6 +141,7 @@ import static arcadeflex.v036.drivers.battlane.*;
 import static arcadeflex.v036.drivers.megazone.*;
 import static arcadeflex.v036.drivers.junofrst.*;
 import static arcadeflex.v036.drivers.vicdual.*;
+import static arcadeflex.v036.drivers.vigilant.*;
 
 public class driver {
 
@@ -775,10 +776,10 @@ public class driver {
                 driver_yanchamr, /* (c) 1986 (Japan) */
                 driver_spelunkr, /* (c) 1985 licensed from Broderbund */
                 driver_spelunk2, /* (c) 1986 licensed from Broderbund */
-                /*TODO*///	driver_vigilant,	/* (c) 1988 (World) */
-                /*TODO*///	driver_vigilntu,	/* (c) 1988 (US) */
-                /*TODO*///	driver_vigilntj,	/* (c) 1988 (Japan) */
-                /*TODO*///	driver_kikcubic,	/* (c) 1988 (Japan) */
+                driver_vigilant, /* (c) 1988 (World) */
+                driver_vigilntu, /* (c) 1988 (US) */
+                driver_vigilntj, /* (c) 1988 (Japan) */
+                driver_kikcubic, /* (c) 1988 (Japan) */
                 /*TODO*///	/* M72 (and derivatives) */
                 /*TODO*///	driver_rtype,		/* (c) 1987 (Japan) */
                 /*TODO*///	driver_rtypeu,	/* (c) 1987 + Nintendo USA license (US) */

@@ -1,6 +1,11 @@
 /**
  * ported to 0.36
  */
+/**
+ * Changelog
+ * =========
+ * 15/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.drivers;
 
 //generic imports
@@ -15,23 +20,20 @@ import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.memoryH.*;
 //sndhrdw imports
 import static arcadeflex.v036.sndhrdw.m72.*;
 //sound imports
 import static arcadeflex.v036.sound.dacH.*;
 import static arcadeflex.v036.sound._2151intf.*;
 import static arcadeflex.v036.sound._2151intfH.*;
+import static arcadeflex.v036.sound.mixerH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.vigilant.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
-import static arcadeflex.v036.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 
 public class vigilant {
 
@@ -663,7 +665,6 @@ public class vigilant {
     public static GameDriver driver_vigilant = new GameDriver("1988", "vigilant", "vigilant.java", rom_vigilant, null, machine_driver_vigilant, input_ports_vigilant, null, ROT0, "Irem", "Vigilante (World)", GAME_NO_COCKTAIL);
     public static GameDriver driver_vigilntu = new GameDriver("1988", "vigilntu", "vigilant.java", rom_vigilntu, driver_vigilant, machine_driver_vigilant, input_ports_vigilant, null, ROT0, "Irem (Data East USA license)", "Vigilante (US)", GAME_NO_COCKTAIL);
     public static GameDriver driver_vigilntj = new GameDriver("1988", "vigilntj", "vigilant.java", rom_vigilntj, driver_vigilant, machine_driver_vigilant, input_ports_vigilant, null, ROT0, "Irem", "Vigilante (Japan)", GAME_NO_COCKTAIL);
-    public static GameDriver driver_kikcubic = new GameDriver("1988", "kikcubic", "vigilant.java", rom_kikcubic, null, machine_driver_kikcubic, input_ports_kikcubic, null, ROT0, "Irem", "Meikyu Jima (Japan)", GAME_NO_COCKTAIL);
-    /* English title is Kickle Cubicle */
+    public static GameDriver driver_kikcubic = new GameDriver("1988", "kikcubic", "vigilant.java", rom_kikcubic, null, machine_driver_kikcubic, input_ports_kikcubic, null, ROT0, "Irem", "Meikyu Jima (Japan)", GAME_NO_COCKTAIL);/* English title is Kickle Cubicle */
 
 }
