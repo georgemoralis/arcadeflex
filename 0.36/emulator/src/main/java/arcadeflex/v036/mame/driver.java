@@ -142,6 +142,7 @@ import static arcadeflex.v036.drivers.megazone.*;
 import static arcadeflex.v036.drivers.junofrst.*;
 import static arcadeflex.v036.drivers.vicdual.*;
 import static arcadeflex.v036.drivers.vigilant.*;
+import static arcadeflex.v036.drivers.bogeyman.*;
 
 public class driver {
 
@@ -2322,7 +2323,7 @@ public class driver {
                 /*TODO*///	driver_ssozumo,	/* TA-0008 (c) 1984 */
                 /*TODO*///	driver_mystston,	/* TA-0010 (c) 1984 */
                 /*TODO*///	/* TA-0011 Dog Fight (Data East) / Batten O'hara no Sucha-Raka Kuuchuu Sen 1985 */
-                /*TODO*///	driver_bogeyman,	/* X-0204-0 (Data East part number) (c) [1985?] */
+                driver_bogeyman, /* X-0204-0 (Data East part number) (c) [1985?] */
                 /*TODO*///	driver_matmania,	/* TA-0015 (c) 1985 + Taito America license */
                 /*TODO*///	driver_excthour,	/* TA-0015 (c) 1985 + Taito license */
                 /*TODO*///	driver_maniach,	/* TA-0017 (c) 1986 + Taito America license */

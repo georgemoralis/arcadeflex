@@ -12,6 +12,8 @@ import arcadeflex.v036.cpu.i8039.i8048;
 import arcadeflex.v036.cpu.i8039.n7751;
 import arcadeflex.v036.cpu.konami.konami;
 import static arcadeflex.v036.cpu.konami.konamiH.*;
+import arcadeflex.v036.cpu.m6502.m6502;
+import arcadeflex.v036.cpu.m6502.n2a03;
 import arcadeflex.v036.cpu.m6800.hd63701;
 import arcadeflex.v036.cpu.m6800.m6800;
 import arcadeflex.v036.cpu.m6800.m6802;
@@ -252,10 +254,10 @@ public class cpuintrf {
                 new z80(),
                 new dummyCPU(),/*TODO*///	CPU0(8080,	   i8080,	 4,255,1.00,I8080_NONE, 	   I8080_INTR,	   I8080_TRAP,	   16,	  0,16,LE,1, 3,16	),
                 new dummyCPU(),/*TODO*///	CPU0(8085A,    i8085,	 4,255,1.00,I8085_NONE, 	   I8085_INTR,	   I8085_TRAP,	   16,	  0,16,LE,1, 3,16	),
-                new dummyCPU(),/*TODO*///	CPU0(M6502,    m6502,	 1,  0,1.00,M6502_INT_NONE,    M6502_INT_IRQ,  M6502_INT_NMI,  16,	  0,16,LE,1, 3,16	),
+                new m6502(),
                 new dummyCPU(),/*TODO*///	CPU0(M65C02,   m65c02,	 1,  0,1.00,M65C02_INT_NONE,   M65C02_INT_IRQ, M65C02_INT_NMI, 16,	  0,16,LE,1, 3,16	),
                 new dummyCPU(),/*TODO*///	CPU0(M6510,    m6510,	 1,  0,1.00,M6510_INT_NONE,    M6510_INT_IRQ,  M6510_INT_NMI,  16,	  0,16,LE,1, 3,16	),
-                new dummyCPU(),/*TODO*///	CPU0(N2A03,    n2a03,	 1,  0,1.00,N2A03_INT_NONE,    N2A03_INT_IRQ,  N2A03_INT_NMI,  16,	  0,16,LE,1, 3,16	),
+                new n2a03(),
                 new dummyCPU(),/*TODO*///	CPU0(H6280,    h6280,	 3,  0,1.00,H6280_INT_NONE,    -1,			   H6280_INT_NMI,  21,	  0,21,LE,1, 3,21	),
                 new dummyCPU(),/*TODO*///	CPU0(I86,	   i86, 	 1,  0,1.00,I86_INT_NONE,	   -1000,		   I86_NMI_INT,    20,	  0,20,LE,1, 5,20	),
                 new dummyCPU(),/*TODO*///	CPU0(V20,	   v20, 	 1,  0,1.00,NEC_INT_NONE,	   -1000,		   NEC_NMI_INT,    20,	  0,20,LE,1, 5,20	),
@@ -1310,10 +1312,11 @@ public class cpuintrf {
 /*TODO*///				}
 /*TODO*///				break;
 /*TODO*///#endif
-/*TODO*///#if (HAS_M6502)
-/*TODO*///			case CPU_M6502: 			irq_line = 0; LOG((errorlog,"M6502 IRQ\n")); break;
-/*TODO*///#endif
-/*TODO*///#if (HAS_M65C02)
+                    case CPU_M6502:
+                        irq_line = 0;
+                        break;
+
+                    /*TODO*///#if (HAS_M65C02)
 /*TODO*///			case CPU_M65C02:			irq_line = 0; LOG((errorlog,"M65C02 IRQ\n")); break;
 /*TODO*///#endif
 /*TODO*///#if (HAS_M65SC02)
@@ -1327,11 +1330,11 @@ public class cpuintrf {
 /*TODO*///#endif
 /*TODO*///#if (HAS_M6510)
 /*TODO*///			case CPU_M6510: 			irq_line = 0; LOG((errorlog,"M6510 IRQ\n")); break;
-/*TODO*///#endif
-/*TODO*///#if (HAS_N2A03)
-/*TODO*///			case CPU_N2A03: 			irq_line = 0; LOG((errorlog,"N2A03 IRQ\n")); break;
-/*TODO*///#endif
-/*TODO*///#if (HAS_H6280)
+                    case CPU_N2A03:
+                        irq_line = 0;
+                        break;
+
+                    /*TODO*///#if (HAS_H6280)
 /*TODO*///			case CPU_H6280:
 /*TODO*///				switch (num)
 /*TODO*///				{
@@ -1354,7 +1357,6 @@ public class cpuintrf {
 /*TODO*///#if (HAS_V33)
 /*TODO*///			case CPU_V33:				irq_line = 0; LOG((errorlog,"V33 IRQ\n")); break;
 /*TODO*///#endif
-
                     case CPU_I8035:
                         irq_line = 0;
                         break;
