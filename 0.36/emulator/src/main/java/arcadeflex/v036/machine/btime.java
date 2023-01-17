@@ -2,17 +2,22 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
+/**
+ * Changelog
+ * =========
+ * 15/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.machine;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
+import static arcadeflex.v036.mame.mame.*;
 //TODO
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class btime {
@@ -35,7 +40,8 @@ public class btime {
             } else if (offset == 0x0e00) {
                 ret = protection_ret;
             } else if (offset >= 0x0d00 && offset <= 0x0d02) {
-                ret = RAM.read(BASE + offset);  /* addition result */
+                ret = RAM.read(BASE + offset);
+                /* addition result */
             } else if (errorlog != null) {
                 fprintf(errorlog, "Unknown protection read.  PC=%04X  Offset=%04X\n", cpu_get_pc(), offset);
             }
@@ -107,9 +113,11 @@ public class btime {
             } else if (offset == 0x0e00) {
                 protection_value = data;
             } else if (offset >= 0x0f00) {
-                RAM.write(BASE + offset, data);   /* decrypt table */
+                RAM.write(BASE + offset, data);
+                /* decrypt table */
             } else if (offset >= 0x0d00 && offset <= 0x0d05) {
-                RAM.write(BASE + offset, data);   /* source table */
+                RAM.write(BASE + offset, data);
+                /* source table */
             } else if (errorlog != null) {
                 fprintf(errorlog, "Unknown protection write=%02X.  PC=%04X  Offset=%04X\n", data, cpu_get_pc(), offset);
             }

@@ -145,6 +145,7 @@ import static arcadeflex.v036.drivers.vigilant.*;
 import static arcadeflex.v036.drivers.bogeyman.*;
 import static arcadeflex.v036.drivers.mystston.*;
 import static arcadeflex.v036.drivers.centiped.*;
+import static arcadeflex.v036.drivers.btime.*;
 
 public class driver {
 
@@ -1681,22 +1682,21 @@ public class driver {
                 /*TODO*///	driver_wb3bl,		/* (c) 1988 Sega / Westone (but bootleg) */
                 /*TODO*///	driver_wrestwar,	/* (c) 1989 */
                 /*TODO*///
-                /*TODO*///	/* Data East "Burger Time hardware" games */
-                /*TODO*///	driver_lnc,		/* (c) 1981 */
-                /*TODO*///	driver_zoar,		/* (c) 1982 */
-                /*TODO*///	driver_btime,		/* (c) 1982 */
-                /*TODO*///	driver_btime2,	/* (c) 1982 */
-                /*TODO*///	driver_btimem,	/* (c) 1982 + Midway */
-                /*TODO*///	driver_wtennis,	/* bootleg 1982 */
-                /*TODO*///	driver_brubber,	/* (c) 1982 */
-                /*TODO*///	driver_bnj,		/* (c) 1982 + Midway */
-                /*TODO*///	driver_caractn,	/* bootleg */
-                /*TODO*///	driver_disco,		/* (c) 1982 */
-                /*TODO*///	driver_mmonkey,	/* (c) 1982 Technos Japan + Roller Tron */
-                /*TODO*///	/* cassette system */
-                /*TODO*////*TESTDRIVER*/driver_decocass,
-                /*TODO*///	driver_cookrace,	/* bootleg */
-                /*TODO*///
+                /* Data East "Burger Time hardware" games */
+                driver_lnc, /* (c) 1981 */
+                driver_zoar, /* (c) 1982 */
+                driver_btime, /* (c) 1982 */
+                driver_btime2, /* (c) 1982 */
+                driver_btimem, /* (c) 1982 + Midway */
+                driver_wtennis, /* bootleg 1982 */
+                driver_brubber, /* (c) 1982 */
+                driver_bnj, /* (c) 1982 + Midway */
+                driver_caractn, /* bootleg */
+                driver_disco, /* (c) 1982 */
+                driver_mmonkey, /* (c) 1982 Technos Japan + Roller Tron */
+                /* cassette system */
+                /*TESTDRIVER*/ //driver_decocass,
+                driver_cookrace, /* bootleg */
                 /*TODO*///	/* other Data East games */
                 /*TODO*///	driver_astrof,	/* (c) [1980?] */
                 /*TODO*///	driver_astrof2,	/* (c) [1980?] */
