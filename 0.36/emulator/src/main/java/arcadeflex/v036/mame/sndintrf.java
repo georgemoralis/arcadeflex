@@ -35,6 +35,7 @@ import arcadeflex.v058.sound.vlm5030;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
+import gr.codebb.arcadeflex.v036.sound.pokey;
 import gr.codebb.arcadeflex.v037b7.sound._3526intf;
 import gr.codebb.arcadeflex.v037b7.sound._3812intf;
 import gr.codebb.arcadeflex.v037b7.sound.okim6295;
@@ -373,18 +374,7 @@ public class sndintrf {
                 /*TODO*///	},
                 /*TODO*///#endif
                 new sn76496(),
-                new Dummy_snd(),/*TODO*///#if (HAS_POKEY)
-                /*TODO*///    {
-                /*TODO*///		SOUND_POKEY,
-                /*TODO*///		"Pokey",
-                /*TODO*///		POKEY_num,
-                /*TODO*///		POKEY_clock,
-                /*TODO*///		pokey_sh_start,
-                /*TODO*///		pokey_sh_stop,
-                /*TODO*///		0,
-                /*TODO*///		0
-                /*TODO*///	},
-                /*TODO*///#endif
+                new pokey(),
                 new Dummy_snd(),/*TODO*///#if (HAS_NES)
                 /*TODO*///    {
                 /*TODO*///		SOUND_NES,

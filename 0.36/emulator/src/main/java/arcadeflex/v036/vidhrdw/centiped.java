@@ -1,34 +1,28 @@
-/**
- * *************************************************************************
- *
- * vidhrdw.c
- *
- * Functions to emulate the video hardware of the machine.
- *
- **************************************************************************
- */
-
 /*
  * ported to v0.36
  * using automatic conversion tool v0.10
- *
- *
- *
  */
-package gr.codebb.arcadeflex.v036.vidhrdw;
+/**
+ * Changelog
+ * =========
+ * 16/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.vidhrdw;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static common.libc.cstring.*;
+//mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.osdependH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
+import static common.libc.cstring.*;
+//TODO
+import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 
 public class centiped {
 
@@ -63,7 +57,7 @@ public class centiped {
 
             if ((~data & 0x08) != 0) /* alternate = 1 */ {
                 /* when blue component is not 0, decrease it. When blue component is 0, */
-                /* decrease green component. */
+ /* decrease green component. */
                 if (b != 0) {
                     b = 0xc0;
                 } else if (g != 0) {
@@ -102,14 +96,14 @@ public class centiped {
             int start = Machine.drv.gfxdecodeinfo[0].color_codes_start;
 
             /* set the palette for the previous screen slice to properly support */
-            /* midframe palette changes in test mode */
+ /* midframe palette changes in test mode */
             for (offset = 4; offset < 8; offset++) {
                 setcolor.handler(4 * slice + start + (offset - 4), paletteram.read(offset));
             }
 
             /* Centipede doesn't like to receive interrupts just after a reset. */
-            /* The only workaround I've found is to wait a little before starting */
-            /* to generate them. */
+ /* The only workaround I've found is to wait a little before starting */
+ /* to generate them. */
             if (powerup_counter == 0) {
                 return interrupt.handler();
             } else {
@@ -182,11 +176,11 @@ public class centiped {
                 y = 240 - spriteram.read(offs + 0x10);
 
                 /* Centipede is unusual because the sprite color code specifies the */
-                /* colors to use one by one, instead of a combination code. */
-                /* bit 5-4 = color to use for pen 11 */
-                /* bit 3-2 = color to use for pen 10 */
-                /* bit 1-0 = color to use for pen 01 */
-                /* pen 00 is transparent */
+ /* colors to use one by one, instead of a combination code. */
+ /* bit 5-4 = color to use for pen 11 */
+ /* bit 3-2 = color to use for pen 10 */
+ /* bit 1-0 = color to use for pen 01 */
+ /* pen 00 is transparent */
                 color = spriteram.read(offs + 0x30);
                 Machine.gfx[1].colortable.write(3,
                         Machine.pens[Machine.drv.gfxdecodeinfo[1].color_codes_start + ((color >> 4) & 3)]);

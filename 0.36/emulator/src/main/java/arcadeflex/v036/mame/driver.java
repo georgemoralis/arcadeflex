@@ -144,6 +144,7 @@ import static arcadeflex.v036.drivers.vicdual.*;
 import static arcadeflex.v036.drivers.vigilant.*;
 import static arcadeflex.v036.drivers.bogeyman.*;
 import static arcadeflex.v036.drivers.mystston.*;
+import static arcadeflex.v036.drivers.centiped.*;
 
 public class driver {
 
@@ -2137,12 +2138,12 @@ public class driver {
                 /*TODO*///	driver_canbprot,	/* no copyright notice [1977] */
                 /*TODO*///	driver_skydiver,	/* no copyright notice [1977] */
                 /*TODO*///
-                /*TODO*///	/* Atari "Centipede hardware" games */
+                /* Atari "Centipede hardware" games */
                 /*TODO*///	driver_warlord,	/* (c) 1980 */
-                /*TODO*///	driver_centiped,	/* (c) 1980 */
-                /*TODO*///	driver_centipd2,	/* (c) 1980 */
-                /*TODO*///	driver_centipdb,	/* bootleg */
-                /*TODO*///	driver_centipb2,	/* bootleg */
+                driver_centiped, /* (c) 1980 */
+                driver_centipd2, /* (c) 1980 */
+                driver_centipdb, /* bootleg */
+                driver_centipb2, /* bootleg */
                 /*TODO*///	driver_milliped,	/* (c) 1982 */
                 /*TODO*///	driver_qwakprot,	/* (c) 1982 */
                 /*TODO*///
