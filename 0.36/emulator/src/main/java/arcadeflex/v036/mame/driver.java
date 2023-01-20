@@ -147,6 +147,7 @@ import static arcadeflex.v036.drivers.mystston.*;
 import static arcadeflex.v036.drivers.centiped.*;
 import static arcadeflex.v036.drivers.btime.*;
 import static arcadeflex.v036.drivers._88games.*;
+import static arcadeflex.v036.drivers.seicross.*;
 
 public class driver {
 
@@ -309,12 +310,11 @@ public class driver {
                 driver_swimmer, /* (c) 1982 Tehkan */
                 driver_swimmera, /* (c) 1982 Tehkan */
                 driver_guzzler, /* (c) 1983 Tehkan */
-                /*TODO*///
-                /*TODO*///	/* Nichibutsu games */
-                /*TODO*///	driver_friskyt,	/* (c) 1981 */
-                /*TODO*///	driver_radrad,	/* (c) 1982 Nichibutsu USA */
-                /*TODO*///	driver_seicross,	/* (c) 1984 + Alice */
-                /*TODO*///	driver_sectrzon,	/* (c) 1984 + Alice */
+                /* Nichibutsu games */
+                driver_friskyt, /* (c) 1981 */
+                driver_radrad, /* (c) 1982 Nichibutsu USA */
+                driver_seicross, /* (c) 1984 + Alice */
+                driver_sectrzon, /* (c) 1984 + Alice */
                 driver_wiping, /* (c) 1982 */
                 driver_rugrats, /* (c) 1983 */
                 driver_cop01, /* (c) 1985 */
