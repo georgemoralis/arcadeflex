@@ -146,6 +146,7 @@ import static arcadeflex.v036.drivers.bogeyman.*;
 import static arcadeflex.v036.drivers.mystston.*;
 import static arcadeflex.v036.drivers.centiped.*;
 import static arcadeflex.v036.drivers.btime.*;
+import static arcadeflex.v036.drivers._88games.*;
 
 public class driver {
 
@@ -1941,9 +1942,9 @@ public class driver {
                 /*TODO*///	driver_devstor2,	/* GX890 (c) 1988 */
                 /*TODO*///	driver_devstor3,	/* GX890 (c) 1988 */
                 /*TODO*///	driver_garuka,	/* GX890 (c) 1988 (Japan) */
-                /*TODO*///	driver_88games,	/* GX861 (c) 1988 */
-                /*TODO*///	driver_konami88,	/* GX861 (c) 1988 */
-                /*TODO*///	driver_hypsptsp,	/* GX861 (c) 1988 (Japan) */
+                driver_88games, /* GX861 (c) 1988 */
+                driver_konami88, /* GX861 (c) 1988 */
+                driver_hypsptsp, /* GX861 (c) 1988 (Japan) */
                 /*TODO*///	driver_gbusters,	/* GX878 (c) 1988 */
                 /*TODO*///	driver_crazycop,	/* GX878 (c) 1988 (Japan) */
                 driver_crimfght, /* GX821 (c) 1989 (US) */

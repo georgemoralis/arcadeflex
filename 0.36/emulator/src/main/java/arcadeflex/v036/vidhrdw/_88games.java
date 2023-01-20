@@ -2,6 +2,11 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
+/**
+ * Changelog
+ * =========
+ * 15/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.vidhrdw;
 
 //generic imports
@@ -10,10 +15,11 @@ import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.osdependH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.paletteH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.konamiic.*;
 //TODO
 import static gr.codebb.arcadeflex.v036.mame.tilemapC.*;
 import static gr.codebb.arcadeflex.v036.mame.tilemapH.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 
 public class _88games {
