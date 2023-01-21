@@ -2,23 +2,29 @@
  * ported to v0.36
  * using automatic conversion tool v0.08 + manual changes
  */
+/**
+ * Changelog
+ * =========
+ * 21/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.vidhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//machine imports
+import static arcadeflex.v036.machine.arkanoid.*;
 //mame imports
 import static arcadeflex.v036.mame.osdependH.*;
 import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 //common imports
 import static common.libc.cstring.*;
 import static common.libc.expressions.*;
 //TODO
-import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static arcadeflex.v036.machine.arkanoid.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class arkanoid {
