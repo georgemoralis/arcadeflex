@@ -148,6 +148,7 @@ import static arcadeflex.v036.drivers.centiped.*;
 import static arcadeflex.v036.drivers.btime.*;
 import static arcadeflex.v036.drivers._88games.*;
 import static arcadeflex.v036.drivers.seicross.*;
+import static arcadeflex.v036.drivers.arkanoid.*;
 
 public class driver {
 
@@ -926,14 +927,14 @@ public class driver {
                 /*TODO*///	driver_rainbowe,	/* (c) 1988 Taito Corporation */
                 /*TODO*///	driver_jumping,	/* bootleg */
                 /*TODO*///	driver_arkanoid,	/* (c) 1986 Taito Corporation Japan (World) */
-                /*TODO*///	driver_arknoidu,	/* (c) 1986 Taito America Corporation + Romstar license (US) */
-                /*TODO*///	driver_arknoidj,	/* (c) 1986 Taito Corporation (Japan) */
-                /*TODO*///	driver_arkbl2,	/* bootleg */
-                /*TODO*////*TESTDRIVER*/driver_arkbl3,	/* bootleg */
-                /*TODO*///	driver_arkatayt,	/* bootleg */
-                /*TODO*////*TESTDRIVER*/driver_arkblock,	/* bootleg */
-                /*TODO*///	driver_arkbloc2,	/* bootleg */
-                /*TODO*///	driver_arkangc,	/* bootleg */
+                driver_arknoidu, /* (c) 1986 Taito America Corporation + Romstar license (US) */
+                driver_arknoidj, /* (c) 1986 Taito Corporation (Japan) */
+                driver_arkbl2, /* bootleg */
+                /*TESTDRIVER*/ //driver_arkbl3, /* bootleg */
+                driver_arkatayt, /* bootleg */
+                /*TESTDRIVER*/ //driver_arkblock, /* bootleg */
+                driver_arkbloc2, /* bootleg */
+                driver_arkangc, /* bootleg */
                 driver_superqix, /* 1987 */
                 driver_sqixbl, /* bootleg? but (c) 1987 */
                 /*TODO*///	driver_superman,	/* (c) 1988 Taito Corporation */
