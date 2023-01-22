@@ -155,6 +155,7 @@ import static arcadeflex.v036.drivers.astrof.*;
 import static arcadeflex.v036.drivers.sidepckt.*;
 import static arcadeflex.v036.drivers.copsnrob.*;
 import static arcadeflex.v036.drivers.ccastles.*;
+import static arcadeflex.v036.drivers.rockola.*;
 
 public class driver {
 
@@ -2248,21 +2249,20 @@ public class driver {
                 /*TODO*///	driver_arcadecl,	/* (c) 1992 */
                 /*TODO*///	driver_sparkz,	/* (c) 1992 */
                 /*TODO*///
-                /*TODO*///	/* SNK / Rock-ola games */
-                /*TODO*///	driver_sasuke,	/* [1980] Shin Nihon Kikaku (SNK) */
-                /*TODO*///	driver_satansat,	/* (c) 1981 SNK */
-                /*TODO*///	driver_zarzon,	/* (c) 1981 Taito, gameplay says SNK */
-                /*TODO*///	driver_vanguard,	/* (c) 1981 SNK */
-                /*TODO*///	driver_vangrdce,	/* (c) 1981 SNK + Centuri */
-                /*TODO*///	driver_fantasy,	/* (c) 1981 Rock-ola */
-                /*TODO*///	driver_fantasyj,	/* (c) 1981 SNK */
-                /*TODO*///	driver_pballoon,	/* (c) 1982 SNK */
-                /*TODO*///	driver_nibbler,	/* (c) 1982 Rock-ola */
-                /*TODO*///	driver_nibblera,	/* (c) 1982 Rock-ola */
-                /*TODO*///
-                /*TODO*///	/* later SNK games, each game can be identified by PCB code and ROM
-                /*TODO*///	code, the ROM code is the same between versions, and usually based
-                /*TODO*///	upon the Japanese title. */
+                /* SNK / Rock-ola games */
+                driver_sasuke, /* [1980] Shin Nihon Kikaku (SNK) */
+                driver_satansat, /* (c) 1981 SNK */
+                driver_zarzon, /* (c) 1981 Taito, gameplay says SNK */
+                driver_vanguard, /* (c) 1981 SNK */
+                driver_vangrdce, /* (c) 1981 SNK + Centuri */
+                driver_fantasy, /* (c) 1981 Rock-ola */
+                driver_fantasyj, /* (c) 1981 SNK */
+                driver_pballoon, /* (c) 1982 SNK */
+                driver_nibbler, /* (c) 1982 Rock-ola */
+                driver_nibblera, /* (c) 1982 Rock-ola */
+                /* later SNK games, each game can be identified by PCB code and ROM
+                	code, the ROM code is the same between versions, and usually based
+                	upon the Japanese title. */
                 /*TODO*///	driver_lasso,		/*       'WM' (c) 1982 */
                 /*TODO*///	driver_joyfulr,	/* A2001      (c) 1983 */
                 /*TODO*///	driver_mnchmobl,	/* A2001      (c) 1983 + Centuri license */

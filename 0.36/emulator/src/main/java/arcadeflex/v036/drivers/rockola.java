@@ -1,116 +1,32 @@
-/**
- * *************************************************************************
- *
- * Vanguard memory map (preliminary)
- *
- * 0000-03ff RAM
- * 0400-07ff Video RAM 1
- * 0800-0bff Video RAM 2
- * 0c00-0fff Color RAM (3 bits for video RAM 1 and 3 bits for video RAM 2)
- * 1000-1fff Character generator RAM
- * 4000-bfff ROM
- *
- * read:
- * 3104      IN0
- * 3105      IN1
- * 3106      DSW ??
- * 3107      IN2
- *
- * write
- * 3100      Sound Port null
- * 3101      Sound Port 1
- * 3103      bit 7 = flip screen
- * 3200      y scroll register
- * 3300      x scroll register
- *
- * Fantasy and Nibbler memory map (preliminary)
- *
- * 0000-03ff RAM
- * 0400-07ff Video RAM 1
- * 0800-0bff Video RAM 2
- * 0c00-0fff Color RAM (3 bits for video RAM 1 and 3 bits for video RAM 2)
- * 1000-1fff Character generator RAM
- * 3000-bfff ROM
- *
- * read:
- * 2104      IN0
- * 2105      IN1
- * 2106      DSW
- * 2107      IN2
- *
- * write
- * 2000-2001 To the HD46505S video controller
- * 2100      Sound Port null
- * 2101      Sound Port 1
- * 2103      bit 7 = flip screen
- * bit 4-6 = music 2
- * bit 3 = char bank selector
- * bit null-2 = background color
- * 2200      y scroll register
- * 2300      x scroll register
- *
- * Interrupts: VBlank causes an IRQ. Coin insertion causes a NMI.
- *
- * Pioneer Balloon memory map (preliminary)
- *
- * 0000-03ff RAM		   IC13 cpu
- * 0400-07ff Video RAM 1  IC67 video
- * 0800-0bff Video RAM 2  ???? video
- * 0c00-0fff Color RAM    IC68 (3 bits for VRAM 1 and 3 bits for VRAM 2)
- * 1000-1fff RAM		   ???? Character generator
- * 3000-3fff ROM 4/5	   IC12
- * 4000-4fff ROM 1 	   IC07
- * 5000-5fff ROM 2 	   IC08
- * 6000-6fff ROM 3 	   IC09
- * 7000-7fff ROM 4 	   IC10
- * 8000-8fff ROM 5 	   IC14
- * 9000-9fff ROM 6 	   IC15
- * read:
- * b104	  IN0
- * b105	  IN1
- * b106	  DSW
- * b107	  IN2
- *
- * write
- * b000	  Sound Port null
- * b001	  Sound Port 1
- * b100	  ????
- * b103	  bit 7 = flip screen
- * bit 4-6 = music 2
- * bit 3 = char bank selector
- * bit null-2 = background color
- * b106	  ????
- * b200	  y scroll register
- * b300	  x scroll register
- *
- * Interrupts: VBlank causes an IRQ. Coin insertion causes a NMI.
- *
- **************************************************************************
- */
-
 /*
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v036.drivers;
+/**
+ * Changelog
+ * =========
+ * 22/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-
+//mame imports
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static arcadeflex.v036.vidhrdw.rockola.*;
+//sndhrdw imports
 import static arcadeflex.v036.sndhrdw.rockola.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.crtc6845.*;
+import static arcadeflex.v036.vidhrdw.rockola.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.crtc6845.*;
 
 public class rockola {
 

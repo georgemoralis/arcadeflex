@@ -2,19 +2,26 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
+/**
+ * Changelog
+ * =========
+ * 22/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.sndhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-
-import gr.codebb.arcadeflex.common.PtrLib.BytePtr;
-import static arcadeflex.v036.mame.driverH.*;
+//mame imports
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.mame.*;
+//vidhrw imports
+import static arcadeflex.v036.vidhrdw.rockola.*;
+//TODO
+import gr.codebb.arcadeflex.common.PtrLib.BytePtr;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.mame.commonH.*;
-import static arcadeflex.v036.vidhrdw.rockola.*;
 
 public class rockola {
 
