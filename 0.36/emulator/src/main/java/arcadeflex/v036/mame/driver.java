@@ -149,6 +149,10 @@ import static arcadeflex.v036.drivers.btime.*;
 import static arcadeflex.v036.drivers._88games.*;
 import static arcadeflex.v036.drivers.seicross.*;
 import static arcadeflex.v036.drivers.arkanoid.*;
+import static arcadeflex.v036.drivers.missile.*;
+import static arcadeflex.v036.drivers.atetris.*;
+import static arcadeflex.v036.drivers.astrof.*;
+import static arcadeflex.v036.drivers.sidepckt.*;
 
 public class driver {
 
@@ -1699,12 +1703,12 @@ public class driver {
                 /* cassette system */
                 /*TESTDRIVER*/ //driver_decocass,
                 driver_cookrace, /* bootleg */
-                /*TODO*///	/* other Data East games */
-                /*TODO*///	driver_astrof,	/* (c) [1980?] */
-                /*TODO*///	driver_astrof2,	/* (c) [1980?] */
-                /*TODO*///	driver_astrof3,	/* (c) [1980?] */
-                /*TODO*///	driver_tomahawk,	/* (c) [1980?] */
-                /*TODO*///	driver_tomahaw5,	/* (c) [1980?] */
+                /* other Data East games */
+                driver_astrof, /* (c) [1980?] */
+                driver_astrof2, /* (c) [1980?] */
+                driver_astrof3, /* (c) [1980?] */
+                driver_tomahawk, /* (c) [1980?] */
+                driver_tomahaw5, /* (c) [1980?] */
                 driver_kchamp, /* (c) 1984 Data East USA (US) */
                 driver_karatedo, /* (c) 1984 Data East Corporation (Japan) */
                 driver_kchampvs, /* (c) 1984 Data East USA (US) */
@@ -1717,9 +1721,9 @@ public class driver {
                 /*TODO*///	driver_shootout,	/* (c) 1985 Data East USA (US) */
                 /*TODO*///	driver_shootouj,	/* (c) 1985 Data East USA (Japan) */
                 /*TODO*///	driver_shootoub,	/* bootleg */
-                /*TODO*///	driver_sidepckt,	/* (c) 1986 Data East Corporation */
-                /*TODO*///	driver_sidepctj,	/* (c) 1986 Data East Corporation */
-                /*TODO*///	driver_sidepctb,	/* bootleg */
+                driver_sidepckt, /* (c) 1986 Data East Corporation */
+                driver_sidepctj, /* (c) 1986 Data East Corporation */
+                driver_sidepctb, /* bootleg */
                 /*TODO*///	driver_exprraid,	/* (c) 1986 Data East USA (US) */
                 /*TODO*///	driver_wexpress,	/* (c) 1986 Data East Corporation (World?) */
                 /*TODO*///	driver_wexpresb,	/* bootleg */
@@ -2157,10 +2161,10 @@ public class driver {
                 /*TODO*///	driver_arabian,	/* (c) 1983 Sun Electronics */
                 /*TODO*///	driver_arabiana,	/* (c) 1983 Atari */
                 /*TODO*///
-                /*TODO*///	/* Atari "Missile Command hardware" games */
-                /*TODO*///	driver_missile,	/* (c) 1980 */
-                /*TODO*///	driver_missile2,	/* (c) 1980 */
-                /*TODO*///	driver_suprmatk,	/* (c) 1980 + (c) 1981 Gencomp */
+                /* Atari "Missile Command hardware" games */
+                driver_missile, /* (c) 1980 */
+                driver_missile2, /* (c) 1980 */
+                driver_suprmatk, /* (c) 1980 + (c) 1981 Gencomp */
                 /*TODO*///
                 /*TODO*///	/* misc Atari games */
                 /*TODO*///	driver_foodf,		/* (c) 1982 */	/* made by Gencomp */
@@ -2200,11 +2204,11 @@ public class driver {
                 /*TODO*///	driver_gaunt2p,	/* (c) 1985 */
                 /*TODO*///	driver_gaunt2,	/* (c) 1986 */
                 /*TODO*///	driver_vindctr2,	/* (c) 1988 */
-                /*TODO*///	driver_atetris,	/* (c) 1988 */
-                /*TODO*///	driver_atetrisa,	/* (c) 1988 */
-                /*TODO*///	driver_atetrisb,	/* bootleg */
-                /*TODO*///	driver_atetcktl,	/* (c) 1989 */
-                /*TODO*///	driver_atetckt2,	/* (c) 1989 */
+                driver_atetris, /* (c) 1988 */
+                driver_atetrisa, /* (c) 1988 */
+                driver_atetrisb, /* bootleg */
+                driver_atetcktl, /* (c) 1989 */
+                driver_atetckt2, /* (c) 1989 */
                 /*TODO*///	driver_toobin,	/* (c) 1988 */
                 /*TODO*///	driver_toobin2,	/* (c) 1988 */
                 /*TODO*///	driver_toobinp,	/* (c) 1988 */
