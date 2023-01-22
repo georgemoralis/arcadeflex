@@ -2,22 +2,24 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v036.drivers;
+package arcadeflex.v036.drivers;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-
+//machine imports
+import static arcadeflex.v036.machine.copsnrob.*;
+//mame imports
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v036.platform.libc.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.copsnrob.*;
-import static gr.codebb.arcadeflex.v036.machine.copsnrob.*;
+//TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class copsnrob {
@@ -56,21 +58,25 @@ public class copsnrob {
 
     static InputPortHandlerPtr input_ports_copsnrob = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();       /* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0xFF, IP_ACTIVE_LOW, IPT_VBLANK);
 
-            PORT_START();       /* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START();       /* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START();       /* DIP1 */
+            PORT_START();
+            /* DIP1 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Coinage"));
             PORT_DIPSETTING(0x03, "1 Coin/1 Player");
@@ -88,25 +94,29 @@ public class copsnrob {
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER1);
 
             /* These input ports are fake */
-            PORT_START();       /* IN3 */
+            PORT_START();
+            /* IN3 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_PLAYER1 | IPF_4WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_PLAYER1 | IPF_4WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER1);
 
-            PORT_START();       /* IN4 */
+            PORT_START();
+            /* IN4 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_PLAYER2 | IPF_4WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_PLAYER2 | IPF_4WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER2);
 
-            PORT_START();       /* IN5 */
+            PORT_START();
+            /* IN5 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_PLAYER3 | IPF_4WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_PLAYER3 | IPF_4WAY);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON2 | IPF_PLAYER3);
 
-            PORT_START();       /* IN6 */
+            PORT_START();
+            /* IN6 */
 
             PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_JOYSTICK_UP | IPF_PLAYER4 | IPF_4WAY);
             PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_JOYSTICK_DOWN | IPF_PLAYER4 | IPF_4WAY);
@@ -178,7 +188,7 @@ public class copsnrob {
         public void handler(char[] game_palette, char[] game_colortable, UBytePtr color_prom) {
             //memcpy(game_palette,palette,sizeof(palette));
             for (int i = 0; i < palette.length; i++) {
-                game_palette[i]=palette[i];
+                game_palette[i] = palette[i];
             }
             //memcpy(game_colortable,colortable,sizeof(colortable));
             for (int i = 0; i < colortable.length; i++) {
@@ -223,7 +233,8 @@ public class copsnrob {
      */
     static RomLoadHandlerPtr rom_copsnrob = new RomLoadHandlerPtr() {
         public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);    /* 64k for code */
+            ROM_REGION(0x10000, REGION_CPU1);
+            /* 64k for code */
 
             ROM_LOAD("5777.l7", 0x1200, 0x0200, 0x2b62d627);
             ROM_LOAD("5776.k7", 0x1400, 0x0200, 0x7fb12a49);
@@ -246,7 +257,8 @@ public class copsnrob {
             ROM_REGION(0x0100, REGION_GFX3 | REGIONFLAG_DISPOSE);
             ROM_LOAD("5770.m2", 0x0000, 0x0100, 0xb00bbe77);
 
-            ROM_REGION(0x0060, REGION_PROMS); /* misc. PROMs (timing?) */
+            ROM_REGION(0x0060, REGION_PROMS);
+            /* misc. PROMs (timing?) */
 
             ROM_LOAD("5765.h8", 0x0000, 0x0020, 0x6cd58931);
             ROM_LOAD("5766.k8", 0x0020, 0x0020, 0xe63edf4f);

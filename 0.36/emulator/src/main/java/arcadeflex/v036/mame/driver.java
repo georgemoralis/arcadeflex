@@ -153,6 +153,7 @@ import static arcadeflex.v036.drivers.missile.*;
 import static arcadeflex.v036.drivers.atetris.*;
 import static arcadeflex.v036.drivers.astrof.*;
 import static arcadeflex.v036.drivers.sidepckt.*;
+import static arcadeflex.v036.drivers.copsnrob.*;
 
 public class driver {
 
@@ -2131,7 +2132,7 @@ public class driver {
                 /*TODO*///	driver_dominos,	/* no copyright notice */
                 /*TODO*///	driver_nitedrvr,	/* no copyright notice [1976] */
                 /*TODO*///	driver_bsktball,	/* no copyright notice */
-                /*TODO*///	driver_copsnrob,	/* [1976] */
+                driver_copsnrob, /* [1976] */
                 /*TODO*///	driver_avalnche,	/* no copyright notice [1978] */
                 /*TODO*///	driver_subs,		/* no copyright notice [1976] */
                 /*TODO*///	driver_atarifb,	/* no copyright notice [1978] */

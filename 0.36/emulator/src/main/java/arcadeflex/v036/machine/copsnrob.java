@@ -1,22 +1,26 @@
 /*
  * ported to v0.36
  * using automatic conversion tool v0.10
- *
- *
- *
  */
-package gr.codebb.arcadeflex.v036.machine;
+/**
+ * Changelog
+ * =========
+ * 16/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.machine;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static arcadeflex.v036.mame.driverH.*;
+//mame imports
 import static arcadeflex.v036.mame.inptport.*;
+//vidhrdw imports
 import static arcadeflex.v036.vidhrdw.copsnrob.*;
 
 public class copsnrob {
 
     static int gun_mask[] = {0x7e, 0x7d, 0x7b, 0x77, 0x6f, 0x5f, 0x3f};
 
-	// The gun control is a 7 position switch. I'm doing the following to
+    // The gun control is a 7 position switch. I'm doing the following to
     // emulate it:
     //
     // I read out the current gun position via the sprite image locations,
