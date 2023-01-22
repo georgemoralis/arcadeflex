@@ -154,6 +154,7 @@ import static arcadeflex.v036.drivers.atetris.*;
 import static arcadeflex.v036.drivers.astrof.*;
 import static arcadeflex.v036.drivers.sidepckt.*;
 import static arcadeflex.v036.drivers.copsnrob.*;
+import static arcadeflex.v036.drivers.ccastles.*;
 
 public class driver {
 
@@ -2171,8 +2172,8 @@ public class driver {
                 /*TODO*///	driver_foodf,		/* (c) 1982 */	/* made by Gencomp */
                 /*TODO*///	driver_liberatr,	/* (c) 1982 */
                 /*TODO*////*TESTDRIVER*/driver_liberat2,
-                /*TODO*///	driver_ccastles,	/* (c) 1983 */
-                /*TODO*///	driver_ccastle2,	/* (c) 1983 */
+                driver_ccastles, /* (c) 1983 */
+                driver_ccastle2, /* (c) 1983 */
                 /*TODO*///	driver_cloak,		/* (c) 1983 */
                 /*TODO*///	driver_cloud9,	/* (c) 1983 */
                 /*TODO*///	driver_jedi,		/* (c) 1984 */

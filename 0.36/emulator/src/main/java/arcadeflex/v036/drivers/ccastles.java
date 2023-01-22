@@ -1,11 +1,17 @@
-
 /*
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v036.drivers;
+/**
+ * Changelog
+ * =========
+ * 22/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
 import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.driverH.*;
@@ -13,18 +19,19 @@ import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static arcadeflex.v036.vidhrdw.ccastles.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.ccastles.*;
+//common imports
+import static common.libc.cstring.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.sound.pokeyH.*;
 import static gr.codebb.arcadeflex.v036.sound.pokey.*;
 import static gr.codebb.arcadeflex.v036.platform.fileio.*;
-import static common.libc.cstring.*;
+
 public class ccastles {
 
     static UBytePtr nvram = new UBytePtr();
@@ -117,7 +124,8 @@ public class ccastles {
 
     static InputPortHandlerPtr input_ports_ccastles = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN1);
@@ -125,27 +133,33 @@ public class ccastles {
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_TILT);
             PORT_SERVICE(0x10, IP_ACTIVE_LOW);
             PORT_BIT(0x20, IP_ACTIVE_HIGH, IPT_VBLANK);
-            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON1);			/* 1p Jump, non-cocktail start1 */
+            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON1);
+            /* 1p Jump, non-cocktail start1 */
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_PLAYER2);/* 2p Jump, non-cocktail start2 */
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x07, IP_ACTIVE_LOW, IPT_UNKNOWN);
-            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_START1);			/* cocktail only */
+            PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_START1);
+            /* cocktail only */
 
-            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_START2);			/* cocktail only */
+            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_START2);
+            /* cocktail only */
 
             PORT_DIPNAME(0x20, 0x00, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
             PORT_DIPSETTING(0x20, DEF_STR("Cocktail"));
             PORT_BIT(0xc0, IP_ACTIVE_HIGH, IPT_UNKNOWN);
 
-            PORT_START(); 	/* IN2 */
+            PORT_START();
+            /* IN2 */
 
             PORT_ANALOG(0xff, 0x7f, IPT_TRACKBALL_Y | IPF_REVERSE, 10, 30, 0, 0);
 
-            PORT_START(); 	/* IN3 */
+            PORT_START();
+            /* IN3 */
 
             PORT_ANALOG(0xff, 0x7f, IPT_TRACKBALL_X, 10, 30, 0, 0);
             INPUT_PORTS_END();
