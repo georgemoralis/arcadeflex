@@ -3,11 +3,16 @@
  * using automatic conversion tool v0.10
  *
  */
+/**
+ * Changelog
+ * =========
+ * 15/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.sndhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-
+//sound imports
 import static arcadeflex.v036.sound.samplesH.*;
 import static arcadeflex.v036.sound.samples.*;
 
