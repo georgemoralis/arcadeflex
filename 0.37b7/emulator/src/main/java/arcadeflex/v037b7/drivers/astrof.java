@@ -1,62 +1,31 @@
 /*
- Driver For DECO   ASTRO FIGHTER/TOMAHAWK 777
-
- Initial Version
-
- Lee Taylor 28/11/1997
-
-
- Astro Fighter Sets:
-
- The differences are minor. From newest to oldest:
-
- Main Set: 16Kbit ROMs
- Green/Hollow empty fuel bar.
- 60 points for every bomb destroyed.
-
- Set 2:    8Kbit ROMs
- Blue/Solid empty fuel bar.
- 60 points for every bomb destroyed.
-
- Set 3:    8Kbit ROMs
- Blue/Solid empty fuel bar.
- 300 points for every seven bombs destroyed.
-
-
- To Do!!
- Figure out the correct vblank interval. The one I'm using seems to be
- ok for Astro Fighter, but the submarine in Tomahawk flickers.
- Maybe the video rate should 57FPS as the Burger Time games?
-
- Rotation Support
-
- Also....
- I know there must be at least one other rom set for Astro Fighter
- I have played one that stoped between waves to show the next enemy
- */
-
-/*
  * ported to v0.36
- * using automatic conversion tool v0.10
+ * ported to v0.37b7
  */
-package gr.codebb.arcadeflex.v036.drivers;
+/**
+ * Changelog
+ * =========
+ * 21/01/2023 - shadow - This file should be complete for 0.36 version
+ * 21/01/2023 - shadow - Ported to v0.37b7
+ */
+package arcadeflex.v037b7.drivers;
 
 //generic imports
-import static arcadeflex.v036.generic.funcPtr.*;
-
-import static arcadeflex.v036.mame.driverH.*;
-import static arcadeflex.v036.mame.memoryH.*;
-import static arcadeflex.v036.mame.commonH.*;
-import static arcadeflex.v036.mame.inptport.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import arcadeflex.v036.mame.drawgfxH.rectangle;
-import static arcadeflex.v036.mame.cpuintrf.*;
-import static arcadeflex.v036.mame.inptportH.*;
-import arcadeflex.v036.mame.sndintrfH.MachineSound;
-import static arcadeflex.v036.mame.sndintrfH.SOUND_SAMPLES;
-import static arcadeflex.v036.sndhrdw.astrof.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.astrof.*;
+import static arcadeflex.v037b7.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v037b7.mame.driverH.*;
+import static arcadeflex.v037b7.mame.memoryH.*;
+import static arcadeflex.v037b7.mame.commonH.*;
+import static arcadeflex.v037b7.mame.inptport.*;
+import static arcadeflex.v037b7.mame.drawgfxH.*;
+import static arcadeflex.v037b7.mame.cpuintrf.*;
+import static arcadeflex.v037b7.mame.inptportH.*;
+import static arcadeflex.v037b7.mame.sndintrfH.*;
+//sndhrdw imports
+import static arcadeflex.v037b7.sndhrdw.astrof.*;
+//vidhrw imports
+import static arcadeflex.v037b7.vidhrdw.generic.*;
+import static arcadeflex.v037b7.vidhrdw.astrof.*;
 
 public class astrof {
 
@@ -112,7 +81,8 @@ public class astrof {
 
     static InputPortHandlerPtr input_ports_astrof = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -125,7 +95,8 @@ public class astrof {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY | IPF_COCKTAIL);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_BUTTON1 | IPF_COCKTAIL);
 
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "3");
@@ -151,14 +122,15 @@ public class astrof {
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_VBLANK);
 
-            PORT_START(); 	/* FAKE */
-            /* The coin slots are not memory mapped. Coin insertion causes a NMI. */
-            /* This fake input port is used by the interrupt */
-            /* handler to be notified of coin insertions. We use IMPULSE to */
-            /* trigger exactly one interrupt, without having to check when the */
-            /* user releases the key. */
-            /* The cabinet selector is not memory mapped, but just disables the */
-            /* screen flip logic */
+            PORT_START();
+            /* FAKE */
+ /* The coin slots are not memory mapped. Coin insertion causes a NMI. */
+ /* This fake input port is used by the interrupt */
+ /* handler to be notified of coin insertions. We use IMPULSE to */
+ /* trigger exactly one interrupt, without having to check when the */
+ /* user releases the key. */
+ /* The cabinet selector is not memory mapped, but just disables the */
+ /* screen flip logic */
 
             PORT_BIT_IMPULSE(0x01, IP_ACTIVE_HIGH, IPT_COIN1, 1);
             PORT_DIPNAME(0x02, 0x00, DEF_STR("Cabinet"));
@@ -170,7 +142,8 @@ public class astrof {
 
     static InputPortHandlerPtr input_ports_tomahawk = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* IN0 */
+            PORT_START();
+            /* IN0 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_4WAY);
@@ -181,7 +154,8 @@ public class astrof {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNUSED);
 
-            PORT_START();       /* DSW0 */
+            PORT_START();
+            /* DSW0 */
 
             PORT_DIPNAME(0x03, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "3");
@@ -201,21 +175,23 @@ public class astrof {
             PORT_DIPSETTING(0x20, "10000");
             PORT_DIPSETTING(0x30, "None");
 
-            PORT_DIPNAME(0x40, 0x00, DEF_STR("Difficulty"));  /* Only on Tomahawk 777 */
+            PORT_DIPNAME(0x40, 0x00, DEF_STR("Difficulty"));
+            /* Only on Tomahawk 777 */
 
             PORT_DIPSETTING(0x00, "Easy");
             PORT_DIPSETTING(0x40, "Hard");
 
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_VBLANK);
 
-            PORT_START(); 	/* FAKE */
-            /* The coin slots are not memory mapped. Coin insertion causes a NMI. */
-            /* This fake input port is used by the interrupt */
-            /* handler to be notified of coin insertions. We use IMPULSE to */
-            /* trigger exactly one interrupt, without having to check when the */
-            /* user releases the key. */
-            /* The cabinet selector is not memory mapped, but just disables the */
-            /* screen flip logic */
+            PORT_START();
+            /* FAKE */
+ /* The coin slots are not memory mapped. Coin insertion causes a NMI. */
+ /* This fake input port is used by the interrupt */
+ /* handler to be notified of coin insertions. We use IMPULSE to */
+ /* trigger exactly one interrupt, without having to check when the */
+ /* user releases the key. */
+ /* The cabinet selector is not memory mapped, but just disables the */
+ /* screen flip logic */
 
             PORT_BIT_IMPULSE(0x01, IP_ACTIVE_HIGH, IPT_COIN1, 1);
             PORT_DIPNAME(0x02, 0x00, DEF_STR("Cabinet"));
