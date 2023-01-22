@@ -1,113 +1,19 @@
-/** *************************************************************************
- *
- * Renegade
- * (c)1986 Taito
- *
- * Nekketsu Kouha Kunio Kun
- * (c)1986 Technos Japan
- *
- * Nekketsu Kouha Kunio Kun (bootleg)
- *
- * driver by Phil Stroffolino, Carlos A. Lozano, Rob Rosenbrock
- *
- * to enter test mode, hold down P1+P2 and press reset
- *
- * NMI is used to refresh the sprites
- * IRQ is used to handle coin inputs
- *
- * Known issues:
- * - flipscreen isn't implemented for sprites
- * - coin counter isn't working properly (interrupt related?)
- *
- * Memory Map (Preliminary):
- *
- * Working RAM
- * $24			used to mirror bankswitch state
- * $25			coin trigger state
- * $26			#credits (decimal)
- * $27 -  $28	partial credits
- * $2C -  $2D	sprite refresh trigger (used by NMI)
- * $31			live/demo (if live, player controls are read from input ports)
- * $32			indicates 2 player (alternating) game, or 1 player game
- * $33			active player
- * $37			stage number
- * $38			stage state (for stages with more than one part)
- * $40			game status flags; 0x80 indicates time over, 0x40 indicates player dead
- * $220			player health
- * $222 -  $223	stage timer
- * $48a -  $48b	horizontal scroll buffer
- * $511 -  $690	sprite RAM buffer
- * $693			num pending sound commands
- * $694 -  $698	sound command queue
- *
- * $1002			#lives
- * $1014 - $1015	stage timer - separated digits
- * $1017 - $1019	stage timer: (ticks,seconds,minutes)
- * $101a			timer for palette animation
- * $1020 - $1048	high score table
- * $10e5 - $10ff	68705 data buffer
- *
- * Video RAM
- * $1800 - $1bff	text layer, characters
- * $1c00 - $1fff	text layer, character attributes
- * $2000 - $217f	MIX RAM (96 sprites)
- * $2800 - $2bff	BACK LOW MAP RAM (background tiles)
- * $2C00 - $2fff	BACK HIGH MAP RAM (background attributes)
- * $3000 - $30ff	COLOR RG RAM
- * $3100 - $31ff	COLOR B RAM
- *
- * Registers
- * $3800w	scroll(0ff)
- * $3801w	scroll(300)
- * $3802w	sound command
- * $3803w	screen flip (null=flip; 1=noflip)
- *
- * $3804w	send data to 68705
- * $3804r	receive data from 68705
- *
- * $3805w	bankswitch
- * $3806w	watchdog?
- * $3807w	coin counter
- *
- * $3800r	'player1'
- * xx		start buttons
- * xx		fire buttons
- * xxxx	joystick state
- *
- * $3801r	'player2'
- * xx		coin inputs
- * xx		fire buttons
- * xxxx	joystick state
- *
- * $3802r	'DIP2'
- * x		unused?
- * x		vblank
- * x		null: 68705 is ready to send information
- * x		1: 68705 is ready to receive information
- * xx		3rd fire buttons for player 2,1
- * xx	difficulty
- *
- * $3803r 'DIP1'
- * x		screen flip
- * x		cabinet type
- * x		bonus (extra life for high score)
- * x		starting lives: 1 or 2
- * xxxx	coins per play
- *
- * ROM
- * $4000 - $7fff	bankswitched ROM
- * $8000 - $ffff	ROM
- *
- ************************************************************************** */
-
 /*
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v036.drivers;
-//generic imports
+/**
+ * Changelog
+ * =========
+ * 22/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
 
+//cpu imports
+import static arcadeflex.v036.cpu.m6809.m6809H.*;
+//generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.sndintrf.*;
@@ -115,20 +21,22 @@ import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.inptportH.*;
+import static arcadeflex.v036.mame.mame.*;
+//sound imports
+import static arcadeflex.v036.sound.adpcm.*;
+import static arcadeflex.v036.sound.adpcmH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.renegade.*;
+//common imports
+import static common.libc.expressions.*;
+//TODO
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.renegade.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static common.libc.expressions.NOT;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3526intf.*;
 
@@ -140,7 +48,9 @@ public class renegade {
     public static WriteHandlerPtr adpcm_play_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             data -= 0x2c;
-            /*TODO*///		if( data >= 0 ) ADPCM_play( 0, 0x2000*data, 0x2000*2 );
+            if (data >= 0) {
+                ADPCM_play(0, 0x2000 * data, 0x2000 * 2);
+            }
         }
     };
 
@@ -668,14 +578,13 @@ public class renegade {
             new int[]{50}, /* volume */
             new WriteYmHandlerPtr[]{irqhandler}
     );
-    /*TODO*///	static struct ADPCMinterface adpcm_interface =
-/*TODO*///	{
-/*TODO*///		1,			/* 1 channel */
-/*TODO*///		8000,		/* 8000Hz playback */
-/*TODO*///		REGION_SOUND1,	/* memory region */
-/*TODO*///		0,			/* init function */
-/*TODO*///		{ 100 }		/* volume */
-/*TODO*///	};
+    static ADPCMinterface adpcm_interface = new ADPCMinterface(
+            1, /* 1 channel */
+            8000, /* 8000Hz playback */
+            REGION_SOUND1, /* memory region */
+            null, /* init function */
+            new int[]{100} /* volume */
+    );
 
     static MachineDriver machine_driver_renegade = new MachineDriver(
             new MachineCPU[]{
@@ -711,11 +620,11 @@ public class renegade {
                 new MachineSound(
                         SOUND_YM3526,
                         ym3526_interface
+                ),
+                new MachineSound(
+                        SOUND_ADPCM,
+                        adpcm_interface
                 )
-            /*new MachineSound(
-				SOUND_ADPCM,
-				adpcm_interface
-			)*/
             }
     );
 
