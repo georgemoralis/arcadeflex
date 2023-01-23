@@ -1,20 +1,26 @@
 /*
- * ported to v0.37b7
- * using automatic conversion tool v0.01
+ * ported to v0.36
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+/**
+ * Changelog
+ * =========
+ * 23/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.vidhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
+//mame imports
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.osdependH.*;
+//vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 
 public class exprraid {
 
@@ -88,7 +94,7 @@ public class exprraid {
                         (map2.read(offs + base) & 0x18) >> 3,
                         (map2.read(offs + base) & 0x04), 0,
                         sx, sy,
-                        Machine.visible_area, TRANSPARENCY_NONE, 0);
+                        Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
             }
         }
     }
@@ -144,7 +150,7 @@ public class exprraid {
                         (colorram.read(offs) & 0x10) >> 4,
                         0, 0,
                         8 * sx, 8 * sy,
-                        Machine.visible_area, TRANSPARENCY_PEN, 0);
+                        Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
             }
         }
     };
