@@ -1,6 +1,11 @@
 /*
- * ported to v0.38b7
+ * ported to v0.36
  * 
+ */
+/**
+ * Changelog
+ * =========
+ * 23/01/2023 - shadow - This file should be complete for 0.36 version
  */
 package arcadeflex.v036.drivers;
 
@@ -21,14 +26,13 @@ import static arcadeflex.v036.mame.memoryH.*;
 //sound imports
 import static arcadeflex.v036.sound.k007232.*;
 import static arcadeflex.v036.sound.k007232H.*;
+import static arcadeflex.v036.sound.mixerH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.bottom9.*;
+import static arcadeflex.v036.vidhrdw.konamiic.*;
 //TODO
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.bottom9.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
-import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 
 public class bottom9 {
 

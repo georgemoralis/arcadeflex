@@ -157,6 +157,7 @@ import static arcadeflex.v036.drivers.copsnrob.*;
 import static arcadeflex.v036.drivers.ccastles.*;
 import static arcadeflex.v036.drivers.rockola.*;
 import static arcadeflex.v036.drivers.renegade.*;
+import static arcadeflex.v036.drivers.bottom9.*;
 
 public class driver {
 
@@ -1960,8 +1961,8 @@ public class driver {
                 driver_crimfgt2, /* GX821 (c) 1989 (World) */
                 driver_crimfgtj, /* GX821 (c) 1989 (Japan) */
                 /*TODO*///	driver_spy,		/* GX857 (c) 1989 (US) */
-                /*TODO*///	driver_bottom9,	/* GX891 (c) 1989 */
-                /*TODO*///	driver_bottom9n,	/* GX891 (c) 1989 */
+                driver_bottom9, /* GX891 (c) 1989 */
+                driver_bottom9n, /* GX891 (c) 1989 */
                 /*TODO*///	driver_blockhl,	/* GX973 (c) 1989 */
                 /*TODO*///	driver_quarth,	/* GX973 (c) 1989 (Japan) */
                 driver_aliens, /* GX875 (c) 1990 (World) */
