@@ -1,22 +1,30 @@
- /*
- * ported to v0.37b7
- * using automatic conversion tool v0.01
+/*
+ * ported to v0.36
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+/**
+ * Changelog
+ * =========
+ * 24/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.vidhrdw;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.mame.*;
+//vidrhdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+//TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import arcadeflex.v036.mame.osdependH.osd_bitmap;
-import static gr.codebb.arcadeflex.v036.vidhrdw.vector.*;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
-import static arcadeflex.v036.mame.drawgfxH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.osdependH.osd_create_bitmap;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
 
 public class segar {
 
@@ -132,7 +140,9 @@ public class segar {
      */
     public static WriteHandlerPtr segar_video_port_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            logerror("VPort = %02X\n", data);
+            if (errorlog != null) {
+                fprintf(errorlog, "VPort = %02X\n", data);
+            }
 
             if ((data & 0x01) != sv.flip) {
                 sv.flip = (char) (data & 0x01);
@@ -187,7 +197,9 @@ public class segar {
 
                 sv.colorRAM[offset] = (char) (data & 0xFF);
             } else {
-                logerror("color %02X:%02X (write=%d)\n", offset, data, sv.color_write_enable);
+                if (errorlog != null) {
+                    fprintf(errorlog, "color %02X:%02X (write=%d)\n", offset, data, sv.color_write_enable);
+                }
                 segar_mem_colortable.write(offset, data);
             }
         }
@@ -277,7 +289,7 @@ public class segar {
                 drawgfx(tmpbitmap, Machine.gfx[0],
                         charcode, charcode >> 4,
                         sv.flip, sv.flip, sx, sy,
-                        Machine.visible_area, sprite_transparency, 0);
+                        Machine.drv.visible_area, sprite_transparency, 0);
 
                 dirtybuffer[offs] = 0;
 
@@ -291,7 +303,7 @@ public class segar {
         }
 
         /* copy the character mapped graphics */
-        copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, Machine.visible_area, copy_transparency, Machine.pens[0]);
+        copybitmap(bitmap, tmpbitmap, 0, 0, 0, 0, Machine.drv.visible_area, copy_transparency, Machine.pens[0]);
 
         sv.char_refresh = 0;
         sv.refresh = 0;
@@ -334,13 +346,13 @@ public class segar {
                 return 1;
             }
 
-            if ((sv.horizbackbitmap = bitmap_alloc(4 * Machine.drv.screen_width, Machine.drv.screen_height)) == null) {
+            if ((sv.horizbackbitmap = osd_create_bitmap(4 * Machine.drv.screen_width, Machine.drv.screen_height)) == null) {
                 generic_vh_stop.handler();
                 return 1;
             }
 
-            if ((sv.vertbackbitmap = bitmap_alloc(Machine.drv.screen_width, 4 * Machine.drv.screen_height)) == null) {
-                bitmap_free(sv.horizbackbitmap);
+            if ((sv.vertbackbitmap = osd_create_bitmap(Machine.drv.screen_width, 4 * Machine.drv.screen_height)) == null) {
+                osd_free_bitmap(sv.horizbackbitmap);
                 generic_vh_stop.handler();
                 return 1;
             }
@@ -358,8 +370,8 @@ public class segar {
      */
     public static VhStopHandlerPtr spaceod_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
-            bitmap_free(sv.horizbackbitmap);
-            bitmap_free(sv.vertbackbitmap);
+            osd_free_bitmap(sv.horizbackbitmap);
+            osd_free_bitmap(sv.vertbackbitmap);
             generic_vh_stop.handler();
         }
     };
@@ -474,7 +486,7 @@ public class segar {
             }
 
             // scenes 0,1 are horiz.  scenes 2,3 are vert.
-            vert_scene = (sv.back_scene & 0x02)!=0?0:1;
+            vert_scene = (sv.back_scene & 0x02) != 0 ? 0 : 1;
 
             sprite_transparency = TRANSPARENCY_PEN;
 
@@ -532,7 +544,7 @@ public class segar {
                         scrolly = -sv.backshift;
                     }
 
-                    copyscrollbitmap(bitmap, sv.vertbackbitmap, 0, null, 1, new int[]{scrolly}, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                    copyscrollbitmap(bitmap, sv.vertbackbitmap, 0, null, 1, new int[]{scrolly}, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
                 } else {
                     if (sv.bflip != 0) {
                         scrollx = sv.backshift;
@@ -542,12 +554,12 @@ public class segar {
 
                     scrolly = -32;
 
-                    copyscrollbitmap(bitmap, sv.horizbackbitmap, 1, new int[]{scrollx}, 1, new int[]{scrolly}, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                    copyscrollbitmap(bitmap, sv.horizbackbitmap, 1, new int[]{scrollx}, 1, new int[]{scrolly}, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
                 }
             }
 
             if (sv.fill_background == 1) {
-                fillbitmap(bitmap, Machine.pens[sv.backfill], Machine.visible_area);
+                fillbitmap(bitmap, Machine.pens[sv.backfill], Machine.drv.visible_area);
             }
 
             /* Refresh the "standard" graphics */
@@ -654,7 +666,7 @@ public class segar {
                         drawgfx(tmpbitmap, Machine.gfx[1 + sv.back_charset],
                                 charcode, ((charcode & 0xF0) >> 4),
                                 sv.flip, sv.flip, sx, sy,
-                                Machine.visible_area, TRANSPARENCY_NONE, 0);
+                                Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
                     }
                 }
                 sprite_transparency = TRANSPARENCY_PEN;
@@ -702,7 +714,9 @@ public class segar {
         public void handler(int offset, int data) {
             /*unsigned*/ int tempscene;
 
-            logerror("Port %02X:%02X\n", offset + 0xb8, data);
+            if (errorlog != null) {
+                fprintf(errorlog, "Port %02X:%02X\n", offset + 0xb8, data);
+            }
 
             /* These are all guesses.  There are some bits still being ignored! */
             switch (offset) {
@@ -831,7 +845,7 @@ public class segar {
                         drawgfx(tmpbitmap, Machine.gfx[1 + sv.back_charset],
                                 charcode, ((charcode & 0xF0) >> 4),
                                 sv.flip, sv.flip, sx, sy,
-                                Machine.visible_area, TRANSPARENCY_NONE, 0);
+                                Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
                     }
                 }
                 sprite_transparency = TRANSPARENCY_PEN;

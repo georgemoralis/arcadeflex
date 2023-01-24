@@ -2,23 +2,29 @@
  * ported to v0.36
  * using automatic conversion tool v0.01
  */
+/**
+ * Changelog
+ * =========
+ * 15/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.sndhrdw;
 
+//cpu imports
+import static arcadeflex.v036.cpu.i8039.i8039H.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
-//TODO
-import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static gr.codebb.arcadeflex.v036.cpu.i8039.i8039H.I8039_EXT_INT;
 import static arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import static arcadeflex.v036.mame.mame.*;
+//sound imports
 import static arcadeflex.v036.sound.samples.*;
 import static arcadeflex.v036.sound.tms36xx.*;
 import static arcadeflex.v036.sound.dac.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
+//TODO
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 
 public class segar {

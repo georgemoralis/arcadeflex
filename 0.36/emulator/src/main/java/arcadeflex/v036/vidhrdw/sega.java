@@ -1,17 +1,22 @@
- /*
- * ported to v0.37b7
- * using automatic conversion tool v0.01
+/*
+ * ported to v0.36
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+/**
+ * Changelog
+ * =========
+ * 24/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.vidhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.osdependH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.vector.*;
+//TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import arcadeflex.v036.mame.osdependH.osd_bitmap;
-import static gr.codebb.arcadeflex.v036.vidhrdw.vector.*;
-
 
 public class sega {
 
@@ -45,7 +50,6 @@ public class sega {
  /*
 		 * walk the symbol list until 'last symbol' set
          */
-
         do {
             draw = vectorram.read(symbolIndex++);
 
@@ -81,7 +85,8 @@ public class sega {
                     color = attrib & 0x7e;
                     if (((attrib & 1) != 0) && color != 0) {
                         if (translucency != 0) {
-                            intensity = 0xa0; /* leave room for translucency */
+                            intensity = 0xa0;
+                            /* leave room for translucency */
                         } else {
                             intensity = 0xff;
                         }
@@ -182,10 +187,10 @@ public class sega {
             if (vectorram_size[0] == 0) {
                 return 1;
             }
-            min_x = Machine.visible_area.min_x;
-            min_y = Machine.visible_area.min_y;
-            max_x = Machine.visible_area.max_x;
-            max_y = Machine.visible_area.max_y;
+            min_x = Machine.drv.visible_area.min_x;
+            min_y = Machine.drv.visible_area.min_y;
+            max_x = Machine.drv.visible_area.max_x;
+            max_y = Machine.drv.visible_area.max_y;
             width = max_x - min_x;
             height = max_y - min_y;
             cent_x = (max_x + min_x) / 2;
@@ -263,7 +268,7 @@ public class sega {
     public static VhUpdateHandlerPtr sega_vh_screenrefresh = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             sega_generate_vector_list();
-            vector_vh_screenrefresh.handler(bitmap, full_refresh);
+            vector_vh_update.handler(bitmap, full_refresh);
         }
     };
 }

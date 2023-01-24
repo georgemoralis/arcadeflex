@@ -1,17 +1,23 @@
 /*
- * ported to v0.37b57
- * using automatic conversion tool v0.01
+ * ported to v0.36
  */
-package gr.codebb.arcadeflex.v037b7.machine;
+/**
+ * Changelog
+ * =========
+ * 24/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.machine;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static arcadeflex.v036.mame.driverH.*;
+//machine imports
+import static arcadeflex.v036.machine.segar.*;
+//mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v037b7.machine.segar.sega_decrypt;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static arcadeflex.v036.mame.inptport.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class sega {
 
@@ -21,7 +27,7 @@ public class sega {
     static /*unsigned*/ char u8_ioSwitch;
     /* determines whether we're reading the spinner or the buttons */
 
-    public static WriteHandlerPtr sega_w = new WriteHandlerPtr() {
+    public static WriteHandlerPtr sega_wr = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             int pc, off;
 
@@ -103,9 +109,9 @@ public class sega {
      * Port 2 - 2-2, 2-6, 1-2, 1-6 Port 3 - 2-1, 2-5, 1-1, 1-5 MAME format: Port
      * 6 - 1-1, 1-2, 1-3, 1-4, 1-5, 1-6, 1-7, 1-8 Port 7 - 2-1, 2-2, 2-3, 2-4,
      * 2-5, 2-6, 2-7, 2-8
-     **************************************************************************
+     * *************************************************************************
      */
-    public static ReadHandlerPtr sega_ports_r = new ReadHandlerPtr() {
+    public static ReadHandlerPtr sega_read_ports = new ReadHandlerPtr() {
         public int handler(int offset) {
             int dip1, dip2;
 

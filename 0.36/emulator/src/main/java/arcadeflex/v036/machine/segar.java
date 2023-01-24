@@ -1,16 +1,24 @@
 /*
- * ported to v0.37b7
- * using automatic conversion tool v0.01
+ * ported to v0.36
  */
-package gr.codebb.arcadeflex.v037b7.machine;
+/**
+ * Changelog
+ * =========
+ * 24/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.machine;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static arcadeflex.v036.vidhrdw.generic.videoram_w;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
+//mame imports
 import static arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.segar.*;
+import static arcadeflex.v036.mame.mame.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.segar.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 
 public class segar {
 
@@ -23,7 +31,7 @@ public class segar {
 
     public static UBytePtr segar_mem = new UBytePtr();
 
-    public static WriteHandlerPtr segar_w = new WriteHandlerPtr() {
+    public static WriteHandlerPtr segar_wr = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             int pc, op, page, off;
             /*unsigned*/
@@ -63,7 +71,9 @@ public class segar {
             } else if ((off >= 0xF800) && (off <= 0xFFFF)) {
                 segar_characterram2_w.handler(off - 0xF800, data);
             } else {
-                logerror("unmapped write at %04X:%02X\n", off, data);
+                if (errorlog != null) {
+                    fprintf(errorlog, "unmapped write at %04X:%02X\n", off, data);
+                }
             }
         }
     };

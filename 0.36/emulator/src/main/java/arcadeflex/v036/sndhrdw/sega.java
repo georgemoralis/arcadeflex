@@ -2,18 +2,23 @@
  * ported to v0.36
  * using automatic conversion tool v0.01
  */
+/**
+ * Changelog
+ * =========
+ * 15/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.sndhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.sndintrfH.*;
-//TODO
-import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
+import static arcadeflex.v036.mame.mame.*;
+//sound imports
 import static arcadeflex.v036.sound.samples.*;
+//TODO
+import static arcadeflex.v036.mame.mame.errorlog;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 
 public class sega {
 

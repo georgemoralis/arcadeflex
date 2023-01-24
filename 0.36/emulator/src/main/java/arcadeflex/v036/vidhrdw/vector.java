@@ -1,39 +1,29 @@
 /*
-This file is part of Arcadeflex.
-
-Arcadeflex is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Arcadeflex is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
+ * ported to v0.36
  */
-/*
- * ported to v0.37b7
- * using automatic conversion tool v0.01
+/**
+ * Changelog
+ * =========
+ * 23/01/2023 - shadow - Compatible with 0.36 version . Missing 16bit support and some artwork functions
  */
-package gr.codebb.arcadeflex.v036.vidhrdw;
+package arcadeflex.v036.vidhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-
+//mame imports
+import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.mame.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.vectorH.*;
+//common imports
+import static common.libc.cstdlib.*;
+//TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import gr.codebb.arcadeflex.common.SubArrays.IntSubArray;
-import static common.libc.cstdlib.rand;
-import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v036.mame.mame.options;
-import arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static gr.codebb.arcadeflex.v036.platform.video.osd_get_pen;
-import static gr.codebb.arcadeflex.v036.vidhrdw.vectorH.*;
-import arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
+import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 
 public class vector {
 
@@ -158,7 +148,8 @@ public class vector {
     };
     public static plotPixelProcHandlerPtr vector_pp_16 = new plotPixelProcHandlerPtr() {
         public void handler(osd_bitmap b, int x, int y, int p) {
-            b.line[y].WRITE_WORD(x, p & 0xFFFF);
+            throw new UnsupportedOperationException("Unsupported");
+            /*TODO*///((unsigned short *)b->line[y])[x] = p;
         }
     };
     public static readPixelProcHandlerPtr vector_rp_8 = new readPixelProcHandlerPtr() {
@@ -168,7 +159,8 @@ public class vector {
     };
     public static readPixelProcHandlerPtr vector_rp_16 = new readPixelProcHandlerPtr() {
         public int handler(osd_bitmap b, int x, int y) {
-            return b.line[y].READ_WORD(x) & 0xFFFF;
+            throw new UnsupportedOperationException("Unsupported");
+            /*TODO*///return ((unsigned short *)b->line[y])[x];
         }
     };
 
@@ -415,7 +407,7 @@ public class vector {
 
         /* Mark this pixel as dirty */
         if (dirty != 0) {
-/*TODO*///            osd_mark_vector_dirty(x, y);
+            osd_mark_vector_dirty(x, y);
         }
     }
 
@@ -630,7 +622,9 @@ public class vector {
         new_index++;
         if (new_index >= MAX_POINTS) {
             new_index--;
-            logerror("*** Warning! Vector list overflow!\n");
+            if (errorlog != null) {
+                fprintf(errorlog, "*** Warning! Vector list overflow!\n");
+            }
         }
     }
 
@@ -650,7 +644,9 @@ public class vector {
         new_index++;
         if (new_index >= MAX_POINTS) {
             new_index--;
-            logerror("*** Warning! Vector list overflow!\n");
+            if (errorlog != null) {
+                fprintf(errorlog, "*** Warning! Vector list overflow!\n");
+            }
         }
     }
 
@@ -664,7 +660,9 @@ public class vector {
 
         /* failsafe */
         if ((x1 >= x2) || (yy1 >= y2)) {
-            logerror("Error in clipping parameters.\n");
+            if (errorlog != null) {
+                fprintf(errorlog, "Error in clipping parameters.\n");
+            }
             xmin = 0;
             ymin = 0;
             xmax = vecwidth;
@@ -745,11 +743,10 @@ public class vector {
         vector_runs++;
     }
 
-    public static void osd_mark_vector_dirty(int x, int y)
-    {
+    public static void osd_mark_vector_dirty(int x, int y) {
 
     }
-    
+
     /*
      * By comparing with the last drawn list, we can prevent that identical
      * vectors are marked dirty which appeared at the same list index in the
@@ -832,7 +829,7 @@ public class vector {
         }
     }
 
-    public static VhUpdateHandlerPtr vector_vh_screenrefresh = new VhUpdateHandlerPtr() {
+    public static VhUpdateHandlerPtr vector_vh_update = new VhUpdateHandlerPtr() {
         public void handler(osd_bitmap bitmap, int full_refresh) {
             int i;
             int temp_x, temp_y;
@@ -844,8 +841,8 @@ public class vector {
             vecheight = bitmap.height;
 
             /* setup scaling */
-            temp_x = (1 << (44 - vecshift)) / (Machine.visible_area.max_x - Machine.visible_area.min_x);
-            temp_y = (1 << (44 - vecshift)) / (Machine.visible_area.max_y - Machine.visible_area.min_y);
+            temp_x = (1 << (44 - vecshift)) / (Machine.drv.visible_area.max_x - Machine.drv.visible_area.min_x);
+            temp_y = (1 << (44 - vecshift)) / (Machine.drv.visible_area.max_y - Machine.drv.visible_area.min_y);
 
             if ((Machine.orientation & ORIENTATION_SWAP_XY) != 0) {
                 vector_scale_x = temp_x * vecheight;
@@ -887,4 +884,184 @@ public class vector {
             }
         }
     };
+    /*TODO*///
+/*TODO*////*********************************************************************
+/*TODO*///  Artwork functions.
+/*TODO*/// *********************************************************************/
+/*TODO*///
+/*TODO*////*********************************************************************
+/*TODO*///  Restore the old bitmap with the artwork (backdrop or overlay).
+/*TODO*///  MLR 100598
+/*TODO*/// *********************************************************************/
+/*TODO*///
+/*TODO*///static void vector_restore_artwork (struct osd_bitmap *bitmap, struct artwork *a, int full_refresh)
+/*TODO*///{
+/*TODO*///	int i, x, y;
+/*TODO*///	struct osd_bitmap *artwork;
+/*TODO*///
+/*TODO*///	if (full_refresh)
+/*TODO*///	{
+/*TODO*///		copybitmap(bitmap, a->artwork ,0,0,0,0,NULL,TRANSPARENCY_NONE,0);
+/*TODO*///		osd_mark_dirty (0, 0, bitmap->width, bitmap->height, 0);
+/*TODO*///	}
+/*TODO*///	else if (pixel)
+/*TODO*///	{
+/*TODO*///		artwork = a->artwork;
+/*TODO*///
+/*TODO*///		for (i=p_index-1; i>=0; i--)
+/*TODO*///		{
+/*TODO*///			x = pixel[i] >> 16;
+/*TODO*///			y = pixel[i] & 0x0000ffff;
+/*TODO*///			vector_pp (bitmap, x, y, vector_rp(artwork, x, y));
+/*TODO*///		}
+/*TODO*///	}
+/*TODO*///}
+/*TODO*///
+/*TODO*////*********************************************************************
+/*TODO*///  vector_vh_update_backdrop
+/*TODO*///
+/*TODO*///  This draws a vector screen with backdrop.
+/*TODO*///
+/*TODO*///  First the backdrop is restored. Then the new vector screen
+/*TODO*///  is recalculated with vector_vh_update. Changed pixels are
+/*TODO*///  then merged with the backdrop.
+/*TODO*/// *********************************************************************/
+/*TODO*///
+/*TODO*///void vector_vh_update_backdrop(struct osd_bitmap *bitmap, struct artwork *a, int full_refresh)
+/*TODO*///{
+/*TODO*///	int i, x, y;
+/*TODO*///	unsigned int coords;
+/*TODO*///	unsigned short newcol;
+/*TODO*///	struct osd_bitmap *vb = a->vector_bitmap;
+/*TODO*///	struct osd_bitmap *ob = a->orig_artwork;
+/*TODO*///	struct osd_bitmap *ab = a->artwork;
+/*TODO*///	unsigned char *tab = a->pTable;
+/*TODO*///	unsigned char *brightness = a->brightness;
+/*TODO*///	vector_restore_artwork(bitmap, a, full_refresh);
+/*TODO*///	vector_vh_update(vb, full_refresh);
+/*TODO*///
+/*TODO*///	if (translucency)
+/*TODO*///		for (i = p_index - 1; i >= 0; i--)
+/*TODO*///		{
+/*TODO*///			coords = pixel[i];
+/*TODO*///			x = coords >> 16;
+/*TODO*///			y = coords & 0x0000ffff;
+/*TODO*///			newcol = pens[tab[vector_rp(ob, x, y) * total_colors + invpens[vector_rp(vb, x, y)]]];
+/*TODO*///			if (brightness[newcol] > brightness[vector_rp(ab, x, y)])
+/*TODO*///				vector_pp (bitmap, x, y, newcol);
+/*TODO*///		}
+/*TODO*///	else
+/*TODO*///		for (i = p_index - 1; i >= 0; i--)
+/*TODO*///		{
+/*TODO*///			coords = pixel[i];
+/*TODO*///			x = coords >> 16;
+/*TODO*///			y = coords & 0x0000ffff;
+/*TODO*///			newcol = vector_rp(vb, x, y);
+/*TODO*///			if (brightness[newcol] > brightness[vector_rp(ab, x, y)])
+/*TODO*///				vector_pp (bitmap, x, y, newcol);
+/*TODO*///		}
+/*TODO*///}
+/*TODO*///
+/*TODO*////*********************************************************************
+/*TODO*///  vector_vh_update_overlay
+/*TODO*///
+/*TODO*///  This draws a vector screen with overlay.
+/*TODO*///
+/*TODO*///  First the overlay art is restored. Then the new vector screen
+/*TODO*///  is recalculated with vector_vh_update. Changed pixels are
+/*TODO*///  then merged with the overlay.
+/*TODO*/// *********************************************************************/
+/*TODO*///void vector_vh_update_overlay(struct osd_bitmap *bitmap, struct artwork *a, int full_refresh)
+/*TODO*///{
+/*TODO*///	int i, x, y, pen;
+/*TODO*///	unsigned int coords;
+/*TODO*///
+/*TODO*///	struct osd_bitmap *ob = a->orig_artwork;
+/*TODO*///	struct osd_bitmap *vb = a->vector_bitmap;
+/*TODO*///	int npt = a->num_pens_trans;
+/*TODO*///	unsigned char *bright = a->brightness;
+/*TODO*///	unsigned char *tab = a->pTable;
+/*TODO*///
+/*TODO*///	vector_restore_artwork(bitmap, a, full_refresh);
+/*TODO*///	vector_vh_update(vb, full_refresh);
+/*TODO*///
+/*TODO*///	/* Now we alpha blend the overlay with the vector bitmap.
+/*TODO*///	 * (just the modified pixels) */
+/*TODO*///
+/*TODO*///	for (i = p_index - 1; i >= 0; i--)
+/*TODO*///	{
+/*TODO*///		coords = pixel[i];
+/*TODO*///		x = coords >> 16;
+/*TODO*///		y = coords & 0x0000ffff;
+/*TODO*///		pen = vector_rp(ob, x, y);
+/*TODO*///
+/*TODO*///		if (pen < npt)
+/*TODO*///			vector_pp (bitmap, x, y, pens[tab[pen * 256 + bright[vector_rp(vb, x, y)]]]);
+/*TODO*///	}
+/*TODO*///}
+/*TODO*///
+/*TODO*////*********************************************************************
+/*TODO*///  vector_vh_update_artwork
+/*TODO*///
+/*TODO*///  This draws a vector screen with overlay and backdrop.
+/*TODO*///
+/*TODO*///  First the overlay art is restored. Then the new vector screen
+/*TODO*///  is recalculated with vector_vh_update. The changed pixels are
+/*TODO*///  then merged with the overlay and backdrop.
+/*TODO*/// *********************************************************************/
+/*TODO*///void vector_vh_update_artwork(struct osd_bitmap *bitmap, struct artwork *o, struct artwork *b,  int full_refresh)
+/*TODO*///{
+/*TODO*///	int i, x, y, pen;
+/*TODO*///	unsigned int coords;
+/*TODO*///
+/*TODO*///	struct osd_bitmap *oab = o->artwork;
+/*TODO*///	struct osd_bitmap *oob = o->orig_artwork;
+/*TODO*///	struct osd_bitmap *ovb = o->vector_bitmap;
+/*TODO*///	struct osd_bitmap *bab = b->artwork;
+/*TODO*///	int npt = o->num_pens_trans;
+/*TODO*///	unsigned char *bright = o->brightness;
+/*TODO*///	unsigned char *tab = o->pTable;
+/*TODO*///
+/*TODO*///	if (pixel && !full_refresh)
+/*TODO*///	{
+/*TODO*///		for (i=p_index-1; i>=0; i--)
+/*TODO*///		{
+/*TODO*///			x = pixel[i] >> 16;
+/*TODO*///			y = pixel[i] & 0x0000ffff;
+/*TODO*///			if (vector_rp(oob, x, y) < npt)
+/*TODO*///				vector_pp (bitmap, x, y, vector_rp(bab, x, y));
+/*TODO*///			else
+/*TODO*///				vector_pp (bitmap, x, y, vector_rp(oab, x, y));
+/*TODO*///		}
+/*TODO*///	}
+/*TODO*///	/* When this is called for the first time we have to copy the whole bitmap. */
+/*TODO*///	/* We don't care for different levels of transparency, just opaque or not. */
+/*TODO*///	else
+/*TODO*///	{
+/*TODO*///		for (y = 0; y < bitmap->height; y++)
+/*TODO*///			for (x = 0; x < bitmap->width; x++)
+/*TODO*///				if (vector_rp(oob, x, y) < npt)
+/*TODO*///					vector_pp (bitmap, x, y, vector_rp(bab, x, y));
+/*TODO*///				else
+/*TODO*///					vector_pp (bitmap, x, y, vector_rp(oab, x, y));
+/*TODO*///
+/*TODO*///		osd_mark_dirty (0, 0, bitmap->width, bitmap->height, 0);
+/*TODO*///	}
+/*TODO*///
+/*TODO*///	vector_vh_update(ovb, full_refresh);
+/*TODO*///
+/*TODO*///	/* Now we alpha blend the overlay with the vector bitmap.
+/*TODO*///	 * (just the modified pixels) */
+/*TODO*///
+/*TODO*///	for (i = p_index - 1; i >= 0; i--)
+/*TODO*///	{
+/*TODO*///		coords = pixel[i];
+/*TODO*///		x = coords >> 16;
+/*TODO*///		y = coords & 0x0000ffff;
+/*TODO*///		pen = oob->line[y][x];
+/*TODO*///
+/*TODO*///		if (pen < npt)
+/*TODO*///			vector_pp (bitmap, x, y, pens[tab[pen * 256 + bright[vector_rp(ovb, x, y)]]]);
+/*TODO*///	}
+/*TODO*///}
 }

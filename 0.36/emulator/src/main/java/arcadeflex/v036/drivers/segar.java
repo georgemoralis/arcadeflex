@@ -1,62 +1,46 @@
- /*
- * ported to v0.37b7
- * using automatic conversion tool v0.01
+/*
+ * ported to v0.36
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+/**
+ * Changelog
+ * =========
+ * 24/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
+//cpu imports
+import static arcadeflex.v036.cpu.i8039.i8039H.*;
+import static arcadeflex.v036.cpu.z80.z80H.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static gr.codebb.arcadeflex.v036.cpu.i8039.i8039H.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
+//machine imports
+import static arcadeflex.v036.machine.segacrpt.*;
+import static arcadeflex.v036.machine.segar.*;
+//mame imports
 import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.inputH.*;
-import static arcadeflex.v036.mame.sndintrf.*;
-import static arcadeflex.v036.mame.input.*;
-import static arcadeflex.v036.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static arcadeflex.v036.sound.samplesH.*;
-import static arcadeflex.v036.sound.samples.*;
-import static arcadeflex.v036.sound.sn76496.*;
-import arcadeflex.v036.sound.sn76496H.SN76496interface;
-import static gr.codebb.arcadeflex.v036.vidhrdw.vector.*;
-import static arcadeflex.v036.cpu.z80.z80H.Z80_NMI_INT;
-import static gr.codebb.arcadeflex.v037b7.machine.sega.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static arcadeflex.v036.sndhrdw.sega.*;
-import static gr.codebb.arcadeflex.v037b7.machine.segar.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.sndhrdw.segar.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.segar.*;
-import static gr.codebb.arcadeflex.v036.machine.segacrpt.*;
-import arcadeflex.v036.sound.dacH.DACinterface;
-import static arcadeflex.v036.sound.tms36xxH.*;
+import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.timerH.*;
+//sndhrdw imports
+import static arcadeflex.v036.sndhrdw.segar.*;
+//sound imports
+import static arcadeflex.v036.sound.dacH.*;
+import static arcadeflex.v036.sound.samplesH.*;
+import static arcadeflex.v036.sound.sn76496.*;
+import static arcadeflex.v036.sound.sn76496H.*;
+import static arcadeflex.v036.sound.tms36xxH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.segar.*;
 
 public class segar {
-
-    /**
-     * *************************************************************************
-     *
-     * The Sega games use NMI to trigger the self test. We use a fake input port
-     * to tie that event to a keypress.
-     *
-     **************************************************************************
-     */
-    public static InterruptHandlerPtr segar_interrupt = new InterruptHandlerPtr() {
-        public int handler() {
-            if ((readinputport(5) & 1) != 0) /* get status of the F2 key */ {
-                return nmi_interrupt.handler();
-                /* trigger self test */
-            } else {
-                return interrupt.handler();
-            }
-        }
-    };
 
     /**
      * *************************************************************************
@@ -71,7 +55,7 @@ public class segar {
      * 2-5, 2-6, 2-7, 2-8
      * *************************************************************************
      */
-    public static ReadHandlerPtr segar_ports_r = new ReadHandlerPtr() {
+    public static ReadHandlerPtr segar_read_ports = new ReadHandlerPtr() {
         public int handler(int offset) {
             int dip1, dip2;
 
@@ -119,7 +103,7 @@ public class segar {
 
     static MemoryWriteAddress writemem[]
             = {
-                new MemoryWriteAddress(0x0000, 0xffff, segar_w, segar_mem),
+                new MemoryWriteAddress(0x0000, 0xffff, segar_wr, segar_mem),
                 new MemoryWriteAddress(0xe000, 0xe3ff, MWA_RAM, videoram, videoram_size), /* handled by */
                 new MemoryWriteAddress(0xe800, 0xefff, MWA_RAM, segar_characterram), /* the above, */
                 new MemoryWriteAddress(0xf000, 0xf03f, MWA_RAM, segar_mem_colortable), /* here only */
@@ -159,7 +143,7 @@ public class segar {
                 //new IOReadPort(0x3f, 0x3f, MRA_NOP ), /* Pig Newton - read from 1D87 */
                 new IOReadPort(0x0e, 0x0e, monsterb_audio_8255_r),
                 new IOReadPort(0x81, 0x81, input_port_8_r), /* only used by Sindbad Mystery */
-                new IOReadPort(0xf8, 0xfc, segar_ports_r),
+                new IOReadPort(0xf8, 0xfc, segar_read_ports),
                 new IOReadPort(-1) /* end of table */};
 
     static IOWritePort astrob_writeport[]
@@ -297,9 +281,30 @@ public class segar {
             = {
                 new MemoryWriteAddress(0x0000, 0x1fff, MWA_ROM),
                 new MemoryWriteAddress(0x8000, 0x87ff, MWA_RAM),
+                //new MemoryWriteAddress( 0xa000, 0xa003, SN76496_0_w ),    /* the four addresses are written */
+                //new MemoryWriteAddress( 0xc000, 0xc003, SN76496_1_w ),    /* in sequence */
                 new MemoryWriteAddress(0xa000, 0xa003, sindbadm_SN76496_0_w), /* the four addresses are written */
                 new MemoryWriteAddress(0xc000, 0xc003, sindbadm_SN76496_1_w), /* in sequence */
                 new MemoryWriteAddress(-1) /* end of table */};
+
+    /**
+     * *************************************************************************
+     *
+     * The Sega games use NMI to trigger the self test. We use a fake input port
+     * to tie that event to a keypress.
+     *
+     **************************************************************************
+     */
+    public static InterruptHandlerPtr segar_interrupt = new InterruptHandlerPtr() {
+        public int handler() {
+            if ((readinputport(5) & 1) != 0) /* get status of the F2 key */ {
+                return nmi_interrupt.handler();
+                /* trigger self test */
+            } else {
+                return interrupt.handler();
+            }
+        }
+    };
 
     /**
      * *************************************************************************
@@ -311,7 +316,7 @@ public class segar {
             PORT_START();
             /* IN0 */
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);
-            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_SERVICE1);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT_IMPULSE(0x40, IP_ACTIVE_LOW, IPT_COIN2, 3);
             PORT_BIT_IMPULSE(0x80, IP_ACTIVE_LOW, IPT_COIN1, 3);
 
@@ -355,142 +360,31 @@ public class segar {
 
             PORT_START();
             /* FAKE */
-            PORT_DIPNAME(0x01, 0x00, DEF_STR("Unknown"));
+ /* This fake input port is used for DIP Switch 1 */
+            PORT_DIPNAME(0x01, 0x00, "Unknown 1");
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x02, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x02, 0x00, "Unknown 2");
             PORT_DIPSETTING(0x02, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x04, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x04, 0x00, "Unknown 3");
             PORT_DIPSETTING(0x04, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x08, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x08, 0x00, "Unknown 4");
             PORT_DIPSETTING(0x08, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x10, 0x00, "Demo Speech");
+            PORT_DIPNAME(0x10, 0x00, DEF_STR("Demo_Sounds"));
             PORT_DIPSETTING(0x10, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
             PORT_DIPNAME(0x20, 0x20, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x20, DEF_STR("Upright"));
             PORT_DIPSETTING(0x00, DEF_STR("Cocktail"));
-            PORT_DIPNAME(0xc0, 0x80, DEF_STR("Lives"));
+            PORT_DIPNAME(0x40, 0x00, "Unknown 5");
+            PORT_DIPSETTING(0x40, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_DIPNAME(0x80, 0x00, DEF_STR("Lives"));
             PORT_DIPSETTING(0x00, "2");
             PORT_DIPSETTING(0x80, "3");
-            PORT_DIPSETTING(0x40, "4");
-            PORT_DIPSETTING(0xc0, "5");
-
-            PORT_START();
-            PORT_DIPNAME(0x0f, 0x0c, DEF_STR("Coin_B"));
-            PORT_DIPSETTING(0x00, DEF_STR("4C_1C"));
-            PORT_DIPSETTING(0x08, DEF_STR("3C_1C"));
-            PORT_DIPSETTING(0x04, DEF_STR("2C_1C"));
-            PORT_DIPSETTING(0x09, "2 Coins/1 Credit 5/3");
-            PORT_DIPSETTING(0x05, "2 Coins/1 Credit 4/3");
-            PORT_DIPSETTING(0x0c, DEF_STR("1C_1C"));
-            PORT_DIPSETTING(0x0d, "1 Coin/1 Credit 5/6");
-            PORT_DIPSETTING(0x03, "1 Coin/1 Credit 4/5");
-            PORT_DIPSETTING(0x0b, "1 Coin/1 Credit 2/3");
-            PORT_DIPSETTING(0x02, DEF_STR("1C_2C"));
-            PORT_DIPSETTING(0x0f, "1 Coin/2 Credits 4/9");
-            PORT_DIPSETTING(0x07, "1 Coin/2 Credits 5/11");
-            PORT_DIPSETTING(0x0a, DEF_STR("1C_3C"));
-            PORT_DIPSETTING(0x06, DEF_STR("1C_4C"));
-            PORT_DIPSETTING(0x0e, DEF_STR("1C_5C"));
-            PORT_DIPSETTING(0x01, DEF_STR("1C_6C"));
-            PORT_DIPNAME(0xf0, 0xc0, DEF_STR("Coin_A"));
-            PORT_DIPSETTING(0x00, DEF_STR("4C_1C"));
-            PORT_DIPSETTING(0x80, DEF_STR("3C_1C"));
-            PORT_DIPSETTING(0x40, DEF_STR("2C_1C"));
-            PORT_DIPSETTING(0x90, "2 Coins/1 Credit 5/3");
-            PORT_DIPSETTING(0x50, "2 Coins/1 Credit 4/3");
-            PORT_DIPSETTING(0xc0, DEF_STR("1C_1C"));
-            PORT_DIPSETTING(0xd0, "1 Coin/1 Credit 5/6");
-            PORT_DIPSETTING(0x30, "1 Coin/1 Credit 4/5");
-            PORT_DIPSETTING(0xb0, "1 Coin/1 Credit 2/3");
-            PORT_DIPSETTING(0x20, DEF_STR("1C_2C"));
-            PORT_DIPSETTING(0xf0, "1 Coin/2 Credits 4/9");
-            PORT_DIPSETTING(0x70, "1 Coin/2 Credits 5/11");
-            PORT_DIPSETTING(0xa0, DEF_STR("1C_3C"));
-            PORT_DIPSETTING(0x60, DEF_STR("1C_4C"));
-            PORT_DIPSETTING(0xe0, DEF_STR("1C_5C"));
-            PORT_DIPSETTING(0x10, DEF_STR("1C_6C"));
-
-            INPUT_PORTS_END();
-        }
-    };
-
-    static InputPortHandlerPtr input_ports_astrob2 = new InputPortHandlerPtr() {
-        public void handler() {
-            PORT_START();
-            /* IN0 */
-            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);
-            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_SERVICE1);
-            PORT_BIT_IMPULSE(0x40, IP_ACTIVE_LOW, IPT_COIN2, 3);
-            PORT_BIT_IMPULSE(0x80, IP_ACTIVE_LOW, IPT_COIN1, 3);
-
-            PORT_START();
-            /* IN1 */
-            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_START2);
-            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_START1);
-            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
-            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
-
-            PORT_START();
-            /* IN2 */
-            PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_2WAY);
-            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_2WAY);
-            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
-            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
-
-            PORT_START();
-            /* IN3 */
-            PORT_BITX(0x10, IP_ACTIVE_LOW, IPT_BUTTON2, "Warp", IP_KEY_DEFAULT, IP_JOY_DEFAULT);
-            PORT_BITX(0x20, IP_ACTIVE_LOW, IPT_BUTTON1, "Fire", IP_KEY_DEFAULT, IP_JOY_DEFAULT);
-            PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
-            PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
-
-            PORT_START();
-            /* IN4 */
-            PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_UNKNOWN);
-            PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_UNKNOWN);
-            PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_UNKNOWN);
-            PORT_BIT(0x08, IP_ACTIVE_HIGH, IPT_UNKNOWN);
-            PORT_BITX(0x10, IP_ACTIVE_HIGH, IPT_BUTTON2 | IPF_COCKTAIL, "Warp", IP_KEY_DEFAULT, IP_JOY_DEFAULT);
-            PORT_BITX(0x20, IP_ACTIVE_HIGH, IPT_BUTTON1 | IPF_COCKTAIL, "Fire", IP_KEY_DEFAULT, IP_JOY_DEFAULT);
-            PORT_BIT(0x40, IP_ACTIVE_HIGH, IPT_JOYSTICK_RIGHT | IPF_2WAY | IPF_COCKTAIL);
-            PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_JOYSTICK_LEFT | IPF_2WAY | IPF_COCKTAIL);
-
-            PORT_START();
-            /* FAKE */
- /* This fake input port is used to get the status of the F2 key, */
- /* and activate the test mode, which is triggered by a NMI */
-            PORT_BITX(0x01, IP_ACTIVE_HIGH, IPT_SERVICE, DEF_STR("Service_Mode"), KEYCODE_F2, IP_JOY_NONE);
-
-            PORT_START();
-            /* FAKE */
-            PORT_DIPNAME(0x01, 0x00, DEF_STR("Unknown"));
-            PORT_DIPSETTING(0x01, DEF_STR("Off"));
-            PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x02, 0x00, DEF_STR("Unknown"));
-            PORT_DIPSETTING(0x02, DEF_STR("Off"));
-            PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x04, 0x00, DEF_STR("Unknown"));
-            PORT_DIPSETTING(0x04, DEF_STR("Off"));
-            PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x08, 0x00, DEF_STR("Unknown"));
-            PORT_DIPSETTING(0x08, DEF_STR("Off"));
-            PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x10, 0x00, "Demo Speech");
-            PORT_DIPSETTING(0x10, DEF_STR("Off"));
-            PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x20, 0x20, DEF_STR("Cabinet"));
-            PORT_DIPSETTING(0x20, DEF_STR("Upright"));
-            PORT_DIPSETTING(0x00, DEF_STR("Cocktail"));
-            PORT_DIPNAME(0xc0, 0x80, DEF_STR("Lives"));
-            PORT_DIPSETTING(0x00, "2");
-            PORT_DIPSETTING(0x80, "3");
-            //PORT_DIPSETTING(    0x40, "3" );
-            //PORT_DIPSETTING(    0xc0, "3" );
 
             PORT_START();
             PORT_DIPNAME(0x0f, 0x0c, DEF_STR("Coin_B"));
@@ -537,7 +431,7 @@ public class segar {
             PORT_START();
             /* IN0 */
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);
-            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_SERVICE1);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT_IMPULSE(0x40, IP_ACTIVE_LOW, IPT_COIN2, 3);
             PORT_BIT_IMPULSE(0x80, IP_ACTIVE_LOW, IPT_COIN1, 3);
 
@@ -581,29 +475,31 @@ public class segar {
 
             PORT_START();
             /* FAKE */
-            PORT_DIPNAME(0x01, 0x00, DEF_STR("Unknown"));
+ /* This fake input port is used for DIP Switch 1 */
+            PORT_DIPNAME(0x01, 0x00, "Unknown 1");
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x02, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x02, 0x00, "Unknown 2");
             PORT_DIPSETTING(0x02, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x04, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x04, 0x00, "Unknown 3");
             PORT_DIPSETTING(0x04, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x08, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x08, 0x00, "Unknown 4");
             PORT_DIPSETTING(0x08, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x10, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x10, 0x00, "Unknown 5");
             PORT_DIPSETTING(0x10, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
             PORT_DIPNAME(0x20, 0x20, DEF_STR("Cabinet"));
             PORT_DIPSETTING(0x20, DEF_STR("Upright"));
             PORT_DIPSETTING(0x00, DEF_STR("Cocktail"));
-            PORT_DIPNAME(0xc0, 0x80, DEF_STR("Lives"));
-            PORT_DIPSETTING(0x00, "2");
-            PORT_DIPSETTING(0x80, "3");
-            PORT_DIPSETTING(0x40, "4");
-            PORT_DIPSETTING(0xc0, "5");
+            PORT_DIPNAME(0x40, 0x00, "Unknown 6");
+            PORT_DIPSETTING(0x40, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
+            PORT_DIPNAME(0x80, 0x00, "Unknown 7");
+            PORT_DIPSETTING(0x80, DEF_STR("Off"));
+            PORT_DIPSETTING(0x00, DEF_STR("On"));
 
             PORT_START();
             PORT_DIPNAME(0x0f, 0x0c, DEF_STR("Coin_B"));
@@ -650,7 +546,7 @@ public class segar {
             PORT_START();
             /* IN0 */
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);
-            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_SERVICE1);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT_IMPULSE(0x40, IP_ACTIVE_LOW, IPT_COIN2, 3);
             PORT_BIT_IMPULSE(0x80, IP_ACTIVE_LOW, IPT_COIN1, 3);
 
@@ -696,19 +592,19 @@ public class segar {
             PORT_START();
             /* FAKE */
  /* This fake input port is used for DIP Switch 1 */
-            PORT_DIPNAME(0x01, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x01, 0x00, "Unknown 1");
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x02, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x02, 0x00, "Unknown 2");
             PORT_DIPSETTING(0x02, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x04, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x04, 0x00, "Unknown 3");
             PORT_DIPSETTING(0x04, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x08, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x08, 0x00, "Unknown 4");
             PORT_DIPSETTING(0x08, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x10, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x10, 0x00, "Unknown 5");
             PORT_DIPSETTING(0x10, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
             PORT_DIPNAME(0x20, 0x20, DEF_STR("Cabinet"));
@@ -765,7 +661,7 @@ public class segar {
             PORT_START();
             /* IN0 */
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);
-            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_SERVICE1);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT_IMPULSE(0x40, IP_ACTIVE_LOW, IPT_COIN2, 3);
             PORT_BIT_IMPULSE(0x80, IP_ACTIVE_LOW, IPT_COIN1, 3);
 
@@ -877,7 +773,7 @@ public class segar {
             PORT_START();
             /* IN0 */
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
-            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_SERVICE1);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT_IMPULSE(0x40, IP_ACTIVE_LOW, IPT_COIN2, 3);
             PORT_BIT_IMPULSE(0x80, IP_ACTIVE_LOW, IPT_COIN1, 3);
 
@@ -925,10 +821,10 @@ public class segar {
             PORT_BITX(0x01, 0x01, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Infinite Lives", IP_KEY_NONE, IP_JOY_NONE);
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x02, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x02, 0x00, "Unknown 1");
             PORT_DIPSETTING(0x02, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x04, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x04, 0x00, "Unknown 2");
             PORT_DIPSETTING(0x04, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
             PORT_DIPNAME(0x18, 0x00, DEF_STR("Bonus_Life"));
@@ -990,7 +886,7 @@ public class segar {
             PORT_START();
             /* IN0 */
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);
-            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_SERVICE1);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT_IMPULSE(0x40, IP_ACTIVE_LOW, IPT_COIN2, 3);
             PORT_BIT_IMPULSE(0x80, IP_ACTIVE_LOW, IPT_COIN1, 3);
 
@@ -1035,16 +931,16 @@ public class segar {
             PORT_START();
             /* FAKE */
  /* This fake input port is used for DIP Switch 1 */
-            PORT_DIPNAME(0x01, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x01, 0x00, "Unknown 1");
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x02, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x02, 0x00, "Unknown 2");
             PORT_DIPSETTING(0x02, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x04, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x04, 0x00, "Unknown 3");
             PORT_DIPSETTING(0x04, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x08, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x08, 0x00, "Unknown 4");
             PORT_DIPSETTING(0x08, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
             PORT_DIPNAME(0x30, 0x00, DEF_STR("Lives"));
@@ -1052,10 +948,10 @@ public class segar {
             PORT_DIPSETTING(0x10, "4");
             PORT_DIPSETTING(0x20, "5");
             PORT_DIPSETTING(0x30, "6");
-            PORT_DIPNAME(0x40, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x40, 0x00, "Unknown 5");
             PORT_DIPSETTING(0x40, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x80, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x80, 0x00, "Unknown 6");
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
@@ -1104,7 +1000,7 @@ public class segar {
             PORT_START();
             /* IN0 */
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);
-            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_SERVICE1);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT_IMPULSE(0x40, IP_ACTIVE_LOW, IPT_COIN2, 3);
             PORT_BIT_IMPULSE(0x80, IP_ACTIVE_LOW, IPT_COIN1, 3);
 
@@ -1146,16 +1042,16 @@ public class segar {
             PORT_START();
             /* FAKE */
  /* This fake input port is used for DIP Switch 1 */
-            PORT_DIPNAME(0x01, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x01, 0x00, "Unknown 1");
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x02, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x02, 0x00, "Unknown 2");
             PORT_DIPSETTING(0x02, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x04, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x04, 0x00, "Unknown 3");
             PORT_DIPSETTING(0x04, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x08, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x08, 0x00, "Unknown 4");
             PORT_DIPSETTING(0x08, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
             PORT_DIPNAME(0x30, 0x00, DEF_STR("Lives"));
@@ -1163,10 +1059,10 @@ public class segar {
             PORT_DIPSETTING(0x10, "4");
             PORT_DIPSETTING(0x20, "5");
             PORT_DIPSETTING(0x30, "6");
-            PORT_DIPNAME(0x40, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x40, 0x00, "Unknown 5");
             PORT_DIPSETTING(0x40, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x80, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x80, 0x00, "Unknown 6");
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
@@ -1215,7 +1111,7 @@ public class segar {
             PORT_START();
             /* IN0 */
             PORT_BIT(0x10, IP_ACTIVE_LOW, IPT_UNKNOWN);
-            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_SERVICE1);
+            PORT_BIT(0x20, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT_IMPULSE(0x40, IP_ACTIVE_LOW, IPT_COIN2, 3);
             PORT_BIT_IMPULSE(0x80, IP_ACTIVE_LOW, IPT_COIN1, 3);
 
@@ -1256,16 +1152,16 @@ public class segar {
             PORT_BITX(0x01, 0x01, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Infinite Lives", IP_KEY_NONE, IP_JOY_NONE);
             PORT_DIPSETTING(0x01, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x02, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x02, 0x00, "Unknown 1");
             PORT_DIPSETTING(0x02, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x04, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x04, 0x00, "Unknown 2");
             PORT_DIPSETTING(0x04, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x08, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x08, 0x00, "Unknown 3");
             PORT_DIPSETTING(0x08, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
-            PORT_DIPNAME(0x10, 0x00, DEF_STR("Unknown"));
+            PORT_DIPNAME(0x10, 0x00, "Unknown 4");
             PORT_DIPSETTING(0x10, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
             PORT_DIPNAME(0x20, 0x20, DEF_STR("Cabinet"));
@@ -1351,7 +1247,7 @@ public class segar {
             8 * 8 /* every char takes 8 consecutive bytes */
     );
 
-    static GfxLayout spaceod_layout = new GfxLayout(
+    static GfxLayout spacelayout = new GfxLayout(
             8, 8, /* 16*8 characters */
             256, /* 256 characters */
             6, /* 6 bits per pixel */
@@ -1363,23 +1259,23 @@ public class segar {
 
     static GfxDecodeInfo gfxdecodeinfo[]
             = {
-                new GfxDecodeInfo(REGION_CPU1, 0xe800, charlayout, 0x01, 0x10),
+                new GfxDecodeInfo(REGION_CPU1, 0xe800, charlayout, 0x01, 0x10), /* offset into colors, # of colors */
                 new GfxDecodeInfo(-1) /* end of array */};
 
     static GfxDecodeInfo monsterb_gfxdecodeinfo[]
             = {
-                new GfxDecodeInfo(REGION_CPU1, 0xe800, charlayout, 0x01, 0x10),
-                new GfxDecodeInfo(REGION_GFX1, 0x0000, backlayout, 0x41, 0x10),
-                new GfxDecodeInfo(REGION_GFX1, 0x0800, backlayout, 0x41, 0x10),
-                new GfxDecodeInfo(REGION_GFX1, 0x1000, backlayout, 0x41, 0x10),
-                new GfxDecodeInfo(REGION_GFX1, 0x1800, backlayout, 0x41, 0x10),
+                new GfxDecodeInfo(REGION_CPU1, 0xe800, charlayout, 0x01, 0x10), /* offset into colors, # of colors */
+                new GfxDecodeInfo(REGION_GFX1, 0x0000, backlayout, 0x41, 0x10), /* offset into colors, # of colors */
+                new GfxDecodeInfo(REGION_GFX1, 0x0800, backlayout, 0x41, 0x10), /* offset into colors, # of colors */
+                new GfxDecodeInfo(REGION_GFX1, 0x1000, backlayout, 0x41, 0x10), /* offset into colors, # of colors */
+                new GfxDecodeInfo(REGION_GFX1, 0x1800, backlayout, 0x41, 0x10), /* offset into colors, # of colors */
                 new GfxDecodeInfo(-1) /* end of array */};
 
     static GfxDecodeInfo spaceod_gfxdecodeinfo[]
             = {
-                new GfxDecodeInfo(REGION_CPU1, 0xe800, charlayout, 0x01, 0x10),
-                new GfxDecodeInfo(REGION_GFX1, 0x0000, spaceod_layout, 0x41, 1),
-                new GfxDecodeInfo(REGION_GFX1, 0x0800, spaceod_layout, 0x41, 1),
+                new GfxDecodeInfo(REGION_CPU1, 0xe800, charlayout, 0x01, 0x10), /* offset into colors, # of colors */
+                new GfxDecodeInfo(REGION_GFX1, 0x0000, spacelayout, 0x41, 1), /* offset into colors, # of colors */
+                new GfxDecodeInfo(REGION_GFX1, 0x0800, spacelayout, 0x41, 1), /* offset into colors, # of colors */
                 new GfxDecodeInfo(-1) /* end of array */};
 
     static Samplesinterface astrob_samples_interface = new Samplesinterface(
@@ -1400,13 +1296,13 @@ public class segar {
             new MachineCPU[]{
                 new MachineCPU(
                         CPU_Z80,
-                        3867120, /* 3.86712 MHz ??? */
+                        3867120, /* 3.86712 Mhz ??? */
                         readmem, writemem, readport, astrob_writeport,
                         segar_interrupt, 1
                 ),
                 new MachineCPU(
                         CPU_I8035 | CPU_AUDIO_CPU,
-                        3120000 / 15, /* 3.12MHz crystal ??? */
+                        3120000 / 15, /* 3.12Mhz crystal ??? */
                         speech_readmem, speech_writemem, speech_readport, speech_writeport,
                         ignore_interrupt, 1
                 )
@@ -1449,7 +1345,7 @@ public class segar {
             new MachineCPU[]{
                 new MachineCPU(
                         CPU_Z80,
-                        3867120, /* 3.86712 MHz ??? */
+                        3867120, /* 3.86712 Mhz ??? */
                         readmem, writemem, readport, spaceod_writeport,
                         segar_interrupt, 1
                 )
@@ -1488,7 +1384,7 @@ public class segar {
             new MachineCPU[]{
                 new MachineCPU(
                         CPU_Z80,
-                        3867120, /* 3.86712 MHz ??? */
+                        3867120, /* 3.86712 Mhz ??? */
                         readmem, writemem, readport, writeport_005,
                         segar_interrupt, 1
                 )
@@ -1540,13 +1436,13 @@ public class segar {
             new MachineCPU[]{
                 new MachineCPU(
                         CPU_Z80,
-                        3867120, /* 3.86712 MHz ??? */
+                        3867120, /* 3.86712 Mhz ??? */
                         readmem, writemem, readport, monsterb_writeport,
                         segar_interrupt, 1
                 ),
                 new MachineCPU(
                         CPU_N7751 | CPU_AUDIO_CPU,
-                        6000000 / 15, /* 6MHz crystal */
+                        6000000 / 15, /* 6Mhz crystal */
                         monsterb_7751_readmem, monsterb_7751_writemem, monsterb_7751_readport, monsterb_7751_writeport,
                         ignore_interrupt, 1
                 )
@@ -1587,7 +1483,7 @@ public class segar {
             new MachineCPU[]{
                 new MachineCPU(
                         CPU_Z80,
-                        3867120, /* 3.86712 MHz ??? */
+                        3867120, /* 3.86712 Mhz ??? */
                         readmem, writemem, readport, pignewt_writeport,
                         segar_interrupt, 1
                 )
@@ -1606,8 +1502,7 @@ public class segar {
             generic_vh_stop,
             sindbadm_vh_screenrefresh,
             /* sound hardware */
-            0, 0, 0, 0,
-            null
+            0, 0, 0, 0, null
     );
 
     static SN76496interface sn76496_interface = new SN76496interface(
@@ -1621,13 +1516,13 @@ public class segar {
             new MachineCPU[]{
                 new MachineCPU(
                         CPU_Z80,
-                        3072000, /* 3.072 MHz ? */
+                        3072000, /* 3.072 Mhz ? */
                         sindbadm_readmem, sindbadm_writemem, readport, sindbadm_writeport,
                         segar_interrupt, 1
                 ),
                 new MachineCPU(
                         CPU_Z80 | CPU_AUDIO_CPU,
-                        4000000, /* 4 MHz ? - see system1.c */
+                        4000000, /* 4 Mhz ? - see system1.c */
                         sindbadm_sound_readmem, sindbadm_sound_writemem, null, null,
                         interrupt, 4 /* NMIs are caused by the main CPU */
                 )
@@ -1660,42 +1555,6 @@ public class segar {
             ROM_REGION(0x10000, REGION_CPU1);
             /* 64k for code */
             ROM_LOAD("829b", 0x0000, 0x0800, 0x14ae953c);/* U25 */
-            ROM_LOAD("907a", 0x0800, 0x0800, 0xa9aaaf38);/* U1 */
-            ROM_LOAD("908a", 0x1000, 0x0800, 0x897f2b87);/* U2 */
-            ROM_LOAD("909a", 0x1800, 0x0800, 0x55a339e6);/* U3 */
-            ROM_LOAD("910a", 0x2000, 0x0800, 0x7972b60a);/* U4 */
-            ROM_LOAD("911a", 0x2800, 0x0800, 0xaf87520f);/* U5 */
-            ROM_LOAD("912a", 0x3000, 0x0800, 0xb656f929);/* U6 */
-            ROM_LOAD("913a", 0x3800, 0x0800, 0x321074b3);/* U7 */
-            ROM_LOAD("914a", 0x4000, 0x0800, 0x90d2493e);/* U8 */
-            ROM_LOAD("915a", 0x4800, 0x0800, 0xaaf828d1);/* U9 */
-            ROM_LOAD("916a", 0x5000, 0x0800, 0x56d92ab9);/* U10 */
-            ROM_LOAD("917a", 0x5800, 0x0800, 0x9dcdaf2d);/* U11 */
-            ROM_LOAD("918a", 0x6000, 0x0800, 0xc9d09655);/* U12 */
-            ROM_LOAD("919a", 0x6800, 0x0800, 0x448bd318);/* U13 */
-            ROM_LOAD("920a", 0x7000, 0x0800, 0x3524a383);/* U14 */
-            ROM_LOAD("921a", 0x7800, 0x0800, 0x98c14834);/* U15 */
-            ROM_LOAD("922a", 0x8000, 0x0800, 0x4311513c);/* U16 */
-            ROM_LOAD("923a", 0x8800, 0x0800, 0x50f0462c);/* U17 */
-            ROM_LOAD("924a", 0x9000, 0x0800, 0x120a39c7);/* U18 */
-            ROM_LOAD("925a", 0x9800, 0x0800, 0x790a7f4e);/* U19 */
-
-            ROM_REGION(0x10000, REGION_CPU2);
-            /* 64k for speech code */
-            ROM_LOAD("808b", 0x0000, 0x0800, 0x5988c767);/* U7 */
-            ROM_LOAD("809a", 0x0800, 0x0800, 0x893f228d);/* U6 */
-            ROM_LOAD("810", 0x1000, 0x0800, 0xff0163c5);/* U5 */
-            ROM_LOAD("811", 0x1800, 0x0800, 0x219f3978);/* U4 */
-            ROM_LOAD("812a", 0x2000, 0x0800, 0x410ad0d2);/* U3 */
-            ROM_END();
-        }
-    };
-
-    static RomLoadHandlerPtr rom_astrob2 = new RomLoadHandlerPtr() {
-        public void handler() {
-            ROM_REGION(0x10000, REGION_CPU1);
-            /* 64k for code */
-            ROM_LOAD("829b", 0x0000, 0x0800, 0x14ae953c);/* U25 */
             ROM_LOAD("888", 0x0800, 0x0800, 0x42601744);/* U1 */
             ROM_LOAD("889", 0x1000, 0x0800, 0xdd9ab173);/* U2 */
             ROM_LOAD("890", 0x1800, 0x0800, 0x26f5b4cf);/* U3 */
@@ -1712,9 +1571,9 @@ public class segar {
             ROM_LOAD("901", 0x7000, 0x0800, 0x9ed11c61);/* U14 */
             ROM_LOAD("902", 0x7800, 0x0800, 0xb4d6c330);/* U15 */
             ROM_LOAD("903", 0x8000, 0x0800, 0x84acc38c);/* U16 */
-            ROM_LOAD("904", 0x8800, 0x0800, 0x5eba3097);/* U17 */
-            ROM_LOAD("905", 0x9000, 0x0800, 0x4f08f9f4);/* U18 */
-            ROM_LOAD("906", 0x9800, 0x0800, 0x58149df1);/* U19 */
+            ROM_LOAD("904", 0x8800, 0x0800, 0x5eba3097);/* U16 */
+            ROM_LOAD("905", 0x9000, 0x0800, 0x4f08f9f4);/* U16 */
+            ROM_LOAD("906", 0x9800, 0x0800, 0x58149df1);/* U16 */
 
             ROM_REGION(0x10000, REGION_CPU2);
             /* 64k for speech code */
@@ -1965,13 +1824,9 @@ public class segar {
  /* NOTE: No background ROMs for set A have been dumped, so the
 		ROMs from set C have been copied and renamed. This is to
 		provide a reminder that these ROMs still need to be dumped. */
-            ROM_LOAD("1906a.bg", 0x0000, 0x1000, BADCRC(0xc79d33ce));
-            /* ??? */
-            ROM_LOAD("1907a.bg", 0x1000, 0x1000, BADCRC(0xbc839d3c));
-            /* ??? */
-            ROM_LOAD("1908a.bg", 0x2000, 0x1000, BADCRC(0x92cb14da));
-            /* ??? */
-
+            ROM_LOAD("1906a.bg", 0x0000, 0x1000, BADCRC(0xc79d33ce));/* ??? */
+            ROM_LOAD("1907a.bg", 0x1000, 0x1000, BADCRC(0xbc839d3c));/* ??? */
+            ROM_LOAD("1908a.bg", 0x2000, 0x1000, BADCRC(0x92cb14da));/* ??? */
  /* SOUND ROMS ARE PROBABLY MISSING! */
             ROM_END();
         }
@@ -2052,13 +1907,12 @@ public class segar {
         }
     };
 
-    public static GameDriver driver_astrob = new GameDriver("1981", "astrob", "segar.java", rom_astrob, null, machine_driver_astrob, input_ports_astrob, init_astrob, ROT270, "Sega", "Astro Blaster (version 3)");
-    public static GameDriver driver_astrob2 = new GameDriver("1981", "astrob2", "segar.java", rom_astrob2, driver_astrob, machine_driver_astrob, input_ports_astrob2, init_astrob, ROT270, "Sega", "Astro Blaster (version 2)");
+    public static GameDriver driver_astrob = new GameDriver("1981", "astrob", "segar.java", rom_astrob, null, machine_driver_astrob, input_ports_astrob, init_astrob, ROT270, "Sega", "Astro Blaster (version 2)");
     public static GameDriver driver_astrob1 = new GameDriver("1981", "astrob1", "segar.java", rom_astrob1, driver_astrob, machine_driver_astrob, input_ports_astrob1, init_astrob, ROT270, "Sega", "Astro Blaster (version 1)", GAME_NOT_WORKING);
     public static GameDriver driver_005 = new GameDriver("1981", "005", "segar.java", rom_005, null, machine_driver_005, input_ports_005, init_005, ROT270, "Sega", "005", GAME_NO_SOUND);
     public static GameDriver driver_monsterb = new GameDriver("1982", "monsterb", "segar.java", rom_monsterb, null, machine_driver_monsterb, input_ports_monsterb, init_monsterb, ROT270, "Sega", "Monster Bash");
     public static GameDriver driver_spaceod = new GameDriver("1981", "spaceod", "segar.java", rom_spaceod, null, machine_driver_spaceod, input_ports_spaceod, init_spaceod, ROT270, "Sega", "Space Odyssey");
-    public static GameDriver driver_pignewt = new GameDriver("1983", "pignewt", "segar.java", rom_pignewt, null, machine_driver_pignewt, input_ports_pignewt, init_pignewt, ROT270, "Sega", "Pig Newton (version C)", GAME_NO_SOUND);
-    public static GameDriver driver_pignewta = new GameDriver("1983", "pignewta", "segar.java", rom_pignewta, driver_pignewt, machine_driver_pignewt, input_ports_pignewta, init_pignewt, ROT270, "Sega", "Pig Newton (version A)", GAME_NO_SOUND);
+    public static GameDriver driver_pignewt = new GameDriver("1983", "pignewt", "segar.java", rom_pignewt, null, machine_driver_pignewt, input_ports_pignewt, init_pignewt, ROT270, "Sega", "Pig Newton (Revision C)", GAME_NO_SOUND);
+    public static GameDriver driver_pignewta = new GameDriver("1983", "pignewta", "segar.java", rom_pignewta, driver_pignewt, machine_driver_pignewt, input_ports_pignewta, init_pignewt, ROT270, "Sega", "Pig Newton (Revision A)", GAME_NO_SOUND);
     public static GameDriver driver_sindbadm = new GameDriver("1983", "sindbadm", "segar.java", rom_sindbadm, null, machine_driver_sindbadm, input_ports_sindbadm, init_sindbadm, ROT270, "Sega", "Sindbad Mystery");
 }

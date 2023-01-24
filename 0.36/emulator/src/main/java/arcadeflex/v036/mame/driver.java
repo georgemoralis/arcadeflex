@@ -159,6 +159,8 @@ import static arcadeflex.v036.drivers.rockola.*;
 import static arcadeflex.v036.drivers.renegade.*;
 import static arcadeflex.v036.drivers.bottom9.*;
 import static arcadeflex.v036.drivers.exprraid.*;
+import static arcadeflex.v036.drivers.sega.*;
+import static arcadeflex.v036.drivers.segar.*;
 
 public class driver {
 
@@ -1481,26 +1483,24 @@ public class driver {
                 driver_digger, /* 684-691 no copyright notice */
                 driver_pulsar, /* 790-805 (c) 1981 Sega */
                 driver_heiankyo, /* (c) [1979?] Denki Onkyo */
-                /*TODO*///	/* Sega G-80 vector games */
-                /*TODO*///	driver_spacfury,	/* (c) 1981 */
-                /*TODO*///	driver_spacfura,	/* no copyright notice */
-                /*TODO*///	driver_zektor,	/* (c) 1982 */
-                /*TODO*///	driver_tacscan,	/* (c) */
-                /*TODO*///	driver_elim2,		/* (c) 1981 Gremlin */
-                /*TODO*///	driver_elim2a,	/* (c) 1981 Gremlin */
-                /*TODO*///	driver_elim4,		/* (c) 1981 Gremlin */
-                /*TODO*///	driver_startrek,	/* (c) 1982 */
-                /*TODO*///
-                /*TODO*///	/* Sega G-80 raster games */
-                /*TODO*///	driver_astrob,	/* (c) 1981 */
-                /*TODO*///	driver_astrob1,	/* (c) 1981 */
-                /*TODO*///	driver_005,		/* (c) 1981 */
-                /*TODO*///	driver_monsterb,	/* (c) 1982 */
-                /*TODO*///	driver_spaceod,	/* (c) 1981 */
-                /*TODO*///	driver_pignewt,	/* (c) 1983 */
-                /*TODO*///	driver_pignewta,	/* (c) 1983 */
-                /*TODO*///	driver_sindbadm,	/* 834-5244 (c) 1983 Sega */
-                /*TODO*///
+                /* Sega G-80 vector games */
+                driver_spacfury, /* (c) 1981 */
+                driver_spacfura, /* no copyright notice */
+                driver_zektor, /* (c) 1982 */
+                driver_tacscan, /* (c) */
+                driver_elim2, /* (c) 1981 Gremlin */
+                driver_elim2a, /* (c) 1981 Gremlin */
+                driver_elim4, /* (c) 1981 Gremlin */
+                driver_startrek, /* (c) 1982 */
+                /* Sega G-80 raster games */
+                driver_astrob, /* (c) 1981 */
+                driver_astrob1, /* (c) 1981 */
+                driver_005, /* (c) 1981 */
+                driver_monsterb, /* (c) 1982 */
+                driver_spaceod, /* (c) 1981 */
+                driver_pignewt, /* (c) 1983 */
+                driver_pignewta, /* (c) 1983 */
+                driver_sindbadm, /* 834-5244 (c) 1983 Sega */
                 /* Sega "Zaxxon hardware" games */
                 driver_zaxxon, /* (c) 1982 */
                 driver_zaxxon2, /* (c) 1982 */

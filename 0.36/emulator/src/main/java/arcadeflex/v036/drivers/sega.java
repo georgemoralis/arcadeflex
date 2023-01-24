@@ -1,30 +1,35 @@
- /*
- * ported to v0.37b7
- * using automatic conversion tool v0.01
+/*
+ * ported to v0.36
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+/**
+ * Changelog
+ * =========
+ * 24/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-
-import static gr.codebb.arcadeflex.v036.mame.common.*;
+//machine imports
+import static arcadeflex.v036.machine.sega.*;
+import static arcadeflex.v036.machine.segar.*;
+//mame imports
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.inputH.*;
-import static arcadeflex.v036.mame.input.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static arcadeflex.v036.sound.samplesH.*;
-import static arcadeflex.v036.sound.samples.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.vector.*;
-import static gr.codebb.arcadeflex.v037b7.machine.sega.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static arcadeflex.v036.sndhrdw.sega.*;
-import static gr.codebb.arcadeflex.v037b7.machine.segar.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.sega.*;
+//sndhrdw imports
+import static arcadeflex.v036.sndhrdw.sega.*;
+//sound imports
+import static arcadeflex.v036.sound.samplesH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.vector.*;
+import static arcadeflex.v036.vidhrdw.sega.*;
 
 public class sega {
 
@@ -39,7 +44,7 @@ public class sega {
 
     static MemoryWriteAddress writemem[]
             = {
-                new MemoryWriteAddress(0x0000, 0xffff, sega_w, sega_mem),
+                new MemoryWriteAddress(0x0000, 0xffff, sega_wr, sega_mem),
                 new MemoryWriteAddress(0xe000, 0xefff, MWA_RAM, vectorram, vectorram_size), /* handled by the above, */
                 /* here only to initialize the pointer */
                 new MemoryWriteAddress(-1)
@@ -49,7 +54,7 @@ public class sega {
             = {
                 new IOReadPort(0x3f, 0x3f, sega_sh_r),
                 new IOReadPort(0xbe, 0xbe, sega_mult_r),
-                new IOReadPort(0xf8, 0xfb, sega_ports_r),
+                new IOReadPort(0xf8, 0xfb, sega_read_ports),
                 new IOReadPort(-1) /* end of table */};
 
     static IOWritePort spacfury_writeport[]
@@ -66,7 +71,7 @@ public class sega {
             = {
                 new IOReadPort(0x3f, 0x3f, sega_sh_r),
                 new IOReadPort(0xbe, 0xbe, sega_mult_r),
-                new IOReadPort(0xf8, 0xfb, sega_ports_r),
+                new IOReadPort(0xf8, 0xfb, sega_read_ports),
                 new IOReadPort(0xfc, 0xfc, sega_IN4_r),
                 new IOReadPort(-1) /* end of table */};
 
@@ -94,7 +99,7 @@ public class sega {
             = {
                 new IOReadPort(0x3f, 0x3f, sega_sh_r),
                 new IOReadPort(0xbe, 0xbe, sega_mult_r),
-                new IOReadPort(0xf8, 0xfb, sega_ports_r),
+                new IOReadPort(0xf8, 0xfb, sega_read_ports),
                 new IOReadPort(0xfc, 0xfc, input_port_4_r),
                 new IOReadPort(-1) /* end of table */};
 
@@ -102,7 +107,7 @@ public class sega {
             = {
                 new IOReadPort(0x3f, 0x3f, sega_sh_r),
                 new IOReadPort(0xbe, 0xbe, sega_mult_r),
-                new IOReadPort(0xf8, 0xfb, sega_ports_r),
+                new IOReadPort(0xf8, 0xfb, sega_read_ports),
                 new IOReadPort(0xfc, 0xfc, elim4_IN4_r),
                 new IOReadPort(-1) /* end of table */};
 
@@ -854,7 +859,7 @@ public class sega {
             null,
             256, 256,
             sega_init_colors,
-            VIDEO_TYPE_VECTOR | VIDEO_SUPPORTS_DIRTY,
+            VIDEO_TYPE_VECTOR,
             null,
             sega_vh_start,
             sega_vh_stop,
@@ -941,7 +946,7 @@ public class sega {
             null,
             256, 256,
             sega_init_colors,
-            VIDEO_TYPE_VECTOR | VIDEO_SUPPORTS_DIRTY,
+            VIDEO_TYPE_VECTOR,
             null,
             sega_vh_start,
             sega_vh_stop,
@@ -1024,7 +1029,7 @@ public class sega {
             null,
             256, 256,
             sega_init_colors,
-            VIDEO_TYPE_VECTOR | VIDEO_SUPPORTS_DIRTY,
+            VIDEO_TYPE_VECTOR,
             null,
             sega_vh_start,
             sega_vh_stop,
@@ -1092,7 +1097,7 @@ public class sega {
             null,
             256, 256,
             sega_init_colors,
-            VIDEO_TYPE_VECTOR | VIDEO_SUPPORTS_DIRTY,
+            VIDEO_TYPE_VECTOR,
             null,
             sega_vh_start,
             sega_vh_stop,
@@ -1130,7 +1135,7 @@ public class sega {
             null,
             256, 256,
             sega_init_colors,
-            VIDEO_TYPE_VECTOR | VIDEO_SUPPORTS_DIRTY,
+            VIDEO_TYPE_VECTOR,
             null,
             sega_vh_start,
             sega_vh_stop,
@@ -1237,7 +1242,7 @@ public class sega {
             null,
             256, 256,
             sega_init_colors,
-            VIDEO_TYPE_VECTOR | VIDEO_SUPPORTS_DIRTY,
+            VIDEO_TYPE_VECTOR,
             null,
             sega_vh_start,
             sega_vh_stop,
