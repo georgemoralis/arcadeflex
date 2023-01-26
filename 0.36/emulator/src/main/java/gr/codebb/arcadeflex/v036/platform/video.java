@@ -22,6 +22,8 @@ import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.input.*;
 import static arcadeflex.v036.mame.usrintrf.set_ui_visarea;
 import static arcadeflex.v036.mame.usrintrf.ui_text;
+import static arcadeflex.v036.platform.vector.scale_vectorgames;
+import static arcadeflex.v036.vidhrdw.avgdvg.vector_updates;
 import static gr.codebb.arcadeflex.v036.platform.sound.*;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
@@ -968,8 +970,12 @@ public class video {
  /* of the given dimensions. Attributes are the ones defined in driver.h. */
  /* Return a osd_bitmap pointer or 0 in case of error. */
     public static osd_bitmap osd_create_display(int width, int height, int depth, int attributes) {
+        int[] width_ar = new int[1];
+        int[] height_ar = new int[1];
+        width_ar[0] = width;
+        height_ar[0] = height;
         if (errorlog != null) {
-            fprintf(errorlog, "width %d, height %d\n", width, height);
+            fprintf(errorlog, "width %d, height %d\n", width_ar[0], height_ar[0]);
         }
 
         brightness = 100;
@@ -1003,31 +1009,30 @@ public class video {
         select_display_mode(depth);
 
         if (vector_game != 0) {
-            throw new UnsupportedOperationException("Unsupported scale_vectorgames");
-//            scale_vectorgames(gfx_width, gfx_height, width, height);
+            scale_vectorgames(gfx_width, gfx_height, width_ar, height_ar);
         }
 
-        game_width = width;
-        game_height = height;
+        game_width = width_ar[0];
+        game_height = height_ar[0];
         game_attributes = attributes;
 
         if (depth == 16) {
-            scrbitmap = osd_new_bitmap(width, height, 16);
+            scrbitmap = osd_new_bitmap(width_ar[0], height_ar[0], 16);
         } else {
-            scrbitmap = osd_new_bitmap(width, height, 8);
+            scrbitmap = osd_new_bitmap(width_ar[0], height_ar[0], 8);
         }
 
         if (scrbitmap == null) {
             return null;
         }
 
-        if (osd_set_display(width, height, attributes) == 0) {
+        if (osd_set_display(width_ar[0], height_ar[0], attributes) == 0) {
             return null;
         }
 
         /* center display based on visible area */
         if (vector_game != 0) {
-            adjust_display(0, 0, width - 1, height - 1, depth);
+            adjust_display(0, 0, width_ar[0] - 1, height_ar[0] - 1, depth);
         } else {
             rectangle vis = Machine.drv.visible_area;
             adjust_display(vis.min_x, vis.min_y, vis.max_x, vis.max_y, depth);
@@ -1979,10 +1984,10 @@ public class video {
 
             vfcount += waittable[frameskip][frameskip_counter];
             if (vfcount >= Machine.drv.frames_per_second) {
+                /* avgdvg_go()'s per Mame frame, should be 1 */
                 vfcount = 0;
-                //    vups = AvgDvg.vector_updates;
-                //     AvgDvg.vector_updates = 0;
-//                    throw new UnsupportedOperationException("Not supported yet.");
+                vups = vector_updates;
+                vector_updates = 0;
             }
 
             if (showfps != 0 || showfpstemp != 0) {
@@ -1991,9 +1996,8 @@ public class video {
                 String buf = sprintf("%s%2d%4d%%%4d/%d fps", autoframeskip != 0 ? "auto" : "fskp", frameskip, speed, fps, (int) (Machine.drv.frames_per_second + 0.5));
                 ui_text(buf, Machine.uiwidth - buf.length() * Machine.uifontwidth, 0);
                 if (vector_game != 0) {
-                    throw new UnsupportedOperationException("Not supported yet.");
-                    //buf += sprintf(" %d vector updates", vups);
-                    //ui_text(buf, Machine.uiwidth - (buf.Length) * Machine.uifontwidth, Machine.uifontheight);
+                    buf += sprintf(" %d vector updates", vups);
+                    ui_text(buf, Machine.uiwidth - (buf.length()) * Machine.uifontwidth, Machine.uifontheight);
                 }
             }
 
@@ -2340,11 +2344,10 @@ public class video {
         return brightness;
     }
 
-    
-    public static void osd_save_snapshot()
-    {
-    	save_screen_snapshot();
+    public static void osd_save_snapshot() {
+        save_screen_snapshot();
     }
+
     public static void osd_pause(int paused) {
         int i;
 

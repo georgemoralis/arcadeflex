@@ -125,7 +125,7 @@ public class centiped {
                 new MemoryWriteAddress(0x1000, 0x100f, pokey1_w),
                 new MemoryWriteAddress(0x1400, 0x140f, centiped_paletteram_w, paletteram),
                 new MemoryWriteAddress(0x1600, 0x163f, atari_vg_earom_w),
-                new MemoryWriteAddress(0x1680, 0x1680, atari_vg_earom_ctrl_w),
+                new MemoryWriteAddress(0x1680, 0x1680, atari_vg_earom_ctrl),
                 new MemoryWriteAddress(0x1800, 0x1800, MWA_NOP), /* IRQ acknowldege */
                 new MemoryWriteAddress(0x1c00, 0x1c02, coin_counter_w),
                 new MemoryWriteAddress(0x1c03, 0x1c04, centiped_led_w),
@@ -143,7 +143,7 @@ public class centiped {
                 new MemoryWriteAddress(0x1000, 0x100f, centipdb_AY8910_w),
                 new MemoryWriteAddress(0x1400, 0x140f, centiped_paletteram_w, paletteram),
                 new MemoryWriteAddress(0x1600, 0x163f, atari_vg_earom_w),
-                new MemoryWriteAddress(0x1680, 0x1680, atari_vg_earom_ctrl_w),
+                new MemoryWriteAddress(0x1680, 0x1680, atari_vg_earom_ctrl),
                 new MemoryWriteAddress(0x1800, 0x1800, MWA_NOP), /* IRQ acknowldege */
                 new MemoryWriteAddress(0x1c00, 0x1c02, coin_counter_w),
                 new MemoryWriteAddress(0x1c03, 0x1c04, centiped_led_w),
@@ -161,7 +161,7 @@ public class centiped {
                 new MemoryWriteAddress(0x1001, 0x1001, AY8910_control_port_0_w),
                 new MemoryWriteAddress(0x1400, 0x140f, centiped_paletteram_w, paletteram),
                 new MemoryWriteAddress(0x1600, 0x163f, atari_vg_earom_w),
-                new MemoryWriteAddress(0x1680, 0x1680, atari_vg_earom_ctrl_w),
+                new MemoryWriteAddress(0x1680, 0x1680, atari_vg_earom_ctrl),
                 new MemoryWriteAddress(0x1800, 0x1800, MWA_NOP), /* IRQ acknowldege */
                 new MemoryWriteAddress(0x1c00, 0x1c02, coin_counter_w),
                 new MemoryWriteAddress(0x1c03, 0x1c04, centiped_led_w),

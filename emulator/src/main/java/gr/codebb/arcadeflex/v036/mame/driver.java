@@ -19,9 +19,7 @@ package gr.codebb.arcadeflex.v036.mame;
 import static arcadeflex.v036.mame.driverH.*;
 
 //drivers imports
-import static gr.codebb.arcadeflex.v036.drivers.copsnrob.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.pcktgal.*;
-import static arcadeflex.v036.drivers.bogeyman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.scregg.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.spy.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.gsword.*;
@@ -30,14 +28,9 @@ import static gr.codebb.arcadeflex.v037b7.drivers.jackal.*;
 import static arcadeflex.v036.drivers.gberet.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.ddragon.*;
 import static arcadeflex.v036.drivers.contra.*;
-import static gr.codebb.arcadeflex.v036.drivers.sidepckt.*;
-import static arcadeflex.v036.drivers.vigilant.*;
 import static gr.codebb.arcadeflex.v036.drivers.dec8.*;
 import static gr.codebb.arcadeflex.v036.drivers.combatsc.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.kingobox.*;
-import static gr.codebb.arcadeflex.v036.drivers.atetris.*;
-import static arcadeflex.v036.drivers.mystston.*;
-import static gr.codebb.arcadeflex.v036.drivers.btime.*;
 import static gr.codebb.arcadeflex.v036.drivers.exprraid.*;
 import static gr.codebb.arcadeflex.v036.drivers.matmania.*;
 import static gr.codebb.arcadeflex.v036.drivers.renegade.*;
@@ -47,13 +40,11 @@ import static gr.codebb.arcadeflex.v037b7.drivers.bladestl.*;
 import static gr.codebb.arcadeflex.v036.drivers.thunderx.*;
 import static gr.codebb.arcadeflex.v036.drivers.gbusters.*;
 import static gr.codebb.arcadeflex.v036.drivers.blockhl.*;
-import static gr.codebb.arcadeflex.v036.drivers._88games.*;
 import static arcadeflex.v036.drivers.bottom9.*;
 import static gr.codebb.arcadeflex.v036.drivers.slapfght.*;
 import static gr.codebb.arcadeflex.v036.drivers.gladiatr.*;
 import static arcadeflex.v036.drivers.snowbros.*;
 import static gr.codebb.arcadeflex.v036.drivers.z80bw.*;
-import static gr.codebb.arcadeflex.v036.drivers.arkanoid.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.skydiver.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.missile.*;
 import static gr.codebb.arcadeflex.v036.drivers.pacland.*;
@@ -61,8 +52,6 @@ import static gr.codebb.arcadeflex.v036.drivers.skykid.*;
 import static gr.codebb.arcadeflex.v036.drivers.psychic5.*;
 import static gr.codebb.arcadeflex.v036.drivers.wardner.*;
 import static gr.codebb.arcadeflex.v036.drivers.shootout.*;
-import static gr.codebb.arcadeflex.v036.drivers.ccastles.*;
-import static gr.codebb.arcadeflex.v036.drivers.centiped.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bjtwin.*;
 import static gr.codebb.arcadeflex.v036.drivers.qix.*;
 import static gr.codebb.arcadeflex.v036.drivers.parodius.*;
@@ -95,12 +84,10 @@ import static gr.codebb.arcadeflex.v037b7.drivers.bloodbro.*;
 import static gr.codebb.arcadeflex.v036.drivers.nemesis.*;
 import static gr.codebb.arcadeflex.v036.drivers.terracre.*;
 import static gr.codebb.arcadeflex.v036.drivers.punchout.*;
-import static gr.codebb.arcadeflex.v036.drivers.astrof.*;
 import static gr.codebb.arcadeflex.v036.drivers.karnov.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.shuuz.*;
 import static gr.codebb.arcadeflex.v036.drivers.ssi.*;
 import static gr.codebb.arcadeflex.v036.drivers.taitof2.*;
-import static gr.codebb.arcadeflex.v036.drivers.rockola.*;
 import static gr.codebb.arcadeflex.v036.drivers.toaplan1.*;
 import static gr.codebb.arcadeflex.v036.drivers.toaplan2.*;
 import static gr.codebb.arcadeflex.v036.drivers.tigeroad.*;
@@ -149,9 +136,7 @@ import static gr.codebb.arcadeflex.v037b7.drivers.rampart.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.skullxbo.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.offtwall.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.eprom.*;
-import static arcadeflex.v036.drivers.circus.*;
 import static arcadeflex.v036.drivers.lazercmd.*;
-import static arcadeflex.v036.drivers.meadows.*;
 
 public class driver {
 
@@ -161,7 +146,7 @@ public class driver {
                  *
                  * Perfect games
                  */
-                /*117*//*bogeyman*/driver_bogeyman,
+          
                 /*132*//*scregg*/ driver_scregg,
                 /*133*//*scregg*/ driver_eggs,
                 /*274*//*pcktgal*/ driver_pcktgal,
@@ -169,7 +154,6 @@ public class driver {
                 /*276*//*pcktgal*/ driver_pcktgal2,
                 /*277*//*pcktgal*/ driver_spool3,
                 /*278*//*pcktgal*/ driver_spool3i,
-                /*280*//*copsnrob*/ driver_copsnrob,
                 /*303*//*gsword*/ driver_gsword,
                 /*328*//*skydiver*/ driver_skydiver,
                 /*351*//*dec8*/ driver_shackled,
@@ -179,15 +163,6 @@ public class driver {
                 /*379*//*missile*/ driver_missile,
                 /*380*//*missile*/ driver_missile2,
                 /*381*//*missile*/ driver_suprmatk,
-                /*384*//*arkanoid*/ driver_arkatayt,
-                /*385*//*arkanoid*/ driver_arkbloc2,
-                /*386*//*arkanoid*/ driver_arkangc,
-                /*398*//*ccastles*/ driver_ccastles,
-                /*399*//*ccastles*/ driver_ccastle2,
-                /*400*//*centiped*/ driver_centiped,
-                /*401*//*centiped*/ driver_centipd2,
-                /*402*//*centiped*/ driver_centipdb,
-                /*403*//*centiped*/ driver_centipb2,
                 /*412*//*kingobox*/ driver_kingofb,
                 /*413*//*kingobox*/ driver_ringking,
                 /* Mitchell games */
@@ -198,33 +173,13 @@ public class driver {
                 /*451*//*snowbros*/ driver_snowbrob,
                 /*452*//*snowbros*/ driver_snowbroj,
                 /*453*//*galpanic*/ driver_galpanic,
-                /*482*//*astrof*/ driver_astrof,
-                /*483*//*astrof*/ driver_astrof2,
-                /*484*//*astrof*/ driver_astrof3,
-                /*485*//*astrof*/ driver_tomahawk,
-                /*486*//*astrof*/ driver_tomahaw5,
                 /*487*//*toki*/ driver_tokib,
-                /* SNK / Rock-ola games */
-                /*488*//*rockola*/ driver_sasuke, /* [1980] Shin Nihon Kikaku (SNK) */
-                /*489*//*rockola*/ driver_satansat, /* (c) 1981 SNK */
-                /*490*//*rockola*/ driver_zarzon, /* (c) 1981 Taito, gameplay says SNK */
-                /*491*//*rockola*/ driver_vanguard, /* (c) 1981 SNK */
-                /*492*//*rockola*/ driver_vangrdce, /* (c) 1981 SNK + Centuri */
-                /*493*//*rockola*/ driver_fantasy, /* (c) 1981 Rock-ola */
-                /*494*//*rockola*/ driver_fantasyj, /* (c) 1981 SNK */
-                /*495*//*rockola*/ driver_pballoon, /* (c) 1982 SNK */
-                /*496*//*rockola*/ driver_nibbler, /* (c) 1982 Rock-ola */
-                /*497*//*rockola*/ driver_nibblera, /* (c) 1982 Rock-ola */
                 /*498*//*qix*/ driver_qix,
                 /*499*//*qix*/ driver_qixa,
                 /*500*//*qix*/ driver_qixb,
                 /*501*//*qix*/ driver_qix2,
                 /*502*//*ddragon*/ driver_ddragonb,
                 /*503*//*ddragon*/ driver_ddragon2,
-                /*504*//*vigilant*/ driver_vigilant,
-                /*505*//*vigilant*/ driver_vigilntu,
-                /*506*//*vigilant*/ driver_vigilntj,
-                /*507*//*vigilant*/ driver_kikcubic,
                 /*508*//*jackal*/ driver_jackal,
                 /*509*//*jackal*/ driver_topgunr,
                 /*510*//*jackal*/ driver_jackalj,
@@ -233,11 +188,7 @@ public class driver {
                  */
                 /*001*//*gladiatr*/ driver_gladiatr, //no nvram support
                 /*002*//*gladiatr*/ driver_ogonsiro, //no nvram support
-                /*004*//*atetris*/ driver_atetris,//no nvram support
-                /*005*//*atetris*/ driver_atetrisa,//no nvram support
-                /*006*//*atetris*/ driver_atetrisb,//no nvram support
-                /*007*//*atetris*/ driver_atetcktl,//no nvram support ,screen needs to be a bit righter
-                /*008*//*atetris*/ driver_atetckt2,//no nvram support ,screen needs to be a bit righter
+                
 
                 /*m72*/ driver_bchopper,
                 /*m72*/ driver_mrheli,
@@ -274,9 +225,6 @@ public class driver {
                 /*006*//*pacland*/ driver_pacland3,//no sound at all , namco sound doesn't work
                 /*007*//*pacland*/ driver_paclandm,//no sound at all , namco sound doesn't work
                 /*008*//*skykid*/ driver_drgnbstr,//no sound at all , namco sound doesn't work
-                /*sidepckt*/ driver_sidepckt,//sound plays too fast	
-                /*sidepckt*/ driver_sidepctj,//sound plays too fast	
-                /*sidepckt*/ driver_sidepctb,//sound plays too fast
                 /*dec8*/ driver_ghostb,//sound plays too fast , small gfx issues
                 /*dec8*/ driver_ghostb3,//sound plays too fast , small gfx issues
                 /*dec8*/ driver_meikyuh,//sound plays too fast
@@ -293,19 +241,6 @@ public class driver {
                  */
                 /*dec8*/ driver_lastmiss, //no controls working
                 /*dec8*/ driver_lastmss2,//no controls working
-                /*btime*/ driver_lnc,//no controls working
-                /*btime*/ driver_zoar,//no controls working
-                /*btime*/ driver_btime,//no controls working
-                /*btime*/ driver_btime2,//no controls working
-                /*btime*/ driver_btimem,//no controls working
-                /*btime*/ driver_wtennis,//no controls working
-                /*btime*/ driver_brubber,//no controls working
-                /*btime*/ driver_bnj,//no controls working
-                /*btime*/ driver_caractn,//no controls working
-                /*btime*/ driver_disco,//no controls working
-                /*btime*/ driver_mmonkey,//no controls working
-                /*btime*/ driver_cookrace,//no controls working,
-                /*mystston*/ driver_mystston, //no controls working
                 /*
            Unknown issues 
                  */
@@ -366,15 +301,9 @@ public class driver {
                 /**
                  * WIP section
                  */
-                /*arkanoid*/ driver_arkanoid,
-                /*arkanoid*/ driver_arknoidu,
-                /*arkanoid*/ driver_arknoidj,
                 /*psychic5*/ driver_psychic5,
                 /*bottom9*/ driver_bottom9,
                 /*bottom9*/ driver_bottom9n,
-                /*88games*/ driver_88games,
-                /*88games*/ driver_konami88,
-                /*88games*/ driver_hypsptsp,
                 /*blockhl*/ driver_blockhl,
                 /*blockhl*/ driver_quarth,
                 /*thunderx*/ driver_scontra,
@@ -714,8 +643,6 @@ public class driver {
                 driver_spcewars,
                 /* Meadows S2650 games */
                 driver_lazercmd,/* [1976?] */
-                driver_deadeye,/* [1978?] */
-                driver_gypsyjug,/* [1978?] */
                 driver_medlanes,/* [1977?] */
                 /* Midway "Astrocade" games */
                 /*TODO*/ //	DRIVER( wow )		/* (c) 1980 */
@@ -1513,10 +1440,6 @@ public class driver {
                 /*TODO*/ //	DRIVER( pepper2 )	/* (c) 1982 */
                 /*TODO*/ //	DRIVER( hardhat )	/* (c) 1982 */
                 /*TODO*/ //	DRIVER( fax )		/* (c) 1983 */
-                driver_circus,/* no copyright notice [1977?] */
-                driver_robotbwl,/* no copyright notice */
-                driver_crash,/* Exidy [1979?] */
-                driver_ripcord,/* Exidy [1977?] */
                 /*TODO*/ //	DRIVER( starfire )	/* Exidy [1979?] */
                 /*TODO*/ //	DRIVER( fireone )	/* (c) 1979 Exidy */
 

@@ -50,7 +50,7 @@ public class atari_vg {
     /* 0,8 and 14 get written to this location, too.
 	 * Don't know what they do exactly
      */
-    public static WriteHandlerPtr atari_vg_earom_ctrl_w = new WriteHandlerPtr() {
+    public static WriteHandlerPtr atari_vg_earom_ctrl = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             if (errorlog != null) {
                 fprintf(errorlog, "earom ctrl: %02x:%02x\n", offset, data);

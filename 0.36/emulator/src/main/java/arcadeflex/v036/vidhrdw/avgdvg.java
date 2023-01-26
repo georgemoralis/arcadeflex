@@ -1,20 +1,34 @@
-package gr.codebb.arcadeflex.v036.vidhrdw;
+/*
+ * ported to v0.36
+ */
+/**
+ * Changelog
+ * =========
+ * 25/01/2023 - shadow - 0.36 version (some artwork support is missing)
+ */
+package arcadeflex.v036.vidhrdw;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
-import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static common.libc.cstdlib.rand;
-import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
+import arcadeflex.v036.mame.artworkH.struct_artwork;
+//mame imports
 import static arcadeflex.v036.mame.commonH.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v036.vidhrdw.avgdvgH.*;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
-import static gr.codebb.arcadeflex.v036.vidhrdw.vector.*;
+import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.common.*;
+import arcadeflex.v036.mame.osdependH.osd_bitmap;
 import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.avgdvgH.*;
+import static arcadeflex.v036.vidhrdw.vector.*;
+//common imports
+import static common.libc.cstdlib.*;
+//TODO
+import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 
 public class avgdvg {
+
     public static final int VEC_SHIFT = 16;
     /* fixed for the moment */
     public static final int BRIGHTNESS = 12;
@@ -43,13 +57,15 @@ public class avgdvg {
     static int ymin;
     static int ymax;
 
-    static int vector_updates;
+    public static int vector_updates;
     /* avgdvg_go_w()'s per Mame frame, should be 1 */
 
     static int vg_step = 0;
     /* single step the vector generator */
-    static int total_length;
-    /* length of all lines drawn in a frame */
+    static int total_length;/* length of all lines drawn in a frame */
+
+ /* Use backdrop if present MLR OCT0598 */
+    static struct_artwork backdrop = null;
 
     public static final int MAXSTACK = 8;
     /* Tempest needs more than 4     BW 210797 */
@@ -213,7 +229,9 @@ public class avgdvg {
                     a = firstwd & 0x0fff;
                     stack[sp] = pc;
                     if (sp == (MAXSTACK - 1)) {
-                        logerror("\n*** Vector generator stack overflow! ***\n");
+                        if (errorlog != null) {
+                            fprintf(errorlog, "\n*** Vector generator stack overflow! ***\n");
+                        }
                         done = 1;
                         sp = 0;
                     } else {
@@ -224,7 +242,9 @@ public class avgdvg {
 
                 case DRTSL:
                     if (sp == 0) {
-                        logerror("\n*** Vector generator stack underflow! ***\n");
+                        if (errorlog != null) {
+                            fprintf(errorlog, "\n*** Vector generator stack underflow! ***\n");
+                        }
                         done = 1;
                         sp = MAXSTACK - 1;
                     } else {
@@ -272,7 +292,9 @@ public class avgdvg {
                     break;
 
                 default:
-                    logerror("Unknown DVG opcode found\n");
+                    if (errorlog != null) {
+                        fprintf(errorlog, "Unknown DVG opcode found\n");
+                    }
                     done = 1;
             }
         }
@@ -318,7 +340,9 @@ public class avgdvg {
             secondwd = memrdwd(map_addr(pc + 1));
         }
         if ((firstwd == 0) && (secondwd == 0)) {
-            logerror("VGO with zeroed vector memory\n");
+            if (errorlog != null) {
+                fprintf(errorlog, "VGO with zeroed vector memory\n");
+            }
             return;
         }
 
@@ -472,7 +496,7 @@ public class avgdvg {
                         color = (firstwd) & 0x000f;
                         statz = (firstwd >> 4) & 0x000f;
                         if (vectorEngine == USE_AVG_TEMPEST) {
-                            sparkle = (firstwd & 0x0800)!=0?0:1;
+                            sparkle = (firstwd & 0x0800) != 0 ? 0 : 1;
                         }
                         if (vectorEngine == USE_AVG_MHAVOC) {
                             sparkle = (firstwd & 0x0800);
@@ -490,9 +514,13 @@ public class avgdvg {
                             }
                         }
                     }
-                    logerror("STAT: statz: %d color: %d", statz, color);
+                    if (errorlog != null) {
+                        fprintf(errorlog, "STAT: statz: %d color: %d", statz, color);
+                    }
                     if (xflip != 0 || sparkle != 0) {
-                        logerror("xflip: %02x  sparkle: %02x\n", xflip, sparkle);
+                        if (errorlog != null) {
+                            fprintf(errorlog, "xflip: %02x  sparkle: %02x\n", xflip, sparkle);
+                        }
                     }
                     break;
 
@@ -505,7 +533,9 @@ public class avgdvg {
  /* Y-Window toggle for Major Havoc BW 980318 */
                     if (vectorEngine == USE_AVG_MHAVOC) {
                         if ((firstwd & 0x0800) != 0) {
-                            logerror("CLIP %d\n", firstwd & 0x0800);
+                            if (errorlog != null) {
+                                fprintf(errorlog, "CLIP %d\n", firstwd & 0x0800);
+                            }
                             if (ywindow == 0) {
                                 ywindow = 1;
                                 vector_add_clip(xmin << VEC_SHIFT, MHAVOC_YWINDOW << VEC_SHIFT, xmax << VEC_SHIFT, ymax << VEC_SHIFT);
@@ -528,7 +558,9 @@ public class avgdvg {
 
                 case RTSL:
                     if (sp == 0) {
-                        logerror("\n*** Vector generator stack underflow! ***\n");
+                        if (errorlog != null) {
+                            fprintf(errorlog, "\n*** Vector generator stack underflow! ***\n");
+                        }
                         done = 1;
                         sp = MAXSTACK - 1;
                     } else {
@@ -560,7 +592,9 @@ public class avgdvg {
                     } else {
                         stack[sp] = pc;
                         if (sp == (MAXSTACK - 1)) {
-                            logerror("\n*** Vector generator stack overflow! ***\n");
+                            if (errorlog != null) {
+                                fprintf(errorlog, "\n*** Vector generator stack overflow! ***\n");
+                            }
                             done = 1;
                             sp = 0;
                         } else {
@@ -572,7 +606,9 @@ public class avgdvg {
                     break;
 
                 default:
-                    logerror("internal error\n");
+                    if (errorlog != null) {
+                        fprintf(errorlog, "internal error\n");
+                    }
             }
         }
     }
@@ -592,7 +628,7 @@ public class avgdvg {
         }
     };
 
-    public static WriteHandlerPtr avgdvg_go_w = new WriteHandlerPtr() {
+    public static WriteHandlerPtr avgdvg_go = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
 
             if (busy != 0) {
@@ -618,7 +654,7 @@ public class avgdvg {
         }
     };
 
-    public static WriteHandlerPtr avgdvg_reset_w = new WriteHandlerPtr() {
+    public static WriteHandlerPtr avgdvg_reset = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             avgdvg_clr_busy.handler(0);
         }
@@ -628,7 +664,9 @@ public class avgdvg {
         int i;
 
         if (vectorram_size[0] == 0) {
-            logerror("Error: vectorram_size not initialized\n");
+            if (errorlog != null) {
+                fprintf(errorlog, "Error: vectorram_size not initialized\n");
+            }
             return 1;
         }
 
@@ -642,7 +680,9 @@ public class avgdvg {
 
         vectorEngine = vgType;
         if ((vectorEngine < AVGDVG_MIN) || (vectorEngine > AVGDVG_MAX)) {
-            logerror("Error: unknown Atari Vector Game Type\n");
+            if (errorlog != null) {
+                fprintf(errorlog, "Error: unknown Atari Vector Game Type\n");
+            }
             return 1;
         }
 
@@ -656,10 +696,10 @@ public class avgdvg {
 
         busy = 0;
 
-        xmin = Machine.visible_area.min_x;
-        ymin = Machine.visible_area.min_y;
-        xmax = Machine.visible_area.max_x;
-        ymax = Machine.visible_area.max_y;
+        xmin = Machine.drv.visible_area.min_x;
+        ymin = Machine.drv.visible_area.min_y;
+        xmax = Machine.drv.visible_area.max_x;
+        ymax = Machine.drv.visible_area.max_y;
         width = xmax - xmin;
         height = ymax - ymin;
 
@@ -739,17 +779,18 @@ public class avgdvg {
 
             /* Monochrome Aqua colors (Asteroids Deluxe,Red Baron) .ac JAN2498 */
             case VEC_PAL_ASTDELUX:
-                /* Use backdrop if present MLR OCT0598 */
- /*TODO*///                backdrop_load("astdelux.png", 32, Machine.drv.total_colors - 32);
-/*TODO*///                 if (artwork_backdrop != NULL) {
-/*TODO*///                     shade_fill(palette, GREEN | BLUE, 8, 23, 1, 254);
-/*TODO*/// 					/* Some more anti-aliasing colors. */
-/*TODO*///                     shade_fill(palette, GREEN | BLUE, 24, 31, 1, 254);
-/*TODO*///                     for (i = 0; i < 8; i++)
-/*TODO*///                         palette[(24 + i) * 3] = 80;
-/*TODO*///                     memcpy(palette + 3 * artwork_backdrop.start_pen, artwork_backdrop.orig_palette,
-/*TODO*///                             3 * artwork_backdrop.num_pens_used);
-/*TODO*///                 } else
+                /*TODO*///			/* Use backdrop if present MLR OCT0598 */
+/*TODO*///			if ((backdrop=artwork_load("astdelux.png", 32, Machine->drv->total_colors-32))!=NULL)
+/*TODO*///			{
+/*TODO*///				shade_fill (palette, GREEN|BLUE, 8, 23, 1, 254);
+/*TODO*///				/* Some more anti-aliasing colors. */
+/*TODO*///				shade_fill (palette, GREEN|BLUE, 24, 31, 1, 254);
+/*TODO*///				for (i=0; i<8; i++)
+/*TODO*///					palette[(24+i)*3]=80;
+/*TODO*///				memcpy (palette+3*backdrop->start_pen, backdrop->orig_palette,
+/*TODO*///					3*backdrop->num_pens_used);
+/*TODO*///			}
+/*TODO*///			else
                 shade_fill(palette, GREEN | BLUE, 8, 128 + 8, 1, 254);
                 colorram[1] = 3;
                 /* for Asteroids */
@@ -767,9 +808,8 @@ public class avgdvg {
                 shade_fill(palette, GREEN, 24, 31, 1, 254);
                 shade_fill(palette, WHITE, 32, 47, 1, 254);
                 /* Use backdrop if present MLR OCT0598 */
- /*TODO*///                 backdrop_load("bzone.png", 48, Machine.drv.total_colors - 48);
-/*TODO*///                 if (artwork_backdrop != NULL)
-/*TODO*///                     memcpy(palette + 3 * artwork_backdrop.start_pen, artwork_backdrop.orig_palette, 3 * artwork_backdrop.num_pens_used);
+ /*TODO*///			if ((backdrop=artwork_load("bzone.png", 48, Machine->drv->total_colors-48))!=NULL)
+/*TODO*///				memcpy (palette+3*backdrop->start_pen, backdrop->orig_palette, 3*backdrop->num_pens_used);
                 break;
 
             /* Colored games (Major Havoc, Star Wars, Tempest) .ac JAN2498 */
@@ -801,7 +841,9 @@ public class avgdvg {
                 }
                 break;
             default:
-                logerror("Wrong palette type in avgdvg.c");
+                if (errorlog != null) {
+                    fprintf(errorlog, "Wrong palette type in avgdvg.c");
+                }
                 break;
         }
     }
@@ -863,7 +905,9 @@ public class avgdvg {
     public static WriteHandlerPtr mhavoc_colorram_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             int trans[] = {7, 6, 5, 4, 7, 6, 5, 4, 3, 2, 1, 0, 3, 2, 1, 0};
-            logerror("colorram: %02x: %02x\n", offset, data);
+            if (errorlog != null) {
+                fprintf(errorlog, "colorram: %02x: %02x\n", offset, data);
+            }
             colorram_w.handler(offset, trans[data & 0x0f]);
         }
     };
@@ -907,10 +951,33 @@ public class avgdvg {
      * Draw the game screen in the given osd_bitmap. Do NOT call
      * osd_update_display() from this function, it will be called by the main
      * emulation engine.
-     **************************************************************************
+     * *************************************************************************
      */
+    public static VhUpdateHandlerPtr avg_screenrefresh = new VhUpdateHandlerPtr() {
+        public void handler(osd_bitmap bitmap, int full_refresh) {
+
+            /*TODO*///if (backdrop)
+            /*TODO*///	vector_vh_update_backdrop(bitmap, backdrop, full_refresh);
+            /*TODO*///else
+            vector_vh_update.handler(bitmap, full_refresh);
+        }
+    };
+    public static VhUpdateHandlerPtr dvg_screenrefresh = new VhUpdateHandlerPtr() {
+        public void handler(osd_bitmap bitmap, int full_refresh) {
+            /*TODO*///if (backdrop)
+            /*TODO*///	vector_vh_update_backdrop(bitmap, backdrop, full_refresh);
+            /*TODO*///else
+            vector_vh_update.handler(bitmap, full_refresh);
+        }
+    };
+
     public static VhStartHandlerPtr dvg_start = new VhStartHandlerPtr() {
         public int handler() {
+            /*TODO*///	if (backdrop)
+/*TODO*///	{
+/*TODO*///		backdrop_refresh(backdrop);
+/*TODO*///		backdrop_refresh_tables (backdrop);
+/*TODO*///	}
             return avgdvg_init(USE_DVG);
         }
     };
@@ -941,7 +1008,11 @@ public class avgdvg {
     };
     public static VhStartHandlerPtr avg_start_bzone = new VhStartHandlerPtr() {
         public int handler() {
-
+            /*TODO*///	if (backdrop)
+/*TODO*///	{
+/*TODO*///		backdrop_refresh(backdrop);
+/*TODO*///		backdrop_refresh_tables (backdrop);
+/*TODO*///	}
             return avgdvg_init(USE_AVG_BZONE);
         }
     };
@@ -962,6 +1033,8 @@ public class avgdvg {
             vector_clear_list();
 
             vector_vh_stop.handler();
+            /*TOOD*///if (backdrop) artwork_free(backdrop);
+            /*TODO*///backdrop = NULL;
         }
     };
     public static VhStopHandlerPtr dvg_stop = new VhStopHandlerPtr() {
@@ -970,7 +1043,9 @@ public class avgdvg {
             vector_clear_list();
 
             vector_vh_stop.handler();
+            /*TOOD*///if (backdrop) artwork_free(backdrop);
+            /*TODO*///backdrop = NULL;
         }
     };
-    
+
 }

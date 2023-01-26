@@ -1,7 +1,15 @@
-package gr.codebb.arcadeflex.v036.vidhrdw;
-
+/*
+ * ported to v0.36
+ */
+/**
+ * Changelog
+ * =========
+ * 25/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.vidhrdw;
 
 public class avgdvgH {
+
     /* vector engine types, passed to vg_init */
 
     public static final int AVGDVG_MIN = 1;
