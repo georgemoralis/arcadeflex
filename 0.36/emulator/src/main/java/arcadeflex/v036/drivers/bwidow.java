@@ -1,28 +1,36 @@
 /*
- * ported to v0.37b7
- * using automatic conversion tool v0.01
+ * ported to v0.36
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+/**
+ * Changelog
+ * =========
+ * 27/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
+//drivers imports
+import static arcadeflex.v036.drivers.bzone.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static arcadeflex.v036.mame.common.*;
+//machine imports
+import static arcadeflex.v036.machine.atari_vg.*;
+//mame imports
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.mame.cpuintrf.*;
-import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.inptportH.*;
+import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inputH.*;
-import static arcadeflex.v036.mame.sndintrfH.SOUND_POKEY;
-import static gr.codebb.arcadeflex.v036.sound.pokeyH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.avgdvg.*;
+import static arcadeflex.v036.vidhrdw.vector.*;
+import static gr.codebb.arcadeflex.v036.platform.input.osd_led_w;
 import static gr.codebb.arcadeflex.v036.sound.pokey.*;
-import static gr.codebb.arcadeflex.v037b7.machine.atari_vg.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.avgdvg.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.vector.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.bzone.bzone_IN0_r;
-import static gr.codebb.arcadeflex.v037b7.machine.atari_vg.atari_vg_earom_ctrl_w;
+import gr.codebb.arcadeflex.v036.sound.pokeyH.*;
 
 public class bwidow {
 
@@ -127,8 +135,8 @@ public class bwidow {
             if (data == lastdata) {
                 return;
             }
-/*TODO*///            set_led_status(0, ~data & 0x10);
-/*TODO*///            set_led_status(1, ~data & 0x20);
+            osd_led_w.handler(0, ~((data & 0x10) >> 4));
+            osd_led_w.handler(1, ~((data & 0x20) >> 5));
             coin_counter_w.handler(0, data & 0x01);
             coin_counter_w.handler(1, data & 0x02);
             lastdata = data;
@@ -157,10 +165,10 @@ public class bwidow {
                 new MemoryWriteAddress(0x6000, 0x67ff, pokey1_w),
                 new MemoryWriteAddress(0x6800, 0x6fff, pokey2_w),
                 new MemoryWriteAddress(0x8800, 0x8800, bwidow_misc_w), /* coin counters, leds */
-                new MemoryWriteAddress(0x8840, 0x8840, avgdvg_go_w),
-                new MemoryWriteAddress(0x8880, 0x8880, avgdvg_reset_w),
+                new MemoryWriteAddress(0x8840, 0x8840, avgdvg_go),
+                new MemoryWriteAddress(0x8880, 0x8880, avgdvg_reset),
                 new MemoryWriteAddress(0x88c0, 0x88c0, MWA_NOP), /* interrupt acknowledge */
-                new MemoryWriteAddress(0x8900, 0x8900, atari_vg_earom_ctrl_w),
+                new MemoryWriteAddress(0x8900, 0x8900, atari_vg_earom_ctrl),
                 new MemoryWriteAddress(0x8940, 0x897f, atari_vg_earom_w),
                 new MemoryWriteAddress(0x8980, 0x89ed, MWA_NOP), /* watchdog clear */
                 new MemoryWriteAddress(0x9000, 0xffff, MWA_ROM),
@@ -185,11 +193,11 @@ public class bwidow {
                 new MemoryWriteAddress(0x0000, 0x03ff, MWA_RAM),
                 new MemoryWriteAddress(0x0905, 0x0906, MWA_NOP), /* ignore? */
                 //	new MemoryWriteAddress( 0x0c00, 0x0c00, coin_counter_w ), /* coin out */
-                new MemoryWriteAddress(0x0c80, 0x0c80, avgdvg_go_w),
+                new MemoryWriteAddress(0x0c80, 0x0c80, avgdvg_go),
                 new MemoryWriteAddress(0x0d00, 0x0d00, MWA_NOP), /* watchdog clear */
-                new MemoryWriteAddress(0x0d80, 0x0d80, avgdvg_reset_w),
+                new MemoryWriteAddress(0x0d80, 0x0d80, avgdvg_reset),
                 new MemoryWriteAddress(0x0e00, 0x0e00, MWA_NOP), /* interrupt acknowledge */
-                new MemoryWriteAddress(0x0e80, 0x0e80, atari_vg_earom_ctrl_w),
+                new MemoryWriteAddress(0x0e80, 0x0e80, atari_vg_earom_ctrl),
                 new MemoryWriteAddress(0x0f00, 0x0f3f, atari_vg_earom_w),
                 new MemoryWriteAddress(0x1000, 0x13ff, pokey1_w),
                 new MemoryWriteAddress(0x1400, 0x17ff, pokey2_w),
@@ -486,13 +494,13 @@ public class bwidow {
             /* video hardware */
             400, 300, new rectangle(0, 480, 0, 440),
             null,
-            256, 0,
+            256, 256,
             avg_init_palette_multi,
-            VIDEO_TYPE_VECTOR | VIDEO_SUPPORTS_DIRTY,
+            VIDEO_TYPE_VECTOR,
             null,
             avg_start,
             avg_stop,
-            vector_vh_screenrefresh,
+            avg_screenrefresh,
             /* sound hardware */
             0, 0, 0, 0,
             new MachineSound[]{
@@ -519,13 +527,13 @@ public class bwidow {
             /* video hardware */
             400, 300, new rectangle(0, 420, 0, 400),
             null,
-            256, 0,
+            256, 256,
             avg_init_palette_multi,
-            VIDEO_TYPE_VECTOR | VIDEO_SUPPORTS_DIRTY,
+            VIDEO_TYPE_VECTOR,
             null,
             avg_start,
             avg_stop,
-            vector_vh_screenrefresh,
+            avg_screenrefresh,
             /* sound hardware */
             0, 0, 0, 0,
             new MachineSound[]{
@@ -553,13 +561,13 @@ public class bwidow {
             /* video hardware */
             400, 300, new rectangle(0, 540, 0, 400),
             null,
-            256, 0,
+            256, 256,
             avg_init_palette_multi,
-            VIDEO_TYPE_VECTOR | VIDEO_SUPPORTS_DIRTY,
+            VIDEO_TYPE_VECTOR,
             null,
             avg_start,
             avg_stop,
-            vector_vh_screenrefresh,
+            avg_screenrefresh,
             /* sound hardware */
             0, 0, 0, 0,
             new MachineSound[]{
@@ -574,7 +582,7 @@ public class bwidow {
     /**
      * *************************************************************************
      * Game driver(s)
-     **************************************************************************
+     * *************************************************************************
      */
     static RomLoadHandlerPtr rom_bwidow = new RomLoadHandlerPtr() {
         public void handler() {
