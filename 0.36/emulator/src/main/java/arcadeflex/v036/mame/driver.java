@@ -162,6 +162,7 @@ import static arcadeflex.v036.drivers.exprraid.*;
 import static arcadeflex.v036.drivers.sega.*;
 import static arcadeflex.v036.drivers.segar.*;
 import static arcadeflex.v036.drivers.asteroid.*;
+import static arcadeflex.v036.drivers.bzone.*;
 
 public class driver {
 
@@ -2108,13 +2109,13 @@ public class driver {
                 driver_astdelux, /* (c) 1980 */
                 driver_astdelu1, /* (c) 1980 */
                 /*TODO*///	driver_bwidow,	/* (c) 1982 */
-                /*TODO*///	driver_bzone,		/* (c) 1980 */
-                /*TODO*///	driver_bzone2,	/* (c) 1980 */
+                driver_bzone, /* (c) 1980 */
+                driver_bzone2, /* (c) 1980 */
                 /*TODO*///	driver_gravitar,	/* (c) 1982 */
                 /*TODO*///	driver_gravitr2,	/* (c) 1982 */
                 driver_llander, /* no copyright notice */
                 driver_llander1, /* no copyright notice */
-                /*TODO*///	driver_redbaron,	/* (c) 1980 */
+                driver_redbaron, /* (c) 1980 */
                 /*TODO*///	driver_spacduel,	/* (c) 1980 */
                 /*TODO*///	driver_tempest,	/* (c) 1980 */
                 /*TODO*///	driver_tempest1,	/* (c) 1980 */

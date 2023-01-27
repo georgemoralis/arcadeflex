@@ -1,12 +1,19 @@
 /*
- * ported to v0.37b7
- * using automatic conversion tool v0.01
+ * ported to v0.36
  */
-package gr.codebb.arcadeflex.v037b7.machine;
+/**
+ * Changelog
+ * =========
+ * 25/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.machine;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
+//mame imports
+import static arcadeflex.v036.mame.mame.*;
+//TODO
+import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 
 public class mathbox {
 
@@ -34,7 +41,7 @@ public class mathbox {
     public static short REGf = mb_reg[0x0f];
 
     /*define MB_TEST*/
-    public static WriteHandlerPtr mb_go_w = new WriteHandlerPtr() {
+    public static WriteHandlerPtr mb_go = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             int mb_temp;
             /* temp 32-bit multiply results */
@@ -456,7 +463,7 @@ public class mathbox {
                     break;
 
                 case 0x1f:
-                    logerror("math box function 0x1f\n");
+                    if(errorlog!=null) fprintf(errorlog,"math box function 0x1f\n");
                     /* $$$ do some computation here (selftest? signature analysis? */
                     break;
             }
