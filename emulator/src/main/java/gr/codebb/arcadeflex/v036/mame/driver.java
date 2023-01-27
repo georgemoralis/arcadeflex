@@ -31,22 +31,18 @@ import static arcadeflex.v036.drivers.contra.*;
 import static gr.codebb.arcadeflex.v036.drivers.dec8.*;
 import static gr.codebb.arcadeflex.v036.drivers.combatsc.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.kingobox.*;
-import static gr.codebb.arcadeflex.v036.drivers.exprraid.*;
 import static gr.codebb.arcadeflex.v036.drivers.matmania.*;
-import static gr.codebb.arcadeflex.v036.drivers.renegade.*;
 import static gr.codebb.arcadeflex.v036.drivers.lkage.*;
 import static gr.codebb.arcadeflex.v036.drivers.mainevt.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bladestl.*;
 import static gr.codebb.arcadeflex.v036.drivers.thunderx.*;
 import static gr.codebb.arcadeflex.v036.drivers.gbusters.*;
 import static gr.codebb.arcadeflex.v036.drivers.blockhl.*;
-import static arcadeflex.v036.drivers.bottom9.*;
 import static gr.codebb.arcadeflex.v036.drivers.slapfght.*;
 import static gr.codebb.arcadeflex.v036.drivers.gladiatr.*;
 import static arcadeflex.v036.drivers.snowbros.*;
 import static gr.codebb.arcadeflex.v036.drivers.z80bw.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.skydiver.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.missile.*;
 import static gr.codebb.arcadeflex.v036.drivers.pacland.*;
 import static gr.codebb.arcadeflex.v036.drivers.skykid.*;
 import static gr.codebb.arcadeflex.v036.drivers.psychic5.*;
@@ -95,7 +91,6 @@ import static gr.codebb.arcadeflex.v036.drivers.cninja.*;
 import static gr.codebb.arcadeflex.v036.drivers.gaelco.*;
 import static gr.codebb.arcadeflex.v036.drivers.gaiden.*;
 import static gr.codebb.arcadeflex.v036.drivers.system16.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.asteroid.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.starwars.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mcr3.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.magmax.*;
@@ -103,13 +98,10 @@ import static gr.codebb.arcadeflex.v037b7.drivers.armedf.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.namcos1.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.batman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mhavoc.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.bzone.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bwidow.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.tempest.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.quantum.*;
 import static arcadeflex.v036.drivers.foodf.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.sega.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.segar.*;
 import static gr.codebb.arcadeflex.v037b7.drivers._8080bw.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.irobot.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.phoenix.*;
@@ -159,10 +151,6 @@ public class driver {
                 /*351*//*dec8*/ driver_shackled,
                 /*352*//*dec8*/ driver_breywood,
                 /*353*//*dec8*/ driver_csilver,
-                /* Atari "Missile Command hardware" games */
-                /*379*//*missile*/ driver_missile,
-                /*380*//*missile*/ driver_missile2,
-                /*381*//*missile*/ driver_suprmatk,
                 /*412*//*kingobox*/ driver_kingofb,
                 /*413*//*kingobox*/ driver_ringking,
                 /* Mitchell games */
@@ -284,26 +272,9 @@ public class driver {
                 /*mainevt*/ driver_garuka,//small garbage in right of screen
 
                 /**
-                 * Tilemaps issues
-                 */
-                /**
-                 * Games not working (various reasons)
-                 */
-                /*exprraid*/ driver_exprraid, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
-                /*exprraid*/ driver_wexpress, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
-                /*exprraid*/ driver_wexpresb, // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 4110 at mame.memory.cpu_writemem16(memory.java:1279)
-                
-                /**
-                 * Test (Not working) drivers
-                 */
-                /*btime*/ //TESTDRIVER( decocass )
-
-                /**
                  * WIP section
                  */
                 /*psychic5*/ driver_psychic5,
-                /*bottom9*/ driver_bottom9,
-                /*bottom9*/ driver_bottom9n,
                 /*blockhl*/ driver_blockhl,
                 /*blockhl*/ driver_quarth,
                 /*thunderx*/ driver_scontra,
@@ -314,9 +285,6 @@ public class driver {
                 /*matmania*/ driver_excthour,
                 /*matmania*/ driver_maniach,
                 /*matmania*/ driver_maniach2,
-                /*renegade*/ driver_renegade,//no sprites?
-                /*renegade*/ driver_kuniokun,//no sprites?
-                /*renegade*/ driver_kuniokub,//no sprites?
 
                 /*slapfght*/ driver_tigerh,
                 /*slapfght*/ driver_tigerh2,
@@ -1127,24 +1095,7 @@ public class driver {
                 /*TODO*/ //	DRIVER( pulsar )	/* 790-805 (c) 1981 Sega */
                 /*TODO*/ //	DRIVER( heiankyo )	/* (c) [1979?] Denki Onkyo */
 
-                /* Sega G-80 vector games */
-                driver_spacfury, /* (c) 1981 */
-                driver_spacfura, /* no copyright notice */
-                driver_zektor, /* (c) 1982 */
-                driver_tacscan, /* (c) */
-                driver_elim2, /* (c) 1981 Gremlin */
-                driver_elim2a, /* (c) 1981 Gremlin */
-                driver_elim4, /* (c) 1981 Gremlin */
-                driver_startrek, /* (c) 1982 */
-                /* Sega G-80 raster games */
-                driver_astrob, /* (c) 1981 */
-                driver_astrob1, /* (c) 1981 */
-                driver_005, /* (c) 1981 */
-                driver_monsterb, /* (c) 1982 */
-                driver_spaceod, /* (c) 1981 */
-                driver_pignewt, /* (c) 1983 */
-                driver_pignewta, /* (c) 1983 */
-                driver_sindbadm, /* 834-5244 (c) 1983 Sega */
+
                 /* other Sega 8-bit games */
                 /*TODO*/ //	DRIVER( turbo )		/* (c) 1981 Sega */
                 /*TODO*/ //	DRIVER( turboa )	/* (c) 1981 Sega */
@@ -1457,19 +1408,9 @@ public class driver {
                 /*TODO*/ //	DRIVER( showdown )	/* (c) 1988 */
 
                 /* Atari vector games */
-                driver_asteroid, /* (c) 1979 */
-                driver_asteroi1, /* no copyright notice */
-                driver_asteroib, /* bootleg */
-                driver_astdelux, /* (c) 1980 */
-                driver_astdelu1, /* (c) 1980 */
                 driver_bwidow, /* (c) 1982 */
-                driver_bzone, /* (c) 1980 */
-                driver_bzone2, /* (c) 1980 */
                 driver_gravitar, /* (c) 1982 */
                 driver_gravitr2, /* (c) 1982 */
-                driver_llander, /* no copyright notice */
-                driver_llander1, /* no copyright notice */
-                driver_redbaron, /* (c) 1980 */
                 driver_spacduel, /* (c) 1980 */
                 driver_tempest, /* (c) 1980 */
                 driver_tempest1, /* (c) 1980 */

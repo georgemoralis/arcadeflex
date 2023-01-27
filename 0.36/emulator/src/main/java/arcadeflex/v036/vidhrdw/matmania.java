@@ -1,19 +1,27 @@
 /*
- * ported to v0.37b7
- * using automatic conversion tool v0.01
+ * ported to v0.36
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+/**
+ * Changelog
+ * =========
+ * 27/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.vidhrdw;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static common.libc.cstring.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
+//mame imports
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import static arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.osdependH.*;
+//vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
+import static common.libc.cstring.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_change_color;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.palette_recalc;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.paletteram;
@@ -135,14 +143,14 @@ public class matmania {
             memset(dirtybuffer2, 1, matmania_videoram3_size[0]);
 
             /* Mat Mania has a virtual screen twice as large as the visible screen */
-            if ((tmpbitmap = bitmap_alloc(Machine.drv.screen_width, 2 * Machine.drv.screen_height)) == null) {
+            if ((tmpbitmap = osd_create_bitmap(Machine.drv.screen_width, 2 * Machine.drv.screen_height)) == null) {
                 dirtybuffer = null;
                 dirtybuffer2 = null;
                 return 1;
             }
 
             /* Mat Mania has a virtual screen twice as large as the visible screen */
-            if ((tmpbitmap2 = bitmap_alloc(Machine.drv.screen_width, 2 * Machine.drv.screen_height)) == null) {
+            if ((tmpbitmap2 = osd_create_bitmap(Machine.drv.screen_width, 2 * Machine.drv.screen_height)) == null) {
                 tmpbitmap = null;
                 dirtybuffer = null;
                 dirtybuffer2 = null;
@@ -164,8 +172,8 @@ public class matmania {
         public void handler() {
             dirtybuffer = null;
             dirtybuffer2 = null;
-            bitmap_free(tmpbitmap);
-            bitmap_free(tmpbitmap2);
+            osd_free_bitmap(tmpbitmap);
+            osd_free_bitmap(tmpbitmap2);
         }
     };
 
@@ -242,9 +250,9 @@ public class matmania {
 
                 scrolly = -matmania_scroll.read();
                 if (matmania_pageselect.read() != 0) {
-                    copyscrollbitmap(bitmap, tmpbitmap2, 0, null, 1, new int[]{scrolly}, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                    copyscrollbitmap(bitmap, tmpbitmap2, 0, null, 1, new int[]{scrolly}, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
                 } else {
-                    copyscrollbitmap(bitmap, tmpbitmap, 0, null, 1, new int[]{scrolly}, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                    copyscrollbitmap(bitmap, tmpbitmap, 0, null, 1, new int[]{scrolly}, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
                 }
             }
 
@@ -256,7 +264,7 @@ public class matmania {
                             (spriteram.read(offs) & 0x08) >> 3,
                             spriteram.read(offs) & 0x04, spriteram.read(offs) & 0x02,
                             239 - spriteram.read(offs + 3), (240 - spriteram.read(offs + 2)) & 0xff,
-                            Machine.visible_area, TRANSPARENCY_PEN, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                 }
             }
 
@@ -272,7 +280,7 @@ public class matmania {
                         (matmania_colorram2.read(offs) & 0x30) >> 4,
                         0, 0,
                         8 * sx, 8 * sy,
-                        Machine.visible_area, TRANSPARENCY_PEN, 0);
+                        Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
             }
         }
     };
@@ -330,9 +338,9 @@ public class matmania {
 
                 scrolly = -matmania_scroll.read();
                 if (matmania_pageselect.read() != 0) {
-                    copyscrollbitmap(bitmap, tmpbitmap2, 0, null, 1, new int[]{scrolly}, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                    copyscrollbitmap(bitmap, tmpbitmap2, 0, null, 1, new int[]{scrolly}, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
                 } else {
-                    copyscrollbitmap(bitmap, tmpbitmap, 0, null, 1, new int[]{scrolly}, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                    copyscrollbitmap(bitmap, tmpbitmap, 0, null, 1, new int[]{scrolly}, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
                 }
             }
 
@@ -344,7 +352,7 @@ public class matmania {
                             (spriteram.read(offs) & 0x08) >> 3,
                             spriteram.read(offs) & 0x04, spriteram.read(offs) & 0x02,
                             239 - spriteram.read(offs + 3), (240 - spriteram.read(offs + 2)) & 0xff,
-                            Machine.visible_area, TRANSPARENCY_PEN, 0);
+                            Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
                 }
             }
 
@@ -360,7 +368,7 @@ public class matmania {
                         (matmania_colorram2.read(offs) & 0x30) >> 4,
                         0, 0,
                         8 * sx, 8 * sy,
-                        Machine.visible_area, TRANSPARENCY_PEN, 0);
+                        Machine.drv.visible_area, TRANSPARENCY_PEN, 0);
             }
         }
     };
