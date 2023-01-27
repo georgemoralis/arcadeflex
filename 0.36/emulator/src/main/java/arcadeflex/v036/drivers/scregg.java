@@ -1,22 +1,32 @@
-/**
- * ported to 0.37b7
- * ported to 0.36
+/*
+ * ported to v0.36
+ * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+/**
+ * Changelog
+ * =========
+ * 27/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static arcadeflex.v036.vidhrdw.btime.*;
+//sound imports
 import static arcadeflex.v036.sound.ay8910.*;
 import static arcadeflex.v036.sound.ay8910H.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.btime.*;
+//common imports
 
 public class scregg {
 

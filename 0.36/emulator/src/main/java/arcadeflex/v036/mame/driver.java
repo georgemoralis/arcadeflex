@@ -164,6 +164,7 @@ import static arcadeflex.v036.drivers.segar.*;
 import static arcadeflex.v036.drivers.asteroid.*;
 import static arcadeflex.v036.drivers.bzone.*;
 import static arcadeflex.v036.drivers.bwidow.*;
+import static arcadeflex.v036.drivers.scregg.*;
 
 public class driver {
 
@@ -2331,9 +2332,9 @@ public class driver {
                 /*TODO*///	driver_gangwarb,	/* Alpha-68K96V bootleg */
                 /*TODO*///	driver_sbasebal,	/* Alpha-68K96V       (c) 1989 SNK of America licensed from Alpha */
                 /*TODO*///
-                /*TODO*///	/* Technos games */
-                /*TODO*///	driver_scregg,	/* TA-0001 (c) 1983 */
-                /*TODO*///	driver_eggs,		/* TA-0002 (c) 1983 Universal USA */
+                /* Technos games */
+                driver_scregg, /* TA-0001 (c) 1983 */
+                driver_eggs, /* TA-0002 (c) 1983 Universal USA */
                 /*TODO*///	driver_bigprowr,	/* TA-0007 (c) 1983 */
                 /*TODO*///	driver_tagteam,	/* TA-0007 (c) 1983 + Data East license */
                 /*TODO*///	driver_ssozumo,	/* TA-0008 (c) 1984 */
