@@ -170,6 +170,7 @@ import static arcadeflex.v036.drivers.ddragon.*;
 import static arcadeflex.v036.drivers.mhavoc.*;
 import static arcadeflex.v036.drivers.slapfght.*;
 import static arcadeflex.v036.drivers.skykid.*;
+import static arcadeflex.v036.drivers.circus.*;
 
 public class driver {
 
@@ -2089,10 +2090,10 @@ public class driver {
                 /*TODO*///	driver_pepper2,	/* (c) 1982 */
                 /*TODO*///	driver_hardhat,	/* (c) 1982 */
                 /*TODO*///	driver_fax,		/* (c) 1983 */
-                /*TODO*///	driver_circus,	/* no copyright notice [1977?] */
-                /*TODO*///	driver_robotbwl,	/* no copyright notice */
-                /*TODO*///	driver_crash,		/* Exidy [1979?] */
-                /*TODO*///	driver_ripcord,	/* Exidy [1977?] */
+                driver_circus, /* no copyright notice [1977?] */
+                driver_robotbwl, /* no copyright notice */
+                driver_crash, /* Exidy [1979?] */
+                driver_ripcord, /* Exidy [1977?] */
                 /*TODO*///	driver_starfire,	/* Exidy [1979?] */
                 /*TODO*///	driver_fireone,	/* (c) 1979 Exidy */
                 /*TODO*///
