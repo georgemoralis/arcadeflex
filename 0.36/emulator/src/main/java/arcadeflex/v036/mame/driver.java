@@ -167,6 +167,7 @@ import static arcadeflex.v036.drivers.bwidow.*;
 import static arcadeflex.v036.drivers.scregg.*;
 import static arcadeflex.v036.drivers.matmania.*;
 import static arcadeflex.v036.drivers.ddragon.*;
+import static arcadeflex.v036.drivers.mhavoc.*;
 
 public class driver {
 
@@ -2128,10 +2129,10 @@ public class driver {
                 /*TODO*///	driver_starwars,	/* (c) 1983 */
                 /*TODO*///	driver_starwar1,	/* (c) 1983 */
                 /*TODO*///	driver_esb,		/* (c) 1985 */
-                /*TODO*///	driver_mhavoc,	/* (c) 1983 */
-                /*TODO*///	driver_mhavoc2,	/* (c) 1983 */
-                /*TODO*///	driver_mhavocp,	/* (c) 1983 */
-                /*TODO*///	driver_mhavocrv,	/* hack */
+                driver_mhavoc, /* (c) 1983 */
+                driver_mhavoc2, /* (c) 1983 */
+                driver_mhavocp, /* (c) 1983 */
+                driver_mhavocrv, /* hack */
                 /*TODO*///	driver_quantum,	/* (c) 1982 */	/* made by Gencomp */
                 /*TODO*///	driver_quantum1,	/* (c) 1982 */	/* made by Gencomp */
                 /*TODO*///	driver_quantump,	/* (c) 1982 */	/* made by Gencomp */

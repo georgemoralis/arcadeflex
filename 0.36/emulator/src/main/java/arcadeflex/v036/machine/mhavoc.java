@@ -1,21 +1,33 @@
-package gr.codebb.arcadeflex.v037b7.machine;
+/*
+ * ported to v0.36
+ */
+/**
+ * Changelog
+ * =========
+ * 25/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.machine;
+
+//cpu imports
+import static arcadeflex.v036.cpu.m6502.m6502H.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import arcadeflex.v036.generic.funcPtr.TimerCallbackHandlerPtr;
-import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
+//mame imports
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
-import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.memoryH.*;
-import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
-import static gr.codebb.arcadeflex.v037b7.cpu.m6502.m6502H.M6502_INT_NMI;
 import static arcadeflex.v036.mame.timer.*;
 import static arcadeflex.v036.mame.timerH.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.avgdvg.*;
+import static arcadeflex.v036.mame.mame.*;
+//vidhdrw imports
+import static arcadeflex.v036.vidhrdw.avgdvg.*;
+//TODO
+import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
+import static gr.codebb.arcadeflex.v036.platform.input.osd_led_w;
+import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 
 public class mhavoc {
 
@@ -39,7 +51,9 @@ public class mhavoc {
             UBytePtr RAM = memory_region(REGION_CPU1);
 
             data &= 0x01;
-            logerror("Alpha RAM select: %02x\n", data);
+            if (errorlog != null) {
+                fprintf(errorlog, "Alpha RAM select: %02x\n", data);
+            }
             cpu_setbank(1, new UBytePtr(RAM, bank[data]));
         }
     };
@@ -51,7 +65,9 @@ public class mhavoc {
 
             data &= 0x03;
 
-            logerror("Alpha ROM select: %02x\n", data);
+            if (errorlog != null) {
+                fprintf(errorlog, "Alpha ROM select: %02x\n", data);
+            }
             cpu_setbank(2, new UBytePtr(RAM, bank[data]));
         }
     };
@@ -79,7 +95,9 @@ public class mhavoc {
     /* Read from the gamma processor */
     public static ReadHandlerPtr mhavoc_gamma_r = new ReadHandlerPtr() {
         public int handler(int offset) {
-            logerror("  reading from gamma processor: %02x (%d %d)\n", gamma_data, alpha_rcvd, gamma_xmtd);
+            if (errorlog != null) {
+                fprintf(errorlog, "  reading from gamma processor: %02x (%d %d)\n", gamma_data, alpha_rcvd, gamma_xmtd);
+            }
             alpha_rcvd = 1;
             gamma_xmtd = 0;
             return gamma_data;
@@ -89,7 +107,9 @@ public class mhavoc {
     /* Read from the alpha processor */
     public static ReadHandlerPtr mhavoc_alpha_r = new ReadHandlerPtr() {
         public int handler(int offset) {
-            logerror("\t\t\t\t\treading from alpha processor: %02x (%d %d)\n", alpha_data, gamma_rcvd, alpha_xmtd);
+            if (errorlog != null) {
+                fprintf(errorlog, "\t\t\t\t\treading from alpha processor: %02x (%d %d)\n", alpha_data, gamma_rcvd, alpha_xmtd);
+            }
             gamma_rcvd = 1;
             alpha_xmtd = 0;
             return alpha_data;
@@ -99,7 +119,9 @@ public class mhavoc {
     /* Write to the gamma processor */
     public static WriteHandlerPtr mhavoc_gamma_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            logerror("  writing to gamma processor: %02x (%d %d)\n", data, gamma_rcvd, alpha_xmtd);
+            if (errorlog != null) {
+                fprintf(errorlog, "  writing to gamma processor: %02x (%d %d)\n", data, gamma_rcvd, alpha_xmtd);
+            }
             gamma_rcvd = 0;
             alpha_xmtd = 1;
             alpha_data = data;
@@ -113,7 +135,9 @@ public class mhavoc {
     /* Write to the alpha processor */
     public static WriteHandlerPtr mhavoc_alpha_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-            logerror("\t\t\t\t\twriting to alpha processor: %02x %d %d\n", data, alpha_rcvd, gamma_xmtd);
+            if (errorlog != null) {
+                fprintf(errorlog, "\t\t\t\t\twriting to alpha processor: %02x %d %d\n", data, alpha_rcvd, gamma_xmtd);
+            }
             alpha_rcvd = 0;
             gamma_xmtd = 1;
             gamma_data = data;
@@ -184,7 +208,9 @@ public class mhavoc {
     public static WriteHandlerPtr mhavoc_out_0_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             if ((data & 0x08) == 0) {
-                logerror("\t\t\t\t*** resetting gamma processor. ***\n");
+                if (errorlog != null) {
+                    fprintf(errorlog, "\t\t\t\t*** resetting gamma processor. ***\n");
+                }
                 cpu_set_reset_line(1, PULSE_LINE);
                 alpha_rcvd = 0;
                 alpha_xmtd = 0;
@@ -193,14 +219,14 @@ public class mhavoc {
             }
             player_1 = data & 0x20;
             /* Emulate the roller light (Blinks on fatal errors) */
-/*TODO*///            set_led_status(2, data & 0x01);
+            osd_led_w.handler(2, data & 0x01);
         }
     };
 
     public static WriteHandlerPtr mhavoc_out_1_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
-/*TODO*///            set_led_status(1, data & 0x01);
-/*TODO*///            set_led_status(0, data & 0x02);
+            osd_led_w.handler(1, data & 0x01);
+            osd_led_w.handler(0, (data & 0x02) >> 1);
         }
     };
     public static TimerCallbackHandlerPtr mhavoc_gamma_irq = new TimerCallbackHandlerPtr() {

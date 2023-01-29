@@ -2,14 +2,16 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
+/**
+ * Changelog
+ * =========
+ * 29/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.drivers;
 
 //cpu imports
-import static arcadeflex.v036.cpu.m6809.m6809H.M6809_INT_IRQ;
-import static arcadeflex.v036.cpu.m6809.m6809H.M6809_INT_NMI;
-import static arcadeflex.v036.cpu.m6809.m6809H.M6809_INT_NONE;
-import static arcadeflex.v036.cpu.z80.z80H.Z80_NMI_INT;
-import static arcadeflex.v036.drivers.ddragon.dd_irq_handler;
+import static arcadeflex.v036.cpu.m6809.m6809H.*;
+import static arcadeflex.v036.cpu.z80.z80H.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
@@ -20,25 +22,16 @@ import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.mame.cpuintrfH.ASSERT_LINE;
-import static arcadeflex.v036.mame.cpuintrfH.CLEAR_LINE;
-import static arcadeflex.v036.mame.cpuintrfH.HOLD_LINE;
-import static arcadeflex.v036.mame.cpuintrfH.PULSE_LINE;
+import static arcadeflex.v036.mame.cpuintrfH.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static arcadeflex.v036.mame.sndintrf.soundlatch_r;
-import static arcadeflex.v036.mame.sndintrf.soundlatch_w;
+import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 //sound imports
-import static arcadeflex.v036.sound._2151intf.YM2151_data_port_0_w;
-import static arcadeflex.v036.sound._2151intf.YM2151_register_port_0_w;
-import static arcadeflex.v036.sound._2151intf.YM2151_status_port_0_r;
-import arcadeflex.v036.sound._2151intfH.YM2151interface;
-import static arcadeflex.v036.sound._2151intfH.YM3012_VOL;
-import static arcadeflex.v036.sound.adpcm.ADPCM_play;
-import static arcadeflex.v036.sound.adpcm.ADPCM_playing;
-import arcadeflex.v036.sound.adpcmH.ADPCMinterface;
-import static arcadeflex.v036.sound.mixerH.MIXER_PAN_LEFT;
-import static arcadeflex.v036.sound.mixerH.MIXER_PAN_RIGHT;
+import static arcadeflex.v036.sound._2151intf.*;
+import static arcadeflex.v036.sound._2151intfH.*;
+import static arcadeflex.v036.sound.adpcm.*;
+import static arcadeflex.v036.sound.adpcmH.*;
+import static arcadeflex.v036.sound.mixerH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.ddragon.*;
