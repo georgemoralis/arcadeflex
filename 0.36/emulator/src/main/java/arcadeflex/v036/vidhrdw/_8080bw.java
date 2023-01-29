@@ -2,6 +2,11 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
+/**
+ * Changelog
+ * =========
+ * 15/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.vidhrdw;
 
 //generic imports
@@ -10,19 +15,16 @@ import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.osdependH.*;
 import static arcadeflex.v036.mame.artwork.*;
 import static arcadeflex.v036.mame.artworkH.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.inptport.*;
+import static arcadeflex.v036.mame.mame.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
-import static arcadeflex.v036.mame.commonH.REGION_PROMS;
-import static gr.codebb.arcadeflex.v036.mame.drawgfx.copybitmap;
-import static gr.codebb.arcadeflex.v036.mame.drawgfx.plot_pixel;
-import static gr.codebb.arcadeflex.v036.mame.drawgfx.plot_pixel2;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static arcadeflex.v036.mame.drawgfxH.TRANSPARENCY_NONE;
-import arcadeflex.v036.mame.drawgfxH.rectangle;
-import static arcadeflex.v036.mame.inptport.input_port_0_r;
+import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
 import static arcadeflex.v036.mame.inptport.input_port_1_r;
 import static arcadeflex.v036.mame.inptport.input_port_2_r;
 import static arcadeflex.v036.mame.inptport.input_port_3_r;

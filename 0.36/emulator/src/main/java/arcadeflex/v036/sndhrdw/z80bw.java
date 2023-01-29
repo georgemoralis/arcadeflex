@@ -2,16 +2,23 @@
  * ported to v0.36
  * using automatic conversion tool v0.07 + manual fixes
  */
+/**
+ * Changelog
+ * =========
+ * 29/01/2023 - shadow - 0.36 version (some artwork support is missing)
+ */
 package arcadeflex.v036.sndhrdw;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
+import static arcadeflex.v036.mame.mame.*;
+//vidhrdw imports
 import static arcadeflex.v036.vidhrdw._8080bw.*;
-//TODO
+//sound imports
 import static arcadeflex.v036.sound.samplesH.*;
 import static arcadeflex.v036.sound.samples.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
+//TODO
 import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
 
 public class z80bw {

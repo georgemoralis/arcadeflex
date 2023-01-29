@@ -2,26 +2,29 @@
  * ported to v0.36
  * using automatic conversion tool v0.07 + manual fixes
  */
-package gr.codebb.arcadeflex.v036.drivers;
+/**
+ * Changelog
+ * =========
+ * 29/01/2023 - shadow - 0.36 version (some artwork support is missing)
+ */
+package arcadeflex.v036.drivers;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
-//sndhrdw imports
-import static arcadeflex.v036.sndhrdw.z80bw.*;
-//vidhrdw imports
-import static arcadeflex.v036.vidhrdw._8080bw.*;
-//TODO
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptportH.*;
+//sndhrdw imports
+import static arcadeflex.v036.sndhrdw.z80bw.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw._8080bw.*;
+import static arcadeflex.v036.vidhrdw.generic.*;
 
 public class z80bw {
 

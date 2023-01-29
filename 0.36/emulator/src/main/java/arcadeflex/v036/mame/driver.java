@@ -173,6 +173,7 @@ import static arcadeflex.v036.drivers.skykid.*;
 import static arcadeflex.v036.drivers.circus.*;
 import static arcadeflex.v036.drivers.meadows.*;
 import static arcadeflex.v036.drivers.lazercmd.*;
+import static arcadeflex.v036.drivers.z80bw.*;
 
 public class driver {
 
@@ -681,18 +682,16 @@ public class driver {
                 /*TODO*///	driver_yosakdon,
                 /*TODO*///	driver_spceking,
                 /*TODO*///	driver_spcewars,
-                /*TODO*///
-                /*TODO*///	/* "Midway" Z80 b/w games */
-                /*TODO*///	driver_astinvad,	/* (c) 1980 Stern */
-                /*TODO*///	driver_kamikaze,	/* Leijac Corporation */
-                /*TODO*///	driver_spaceint,	/* [1980] Shoei */
-                /*TODO*///
+
+                /* "Midway" Z80 b/w games */
+                driver_astinvad, /* (c) 1980 Stern */
+                driver_kamikaze, /* Leijac Corporation */
+                driver_spaceint, /* [1980] Shoei */
                 /* Meadows S2650 games */
                 driver_lazercmd, /* [1976?] */
                 driver_deadeye, /* [1978?] */
                 driver_gypsyjug, /* [1978?] */
                 driver_medlanes, /* [1977?] */
-                
                 /*TODO*///	/* Midway "Astrocade" games */
                 /*TODO*///	driver_wow,		/* (c) 1980 */
                 /*TODO*///	driver_robby,		/* (c) 1981 */
