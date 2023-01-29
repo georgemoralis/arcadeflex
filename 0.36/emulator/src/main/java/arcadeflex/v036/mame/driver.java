@@ -165,6 +165,8 @@ import static arcadeflex.v036.drivers.asteroid.*;
 import static arcadeflex.v036.drivers.bzone.*;
 import static arcadeflex.v036.drivers.bwidow.*;
 import static arcadeflex.v036.drivers.scregg.*;
+import static arcadeflex.v036.drivers.matmania.*;
+import static arcadeflex.v036.drivers.ddragon.*;
 
 public class driver {
 
@@ -2341,10 +2343,10 @@ public class driver {
                 driver_mystston, /* TA-0010 (c) 1984 */
                 /* TA-0011 Dog Fight (Data East) / Batten O'hara no Sucha-Raka Kuuchuu Sen 1985 */
                 driver_bogeyman, /* X-0204-0 (Data East part number) (c) [1985?] */
-                /*TODO*///	driver_matmania,	/* TA-0015 (c) 1985 + Taito America license */
-                /*TODO*///	driver_excthour,	/* TA-0015 (c) 1985 + Taito license */
-                /*TODO*///	driver_maniach,	/* TA-0017 (c) 1986 + Taito America license */
-                /*TODO*///	driver_maniach2,	/* TA-0017 (c) 1986 + Taito America license */
+                driver_matmania, /* TA-0015 (c) 1985 + Taito America license */
+                driver_excthour, /* TA-0015 (c) 1985 + Taito license */
+                driver_maniach, /* TA-0017 (c) 1986 + Taito America license */
+                driver_maniach2, /* TA-0017 (c) 1986 + Taito America license */
                 driver_renegade, /* TA-0018 (c) 1986 + Taito America license */
                 driver_kuniokun, /* TA-0018 (c) 1986 */
                 driver_kuniokub, /* bootleg */
@@ -2354,13 +2356,13 @@ public class driver {
                 driver_battlane, /* TA-???? (c) 1986 + Taito license */
                 driver_battlan2, /* TA-???? (c) 1986 + Taito license */
                 driver_battlan3, /* TA-???? (c) 1986 + Taito license */
-                /*TODO*///	driver_ddragon,
-                /*TODO*///	driver_ddragonb,	/* TA-0021 bootleg */
-                /*TODO*///	/* TA-0022 Super Dodge Ball */
-                /*TODO*///	/* TA-0023 China Gate */
-                /*TODO*///	/* TA-0024 WWF Superstars */
-                /*TODO*///	/* TA-0025 Champ V'Ball */
-                /*TODO*///	driver_ddragon2,	/* TA-0026 (c) 1988 */
+                driver_ddragon,
+                driver_ddragonb, /* TA-0021 bootleg */
+                /* TA-0022 Super Dodge Ball */
+                /* TA-0023 China Gate */
+                /* TA-0024 WWF Superstars */
+                /* TA-0025 Champ V'Ball */
+                driver_ddragon2, /* TA-0026 (c) 1988 */
                 /*TODO*///	/* TA-0027 ???? */
                 /*TODO*///	driver_ctribe,	/* TA-0028 (c) 1990 (US) */
                 /*TODO*///	driver_ctribeb,	/* bootleg */
