@@ -2,12 +2,22 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
+/**
+ * Changelog
+ * =========
+ * 29/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.vidhrdw;
 
 //drivers import
 import static arcadeflex.v036.drivers.lazercmd.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.inptport.*;
+import static arcadeflex.v036.mame.mame.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
 import static arcadeflex.v036.vidhrdw.lazercmdH.*;
@@ -17,10 +27,6 @@ import static common.libc.cstring.*;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.copybitmap;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.drawgfx;
 import static gr.codebb.arcadeflex.v036.mame.drawgfx.plot_pixel;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import arcadeflex.v036.mame.osdependH.osd_bitmap;
-import static arcadeflex.v036.mame.drawgfxH.TRANSPARENCY_NONE;
-import static arcadeflex.v036.mame.inptport.input_port_2_r;
 
 public class lazercmd {
 

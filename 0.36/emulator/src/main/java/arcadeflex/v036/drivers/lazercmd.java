@@ -2,6 +2,11 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
+/**
+ * Changelog
+ * =========
+ * 29/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.drivers;
 
 //cpu imports
@@ -11,6 +16,18 @@ import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
+import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.inputH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.inptport.*;
+import static arcadeflex.v036.mame.inptportH.*;
+import static arcadeflex.v036.mame.memoryH.*;
+//sound imports
+import static arcadeflex.v036.sound.dac.*;
+import static arcadeflex.v036.sound.dacH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.lazercmd.*;
 import static arcadeflex.v036.vidhrdw.lazercmdH.*;
@@ -19,32 +36,7 @@ import static arcadeflex.v036.vidhrdw.generic.*;
 import static common.libc.cstring.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
-import static arcadeflex.v036.mame.commonH.REGIONFLAG_DISPOSE;
-import static arcadeflex.v036.mame.commonH.REGION_CPU1;
-import static arcadeflex.v036.mame.commonH.REGION_GFX1;
-import static arcadeflex.v036.mame.commonH.ROM_END;
-import static arcadeflex.v036.mame.commonH.ROM_LOAD;
-import static arcadeflex.v036.mame.commonH.ROM_REGION;
-import static arcadeflex.v036.mame.driverH.*;
-import static arcadeflex.v036.mame.inputH.KEYCODE_X;
-import static arcadeflex.v036.mame.inputH.KEYCODE_Z;
-import arcadeflex.v036.mame.sndintrfH.MachineSound;
-import static arcadeflex.v036.mame.sndintrfH.SOUND_DAC;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.sizeof;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.mame.inptport.*;
-import static arcadeflex.v036.mame.inptportH.*;
-import arcadeflex.v036.mame.memoryH.IOReadPort;
-import arcadeflex.v036.mame.memoryH.IOWritePort;
-import static arcadeflex.v036.mame.memoryH.MRA_RAM;
-import static arcadeflex.v036.mame.memoryH.MRA_ROM;
-import static arcadeflex.v036.mame.memoryH.MWA_ROM;
-import arcadeflex.v036.mame.memoryH.MemoryReadAddress;
-import arcadeflex.v036.mame.memoryH.MemoryWriteAddress;
-import static arcadeflex.v036.sound.dac.DAC_data_w;
-import arcadeflex.v036.sound.dacH.DACinterface;
 
 public class lazercmd {
 
