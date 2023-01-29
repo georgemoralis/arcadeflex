@@ -174,6 +174,8 @@ import static arcadeflex.v036.drivers.circus.*;
 import static arcadeflex.v036.drivers.meadows.*;
 import static arcadeflex.v036.drivers.lazercmd.*;
 import static arcadeflex.v036.drivers.z80bw.*;
+import static arcadeflex.v036.drivers.gbusters.*;
+import static arcadeflex.v036.drivers.bladestl.*;
 
 public class driver {
 
@@ -1946,8 +1948,8 @@ public class driver {
                 driver_thehustj, /* GX765 (c) 1987 (Japan) */
                 driver_battlnts, /* GX777 (c) 1987 */
                 driver_battlntj, /* GX777 (c) 1987 (Japan) */
-                /*TODO*///	driver_bladestl,	/* GX797 (c) 1987 */
-                /*TODO*///	driver_bladstle,	/* GX797 (c) 1987 */
+                driver_bladestl, /* GX797 (c) 1987 */
+                driver_bladstle, /* GX797 (c) 1987 */
                 driver_hcastle, /* GX768 (c) 1988 */
                 driver_hcastlea, /* GX768 (c) 1988 */
                 driver_hcastlej, /* GX768 (c) 1988 (Japan) */
@@ -1967,8 +1969,8 @@ public class driver {
                 driver_88games, /* GX861 (c) 1988 */
                 driver_konami88, /* GX861 (c) 1988 */
                 driver_hypsptsp, /* GX861 (c) 1988 (Japan) */
-                /*TODO*///	driver_gbusters,	/* GX878 (c) 1988 */
-                /*TODO*///	driver_crazycop,	/* GX878 (c) 1988 (Japan) */
+                driver_gbusters, /* GX878 (c) 1988 */
+                driver_crazycop, /* GX878 (c) 1988 (Japan) */
                 driver_crimfght, /* GX821 (c) 1989 (US) */
                 driver_crimfgt2, /* GX821 (c) 1989 (World) */
                 driver_crimfgtj, /* GX821 (c) 1989 (Japan) */

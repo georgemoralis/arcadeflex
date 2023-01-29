@@ -1,12 +1,14 @@
 /*
- * ported to v0.37b7
  * ported to v0.36
  * 
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+package arcadeflex.v036.drivers;
+//cpu imports
+
+import static arcadeflex.v036.cpu.m6809.m6809H.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
+//mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.driverH.*;
@@ -15,22 +17,19 @@ import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import arcadeflex.v036.mame.sndintrfH.MachineSound;
-import static arcadeflex.v036.mame.sndintrfH.SOUND_UPD7759;
-import static arcadeflex.v036.mame.sndintrfH.SOUND_YM2203;
-import static gr.codebb.arcadeflex.v036.vidhrdw.konamiic.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.konami.K007342.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.konami.K007420.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.bladestl.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
 import static arcadeflex.v036.sound._2203intf.*;
 import static arcadeflex.v036.sound._2203intfH.*;
 import static arcadeflex.v036.sound.upd7759.*;
 import static arcadeflex.v036.sound.upd7759H.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.konamiic.*;
+import static arcadeflex.v036.vidhrdw.bladestl.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 
 public class bladestl {
 

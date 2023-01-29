@@ -73,7 +73,7 @@ import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.sound.dacH.*;
 import static arcadeflex.v036.sound._2151intf.*;
 import static arcadeflex.v036.sound._2151intfH.*;
-import static arcadeflex.v036.sndhrdw.m72.*;
+import static arcadeflex.toberemoved.v036.sndhrdw.m72.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;

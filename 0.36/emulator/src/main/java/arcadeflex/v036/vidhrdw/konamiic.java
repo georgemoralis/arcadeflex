@@ -3455,67 +3455,81 @@ public class konamiic {
             return 0;
         }
     };
-    /*TODO*///
-/*TODO*///static unsigned char K051733_ram[0x20];
-/*TODO*///
-/*TODO*///void K051733_w(int offset,int data)
-/*TODO*///{
-/*TODO*///#if VERBOSE
-/*TODO*///if (errorlog) fprintf(errorlog,"%04x: write %02x to 051733 address %02x\n",cpu_get_pc(),data,offset);
-/*TODO*///#endif
-/*TODO*///
-/*TODO*///	K051733_ram[offset] = data;
-/*TODO*///}
-/*TODO*///
-/*TODO*///int K051733_r(int offset)
-/*TODO*///{
-/*TODO*///	int op1 = (K051733_ram[0x00] << 8) | K051733_ram[0x01];
-/*TODO*///	int op2 = (K051733_ram[0x02] << 8) | K051733_ram[0x03];
-/*TODO*///
-/*TODO*///	int rad = (K051733_ram[0x06] << 8) | K051733_ram[0x07];
-/*TODO*///	int yobj1c = (K051733_ram[0x08] << 8) | K051733_ram[0x09];
-/*TODO*///	int xobj1c = (K051733_ram[0x0a] << 8) | K051733_ram[0x0b];
-/*TODO*///	int yobj2c = (K051733_ram[0x0c] << 8) | K051733_ram[0x0d];
-/*TODO*///	int xobj2c = (K051733_ram[0x0e] << 8) | K051733_ram[0x0f];
-/*TODO*///
-/*TODO*///#if VERBOSE
-/*TODO*///if (errorlog) fprintf(errorlog,"%04x: read 051733 address %02x\n",cpu_get_pc(),offset);
-/*TODO*///#endif
-/*TODO*///
-/*TODO*///	switch(offset){
-/*TODO*///		case 0x00:
-/*TODO*///			if (op2) return	((op1/op2) >> 8);
-/*TODO*///			else return 0xff;
-/*TODO*///		case 0x01:
-/*TODO*///			if (op2) return	op1/op2;
-/*TODO*///			else return 0xff;
-/*TODO*///
-/*TODO*///		/* this is completely unverified */
-/*TODO*///		case 0x02:
-/*TODO*///			if (op2) return	((op1%op2) >> 8);
-/*TODO*///			else return 0xff;
-/*TODO*///		case 0x03:
-/*TODO*///			if (op2) return	op1%op2;
-/*TODO*///			else return 0xff;
-/*TODO*///
-/*TODO*///		case 0x07:{
-/*TODO*///			if (xobj1c + rad < xobj2c - rad)
-/*TODO*///				return 0x80;
-/*TODO*///
-/*TODO*///			if (xobj2c + rad < xobj1c - rad)
-/*TODO*///				return 0x80;
-/*TODO*///
-/*TODO*///			if (yobj1c + rad < yobj2c - rad)
-/*TODO*///				return 0x80;
-/*TODO*///
-/*TODO*///			if (yobj2c + rad < yobj1c - rad)
-/*TODO*///				return 0x80;
-/*TODO*///
-/*TODO*///			return 0;
-/*TODO*///		}
-/*TODO*///		default:
-/*TODO*///			return K051733_ram[offset];
-/*TODO*///	}
-/*TODO*///}
-/*TODO*///    
+    static /*unsigned*/ char[] K051733_ram = new char[0x20];
+
+    public static WriteHandlerPtr K051733_w = new WriteHandlerPtr() {
+        public void handler(int offset, int data) {
+
+            if (errorlog != null) {
+                fprintf(errorlog, "%04x: write %02x to 051733 address %02x\n", cpu_get_pc(), data, offset);
+            }
+            K051733_ram[offset] = (char) (data & 0xFF);
+        }
+    };
+    public static ReadHandlerPtr K051733_r = new ReadHandlerPtr() {
+        public int handler(int offset) {
+            int op1 = (K051733_ram[0x00] << 8) | K051733_ram[0x01];
+            int op2 = (K051733_ram[0x02] << 8) | K051733_ram[0x03];
+
+            int rad = (K051733_ram[0x06] << 8) | K051733_ram[0x07];
+            int yobj1c = (K051733_ram[0x08] << 8) | K051733_ram[0x09];
+            int xobj1c = (K051733_ram[0x0a] << 8) | K051733_ram[0x0b];
+            int yobj2c = (K051733_ram[0x0c] << 8) | K051733_ram[0x0d];
+            int xobj2c = (K051733_ram[0x0e] << 8) | K051733_ram[0x0f];
+
+            //#if VERBOSE
+            //if (errorlog) fprintf(errorlog,"%04x: read 051733 address %02x\n",cpu_get_pc(),offset);
+            //#endif
+            switch (offset) {
+                case 0x00:
+                    if (op2 != 0) {
+                        return ((op1 / op2) >> 8);
+                    } else {
+                        return 0xff;
+                    }
+                case 0x01:
+                    if (op2 != 0) {
+                        return op1 / op2;
+                    } else {
+                        return 0xff;
+                    }
+
+                /* this is completely unverified */
+                case 0x02:
+                    if (op2 != 0) {
+                        return ((op1 % op2) >> 8);
+                    } else {
+                        return 0xff;
+                    }
+                case 0x03:
+                    if (op2 != 0) {
+                        return op1 % op2;
+                    } else {
+                        return 0xff;
+                    }
+
+                case 0x07: {
+                    if (xobj1c + rad < xobj2c - rad) {
+                        return 0x80;
+                    }
+
+                    if (xobj2c + rad < xobj1c - rad) {
+                        return 0x80;
+                    }
+
+                    if (yobj1c + rad < yobj2c - rad) {
+                        return 0x80;
+                    }
+
+                    if (yobj2c + rad < yobj1c - rad) {
+                        return 0x80;
+                    }
+
+                    return 0;
+                }
+                default:
+                    return K051733_ram[offset];
+            }
+        }
+    };
 }

@@ -5,22 +5,19 @@
 package gr.codebb.arcadeflex.v037b7.sndhrdw;
 
 //generic imports
+import static arcadeflex.toberemoved.v036.vidhrdw._8080bw.invaders_flipscreen_w;
+import static arcadeflex.toberemoved.v036.vidhrdw._8080bw.invaders_screen_red_w;
 import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.common.*;
 //vidhrdw imports
-import static arcadeflex.v036.vidhrdw._8080bw.*;
 //TODO
 import static gr.codebb.arcadeflex.v036.cpu.i8039.i8039H.*;
 import static arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.sound.samplesH.*;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 import static gr.codebb.arcadeflex.v037b7.machine._8080bw.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 import static arcadeflex.v036.sound.samples.*;

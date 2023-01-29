@@ -11,10 +11,16 @@ driver by Nicola Salmoria
  */ 
 package gr.codebb.arcadeflex.v037b7.drivers;
 //generic imports
+import static arcadeflex.toberemoved.v036.sndhrdw.m72.m72_init_sound;
+import static arcadeflex.toberemoved.v036.sndhrdw.m72.m72_sample_r;
+import static arcadeflex.toberemoved.v036.sndhrdw.m72.m72_sample_w;
+import static arcadeflex.toberemoved.v036.sndhrdw.m72.m72_sound_command_w;
+import static arcadeflex.toberemoved.v036.sndhrdw.m72.m72_sound_irq_ack_w;
+import static arcadeflex.toberemoved.v036.sndhrdw.m72.m72_ym2151_irq_handler;
+import static arcadeflex.toberemoved.v036.sndhrdw.m72.shisen_sample_addr_w;
 import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
@@ -22,19 +28,14 @@ import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static arcadeflex.v036.cpu.z80.z80H.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static arcadeflex.v036.sound._2151intf.*;
 import static arcadeflex.v036.sound._2151intfH.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static arcadeflex.v036.sound.dacH.*;
-import static arcadeflex.v036.sound.dac.*;
 import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
-import static arcadeflex.v036.sndhrdw.m72.*;
 import static gr.codebb.arcadeflex.v037b7.vidhrdw.shisen.*;
 
 public class shisen

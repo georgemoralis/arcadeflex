@@ -11,11 +11,14 @@
  */ 
 package gr.codebb.arcadeflex.v037b7.vidhrdw;
 //generic imports
+import static arcadeflex.toberemoved.v036.vidhrdw.vector.translucency;
+import static arcadeflex.toberemoved.v036.vidhrdw.vector.vector_add_point;
+import static arcadeflex.toberemoved.v036.vidhrdw.vector.vector_clear_list;
+import static arcadeflex.toberemoved.v036.vidhrdw.vector.vector_set_shift;
+import static arcadeflex.toberemoved.v036.vidhrdw.vector.vector_vh_start;
 import static arcadeflex.v036.generic.funcPtr.*;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
-import static gr.codebb.arcadeflex.v036.vidhrdw.vector.*;
 
 public class aztarac
 {

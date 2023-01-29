@@ -20,31 +20,23 @@ import static arcadeflex.v036.mame.driverH.*;
 
 //drivers imports
 import static gr.codebb.arcadeflex.v037b7.drivers.pcktgal.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.scregg.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.spy.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.gsword.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jrpacman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jackal.*;
 import static arcadeflex.v036.drivers.gberet.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.ddragon.*;
 import static arcadeflex.v036.drivers.contra.*;
 import static gr.codebb.arcadeflex.v036.drivers.dec8.*;
 import static gr.codebb.arcadeflex.v036.drivers.combatsc.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.kingobox.*;
-import static gr.codebb.arcadeflex.v036.drivers.matmania.*;
 import static gr.codebb.arcadeflex.v036.drivers.lkage.*;
 import static gr.codebb.arcadeflex.v036.drivers.mainevt.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.bladestl.*;
 import static gr.codebb.arcadeflex.v036.drivers.thunderx.*;
-import static gr.codebb.arcadeflex.v036.drivers.gbusters.*;
 import static gr.codebb.arcadeflex.v036.drivers.blockhl.*;
-import static gr.codebb.arcadeflex.v036.drivers.slapfght.*;
 import static gr.codebb.arcadeflex.v036.drivers.gladiatr.*;
 import static arcadeflex.v036.drivers.snowbros.*;
-import static gr.codebb.arcadeflex.v036.drivers.z80bw.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.skydiver.*;
 import static gr.codebb.arcadeflex.v036.drivers.pacland.*;
-import static gr.codebb.arcadeflex.v036.drivers.skykid.*;
 import static gr.codebb.arcadeflex.v036.drivers.psychic5.*;
 import static gr.codebb.arcadeflex.v036.drivers.wardner.*;
 import static gr.codebb.arcadeflex.v036.drivers.shootout.*;
@@ -97,8 +89,6 @@ import static gr.codebb.arcadeflex.v037b7.drivers.magmax.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.armedf.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.namcos1.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.batman.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.mhavoc.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.bwidow.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.tempest.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.quantum.*;
 import static arcadeflex.v036.drivers.foodf.*;
@@ -128,7 +118,6 @@ import static gr.codebb.arcadeflex.v037b7.drivers.rampart.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.skullxbo.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.offtwall.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.eprom.*;
-import static arcadeflex.v036.drivers.lazercmd.*;
 
 public class driver {
 
@@ -138,9 +127,6 @@ public class driver {
                  *
                  * Perfect games
                  */
-          
-                /*132*//*scregg*/ driver_scregg,
-                /*133*//*scregg*/ driver_eggs,
                 /*274*//*pcktgal*/ driver_pcktgal,
                 /*275*//*pcktgal*/ driver_pcktgalb,
                 /*276*//*pcktgal*/ driver_pcktgal2,
@@ -166,8 +152,6 @@ public class driver {
                 /*499*//*qix*/ driver_qixa,
                 /*500*//*qix*/ driver_qixb,
                 /*501*//*qix*/ driver_qix2,
-                /*502*//*ddragon*/ driver_ddragonb,
-                /*503*//*ddragon*/ driver_ddragon2,
                 /*508*//*jackal*/ driver_jackal,
                 /*509*//*jackal*/ driver_topgunr,
                 /*510*//*jackal*/ driver_jackalj,
@@ -189,7 +173,6 @@ public class driver {
                 /*
           Possible cpu bugs
                  */
-                /*002*//*skykid*/ driver_skykid,//Freezes before going ingame cpu bug?
                 /*m72*/ driver_rtype,//rom ng error?
                 /*m72*/ driver_rtypeu, //rom error?
                 /*m72*/ driver_rtypeb, //rom error?
@@ -199,9 +182,6 @@ public class driver {
 
                 /* GFX issues
         
-                 */
-                /*bladestl*/ driver_bladestl, //artifacts left and right of drawing screen
-                /*bladestl*/ driver_bladstle, //artifacts left and right of drawing screen
                 /*lkage*/ driver_lkage,//garbage remains in left and right of screen (clipping?)
                 /*lkage*/ driver_lkageb,//garbage remains in left and right of screen (clipping?)
 
@@ -212,7 +192,6 @@ public class driver {
                 /*005*//*pacland*/ driver_pacland2,//no sound at all , namco sound doesn't work
                 /*006*//*pacland*/ driver_pacland3,//no sound at all , namco sound doesn't work
                 /*007*//*pacland*/ driver_paclandm,//no sound at all , namco sound doesn't work
-                /*008*//*skykid*/ driver_drgnbstr,//no sound at all , namco sound doesn't work
                 /*dec8*/ driver_ghostb,//sound plays too fast , small gfx issues
                 /*dec8*/ driver_ghostb3,//sound plays too fast , small gfx issues
                 /*dec8*/ driver_meikyuh,//sound plays too fast
@@ -247,7 +226,6 @@ public class driver {
 
                 /*016*//*spy*/ driver_spy, //sound works , there are a few gfx problems and missing collision(mame 0.36 doesn't have collision either)   
                 /*kingobox*/ driver_ringkin2,
-                /*ddragon*/ driver_ddragon,
                 /*toki*/ driver_toki,
                 /*toki*/ driver_toki2,
                 /*toki*/ driver_toki3,
@@ -279,25 +257,7 @@ public class driver {
                 /*blockhl*/ driver_quarth,
                 /*thunderx*/ driver_scontra,
                 /*thunderx*/ driver_scontraj,
-                /*gbusters*/ driver_gbusters,
-                /*gbusters*/ driver_crazycop,
-                /*matmania*/ driver_matmania,
-                /*matmania*/ driver_excthour,
-                /*matmania*/ driver_maniach,
-                /*matmania*/ driver_maniach2,
 
-                /*slapfght*/ driver_tigerh,
-                /*slapfght*/ driver_tigerh2,
-                /*slapfght*/ driver_tigerhj,
-                /*slapfght*/ driver_slapfigh,
-                /*slapfght*/ driver_alcon,
-                /*slapfght*/ driver_getstar,
-                /*slapfght*/ driver_getstarj,
-                /*slapfght*/ driver_tigerhb1,
-                /*slapfght*/ driver_tigerhb2,
-                /*slapfght*/ driver_slapbtjp,
-                /*slapfght*/ driver_slapbtuk,
-                /*slapfght*/ driver_getstarb,
                 driver_contra, /* GX633 (c) 1987 */
                 driver_contrab, /* bootleg */
                 driver_contraj, /* GX633 (c) 1987 (Japan) */
@@ -308,10 +268,6 @@ public class driver {
                 driver_combascj, /* GX611 (c) 1987 (Japan) */
                 driver_bootcamp, /* GX611 (c) 1987 */
                 driver_combascb, /* bootleg */
-                /* "Midway" Z80 b/w games */
-                driver_astinvad, /* (c) 1980 Stern */
-                driver_kamikaze, /* Leijac Corporation */
-                driver_spaceint, /* [1980] Shoei */
                 driver_wardner, /* TP-009 (c) 1987 Taito Corporation Japan (World) */
                 driver_pyros, /* TP-009 (c) 1987 Taito America Corporation (US) */
                 driver_wardnerj, /* TP-009 (c) 1987 Taito Corporation (Japan) */
@@ -609,9 +565,6 @@ public class driver {
                 driver_yosakdon,
                 driver_spceking,
                 driver_spcewars,
-                /* Meadows S2650 games */
-                driver_lazercmd,/* [1976?] */
-                driver_medlanes,/* [1977?] */
                 /* Midway "Astrocade" games */
                 /*TODO*/ //	DRIVER( wow )		/* (c) 1980 */
                 /*TODO*/ //	DRIVER( robby )		/* (c) 1981 */
@@ -1407,11 +1360,6 @@ public class driver {
                 /*TODO*/ //	DRIVER( whodunit )	/* (c) 1988 */
                 /*TODO*/ //	DRIVER( showdown )	/* (c) 1988 */
 
-                /* Atari vector games */
-                driver_bwidow, /* (c) 1982 */
-                driver_gravitar, /* (c) 1982 */
-                driver_gravitr2, /* (c) 1982 */
-                driver_spacduel, /* (c) 1980 */
                 driver_tempest, /* (c) 1980 */
                 driver_tempest1, /* (c) 1980 */
                 driver_tempest2, /* (c) 1980 */
@@ -1419,10 +1367,6 @@ public class driver {
                 driver_starwars, /* (c) 1983 */
                 driver_starwar1, /* (c) 1983 */
                 driver_esb, /* (c) 1985 */
-                driver_mhavoc, /* (c) 1983 */
-                driver_mhavoc2, /* (c) 1983 */
-                driver_mhavocp, /* (c) 1983 */
-                driver_mhavocrv, /* hack */
                 driver_quantum, /* (c) 1982 */ /* made by Gencomp */
                 driver_quantum1, /* (c) 1982 */ /* made by Gencomp */
                 driver_quantump, /* (c) 1982 */ /* made by Gencomp */
