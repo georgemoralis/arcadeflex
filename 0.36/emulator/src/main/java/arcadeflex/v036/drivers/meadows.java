@@ -2,6 +2,11 @@
  * ported to v0.36
  * using automatic conversion tool v0.10
  */
+/**
+ * Changelog
+ * =========
+ * 15/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.drivers;
 
 //generic imports
@@ -9,8 +14,19 @@ import static arcadeflex.v036.generic.funcPtr.*;
 //mame imports
 import static arcadeflex.v036.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
+import static arcadeflex.v036.mame.common.*;
+import static arcadeflex.v036.mame.commonH.*;
+import static arcadeflex.v036.mame.driverH.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.inptport.*;
+import static arcadeflex.v036.mame.inptportH.*;
+import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.memoryH.*;
 //sndhrdw imports
 import static arcadeflex.v036.sndhrdw.meadows.*;
+//sound imports
+import static arcadeflex.v036.sound.dacH.*;
 //vidhrdw imports
 import static arcadeflex.v036.vidhrdw.meadows.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
@@ -18,35 +34,7 @@ import static arcadeflex.v036.vidhrdw.generic.*;
 import static common.libc.cstring.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
-import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
-import static gr.codebb.arcadeflex.v036.mame.common.memory_region_length;
-import static arcadeflex.v036.mame.commonH.*;
-import static arcadeflex.v036.mame.driverH.CPU_AUDIO_CPU;
-import static arcadeflex.v036.mame.driverH.CPU_S2650;
-import static arcadeflex.v036.mame.driverH.DEFAULT_REAL_60HZ_VBLANK_DURATION;
-import arcadeflex.v036.mame.driverH.GameDriver;
-import arcadeflex.v036.mame.driverH.MachineCPU;
-import arcadeflex.v036.mame.driverH.MachineDriver;
-import static arcadeflex.v036.mame.driverH.ROT0;
-import static arcadeflex.v036.mame.driverH.VIDEO_MODIFIES_PALETTE;
-import static arcadeflex.v036.mame.driverH.VIDEO_SUPPORTS_DIRTY;
-import static arcadeflex.v036.mame.driverH.VIDEO_TYPE_RASTER;
-import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
-import arcadeflex.v036.mame.sndintrfH.CustomSound_interface;
-import arcadeflex.v036.mame.sndintrfH.MachineSound;
-import static arcadeflex.v036.mame.sndintrfH.SOUND_CUSTOM;
-import static arcadeflex.v036.mame.sndintrfH.SOUND_DAC;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import arcadeflex.v036.mame.drawgfxH.GfxDecodeInfo;
-import arcadeflex.v036.mame.drawgfxH.GfxLayout;
-import arcadeflex.v036.mame.drawgfxH.rectangle;
-import static arcadeflex.v036.mame.inptport.*;
-import static arcadeflex.v036.mame.inptportH.*;
-import static arcadeflex.v036.mame.memoryH.*;
-import arcadeflex.v036.mame.memoryH.MemoryReadAddress;
-import arcadeflex.v036.mame.memoryH.MemoryWriteAddress;
-import arcadeflex.v036.sound.dacH.DACinterface;
 
 public class meadows {
 

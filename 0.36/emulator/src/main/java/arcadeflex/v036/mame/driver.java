@@ -171,6 +171,7 @@ import static arcadeflex.v036.drivers.mhavoc.*;
 import static arcadeflex.v036.drivers.slapfght.*;
 import static arcadeflex.v036.drivers.skykid.*;
 import static arcadeflex.v036.drivers.circus.*;
+import static arcadeflex.v036.drivers.meadows.*;
 
 public class driver {
 
@@ -687,8 +688,8 @@ public class driver {
                 /*TODO*///
                 /*TODO*///	/* Meadows S2650 games */
                 /*TODO*///	driver_lazercmd,	/* [1976?] */
-                /*TODO*///	driver_deadeye,	/* [1978?] */
-                /*TODO*///	driver_gypsyjug,	/* [1978?] */
+                driver_deadeye, /* [1978?] */
+                driver_gypsyjug, /* [1978?] */
                 /*TODO*///	driver_medlanes,	/* [1977?] */
                 /*TODO*///
                 /*TODO*///	/* Midway "Astrocade" games */

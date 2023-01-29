@@ -1,23 +1,30 @@
 /**
  * ported to 0.36
  */
+/**
+ * Changelog
+ * =========
+ * 15/01/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.sndhrdw;
 
 //cpu imports
 import static arcadeflex.v036.cpu.s2650.s2650.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
+import static arcadeflex.v036.sound.dac.*;
 //TODO
 import gr.codebb.arcadeflex.common.PtrLib.BytePtr;
-import static gr.codebb.arcadeflex.v036.mame.mame.errorlog;
-import arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static gr.codebb.arcadeflex.v036.platform.libc_old.fprintf;
 import static gr.codebb.arcadeflex.v036.sound.mixer.mixer_allocate_channels;
 import static gr.codebb.arcadeflex.v036.sound.mixer.mixer_play_sample;
 import static gr.codebb.arcadeflex.v036.sound.mixer.mixer_set_sample_frequency;
 import static gr.codebb.arcadeflex.v036.sound.mixer.mixer_set_volume;
 import static gr.codebb.arcadeflex.v036.sound.mixer.mixer_stop_sample;
-import static arcadeflex.v036.sound.dac.DAC_data_w;
 
 public class meadows {
 
