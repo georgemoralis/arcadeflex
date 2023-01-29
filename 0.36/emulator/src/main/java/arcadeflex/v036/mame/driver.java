@@ -168,6 +168,7 @@ import static arcadeflex.v036.drivers.scregg.*;
 import static arcadeflex.v036.drivers.matmania.*;
 import static arcadeflex.v036.drivers.ddragon.*;
 import static arcadeflex.v036.drivers.mhavoc.*;
+import static arcadeflex.v036.drivers.slapfght.*;
 
 public class driver {
 
@@ -998,19 +999,19 @@ public class driver {
                 /*TODO*///	driver_growlu,	/* (c) 1990 Taito America Corporation (US) */
                 /*TODO*///	driver_runark,	/* (c) 1990 Taito Corporation (Japan) */
                 /*TODO*///
-                /*TODO*///	/* Toaplan games */
-                /*TODO*///	driver_tigerh,	/* GX-551 [not a Konami board!] */
-                /*TODO*///	driver_tigerh2,	/* GX-551 [not a Konami board!] */
-                /*TODO*///	driver_tigerhj,	/* GX-551 [not a Konami board!] */
-                /*TODO*///	driver_tigerhb1,	/* bootleg but (c) 1985 Taito Corporation */
-                /*TODO*///	driver_tigerhb2,	/* bootleg but (c) 1985 Taito Corporation */
-                /*TODO*///	driver_slapfigh,	/* TP-??? */
-                /*TODO*///	driver_slapbtjp,	/* bootleg but (c) 1986 Taito Corporation */
-                /*TODO*///	driver_slapbtuk,	/* bootleg but (c) 1986 Taito Corporation */
-                /*TODO*///	driver_alcon,		/* TP-??? */
-                /*TODO*///	driver_getstar,
-                /*TODO*///	driver_getstarj,
-                /*TODO*///	driver_getstarb,	/* GX-006 bootleg but (c) 1986 Taito Corporation */
+                /* Toaplan games */
+                driver_tigerh, /* GX-551 [not a Konami board!] */
+                driver_tigerh2, /* GX-551 [not a Konami board!] */
+                driver_tigerhj, /* GX-551 [not a Konami board!] */
+                driver_tigerhb1, /* bootleg but (c) 1985 Taito Corporation */
+                driver_tigerhb2, /* bootleg but (c) 1985 Taito Corporation */
+                driver_slapfigh, /* TP-??? */
+                driver_slapbtjp, /* bootleg but (c) 1986 Taito Corporation */
+                driver_slapbtuk, /* bootleg but (c) 1986 Taito Corporation */
+                driver_alcon, /* TP-??? */
+                driver_getstar,
+                driver_getstarj,
+                driver_getstarb, /* GX-006 bootleg but (c) 1986 Taito Corporation */
                 /*TODO*///
                 /*TODO*///	driver_fshark,	/* TP-007 (c) 1987 Taito Corporation (World) */
                 /*TODO*///	driver_skyshark,	/* TP-007 (c) 1987 Taito America Corporation + Romstar license (US) */
