@@ -176,6 +176,7 @@ import static arcadeflex.v036.drivers.lazercmd.*;
 import static arcadeflex.v036.drivers.z80bw.*;
 import static arcadeflex.v036.drivers.gbusters.*;
 import static arcadeflex.v036.drivers.bladestl.*;
+import static arcadeflex.v036.drivers.mainevt.*;
 
 public class driver {
 
@@ -1959,13 +1960,13 @@ public class driver {
                 /*TODO*///	driver_scontraj,	/* GX775 (c) 1988 (Japan) */
                 /*TODO*///	driver_thunderx,	/* GX873 (c) 1988 */
                 /*TODO*///	driver_thnderxj,	/* GX873 (c) 1988 (Japan) */
-                /*TODO*///	driver_mainevt,	/* GX799 (c) 1988 */
-                /*TODO*///	driver_mainevt2,	/* GX799 (c) 1988 */
-                /*TODO*///	driver_ringohja,	/* GX799 (c) 1988 (Japan) */
-                /*TODO*///	driver_devstors,	/* GX890 (c) 1988 */
-                /*TODO*///	driver_devstor2,	/* GX890 (c) 1988 */
-                /*TODO*///	driver_devstor3,	/* GX890 (c) 1988 */
-                /*TODO*///	driver_garuka,	/* GX890 (c) 1988 (Japan) */
+                driver_mainevt, /* GX799 (c) 1988 */
+                driver_mainevt2, /* GX799 (c) 1988 */
+                driver_ringohja, /* GX799 (c) 1988 (Japan) */
+                driver_devstors, /* GX890 (c) 1988 */
+                driver_devstor2, /* GX890 (c) 1988 */
+                driver_devstor3, /* GX890 (c) 1988 */
+                driver_garuka, /* GX890 (c) 1988 (Japan) */
                 driver_88games, /* GX861 (c) 1988 */
                 driver_konami88, /* GX861 (c) 1988 */
                 driver_hypsptsp, /* GX861 (c) 1988 (Japan) */

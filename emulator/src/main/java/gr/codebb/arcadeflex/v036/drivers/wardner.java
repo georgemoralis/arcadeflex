@@ -4,6 +4,8 @@
  */
 package gr.codebb.arcadeflex.v036.drivers;
 //generic imports
+import static arcadeflex.toberemoved.v036.vidhrdw.crtc6845.crtc6845_address_w;
+import static arcadeflex.toberemoved.v036.vidhrdw.crtc6845.crtc6845_register_w;
 import static arcadeflex.v036.generic.funcPtr.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
