@@ -178,6 +178,7 @@ import static arcadeflex.v036.drivers.gbusters.*;
 import static arcadeflex.v036.drivers.bladestl.*;
 import static arcadeflex.v036.drivers.mainevt.*;
 import static arcadeflex.v036.drivers.dec8.*;
+import static arcadeflex.v036.drivers.shootout.*;
 
 public class driver {
 
@@ -1739,9 +1740,9 @@ public class driver {
                 driver_brkthru, /* (c) 1986 Data East USA (US) */
                 driver_brkthruj, /* (c) 1986 Data East Corporation (Japan) */
                 driver_darwin, /* (c) 1986 Data East Corporation (Japan) */
-                /*TODO*///	driver_shootout,	/* (c) 1985 Data East USA (US) */
-                /*TODO*///	driver_shootouj,	/* (c) 1985 Data East USA (Japan) */
-                /*TODO*///	driver_shootoub,	/* bootleg */
+                driver_shootout, /* (c) 1985 Data East USA (US) */
+                driver_shootouj, /* (c) 1985 Data East USA (Japan) */
+                driver_shootoub, /* bootleg */
                 driver_sidepckt, /* (c) 1986 Data East Corporation */
                 driver_sidepctj, /* (c) 1986 Data East Corporation */
                 driver_sidepctb, /* bootleg */

@@ -26,11 +26,9 @@ import static gr.codebb.arcadeflex.v037b7.drivers.jrpacman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jackal.*;
 import static arcadeflex.v036.drivers.gberet.*;
 import static arcadeflex.v036.drivers.contra.*;
-import static gr.codebb.arcadeflex.v036.drivers.dec8.*;
 import static gr.codebb.arcadeflex.v036.drivers.combatsc.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.kingobox.*;
 import static gr.codebb.arcadeflex.v036.drivers.lkage.*;
-import static gr.codebb.arcadeflex.v036.drivers.mainevt.*;
 import static gr.codebb.arcadeflex.v036.drivers.thunderx.*;
 import static gr.codebb.arcadeflex.v036.drivers.blockhl.*;
 import static gr.codebb.arcadeflex.v036.drivers.gladiatr.*;
@@ -134,9 +132,6 @@ public class driver {
                 /*278*//*pcktgal*/ driver_spool3i,
                 /*303*//*gsword*/ driver_gsword,
                 /*328*//*skydiver*/ driver_skydiver,
-                /*351*//*dec8*/ driver_shackled,
-                /*352*//*dec8*/ driver_breywood,
-                /*353*//*dec8*/ driver_csilver,
                 /*412*//*kingobox*/ driver_kingofb,
                 /*413*//*kingobox*/ driver_ringking,
                 /* Mitchell games */
@@ -192,27 +187,11 @@ public class driver {
                 /*005*//*pacland*/ driver_pacland2,//no sound at all , namco sound doesn't work
                 /*006*//*pacland*/ driver_pacland3,//no sound at all , namco sound doesn't work
                 /*007*//*pacland*/ driver_paclandm,//no sound at all , namco sound doesn't work
-                /*dec8*/ driver_ghostb,//sound plays too fast , small gfx issues
-                /*dec8*/ driver_ghostb3,//sound plays too fast , small gfx issues
-                /*dec8*/ driver_meikyuh,//sound plays too fast
-                /*dec8*/ driver_srdarwin,//sound plays too fast
-                /*dec8*/ driver_gondo,//sound plays too fast
-                /*dec8*/ driver_makyosen,//sound plays too fast
-                /*dec8*/ driver_garyoret,//sound plays too fast , small gfx issues
-                /*dec8*/ driver_cobracom,//sound plays too fast
-                /*dec8*/ driver_cobracmj,//sound plays too fast
                 /*raiden*/ driver_raidena, //no sound (not in mame 0.36 as well)
 
-                /* controls issues
-        
-                 */
-                /*dec8*/ driver_lastmiss, //no controls working
-                /*dec8*/ driver_lastmss2,//no controls working
+
                 /*
-           Unknown issues 
-                 */
-                /*dec8*/ driver_oscar,//games doesn't boot and freezes emu
-                /*dec8*/ driver_oscarj,//games doesn't boot and freezes emu      	
+           Unknown issues     	
                 /*kingobox*/ driver_ringkin3,//warning - op-code execute on mapped i/o
                 /*jackal*/ driver_topgunbl, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 51 at vidhrdw.jackal$1.handler(jackal.java:45)
                 /*m72*/ driver_majtitle, //Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 786432 at arcadeflex.ptrlib$UBytePtr.read(ptrlib.java:96) at mame.drawgfx.readbit(drawgfx.java:33)
@@ -241,13 +220,6 @@ public class driver {
                 /*gberet*/ driver_rushatck, //garbage remains in left and right of screen (clipping?)
                 /*gberet*/ driver_gberetb, //garbage remains in left and right of screen (clipping?)	
                 /*gberet*/ driver_mrgoemon, //garbage remains in left and right of screen (clipping?)
-                /*mainevt*/ driver_mainevt,//small garbage left and right of screen
-                /*mainevt*/ driver_mainevt2,//small garbage left and right of screen
-                /*mainevt*/ driver_ringohja,//small garbage left and right of screen
-                /*mainevt*/ driver_devstors,//small garbage in right of screen
-                /*mainevt*/ driver_devstor2,//small garbage in right of screen
-                /*mainevt*/ driver_devstor3,//small garbage in right of screen
-                /*mainevt*/ driver_garuka,//small garbage in right of screen
 
                 /**
                  * WIP section
