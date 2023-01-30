@@ -1,13 +1,22 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ported to v0.36
+ * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v036.drivers;
+/**
+ * Changelog
+ * =========
+ * 30/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
+
+//cpu imports
+import static arcadeflex.v036.cpu.m6502.m6502H.*;
+import static arcadeflex.v036.cpu.m6809.m6809H.*;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
+//mame imports
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
-import static common.libc.cstring.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.sndintrf.*;
 import static arcadeflex.v036.mame.memoryH.*;
@@ -15,26 +24,26 @@ import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
 import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.dec8.*;
-import static gr.codebb.arcadeflex.v036.mame.sndintrf.*;
-import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
-import static gr.codebb.arcadeflex.v036.cpu.m6809.m6809H.*;
 import static arcadeflex.v036.mame.inputH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
+import static arcadeflex.v036.mame.mame.*;
+import static arcadeflex.v036.mame.memory.*;
 import static arcadeflex.v036.mame.sndintrfH.*;
+//sound imports
 import static arcadeflex.v036.sound._2203intf.*;
 import static arcadeflex.v036.sound._2203intfH.*;
 import static arcadeflex.v036.sound.MSM5205H.*;
 import static arcadeflex.v036.sound.MSM5205.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.dec8.*;
+//common imports
+import static common.libc.cstring.*;
+//TODO
+import static gr.codebb.arcadeflex.v036.platform.libc_old.*;
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v037b7.mame.palette.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3526intf.*;
 import static gr.codebb.arcadeflex.v037b7.sound._3812intfH.*;
-import static gr.codebb.arcadeflex.v037b7.cpu.m6502.m6502H.*;
-import static gr.codebb.arcadeflex.v037b7.mame.memory.memory_set_opcode_base;
 
 public class dec8 {
 
@@ -60,14 +69,16 @@ public class dec8 {
      */
     public static ReadHandlerPtr i8751_h_r = new ReadHandlerPtr() {
         public int handler(int offset) {//if (errorlog && cpu_get_pc()!=0xecde && cpu_get_pc()!=0xecd5 && cpu_get_pc()!=0xecd8) fprintf(errorlog,"PC %06x - Read from 8751 high\n",cpu_get_pc());
-            return i8751_return >> 8; /* MSB */
+            return i8751_return >> 8;
+            /* MSB */
 
         }
     };
 
     public static ReadHandlerPtr i8751_l_r = new ReadHandlerPtr() {
         public int handler(int offset) {//if (errorlog && cpu_get_pc()!=0xecde && cpu_get_pc()!=0xecd5 && cpu_get_pc()!=0xecd8) fprintf(errorlog,"PC %06x - Read from 8751 low\n",cpu_get_pc());
-            return i8751_return & 0xff; /* LSB */
+            return i8751_return & 0xff;
+            /* LSB */
 
         }
     };
@@ -83,10 +94,12 @@ public class dec8 {
     public static ReadHandlerPtr gondo_player_1_r = new ReadHandlerPtr() {
         public int handler(int offset) {
             switch (offset) {
-                case 0: /* Rotary low byte */
+                case 0:
+                    /* Rotary low byte */
 
                     return ~((1 << (readinputport(5) * 12 / 256)) & 0xff);
-                case 1: /* Joystick = bottom 4 bits, rotary = top 4 */
+                case 1:
+                    /* Joystick = bottom 4 bits, rotary = top 4 */
 
                     return ((~((1 << (readinputport(5) * 12 / 256)) >> 4)) & 0xf0) | (readinputport(0) & 0xf);
             }
@@ -96,10 +109,12 @@ public class dec8 {
     public static ReadHandlerPtr gondo_player_2_r = new ReadHandlerPtr() {
         public int handler(int offset) {
             switch (offset) {
-                case 0: /* Rotary low byte */
+                case 0:
+                    /* Rotary low byte */
 
                     return ~((1 << (readinputport(6) * 12 / 256)) & 0xff);
-                case 1: /* Joystick = bottom 4 bits, rotary = top 4 */
+                case 1:
+                    /* Joystick = bottom 4 bits, rotary = top 4 */
 
                     return ((~((1 << (readinputport(6) * 12 / 256)) >> 4)) & 0xf0) | (readinputport(1) & 0xf);
             }
@@ -111,11 +126,13 @@ public class dec8 {
             i8751_return = 0;
 
             switch (offset) {
-                case 0: /* High byte */
+                case 0:
+                    /* High byte */
 
                     i8751_value = (i8751_value & 0xff) | (data << 8);
                     break;
-                case 1: /* Low byte */
+                case 1:
+                    /* Low byte */
 
                     i8751_value = (i8751_value & 0xff00) | data;
                     break;
@@ -125,10 +142,12 @@ public class dec8 {
                 i8751_return = 0x655;
             }
             if (i8751_value == 0x021a) {
-                i8751_return = 0x6e5; /* Ghostbusters ID */
+                i8751_return = 0x6e5;
+                /* Ghostbusters ID */
             }
             if (i8751_value == 0x021b) {
-                i8751_return = 0x6e4; /* Meikyuu Hunter G ID */
+                i8751_return = 0x6e4;
+                /* Meikyuu Hunter G ID */
             }
         }
     };
@@ -139,11 +158,13 @@ public class dec8 {
             i8751_return = 0;
 
             switch (offset) {
-                case 0: /* High byte */
+                case 0:
+                    /* High byte */
 
                     i8751_value = (i8751_value & 0xff) | (data << 8);
                     break;
-                case 1: /* Low byte */
+                case 1:
+                    /* Low byte */
 
                     i8751_value = (i8751_value & 0xff00) | data;
                     break;
@@ -154,19 +175,23 @@ public class dec8 {
                 coins_srdarwin = 0;
             }
             if (i8751_value == 0x3063) {
-                i8751_return = 0x9c; /* Protection */
+                i8751_return = 0x9c;
+                /* Protection */
             }
             if ((i8751_value & 0xff00) == 0x4000) {
-                i8751_return = i8751_value; /* Coinage settings */
+                i8751_return = i8751_value;
+                /* Coinage settings */
             }
             if (i8751_value == 0x5000) {
-                i8751_return = ((coins_srdarwin / 10) << 4) | (coins_srdarwin % 10); /* Coin request */
+                i8751_return = ((coins_srdarwin / 10) << 4) | (coins_srdarwin % 10);
+                /* Coin request */
             }
             if (i8751_value == 0x6000) {
                 i8751_value = -1;
                 coins_srdarwin--;
-            } /* Coin clear */
-            /* Nb:  Command 0x4000 for setting coinage options is not supported */
+            }
+            /* Coin clear */
+ /* Nb:  Command 0x4000 for setting coinage options is not supported */
 
             if ((readinputport(4) & 1) == 1) {
                 latch_srdarwin = 1;
@@ -177,34 +202,44 @@ public class dec8 {
             }
 
             if (i8751_value == 0x8000) {
-                i8751_return = 0xf580 + 0; /* Boss #1: Snake + Bee */
+                i8751_return = 0xf580 + 0;
+                /* Boss #1: Snake + Bee */
             }
             if (i8751_value == 0x8001) {
-                i8751_return = 0xf580 + 30; /* Boss #2: 4 Corners */
+                i8751_return = 0xf580 + 30;
+                /* Boss #2: 4 Corners */
             }
             if (i8751_value == 0x8002) {
-                i8751_return = 0xf580 + 26; /* Boss #3: Clock */
+                i8751_return = 0xf580 + 26;
+                /* Boss #3: Clock */
             }
             if (i8751_value == 0x8003) {
-                i8751_return = 0xf580 + 6; /* Boss #4: Pyramid */
+                i8751_return = 0xf580 + 6;
+                /* Boss #4: Pyramid */
             }
             if (i8751_value == 0x8004) {
-                i8751_return = 0xf580 + 12; /* Boss #5: Grey things */
+                i8751_return = 0xf580 + 12;
+                /* Boss #5: Grey things */
             }
             if (i8751_value == 0x8005) {
-                i8751_return = 0xf580 + 20; /* Boss #6: Ground Base?! */
+                i8751_return = 0xf580 + 20;
+                /* Boss #6: Ground Base?! */
             }
             if (i8751_value == 0x8006) {
-                i8751_return = 0xf580 + 28; /* Boss #7: Dragon */
+                i8751_return = 0xf580 + 28;
+                /* Boss #7: Dragon */
             }
             if (i8751_value == 0x8007) {
-                i8751_return = 0xf580 + 32; /* Boss #8: Teleport */
+                i8751_return = 0xf580 + 32;
+                /* Boss #8: Teleport */
             }
             if (i8751_value == 0x8008) {
-                i8751_return = 0xf580 + 38; /* Boss #9: Octopus (Pincer) */
+                i8751_return = 0xf580 + 38;
+                /* Boss #9: Octopus (Pincer) */
             }
             if (i8751_value == 0x8009) {
-                i8751_return = 0xf580 + 40; /* Boss #10: Bird */
+                i8751_return = 0xf580 + 40;
+                /* Boss #10: Bird */
             }
         }
     };
@@ -215,14 +250,17 @@ public class dec8 {
             i8751_return = 0;
 
             switch (offset) {
-                case 0: /* High byte */
+                case 0:
+                    /* High byte */
 
                     i8751_value = (i8751_value & 0xff) | (data << 8);
                     if (int_enable != 0) {
-                        cpu_cause_interrupt(0, M6809_INT_IRQ); /* IRQ on *high* byte only */
+                        cpu_cause_interrupt(0, M6809_INT_IRQ);
+                        /* IRQ on *high* byte only */
                     }
                     break;
-                case 1: /* Low byte */
+                case 1:
+                    /* Low byte */
 
                     i8751_value = (i8751_value & 0xff00) | data;
                     break;
@@ -249,32 +287,39 @@ public class dec8 {
                 coin1_gondo = coin2_gondo = snd_gondo = 0;
             }
             if (i8751_value == 0x038a) {
-                i8751_return = 0x375; /* Makyou Senshi ID */
+                i8751_return = 0x375;
+                /* Makyou Senshi ID */
             }
             if (i8751_value == 0x038b) {
-                i8751_return = 0x374; /* Gondomania ID */
+                i8751_return = 0x374;
+                /* Gondomania ID */
             }
             if ((i8751_value >> 8) == 0x04) {
-                i8751_return = 0x40f; /* Coinage settings (Not supported) */
+                i8751_return = 0x40f;
+                /* Coinage settings (Not supported) */
             }
             if ((i8751_value >> 8) == 0x05) {
                 i8751_return = 0x500 | ((coin1_gondo / 10) << 4) | (coin1_gondo % 10);
-            } /* Coin 1 */
+            }
+            /* Coin 1 */
 
             if ((i8751_value >> 8) == 0x06 && coin1_gondo != 0 && offset == 0) {
                 i8751_return = 0x600;
                 coin1_gondo--;
-            } /* Coin 1 clear */
+            }
+            /* Coin 1 clear */
 
             if ((i8751_value >> 8) == 0x07) {
                 i8751_return = 0x700 | ((coin2_gondo / 10) << 4) | (coin2_gondo % 10);
-            } /* Coin 2 */
+            }
+            /* Coin 2 */
 
             if ((i8751_value >> 8) == 0x08 && coin2_gondo != 0 && offset == 0) {
                 i8751_return = 0x800;
                 coin2_gondo--;
-            } /* Coin 2 clear */
-            /* Commands 0x9xx do nothing */
+            }
+            /* Coin 2 clear */
+ /* Commands 0x9xx do nothing */
 
             if ((i8751_value >> 8) == 0x0a) {
                 i8751_return = 0xa00 | snd_gondo;
@@ -291,19 +336,22 @@ public class dec8 {
             i8751_return = 0;
 
             switch (offset) {
-                case 0: /* High byte */
+                case 0:
+                    /* High byte */
 
                     i8751_value = (i8751_value & 0xff) | (data << 8);
-                    cpu_cause_interrupt(1, M6809_INT_FIRQ); /* Signal main cpu */
+                    cpu_cause_interrupt(1, M6809_INT_FIRQ);
+                    /* Signal main cpu */
 
                     break;
-                case 1: /* Low byte */
+                case 1:
+                    /* Low byte */
 
                     i8751_value = (i8751_value & 0xff00) | data;
                     break;
             }
 
-	//if (errorlog) fprintf(errorlog,"PC %06x - Write %02x to 8751 %d\n",cpu_get_pc(),data,offset);
+            //if (errorlog) fprintf(errorlog,"PC %06x - Write %02x to 8751 %d\n",cpu_get_pc(),data,offset);
             /* Coins are controlled by the i8751 */
             if (/*(readinputport(2)&3)==3*/latch_shackled == 0) {
                 latch_shackled = 1;
@@ -319,20 +367,25 @@ public class dec8 {
             }
 
             if (i8751_value == 0x0050) {
-                i8751_return = 0; /* Breywood ID */
+                i8751_return = 0;
+                /* Breywood ID */
             }
             if (i8751_value == 0x0051) {
-                i8751_return = 0; /* Shackled ID */
+                i8751_return = 0;
+                /* Shackled ID */
             }
             if (i8751_value == 0x0102) {
-                i8751_return = 0; /* ?? */
+                i8751_return = 0;
+                /* ?? */
             }
             if (i8751_value == 0x0101) {
-                i8751_return = 0; /* ?? */
+                i8751_return = 0;
+                /* ?? */
             }
             if (i8751_value == 0x8101) {
                 i8751_return = ((coin2_shackled / 10) << 4) | (coin2_shackled % 10)
-                        | ((((coin1_shackled / 10) << 4) | (coin1_shackled % 10)) << 8); /* Coins */
+                        | ((((coin1_shackled / 10) << 4) | (coin1_shackled % 10)) << 8);
+                /* Coins */
             }
         }
     };
@@ -343,13 +396,16 @@ public class dec8 {
             i8751_return = 0;
 
             switch (offset) {
-                case 0: /* High byte */
+                case 0:
+                    /* High byte */
 
                     i8751_value = (i8751_value & 0xff) | (data << 8);
-                    cpu_cause_interrupt(0, M6809_INT_FIRQ); /* Signal main cpu */
+                    cpu_cause_interrupt(0, M6809_INT_FIRQ);
+                    /* Signal main cpu */
 
                     break;
-                case 1: /* Low byte */
+                case 1:
+                    /* Low byte */
 
                     i8751_value = (i8751_value & 0xff00) | data;
                     break;
@@ -378,17 +434,20 @@ public class dec8 {
                 i8751_return = 0x0184; //???
             }
             if ((i8751_value >> 8) == 0x01) {
-                i8751_return = 0x0184; /* Coinage setup */
+                i8751_return = 0x0184;
+                /* Coinage setup */
             }
             if ((i8751_value >> 8) == 0x02) {
                 i8751_return = snd_lastmiss | ((coin_lastmiss / 10) << 4) | (coin_lastmiss % 10);
                 snd_lastmiss = 0;
-            } /* Coin return */
+            }
+            /* Coin return */
 
             if ((i8751_value >> 8) == 0x03) {
                 i8751_return = 0;
                 coin_lastmiss--;
-            } /* Coin clear */
+            }
+            /* Coin clear */
 
         }
     };
@@ -399,13 +458,16 @@ public class dec8 {
             i8751_return = 0;
 
             switch (offset) {
-                case 0: /* High byte */
+                case 0:
+                    /* High byte */
 
                     i8751_value = (i8751_value & 0xff) | (data << 8);
-                    cpu_cause_interrupt(0, M6809_INT_FIRQ); /* Signal main cpu */
+                    cpu_cause_interrupt(0, M6809_INT_FIRQ);
+                    /* Signal main cpu */
 
                     break;
-                case 1: /* Low byte */
+                case 1:
+                    /* Low byte */
 
                     i8751_value = (i8751_value & 0xff00) | data;
                     break;
@@ -427,20 +489,24 @@ public class dec8 {
                 i8751_return = ~(0x4a);
                 coin_csilver = 0;
                 snd_csilver = 0;
-            } /* Captain Silver ID */
+            }
+            /* Captain Silver ID */
 
             if ((i8751_value >> 8) == 0x01) {
-                i8751_return = 0; /* Coinage - Not Supported */
+                i8751_return = 0;
+                /* Coinage - Not Supported */
             }
             if ((i8751_value >> 8) == 0x02) {
                 i8751_return = snd_csilver | coin_csilver;
                 snd_csilver = 0;
-            } /* Coin Return */
+            }
+            /* Coin Return */
 
             if (i8751_value == 0x0003 && coin_csilver != 0) {
                 i8751_return = 0;
                 coin_csilver--;
-            } /* Coin Clear */
+            }
+            /* Coin Clear */
 
         }
     };
@@ -451,14 +517,16 @@ public class dec8 {
             i8751_return = 0;
 
             switch (offset) {
-                case 0: /* High byte */
+                case 0:
+                    /* High byte */
 
                     if (errorlog != null && data != 5) {
                         fprintf(errorlog, "PC %06x - Write %02x to 8751 %d\n", cpu_get_pc(), data, offset);
                     }
                     i8751_value = (i8751_value & 0xff) | (data << 8);
                     break;
-                case 1: /* Low byte */
+                case 1:
+                    /* Low byte */
 
                     i8751_value = (i8751_value & 0xff00) | data;
                     break;
@@ -483,19 +551,23 @@ public class dec8 {
                 coin1_garyoret = coin2_garyoret = 0;
             }
             if ((i8751_value >> 8) == 0x01) {
-                i8751_return = 0x59a; /* ID */
+                i8751_return = 0x59a;
+                /* ID */
             }
             if ((i8751_value >> 8) == 0x04) {
-                i8751_return = i8751_value; /* Coinage settings (Not supported) */
+                i8751_return = i8751_value;
+                /* Coinage settings (Not supported) */
             }
             if ((i8751_value >> 8) == 0x05) {
                 i8751_return = 0x00 | ((coin1_garyoret / 10) << 4) | (coin1_garyoret % 10);
-            } /* Coin 1 */
+            }
+            /* Coin 1 */
 
             if ((i8751_value >> 8) == 0x06 && coin1_garyoret != 0 && offset == 0) {
                 i8751_return = 0x600;
                 coin1_garyoret--;
-            } /* Coin 1 clear */
+            }
+            /* Coin 1 clear */
 
         }
     };
@@ -601,18 +673,22 @@ public class dec8 {
         public void handler(int offset, int data) {
             /* Deal with interrupts, coins also generate NMI to CPU 0 */
             switch (offset) {
-                case 0: /* IRQ2 */
+                case 0:
+                    /* IRQ2 */
 
                     cpu_cause_interrupt(1, M6809_INT_IRQ);
                     return;
-                case 1: /* IRC 1 */
+                case 1:
+                    /* IRC 1 */
 
                     return;
-                case 2: /* IRQ 1 */
+                case 2:
+                    /* IRQ 1 */
 
                     cpu_cause_interrupt(0, M6809_INT_IRQ);
                     return;
-                case 3: /* IRC 2 */
+                case 3:
+                    /* IRC 2 */
 
                     return;
             }
@@ -622,20 +698,25 @@ public class dec8 {
     public static WriteHandlerPtr shackled_int_w = new WriteHandlerPtr() {
         public void handler(int offset, int data) {
             switch (offset) {
-                case 0: /* CPU 2 - IRQ acknowledge */
+                case 0:
+                    /* CPU 2 - IRQ acknowledge */
 
                     return;
-                case 1: /* CPU 1 - IRQ acknowledge */
+                case 1:
+                    /* CPU 1 - IRQ acknowledge */
 
                     return;
-                case 2: /* i8751 - FIRQ acknowledge */
+                case 2:
+                    /* i8751 - FIRQ acknowledge */
 
                     return;
-                case 3: /* IRQ 1 */
+                case 3:
+                    /* IRQ 1 */
 
                     cpu_cause_interrupt(0, M6809_INT_IRQ);
                     return;
-                case 4: /* IRQ 2 */
+                case 4:
+                    /* IRQ 2 */
 
                     cpu_cause_interrupt(1, M6809_INT_IRQ);
                     return;
@@ -1170,7 +1251,8 @@ public class dec8 {
      */
     static InputPortHandlerPtr input_ports_cobracom = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START();  /* Player 1 controls */
+            PORT_START();
+            /* Player 1 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
@@ -1181,7 +1263,8 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START1);
 
-            PORT_START(); 	/* Player 2 controls */
+            PORT_START();
+            /* Player 2 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
@@ -1192,7 +1275,8 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START2);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -1203,7 +1287,8 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_VBLANK);
 
-            PORT_START(); 	/* Dip switch bank 1 */
+            PORT_START();
+            /* Dip switch bank 1 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x00, DEF_STR("3C_1C"));
@@ -1228,7 +1313,8 @@ public class dec8 {
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
             PORT_DIPSETTING(0x80, DEF_STR("Cocktail"));
 
-            PORT_START(); 	/* Dip switch bank 2 */
+            PORT_START();
+            /* Dip switch bank 2 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Lives"));
             PORT_DIPSETTING(0x03, "3");
@@ -1258,7 +1344,8 @@ public class dec8 {
 
     static InputPortHandlerPtr input_ports_ghostb = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* Player 1 controls */
+            PORT_START();
+            /* Player 1 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
@@ -1269,7 +1356,8 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* Player 2 controls */
+            PORT_START();
+            /* Player 2 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
@@ -1280,7 +1368,8 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* Player 3 controls */
+            PORT_START();
+            /* Player 3 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER3);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER3);
@@ -1309,14 +1398,16 @@ public class dec8 {
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x80, DEF_STR("On"));
 
-            PORT_START(); 	/* Dummy input for i8751 */
+            PORT_START();
+            /* Dummy input for i8751 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN4);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START(); 	/* Dip switch */
+            PORT_START();
+            /* Dip switch */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Lives"));
             PORT_DIPSETTING(0x01, "1");
@@ -1346,7 +1437,8 @@ public class dec8 {
 
     static InputPortHandlerPtr input_ports_meikyuh = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* Player 1 controls */
+            PORT_START();
+            /* Player 1 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
@@ -1357,7 +1449,8 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* Player 2 controls */
+            PORT_START();
+            /* Player 2 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
@@ -1368,7 +1461,8 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* Player 3 controls */
+            PORT_START();
+            /* Player 3 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_PLAYER3);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_PLAYER3);
@@ -1397,14 +1491,16 @@ public class dec8 {
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x80, DEF_STR("On"));
 
-            PORT_START(); 	/* Dummy input for i8751 */
+            PORT_START();
+            /* Dummy input for i8751 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN4);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN3);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_COIN2);
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_COIN1);
 
-            PORT_START(); 	/* Dip switch */
+            PORT_START();
+            /* Dip switch */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Lives"));
             PORT_DIPSETTING(0x01, "1");
@@ -1500,7 +1596,8 @@ public class dec8 {
 
     static InputPortHandlerPtr input_ports_gondo = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* Player 1 controls */
+            PORT_START();
+            /* Player 1 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
@@ -1508,7 +1605,8 @@ public class dec8 {
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY);
             /* Top 4 bits are rotary controller */
 
-            PORT_START(); 	/* Player 2 controls */
+            PORT_START();
+            /* Player 2 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
@@ -1516,7 +1614,8 @@ public class dec8 {
             PORT_BIT(0x08, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_8WAY | IPF_COCKTAIL);
             /* Top 4 bits are rotary controller */
 
-            PORT_START(); 	/* Player 1 & 2 fire buttons */
+            PORT_START();
+            /* Player 1 & 2 fire buttons */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_BUTTON1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_BUTTON2);
@@ -1527,7 +1626,8 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_START2);
@@ -1538,21 +1638,25 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_VBLANK);
 
-            PORT_START();  /* Fake port for the i8751 */
+            PORT_START();
+            /* Fake port for the i8751 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START(); 	/* player 1 12-way rotary control */
+            PORT_START();
+            /* player 1 12-way rotary control */
 
             PORT_ANALOGX(0xff, 0x00, IPT_DIAL | IPF_REVERSE, 25, 10, 0, 0, KEYCODE_Z, KEYCODE_X, 0, 0);
 
-            PORT_START(); 	/* player 2 12-way rotary control */
+            PORT_START();
+            /* player 2 12-way rotary control */
 
             PORT_ANALOGX(0xff, 0x00, IPT_DIAL | IPF_REVERSE | IPF_PLAYER2, 25, 10, 0, 0, KEYCODE_N, KEYCODE_M, 0, 0);
 
-            PORT_START(); 	/* Dip switch bank 1 */
-            /* Coinage not currently supported */
+            PORT_START();
+            /* Dip switch bank 1 */
+ /* Coinage not currently supported */
 
             PORT_DIPNAME(0x10, 0x10, "Unknown");
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
@@ -1567,7 +1671,8 @@ public class dec8 {
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x80, DEF_STR("On"));
 
-            PORT_START(); 	/* Dip switch bank 2 */
+            PORT_START();
+            /* Dip switch bank 2 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Lives"));
             PORT_DIPSETTING(0x01, "1");
@@ -1597,7 +1702,8 @@ public class dec8 {
 
     static InputPortHandlerPtr input_ports_oscar = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* Player 1 controls */
+            PORT_START();
+            /* Player 1 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
@@ -1608,7 +1714,8 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON3);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START1);
 
-            PORT_START(); 	/* Player 2 controls */
+            PORT_START();
+            /* Player 2 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
@@ -1619,7 +1726,8 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON3 | IPF_PLAYER2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START2);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -1630,7 +1738,8 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_VBLANK);
 
-            PORT_START(); 	/* Dip switch bank 1 */
+            PORT_START();
+            /* Dip switch bank 1 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Coin_A"));
             PORT_DIPSETTING(0x00, DEF_STR("2C_1C"));
@@ -1655,7 +1764,8 @@ public class dec8 {
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
             PORT_DIPSETTING(0x80, DEF_STR("Cocktail"));
 
-            PORT_START(); 	/* Dip switch bank 2 */
+            PORT_START();
+            /* Dip switch bank 2 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Lives"));
             PORT_DIPSETTING(0x01, "1");
@@ -1684,7 +1794,8 @@ public class dec8 {
 
     static InputPortHandlerPtr input_ports_lastmiss = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* Player 1 controls */
+            PORT_START();
+            /* Player 1 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
@@ -1695,7 +1806,8 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON3);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* Player 2 controls */
+            PORT_START();
+            /* Player 2 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
@@ -1706,7 +1818,8 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_BUTTON3 | IPF_PLAYER2);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* IN1 */
+            PORT_START();
+            /* IN1 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
@@ -1717,8 +1830,9 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_VBLANK);
 
-            PORT_START(); 	/* Dip switch bank 1 */
-            /* Coinage options not supported (controlled by the i8751) */
+            PORT_START();
+            /* Dip switch bank 1 */
+ /* Coinage options not supported (controlled by the i8751) */
 
             PORT_DIPNAME(0x10, 0x00, DEF_STR("Demo_Sounds"));
             PORT_DIPSETTING(0x10, DEF_STR("Off"));
@@ -1733,7 +1847,8 @@ public class dec8 {
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
             PORT_DIPSETTING(0x80, DEF_STR("Cocktail"));
 
-            PORT_START(); 	/* Dip switch bank 2 */
+            PORT_START();
+            /* Dip switch bank 2 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Lives"));
             PORT_DIPSETTING(0x03, "3");
@@ -1763,7 +1878,8 @@ public class dec8 {
 
     static InputPortHandlerPtr input_ports_shackled = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* Player 1 controls */
+            PORT_START();
+            /* Player 1 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
@@ -1774,7 +1890,8 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* Player 2 controls */
+            PORT_START();
+            /* Player 2 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
@@ -1795,10 +1912,12 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_VBLANK);
 
-            PORT_START(); 	/* Dip switch bank 1 */
-            /* Coinage not supported */
+            PORT_START();
+            /* Dip switch bank 1 */
+ /* Coinage not supported */
 
-            PORT_DIPNAME(0x10, 0x10, DEF_STR("Unknown"));	/* game doesn't boot when this is On */
+            PORT_DIPNAME(0x10, 0x10, DEF_STR("Unknown"));
+            /* game doesn't boot when this is On */
 
             PORT_DIPSETTING(0x10, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
@@ -1812,7 +1931,8 @@ public class dec8 {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	/* Dip switch bank 2 */
+            PORT_START();
+            /* Dip switch bank 2 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Lives"));
             PORT_DIPSETTING(0x03, "3");
@@ -1842,7 +1962,8 @@ public class dec8 {
 
     static InputPortHandlerPtr input_ports_csilver = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* Player 1 controls */
+            PORT_START();
+            /* Player 1 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
@@ -1853,7 +1974,8 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_UNKNOWN);
 
-            PORT_START(); 	/* Player 2 controls */
+            PORT_START();
+            /* Player 2 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
@@ -1874,8 +1996,9 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_VBLANK);
 
-            PORT_START(); 	/* Dip switch bank 1 */
-            /* Coinage not supported */
+            PORT_START();
+            /* Dip switch bank 1 */
+ /* Coinage not supported */
 
             PORT_DIPNAME(0x10, 0x00, DEF_STR("Unknown"));
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
@@ -1890,7 +2013,8 @@ public class dec8 {
             PORT_DIPSETTING(0x00, DEF_STR("Upright"));
             PORT_DIPSETTING(0x80, DEF_STR("Cocktail"));
 
-            PORT_START(); 	/* Dip switch bank 2 */
+            PORT_START();
+            /* Dip switch bank 2 */
 
             PORT_DIPNAME(0x03, 0x03, DEF_STR("Lives"));
             PORT_DIPSETTING(0x01, "1");
@@ -1920,7 +2044,8 @@ public class dec8 {
 
     static InputPortHandlerPtr input_ports_garyoret = new InputPortHandlerPtr() {
         public void handler() {
-            PORT_START(); 	/* Player 1 controls */
+            PORT_START();
+            /* Player 1 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY);
@@ -1931,7 +2056,8 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_START1);
             PORT_BIT(0x80, IP_ACTIVE_LOW, IPT_START2);
 
-            PORT_START(); 	/* Player 2 controls */
+            PORT_START();
+            /* Player 2 controls */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_8WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_DOWN | IPF_8WAY | IPF_COCKTAIL);
@@ -1942,13 +2068,15 @@ public class dec8 {
             PORT_BIT(0x40, IP_ACTIVE_LOW, IPT_UNKNOWN);
             PORT_BIT(0x80, IP_ACTIVE_HIGH, IPT_VBLANK);
 
-            PORT_START();  /* Fake port for i8751 */
+            PORT_START();
+            /* Fake port for i8751 */
 
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_COIN1);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_COIN2);
 
-            PORT_START(); 	/* Dip switch bank 1 */
-            /* Coinage not supported */
+            PORT_START();
+            /* Dip switch bank 1 */
+ /* Coinage not supported */
 
             PORT_DIPNAME(0x10, 0x10, DEF_STR("Unused"));
             PORT_DIPSETTING(0x10, DEF_STR("Off"));
@@ -1963,7 +2091,8 @@ public class dec8 {
             PORT_DIPSETTING(0x80, DEF_STR("Off"));
             PORT_DIPSETTING(0x00, DEF_STR("On"));
 
-            PORT_START(); 	/* Dip switch bank 2 */
+            PORT_START();
+            /* Dip switch bank 2 */
 
             PORT_DIPNAME(0x01, 0x01, DEF_STR("Lives"));
             PORT_DIPSETTING(0x01, "3");
@@ -2141,50 +2270,52 @@ public class dec8 {
             new WriteHandlerPtr[]{null},
             new WriteHandlerPtr[]{null}
     );
-	/* handler called by the 3812 emulator when the internal timers cause an IRQ */
-	public static WriteYmHandlerPtr irqhandler = new WriteYmHandlerPtr() { public void handler(int linestate)
-	{
-		cpu_set_irq_line(1,0,linestate); /* M6502_INT_IRQ */
-	} };
-	
-	public static WriteYmHandlerPtr oscar_irqhandler = new WriteYmHandlerPtr() { public void handler(int linestate)
-	{
-		cpu_set_irq_line(2,0,linestate); /* M6502_INT_IRQ */
-	} };
-	
-	static YM3526interface ym3526_interface = new YM3526interface
-	(
-		1,			/* 1 chip */
-		3000000,	/* 3 MHz */
-		new int[] { 35 },
-		new WriteYmHandlerPtr[] { irqhandler }
-	);
-	
-	static YM3526interface oscar_ym3526_interface = new YM3526interface
-	(
-		1,			/* 1 chip */
-		3000000,	/* 3 MHz */
-		new int[] { 35 },
-		new WriteYmHandlerPtr[] { oscar_irqhandler }
-	);
-	
-	static YM3812interface ym3812_interface = new YM3812interface
-	(
-		1,			/* 1 chip */
-		3000000,	/* 3 MHz */
-		new int[] { 35 },
-		new WriteYmHandlerPtr[] { irqhandler }
-	);
-	
-	static MSM5205interface msm5205_interface = new MSM5205interface
-	(
-		1,					/* 1 chip             */
-		384000,				/* 384KHz             */
-		new vclk_InterruptHandlerPtr[] { csilver_adpcm_int },/* interrupt function */
-		new int[] { MSM5205_S48_4B },	/* 8KHz               */
-		new int[] { 88 }
-	);
-    /******************************************************************************/
+    /* handler called by the 3812 emulator when the internal timers cause an IRQ */
+    public static WriteYmHandlerPtr irqhandler = new WriteYmHandlerPtr() {
+        public void handler(int linestate) {
+            cpu_set_irq_line(1, 0, linestate);
+            /* M6502_INT_IRQ */
+        }
+    };
+
+    public static WriteYmHandlerPtr oscar_irqhandler = new WriteYmHandlerPtr() {
+        public void handler(int linestate) {
+            cpu_set_irq_line(2, 0, linestate);
+            /* M6502_INT_IRQ */
+        }
+    };
+
+    static YM3526interface ym3526_interface = new YM3526interface(
+            1, /* 1 chip */
+            3000000, /* 3 MHz */
+            new int[]{35},
+            new WriteYmHandlerPtr[]{irqhandler}
+    );
+
+    static YM3526interface oscar_ym3526_interface = new YM3526interface(
+            1, /* 1 chip */
+            3000000, /* 3 MHz */
+            new int[]{35},
+            new WriteYmHandlerPtr[]{oscar_irqhandler}
+    );
+
+    static YM3812interface ym3812_interface = new YM3812interface(
+            1, /* 1 chip */
+            3000000, /* 3 MHz */
+            new int[]{35},
+            new WriteYmHandlerPtr[]{irqhandler}
+    );
+
+    static MSM5205interface msm5205_interface = new MSM5205interface(
+            1, /* 1 chip             */
+            384000, /* 384KHz             */
+            new vclk_InterruptHandlerPtr[]{csilver_adpcm_int},/* interrupt function */
+            new int[]{MSM5205_S48_4B}, /* 8KHz               */
+            new int[]{88}
+    );
+    /**
+     * ***************************************************************************
+     */
 
     static int[] latch_ghostb = new int[4];
     public static InterruptHandlerPtr ghostb_interrupt = new InterruptHandlerPtr() {
@@ -2210,31 +2341,37 @@ public class dec8 {
                 latch_ghostb[0] = 0;
                 cpu_cause_interrupt(0, M6809_INT_IRQ);
                 i8751_return = 0x8001;
-            } /* Player 1 coin */
+            }
+            /* Player 1 coin */
 
             if (((i8751_out & 0x4) != 0x4) && latch_ghostb[1] != 0) {
                 latch_ghostb[1] = 0;
                 cpu_cause_interrupt(0, M6809_INT_IRQ);
                 i8751_return = 0x4001;
-            } /* Player 2 coin */
+            }
+            /* Player 2 coin */
 
             if (((i8751_out & 0x2) != 0x2) && latch_ghostb[2] != 0) {
                 latch_ghostb[2] = 0;
                 cpu_cause_interrupt(0, M6809_INT_IRQ);
                 i8751_return = 0x2001;
-            } /* Player 3 coin */
+            }
+            /* Player 3 coin */
 
             if (((i8751_out & 0x1) != 0x1) && latch_ghostb[3] != 0) {
                 latch_ghostb[3] = 0;
                 cpu_cause_interrupt(0, M6809_INT_IRQ);
                 i8751_return = 0x1001;
-            } /* Service */
+            }
+            /* Service */
 
             if (nmi_enable != 0) {
-                return M6809_INT_NMI; /* VBL */
+                return M6809_INT_NMI;
+                /* VBL */
             }
 
-            return 0; /* VBL */
+            return 0;
+            /* VBL */
 
         }
     };
@@ -2242,10 +2379,12 @@ public class dec8 {
     public static InterruptHandlerPtr gondo_interrupt = new InterruptHandlerPtr() {
         public int handler() {
             if (nmi_enable != 0) {
-                return M6809_INT_NMI; /* VBL */
+                return M6809_INT_NMI;
+                /* VBL */
             }
 
-            return 0; /* VBL */
+            return 0;
+            /* VBL */
 
         }
     };
@@ -2275,13 +2414,13 @@ public class dec8 {
                         cobra_readmem, cobra_writemem, null, null,
                         nmi_interrupt, 1
                 ),
-			new MachineCPU(
-				CPU_M6502 | CPU_AUDIO_CPU,
-				1500000,
-				dec8_s_readmem,dec8_s_writemem,null,null,
-				ignore_interrupt,0	/* IRQs are caused by the YM3812 */
-									/* NMIs are caused by the main CPU */
-			)
+                new MachineCPU(
+                        CPU_M6502 | CPU_AUDIO_CPU,
+                        1500000,
+                        dec8_s_readmem, dec8_s_writemem, null, null,
+                        ignore_interrupt, 0 /* IRQs are caused by the YM3812 */
+                /* NMIs are caused by the main CPU */
+                )
             },
             58, 529, /* 58Hz, 529ms Vblank duration */
             1,
@@ -2297,16 +2436,16 @@ public class dec8 {
             dec8_vh_stop,
             dec8_vh_screenrefresh,
             0, 0, 0, 0,
-            new MachineSound[] {
-			new MachineSound(
-				SOUND_YM2203,
-				ym2203_interface
-			),
-			new MachineSound(
-				SOUND_YM3812,
-				ym3812_interface
-			)
-		}
+            new MachineSound[]{
+                new MachineSound(
+                        SOUND_YM2203,
+                        ym2203_interface
+                ),
+                new MachineSound(
+                        SOUND_YM3812,
+                        ym3812_interface
+                )
+            }
     );
 
     static MachineDriver machine_driver_ghostb = new MachineDriver(
@@ -2318,13 +2457,13 @@ public class dec8 {
                         ghostb_readmem, ghostb_writemem, null, null,
                         ghostb_interrupt, 1
                 ),
-			new MachineCPU(
-				CPU_M6502 | CPU_AUDIO_CPU,
-				1500000,
-				dec8_s_readmem,dec8_s_writemem,null,null,
-				ignore_interrupt,0	/* IRQs are caused by the YM3812 */
-									/* NMIs are caused by the main CPU */
-			)
+                new MachineCPU(
+                        CPU_M6502 | CPU_AUDIO_CPU,
+                        1500000,
+                        dec8_s_readmem, dec8_s_writemem, null, null,
+                        ignore_interrupt, 0 /* IRQs are caused by the YM3812 */
+                /* NMIs are caused by the main CPU */
+                )
             },
             58, 529, /* 58Hz, 529ms Vblank duration */
             1, /* 1 CPU slice per frame - interleaving is forced when a sound command is written */
@@ -2340,16 +2479,16 @@ public class dec8 {
             dec8_vh_stop,
             ghostb_vh_screenrefresh,
             0, 0, 0, 0,
-            new MachineSound[] {
-			new MachineSound(
-				SOUND_YM2203,
-				ym2203_interface
-			),
-			new MachineSound(
-				SOUND_YM3812,
-				ym3812_interface
-			)
-		}
+            new MachineSound[]{
+                new MachineSound(
+                        SOUND_YM2203,
+                        ym2203_interface
+                ),
+                new MachineSound(
+                        SOUND_YM3812,
+                        ym3812_interface
+                )
+            }
     );
     static MachineDriver machine_driver_srdarwin = new MachineDriver(
             /* basic machine hardware */
@@ -2360,13 +2499,13 @@ public class dec8 {
                         srdarwin_readmem, srdarwin_writemem, null, null,
                         nmi_interrupt, 1
                 ),
-			new MachineCPU(
-				CPU_M6502 | CPU_AUDIO_CPU,
-				1500000,
-				dec8_s_readmem,dec8_s_writemem,null,null,
-				ignore_interrupt,0	/* IRQs are caused by the YM3812 */
-									/* NMIs are caused by the main CPU */
-			)
+                new MachineCPU(
+                        CPU_M6502 | CPU_AUDIO_CPU,
+                        1500000,
+                        dec8_s_readmem, dec8_s_writemem, null, null,
+                        ignore_interrupt, 0 /* IRQs are caused by the YM3812 */
+                /* NMIs are caused by the main CPU */
+                )
             },
             58, 529, /* 58Hz, 529ms Vblank duration */
             1, /* 1 CPU slice per frame - interleaving is forced when a sound command is written */
@@ -2382,16 +2521,16 @@ public class dec8 {
             null,
             srdarwin_vh_screenrefresh,
             0, 0, 0, 0,
-            new MachineSound[] {
-			new MachineSound(
-				SOUND_YM2203,
-				ym2203_interface
-			),
-			new MachineSound(
-				SOUND_YM3812,
-				ym3812_interface
-			)
-		}
+            new MachineSound[]{
+                new MachineSound(
+                        SOUND_YM2203,
+                        ym2203_interface
+                ),
+                new MachineSound(
+                        SOUND_YM3812,
+                        ym3812_interface
+                )
+            }
     );
     static MachineDriver machine_driver_gondo = new MachineDriver(
             /* basic machine hardware */
@@ -2402,13 +2541,13 @@ public class dec8 {
                         gondo_readmem, gondo_writemem, null, null,
                         gondo_interrupt, 1
                 ),
-			new MachineCPU(
-				CPU_M6502 | CPU_AUDIO_CPU,
-				1500000,
-				dec8_s_readmem,dec8_s_writemem,null,null,
-				ignore_interrupt,0	/* IRQs are caused by the YM3526 */
-									/* NMIs are caused by the main CPU */
-			)
+                new MachineCPU(
+                        CPU_M6502 | CPU_AUDIO_CPU,
+                        1500000,
+                        dec8_s_readmem, dec8_s_writemem, null, null,
+                        ignore_interrupt, 0 /* IRQs are caused by the YM3526 */
+                /* NMIs are caused by the main CPU */
+                )
             },
             58, 529, /* 58Hz, 529ms Vblank duration */
             1, /* 1 CPU slice per frame - interleaving is forced when a sound command is written */
@@ -2424,16 +2563,16 @@ public class dec8 {
             dec8_vh_stop,
             gondo_vh_screenrefresh,
             0, 0, 0, 0,
-            new MachineSound[] {
-			new MachineSound(
-				SOUND_YM2203,
-				ym2203_interface
-			),
-			new MachineSound(
-				SOUND_YM3526,
-				ym3526_interface
-			)
-		}
+            new MachineSound[]{
+                new MachineSound(
+                        SOUND_YM2203,
+                        ym2203_interface
+                ),
+                new MachineSound(
+                        SOUND_YM3526,
+                        ym3526_interface
+                )
+            }
     );
     static MachineDriver machine_driver_oscar = new MachineDriver(
             /* basic machine hardware */
@@ -2450,13 +2589,13 @@ public class dec8 {
                         oscar_sub_readmem, oscar_sub_writemem, null, null,
                         ignore_interrupt, 0
                 ),
-			new MachineCPU(
-				CPU_M6502 | CPU_AUDIO_CPU,
-				1500000,
-				dec8_s_readmem,dec8_s_writemem,null,null,
-				ignore_interrupt,0	/* IRQs are caused by the YM3526 */
-									/* NMIs are caused by the main CPU */
-			)
+                new MachineCPU(
+                        CPU_M6502 | CPU_AUDIO_CPU,
+                        1500000,
+                        dec8_s_readmem, dec8_s_writemem, null, null,
+                        ignore_interrupt, 0 /* IRQs are caused by the YM3526 */
+                /* NMIs are caused by the main CPU */
+                )
             },
             58, 529, /* 58Hz, 529ms Vblank duration */
             40, /* 40 CPU slices per frame */
@@ -2472,16 +2611,16 @@ public class dec8 {
             dec8_vh_stop,
             oscar_vh_screenrefresh,
             0, 0, 0, 0,
-            new MachineSound[] {
-			new MachineSound(
-				SOUND_YM2203,
-				ym2203_interface
-			),
-			new MachineSound(
-				SOUND_YM3526,
-				oscar_ym3526_interface
-			)
-		}
+            new MachineSound[]{
+                new MachineSound(
+                        SOUND_YM2203,
+                        ym2203_interface
+                ),
+                new MachineSound(
+                        SOUND_YM3526,
+                        oscar_ym3526_interface
+                )
+            }
     );
     static MachineDriver machine_driver_lastmiss = new MachineDriver(
             /* basic machine hardware */
@@ -2498,13 +2637,13 @@ public class dec8 {
                         lastmiss_sub_readmem, lastmiss_sub_writemem, null, null,
                         ignore_interrupt, 0
                 ),
-			new MachineCPU(
-				CPU_M6502 | CPU_AUDIO_CPU,
-				1500000,
-				ym3526_s_readmem,ym3526_s_writemem,null,null,
-				ignore_interrupt,0	/* IRQs are caused by the YM3526 */
-									/* NMIs are caused by the main CPU */
-			)
+                new MachineCPU(
+                        CPU_M6502 | CPU_AUDIO_CPU,
+                        1500000,
+                        ym3526_s_readmem, ym3526_s_writemem, null, null,
+                        ignore_interrupt, 0 /* IRQs are caused by the YM3526 */
+                /* NMIs are caused by the main CPU */
+                )
             },
             58, 529, /* 58Hz, 529ms Vblank duration */
             200,
@@ -2520,16 +2659,16 @@ public class dec8 {
             dec8_vh_stop,
             lastmiss_vh_screenrefresh,
             0, 0, 0, 0,
-            new MachineSound[] {
-			new MachineSound(
-				SOUND_YM2203,
-				ym2203_interface
-			),
-			new MachineSound(
-				SOUND_YM3526,
-				oscar_ym3526_interface
-			)
-		}
+            new MachineSound[]{
+                new MachineSound(
+                        SOUND_YM2203,
+                        ym2203_interface
+                ),
+                new MachineSound(
+                        SOUND_YM3526,
+                        oscar_ym3526_interface
+                )
+            }
     );
     static MachineDriver machine_driver_shackled = new MachineDriver(
             /* basic machine hardware */
@@ -2546,13 +2685,13 @@ public class dec8 {
                         shackled_sub_readmem, shackled_sub_writemem, null, null,
                         ignore_interrupt, 0
                 ),
-			new MachineCPU(
-				CPU_M6502 | CPU_AUDIO_CPU,
-				1500000,
-				ym3526_s_readmem,ym3526_s_writemem,null,null,
-				ignore_interrupt,0	/* IRQs are caused by the YM3526 */
-									/* NMIs are caused by the main CPU */
-			)
+                new MachineCPU(
+                        CPU_M6502 | CPU_AUDIO_CPU,
+                        1500000,
+                        ym3526_s_readmem, ym3526_s_writemem, null, null,
+                        ignore_interrupt, 0 /* IRQs are caused by the YM3526 */
+                /* NMIs are caused by the main CPU */
+                )
             },
             58, 529, /* 58Hz, 529ms Vblank duration */
             80,
@@ -2568,16 +2707,16 @@ public class dec8 {
             dec8_vh_stop,
             lastmiss_vh_screenrefresh,
             0, 0, 0, 0,
-            new MachineSound[] {
-			new MachineSound(
-				SOUND_YM2203,
-				ym2203_interface
-			),
-			new MachineSound(
-				SOUND_YM3526,
-				oscar_ym3526_interface
-			)
-		}
+            new MachineSound[]{
+                new MachineSound(
+                        SOUND_YM2203,
+                        ym2203_interface
+                ),
+                new MachineSound(
+                        SOUND_YM3526,
+                        oscar_ym3526_interface
+                )
+            }
     );
     static MachineDriver machine_driver_csilver = new MachineDriver(
             /* basic machine hardware */
@@ -2594,13 +2733,13 @@ public class dec8 {
                         csilver_sub_readmem, csilver_sub_writemem, null, null,
                         nmi_interrupt, 1
                 ),
-			new MachineCPU(
-				CPU_M6502 | CPU_AUDIO_CPU,
-				1500000,
-				csilver_s_readmem,csilver_s_writemem,null,null,
-				ignore_interrupt,0	/* IRQs are caused by the MSM5205 */
-									/* NMIs are caused by the main CPU */
-			)
+                new MachineCPU(
+                        CPU_M6502 | CPU_AUDIO_CPU,
+                        1500000,
+                        csilver_s_readmem, csilver_s_writemem, null, null,
+                        ignore_interrupt, 0 /* IRQs are caused by the MSM5205 */
+                /* NMIs are caused by the main CPU */
+                )
             },
             58, 529, /* 58Hz, 529ms Vblank duration */
             60,
@@ -2616,20 +2755,20 @@ public class dec8 {
             dec8_vh_stop,
             lastmiss_vh_screenrefresh,
             0, 0, 0, 0,
-            new MachineSound[] {
-			new MachineSound(
-				SOUND_YM2203,
-				ym2203_interface
-			),
-			new MachineSound(
-				SOUND_YM3526,
-				oscar_ym3526_interface
-			),
-			new MachineSound(
-				SOUND_MSM5205,
-				msm5205_interface
-		    )
-		}
+            new MachineSound[]{
+                new MachineSound(
+                        SOUND_YM2203,
+                        ym2203_interface
+                ),
+                new MachineSound(
+                        SOUND_YM3526,
+                        oscar_ym3526_interface
+                ),
+                new MachineSound(
+                        SOUND_MSM5205,
+                        msm5205_interface
+                )
+            }
     );
     static MachineDriver machine_driver_garyoret = new MachineDriver(
             /* basic machine hardware */
@@ -2640,13 +2779,13 @@ public class dec8 {
                         garyoret_readmem, garyoret_writemem, null, null,
                         gondo_interrupt, 1
                 ),
-			new MachineCPU(
-				CPU_M6502 | CPU_AUDIO_CPU,
-				1500000,
-				dec8_s_readmem,dec8_s_writemem,null,null,
-				ignore_interrupt,0	/* IRQs are caused by the YM3526 */
-									/* NMIs are caused by the main CPU */
-			)
+                new MachineCPU(
+                        CPU_M6502 | CPU_AUDIO_CPU,
+                        1500000,
+                        dec8_s_readmem, dec8_s_writemem, null, null,
+                        ignore_interrupt, 0 /* IRQs are caused by the YM3526 */
+                /* NMIs are caused by the main CPU */
+                )
             },
             58, 529, /* 58Hz, 529ms Vblank duration */
             1, /* 1 CPU slice per frame - interleaving is forced when a sound command is written */
@@ -2662,16 +2801,16 @@ public class dec8 {
             dec8_vh_stop,
             garyoret_vh_screenrefresh,
             0, 0, 0, 0,
-            new MachineSound[] {
-			new MachineSound(
-				SOUND_YM2203,
-				ym2203_interface
-			),
-			new MachineSound(
-				SOUND_YM3526,
-				ym3526_interface
-			)
-		}
+            new MachineSound[]{
+                new MachineSound(
+                        SOUND_YM2203,
+                        ym2203_interface
+                ),
+                new MachineSound(
+                        SOUND_YM3526,
+                        ym3526_interface
+                )
+            }
     );
     /**
      * ***************************************************************************
@@ -3270,7 +3409,7 @@ public class dec8 {
             /* 0x30000-0x3ffff empy */
             ROM_LOAD("b3", 0x40000, 0x10000, 0xac78b76b);
             /* 0x50000-0x5ffff empy */
-            /* 0x60000-0x7ffff empy (no 4th plane) */
+ /* 0x60000-0x7ffff empy (no 4th plane) */
 
             ROM_REGION(0x80000, REGION_GFX3 | REGIONFLAG_DISPOSE);/* tiles (3bpp) */
 
@@ -3342,23 +3481,25 @@ public class dec8 {
     /* Ghostbusters, Darwin, Oscar use a "Deco 222" custom 6502 for sound. */
     public static InitDriverHandlerPtr init_deco222 = new InitDriverHandlerPtr() {
         public void handler() {
-    	int A,sound_cpu;
-    	UBytePtr rom;
-    	int diff;
-    
-    
-    	sound_cpu = 1;
-    	/* Oscar has three CPUs */
-    	if (Machine.drv.cpu[2].cpu_type != 0) sound_cpu = 2;
-    
-    	/* bits 5 and 6 of the opcodes are swapped */
-    	rom = memory_region(REGION_CPU1+sound_cpu);
-    	diff = memory_region_length(REGION_CPU1+sound_cpu) / 2;
-    
-    	memory_set_opcode_base(sound_cpu,new UBytePtr(rom,diff));
-    
-    	for (A = 0;A < 0x10000;A++)
-    		rom.write(A + diff,(rom.read(A) & 0x9f) | ((rom.read(A) & 0x20) << 1) | ((rom.read(A) & 0x40) >> 1));
+            int A, sound_cpu;
+            UBytePtr rom;
+            int diff;
+
+            sound_cpu = 1;
+            /* Oscar has three CPUs */
+            if (Machine.drv.cpu[2].cpu_type != 0) {
+                sound_cpu = 2;
+            }
+
+            /* bits 5 and 6 of the opcodes are swapped */
+            rom = memory_region(REGION_CPU1 + sound_cpu);
+            diff = memory_region_length(REGION_CPU1 + sound_cpu) / 2;
+
+            memory_set_opcode_base(sound_cpu, new UBytePtr(rom, diff));
+
+            for (A = 0; A < 0x10000; A++) {
+                rom.write(A + diff, (rom.read(A) & 0x9f) | ((rom.read(A) & 0x20) << 1) | ((rom.read(A) & 0x40) >> 1));
+            }
         }
     };
     public static InitDriverHandlerPtr init_meikyuh = new InitDriverHandlerPtr() {

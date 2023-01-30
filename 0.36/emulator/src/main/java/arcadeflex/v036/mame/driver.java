@@ -177,6 +177,7 @@ import static arcadeflex.v036.drivers.z80bw.*;
 import static arcadeflex.v036.drivers.gbusters.*;
 import static arcadeflex.v036.drivers.bladestl.*;
 import static arcadeflex.v036.drivers.mainevt.*;
+import static arcadeflex.v036.drivers.dec8.*;
 
 public class driver {
 
@@ -1756,25 +1757,23 @@ public class driver {
                 /*TODO*///	driver_actfanc1,	/* (c) 1989 Data East Corporation (World) */
                 /*TODO*///	driver_actfancj,	/* (c) 1989 Data East Corporation (Japan) */
                 /*TODO*///	driver_triothep,	/* (c) 1989 Data East Corporation (Japan) */
-                /*TODO*///
-                /*TODO*///	/* Data East 8-bit games */
-                /*TODO*///	driver_lastmiss,	/* (c) 1986 Data East USA (US) */
-                /*TODO*///	driver_lastmss2,	/* (c) 1986 Data East USA (US) */
-                /*TODO*///	driver_shackled,	/* (c) 1986 Data East USA (US) */
-                /*TODO*///	driver_breywood,	/* (c) 1986 Data East Corporation (Japan) */
-                /*TODO*///	driver_csilver,	/* (c) 1987 Data East Corporation (Japan) */
-                /*TODO*///	driver_ghostb,	/* (c) 1987 Data East USA (US) */
-                /*TODO*///	driver_ghostb3,	/* (c) 1987 Data East USA (US) */
-                /*TODO*///	driver_meikyuh,	/* (c) 1987 Data East Corporation (Japan) */
-                /*TODO*///	driver_srdarwin,	/* (c) 1987 Data East Corporation (Japan) */
-                /*TODO*///	driver_gondo,		/* (c) 1987 Data East USA (US) */
-                /*TODO*///	driver_makyosen,	/* (c) 1987 Data East Corporation (Japan) */
-                /*TODO*///	driver_garyoret,	/* (c) 1987 Data East Corporation (Japan) */
-                /*TODO*///	driver_cobracom,	/* (c) 1988 Data East Corporation (World) */
-                /*TODO*///	driver_cobracmj,	/* (c) 1988 Data East Corporation (Japan) */
-                /*TODO*///	driver_oscar,		/* (c) 1988 Data East USA (US) */
-                /*TODO*///	driver_oscarj,	/* (c) 1987 Data East Corporation (Japan) */
-                /*TODO*///
+                /* Data East 8-bit games */
+                driver_lastmiss, /* (c) 1986 Data East USA (US) */
+                driver_lastmss2, /* (c) 1986 Data East USA (US) */
+                driver_shackled, /* (c) 1986 Data East USA (US) */
+                driver_breywood, /* (c) 1986 Data East Corporation (Japan) */
+                driver_csilver, /* (c) 1987 Data East Corporation (Japan) */
+                driver_ghostb, /* (c) 1987 Data East USA (US) */
+                driver_ghostb3, /* (c) 1987 Data East USA (US) */
+                driver_meikyuh, /* (c) 1987 Data East Corporation (Japan) */
+                driver_srdarwin, /* (c) 1987 Data East Corporation (Japan) */
+                driver_gondo, /* (c) 1987 Data East USA (US) */
+                driver_makyosen, /* (c) 1987 Data East Corporation (Japan) */
+                driver_garyoret, /* (c) 1987 Data East Corporation (Japan) */
+                driver_cobracom, /* (c) 1988 Data East Corporation (World) */
+                driver_cobracmj, /* (c) 1988 Data East Corporation (Japan) */
+                driver_oscar, /* (c) 1988 Data East USA (US) */
+                driver_oscarj, /* (c) 1987 Data East Corporation (Japan) */
                 /*TODO*///	/* Data East 16-bit games */
                 /*TODO*///	driver_karnov,	/* (c) 1987 Data East USA (US) */
                 /*TODO*///	driver_karnovj,	/* (c) 1987 Data East Corporation (Japan) */
