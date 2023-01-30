@@ -7,7 +7,7 @@ package arcadeflex.v036.drivers;
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
 //machine imports
-import static arcadeflex.v036.machine.foodf.*;
+import static arcadeflex.toberemoved.v036.machine.foodf.*;
 //mame imports
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.driverH.*;

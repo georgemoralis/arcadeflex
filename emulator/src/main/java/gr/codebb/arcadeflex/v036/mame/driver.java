@@ -37,7 +37,6 @@ import static gr.codebb.arcadeflex.v037b7.drivers.skydiver.*;
 import static gr.codebb.arcadeflex.v036.drivers.pacland.*;
 import static gr.codebb.arcadeflex.v036.drivers.psychic5.*;
 import static gr.codebb.arcadeflex.v036.drivers.wardner.*;
-import static gr.codebb.arcadeflex.v036.drivers.shootout.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bjtwin.*;
 import static gr.codebb.arcadeflex.v036.drivers.qix.*;
 import static gr.codebb.arcadeflex.v036.drivers.parodius.*;
@@ -243,9 +242,6 @@ public class driver {
                 driver_wardner, /* TP-009 (c) 1987 Taito Corporation Japan (World) */
                 driver_pyros, /* TP-009 (c) 1987 Taito America Corporation (US) */
                 driver_wardnerj, /* TP-009 (c) 1987 Taito Corporation (Japan) */
-                driver_shootout, /* (c) 1985 Data East USA (US) */
-                driver_shootouj, /* (c) 1985 Data East USA (Japan) */
-                driver_shootoub, /* bootleg */
                 driver_foodf,
                 driver_bjtwin,
                 /*sf1.java*/ driver_sf1,

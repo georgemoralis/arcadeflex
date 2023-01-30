@@ -179,6 +179,7 @@ import static arcadeflex.v036.drivers.bladestl.*;
 import static arcadeflex.v036.drivers.mainevt.*;
 import static arcadeflex.v036.drivers.dec8.*;
 import static arcadeflex.v036.drivers.shootout.*;
+import static arcadeflex.v036.drivers.pcktgal.*;
 
 public class driver {
 
@@ -1749,11 +1750,11 @@ public class driver {
                 driver_exprraid, /* (c) 1986 Data East USA (US) */
                 driver_wexpress, /* (c) 1986 Data East Corporation (World?) */
                 driver_wexpresb, /* bootleg */
-                /*TODO*///	driver_pcktgal,	/* (c) 1987 Data East Corporation (Japan) */
-                /*TODO*///	driver_pcktgalb,	/* bootleg */
-                /*TODO*///	driver_pcktgal2,	/* (c) 1989 Data East Corporation (World?) */
-                /*TODO*///	driver_spool3,	/* (c) 1989 Data East Corporation (World?) */
-                /*TODO*///	driver_spool3i,	/* (c) 1990 Data East Corporation + I-Vics license */
+                driver_pcktgal, /* (c) 1987 Data East Corporation (Japan) */
+                driver_pcktgalb, /* bootleg */
+                driver_pcktgal2, /* (c) 1989 Data East Corporation (World?) */
+                driver_spool3, /* (c) 1989 Data East Corporation (World?) */
+                driver_spool3i, /* (c) 1990 Data East Corporation + I-Vics license */
                 /*TODO*///	driver_actfancr,	/* (c) 1989 Data East Corporation (World) */
                 /*TODO*///	driver_actfanc1,	/* (c) 1989 Data East Corporation (World) */
                 /*TODO*///	driver_actfancj,	/* (c) 1989 Data East Corporation (Japan) */
