@@ -1,19 +1,28 @@
 /*
- * ported to v0.37b7
- * using automatic conversion tool v0.01
+ * ported to v0.36
+ * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v037b7.vidhrdw;
+/**
+ * Changelog
+ * =========
+ * 31/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.vidhrdw;
+
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static common.libc.cstring.*;
-import static arcadeflex.v036.mame.driverH.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
-import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
-import static arcadeflex.v036.mame.drawgfxH.*;
-import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+//mame imports
 import static arcadeflex.v036.mame.osdependH.*;
+import static arcadeflex.v036.mame.drawgfxH.*;
+import static arcadeflex.v036.mame.mame.*;
+//vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
+//common imports
+import static common.libc.cstring.*;
+//TODO
+import static gr.codebb.arcadeflex.common.PtrLib.*;
+import static gr.codebb.arcadeflex.v036.mame.drawgfx.*;
+import static gr.codebb.arcadeflex.v036.platform.video.osd_free_bitmap;
 
 public class jrpacman {
 
@@ -23,6 +32,7 @@ public class jrpacman {
     public static UBytePtr jrpacman_spritebank = new UBytePtr();
     public static UBytePtr jrpacman_palettebank = new UBytePtr();
     public static UBytePtr jrpacman_colortablebank = new UBytePtr();
+
     static int flipscreen;
 
     /**
@@ -45,6 +55,7 @@ public class jrpacman {
     public static VhConvertColorPromHandlerPtr jrpacman_vh_convert_color_prom = new VhConvertColorPromHandlerPtr() {
         public void handler(char[] palette, char[] colortable, UBytePtr color_prom) {
             int i;
+
             for (i = 0; i < 32; i++) {
                 int bit0, bit1, bit2;
 
@@ -53,26 +64,23 @@ public class jrpacman {
                 bit2 = (color_prom.read(i) >> 2) & 0x01;
                 palette[3 * i] = (char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 bit0 = (color_prom.read(i) >> 3) & 0x01;
-                bit1 = (color_prom.read(i + 256) >> 0) & 0x01;
-                bit2 = (color_prom.read(i + 256) >> 1) & 0x01;
+                bit1 = (color_prom.read(i + 32) >> 0) & 0x01;
+                bit2 = (color_prom.read(i + 32) >> 1) & 0x01;
                 palette[3 * i + 1] = (char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
                 bit0 = 0;
-                bit1 = (color_prom.read(i + 256) >> 2) & 0x01;
-                bit2 = (color_prom.read(i + 256) >> 3) & 0x01;
+                bit1 = (color_prom.read(i + 32) >> 2) & 0x01;
+                bit2 = (color_prom.read(i + 32) >> 3) & 0x01;
                 palette[3 * i + 2] = (char) (0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2);
             }
 
-            color_prom.inc(2 * 256);
-
             for (i = 0; i < 64 * 4; i++) {
-                /* chars */
-                colortable[i] = color_prom.read(i);
-
-                /* sprites */
-                if (color_prom.read(i) != 0) {
-                    colortable[i + 64 * 4] = (char) (color_prom.read(i) + 0x10);
+                colortable[i] = color_prom.read(i + 64);
+            }
+            for (i = 64 * 4; i < 64 * 4 + 64 * 4; i++) {
+                if (color_prom.read(i - 64 * 4 + 64) != 0) {
+                    colortable[i] = (char) (color_prom.read(i - 64 * 4 + 64) + 0x10);
                 } else {
-                    colortable[i + 64 * 4] = 0;
+                    colortable[i] = 0;
                 }
             }
         }
@@ -93,7 +101,7 @@ public class jrpacman {
             memset(dirtybuffer, 1, videoram_size[0]);
 
             /* Jr. Pac Man has a virtual screen twice as large as the visible screen */
-            if ((tmpbitmap = bitmap_alloc(Machine.drv.screen_width, 2 * Machine.drv.screen_height)) == null) {
+            if ((tmpbitmap = osd_create_bitmap(Machine.drv.screen_width, 2 * Machine.drv.screen_height)) == null) {
                 dirtybuffer = null;
                 return 1;
             }
@@ -112,7 +120,7 @@ public class jrpacman {
     public static VhStopHandlerPtr jrpacman_vh_stop = new VhStopHandlerPtr() {
         public void handler() {
             dirtybuffer = null;
-            bitmap_free(tmpbitmap);
+            osd_free_bitmap(tmpbitmap);
         }
     };
 
@@ -255,7 +263,7 @@ public class jrpacman {
 
             /* copy the temporary bitmap to the screen */
             {
-                int[] scrolly = new int[36];
+                int scrolly[] = new int[36];
 
                 for (i = 0; i < 2; i++) {
                     scrolly[i] = 0;
@@ -273,7 +281,7 @@ public class jrpacman {
                     }
                 }
 
-                copyscrollbitmap(bitmap, tmpbitmap, 0, null, 36, scrolly, Machine.visible_area, TRANSPARENCY_NONE, 0);
+                copyscrollbitmap(bitmap, tmpbitmap, 0, null, 36, scrolly, Machine.drv.visible_area, TRANSPARENCY_NONE, 0);
             }
 
             /* Draw the sprites. Note that it is important to draw them exactly in this */
@@ -285,7 +293,7 @@ public class jrpacman {
                         + 0x40 * (jrpacman_palettebank.read() & 1),
                         spriteram.read(offs) & 1, spriteram.read(offs) & 2,
                         272 - spriteram_2.read(offs + 1), spriteram_2.read(offs) - 31,
-                        Machine.visible_area,
+                        Machine.drv.visible_area,
                         (jrpacman_bgpriority.read() & 1) != 0 ? TRANSPARENCY_THROUGH : TRANSPARENCY_COLOR,
                         (jrpacman_bgpriority.read() & 1) != 0 ? Machine.pens[0] : 0);
             }
@@ -297,7 +305,7 @@ public class jrpacman {
                         + 0x40 * (jrpacman_palettebank.read() & 1),
                         spriteram.read(offs) & 1, spriteram.read(offs) & 2,
                         272 - spriteram_2.read(offs + 1), spriteram_2.read(offs) - 30,
-                        Machine.visible_area,
+                        Machine.drv.visible_area,
                         (jrpacman_bgpriority.read() & 1) != 0 ? TRANSPARENCY_THROUGH : TRANSPARENCY_COLOR,
                         (jrpacman_bgpriority.read() & 1) != 0 ? Machine.pens[0] : 0);
             }

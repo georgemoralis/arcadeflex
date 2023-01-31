@@ -1,28 +1,30 @@
 /*
  * ported to v0.36
  * using automatic conversion tool v0.10
- *
- *
- *
  */
-package gr.codebb.arcadeflex.v036.machine;
+/**
+ * Changelog
+ * =========
+ * 16/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.machine;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-
-import static arcadeflex.v036.mame.driverH.*;
+//mame imports
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.commonH.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
 import static arcadeflex.v036.mame.inptport.*;
+//TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class jrpacman {
 
-    static int speedcheat = 0;	/* a well known hack allows to make JrPac Man run at four times */
-    /* his usual speed. When we start the emulation, we check if the */
-    /* hack can be applied, and set this flag accordingly. */
+    static int speedcheat = 0;
+    /* a well known hack allows to make JrPac Man run at four times */
+ /* his usual speed. When we start the emulation, we check if the */
+ /* hack can be applied, and set this flag accordingly. */
 
 
     public static InitMachineHandlerPtr jrpacman_init_machine = new InitMachineHandlerPtr() {

@@ -1,68 +1,39 @@
 /*
- * ported to v0.37b7
- * using automatic conversion tool v0.01
+ * ported to v0.36
+ * using automatic conversion tool v0.10
  */
-package gr.codebb.arcadeflex.v037b7.drivers;
+/**
+ * Changelog
+ * =========
+ * 31/01/2023 - shadow - This file should be complete for 0.36 version
+ */
+package arcadeflex.v036.drivers;
 
 //generic imports
 import static arcadeflex.v036.generic.funcPtr.*;
-
+//machine imports
+import static arcadeflex.v036.machine.jrpacman.*;
+//mame imports
+import static arcadeflex.v036.mame.sndintrfH.*;
+import static arcadeflex.v036.mame.cpuintrf.*;
+import static arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.inptport.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.mame.cpuintrf.*;
-import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v037b7.vidhrdw.jrpacman.*;
-import static arcadeflex.v036.mame.sndintrfH.*;
-import static gr.codebb.arcadeflex.v036.sound.namcoH.*;
-import static gr.codebb.arcadeflex.v036.sound.namco.*;
-import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v037b7.mame.cpuintrf.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 import static arcadeflex.v036.mame.inptportH.*;
 import static arcadeflex.v036.mame.inputH.*;
-
+//sound imports
+import static arcadeflex.v036.sound.namcoH.*;
+import static arcadeflex.v036.sound.namco.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.generic.*;
+import static arcadeflex.v036.vidhrdw.jrpacman.*;
+//common imports
+import static gr.codebb.arcadeflex.common.PtrLib.*;
 
 public class jrpacman {
-
-    static int speedcheat = 0;
-    /* a well known hack allows to make JrPac Man run at four times */
- /* his usual speed. When we start the emulation, we check if the */
- /* hack can be applied, and set this flag accordingly. */
-
-    public static InitMachineHandlerPtr jrpacman_init_machine = new InitMachineHandlerPtr() {
-        public void handler() {
-            UBytePtr RAM = memory_region(REGION_CPU1);
-
-            /* check if the loaded set of ROMs allows the Pac Man speed hack */
-            if (RAM.read(0x180b) == 0xbe || RAM.read(0x180b) == 0x01) {
-                speedcheat = 1;
-            } else {
-                speedcheat = 0;
-            }
-        }
-    };
-
-    public static InterruptHandlerPtr jrpacman_interrupt = new InterruptHandlerPtr() {
-        public int handler() {
-            UBytePtr RAM = memory_region(REGION_CPU1);
-
-            /* speed up cheat */
-            if (speedcheat != 0) {
-                if ((readinputport(3) & 1) != 0) /* check status of the fake dip switch */ {
-                    /* activate the cheat */
-                    RAM.write(0x180b, 0x01);
-                } else {
-                    /* remove the cheat */
-                    RAM.write(0x180b, 0xbe);
-                }
-            }
-
-            return interrupt.handler();
-        }
-    };
 
     static MemoryReadAddress readmem[]
             = {
@@ -104,6 +75,7 @@ public class jrpacman {
         public void handler() {
             PORT_START();
             /* IN0 */
+
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_4WAY);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_4WAY);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY);
@@ -117,6 +89,7 @@ public class jrpacman {
 
             PORT_START();
             /* IN1 */
+
             PORT_BIT(0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_UP | IPF_4WAY | IPF_COCKTAIL);
             PORT_BIT(0x02, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_4WAY | IPF_COCKTAIL);
             PORT_BIT(0x04, IP_ACTIVE_LOW, IPT_JOYSTICK_RIGHT | IPF_4WAY | IPF_COCKTAIL);
@@ -130,6 +103,7 @@ public class jrpacman {
 
             PORT_START();
             /* DSW0 */
+
             PORT_DIPNAME(0x03, 0x01, DEF_STR("Coinage"));
             PORT_DIPSETTING(0x03, DEF_STR("2C_1C"));
             PORT_DIPSETTING(0x01, DEF_STR("1C_1C"));
@@ -156,6 +130,7 @@ public class jrpacman {
             /* FAKE */
  /* This fake input port is used to get the status of the fire button */
  /* and activate the speedup cheat if it is. */
+
             PORT_BITX(0x01, 0x00, IPT_DIPSWITCH_NAME | IPF_CHEAT, "Speedup Cheat", KEYCODE_LCONTROL, JOYCODE_1_BUTTON1);
             PORT_DIPSETTING(0x00, DEF_STR("Off"));
             PORT_DIPSETTING(0x01, DEF_STR("On"));
@@ -202,7 +177,7 @@ public class jrpacman {
             new MachineCPU[]{
                 new MachineCPU(
                         CPU_Z80,
-                        18432000 / 6, /* 3.072 MHz */
+                        18432000 / 6, /* 3.072 Mhz */
                         readmem, writemem, null, writeport,
                         jrpacman_interrupt, 1
                 )
@@ -240,6 +215,7 @@ public class jrpacman {
     static RomLoadHandlerPtr rom_jrpacman = new RomLoadHandlerPtr() {
         public void handler() {
             ROM_REGION(0x10000, REGION_CPU1);/* 64k for code */
+
             ROM_LOAD("jrp8d.bin", 0x0000, 0x2000, 0xe3fa972e);
             ROM_LOAD("jrp8e.bin", 0x2000, 0x2000, 0xec889e94);
             ROM_LOAD("jrp8h.bin", 0x8000, 0x2000, 0x35f1fc6e);
@@ -252,14 +228,17 @@ public class jrpacman {
             ROM_REGION(0x2000, REGION_GFX2 | REGIONFLAG_DISPOSE);
             ROM_LOAD("jrp2e.bin", 0x0000, 0x2000, 0x73477193);
 
-            ROM_REGION(0x0300, REGION_PROMS);
-            ROM_LOAD("jrprom.9e", 0x0000, 0x0100, 0x029d35c4);/* palette low bits */
-            ROM_LOAD("jrprom.9f", 0x0100, 0x0100, 0xeee34a79);/* palette high bits */
-            ROM_LOAD("jrprom.9p", 0x0200, 0x0100, 0x9f6ea9d8);/* color lookup table */
+            ROM_REGION(0x0140, REGION_PROMS);
+            ROM_LOAD("jrpacman.9e", 0x0000, 0x0020, 0x90012b3f);/* palette low bits */
 
-            ROM_REGION(0x0200, REGION_SOUND1);/* sound prom */
-            ROM_LOAD("jrprom.7p", 0x0000, 0x0100, 0xa9cc86bf);
-            ROM_LOAD("jrprom.5s", 0x0100, 0x0100, 0x77245b66);/* timing - not used */
+            ROM_LOAD("jrpacman.9f", 0x0020, 0x0020, 0x8300178e);/* palette high bits */
+
+            ROM_LOAD("jrpacman.9p", 0x0040, 0x0100, 0x9f6ea9d8);/* color lookup table */
+
+            ROM_REGION(0x0100, REGION_SOUND1);/* sound prom */
+ /* I don't know if this is correct. I'm using the Pac Man one. */
+
+            ROM_LOAD("pacman.spr", 0x0000, 0x0100, BADCRC(0xa9cc86bf));
             ROM_END();
         }
     };
@@ -274,9 +253,9 @@ public class jrpacman {
  /* Decryption table provided by David Caldwell (david@indigita.com) */
  /* For an accurate reproduction of the encryption, see jrcrypt.c */
  /*struct {
-		    int count;
-		    int value;
-		} */
+             int count;
+             int value;
+             } */
             int table[][]
                     = {
                         {0x00C1, 0x00}, {0x0002, 0x80}, {0x0004, 0x00}, {0x0006, 0x80},

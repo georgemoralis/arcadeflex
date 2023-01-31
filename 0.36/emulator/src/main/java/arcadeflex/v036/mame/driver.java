@@ -181,6 +181,7 @@ import static arcadeflex.v036.drivers.dec8.*;
 import static arcadeflex.v036.drivers.shootout.*;
 import static arcadeflex.v036.drivers.pcktgal.*;
 import static arcadeflex.v036.drivers.quantum.*;
+import static arcadeflex.v036.drivers.jrpacman.*;
 
 public class driver {
 
@@ -224,7 +225,7 @@ public class driver {
                 driver_pengo2, /* 834-0386 (c) 1982 Sega */
                 driver_pengo2u, /* 834-0386 (c) 1982 Sega */
                 driver_penta, /* bootleg */
-                /*TODO*///	driver_jrpacman,	/* (c) 1983 Midway */
+                driver_jrpacman, /* (c) 1983 Midway */
                 /* "Galaxian hardware" games */
                 driver_galaxian, /* (c) Namco */
                 driver_galmidw, /* (c) Midway */
@@ -2145,7 +2146,6 @@ public class driver {
                 driver_quantum, /* (c) 1982 */ /* made by Gencomp */
                 driver_quantum1, /* (c) 1982 */ /* made by Gencomp */
                 driver_quantump, /* (c) 1982 */ /* made by Gencomp */
-                
                 /*TODO*///	/* Atari b/w games */
                 /*TODO*///	driver_sprint1,	/* no copyright notice */
                 /*TODO*///	driver_sprint2,	/* no copyright notice */
