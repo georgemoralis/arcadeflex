@@ -1,58 +1,31 @@
 /*
-  quantum
-
-  Paul Forgey, 1997
-
-  This code is donated to the MAME team, and inherits all copyrights
-  and restrictions from MAME
+ * ported to v0.36
+ * using automatic conversion tool v0.10
  */
- /*
-	QUANTUM MEMORY MAP (per schem):
-
-	000000-003FFF	ROM0
-	004000-004FFF	ROM1
-	008000-00BFFF	ROM2
-	00C000-00FFFF	ROM3
-	010000-013FFF	ROM4
-
-	018000-01BFFF	RAM0
-	01C000-01CFFF	RAM1
-
-	940000			TRACKBALL
-	948000			SWITCHES
-	950000			COLORRAM
-	958000			CONTROL (LED and coin control)
-	960000-970000	RECALL (nvram read)
-	968000			VGRST (vector reset)
-	970000			VGGO (vector go)
-	978000			WDCLR (watchdog)
-	900000			NVRAM (nvram write)
-	840000			I/OS (sound and dip switches)
-	800000-801FFF	VMEM (vector display list)
-	940000			I/O (shematic label really - covered above)
-	900000			DTACK1
-
+/**
+ * Changelog
+ * =========
+ * 31/01/2023 - shadow - This file should be complete for 0.36 version
  */
- /*
- * ported to v0.37b7
- * using automatic conversion tool v0.01
- */
-package gr.codebb.arcadeflex.v037b7.drivers;
+package arcadeflex.v036.drivers;
+
 //generic imports
-
 import static arcadeflex.v036.generic.funcPtr.*;
+//machine imports
+import static arcadeflex.v036.machine.foodf.*;
+import static arcadeflex.v036.machine.quantum.*;
+//mame imports
 import static arcadeflex.v036.mame.driverH.*;
 import static arcadeflex.v036.mame.memoryH.*;
 import static arcadeflex.v036.mame.commonH.*;
 import static arcadeflex.v036.mame.drawgfxH.*;
-import static arcadeflex.v036.mame.sndintrfH.*;
 import static arcadeflex.v036.mame.inptportH.*;
-import static arcadeflex.v036.mame.sndintrfH.SOUND_POKEY;
-import static gr.codebb.arcadeflex.v036.sound.pokeyH.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.avgdvg.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.vector.*;
-import static arcadeflex.v036.machine.foodf.*;
-import static gr.codebb.arcadeflex.v037b7.machine.quantum.*;
+import static arcadeflex.v036.mame.sndintrfH.*;
+//vidhrdw imports
+import static arcadeflex.v036.vidhrdw.avgdvg.*;
+import static arcadeflex.v036.vidhrdw.vector.*;
+//TODO imports
+import gr.codebb.arcadeflex.v036.sound.pokeyH.*;
 
 public class quantum {
 
@@ -61,7 +34,7 @@ public class quantum {
                 new MemoryReadAddress(0x000000, 0x013fff, MRA_ROM),
                 new MemoryReadAddress(0x018000, 0x01cfff, MRA_BANK1),
                 new MemoryReadAddress(0x800000, 0x801fff, MRA_BANK2),
-                new MemoryReadAddress(0x840000, 0x84003f, quantum_snd_r),
+                new MemoryReadAddress(0x840000, 0x84003f, quantum_snd_read),
                 new MemoryReadAddress(0x900000, 0x9001ff, foodf_nvram_r),
                 new MemoryReadAddress(0x940000, 0x940001, quantum_trackball_r), /* trackball */
                 new MemoryReadAddress(0x948000, 0x948001, quantum_switches_r),
@@ -73,16 +46,16 @@ public class quantum {
                 new MemoryWriteAddress(0x000000, 0x013fff, MWA_ROM),
                 new MemoryWriteAddress(0x018000, 0x01cfff, MWA_BANK1),
                 new MemoryWriteAddress(0x800000, 0x801fff, MWA_BANK2, vectorram, vectorram_size),
-                new MemoryWriteAddress(0x840000, 0x84003f, quantum_snd_w),
+                new MemoryWriteAddress(0x840000, 0x84003f, quantum_snd_write),
                 new MemoryWriteAddress(0x900000, 0x9001ff, foodf_nvram_w),
                 new MemoryWriteAddress(0x950000, 0x95001f, quantum_colorram_w),
-                new MemoryWriteAddress(0x958000, 0x958001, quantum_led_w),
+                new MemoryWriteAddress(0x958000, 0x958001, quantum_led_write),
                 new MemoryWriteAddress(0x960000, 0x960001, MWA_NOP), /* enable NVRAM? */
-                new MemoryWriteAddress(0x968000, 0x968001, avgdvg_reset_w),
+                new MemoryWriteAddress(0x968000, 0x968001, avgdvg_reset),
                 //	new MemoryWriteAddress( 0x970000, 0x970001, avgdvg_go_w ),
                 //	new MemoryWriteAddress( 0x978000, 0x978001, watchdog_reset_w ),
                 /* the following is wrong, but it's the only way I found to fix the service mode */
-                new MemoryWriteAddress(0x978000, 0x978001, avgdvg_go_w),
+                new MemoryWriteAddress(0x978000, 0x978001, avgdvg_go),
                 new MemoryWriteAddress(-1) /* end of table */};
 
     static InputPortHandlerPtr input_ports_quantum = new InputPortHandlerPtr() {
@@ -170,13 +143,13 @@ public class quantum {
             /* video hardware */
             300, 400, new rectangle(0, 600, 0, 900),
             null,
-            256, 0,
+            256, 256,
             avg_init_palette_multi,
-            VIDEO_TYPE_VECTOR | VIDEO_SUPPORTS_DIRTY,
+            VIDEO_TYPE_VECTOR,
             null,
             avg_start_quantum,
             avg_stop,
-            vector_vh_screenrefresh,
+            avg_screenrefresh,
             /* sound hardware */
             0, 0, 0, 0,
             new MachineSound[]{

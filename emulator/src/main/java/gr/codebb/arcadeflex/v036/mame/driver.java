@@ -19,7 +19,6 @@ package gr.codebb.arcadeflex.v036.mame;
 import static arcadeflex.v036.mame.driverH.*;
 
 //drivers imports
-import static gr.codebb.arcadeflex.v037b7.drivers.pcktgal.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.spy.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.gsword.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jrpacman.*;
@@ -124,11 +123,6 @@ public class driver {
                  *
                  * Perfect games
                  */
-                /*274*//*pcktgal*/ driver_pcktgal,
-                /*275*//*pcktgal*/ driver_pcktgalb,
-                /*276*//*pcktgal*/ driver_pcktgal2,
-                /*277*//*pcktgal*/ driver_spool3,
-                /*278*//*pcktgal*/ driver_spool3i,
                 /*303*//*gsword*/ driver_gsword,
                 /*328*//*skydiver*/ driver_skydiver,
                 /*412*//*kingobox*/ driver_kingofb,

@@ -180,6 +180,7 @@ import static arcadeflex.v036.drivers.mainevt.*;
 import static arcadeflex.v036.drivers.dec8.*;
 import static arcadeflex.v036.drivers.shootout.*;
 import static arcadeflex.v036.drivers.pcktgal.*;
+import static arcadeflex.v036.drivers.quantum.*;
 
 public class driver {
 
@@ -2141,10 +2142,10 @@ public class driver {
                 driver_mhavoc2, /* (c) 1983 */
                 driver_mhavocp, /* (c) 1983 */
                 driver_mhavocrv, /* hack */
-                /*TODO*///	driver_quantum,	/* (c) 1982 */	/* made by Gencomp */
-                /*TODO*///	driver_quantum1,	/* (c) 1982 */	/* made by Gencomp */
-                /*TODO*///	driver_quantump,	/* (c) 1982 */	/* made by Gencomp */
-                /*TODO*///
+                driver_quantum, /* (c) 1982 */ /* made by Gencomp */
+                driver_quantum1, /* (c) 1982 */ /* made by Gencomp */
+                driver_quantump, /* (c) 1982 */ /* made by Gencomp */
+                
                 /*TODO*///	/* Atari b/w games */
                 /*TODO*///	driver_sprint1,	/* no copyright notice */
                 /*TODO*///	driver_sprint2,	/* no copyright notice */
