@@ -182,6 +182,7 @@ import static arcadeflex.v036.drivers.shootout.*;
 import static arcadeflex.v036.drivers.pcktgal.*;
 import static arcadeflex.v036.drivers.quantum.*;
 import static arcadeflex.v036.drivers.jrpacman.*;
+import static arcadeflex.v036.drivers.pacland.*;
 
 public class driver {
 
@@ -455,11 +456,11 @@ public class driver {
                 /*TODO*///	driver_poleps2a,	/* (c) 1983 + Atari license */
                 /*TODO*///	driver_poleps2b,	/* bootleg */
                 /*TODO*///	driver_poleps2c,	/* bootleg */
-                /*TODO*///	/* no custom I/O in the following, HD63701 (or compatible) microcontroller instead */
-                /*TODO*///	driver_pacland,	/* (c) 1984 */
-                /*TODO*///	driver_pacland2,	/* (c) 1984 */
-                /*TODO*///	driver_pacland3,	/* (c) 1984 */
-                /*TODO*///	driver_paclandm,	/* (c) 1984 Midway */
+                /* no custom I/O in the following, HD63701 (or compatible) microcontroller instead */
+                driver_pacland, /* (c) 1984 */
+                driver_pacland2, /* (c) 1984 */
+                driver_pacland3, /* (c) 1984 */
+                driver_paclandm, /* (c) 1984 Midway */
                 driver_drgnbstr, /* (c) 1984 */
                 driver_skykid, /* (c) 1985 */
                 driver_baraduke, /* (c) 1985 */
