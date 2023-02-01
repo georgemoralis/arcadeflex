@@ -183,6 +183,7 @@ import static arcadeflex.v036.drivers.pcktgal.*;
 import static arcadeflex.v036.drivers.quantum.*;
 import static arcadeflex.v036.drivers.jrpacman.*;
 import static arcadeflex.v036.drivers.pacland.*;
+import static arcadeflex.v036.drivers.labyrunr.*;
 
 public class driver {
 
@@ -1948,7 +1949,7 @@ public class driver {
                 driver_mx5000, /* GX669 (c) 1987 */
                 driver_flkatck, /* GX669 (c) 1987 (Japan) */
                 /*TODO*///	driver_fastlane,	/* GX752 (c) 1987 */
-                /*TODO*///	driver_labyrunr,	/* GX771 (c) 1987 (Japan) */
+                driver_labyrunr, /* GX771 (c) 1987 (Japan) */
                 driver_thehustl, /* GX765 (c) 1987 (Japan) */
                 driver_thehustj, /* GX765 (c) 1987 (Japan) */
                 driver_battlnts, /* GX777 (c) 1987 */

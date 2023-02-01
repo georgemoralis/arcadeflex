@@ -21,7 +21,6 @@ import static arcadeflex.v036.mame.driverH.*;
 //drivers imports
 import static gr.codebb.arcadeflex.v037b7.drivers.spy.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.gsword.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.jrpacman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jackal.*;
 import static arcadeflex.v036.drivers.gberet.*;
 import static arcadeflex.v036.drivers.contra.*;
@@ -33,7 +32,6 @@ import static gr.codebb.arcadeflex.v036.drivers.blockhl.*;
 import static gr.codebb.arcadeflex.v036.drivers.gladiatr.*;
 import static arcadeflex.v036.drivers.snowbros.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.skydiver.*;
-import static gr.codebb.arcadeflex.v036.drivers.pacland.*;
 import static gr.codebb.arcadeflex.v036.drivers.psychic5.*;
 import static gr.codebb.arcadeflex.v036.drivers.wardner.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bjtwin.*;
@@ -86,7 +84,6 @@ import static gr.codebb.arcadeflex.v037b7.drivers.armedf.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.namcos1.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.batman.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.tempest.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.quantum.*;
 import static arcadeflex.v036.drivers.foodf.*;
 import static gr.codebb.arcadeflex.v037b7.drivers._8080bw.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.irobot.*;
@@ -123,7 +120,7 @@ public class driver {
                  *
                  * Perfect games
                  */
-                /*303*//*gsword*/ driver_gsword,
+                /*303*//*gsword*/driver_gsword,
                 /*328*//*skydiver*/ driver_skydiver,
                 /*412*//*kingobox*/ driver_kingofb,
                 /*413*//*kingobox*/ driver_ringking,
@@ -148,7 +145,6 @@ public class driver {
                  */
                 /*001*//*gladiatr*/ driver_gladiatr, //no nvram support
                 /*002*//*gladiatr*/ driver_ogonsiro, //no nvram support
-                
 
                 /*m72*/ driver_bchopper,
                 /*m72*/ driver_mrheli,
@@ -176,12 +172,7 @@ public class driver {
                 /*
            Sound issues
                  */
-                /*004*//*pacland*/ driver_pacland, //no sound at all , namco sound doesn't work
-                /*005*//*pacland*/ driver_pacland2,//no sound at all , namco sound doesn't work
-                /*006*//*pacland*/ driver_pacland3,//no sound at all , namco sound doesn't work
-                /*007*//*pacland*/ driver_paclandm,//no sound at all , namco sound doesn't work
                 /*raiden*/ driver_raidena, //no sound (not in mame 0.36 as well)
-
 
                 /*
            Unknown issues     	
@@ -195,7 +186,6 @@ public class driver {
                 /*
           GAME NOT WORKING FLAG
                  */
-
                 /*016*//*spy*/ driver_spy, //sound works , there are a few gfx problems and missing collision(mame 0.36 doesn't have collision either)   
                 /*kingobox*/ driver_ringkin2,
                 /*toki*/ driver_toki,
@@ -222,7 +212,6 @@ public class driver {
                 /*blockhl*/ driver_quarth,
                 /*thunderx*/ driver_scontra,
                 /*thunderx*/ driver_scontraj,
-
                 driver_contra, /* GX633 (c) 1987 */
                 driver_contrab, /* bootleg */
                 driver_contraj, /* GX633 (c) 1987 (Japan) */
@@ -1010,7 +999,6 @@ public class driver {
                 /*TODO*/ //	DRIVER( pulsar )	/* 790-805 (c) 1981 Sega */
                 /*TODO*/ //	DRIVER( heiankyo )	/* (c) [1979?] Denki Onkyo */
 
-
                 /* other Sega 8-bit games */
                 /*TODO*/ //	DRIVER( turbo )		/* (c) 1981 Sega */
                 /*TODO*/ //	DRIVER( turboa )	/* (c) 1981 Sega */
@@ -1329,9 +1317,6 @@ public class driver {
                 driver_starwars, /* (c) 1983 */
                 driver_starwar1, /* (c) 1983 */
                 driver_esb, /* (c) 1985 */
-                driver_quantum, /* (c) 1982 */ /* made by Gencomp */
-                driver_quantum1, /* (c) 1982 */ /* made by Gencomp */
-                driver_quantump, /* (c) 1982 */ /* made by Gencomp */
                 /* Atari b/w games */
                 /*TODO*/ //	DRIVER( sprint1 )	/* no copyright notice */
                 /*TODO*/ //	DRIVER( sprint2 )	/* no copyright notice */
@@ -1842,7 +1827,6 @@ public class driver {
                  * 0.37b7 games
                  *
                  */
-                /*jrpacman*/ driver_jrpacman,
                 /*galpanic */ driver_fantasia,
                 /*galpanic */ driver_newfant,
                 /*galpanic */ driver_missw96,
