@@ -30,6 +30,8 @@ import arcadeflex.v036.sound.sn76496;
 import static arcadeflex.v036.sound.streams.*;
 import arcadeflex.v036.sound.tms36xx;
 import arcadeflex.v036.sound.upd7759;
+import arcadeflex.v037b7.sound._5220intf;
+import arcadeflex.v037b7.sound.sn76477;
 import arcadeflex.v058.sound.vlm5030;
 //TODO
 import static gr.codebb.arcadeflex.v036.mame.common.*;
@@ -198,7 +200,7 @@ public class sndintrf {
         public abstract void reset();/* resets sound emulation */
     }
 
-/*TODO*///#if (HAS_ADPCM)
+    /*TODO*///#if (HAS_ADPCM)
 /*TODO*///int ADPCM_num(const struct MachineSound *msound) { return ((struct ADPCMinterface*)msound->sound_interface)->num; }
 /*TODO*///#endif
 /*TODO*///#if (HAS_OKIM6295)
@@ -361,18 +363,7 @@ public class sndintrf {
                 new _3812intf(),
                 new _3526intf(),
                 new y8950intf(),
-                new Dummy_snd(),/*TODO*///#if (HAS_SN76477)
-                /*TODO*///    {
-                /*TODO*///		SOUND_SN76477,
-                /*TODO*///		"SN76477",
-                /*TODO*///		SN76477_num,
-                /*TODO*///		0,
-                /*TODO*///		SN76477_sh_start,
-                /*TODO*///		SN76477_sh_stop,
-                /*TODO*///		0,
-                /*TODO*///		0
-                /*TODO*///	},
-                /*TODO*///#endif
+                new sn76477(),
                 new sn76496(),
                 new pokey(),
                 new Dummy_snd(),/*TODO*///#if (HAS_NES)
@@ -401,18 +392,7 @@ public class sndintrf {
                 /*TODO*///#endif
                 new namco(),
                 new tms36xx(),
-                new Dummy_snd(),/*TODO*///#if (HAS_TMS5220)
-                /*TODO*///    {
-                /*TODO*///		SOUND_TMS5220,
-                /*TODO*///		"TMS5520",
-                /*TODO*///		0,
-                /*TODO*///		TMS5220_clock,
-                /*TODO*///		tms5220_sh_start,
-                /*TODO*///		tms5220_sh_stop,
-                /*TODO*///		tms5220_sh_update,
-                /*TODO*///		0
-                /*TODO*///	},
-                /*TODO*///#endif
+                new _5220intf(),
                 new vlm5030(),
                 new adpcm(),
                 new okim6295(),
