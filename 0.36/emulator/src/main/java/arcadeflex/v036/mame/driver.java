@@ -184,6 +184,7 @@ import static arcadeflex.v036.drivers.quantum.*;
 import static arcadeflex.v036.drivers.jrpacman.*;
 import static arcadeflex.v036.drivers.pacland.*;
 import static arcadeflex.v036.drivers.labyrunr.*;
+import static arcadeflex.v036.drivers.tempest.*;
 
 public class driver {
 
@@ -2134,10 +2135,10 @@ public class driver {
                 driver_llander1, /* no copyright notice */
                 driver_redbaron, /* (c) 1980 */
                 driver_spacduel, /* (c) 1980 */
-                /*TODO*///	driver_tempest,	/* (c) 1980 */
-                /*TODO*///	driver_tempest1,	/* (c) 1980 */
-                /*TODO*///	driver_tempest2,	/* (c) 1980 */
-                /*TODO*///	driver_temptube,	/* hack */
+                driver_tempest, /* (c) 1980 */
+                driver_tempest1, /* (c) 1980 */
+                driver_tempest2, /* (c) 1980 */
+                driver_temptube, /* hack */
                 /*TODO*///	driver_starwars,	/* (c) 1983 */
                 /*TODO*///	driver_starwar1,	/* (c) 1983 */
                 /*TODO*///	driver_esb,		/* (c) 1985 */

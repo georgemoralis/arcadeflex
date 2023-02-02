@@ -83,7 +83,6 @@ import static gr.codebb.arcadeflex.v037b7.drivers.magmax.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.armedf.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.namcos1.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.batman.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.tempest.*;
 import static arcadeflex.v036.drivers.foodf.*;
 import static gr.codebb.arcadeflex.v037b7.drivers._8080bw.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.irobot.*;
@@ -1309,11 +1308,6 @@ public class driver {
                 /*TODO*/ //	DRIVER( hitnmis2 )	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( whodunit )	/* (c) 1988 */
                 /*TODO*/ //	DRIVER( showdown )	/* (c) 1988 */
-
-                driver_tempest, /* (c) 1980 */
-                driver_tempest1, /* (c) 1980 */
-                driver_tempest2, /* (c) 1980 */
-                driver_temptube, /* hack */
                 driver_starwars, /* (c) 1983 */
                 driver_starwar1, /* (c) 1983 */
                 driver_esb, /* (c) 1985 */
