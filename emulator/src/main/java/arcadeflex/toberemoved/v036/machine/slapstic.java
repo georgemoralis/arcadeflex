@@ -140,7 +140,7 @@ documented in the MAME code.
  * ported to v0.37b7
  * using automatic conversion tool v0.01
  */ 
-package gr.codebb.arcadeflex.v037b7.machine;
+package arcadeflex.toberemoved.v036.machine;
 
 public class slapstic
 {

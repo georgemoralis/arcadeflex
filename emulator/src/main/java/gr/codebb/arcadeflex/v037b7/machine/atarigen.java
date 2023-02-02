@@ -39,7 +39,7 @@ import static gr.codebb.arcadeflex.v036.mame.usrintrf.ui_text;
 import static gr.codebb.arcadeflex.v036.sound.mixer.*;
 import static gr.codebb.arcadeflex.v036.sound.mixerH.*;
 import static gr.codebb.arcadeflex.v037b7.cpu.m6502.m6502H.M6502_INT_IRQ;
-import static gr.codebb.arcadeflex.v037b7.machine.slapstic.*;
+import static arcadeflex.toberemoved.v036.machine.slapstic.*;
 import static arcadeflex.v036.mame.cpuintrfH.*;
 import static gr.codebb.arcadeflex.v037b7.mame.memory.*;
 

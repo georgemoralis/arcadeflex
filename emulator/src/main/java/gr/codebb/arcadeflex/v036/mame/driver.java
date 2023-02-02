@@ -77,7 +77,6 @@ import static gr.codebb.arcadeflex.v036.drivers.cninja.*;
 import static gr.codebb.arcadeflex.v036.drivers.gaelco.*;
 import static gr.codebb.arcadeflex.v036.drivers.gaiden.*;
 import static gr.codebb.arcadeflex.v036.drivers.system16.*;
-import static gr.codebb.arcadeflex.v037b7.drivers.starwars.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.mcr3.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.magmax.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.armedf.*;
@@ -1308,9 +1307,6 @@ public class driver {
                 /*TODO*/ //	DRIVER( hitnmis2 )	/* (c) 1987 */
                 /*TODO*/ //	DRIVER( whodunit )	/* (c) 1988 */
                 /*TODO*/ //	DRIVER( showdown )	/* (c) 1988 */
-                driver_starwars, /* (c) 1983 */
-                driver_starwar1, /* (c) 1983 */
-                driver_esb, /* (c) 1985 */
                 /* Atari b/w games */
                 /*TODO*/ //	DRIVER( sprint1 )	/* no copyright notice */
                 /*TODO*/ //	DRIVER( sprint2 )	/* no copyright notice */

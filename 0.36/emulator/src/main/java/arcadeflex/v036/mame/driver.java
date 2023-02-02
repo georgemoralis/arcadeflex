@@ -185,6 +185,7 @@ import static arcadeflex.v036.drivers.jrpacman.*;
 import static arcadeflex.v036.drivers.pacland.*;
 import static arcadeflex.v036.drivers.labyrunr.*;
 import static arcadeflex.v036.drivers.tempest.*;
+import static arcadeflex.v036.drivers.starwars.*;
 
 public class driver {
 
@@ -2139,9 +2140,9 @@ public class driver {
                 driver_tempest1, /* (c) 1980 */
                 driver_tempest2, /* (c) 1980 */
                 driver_temptube, /* hack */
-                /*TODO*///	driver_starwars,	/* (c) 1983 */
-                /*TODO*///	driver_starwar1,	/* (c) 1983 */
-                /*TODO*///	driver_esb,		/* (c) 1985 */
+                driver_starwars, /* (c) 1983 */
+                driver_starwar1, /* (c) 1983 */
+                driver_esb, /* (c) 1985 */
                 driver_mhavoc, /* (c) 1983 */
                 driver_mhavoc2, /* (c) 1983 */
                 driver_mhavocp, /* (c) 1983 */
