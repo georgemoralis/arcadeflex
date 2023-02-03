@@ -186,6 +186,7 @@ import static arcadeflex.v036.drivers.pacland.*;
 import static arcadeflex.v036.drivers.labyrunr.*;
 import static arcadeflex.v036.drivers.tempest.*;
 import static arcadeflex.v036.drivers.starwars.*;
+import static arcadeflex.v036.drivers.mexico86.*;
 
 public class driver {
 
@@ -951,9 +952,9 @@ public class driver {
                 driver_sboblbob, /* bootleg */
                 driver_tokio, /* 1986 */
                 driver_tokiob, /* bootleg */
-                /*TODO*///	driver_kicknrun,	/* (c) 1986 Taito Corporation */
-                /*TODO*///	driver_mexico86,	/* bootleg (Micro Research) */
-                /*TODO*///	driver_kikikai,	/* (c) 1986 Taito Corporation */
+                driver_kicknrun, /* (c) 1986 Taito Corporation */
+                driver_mexico86, /* bootleg (Micro Research) */
+                driver_kikikai, /* (c) 1986 Taito Corporation */
                 /*TODO*///	driver_rastan,	/* (c) 1987 Taito Corporation Japan (World) */
                 /*TODO*///	driver_rastanu,	/* (c) 1987 Taito America Corporation (US) */
                 /*TODO*///	driver_rastanu2,	/* (c) 1987 Taito America Corporation (US) */
@@ -961,7 +962,7 @@ public class driver {
                 /*TODO*///	driver_rainbow,	/* (c) 1987 Taito Corporation */
                 /*TODO*///	driver_rainbowe,	/* (c) 1988 Taito Corporation */
                 /*TODO*///	driver_jumping,	/* bootleg */
-                /*TODO*///	driver_arkanoid,	/* (c) 1986 Taito Corporation Japan (World) */
+                driver_arkanoid, /* (c) 1986 Taito Corporation Japan (World) */
                 driver_arknoidu, /* (c) 1986 Taito America Corporation + Romstar license (US) */
                 driver_arknoidj, /* (c) 1986 Taito Corporation (Japan) */
                 driver_arkbl2, /* bootleg */
