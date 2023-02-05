@@ -1,6 +1,11 @@
 /*
  * ported to v0.36
  */
+/**
+ * Changelog
+ * =========
+ * 05/02/2023 - shadow - This file should be complete for 0.36 version
+ */
 package arcadeflex.v036.drivers;
 
 //generic imports
@@ -17,10 +22,11 @@ import static arcadeflex.v036.mame.inptportH.*;
 //sound imports
 import static arcadeflex.v036.sound.sn76496H.*;
 import static arcadeflex.v036.sound.sn76496.*;
+//vidhrdw imports
 import static arcadeflex.v036.vidhrdw.generic.*;
-import static gr.codebb.arcadeflex.v036.vidhrdw.gberet.*;
+import static arcadeflex.v036.vidhrdw.gberet.*;
+//TODO
 import static gr.codebb.arcadeflex.common.PtrLib.*;
-import static gr.codebb.arcadeflex.v036.mame.common.*;
 
 public class gberet {
 

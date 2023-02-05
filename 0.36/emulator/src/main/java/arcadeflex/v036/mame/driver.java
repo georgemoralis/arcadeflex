@@ -187,6 +187,9 @@ import static arcadeflex.v036.drivers.labyrunr.*;
 import static arcadeflex.v036.drivers.tempest.*;
 import static arcadeflex.v036.drivers.starwars.*;
 import static arcadeflex.v036.drivers.mexico86.*;
+import static arcadeflex.v036.drivers.psychic5.*;
+import static arcadeflex.v036.drivers.gberet.*;
+import static arcadeflex.v036.drivers.parodius.*;
 
 public class driver {
 
@@ -1922,10 +1925,10 @@ public class driver {
                 driver_kicker, /* GX477 (c) 1985 */
                 driver_shaolins, /* GX477 (c) 1985 */
                 driver_pingpong, /* GX555 (c) 1985 */
-                /*TODO*///	driver_gberet,	/* GX577 (c) 1985 */
-                /*TODO*///	driver_rushatck,	/* GX577 (c) 1985 */
-                /*TODO*///	driver_gberetb,	/* bootleg on different hardware */
-                /*TODO*///	driver_mrgoemon,	/* GX621 (c) 1986 (Japan) */
+                driver_gberet, /* GX577 (c) 1985 */
+                driver_rushatck, /* GX577 (c) 1985 */
+                driver_gberetb, /* bootleg on different hardware */
+                driver_mrgoemon, /* GX621 (c) 1986 (Japan) */
                 driver_jailbrek, /* GX507 (c) 1986 */
                 driver_finalizr, /* GX523 (c) 1985 */
                 driver_finalizb, /* bootleg */
@@ -1993,7 +1996,7 @@ public class driver {
                 driver_aliensu, /* GX875 (c) 1990 (US) */
                 driver_aliensj, /* GX875 (c) 1990 (Japan) */
                 driver_surpratk, /* GX911 (c) 1990 (Japan) */
-                /*TODO*///	driver_parodius,	/* GX955 (c) 1990 (Japan) */
+                driver_parodius, /* GX955 (c) 1990 (Japan) */
                 driver_rollerg, /* GX999 (c) 1991 (US) */
                 driver_rollergj, /* GX999 (c) 1991 (Japan) */
                 /*TODO*////*TESTDRIVER*/driver_xexex,		/* GX067 (c) 1991 */
@@ -2579,7 +2582,7 @@ public class driver {
                 driver_cruisin, /* (c) 1985 Jaleco/Kitkorp */
                 /*TODO*///	driver_pinbo,		/* (c) 1984 Jaleco */
                 /*TODO*///	driver_pinbos,	/* (c) 1985 Strike */
-                /*TODO*///	driver_psychic5,	/* (c) 1987 Jaleco */
+                driver_psychic5, /* (c) 1987 Jaleco */
                 /*TODO*///	driver_ginganin,	/* (c) 1987 Jaleco */
                 /*TODO*///	driver_cischeat,	/* (c) 1990 Jaleco */
                 /*TODO*///	driver_f1gpstar,	/* (c) 1991 Jaleco */
