@@ -150,17 +150,7 @@ public class input {
 
                     return res;
             }*/
-        if (MainApplet.inst != null) {
-            return MainApplet.inst.key[keycode] ? 1 : 0;
-        } else if (MainStream.inst != null) {
-            //return screen.key[keycode] ? 1 : 0;
-            if(MainStream.debug){
-                return screen.key[keycode] ? 1 : 0;
-            }
-            return MainStream.inst.key[keycode] ? 1 : 0;
-        } else {
-            return screen.key[keycode] ? 1 : 0;
-        }
+        return screen.key[keycode] ? 1 : 0;
 
     }
 

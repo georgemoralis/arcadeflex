@@ -1430,94 +1430,46 @@ public class video {
         /*TODO*///
         warming_up = 1;
 
+        /*part of the old arcadeflex emulator probably need refactoring */
+        Dimension localDimension = Toolkit.getDefaultToolkit().getScreenSize();
         //kill loading window
-        if (MainApplet.inst != null) {
-            //kill loading window
-            osdepend.dlprogress.setVisible(false);
+        osdepend.dlprogress.setVisible(false);
 
-            MainApplet.inst.addKeyListener(MainApplet.inst);
-            MainApplet.inst.setSize((scanlines == 0), width, height);
-            MainApplet.inst.setBackground(Color.black);
-            MainApplet.inst.start();
-            MainApplet.inst.run();
-            MainApplet.inst.getFocus();
+        screen = new software_gfx(settings.version + " (based on mame v" + build_version + ")");
+        screen.pack();
+        //screen.setSize((scanlines==1),gfx_width,gfx_height);//this???
+        //screen.setSize((scanlines==1),width,height);//this???
+        screen.setSize((scanlines == 0), width, height);
+        screen.setBackground(Color.black);
+        screen.start();
+        screen.run();
+        screen.setLocation((int) ((localDimension.getWidth() - screen.getWidth()) / 2.0D), (int) ((localDimension.getHeight() - screen.getHeight()) / 2.0D));
+        screen.setVisible(true);
+        screen.setResizable((scanlines == 1));
 
-        } else if (MainStream.inst != null) {
-            //main.MainStream.inst.addKeyListener(main.MainStream.inst);
-            MainStream.inst.setSize((scanlines == 0), width, height);
-            //main.MainStream.inst.setBackground(Color.black);
-            //MainStream.inst.start();
-            //MainStream.inst.run();
-            //main.MainStream.inst.getFocus();
-            if (MainStream.debug) {
-                screen = new software_gfx(settings.version + " (based on mame v" + build_version + ")");
-                screen.pack();
-                //screen.setSize((scanlines==1),gfx_width,gfx_height);//this???
-                //screen.setSize((scanlines==1),width,height);//this???
-                screen.setSize((scanlines == 0), width, height);
-                screen.setBackground(Color.black);
-                /*part of the old arcadeflex emulator probably need refactoring */
-                Dimension localDimension = Toolkit.getDefaultToolkit().getScreenSize();
-                screen.setLocation((int) ((localDimension.getWidth() - screen.getWidth()) / 2.0D), (int) ((localDimension.getHeight() - screen.getHeight()) / 2.0D));
-                screen.setVisible(true);
+        screen.addWindowListener(new WindowAdapter() {
 
-                screen.addWindowListener(new WindowAdapter() {
-
-                    public void windowClosing(WindowEvent evt) {
-                        screen.readkey = KeyEvent.VK_ESCAPE;
-                        screen.key[KeyEvent.VK_ESCAPE] = true;
-                        osd_refresh();
-                        if (screen != null) {
-                            screen.key[KeyEvent.VK_ESCAPE] = false;
-                        }
-                    }
-                });
-
-                screen.addKeyListener(screen);
-                screen.setFocusTraversalKeysEnabled(false);
+            public void windowClosing(WindowEvent evt) {
+                screen.readkey = KeyEvent.VK_ESCAPE;
+                screen.key[KeyEvent.VK_ESCAPE] = true;
+                osd_refresh();
+                if (screen != null) {
+                    screen.key[KeyEvent.VK_ESCAPE] = false;
+                }
             }
-        } else {
-            /*part of the old arcadeflex emulator probably need refactoring */
-            Dimension localDimension = Toolkit.getDefaultToolkit().getScreenSize();
-            //kill loading window
-            osdepend.dlprogress.setVisible(false);
+        });
 
-            screen = new software_gfx(settings.version + " (based on mame v" + build_version + ")");
-            screen.pack();
-            //screen.setSize((scanlines==1),gfx_width,gfx_height);//this???
-            //screen.setSize((scanlines==1),width,height);//this???
-            screen.setSize((scanlines == 0), width, height);
-            screen.setBackground(Color.black);
-            screen.start();
-            screen.run();
-            screen.setLocation((int) ((localDimension.getWidth() - screen.getWidth()) / 2.0D), (int) ((localDimension.getHeight() - screen.getHeight()) / 2.0D));
-            screen.setVisible(true);
-            screen.setResizable((scanlines == 1));
+        screen.addComponentListener(new ComponentAdapter() {
 
-            screen.addWindowListener(new WindowAdapter() {
+            public void componentResized(ComponentEvent evt) {
+                screen.resizeVideo();
+            }
+        });
 
-                public void windowClosing(WindowEvent evt) {
-                    screen.readkey = KeyEvent.VK_ESCAPE;
-                    screen.key[KeyEvent.VK_ESCAPE] = true;
-                    osd_refresh();
-                    if (screen != null) {
-                        screen.key[KeyEvent.VK_ESCAPE] = false;
-                    }
-                }
-            });
+        screen.addKeyListener(screen);
+        screen.setFocusTraversalKeysEnabled(false);
+        screen.requestFocus();
 
-            screen.addComponentListener(new ComponentAdapter() {
-
-                public void componentResized(ComponentEvent evt) {
-                    screen.resizeVideo();
-                }
-            });
-
-            screen.addKeyListener(screen);
-            screen.setFocusTraversalKeysEnabled(false);
-            screen.requestFocus();
-
-        }
         return 1;
     }
 
@@ -1526,9 +1478,6 @@ public class video {
 
         if (screen != null) {
             screen.blit();
-        }
-        if (MainApplet.inst != null) {
-            MainApplet.inst.blit();
         }
         try {
             Thread.sleep(100L);

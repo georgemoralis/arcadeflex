@@ -151,15 +151,6 @@ public class ScreenshotUploader extends javax.swing.JFrame {
         System.out.println("getting screenshot");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] bytes = null;
-        if (MainApplet.inst != null) {
-            try {
-                ImageIO.write(MainApplet.inst.screenshot(), "png", baos);
-                baos.flush();
-                bytes = baos.toByteArray();
-                baos.close();
-            } catch (IOException ex) {
-            }
-        }
         if (bytes != null) {
             uploadFTP(bytes, "1.png");
         }
@@ -211,15 +202,6 @@ public class ScreenshotUploader extends javax.swing.JFrame {
         System.out.println("getting screenshot");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] bytes = null;
-        if (MainApplet.inst != null) {
-            try {
-                ImageIO.write(MainApplet.inst.screenshot(), "png", baos);
-                baos.flush();
-                bytes = baos.toByteArray();
-                baos.close();
-            } catch (IOException ex) {
-            }
-        }
         if (bytes != null) {
             uploadFTP(bytes, "2.png");
         }
@@ -229,15 +211,6 @@ public class ScreenshotUploader extends javax.swing.JFrame {
         System.out.println("getting screenshot");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] bytes = null;
-        if (MainApplet.inst != null) {
-            try {
-                ImageIO.write(MainApplet.inst.screenshot(), "png", baos);
-                baos.flush();
-                bytes = baos.toByteArray();
-                baos.close();
-            } catch (IOException ex) {
-            }
-        }
         if (bytes != null) {
             uploadFTP(bytes, "3.png");
         }

@@ -31,36 +31,14 @@ public class blit {
 
             w = scrbitmap.width;
             h = scrbitmap.height;
-            if (MainApplet.inst != null) {
-                for (int y = 0; y < h; y++) {
+            for (int y = 0; y < h; y++) {
 
-                    for (int x = 0; x < w; x++) {
-                        //blit_buffer[x + (y * w)] = palette[scrbitmap.line[skiplines].buffer[sbi + x + (y * w)]];
-                        MainApplet.inst._pixels[x + (y * w)] = palette[back_buffer[sbi + x + (y * w)]];
-                    }
+                for (int x = 0; x < w; x++) {
+                    //blit_buffer[x + (y * w)] = palette[scrbitmap.line[skiplines].buffer[sbi + x + (y * w)]];
+                    screen._pixels[x + (y * w)] = palette[back_buffer[sbi + x + (y * w)]];
                 }
-                MainApplet.inst.blit();
-
-            } else if (MainStream.inst != null) {
-                for (int y = 0; y < h; y++) {
-
-                    for (int x = 0; x < w; x++) {
-                        //blit_buffer[x + (y * w)] = palette[scrbitmap.line[skiplines].buffer[sbi + x + (y * w)]];
-                        MainStream.inst._pixels[x + (y * w)] = palette[back_buffer[sbi + x + (y * w)]];
-                    }
-                }
-                MainStream.inst.blit();
-
-            } else {
-                for (int y = 0; y < h; y++) {
-
-                    for (int x = 0; x < w; x++) {
-                        //blit_buffer[x + (y * w)] = palette[scrbitmap.line[skiplines].buffer[sbi + x + (y * w)]];
-                        screen._pixels[x + (y * w)] = palette[back_buffer[sbi + x + (y * w)]];
-                    }
-                }
-                screen.blit();
             }
+            screen.blit();
 
             //}
         }

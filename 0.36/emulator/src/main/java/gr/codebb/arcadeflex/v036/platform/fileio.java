@@ -148,9 +148,7 @@ public class fileio {
                         name = sprintf("%s/%s", dir_name, gamename);
                         fprintf(errorlog, "Trying %s\n", name);
                         //java code to emulate stat command (shadow)
-                        if (MainStream.inst == null) {
                             osdepend.dlprogress.setFileName("loading file: " + name);
-                        }
                         //case where file exists in rom folder
                         if (new File(name).isDirectory() && new File(name).exists()) // if( cache_stat (name, &stat_buffer) == 0 && (stat_buffer.st_mode & S_IFDIR) )               
                         {
@@ -293,9 +291,7 @@ public class fileio {
                                 //}
                             } else {
                                 System.out.println(filename + " does not seem to exist in the zip file");
-                                if (MainStream.inst == null) {
                                     osdepend.dlprogress.setFileName(filename + " does not seem to exist in the zip file");
-                                }
                             }
                         }
                     }

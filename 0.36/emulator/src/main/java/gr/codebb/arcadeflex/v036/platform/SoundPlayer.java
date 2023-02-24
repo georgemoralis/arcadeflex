@@ -5,9 +5,6 @@
  */
 package gr.codebb.arcadeflex.v036.platform;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
 import javax.sound.sampled.*;
 
 /**
@@ -57,17 +54,13 @@ public class SoundPlayer {
 
         try {
             m_line = (SourceDataLine) AudioSystem.getLine(info);
-            if (MainStream.inst == null) {
-                m_line.open(format);
-            }
+            m_line.open(format);
         } catch (LineUnavailableException lue) {
             System.err.println("Unavailable data line");
             return;
         }
 
-        if (MainStream.inst == null) {
-            m_line.start();
-        }
+        m_line.start();
         //soundInstance.Play();
     }
 
@@ -79,15 +72,11 @@ public class SoundPlayer {
         return soundInstance.GetSampleSizeInBytes(duration);
     }*/
     public void Play() {
-        if (MainStream.inst == null) {
-            m_line.start();
-        }
+        m_line.start();
     }
 
     public void Stop() {
-        if (MainStream.inst == null) {
-            m_line.stop();
-        }
+        m_line.stop();
     }
 
     public void WriteSample(int index, short sample) {
@@ -101,11 +90,7 @@ public class SoundPlayer {
 
     public void SubmitBuffer(int offset, int length) {
         if (waveBuffer != null) {
-            if (MainStream.inst == null) {
-                m_line.write(waveBuffer, offset, length);
-            } else {
-                MainStream.inst.callback.broadcastAudio(waveBuffer, offset, length);
-            }
+            m_line.write(waveBuffer, offset, length);
         }
     }
 

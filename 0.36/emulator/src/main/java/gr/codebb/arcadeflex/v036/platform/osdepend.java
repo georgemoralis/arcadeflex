@@ -71,11 +71,9 @@ public class osdepend {
     /*TODO*///}
     /*TODO*///
     public static int main(int argc, String[] argv) {
-        if (MainStream.inst == null) {
-            dlprogress = new UrlDownloadProgress();
-            dlprogress.setVersion("arcadeflex version: " + settings.version);
-            dlprogress.setVisible(true);
-        }
+        dlprogress = new UrlDownloadProgress();
+        dlprogress.setVersion("arcadeflex version: " + settings.version);
+        dlprogress.setVisible(true);
         int res, i, j = 0, game_index;
         String playbackname = "";
         /* these two are not available in mame.cfg */
@@ -160,9 +158,7 @@ public class osdepend {
             for (i = 0; drivers[i] != null && (game_index == -1); i++) {
                 if (stricmp(argv[j], drivers[i].name) == 0) {
                     game_index = i;
-                    if (MainStream.inst == null) {
-                        dlprogress.setRomName("loading game: " + drivers[i].name);
-                    }
+                    dlprogress.setRomName("loading game: " + drivers[i].name);
                     break;
                 }
             }
@@ -206,9 +202,7 @@ public class osdepend {
             /*TODO*///
             if (game_index == -1) {
                 printf("Game \"%s\" not supported\n", argv[j]);
-                if (MainStream.inst == null) {
-                    dlprogress.setRomName("error in game name or game not supported");
-                }
+                dlprogress.setRomName("error in game name or game not supported");
                 return 1;
             }
         }

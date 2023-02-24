@@ -4,7 +4,6 @@
 package arcadeflex.v036.mame;
 
 public class pngH {
-
     /*TODO*///
 /*TODO*///#ifndef MAME_PNG_H
 /*TODO*///#define MAME_PNG_H
@@ -35,15 +34,14 @@ public class pngH {
 /*TODO*///#define PNG_PF_Average  3
 /*TODO*///#define PNG_PF_Paeth    4
 /*TODO*///
-/* PNG support */
-    public static class png_info {
-
-        int/*UINT32*/ width, height;
-        /*TODO*///	UINT32 xoffset, yoffset;
+/*TODO*////* PNG support */
+/*TODO*///struct png_info {
+/*TODO*///	UINT32 width, height;
+/*TODO*///	UINT32 xoffset, yoffset;
 /*TODO*///	UINT32 xres, yres;
-        double xscale, yscale;
-        double source_gamma;
-        /*TODO*///	UINT32 chromaticities[8];
+/*TODO*///	double xscale, yscale;
+/*TODO*///	double source_gamma;
+/*TODO*///	UINT32 chromaticities[8];
 /*TODO*///	UINT32 resolution_unit, offset_unit, scale_unit;
 /*TODO*///	UINT8 bit_depth;
 /*TODO*///	UINT32 significant_bits[4];
@@ -52,12 +50,12 @@ public class pngH {
 /*TODO*///	UINT8 compression_method;
 /*TODO*///	UINT8 filter_method;
 /*TODO*///	UINT8 interlace_method;
-        int /*UINT32*/ num_palette;
-        char[] /*UINT8 * */ palette;
-        int /*UINT32*/ num_trans;
-        char[] /*UINT8 * */ trans;
-        char[] /*UINT8 * */ image;
-        /*TODO*///
+/*TODO*///	UINT32 num_palette;
+/*TODO*///	UINT8 *palette;
+/*TODO*///	UINT32 num_trans;
+/*TODO*///	UINT8 *trans;
+/*TODO*///	UINT8 *image;
+/*TODO*///
 /*TODO*///	/* The rest is private and should not be used
 /*TODO*///	 * by the public functions
 /*TODO*///	 */
@@ -66,8 +64,8 @@ public class pngH {
 /*TODO*///	UINT8 *zimage;
 /*TODO*///	UINT32 zlength;
 /*TODO*///	UINT8 *fimage;
-    }
-    /*TODO*///
+/*TODO*///};
+/*TODO*///
 /*TODO*///int png_verify_signature (void *fp);
 /*TODO*///int png_inflate_image (struct png_info *p);
 /*TODO*///int png_read_file(void *fp, struct png_info *p);
