@@ -38,3 +38,13 @@ emulator/samples/*
 /0.36/converter/target/classes/*
 /0.36/emulator/nbactions.xml
 /0.36/Release/nvram/*.nv
+/0.37b7/emulator/target/*
+/0.37b7/emulator/temp.txt
+/0.37b7/Release/arcadeflex.cfg
+/0.37b7/Release/roms/*
+/0.37b7/Release/samples/*
+/0.37b7/Release/hi/*.hi
+/0.37b7/converter/target/*
+/0.37b7/converter/target/classes/*
+/0.37b7/emulator/nbactions.xml
+/0.37b7/Release/nvram/*.nv
