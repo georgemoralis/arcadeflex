@@ -22,7 +22,6 @@ import static arcadeflex.v036.mame.driverH.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.spy.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.gsword.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.jackal.*;
-import static arcadeflex.v036.drivers.gberet.*;
 import static arcadeflex.v036.drivers.contra.*;
 import static gr.codebb.arcadeflex.v036.drivers.combatsc.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.kingobox.*;
@@ -32,11 +31,9 @@ import static gr.codebb.arcadeflex.v036.drivers.blockhl.*;
 import static gr.codebb.arcadeflex.v036.drivers.gladiatr.*;
 import static arcadeflex.v036.drivers.snowbros.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.skydiver.*;
-import static gr.codebb.arcadeflex.v036.drivers.psychic5.*;
 import static gr.codebb.arcadeflex.v036.drivers.wardner.*;
 import static gr.codebb.arcadeflex.v037b7.drivers.bjtwin.*;
 import static gr.codebb.arcadeflex.v036.drivers.qix.*;
-import static gr.codebb.arcadeflex.v036.drivers.parodius.*;
 import static gr.codebb.arcadeflex.v036.drivers.m72.*;
 import static gr.codebb.arcadeflex.v036.drivers.raiden.*;
 import static gr.codebb.arcadeflex.v036.drivers.dynduke.*;
@@ -197,15 +194,10 @@ public class driver {
                 /**
                  * Small tilemap issues
                  */
-                /*gberet*/ driver_gberet, //garbage remains in left and right of screen (clipping?)
-                /*gberet*/ driver_rushatck, //garbage remains in left and right of screen (clipping?)
-                /*gberet*/ driver_gberetb, //garbage remains in left and right of screen (clipping?)	
-                /*gberet*/ driver_mrgoemon, //garbage remains in left and right of screen (clipping?)
 
                 /**
                  * WIP section
                  */
-                /*psychic5*/ driver_psychic5,
                 /*blockhl*/ driver_blockhl,
                 /*blockhl*/ driver_quarth,
                 /*thunderx*/ driver_scontra,
@@ -1215,7 +1207,6 @@ public class driver {
                 /*TODO*/ //	DRIVER( thunderx )	/* GX873 (c) 1988 */
                 /*TODO*/ //	DRIVER( thnderxj )	/* GX873 (c) 1988 (Japan) */
 
-                /*parodius*/ driver_parodius,
                 /*TODO*/ //TESTDRIVER( xexex )		/* GX067 (c) 1991 */
 
                 driver_wecleman, /* GX602 (c) 1986 */

@@ -13,10 +13,12 @@ import static arcadeflex.v036.mame.sndintrf.sound_name;
 import gr.codebb.arcadeflex.common.PtrLib.UBytePtr;
 import static common.libc.cstdio.sprintf;
 import static gr.codebb.arcadeflex.v036.mame.common.memory_region;
+import static gr.codebb.arcadeflex.v036.mame.common.memory_region_length;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
 import static arcadeflex.v036.mame.sndintrf.*;
 import arcadeflex.v036.mame.sndintrfH.MachineSound;
 import static arcadeflex.v036.mame.sndintrfH.SOUND_OKIM6295;
+import static arcadeflex.v036.mame.commonH.REGION_SOUND1;
 import static gr.codebb.arcadeflex.common.PtrLib.*;
 import static gr.codebb.arcadeflex.v036.platform.osdepend.logerror;
 import static arcadeflex.v036.sound.adpcmH.MAX_ADPCM;
@@ -203,6 +205,13 @@ public class okim6295 extends snd_interface {
             return;
         }
         ADPCMVoice voice = adpcm[which * MAX_OKIM6295_VOICES + channel];
+        int regionLength = memory_region_length(REGION_SOUND1 + which);
+
+        if (regionLength == 0 || base < 0 || base >= regionLength) {
+            logerror("OKIM6295: rejecting bank base %06x for chip %d voice %d (region size %06x)\n", base, which, channel, regionLength);
+            base = 0;
+        }
+
         /* update the stream and set the new base */
         stream_update(voice.stream, 0);
         okim6295_base[which][channel] = base;
@@ -286,6 +295,7 @@ public class okim6295 extends snd_interface {
         /* if a command is pending, process the second half */
         if (okim6295_command[num] != -1) {
             int temp = data >> 4, i, start, stop;
+            int regionLength = memory_region_length(REGION_SOUND1 + num);
             UBytePtr _base;
 
             /* determine which voice(s) (voice is set by a 1 bit in the upper 4 bits of the second byte) */
@@ -296,15 +306,29 @@ public class okim6295 extends snd_interface {
                     /* update the stream */
                     stream_update(voice.stream, 0);
                     /* determine the start/stop positions */
-                    _base = new UBytePtr(voice.region_base, okim6295_base[num][i] + okim6295_command[num] * 8);
+                    int tableOffset = okim6295_base[num][i] + okim6295_command[num] * 8;
+
+                    if (voice.region_base == null || tableOffset < 0 || tableOffset + 5 >= regionLength) {
+                        logerror("OKIM6295: sample table lookup out of range for chip %d voice %d, command %02x, bank %06x, region size %06x\n",
+                                num, i, okim6295_command[num], okim6295_base[num][i], regionLength);
+                        voice.playing = 0;
+                        continue;
+                    }
+
+                    _base = new UBytePtr(voice.region_base, tableOffset);
                     start = (_base.read(0) << 16) + (_base.read(1) << 8) + _base.read(2);
                     stop = (_base.read(3) << 16) + (_base.read(4) << 8) + _base.read(5);
+                    int sampleCount = 2 * (stop - start + 1);
+                    int lastByteOffset = okim6295_base[num][i] + start + ((sampleCount - 1) / 2);
+
                     /* set up the voice to play this sample */
-                    if (start < 0x40000 && stop < 0x40000) {
+                    if (start < 0x40000 && stop < 0x40000 && stop >= start
+                            && okim6295_base[num][i] + start < regionLength
+                            && lastByteOffset < regionLength) {
                         voice.playing = 1;
                         voice._base = new UBytePtr(voice.region_base, okim6295_base[num][i] + start);
                         voice.sample = 0;
-                        voice.count = (int) (2 * (stop - start + 1));
+                        voice.count = sampleCount;
 
                         /* also reset the ADPCM parameters */
                         voice.signal = -2;
@@ -448,7 +472,7 @@ public class okim6295 extends snd_interface {
                 samples--;
 
                 /* next! */
-                if (++sample > count) {
+                if (++sample >= count) {
                     voice.playing = 0;
                     break;
                 }
