@@ -22,6 +22,7 @@ import java.awt.image.DirectColorModel;
 import java.awt.image.ImageConsumer;
 import java.awt.image.ImageProducer;
 import static gr.codebb.arcadeflex.v036.mame.mame.Machine;
+import static arcadeflex.v036.mame.driverH.*;
 
 /**
  *
@@ -126,12 +127,46 @@ public class MainStream implements ImageProducer, KeyListener, MouseListener, Mo
     }
 
     public synchronized BufferedImage screenshot() {
-        BufferedImage image = new BufferedImage(
-                getWidth() - this._insets.left - this._insets.right,
-                getHeight() - this._insets.top - this._insets.bottom,
-                BufferedImage.TYPE_INT_RGB
-        );
-        image.getGraphics().drawImage(_image, this._insets.left, this._insets.top, i, j, null);
+        // blit copies the full, already-oriented bitmap into _pixels using
+        // scrbitmap.width as its stride. Capture native pixels, not the AWT
+        // image enlarged by updateOffsets()'s desktop-era percentage hacks.
+        if (Machine == null || Machine.drv == null || video.scrbitmap == null || _pixels == null) {
+            throw new IllegalStateException("Video frame is not ready");
+        }
+        int width = video.scrbitmap.width;
+        int height = video.scrbitmap.height;
+        int xmin = 0, ymin = 0, xmax = width - 1, ymax = height - 1;
+        if ((Machine.drv.video_attributes & VIDEO_TYPE_VECTOR) == 0) {
+            xmin = Machine.drv.visible_area.min_x;
+            xmax = Machine.drv.visible_area.max_x;
+            ymin = Machine.drv.visible_area.min_y;
+            ymax = Machine.drv.visible_area.max_y;
+            // Match video.adjust_display(): swap axes first, then reflect the
+            // crop bounds within the already-oriented bitmap. Do not rotate
+            // the pixels again.
+            if ((Machine.orientation & ORIENTATION_SWAP_XY) != 0) {
+                int temp = xmin; xmin = ymin; ymin = temp;
+                temp = xmax; xmax = ymax; ymax = temp;
+            }
+            if ((Machine.orientation & ORIENTATION_FLIP_X) != 0) {
+                int temp = width - xmin - 1;
+                xmin = width - xmax - 1;
+                xmax = temp;
+            }
+            if ((Machine.orientation & ORIENTATION_FLIP_Y) != 0) {
+                int temp = height - ymin - 1;
+                ymin = height - ymax - 1;
+                ymax = temp;
+            }
+        }
+        if (xmin < 0 || ymin < 0 || xmax >= width || ymax >= height
+                || xmax < xmin || ymax < ymin || (long) width * height > _pixels.length) {
+            throw new IllegalStateException("Visible area is outside the video frame");
+        }
+        BufferedImage image = new BufferedImage(xmax - xmin + 1, ymax - ymin + 1,
+                BufferedImage.TYPE_INT_RGB);
+        image.setRGB(0, 0, image.getWidth(), image.getHeight(), _pixels,
+                ymin * width + xmin, width);
         return image;
     }
 
