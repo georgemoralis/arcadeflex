@@ -1870,6 +1870,9 @@ public class video {
 
     /* Update the display. */
     public static void osd_update_video_and_audio2() {
+        if (MainStream.inst != null) {
+            MainStream.inst.awaitEmulationResumed();
+        }
         long curr;
         int need_to_clear_bitmap = 0;
         int already_synced;
@@ -2180,6 +2183,9 @@ public class video {
     static int framecount = 0;
 
     public static void osd_update_video_and_audio() {
+        if (MainStream.inst != null) {
+            MainStream.inst.awaitEmulationResumed();
+        }
         if (++framecount > frameskip) {
             framecount = 0;
 

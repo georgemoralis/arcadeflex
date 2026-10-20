@@ -31,7 +31,9 @@ import static arcadeflex.v036.mame.driverH.*;
 public class MainStream implements ImageProducer, KeyListener, MouseListener, MouseMotionListener {
 
     public static boolean debug = false;
-    public static boolean paused = false;
+    public static volatile boolean paused = false;
+    private final Object pauseLock = new Object();
+    private boolean pauseRequested;
     /**
      * Initialization method that will be called after the applet is loaded into
      * the browser.
@@ -68,11 +70,35 @@ public class MainStream implements ImageProducer, KeyListener, MouseListener, Mo
     //BufferStrategy _strategy;
     //public static debug d;
     public void setEmulationPaused(boolean what) {
-        paused = what;
-        if(what==true){
-            arcadeflexMasterThread.suspend();
-        } else {
-            arcadeflexMasterThread.resume();
+        synchronized (pauseLock) {
+            paused = what;
+            pauseRequested = what;
+            if (!what) {
+                pauseLock.notifyAll();
+            }
+        }
+    }
+
+    /**
+     * Called only by the emulator at a frame boundary, outside rendering/native
+     * calls and the MainStream monitor. Never suspend a thread asynchronously:
+     * it may hold locks or pin an image buffer needed by the JVM's GC.
+     */
+    void awaitEmulationResumed() {
+        boolean interrupted = false;
+        synchronized (pauseLock) {
+            while (pauseRequested) {
+                try {
+                    pauseLock.wait();
+                } catch (InterruptedException ex) {
+                    // An interrupt is not a resume request. Preserve it without
+                    // spinning on repeated InterruptedExceptions while paused.
+                    interrupted = true;
+                }
+            }
+        }
+        if (interrupted) {
+            Thread.currentThread().interrupt();
         }
     }
 
